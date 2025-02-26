@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ActionSubscribe, ColorThemeUser, StandardSize } from '@fiction/core'
-import type { FictionSubscribe } from '@fiction/plugin-subscribe'
+import type { FictionContact } from '@fiction/plugin-contact'
 import type { Card } from '@fiction/site'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
@@ -22,7 +22,7 @@ const emit = defineEmits<{
   (event: 'update:subscribed', payload: string): void
 }>()
 
-const service = useService<{ fictionSubscribe: FictionSubscribe }>()
+const service = useService<{ fictionContact: FictionContact }>()
 const orgId = vue.computed(() => card.site?.settings.orgId)
 const loading = vue.ref(false)
 const showConfirmModal = vue.ref(false)
@@ -39,7 +39,7 @@ async function createSubscription() {
       throw new Error('Organization is required')
 
     const queryVars = { orgId: orgId.value }
-    const r = await service.fictionSubscribe.transactions.subscribe.requestSend({
+    const r = await service.fictionContact.transactions.subscribe.requestSend({
       to: email.value,
       queryVars,
     })

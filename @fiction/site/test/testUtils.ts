@@ -10,7 +10,7 @@ import { testEnvFile } from '@fiction/core/test-utils'
 import { createTestUtils } from '@fiction/core/test-utils/init'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import { FictionAi } from '@fiction/plugin-ai'
-import { FictionSubscribe } from '@fiction/plugin-subscribe'
+import { FictionContact } from '@fiction/plugin-contact'
 import { FictionTransactions } from '@fiction/plugin-transactions'
 import * as minimalTheme from '@fiction/theme-minimal'
 import { FictionSites } from '..'
@@ -28,7 +28,7 @@ export type SiteTestUtils = TestUtils & {
   fictionAws: FictionAws
   fictionAi: FictionAi
   fictionTransactions: FictionTransactions
-  fictionSubscribe: FictionSubscribe
+  fictionContact: FictionContact
   fictionAdmin: FictionAdmin
   fictionAnalytics: FictionAnalytics
   runApp: (args: { context: 'app' | 'node', isProd?: boolean }) => Promise<void>
@@ -85,7 +85,7 @@ export async function createSiteTestUtils(args: {
   })
   out.fictionAppSites = new FictionApp({ port: sitePort, ...out, fictionRouter: out.fictionRouterSites, isTest: true, liveUrl: 'https://*.test.com', localHostname: '*.lan.com' })
   out.fictionAdmin = new FictionAdmin({ ...(out as SiteTestUtils) })
-  out.fictionSubscribe = new FictionSubscribe({ ...(out as SiteTestUtils) })
+  out.fictionContact = new FictionContact({ ...(out as SiteTestUtils) })
 
   const themes = async () => Promise.all([
     minimalTheme.theme,

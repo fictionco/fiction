@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { vue, type ActionArea } from '@fiction/core'
-import XButton from '../buttons/XButton.vue'
+import type { ActionArea } from '@fiction/core'
+import { vue } from '@fiction/core'
+import XButtonList from '../buttons/XButtonList.vue'
 import EffectConfetti from '../effect/EffectConfetti.vue'
 import ElModal from '../ElModal.vue'
-import XButtonList from '../buttons/XButtonList.vue'
 
 const props = defineProps<{
   vis: boolean

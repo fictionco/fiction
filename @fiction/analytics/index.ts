@@ -41,12 +41,12 @@ export interface TrackEventTypes {
   subscriptionActive: { email: string } & Partial<EventParams>
   subscriptionCleaned: { email: string } & Partial<EventParams>
   subscriptionPending: { email: string } & Partial<EventParams>
-  emailDelivered: { value: number, campaignId: string } & Partial<EventParams>
-  emailOpened: { email: string, campaignId: string } & Partial<EventParams>
-  emailClicked: { email: string, campaignId: string, url: string } & Partial<EventParams>
-  emailBounced: { email: string, campaignId: string } & Partial<EventParams>
-  emailFailed: { email: string, campaignId: string } & Partial<EventParams>
-  emailComplained: { email: string, campaignId: string } & Partial<EventParams>
+  emailDelivered: { value: number, postId: string } & Partial<EventParams>
+  emailOpened: { email: string, postId: string } & Partial<EventParams>
+  emailClicked: { email: string, postId: string, url: string } & Partial<EventParams>
+  emailBounced: { email: string, postId: string } & Partial<EventParams>
+  emailFailed: { email: string, postId: string } & Partial<EventParams>
+  emailComplained: { email: string, postId: string } & Partial<EventParams>
   formSubmit: { formId: string } & Partial<EventParams>
 }
 

@@ -180,6 +180,7 @@
       "CardTextPost.vue": null,
       "CardWrap.vue": null,
       "EffectTransitionCardList.vue": null,
+      "SiteText.vue": null,
       "content-bento": {
         "ElBento.vue": null,
         "config.ts": null,
@@ -568,15 +569,18 @@
           "fiction-icon.png": null
         },
         "index.ts": null,
+        "markdownParser.ts": null,
         "preview": {
           "EmailPreview.vue": null,
           "content.ts": null
         },
         "templates": {
-          "EmailStandard.vue": null
+          "EmailStandard.vue": null,
+          "EmailV2.vue": null
         },
         "test": {
-          "endpoint.unit.test.ts": null
+          "endpoint.unit.test.ts": null,
+          "markdownParser.unit.test.ts": null
         },
         "util.ts": null
       },
@@ -966,10 +970,43 @@
         }
       },
       "plugin-contact": {
+        "admin": {
+          "ChartSubs.vue": null,
+          "ElAddContacts.vue": null,
+          "ElAddContactsModal.vue": null,
+          "ElSubscriberList.vue": null,
+          "ViewAnalytics.vue": null,
+          "ViewIndex.vue": null,
+          "ViewManage.vue": null,
+          "ViewSingle.vue": null,
+          "test": {
+            "import.unit.test.ts": null,
+            "test.csv": null,
+            "test10k.csv": null
+          },
+          "utils.ts": null,
+          "widgets.ts": null
+        },
+        "email": {
+          "TransactionSubscribe.vue": null,
+          "TransactionUnsubscribe.vue": null,
+          "index.ts": null
+        },
         "endpoint.ts": null,
         "index.ts": null,
         "package.json": null,
-        "tables.ts": null
+        "schema.ts": null,
+        "test": {
+          "analytics.unit.test.ts": null,
+          "audienceAdmin.uiux.test.ts": null,
+          "endpoint.unit.test.ts": null,
+          "kit.main.ts": null,
+          "subscribe.uiux.test.ts": null,
+          "test.csv": null
+        },
+        "utils": {
+          "analytics.ts": null
+        }
       },
       "plugin-extend": {
         "ElIndex.vue": null,
@@ -1013,45 +1050,6 @@
         },
         "utils.ts": null
       },
-      "plugin-subscribe": {
-        "admin": {
-          "ChartSubs.vue": null,
-          "ElAddContacts.vue": null,
-          "ElAddContactsModal.vue": null,
-          "ElSubscriberList.vue": null,
-          "ViewAnalytics.vue": null,
-          "ViewIndex.vue": null,
-          "ViewManage.vue": null,
-          "ViewSingle.vue": null,
-          "test": {
-            "import.unit.test.ts": null,
-            "test.csv": null,
-            "test10k.csv": null
-          },
-          "utils.ts": null,
-          "widgets.ts": null
-        },
-        "email": {
-          "TransactionSubscribe.vue": null,
-          "TransactionUnsubscribe.vue": null,
-          "index.ts": null
-        },
-        "endpoint.ts": null,
-        "index.ts": null,
-        "package.json": null,
-        "schema.ts": null,
-        "test": {
-          "analytics.unit.test.ts": null,
-          "audienceAdmin.uiux.test.ts": null,
-          "endpoint.unit.test.ts": null,
-          "kit.main.ts": null,
-          "subscribe.uiux.test.ts": null,
-          "test.csv": null
-        },
-        "utils": {
-          "analytics.ts": null
-        }
-      },
       "plugin-transactions": {
         "ElEmailAction.vue": null,
         "action.ts": null,
@@ -1078,17 +1076,24 @@
     },
     "posts": {
       "admin": {
-        "ElPostEditor.vue": null,
+        "ElOptionWrap.vue": null,
         "ElPostIndex.vue": null,
         "ElPostStart.vue": null,
+        "InputAudienceFilter.vue": null,
         "InputAuthors.vue": null,
+        "InputPostReview.vue": null,
         "InputRevisionHistory.vue": null,
         "PagePostEdit.vue": null,
         "PagePostIndex.vue": null,
+        "PostEditor.vue": null,
+        "PostLoad.vue": null,
+        "PostPreview.vue": null,
         "ToolHistory.vue": null,
         "ToolPostMain.vue": null,
         "ViewManage.vue": null,
+        "ViewPreview.vue": null,
         "email": {
+          "EmailPreview.vue": null,
           "InputAudience.vue": null,
           "InputPreview.vue": null,
           "ToolEmailPreview.vue": null,
@@ -1102,7 +1107,9 @@
       "package.json": null,
       "post.ts": null,
       "postLoader.ts": null,
+      "routes.ts": null,
       "schema.ts": null,
+      "send.ts": null,
       "test": {
         "endpoint.unit.test.ts": null,
         "postAuthors.unit.test.ts": null,
@@ -1114,11 +1121,15 @@
         "utils.unit.test.ts": null
       },
       "types.ts": null,
+      "ui": {
+        "SinglePost.vue": null
+      },
       "utils": {
         "analytics.ts": null,
         "email.ts": null,
         "index.ts": null,
-        "links.ts": null
+        "links.ts": null,
+        "tracking.ts": null
       },
       "widgets": {
         "WidgetPosts.vue": null,
@@ -1440,8 +1451,6 @@
       "ElButton.vue": null,
       "ElMenu.vue": null,
       "ElModal.vue": null,
-      "ElModalBanner.vue": null,
-      "ElModalConfirm.vue": null,
       "ElNavMenu.vue": null,
       "ElPanel.vue": null,
       "ElSlideOver.vue": null,
@@ -1458,6 +1467,7 @@
         "AnimGradientBg.vue": null,
         "AnimItemPop.vue": null,
         "TransitionSlide.vue": null,
+        "TransitionWidth.vue": null,
         "animateText.ts": null,
         "gradientUtil.ts": null,
         "index.ts": null,
@@ -1627,6 +1637,11 @@
         "XMedia.vue": null
       },
       "mod.d.ts": null,
+      "modal": {
+        "ElModalBanner.vue": null,
+        "ElModalConfirm.vue": null,
+        "SuccessModal.vue": null
+      },
       "notify": {
         "NotifyToaster.vue": null
       },
@@ -1635,6 +1650,7 @@
         "El404.vue": null
       },
       "prose": {
+        "XEntry.vue": null,
         "XProse.vue": null,
         "editor": {
           "ProseEditor.vue": null,

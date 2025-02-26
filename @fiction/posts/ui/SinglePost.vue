@@ -1,11 +1,9 @@
 <script lang="ts" setup>
-import type { ColorThemeWithInvert } from '@fiction/core'
 import type { Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import SiteText from '@fiction/cards/SiteText.vue'
-import { dayjs, getColorScheme, isDarkOrLightMode, pathCheck, PostSchema as schema, vue } from '@fiction/core'
+import { dayjs, isDarkOrLightMode, pathCheck, PostSchema as schema, vue } from '@fiction/core'
 
-import { allPostsLink, postEditLink, postLink, taxonomyLink } from '@fiction/posts'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'

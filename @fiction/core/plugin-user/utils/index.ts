@@ -8,8 +8,6 @@ import { isValid, toLabel } from '../../utils'
 import { abort } from '../../utils/error'
 import { dayjs } from '../../utils/libraries'
 
-
-
 export function defaultOrgName(email: string, suffix: string = ''): string {
   // Extract username from email and clean special characters
   const username = email.substring(0, email.lastIndexOf('@')).split('+')[0]

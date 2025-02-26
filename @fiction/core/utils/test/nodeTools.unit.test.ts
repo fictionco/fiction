@@ -70,7 +70,7 @@ describe('node utils', () => {
         "fictionServer",
         "fictionSites",
         "fictionStripe",
-        "fictionSubscribe",
+        "fictionContact",
         "fictionTeam",
         "fictionTransactions",
         "fictionUi",

@@ -33,9 +33,10 @@ const baseFields = [
   new FictionAnalyticsCol({ key: 'messageId', clickHouseType: 'String', description: 'Batch event identifier', getValue: ({ event }) => event?.messageId, sch: () => z.string() }),
   new FictionAnalyticsCol({ key: 'sessionId', clickHouseType: 'String', description: 'Visit unique identifier', indexOn: true, sessionSelector: _ => `${_.key} as ${_.id}`, getValue: ({ session }) => session.sessionId, sch: () => z.string() }),
   new FictionAnalyticsCol({ key: 'emailId', clickHouseType: 'String', description: 'Unique email identifier', indexOn: true, getValue: ({ event }) => event.email?.emailId, sch: () => z.string() }),
-  new FictionAnalyticsCol({ key: 'campaignId', clickHouseType: 'String', description: 'Email campaign identifier', indexOn: true, getValue: ({ event }) => event.email?.campaignId, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'postId', clickHouseType: 'String', description: 'Email campaign identifier', indexOn: true, getValue: ({ event }) => event.email?.postId, sch: () => z.string() }),
   new FictionAnalyticsCol({ key: 'formId', clickHouseType: 'String', description: 'Form identifier', indexOn: true, sch: () => z.string() }),
   new FictionAnalyticsCol({ key: 'siteId', clickHouseType: 'String', description: 'Site identifier', indexOn: true, getValue: ({ event }) => event?.siteId, sch: () => z.string() }),
+  new FictionAnalyticsCol({ key: 'contactId', clickHouseType: 'String', description: 'Contact identifier', indexOn: true, sch: () => z.string() }),
 
   // Event Source Classification
   new FictionAnalyticsCol({ key: 'gen', clickHouseType: 'LowCardinality(String)', description: 'Event origin system', getValue: ({ event }) => event.gen, sch: ({ z }) => z.enum(['core', 'user', 'internal']) }),

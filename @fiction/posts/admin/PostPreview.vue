@@ -2,7 +2,7 @@
 import type { Card } from '@fiction/site'
 import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil.js'
 import type { Post } from '../post.js'
-import { toLabel, useService, vue } from '@fiction/core'
+import { toLabel, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElBrowserFrameDevice from '@fiction/ui/frame/ElBrowserFrameDevice.vue'
 import { getPostPreviewRoute } from '../utils/links.js'

@@ -8,7 +8,7 @@ import { createHead } from '@unhead/vue'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { FictionPlugin } from '../plugin.js'
 import { isTest, safeDirname, vue } from '../utils/index.js'
-import { proseToMarkdown, toMarkdown } from '../utils/markdown.js'
+import { proseToMarkdown } from '../utils/markdown.js'
 import { QueryTransactionalEmail } from './endpoint.js'
 
 export * from './util'

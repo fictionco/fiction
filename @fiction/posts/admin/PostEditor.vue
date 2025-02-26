@@ -2,7 +2,7 @@
 import type { Card } from '@fiction/site'
 import type { Post } from '../post.js'
 import type { ViewMode, ViewModeKey } from './PagePostEdit.vue'
-import { toLabel, useService, vue } from '@fiction/core'
+import { toLabel, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
 import XText from '@fiction/ui/common/XText.vue'

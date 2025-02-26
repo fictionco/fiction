@@ -17,7 +17,7 @@ describe('subscribe uiux', { retry: isCi() ? 3 : 0 }, async () => {
 
   const { user: user2 } = await createTestUser({ ...testUtils, caller: 'subcribeUiUx' })
 
-  const action = kit.testUtils.fictionSubscribe.transactions.subscribe
+  const action = kit.testUtils.fictionContact.transactions.subscribe
 
   let vars: EmailVars | undefined
   it('sends email', async () => {
@@ -89,11 +89,11 @@ describe('subscribe uiux', { retry: isCi() ? 3 : 0 }, async () => {
   })
 
   it('has correct subscription information in DB', async () => {
-    const fictionSubscribe = testUtils.fictionSubscribe
+    const fictionContact = testUtils.fictionContact
 
     const where = { userId: user2.userId }
 
-    const r = await fictionSubscribe.queries.ManageSubscription.serve({ _action: 'list', orgId, where }, { server: true })
+    const r = await fictionContact.queries.ManageSubscription.serve({ _action: 'list', orgId, where }, { server: true })
 
     const subs = r.data || []
 

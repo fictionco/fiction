@@ -3,6 +3,7 @@ import type { FictionAdmin } from '@fiction/admin'
 import type { template as dashTemplate, panelTemplate } from '@fiction/admin/dashboard/cardDash'
 import type { FictionAnalytics } from '@fiction/analytics'
 import type { ComplexDataFilter, FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, FictionRevision, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
+import type { FictionContact } from '@fiction/plugin-contact'
 import type { Card } from '@fiction/site'
 import type { WherePost } from './endpoint'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
@@ -25,6 +26,7 @@ export type FictionPostsSettings = {
   fictionAnalytics: FictionAnalytics
   fictionRevision: FictionRevision
   fictionRouter: FictionRouter
+  fictionContact: FictionContact
 } & FictionPluginSettings
 
 export * from './schema'

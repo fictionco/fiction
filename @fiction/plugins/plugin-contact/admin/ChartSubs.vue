@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { FictionSubscribe } from '..'
+import type { FictionContact } from '..'
 import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
 import DateChart from '@fiction/analytics/chart/DateChart.vue'
 
-type SubscriberWidget = FictionSubscribe['widgets']['subscribers']
+type SubscriberWidget = FictionContact['widgets']['subscribers']
 
 const { widget } = defineProps<{
   widget: SubscriberWidget

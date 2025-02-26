@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { PostObject } from '@fiction/core'
-import type { FictionSubscribe } from '@fiction/plugins/plugin-subscribe'
+import type { FictionContact } from '@fiction/plugins/plugin-contact'
 import type { Card } from '@fiction/site'
 import type { InputOption } from '@fiction/ui'
 import type { FictionPosts, TablePostConfig } from '..'
@@ -30,7 +30,7 @@ defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const service = useService<{ fictionPosts: FictionPosts, fictionSubscribe: FictionSubscribe }>()
+const service = useService<{ fictionPosts: FictionPosts, fictionContact: FictionContact }>()
 
 const loading = vue.ref(true)
 const sending = vue.ref<'schedule' | 'update'>()
@@ -62,7 +62,7 @@ vue.onMounted(async () => {
   vue.watch(
     () => [post.value?.emailConfig.value.target, post.value?.emailConfig.value.filters],
     async () => {
-      recipientCountRef.value = await getPostEmailRecipientCount({ post: post.value, fictionSubscribe: service.fictionSubscribe })
+      recipientCountRef.value = await getPostEmailRecipientCount({ post: post.value, fictionContact: service.fictionContact })
     },
     { deep: true, immediate: true },
   )

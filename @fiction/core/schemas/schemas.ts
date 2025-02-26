@@ -8,6 +8,7 @@ export const PostStatusSchema = z.enum([
   'draft', // Initial state
   'scheduled', // Ready for future publication
   'processing', // Currently being worked on
+  'failed', // Error during processing
   'published', // Live content
   'archived', // No longer active
   'deleted', // Soft deleted

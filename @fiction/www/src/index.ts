@@ -11,10 +11,10 @@ import { getEnvVars } from '@fiction/core/utils/index.js'
 import { FictionForms } from '@fiction/forms'
 import { FictionAi } from '@fiction/plugin-ai'
 import { FictionBrand } from '@fiction/plugin-brand'
+import { FictionContact } from '@fiction/plugin-contact/index.js'
 import { FictionExtend } from '@fiction/plugin-extend/index.js'
 import { FictionMonitor } from '@fiction/plugin-monitor/index.js'
 import { FictionStripe } from '@fiction/plugin-stripe/index.js'
-import { FictionSubscribe } from '@fiction/plugin-subscribe/index.js'
 import { FictionTransactions } from '@fiction/plugin-transactions'
 import { FictionPosts } from '@fiction/posts'
 import { FictionSites } from '@fiction/site/index.js'
@@ -170,11 +170,11 @@ const fictionCards = new FictionCards({ ...s, fictionSites })
 const fictionTeam = new FictionTeam({ ...s })
 const fictionForms = new FictionForms({ ...s, fictionSites })
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
-const fictionSubscribe = new FictionSubscribe(s)
-const fictionPosts = new FictionPosts(s)
+const fictionContact = new FictionContact(s)
+const fictionPosts = new FictionPosts({ fictionContact, ...s })
 const fictionBrand = new FictionBrand({ ...s })
 
-const baseService = { ...s, fictionForms, fictionBrand, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionSubscribe, fictionPosts }
+const baseService = { ...s, fictionForms, fictionBrand, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionContact, fictionPosts }
 
 export type SpecificService = typeof baseService
 

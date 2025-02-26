@@ -589,7 +589,7 @@ export class QueryManagePost extends PostsQuery {
     }
 
     if (!where.postId) {
-      return { status: 'error', message: 'campaignId is required' }
+      return { status: 'error', message: 'postId is required' }
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/

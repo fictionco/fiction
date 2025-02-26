@@ -1,6 +1,6 @@
 import type { EmailSendConfig, EndpointMeta, EndpointResponse, IndexQuery } from '@fiction/core'
-import type { Subscriber } from '@fiction/plugin-subscribe'
-import type { ManageSubscriptionParams } from '@fiction/plugin-subscribe/endpoint'
+import type { Subscriber } from '@fiction/plugin-contact'
+import type { ManageSubscriptionParams } from '@fiction/plugin-contact/endpoint'
 import type { FictionNewsletter, FictionNewsletterSettings } from '.'
 import type { EmailCampaignConfig } from './schema.js'
 import { abort, applyComplexFilters, dayjs, deepMerge, objectId, Query } from '@fiction/core'
@@ -213,7 +213,7 @@ export class ManageCampaign extends SendEndpoint {
   private async get(params: ManageCampaignParams & { _action: 'get' }, meta: EndpointMeta): Promise<ManageCampaignResponse> {
     const r = await this.list({ ...params, _action: 'list', filters: [[{ field: 'campaignId', operator: '=', value: params.where.campaignId || '' }]] }, meta)
 
-    const ManageSubscription = this.settings.fictionSubscribe.queries.ManageSubscription
+    const ManageSubscription = this.settings.fictionContact.queries.ManageSubscription
     const sub = await ManageSubscription.serve({ _action: 'count', orgId: params.orgId }, meta)
 
     if (r.data?.[0]) {
@@ -565,7 +565,7 @@ export class ManageSend extends SendEndpoint {
   private async getSubscribers(args: { orgId: string, limit: number, offset: number }): Promise<Subscriber[]> {
     const { orgId, limit, offset } = args
     const params: ManageSubscriptionParams = { _action: 'list', orgId, limit, offset, where: { status: 'active' } }
-    const result = await this.settings.fictionSubscribe.queries.ManageSubscription.run(params, { server: true })
+    const result = await this.settings.fictionContact.queries.ManageSubscription.run(params, { server: true })
     return result.data || []
   }
 

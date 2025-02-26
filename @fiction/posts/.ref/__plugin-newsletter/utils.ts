@@ -8,6 +8,7 @@ import type { EmailCampaignConfig } from './schema.js'
 import { convertKeyCase, log, toMarkdown, vue } from '@fiction/core'
 import { z } from 'zod'
 import { EmailCampaign } from './campaign.js'
+import {url} from 'inspector'
 
 export async function manageEmailCampaign(args: { fictionNewsletter: FictionNewsletter, params: ManageCampaignRequestParams, options?: RequestOptions }) {
   const { fictionNewsletter, params, options = {} } = args
@@ -45,7 +46,7 @@ export async function getEmailForCampaign(args: {
 
   const img = await fictionEmail?.emailImages({ fictionMedia })
 
-  const { orgName, orgEmail, url, address, avatar } = org
+  const { orgName, orgEmail, websiteUrl, streetAddress, avatar } = org
 
   let emailConfig: EmailSendConfig = {
     fromName: orgName || (withDefaults ? 'No Name' : ''),
@@ -61,7 +62,7 @@ export async function getEmailForCampaign(args: {
     actions: campaignConfig.userConfig?.actions || [],
     mediaSuper: { media: { url: avatar?.url }, label: orgName, href: url },
     mediaFooter: { media: { url: img.footer.url }, label: 'Powered by Fiction', href: 'https://www.fiction.com' },
-    legal: { label: orgName, href: url, description: address || '' },
+    legal: { label: orgName, href: websiteUrl, description: streetAddress || '' },
     unsubscribeUrl: '#',
     previewMode,
     env,
@@ -203,7 +204,7 @@ export async function trackingEndpointHandler(args: {
       orgId: userVariables.fromOrgId,
       event,
       value: 1,
-      campaignId: userVariables?.campaignId,
+      postId: userVariables?.postId,
       email: body.eventData.recipient,
       url: body.eventData.url,
       cityName: geolocation.city,

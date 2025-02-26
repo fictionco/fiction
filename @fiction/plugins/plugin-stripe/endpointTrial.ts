@@ -27,7 +27,7 @@ export type TrialSetupResponse = {
   paymentIntentId?: string | null
   paymentIntentClientSecret?: string | null
 
-  subscriptionId?: string
+  contactId?: string
 }
 
 export class QueryStripeTrial extends StripeEndpoint {
@@ -189,7 +189,7 @@ export class QueryStripeTrial extends StripeEndpoint {
         customerId: paymentIntent.customer as string,
         setupIntentId,
         paymentIntentId,
-        subscriptionId: subscription.id,
+        contactId: subscription.id,
         priceId: sessionPriceId,
         trialType: 'paid',
       },

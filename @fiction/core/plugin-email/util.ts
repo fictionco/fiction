@@ -1,5 +1,9 @@
 import type { colorList, ColorThemeBright } from '@fiction/core/utils/colors'
 import type { ActionButton, MediaObject, NavListItem, SuperTitle } from '../schemas/schemas'
+import { z } from 'zod'
+
+export const EmailTypeSchema = z.enum(['alert', 'update', 'digest', 'campaign'])
+export type EmailType = z.infer<typeof EmailTypeSchema>
 
 export type EmailSendConfig = {
 
@@ -39,11 +43,12 @@ export type EmailSendConfig = {
   env?: 'prod' | 'dev' | 'test'
   caller?: string
 
-  emailType?: 'transactional' | 'campaign' | 'newsletter' | 'notification' | 'post'
+  emailType?: EmailType
 
   // Theme
   previewMode?: 'dark' | 'light' | ''
   primaryColor?: keyof typeof colorList
+
 }
 
 export function replaceEmailDomain(email: string, newDomain?: string): string {

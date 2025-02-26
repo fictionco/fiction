@@ -32,8 +32,6 @@ async function load(args: { postId?: string, format?: 'browser' | 'email' }) {
 
     const org = fictionUser.activeOrganization.value
 
-
-
     if (!org || !post.value)
       return
 

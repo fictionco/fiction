@@ -7,7 +7,10 @@ export class IntervalManager {
 
   // Cron patterns
   private readonly patterns = {
+
+    oneMin: '*/1 * * * *', // every 1 minute
     fiveMin: '*/5 * * * *', // Every 5 minutes
+    fifteenMin: '*/15 * * * *', // 15 minutes
     hourly: '0 * * * *', // Every hour at minute 0
     daily: '0 0 * * *', // Every day at 00:00
   } as const

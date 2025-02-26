@@ -1,5 +1,5 @@
 import type { EmailSendConfig, Organization } from '@fiction/core'
-import type { FictionSubscribe } from '@fiction/plugins/plugin-subscribe'
+import type { FictionContact } from '@fiction/plugin-contact'
 import type { FictionPosts, Post, TablePostConfig } from '..'
 import { proseToMarkdown } from '@fiction/core'
 
@@ -29,7 +29,7 @@ export async function getEmailForPost(args: {
   const emailConfig: EmailSendConfig = {
     senderName: senderName || (withDefaults ? 'No Name' : ''),
     senderEmail: senderEmail || (withDefaults ? 'No Email' : ''),
-    emailType: 'post',
+    emailType: 'campaign',
     fromOrgId: postConfig.orgId,
     postId: postConfig.postId,
     subject: postConfig.emailConfig?.subject || (withDefaults ? 'No Subject' : ''),
@@ -58,8 +58,8 @@ export async function getEmailForPost(args: {
   return emailConfig
 }
 
-export async function getPostEmailRecipientCount(args: { post?: Post, fictionSubscribe: FictionSubscribe }) {
-  const { post, fictionSubscribe } = args
+export async function getPostEmailRecipientCount(args: { post?: Post, fictionContact: FictionContact }) {
+  const { post, fictionContact } = args
   const mode = post?.emailConfig.value.target
 
   let recipientCount = 0
@@ -71,7 +71,7 @@ export async function getPostEmailRecipientCount(args: { post?: Post, fictionSub
   const filters = mode === 'filtered' ? post.emailConfig.value.filters : undefined
 
   try {
-    const response = await fictionSubscribe.requests.ManageSubscription.projectRequest({
+    const response = await fictionContact.requests.ManageSubscription.projectRequest({
       _action: 'count',
       filters,
     })

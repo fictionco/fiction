@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { User } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import type { FictionSubscribe, Subscriber } from '../index.js'
+import type { Contact, FictionContact } from '../index.js'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 import { deepMerge, gravatarUrlSync, standardDate, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
@@ -13,28 +13,28 @@ type UserConfig = {
 }
 
 const { card } = defineProps<{ card: Card<UserConfig> }>()
-const service = useService<{ fictionSubscribe: FictionSubscribe }>()
+const service = useService<{ fictionContact: FictionContact }>()
 
 const loading = vue.ref(true)
 const sending = vue.ref('')
 
-const subscriber = vue.ref<Subscriber>({})
+const subscriber = vue.ref<Contact>({})
 
 async function load() {
   loading.value = true
 
-  const subscriptionId = service.fictionRouter.query.value.itemId as string | undefined
+  const contactId = service.fictionRouter.query.value.itemId as string | undefined
 
   try {
-    if (!subscriptionId)
+    if (!contactId)
       return
 
-    const endpoint = service.fictionSubscribe.requests.ManageSubscription
+    const endpoint = service.fictionContact.requests.ManageSubscription
     const orgId = service.fictionUser.activeOrgId.value
     if (!orgId)
       throw new Error('No orgId')
 
-    const r = await endpoint.projectRequest({ _action: 'list', where: { subscriptionId } })
+    const r = await endpoint.projectRequest({ _action: 'list', where: { contactId } })
 
     if (!r.data || !r.data.length)
       throw new Error('No subscriber found')
@@ -68,28 +68,28 @@ function getAvatarUrl(user: User) {
   return user.avatar ? user.avatar : (gravatarUrlSync(user.email, { size: 400 }))
 }
 
-async function saveSubscriber(): Promise<undefined> {
+async function SaveContact(): Promise<undefined> {
   sending.value = 'saving'
-  const endpoint = service.fictionSubscribe.requests.ManageSubscription
+  const endpoint = service.fictionContact.requests.ManageSubscription
   const fields = subscriber.value
-  const subscriptionId = fields.subscriptionId
+  const contactId = fields.contactId
 
-  if (!subscriptionId)
+  if (!contactId)
     return
 
-  await endpoint.projectRequest({ _action: 'update', fields, where: [{ subscriptionId }] })
+  await endpoint.projectRequest({ _action: 'update', fields, where: [{ contactId }] })
 
   sending.value = ''
 }
 
 const saveUtil = new AutosaveUtility({
-  onSave: () => saveSubscriber(),
+  onSave: () => SaveContact(),
 })
 
-function updateSubscriber(subscriberNew: Subscriber) {
+function updateContact(subscriberNew: Contact) {
   subscriber.value = subscriberNew
 
-  saveUtil.autosave({ caller: 'updateSubscriber' })
+  saveUtil.autosave({ caller: 'updateContact' })
 }
 
 const detailOptions = [
@@ -105,7 +105,7 @@ const detailOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'email', label: 'Subscriber Email', input: 'InputText', placeholder: 'Enter Headline' }),
+      new InputOption({ key: 'email', label: 'Contact Email', input: 'InputText', placeholder: 'Enter Headline' }),
     ],
   }),
   new InputOption({
@@ -145,7 +145,7 @@ const detailOptions = [
   }),
   new InputOption({
     testId: 'subscriber-created-at',
-    label: 'Subscription Created At',
+    label: 'Connection Created At',
     subLabel: 'The date the subscriber was added to the list',
     input: 'InputControl',
     valueDisplay: () => {
@@ -160,7 +160,7 @@ const detailOptions = [
   }),
   new InputOption({
     testId: 'subscriber-name',
-    label: 'Subscriber Name',
+    label: 'Contact Name',
     subLabel: 'The name of the subscriber',
     input: 'InputControl',
     valueDisplay: () => {
@@ -170,12 +170,12 @@ const detailOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'inlineUser.fullName', label: 'Subscriber Name', input: 'InputText', placeholder: 'Enter Name' }),
+      new InputOption({ key: 'inlineUser.fullName', label: 'Contact Name', input: 'InputText', placeholder: 'Enter Name' }),
     ],
   }),
   new InputOption({
     testId: 'subscriber-avatar',
-    label: 'Subscriber Avatar',
+    label: 'Contact Avatar',
     subLabel: 'The avatar of the subscriber',
     input: 'InputControl',
     valueDisplay: () => {
@@ -186,12 +186,12 @@ const detailOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'inlineUser.avatar', label: 'Subscriber Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
+      new InputOption({ key: 'inlineUser.avatar', label: 'Contact Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
     ],
   }),
   new InputOption({
     testId: 'subscriber-phone',
-    label: 'Subscriber Phone',
+    label: 'Contact Phone',
     subLabel: 'The phone number of the subscriber',
     input: 'InputControl',
     valueDisplay: () => {
@@ -201,33 +201,33 @@ const detailOptions = [
       }
     },
     options: [
-      new InputOption({ key: 'inlineUser.phone', label: 'Subscriber Phone', input: 'InputPhone', placeholder: '+1 555 555 5555' }),
+      new InputOption({ key: 'inlineUser.phone', label: 'Contact Phone', input: 'InputPhone', placeholder: '+1 555 555 5555' }),
     ],
   }),
 ]
 
 const adminOptions = [
   new InputOption({
-    key: 'deleteSubscriber',
-    label: 'Permanently Delete Subscriber',
+    key: 'deleteContact',
+    label: 'Permanently Delete Contact',
     subLabel: 'This action cannot be undone',
     input: 'InputControl',
     actions: () => [
       {
-        label: 'Delete Subscriber...',
+        label: 'Delete Contact...',
         theme: 'rose',
         design: 'ghost',
         icon: 'i-tabler-trash',
         loading: loading.value,
         onClick: async () => {
-          const endpoint = service.fictionSubscribe.requests.ManageSubscription
+          const endpoint = service.fictionContact.requests.ManageSubscription
 
           const confirmed = confirm('Are you sure you want to delete this subscriber?')
 
-          if (confirmed && subscriber.value.subscriptionId) {
+          if (confirmed && subscriber.value.contactId) {
             sending.value = 'delete'
-            await endpoint.projectRequest({ _action: 'delete', where: [{ subscriptionId: subscriber.value.subscriptionId }] })
-            await card.goto('/audience', { caller: 'deleteSubscriber' })
+            await endpoint.projectRequest({ _action: 'delete', where: [{ contactId: subscriber.value.contactId }] })
+            await card.goto('/audience', { caller: 'deleteContact' })
             sending.value = ''
           }
         },
@@ -271,7 +271,7 @@ const header = vue.computed(() => {
       buttons: [{
         testId: 'subscriber-save-button',
         label: saveUtil.isDirty.value ? 'Saving...' : 'Saved',
-        onClick: () => saveSubscriber(),
+        onClick: () => SaveContact(),
         theme: saveUtil.isDirty.value ? 'orange' : 'theme',
         loading: sending === 'saving',
         icon: saveUtil.isDirty.value ? 'i-tabler-upload' : 'i-tabler-check',
@@ -287,7 +287,7 @@ const header = vue.computed(() => {
       :card
       :disable-group-hide="true"
       :data-value="JSON.stringify(subscriber)"
-      @update:model-value="updateSubscriber($event)"
+      @update:model-value="updateContact($event)"
     />
   </SettingsPanel>
 </template>

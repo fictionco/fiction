@@ -1,4 +1,4 @@
-import type { Subscriber } from '../schema'
+import type { Contact } from '../schema'
 import { isCi } from '@fiction/core'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
 import { afterAll, describe, expect, it } from 'vitest'
@@ -42,7 +42,7 @@ describe('admin audience-subscribe', async () => {
         { type: 'click', selector: `[data-test-id="subscriber-tags-modal-apply"]` },
         { type: 'click', selector: `[data-test-id="subscriber-save-button"]`, waitAfter: 3000 },
         { type: 'value', selector: `[data-form-engine-depth="0"]`, onValue: (value) => {
-          const v = value as Subscriber
+          const v = value as Contact
 
           expect(v.email).toBe('testing@testing.com')
           expect(v.inlineUser?.fullName).toBe('Test Name')

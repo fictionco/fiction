@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
-import type { FictionSubscribe } from '..'
-import type { ImportDetail, Subscriber } from '../schema'
+import type { FictionContact } from '..'
+import type { Contact, ImportDetail } from '../schema'
 import CardButton from '@fiction/cards/CardButton.vue'
 import { dayjs, log, objectId, useService, vue } from '@fiction/core'
 import { gravatarUrlSync } from '@fiction/core/utils/url.js'
@@ -15,12 +15,12 @@ import { csvToEmailList, parseAndValidateEmails } from './utils'
 const { card } = defineProps<{ card: Card }>()
 
 const emit = defineEmits<{
-  (event: 'update:contacts', payload: Subscriber[] | undefined): void
+  (event: 'update:contacts', payload: Contact[] | undefined): void
 }>()
 
 const logger = log.contextLogger('ImportFile')
 
-const service = useService<{ fictionSubscribe: FictionSubscribe }>()
+const service = useService<{ fictionContact: FictionContact }>()
 
 const SAMPLE_EMAIL_NO = 5
 
@@ -107,7 +107,7 @@ async function importSubscribers() {
   loading.value = true
   try {
     const importDetail = getImportDetail()
-    const subscribers = emailList.value.map(email => ({ email, tags: tagList.value, importDetail }))
+    const contacts = emailList.value.map(email => ({ email, tags: tagList.value, importDetail }))
 
     const orgId = service.fictionUser.activeOrgId.value
 
@@ -116,7 +116,7 @@ async function importSubscribers() {
       return
     }
 
-    const r = await service.fictionSubscribe.requests.ManageSubscription.projectRequest({ _action: 'bulkCreate', subscribers })
+    const r = await service.fictionContact.requests.ManageSubscription.projectRequest({ _action: 'bulkCreate', contacts })
 
     if (r.status === 'success') {
       const changedCount = r.indexMeta?.changedCount || 0
@@ -132,7 +132,7 @@ async function importSubscribers() {
       csvEmailList.value = []
       rawTextEmailList.value = ''
 
-      service.fictionSubscribe.cacheKey.value++
+      service.fictionContact.cacheKey.value++
 
       emit('update:contacts', r.data)
     }
@@ -315,7 +315,7 @@ async function importSubscribers() {
           :rows="10"
           data-test-id="tag-list"
           placeholder="e.g. Work, Webinar..."
-          :input-props="{ theme: 'orange', table: t.subscribe, column: 'tags' }"
+          :input-props="{ theme: 'orange', table: t.contact, column: 'tags' }"
         />
       </div>
     </transition>

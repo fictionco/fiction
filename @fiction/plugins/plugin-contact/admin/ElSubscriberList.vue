@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ActionButton, NavListItem, StandardSize } from '@fiction/core'
-import type { FictionSubscribe, Subscriber } from '@fiction/plugin-subscribe'
+import type { Contact, FictionContact } from '@fiction/plugin-contact'
 import type { Card } from '@fiction/site'
 import { dayjs, gravatarUrlSync, useService, vue } from '@fiction/core'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
@@ -11,15 +11,15 @@ const { card, uiSize = 'md' } = defineProps<{
   uiSize?: StandardSize
 }>()
 
-const service = useService<{ fictionSubscribe: FictionSubscribe }>()
+const service = useService<{ fictionContact: FictionContact }>()
 
-const subscribers = vue.shallowRef<Subscriber[]>([])
+const contacts = vue.shallowRef<Contact[]>([])
 
 const showAddContactsModal = vue.ref(false)
 
 const list = vue.computed<NavListItem[]>(() => {
   const querySubscriptionId = card.site?.siteRouter.query.value.itemId as string | undefined
-  return subscribers.value.map((p) => {
+  return contacts.value.map((p) => {
     const label = p.user?.fullName || p.user?.email || p.email || 'Unknown'
     const description = [`Added ${dayjs(p.createdAt).format('MMM D, YYYY')}`]
 
@@ -30,21 +30,21 @@ const list = vue.computed<NavListItem[]>(() => {
       description.push(`Email: ${p.email}`)
 
     return {
-      key: p.subscriptionId,
+      key: p.contactId,
       label,
       description: description.join(' | '),
-      href: card.link(`/audience/view?itemId=${p.subscriptionId}`),
+      href: card.link(`/audience/view?itemId=${p.contactId}`),
       media: p.user?.avatar || p.avatar,
-      isActive: querySubscriptionId && querySubscriptionId === p.subscriptionId,
+      isActive: querySubscriptionId && querySubscriptionId === p.contactId,
     } as NavListItem
   })
 })
 
-async function addAvatarUrl(subscribers?: Subscriber[]) {
-  if (!subscribers || !subscribers.length)
+async function addAvatarUrl(contacts?: Contact[]) {
+  if (!contacts || !contacts.length)
     return []
 
-  const promises = subscribers.map(async (sub) => {
+  const promises = contacts.map(async (sub) => {
     if (sub.user?.avatar)
       return sub
 
@@ -64,7 +64,7 @@ async function load(args: { offset?: number, limit?: number } = {}) {
 
   try {
     const { offset = 0, limit = 40 } = args
-    const endpoint = service.fictionSubscribe.requests.ManageSubscription
+    const endpoint = service.fictionContact.requests.ManageSubscription
     const orgId = service.fictionUser.activeOrgId.value
     if (!orgId)
       throw new Error('No orgId')
@@ -73,10 +73,10 @@ async function load(args: { offset?: number, limit?: number } = {}) {
 
     indexMeta.value = r.indexMeta
 
-    subscribers.value = await addAvatarUrl(r.data || [])
+    contacts.value = await addAvatarUrl(r.data || [])
   }
   catch (error) {
-    console.error('Error loading subscribers', error)
+    console.error('Error loading contacts', error)
   }
   finally {
     loading.value = false
@@ -84,7 +84,7 @@ async function load(args: { offset?: number, limit?: number } = {}) {
 }
 
 vue.onMounted(async () => {
-  vue.watch(() => service.fictionSubscribe.cacheKey.value, () => load(), { immediate: true })
+  vue.watch(() => service.fictionContact.cacheKey.value, () => load(), { immediate: true })
 
   vue.watchEffect(() => {
     const queryVal = card.site?.siteRouter.query.value
@@ -98,7 +98,7 @@ vue.onMounted(async () => {
 
 const buttons: ActionButton[] = [
   {
-    testId: 'add-subscribers-button',
+    testId: 'add-contacts-button',
     label: 'Add Contacts',
     onClick: () => (showAddContactsModal.value = true),
     theme: 'primary',

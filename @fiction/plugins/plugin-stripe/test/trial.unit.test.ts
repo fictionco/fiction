@@ -123,13 +123,13 @@ describe('queryStripeTrial', async () => {
           "paymentIntentId",
           "priceId",
           "setupIntentId",
-          "subscriptionId",
+          "contactId",
           "trialType",
         ]
       `)
 
       expect(result.status).toBe('success')
-      expect(result.data?.subscriptionId).toBeDefined()
+      expect(result.data?.contactId).toBeDefined()
       expect(result.data?.customerId).toBeDefined()
 
       if (!result.data?.customerId)
@@ -198,15 +198,15 @@ describe('queryStripeTrial', async () => {
       }, { server: true } as EndpointMeta)
 
       expect(result.status).toBe('success')
-      expect(result.data?.subscriptionId).toBeTruthy()
+      expect(result.data?.contactId).toBeTruthy()
 
-      const subscriptionId = result.data?.subscriptionId
+      const contactId = result.data?.contactId
 
-      if (!subscriptionId) {
-        throw new Error('No subscriptionId provided')
+      if (!contactId) {
+        throw new Error('No contactId provided')
       }
 
-      const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+      const subscription = await stripe.subscriptions.retrieve(contactId)
 
       expect(subscription.metadata.orgId).toBe(orgId)
     })

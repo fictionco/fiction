@@ -5,7 +5,7 @@ import { MediaDisplaySchema } from '../schemas/schemas.js'
 import { createTableSchema, standardTable as t } from '../tbl.js'
 import { GeoDataSchema } from '../utils/geo.js'
 import { convertKeyCase } from '../utils/index.js'
-import { EmailSenderSchema, EntityStatusEnum, GenderEnum, OrganizationLegalSchema, UserRoleEnum } from './types.js'
+import { EntityStatusEnum, GenderEnum, OrganizationLegalSchema, UserRoleEnum } from './types.js'
 
 export type VerificationCode = {
   code: string

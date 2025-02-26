@@ -20,8 +20,8 @@ const items: MetricDisplayItem[] = [
     title: 'Total Audience',
     icon: 'i-tabler-users',
     displayFormat: 'primary',
-    suffix: 'subscribers',
-    changeLabel: 'new subscribers',
+    suffix: 'contacts',
+    changeLabel: 'new contacts',
     format: 'abbreviatedInteger',
   },
   {
@@ -49,7 +49,7 @@ const items: MetricDisplayItem[] = [
   {
     key: 'emailList',
     type: 'snapshot',
-    suffix: 'subscribers',
+    suffix: 'contacts',
     events: ['subscriptionTotalActive'],
     title: 'Email List',
     icon: 'i-tabler-user-star',

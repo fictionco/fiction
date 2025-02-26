@@ -4,16 +4,16 @@ import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { z } from 'zod'
 
 export const t = {
-  subscribe: 'fiction_subscribe',
+  contact: 'fiction_contact',
   ...standardTable,
 }
 
-export type Subscriber = Partial<TableSubscribeConfig> & {
+export type Contact = Partial<TableContactConfig> & {
   user?: User
   avatar?: MediaObject
 }
 
-export type TableSubscribeConfig = ColType<typeof subscribeColumns>
+export type TableContactConfig = ColType<typeof contactColumns>
 
 export type ImportDetail = {
   importId?: string
@@ -24,8 +24,8 @@ export type ImportDetail = {
 
 export const SourceCategorySchema = z.enum(['', 'site', 'list', 'invited', 'import', 'manual', 'api', 'other'])
 
-export const subscribeColumns = [
-  new Col({ key: 'subscriptionId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('sub')`)).index() }),
+export const contactColumns = [
+  new Col({ key: 'contactId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('sub')`)).index() }),
   new Col({ key: 'userId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.user}.user_id`).onUpdate('CASCADE').index() }),
   new Col({ key: 'email', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).index() }),
   new Col({ key: 'orgId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.org}.orgId`).onUpdate('CASCADE').notNullable().index() }),
@@ -41,9 +41,9 @@ export const subscribeColumns = [
 
 export const tables = [
   new FictionDbTable({
-    tableKey: t.subscribe,
+    tableKey: t.contact,
     timestamps: true,
-    cols: subscribeColumns,
+    cols: contactColumns,
     constraints: [
       { type: 'unique', columns: ['userId', 'orgId'] },
       { type: 'unique', columns: ['email', 'orgId'] },

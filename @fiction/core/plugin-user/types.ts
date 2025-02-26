@@ -152,7 +152,7 @@ export interface OrganizationCustomerData {
   customerId?: string
   priceId?: string
   productId?: string
-  subscriptionId?: string
+  contactId?: string
   subscriptionStatus: stripe.Subscription.Status
   subscriptionItemId: string
 }

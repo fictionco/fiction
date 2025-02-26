@@ -11,9 +11,12 @@ export const t = {
   postTaxonomies: 'fiction_post_taxonomy',
   postAuthor: 'fiction_post_author',
   postSite: 'fiction_post_site',
+  email: 'fiction_email',
   ...siteTables,
   ...standardTable,
 }
+
+export type TableEmailConfig = Partial<ColType<typeof emailCols>>
 
 export type TablePostConfig = Partial<ColType<typeof postCols>> & {
   authors?: User[]
@@ -43,6 +46,12 @@ export const EmailConfigSchema = z.object({
   // Results
   sentAt: z.string().optional(),
   sentCount: z.number().int().optional(),
+  progress: z.number().int().optional(),
+  startedAt: z.string().optional(),
+  completedAt: z.string().optional(),
+  error: z.string().optional(),
+  failedAt: z.string().optional(),
+  failedCount: z.number().int().optional(),
 })
 
 export type EmailConfig = z.infer<typeof EmailConfigSchema>
@@ -102,6 +111,23 @@ export const postSiteCols = [
   new Col({ key: 'priority', sch: () => z.number().int().optional(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
 ] as const
 
+export const emailCols = [
+  new Col({ key: 'emailId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('cem')`)) }),
+  new Col({ key: 'postId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.posts}.postId`).onDelete('CASCADE') }),
+  new Col({ key: 'contactId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`fiction_contact.contact_id`).onDelete('CASCADE') }),
+  new Col({ key: 'email', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).index() }),
+  new Col({ key: 'orgId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.org}.orgId`).onUpdate('CASCADE').notNullable().index() }),
+  new Col({ key: 'status', sec: 'setting', sch: () => z.enum(['queued', 'sent', 'failed', 'delivered', 'opened', 'clicked', 'bounced', 'complained']), make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('queued') }),
+  new Col({ key: 'error', sec: 'setting', sch: () => z.string().optional(), make: ({ s, col }) => s.text(col.k) }),
+  new Col({ key: 'attempts', sec: 'setting', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
+  new Col({ key: 'lastAttemptAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
+  new Col({ key: 'sentAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
+  new Col({ key: 'openedAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
+  new Col({ key: 'clickedAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
+  new Col({ key: 'deliveredAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
+  new Col({ key: 'metadata', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+] as const
+
 export const tables = [
   new FictionDbTable({ tableKey: t.posts, cols: postCols }),
   new FictionDbTable({
@@ -113,5 +139,10 @@ export const tables = [
     tableKey: t.postSite,
     cols: postSiteCols,
     constraints: [{ type: 'unique', columns: ['post_id', 'site_id'] }],
+  }),
+  new FictionDbTable({
+    tableKey: t.email,
+    cols: emailCols,
+    constraints: [{ type: 'unique', columns: ['post_id', 'contact_id'] }],
   }),
 ]

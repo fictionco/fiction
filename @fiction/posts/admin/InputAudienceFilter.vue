@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { ComplexDataFilter, NavListItem, StandardSize } from '@fiction/core'
-import type { FictionSubscribe } from '@fiction/plugins/plugin-subscribe'
+import type { FictionContact } from '@fiction/plugins/plugin-contact'
 import type { Post } from '../post'
-import { debounce, normList, useService, vue } from '@fiction/core'
+import { debounce, useService, vue } from '@fiction/core'
 import XNumber from '@fiction/ui/common/XNumber.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import { getPostEmailRecipientCount } from '../utils/email'
@@ -19,7 +19,7 @@ const emit = defineEmits<{
   (event: 'update:modelValue', payload: ComplexDataFilter[]): void
 }>()
 
-const { fictionSubscribe } = useService<{ fictionSubscribe: FictionSubscribe }>()
+const { fictionContact } = useService<{ fictionContact: FictionContact }>()
 
 const orGroups = vue.computed<ComplexDataFilter[]>({
   get: () => modelValue,
@@ -35,7 +35,7 @@ const availableTags = vue.ref<NavListItem[]>([])
 const selectedTags = vue.ref<string[]>([])
 
 async function fetchTags() {
-  const response = await fictionSubscribe.getTags()
+  const response = await fictionContact.getTags()
 
   const rawTags = response.data || []
 
@@ -49,7 +49,7 @@ async function fetchTags() {
 
 const fetchCount = debounce(async () => {
   isLoading.value = true
-  recipientCount.value = await getPostEmailRecipientCount({ post, fictionSubscribe })
+  recipientCount.value = await getPostEmailRecipientCount({ post, fictionContact })
   isLoading.value = false
 }, 300)
 

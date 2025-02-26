@@ -43,7 +43,7 @@ describe('user config', async () => {
         "fictionCards",
         "fictionTeam",
         "fictionUi",
-        "fictionSubscribe",
+        "fictionContact",
         "fictionNewsletter",
         "fictionPosts",
         "fictionExtend",

@@ -1,12 +1,12 @@
 import type { EndpointMeta, SyndicateStatus } from '@fiction/core'
-import type { FictionSubscribe, TableSubscribeConfig } from '..'
+import type { FictionContact, TableContactConfig } from '..'
 import { t } from '../schema'
 
-export async function getSubscriberMetrics(args: { orgId: string, fictionSubscribe: FictionSubscribe }) {
-  const { orgId, fictionSubscribe } = args
-  const db = fictionSubscribe.settings.fictionDb.client()
+export async function getContactMetrics(args: { orgId: string, fictionContact: FictionContact }) {
+  const { orgId, fictionContact } = args
+  const db = fictionContact.settings.fictionDb.client()
 
-  const counts = await db(t.subscribe)
+  const counts = await db(t.contact)
     .where({ orgId })
     .select('status')
     .count('* as count')
@@ -24,17 +24,17 @@ export async function getSubscriberMetrics(args: { orgId: string, fictionSubscri
   }
 }
 
-export async function trackSubscriberMetrics(args: {
+export async function trackContactMetrics(args: {
   orgId: string
-  fictionSubscribe: FictionSubscribe
+  fictionContact: FictionContact
   previousStatus?: SyndicateStatus
-  subscribe?: TableSubscribeConfig
+  subscribe?: TableContactConfig
 }, _meta: EndpointMeta) {
-  const { orgId, fictionSubscribe, previousStatus, subscribe } = args
+  const { orgId, fictionContact, previousStatus, subscribe } = args
   const { status, email, userId } = subscribe || {}
 
-  const analytics = fictionSubscribe.settings.fictionAnalytics
-  const metrics = await getSubscriberMetrics({ orgId, fictionSubscribe })
+  const analytics = fictionContact.settings.fictionAnalytics
+  const metrics = await getContactMetrics({ orgId, fictionContact })
 
   if (status && status !== previousStatus) {
     const statusEvents = {

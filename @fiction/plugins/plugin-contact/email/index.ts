@@ -1,17 +1,17 @@
 import type { EndpointMeta, EndpointResponse } from '@fiction/core/index.js'
 import type { EmailConfigResponse } from '@fiction/plugin-transactions/index.js'
-import type { FictionSubscribe, Subscriber } from '../index.js'
-import { getOrgAvatar, gravatarUrlSync, vue } from '@fiction/core/index.js'
+import type { Contact, FictionContact } from '../index.js'
+import { getOrgAvatar, vue } from '@fiction/core/index.js'
 import { EmailAction } from '@fiction/plugin-transactions/index.js'
 
-export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
-  const { fictionSubscribe } = args
-  const fictionTransactions = fictionSubscribe.settings.fictionTransactions
-  const fictionUser = fictionSubscribe.settings.fictionUser
+export function getEmails(args: { fictionContact: FictionContact }) {
+  const { fictionContact } = args
+  const fictionTransactions = fictionContact.settings.fictionTransactions
+  const fictionUser = fictionContact.settings.fictionUser
 
   const subscribe = new EmailAction<{
     transactionArgs: { userId: string, code?: string, where: { orgId: string } }
-    transactionResponse: EndpointResponse<Subscriber>
+    transactionResponse: EndpointResponse<Contact>
     queryVars: { orgId: string, orgName?: string, orgEmail?: string }
   }>({
     fictionTransactions,
@@ -43,6 +43,7 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
         to: emailVars.email,
         senderName,
         senderEmail,
+        emailType: 'alert',
         buttons: [
           { label: 'Confirm Subscription', href: emailVars.callbackUrl, theme: 'primary' },
         ],
@@ -60,7 +61,7 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
 
       await fictionUser.queries.ManageUser.serve({ _action: 'verifyEmail', code, email: userId }, { ...meta, caller: 'subscribeServerTransactionVerifyEmail', server: true })
 
-      const r = await fictionSubscribe.queries.ManageSubscription.serve({ _action: 'create', orgId, subscriber: { userId } }, { ...meta, caller: 'subscribeServerTransactionCreate', server: true })
+      const r = await fictionContact.queries.ManageSubscription.serve({ _action: 'create', orgId, contact: { userId } }, { ...meta, caller: 'subscribeServerTransactionCreate', server: true })
 
       const sub = r.data?.[0]
 
@@ -82,7 +83,7 @@ export function getEmails(args: { fictionSubscribe: FictionSubscribe }) {
         throw new Error('Missing code')
       }
 
-      const r = await fictionSubscribe.queries.ManageSubscription.serve({ _action: 'update', orgId, where: [{ userId }], fields: { status: 'unsubscribed' } }, { ...meta, server: true })
+      const r = await fictionContact.queries.ManageSubscription.serve({ _action: 'update', orgId, where: [{ userId }], fields: { status: 'unsubscribed' } }, { ...meta, server: true })
 
       return { ...r, message: 'You are now unsubscribed.' }
     },

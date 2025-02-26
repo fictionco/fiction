@@ -4,7 +4,7 @@ import type { FictionPluginSettings } from '../plugin.js'
 import type { EndpointResponse } from '../types/index.js'
 import type { EndpointMeta } from '../utils/index.js'
 import type { FictionEmail } from './index.js'
-import type { EmailSendConfig } from './util.js'
+import type { EmailSendConfig, EmailType } from './util.js'
 import nodeMailer from 'nodemailer'
 import nodeMailerHtmlToText from 'nodemailer-html-to-text'
 import { Query } from '../query.js'
@@ -17,11 +17,12 @@ export type EmailQuerySettings = FictionPluginSettings & {
 }
 
 export type EmailUserVars = {
+  contactId?: string
   toUserId?: string
   fromOrgId?: string
   postId?: string
   emailId?: string
-  emailType?: 'transactional' | 'campaign' | 'newsletter' | 'notification' | 'post'
+  emailType?: EmailType
   env?: 'prod' | 'dev' | 'test'
   caller?: string
 }
@@ -153,9 +154,11 @@ export class QueryTransactionalEmail extends EmailQuery {
       emailId = '',
       toUserId = '',
       fromOrgId = '',
-      emailType = 'transactional',
+      fromSiteId = '',
+      emailType = 'update',
       env = 'dev',
       caller = 'unknown',
+      unsubscribeUrl = '',
     } = fields
 
     const emailVars: EmailUserVars = {
@@ -175,6 +178,39 @@ export class QueryTransactionalEmail extends EmailQuery {
     if (!to)
       throw abort('missing email: to', meta)
 
+    const headers: Record<string, string> = {
+      'X-MAILER': 'Fiction',
+      'X-MAILGUN-VARIABLES': JSON.stringify(emailVars),
+
+      // Improved email identification and tracking
+      'Message-ID': `<${emailId}>`,
+      'X-Entity-Ref-ID': emailId || `fiction-${Date.now()}`,
+
+      // Responsible sender information
+      'X-Complaints-To': `abuse@${sendingDomain || 'fiction.com'}`,
+
+      // Fiction-specific tracking
+      'X-Fiction-Email-ID': emailId || '',
+      'X-Fiction-User-ID': toUserId || '',
+      'X-Fiction-Org-ID': fromOrgId || '',
+      'X-Fiction-Site-ID': fromSiteId || '',
+
+      // Prevent auto-responders
+      'X-Auto-Response-Suppress': 'OOF, AutoReply',
+
+      // Feedback loop identifier
+      'Feedback-ID': `${emailId}:${emailType}:fiction`,
+    }
+
+    if (['campaign'].includes(emailType)) {
+      headers.Precedence = 'bulk'
+      headers['List-ID'] = `<${emailType}-${fromOrgId || 'fiction'}@${sendingDomain || 'fiction.com'}>`
+    }
+
+    if (unsubscribeUrl) {
+      headers['List-Unsubscribe'] = `<${unsubscribeUrl}>`
+    }
+
     const theEmail: NodeMailOptions = {
       from,
       to,
@@ -182,10 +218,7 @@ export class QueryTransactionalEmail extends EmailQuery {
       html,
       text,
       replyTo,
-      headers: {
-        'X-MAILER': 'Fiction',
-        'X-MAILGUN-VARIABLES': JSON.stringify(emailVars),
-      },
+      headers,
     }
 
     const client = this.getClient()

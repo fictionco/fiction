@@ -94,7 +94,7 @@ vue.onMounted(async () => {
       :allow-search="true"
       :list="renderList"
       @update:model-value="addFromId($event as string)"
-      :zero-text="'No users found'"
+      zero-text="No users found"
     />
     <div class="flex justify-start gap-2">
       <XButton class="shrink-0" size="xs" btn="default" :href="card.link('/team')">

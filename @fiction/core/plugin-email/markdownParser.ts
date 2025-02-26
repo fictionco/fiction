@@ -1,4 +1,4 @@
-import type { RendererObject, Token } from 'marked'
+import type { Token } from 'marked'
 import { colorList } from '@fiction/core/utils/colors.js'
 import { marked } from 'marked'
 
