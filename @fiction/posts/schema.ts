@@ -1,6 +1,7 @@
 import type { ColType, ComplexDataFilter, User } from '@fiction/core'
 import type { TableSiteConfig } from '@fiction/site'
 import type { SiteUserConfig } from '@fiction/site/schema'
+import { skip } from 'node:test'
 import { ColorThemeUserSchema, createTableSchema, EmailSenderSchema, MediaDisplaySchema, PostStatusSchema, standardTable, toSlug } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { t as siteTables } from '@fiction/site/tables'
@@ -46,12 +47,13 @@ export const EmailConfigSchema = z.object({
   // Results
   sentAt: z.string().optional(),
   sentCount: z.number().int().optional(),
+  failedCount: z.number().int().optional(),
+  skippedCount: z.number().int().optional(),
   progress: z.number().int().optional(),
   startedAt: z.string().optional(),
   completedAt: z.string().optional(),
   error: z.string().optional(),
   failedAt: z.string().optional(),
-  failedCount: z.number().int().optional(),
 })
 
 export type EmailConfig = z.infer<typeof EmailConfigSchema>
@@ -81,10 +83,12 @@ export const postCols = [
   new Col({ key: 'categories', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
   new Col({ key: 'wordCount', sec: 'setting', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
   new Col({ key: 'status', sec: 'setting', sch: () => PostStatusSchema, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('draft') }),
+  new Col({ key: 'emailStatus', sec: 'setting', sch: () => PostStatusSchema, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('draft') }),
+  new Col({ key: 'emailConfig', sec: 'setting', sch: () => EmailConfigSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'visibility', sec: 'setting', sch: () => VisibilitySchema, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('public') }),
   new Col({ key: 'isFeatured', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
   new Col({ key: 'priority', sec: 'setting', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
-  new Col({ key: 'emailConfig', sec: 'setting', sch: () => EmailConfigSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+
   new Col({ key: 'sender', sec: 'setting', sch: () => EmailSenderSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'dateAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
   new Col({ key: 'publishMode', sec: 'setting', sch: () => z.enum(['now', 'schedule']), make: ({ s, col }) => s.string(col.k).defaultTo('draft') }),

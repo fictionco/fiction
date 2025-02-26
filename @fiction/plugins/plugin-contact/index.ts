@@ -6,7 +6,7 @@ import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { getWidgets } from './admin/widgets'
 import { getEmails } from './email'
-import { ManageSubscriptionQuery, SubscriptionAnalytics } from './endpoint'
+import { ManageContactQuery, SubscriptionAnalytics } from './endpoint'
 import { t, tables } from './schema'
 
 export * from './schema'
@@ -25,7 +25,7 @@ export type FictionContactSettings = {
 export class FictionContact extends FictionPlugin<FictionContactSettings> {
   widgets = getWidgets({ fictionContact: this, ...this.settings })
   queries = {
-    ManageSubscription: new ManageSubscriptionQuery({ fictionContact: this, ...this.settings }),
+    ManageContact: new ManageContactQuery({ fictionContact: this, ...this.settings }),
     SubscriptionAnalytics: new SubscriptionAnalytics({ fictionContact: this, ...this.settings }),
   }
 

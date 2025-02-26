@@ -20,7 +20,7 @@ describe('subscription analytics tracking', async () => {
 
   it('tracks through complete subscriber lifecycle', async () => {
     // Create subscriber
-    const createResponse = await fictionContact.queries.ManageSubscription.serve({
+    const createResponse = await fictionContact.queries.ManageContact.serve({
       _action: 'create',
       orgId,
       contact: {
@@ -62,7 +62,7 @@ describe('subscription analytics tracking', async () => {
       throw abort('missing contactId')
     }
 
-    await fictionContact.queries.ManageSubscription.serve({
+    await fictionContact.queries.ManageContact.serve({
       _action: 'update',
       orgId,
       where: [{ contactId }],
@@ -77,7 +77,7 @@ describe('subscription analytics tracking', async () => {
     })
 
     // Delete
-    await fictionContact.queries.ManageSubscription.serve({
+    await fictionContact.queries.ManageContact.serve({
       _action: 'delete',
       orgId,
       where: [{ contactId }],
@@ -91,7 +91,7 @@ describe('subscription analytics tracking', async () => {
   })
 
   it('tracks metrics after bulk operations', async () => {
-    await fictionContact.queries.ManageSubscription.serve({
+    await fictionContact.queries.ManageContact.serve({
       _action: 'bulkCreate',
       orgId,
       contacts: [
@@ -178,7 +178,7 @@ describe('subscriber metrics', async () => {
     await trackContactMetrics({
       orgId,
       fictionContact: testUtils.fictionContact,
-      subscribe: {
+      contact: {
         status: 'active',
         email: 'test@example.com',
       } as TableContactConfig,
@@ -196,7 +196,7 @@ describe('subscriber metrics', async () => {
       orgId,
       fictionContact: testUtils.fictionContact,
       previousStatus: 'active',
-      subscribe: {
+      contact: {
         status: 'unsubscribed',
         email: 'test@example.com',
       } as TableContactConfig,
@@ -216,7 +216,7 @@ describe('subscriber metrics', async () => {
     await trackContactMetrics({
       orgId,
       fictionContact: testUtils.fictionContact,
-      subscribe: { status: 'active' } as TableContactConfig,
+      contact: { status: 'active' } as TableContactConfig,
     }, { server: true })
 
     expect(trackSpy).toHaveBeenCalledWith({

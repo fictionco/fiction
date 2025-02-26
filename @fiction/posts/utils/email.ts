@@ -71,7 +71,7 @@ export async function getPostEmailRecipientCount(args: { post?: Post, fictionCon
   const filters = mode === 'filtered' ? post.emailConfig.value.filters : undefined
 
   try {
-    const response = await fictionContact.requests.ManageSubscription.projectRequest({
+    const response = await fictionContact.requests.ManageContact.projectRequest({
       _action: 'count',
       filters,
     })

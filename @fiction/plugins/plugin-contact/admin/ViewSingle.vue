@@ -29,7 +29,7 @@ async function load() {
     if (!contactId)
       return
 
-    const endpoint = service.fictionContact.requests.ManageSubscription
+    const endpoint = service.fictionContact.requests.ManageContact
     const orgId = service.fictionUser.activeOrgId.value
     if (!orgId)
       throw new Error('No orgId')
@@ -70,7 +70,7 @@ function getAvatarUrl(user: User) {
 
 async function SaveContact(): Promise<undefined> {
   sending.value = 'saving'
-  const endpoint = service.fictionContact.requests.ManageSubscription
+  const endpoint = service.fictionContact.requests.ManageContact
   const fields = subscriber.value
   const contactId = fields.contactId
 
@@ -220,7 +220,7 @@ const adminOptions = [
         icon: 'i-tabler-trash',
         loading: loading.value,
         onClick: async () => {
-          const endpoint = service.fictionContact.requests.ManageSubscription
+          const endpoint = service.fictionContact.requests.ManageContact
 
           const confirmed = confirm('Are you sure you want to delete this subscriber?')
 

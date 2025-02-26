@@ -61,7 +61,7 @@ export function getEmails(args: { fictionContact: FictionContact }) {
 
       await fictionUser.queries.ManageUser.serve({ _action: 'verifyEmail', code, email: userId }, { ...meta, caller: 'subscribeServerTransactionVerifyEmail', server: true })
 
-      const r = await fictionContact.queries.ManageSubscription.serve({ _action: 'create', orgId, contact: { userId } }, { ...meta, caller: 'subscribeServerTransactionCreate', server: true })
+      const r = await fictionContact.queries.ManageContact.serve({ _action: 'create', orgId, contact: { userId } }, { ...meta, caller: 'subscribeServerTransactionCreate', server: true })
 
       const sub = r.data?.[0]
 
@@ -83,7 +83,7 @@ export function getEmails(args: { fictionContact: FictionContact }) {
         throw new Error('Missing code')
       }
 
-      const r = await fictionContact.queries.ManageSubscription.serve({ _action: 'update', orgId, where: [{ userId }], fields: { status: 'unsubscribed' } }, { ...meta, server: true })
+      const r = await fictionContact.queries.ManageContact.serve({ _action: 'update', orgId, where: [{ userId }], fields: { status: 'unsubscribed' } }, { ...meta, server: true })
 
       return { ...r, message: 'You are now unsubscribed.' }
     },

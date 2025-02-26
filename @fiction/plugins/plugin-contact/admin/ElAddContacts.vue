@@ -116,7 +116,7 @@ async function importSubscribers() {
       return
     }
 
-    const r = await service.fictionContact.requests.ManageSubscription.projectRequest({ _action: 'bulkCreate', contacts })
+    const r = await service.fictionContact.requests.ManageContact.projectRequest({ _action: 'bulkCreate', contacts })
 
     if (r.status === 'success') {
       const changedCount = r.indexMeta?.changedCount || 0

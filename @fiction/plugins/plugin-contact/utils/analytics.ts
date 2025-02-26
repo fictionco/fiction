@@ -28,10 +28,10 @@ export async function trackContactMetrics(args: {
   orgId: string
   fictionContact: FictionContact
   previousStatus?: SyndicateStatus
-  subscribe?: TableContactConfig
+  contact?: TableContactConfig
 }, _meta: EndpointMeta) {
-  const { orgId, fictionContact, previousStatus, subscribe } = args
-  const { status, email, userId } = subscribe || {}
+  const { orgId, fictionContact, previousStatus, contact } = args
+  const { status, email, userId } = contact || {}
 
   const analytics = fictionContact.settings.fictionAnalytics
   const metrics = await getContactMetrics({ orgId, fictionContact })

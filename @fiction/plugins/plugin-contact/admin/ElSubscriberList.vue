@@ -64,7 +64,7 @@ async function load(args: { offset?: number, limit?: number } = {}) {
 
   try {
     const { offset = 0, limit = 40 } = args
-    const endpoint = service.fictionContact.requests.ManageSubscription
+    const endpoint = service.fictionContact.requests.ManageContact
     const orgId = service.fictionUser.activeOrgId.value
     if (!orgId)
       throw new Error('No orgId')

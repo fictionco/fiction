@@ -39,7 +39,7 @@ describe('subscription endpoint', async () => {
       { email: bulkUser2.email, fields: { level: 'test' } },
     ]
 
-    const r = await fictionContact.queries.ManageSubscription.serve({
+    const r = await fictionContact.queries.ManageContact.serve({
       _action: 'bulkCreate',
       orgId,
       contacts: bulkSubscribers,
@@ -52,7 +52,7 @@ describe('subscription endpoint', async () => {
     expect(contactIds).toContain(bulkUser1.userId)
     expect(contactIds).toContain(bulkUser2.userId)
 
-    await fictionContact.queries.ManageSubscription.serve({
+    await fictionContact.queries.ManageContact.serve({
       _action: 'delete',
       orgId,
       where: [
@@ -64,13 +64,13 @@ describe('subscription endpoint', async () => {
   })
 
   it('create', async () => {
-    const r = await fictionContact.queries.ManageSubscription.serve({
+    const r = await fictionContact.queries.ManageContact.serve({
       _action: 'create',
       orgId,
       contact: { userId: userId2 },
     }, { server: true })
 
-    const r2 = await fictionContact.queries.ManageSubscription.serve({
+    const r2 = await fictionContact.queries.ManageContact.serve({
       _action: 'create',
       orgId,
       contact: { userId: userId3 },
@@ -86,7 +86,7 @@ describe('subscription endpoint', async () => {
   })
 
   it('list', async () => {
-    const r = await fictionContact.queries.ManageSubscription.serve({ _action: 'list', orgId }, { server: true })
+    const r = await fictionContact.queries.ManageContact.serve({ _action: 'list', orgId }, { server: true })
 
     expect(r.status).toBe('success')
 
@@ -101,7 +101,7 @@ describe('subscription endpoint', async () => {
   })
 
   it('update', async () => {
-    const r = await fictionContact.queries.ManageSubscription.serve({
+    const r = await fictionContact.queries.ManageContact.serve({
       _action: 'update',
       orgId,
       where: [{ userId: userId2 }],
@@ -115,7 +115,7 @@ describe('subscription endpoint', async () => {
   })
 
   it('unsubscribe status', async () => {
-    const r = await fictionContact.queries.ManageSubscription.serve({
+    const r = await fictionContact.queries.ManageContact.serve({
       _action: 'update',
       orgId,
       where: [{ userId: userId2 }],
@@ -128,7 +128,7 @@ describe('subscription endpoint', async () => {
   })
 
   it('delete one', async () => {
-    const r = await fictionContact.queries.ManageSubscription.serve({
+    const r = await fictionContact.queries.ManageContact.serve({
       _action: 'delete',
       orgId,
       where: [{ userId: userId2 }],

@@ -93,7 +93,7 @@ describe('subscribe uiux', { retry: isCi() ? 3 : 0 }, async () => {
 
     const where = { userId: user2.userId }
 
-    const r = await fictionContact.queries.ManageSubscription.serve({ _action: 'list', orgId, where }, { server: true })
+    const r = await fictionContact.queries.ManageContact.serve({ _action: 'list', orgId, where }, { server: true })
 
     const subs = r.data || []
 

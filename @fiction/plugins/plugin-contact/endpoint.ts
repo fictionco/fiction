@@ -22,7 +22,7 @@ abstract class SubscribeEndpoint extends Query<ContactEndpointSettings> {
 export type WhereSubscription = { userId?: string, email?: string, contactId?: string } & ({ userId: string } | { email: string } | { contactId: string })
 
 export type ContactCreate = { email?: string, userId?: string } & Partial<TableContactConfig> & ({ userId: string } | { email: string })
-export type ManageSubscriptionRequest =
+export type ManageContactRequest =
   | { _action: 'create', orgId: string, contact: ContactCreate }
   | { _action: 'bulkCreate', orgId: string, contacts: ContactCreate[] }
   | { _action: 'list', orgId: string, where?: Partial<TableContactConfig>, limit?: number, offset?: number, page?: number }
@@ -30,18 +30,18 @@ export type ManageSubscriptionRequest =
   | { _action: 'update', orgId: string, where: WhereSubscription[], fields: Partial<TableContactConfig> }
   | { _action: 'delete', orgId: string, where: WhereSubscription[] }
 
-export type ManageSubscriptionParams = ManageSubscriptionRequest & IndexQuery
+export type ManageContactParams = ManageContactRequest & IndexQuery
 
-export type ManageSubscriptionResponse = EndpointResponse<Contact[]>
+export type ManageContactResponse = EndpointResponse<Contact[]>
 
-export class ManageSubscriptionQuery extends SubscribeEndpoint {
+export class ManageContactQuery extends SubscribeEndpoint {
   limit = 40
   offset = 0
 
-  async run(params: ManageSubscriptionParams, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
+  async run(params: ManageContactParams, meta: EndpointMeta): Promise<ManageContactResponse> {
     const { _action } = params
 
-    let r: ManageSubscriptionResponse | undefined
+    let r: ManageContactResponse | undefined
     switch (_action) {
       case 'create':
         r = await this.create(params, meta)
@@ -50,16 +50,16 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
         r = await this.bulkCreate(params, meta)
         break
       case 'list':
-        r = await this.listSubscriptions(params, meta)
+        r = await this.listContacts(params, meta)
         break
       case 'update':
-        r = await this.updateSubscription(params, meta)
+        r = await this.updateContact(params, meta)
         break
       case 'count':
         r = { status: 'success', data: [] } // added in indexMeta
         break
       case 'delete':
-        r = await this.deleteSubscription(params, meta)
+        r = await this.deleteContact(params, meta)
         break
       default:
         r = { status: 'error', message: 'Invalid action' }
@@ -72,7 +72,7 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
     return this.addIndexMeta(params, r, meta)
   }
 
-  private async addIndexMeta(params: ManageSubscriptionParams, r: ManageSubscriptionResponse, _meta?: EndpointMeta): Promise<ManageSubscriptionResponse> {
+  private async addIndexMeta(params: ManageContactParams, r: ManageContactResponse, _meta?: EndpointMeta): Promise<ManageContactResponse> {
     const { orgId } = params
     const { limit = this.limit, offset = this.offset, filters = [] } = params
 
@@ -97,7 +97,7 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
     return user?.userId
   }
 
-  private async create(params: ManageSubscriptionParams & { _action: 'create' }, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
+  private async create(params: ManageContactParams & { _action: 'create' }, meta: EndpointMeta): Promise<ManageContactResponse> {
     const { orgId, contact } = params
 
     const { fictionDb } = this.settings
@@ -112,9 +112,9 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
 
     const resolvedUserId = userId || await this.resolveUserId(email, meta)
 
-    const subscriptionFields: Partial<TableContactConfig> = { orgId, userId: resolvedUserId, email, ...contact, status: contact?.status || 'active' }
+    const fields: Partial<TableContactConfig> = { orgId, userId: resolvedUserId, email, ...contact, status: contact?.status || 'active' }
 
-    const insertData = fictionDb.prep({ type: 'insert', fields: subscriptionFields, meta, table: t.contact })
+    const insertData = fictionDb.prep({ type: 'insert', fields, meta, table: t.contact })
 
     this.log.info('createSubscription', { data: insertData, caller: meta.caller })
 
@@ -122,14 +122,12 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
 
     const result = await this.db().table(t.contact).insert(insertData).onConflict(conflictTarget).merge().returning('*')
 
-    const subscribe = result[0]
-
-    await trackContactMetrics({ orgId, fictionContact: this.settings.fictionContact, subscribe }, meta)
+    await trackContactMetrics({ orgId, fictionContact: this.settings.fictionContact, contact: result[0] }, meta)
 
     return { status: 'success', data: result, indexMeta: { changedCount: 1 } }
   }
 
-  private async bulkCreate(params: ManageSubscriptionParams & { _action: 'bulkCreate' }, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
+  private async bulkCreate(params: ManageContactParams & { _action: 'bulkCreate' }, meta: EndpointMeta): Promise<ManageContactResponse> {
     const { orgId, contacts } = params
     const { fictionDb } = this.settings
 
@@ -190,7 +188,7 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
     }
   }
 
-  private async listSubscriptions(params: ManageSubscriptionParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
+  private async listContacts(params: ManageContactParams & { _action: 'list' }, _meta: EndpointMeta): Promise<ManageContactResponse> {
     const { where, orgId } = params
     let { limit = this.limit, offset = this.offset, page } = params
 
@@ -198,24 +196,24 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
       offset = (page - 1) * limit
     }
 
-    const subscriptions = await this.db().select('*').from(t.contact).where({ orgId, ...where }).limit(limit).offset(offset).orderBy('updated_at', 'desc')
+    const contacts = await this.db().select('*').from(t.contact).where({ orgId, ...where }).limit(limit).offset(offset).orderBy('updated_at', 'desc')
 
     // Create an array of promises to fetch user data concurrently
-    await Promise.all(subscriptions.map(async (subscription) => {
+    await Promise.all(contacts.map(async (contact) => {
       let user: User | undefined
-      if (subscription.userId) {
-        const userResponse = await this.settings.fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { userId: subscription.userId } }, _meta)
+      if (contact.userId) {
+        const userResponse = await this.settings.fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { userId: contact.userId } }, _meta)
         if (userResponse.status === 'success' && userResponse.data) {
           user = userResponse.data
         }
       }
-      subscription.user = deepMerge([user, subscription.inlineUser])
+      contact.user = deepMerge([user, contact.inlineUser])
     }))
 
-    return { status: 'success', data: subscriptions }
+    return { status: 'success', data: contacts }
   }
 
-  private async updateSubscription(params: ManageSubscriptionParams & { _action: 'update' }, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
+  private async updateContact(params: ManageContactParams & { _action: 'update' }, meta: EndpointMeta): Promise<ManageContactResponse> {
     const { where, fields, orgId } = params
 
     if (!Array.isArray(where)) {
@@ -234,16 +232,16 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
       const { status: previousStatus } = await this.db().table(t.contact).where({ orgId, ...condition }).select<{ status: SyndicateStatus }>('status').first() || { }
 
       const result = await this.db().table(t.contact).where({ orgId, ...condition }).update({ ...prepped, updatedAt }).returning<TableContactConfig[]>('*')
-      const subscribe = result[0]
-      results.push(subscribe)
+      const contact = result[0]
+      results.push(contact)
 
-      await trackContactMetrics({ fictionContact: this.settings.fictionContact, orgId, previousStatus, subscribe }, meta)
+      await trackContactMetrics({ fictionContact: this.settings.fictionContact, orgId, previousStatus, contact }, meta)
     }
 
     return { status: 'success', message: 'Contact Updated', data: results, indexMeta: { changedCount: results.length } }
   }
 
-  private async deleteSubscription(params: ManageSubscriptionParams & { _action: 'delete' }, meta: EndpointMeta): Promise<ManageSubscriptionResponse> {
+  private async deleteContact(params: ManageContactParams & { _action: 'delete' }, meta: EndpointMeta): Promise<ManageContactResponse> {
     const { where, orgId } = params
 
     if (!Array.isArray(where)) {
@@ -254,16 +252,16 @@ export class ManageSubscriptionQuery extends SubscribeEndpoint {
     for (const condition of where) {
       const { userId, email, contactId } = condition
       if ((!userId && !email && !contactId)) {
-        return { status: 'error', message: 'delete subscription missing specifier' }
+        return { status: 'error', message: 'delete contact missing specifier' }
       }
 
       const result = await this.db().table(t.contact).where({ orgId, ...condition }).delete().returning('*')
-      const subscribe = result[0]
-      const previousStatus = subscribe.status
-      subscribe.status = 'deleted'
-      results.push(subscribe)
+      const contact = result[0]
+      const previousStatus = contact.status
+      contact.status = 'deleted'
+      results.push(contact)
 
-      await trackContactMetrics({ fictionContact: this.settings.fictionContact, orgId, previousStatus, subscribe }, meta)
+      await trackContactMetrics({ fictionContact: this.settings.fictionContact, orgId, previousStatus, contact }, meta)
     }
 
     return { status: 'success', message: 'Subscriptions deleted', data: results, indexMeta: { changedCount: results.length } }

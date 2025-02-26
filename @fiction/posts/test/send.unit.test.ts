@@ -1,5 +1,8 @@
-import type { EmailSendConfig } from '@fiction/core'
+import type { ComplexDataFilter, EmailSendConfig } from '@fiction/core'
+import type { Contact } from '@fiction/plugins/plugin-contact'
 import type express from 'express'
+import type { T } from 'vitest/dist/chunks/environment.d8YfPkTm.js'
+import type { TablePostConfig } from '../schema'
 import type { CampaignStats } from '../send'
 import { dayjs, objectId, shortId } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
@@ -25,18 +28,20 @@ describe('fictionSend', async () => {
 
   const db = () => testUtils.fictionDb.client()
 
-  const getTestPost = async () => {
+  const getTestPost = async (config = {}): Promise<TablePostConfig> => {
     const testPost = {
       postId: objectId({ prefix: 'pst' }),
       title: 'Test Campaign Email',
       content: '<p>Hello, this is a test email campaign!</p>',
       orgId,
       userId,
-      status: 'draft',
+      status: 'draft' as const,
+      emailStatus: 'draft' as const,
       slug: 'test-campaign',
       emailConfig: {
         subject: 'Test Email Subject',
         preview: 'Test preview text',
+        ...config,
       },
     }
 
@@ -48,13 +53,14 @@ describe('fictionSend', async () => {
     return testPost
   }
 
-  const createContact = async () => {
+  const createContact = async (tags: string[] = []) => {
     const contactId = objectId({ prefix: 'cnt' })
     const contact = {
       contactId,
       email: `test-${shortId()}@example.com`,
       orgId,
       status: 'active',
+      tags,
       createdAt: dayjs().toISOString(),
       updatedAt: dayjs().toISOString(),
     }
@@ -74,7 +80,7 @@ describe('fictionSend', async () => {
 
     // Queue emails for campaign
     await fictionSend.queueCampaignEmails({
-      postId: testPost.postId,
+      postId: testPost.postId as string,
       orgId,
     })
 
@@ -92,7 +98,312 @@ describe('fictionSend', async () => {
     expect(queuedEmails[0].status).toBe('queued')
   })
 
-  it('should process queued emails and update stats', async () => {
+  it('should filter contacts by tags when queueing emails', async () => {
+    // Create a post with filtered targeting and tag filters
+    const filters: ComplexDataFilter[] = [
+      [{
+        field: 'tags',
+        operator: 'in',
+        value: ['newsletter'],
+      }],
+    ]
+
+    const testPost = await getTestPost({
+      target: 'filtered',
+      filters,
+    })
+
+    // Create contacts with different tags
+    const taggedContact = await createContact(['newsletter', 'customer'])
+    const untaggedContact = await createContact(['customer'])
+
+    // Mock ManageContact.run to return filtered contacts
+    const originalRun = fictionSend.settings.fictionContact.queries.ManageContact.run
+    fictionSend.settings.fictionContact.queries.ManageContact.run = vi.fn(async (params, meta) => {
+      if (params._action === 'list') {
+        // Filter contacts based on filters parameter
+        if (params.filters && params.filters.length > 0) {
+          // Simple mock implementation that returns only tagged contacts
+          return {
+            status: 'success' as const,
+            data: [taggedContact] as Contact[],
+            indexMeta: { count: 1 },
+          }
+        }
+        return {
+          status: 'success' as const,
+          data: [taggedContact, untaggedContact] as Contact[],
+          indexMeta: { count: 2 },
+        }
+      }
+      if (params._action === 'count') {
+        if (params.filters && params.filters.length > 0) {
+          return {
+            status: 'success' as const,
+            data: [] as Contact[],
+            indexMeta: { count: 1 },
+          }
+        }
+        return {
+          status: 'success' as const,
+          data: [] as Contact[],
+          indexMeta: { count: 2 },
+        }
+      }
+      return originalRun(params, meta)
+    })
+
+    // Queue emails for filtered campaign
+    await fictionSend.queueCampaignEmails({
+      postId: testPost.postId as string,
+      orgId,
+      filters,
+    })
+
+    // Verify only filtered contacts received the email
+    const queuedEmails = await db()
+      .table(t.email)
+      .where({
+        postId: testPost.postId,
+        orgId,
+      })
+      .select('*')
+
+    expect(queuedEmails.length).toBe(1)
+    expect(queuedEmails[0].email).toBe(taggedContact.email)
+    expect(queuedEmails[0].contactId).toBe(taggedContact.contactId)
+
+    // Restore original function
+    fictionSend.settings.fictionContact.queries.ManageContact.run = originalRun
+  })
+
+  it('should handle target="nobody" mode and skip sending', async () => {
+    // Create a post with 'nobody' targeting
+    const testPost = await getTestPost({
+      target: 'nobody',
+    })
+    await createContact() // Create a contact that should be ignored
+
+    // Process campaign with 'nobody' target
+    const result = await fictionSend.processCampaign(testPost, { server: true })
+
+    // Check that no emails were queued
+    const queuedEmails = await db()
+      .table(t.email)
+      .where({
+        postId: testPost.postId,
+        orgId,
+      })
+      .select('*')
+
+    expect(queuedEmails.length).toBe(0)
+    expect(result.emailStats.skipped).toBeGreaterThan(0)
+    expect(result.emailStats.inProgress).toBe(false)
+  })
+
+  it('should process a campaign end-to-end with filtered contacts', async () => {
+    // Create a post with filtered targeting
+    const filters = [
+      [{ field: 'tags', operator: 'in', value: ['vip'] }],
+    ]
+
+    const testPost = await getTestPost({
+      target: 'filtered',
+      filters,
+    })
+
+    // Create VIP and non-VIP contacts
+    const vipContact = await createContact(['vip'])
+    const regularContact = await createContact(['regular'])
+
+    // Mock ManageContact and email sending
+    const originalRun = fictionSend.settings.fictionContact.queries.ManageContact.run
+    fictionSend.settings.fictionContact.queries.ManageContact.run = vi.fn(async (params, meta) => {
+      if (params._action === 'list') {
+        if (params.filters && params.filters.length > 0) {
+          return {
+            status: 'success' as const,
+            data: [vipContact] as Contact[],
+            indexMeta: { count: 1 },
+          }
+        }
+        return {
+          status: 'success' as const,
+          data: [vipContact, regularContact] as Contact[],
+          indexMeta: { count: 2 },
+        }
+      }
+      if (params._action === 'count') {
+        if (params.filters && params.filters.length > 0) {
+          return {
+            status: 'success' as const,
+            data: [] as Contact[],
+            indexMeta: { count: 1 },
+          }
+        }
+        return {
+          status: 'success' as const,
+          data: [] as Contact[],
+          indexMeta: { count: 2 },
+        }
+      }
+      return originalRun(params, meta)
+    })
+
+    // Mock email sending
+    const sendEmailMock = vi.fn().mockResolvedValue(undefined)
+    fictionSend.settings.fictionEmail.sendEmail = sendEmailMock
+
+    // Mock ManagePost serve
+    const originalServe = fictionPosts.queries.ManagePost.serve
+    fictionPosts.queries.ManagePost.serve = vi.fn().mockResolvedValue({
+      status: 'success',
+      data: [testPost],
+    })
+
+    // Process the campaign
+    const result = await fictionSend.processCampaign({
+      postId: testPost.postId,
+      orgId,
+      userId,
+    }, { server: true })
+
+    // Verify only VIP contact was processed
+    expect(fictionSend.settings.fictionContact.queries.ManageContact.run).toHaveBeenCalledWith(
+      expect.objectContaining({
+        _action: 'list',
+        filters,
+      }),
+      expect.anything(),
+    )
+
+    // Verify email sending
+    expect(sendEmailMock).toHaveBeenCalledTimes(1)
+
+    // Verify stats in result
+    expect(result.emailStats.total).toBeGreaterThan(0)
+    expect(result.emailStats.sent).toBeGreaterThan(0)
+
+    // Restore original functions
+    fictionSend.settings.fictionContact.queries.ManageContact.run = originalRun
+    fictionPosts.queries.ManagePost.serve = originalServe
+  })
+
+  it('should handle large contact lists with pagination', async () => {
+    const testPost = await getTestPost()
+
+    // Mock a large contact list that requires pagination
+    const originalRun = fictionSend.settings.fictionContact.queries.ManageContact.run
+
+    // Create mock contacts for first and second page
+    const firstPageContacts = await Promise.all(Array.from({ length: 3 }).fill(0).map(_ => createContact())) as Contact[]
+
+    const secondPageContacts = await Promise.all(Array.from({ length: 2 }).fill(0).map(_ => createContact())) as Contact[]
+
+    let callCount = 0
+    fictionSend.settings.fictionContact.queries.ManageContact.run = vi.fn(async (params, meta) => {
+      if (params._action === 'list') {
+        callCount++
+        // First page
+        if (params.offset === 0) {
+          return {
+            status: 'success' as const,
+            data: firstPageContacts,
+            indexMeta: { count: 5 },
+          }
+        }
+        // Second page
+        return {
+          status: 'success' as const,
+          data: secondPageContacts,
+          indexMeta: { count: 5 },
+        }
+      }
+      if (params._action === 'count') {
+        return {
+          status: 'success' as const,
+          data: [],
+          indexMeta: { count: 5 },
+        }
+      }
+      return originalRun(params, meta)
+    })
+
+    // Queue emails
+    await fictionSend.queueCampaignEmails({
+      postId: testPost.postId || '',
+      orgId,
+      pageSize: 3,
+    })
+
+    // Verify pagination was used
+    expect(callCount).toBe(2) // Called twice for pagination
+
+    // Verify all contacts were queued
+    const queuedEmails = await db()
+      .table(t.email)
+      .where({
+        postId: testPost.postId,
+        orgId,
+      })
+      .select('*')
+
+    expect(queuedEmails.length).toBe(5) // Total from both pages
+
+    // Restore original function
+    fictionSend.settings.fictionContact.queries.ManageContact.run = originalRun
+  })
+
+  it('should update campaign progress during batch processing', async () => {
+    const testPost = await getTestPost()
+
+    // Create multiple contacts
+    const contacts = []
+    for (let i = 0; i < 3; i++) {
+      contacts.push(await createContact())
+    }
+
+    // Queue emails
+    await fictionSend.queueCampaignEmails({
+      postId: testPost.postId || '',
+      orgId,
+    })
+
+    // Mock email sending
+    const sendEmailMock = vi.fn().mockResolvedValue(undefined)
+    fictionSend.settings.fictionEmail.sendEmail = sendEmailMock
+
+    // Mock ManagePost serve to capture progress updates
+    const progressUpdates: number[] = []
+    const originalServe = fictionPosts.queries.ManagePost.serve
+    fictionPosts.queries.ManagePost.serve = vi.fn(async (params) => {
+      if (params._action === 'update' && params.fields.emailConfig?.progress !== undefined) {
+        progressUpdates.push(params.fields.emailConfig.progress)
+      }
+      return {
+        status: 'success' as const,
+        data: [testPost] as TablePostConfig[],
+      }
+    })
+
+    // Process the campaign
+    await fictionSend.processCampaign({
+      postId: testPost.postId,
+      orgId,
+      userId,
+    }, { server: true })
+
+    // Verify progress updates were made
+    expect(progressUpdates.length).toBeGreaterThan(0)
+
+    // Last progress should be 100%
+    expect(progressUpdates[progressUpdates.length - 1]).toBe(100)
+
+    // Restore original function
+    fictionPosts.queries.ManagePost.serve = originalServe
+  })
+
+  it('should process a queued email', async () => {
     const testPost = await getTestPost()
     // Mock email sending
     const sendEmailMock = vi.fn().mockResolvedValue(undefined)
@@ -251,7 +562,7 @@ describe('fictionSend', async () => {
 
     // Get campaign stats
     const stats = await fictionSend.getCampaignStats({
-      postId: testPost.postId,
+      postId: testPost.postId || '',
       orgId,
     })
 

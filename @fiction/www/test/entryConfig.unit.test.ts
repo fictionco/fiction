@@ -93,7 +93,7 @@ describe('user config', async () => {
           "SeekInviteFromUser",
           "ManageForm",
           "ManageSubmission",
-          "ManageSubscription",
+          "ManageContact",
           "SubscriptionAnalytics",
           "ManagePost",
           "ManageCampaign",

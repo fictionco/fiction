@@ -1,9 +1,10 @@
-import type { EmailSendConfig, EndpointMeta, EndpointResponse } from '@fiction/core'
+import type { ComplexDataFilter, EmailSendConfig, EndpointMeta, EndpointResponse } from '@fiction/core'
 import type { Contact } from '@fiction/plugin-contact'
-import type { ManageSubscriptionParams } from '@fiction/plugin-contact/endpoint'
+import type { ManageContactParams } from '@fiction/plugin-contact/endpoint'
 import type { FictionPosts, TableEmailConfig, TablePostConfig } from '@fiction/posts'
+import type { c } from 'node_modules/vite/dist/node/moduleRunnerTransport.d-CXw_Ws6P'
 import type { FictionPostsSettings } from './index'
-import { abort, dayjs, Endpoint, FictionPlugin, objectId, safeDirname, vue } from '@fiction/core'
+import { abort, dayjs, Endpoint, FictionPlugin, objectId, safeDirname, vue, waitFor } from '@fiction/core'
 import { t } from './schema'
 import { getEmailForPost } from './utils/email'
 import { trackingEndpointHandler } from './utils/tracking'
@@ -65,16 +66,17 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
   }
 
   // Method to process each email
-  async processCampaign(c: Partial<TablePostConfig>, meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig[]> & { emailStats: CampaignStats }> {
+  async processCampaign(postConfig: Partial<TablePostConfig>, meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig[]> & { emailStats: CampaignStats }> {
     const fictionUser = this.settings.fictionUser
     const db = this.db()
 
-    const { orgId, userId, postId } = c
+    const { orgId, userId, postId } = postConfig
     if (!orgId || !postId || !userId) {
-      throw abort('orgId, postId, and userId are required', { ...meta, data: c })
+      throw abort('orgId, postId, and userId are required', { ...meta, data: postConfig })
     }
 
     const fictionPosts = this.settings.fictionPosts
+    const fictionContact = this.settings.fictionContact
     const ManagePost = fictionPosts.queries.ManagePost
 
     // Create tracking object for this run
@@ -95,17 +97,16 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
         orgId,
         userId,
         fields: {
-          status: 'processing',
+          emailStatus: 'processing',
           emailConfig: {
-            ...(c.emailConfig || {}),
+            ...(postConfig.emailConfig || {}),
             startedAt: new Date().toISOString(),
           },
         },
       }, { server: true })
 
-      const postConfig = r.data?.[0]
-      if (!postConfig) {
-        throw new Error('Campaign not found')
+      if (r.data?.[0]) {
+        postConfig = r.data[0]
       }
 
       const r2 = await fictionUser.queries.ManageOrganization.serve(
@@ -126,32 +127,88 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
         withDefaults: false,
       })
 
+      // Handle targeting - either 'all', 'filtered', or 'nobody'
+      const targetMode = postConfig.emailConfig?.target || 'all'
+
+      if (targetMode === 'nobody') {
+        const now = new Date().toISOString()
+        campaignStats.skipped = 1
+        campaignStats.inProgress = false
+
+        // Update post immediately to 'published' since no emails need to be sent
+        const r3 = await ManagePost.serve({
+          _action: 'update',
+          orgId,
+          userId,
+          where: { postId },
+          fields: {
+            emailStatus: 'published',
+            emailConfig: {
+              ...(postConfig.emailConfig || {}),
+              completedAt: now,
+              sentCount: 0,
+              failedCount: 0,
+              skippedCount: 1,
+              progress: 100,
+            },
+          },
+        }, { server: true })
+
+        return {
+          ...r3,
+          emailStats: campaignStats,
+        }
+      }
+
+      // Queue emails based on target mode
+      await this.queueCampaignEmails({
+        postId,
+        orgId,
+        filters: targetMode === 'filtered' ? postConfig.emailConfig?.filters : undefined,
+      })
+
       // Get total subscriber count for progress tracking
-      const totalCount = await db('fiction_contact')
-        .where({ orgId, status: 'active' })
-        .count('contactId as count')
+      let totalCount = 0
+
+      if (targetMode === 'all') {
+        // Count all active contacts
+        const countResponse = await fictionContact.queries.ManageContact.run({
+          _action: 'count',
+          orgId,
+        }, { server: true })
+
+        totalCount = countResponse.indexMeta?.count || 0
+      }
+      else if (targetMode === 'filtered') {
+        // Count filtered contacts
+        const countResponse = await fictionContact.queries.ManageContact.run({
+          _action: 'count',
+          orgId,
+          filters: postConfig.emailConfig?.filters,
+        }, { server: true })
+
+        totalCount = countResponse.indexMeta?.count || 0
+      }
+
+      // Count queued emails (should match filtered count)
+      const queuedCount = await db(t.email)
+        .where({ orgId, postId, status: 'queued' })
+        .count('emailId as count')
         .first()
 
-      campaignStats.total = Number.parseInt(`${totalCount?.count || 0}`, 10)
+      campaignStats.total = Number.parseInt(`${queuedCount?.count || 0}`, 10)
 
       // Process in batches
       const batchSize = 100
       let processedCount = 0
       let hasMoreContacts = true
 
-      // Create a queue of all subscribers first
-      await this.queueCampaignEmails({ postId, orgId })
-
       // Now process the queue in batches
       while (hasMoreContacts) {
         // Get batch of queued emails
         const emailBatch = await db(t.email)
           .select<TableEmailConfig[]>('*')
-          .where({
-            postId,
-            orgId,
-            status: 'queued',
-          })
+          .where({ postId, orgId, status: 'queued' })
           .limit(batchSize)
 
         if (emailBatch.length === 0) {
@@ -161,11 +218,7 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
 
         // Process batch
         await Promise.all(emailBatch.map(emailRecord =>
-          this.processQueuedEmail({
-            emailRecord,
-            emailConfig,
-            campaignStats,
-          }),
+          this.processQueuedEmail({ emailRecord, emailConfig, campaignStats }),
         ))
 
         processedCount += emailBatch.length
@@ -202,7 +255,7 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
         userId,
         where: { postId },
         fields: {
-          status: finalStatus,
+          emailStatus: finalStatus,
           emailConfig: {
             ...(postConfig.emailConfig || {}),
             completedAt: new Date().toISOString(),
@@ -228,9 +281,9 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
           orgId,
           userId,
           fields: {
-            status: 'failed',
+            emailStatus: 'failed',
             emailConfig: {
-              ...(c.emailConfig || {}),
+              ...(postConfig.emailConfig || {}),
               error: error.message || 'Unknown error occurred',
               failedAt: new Date().toISOString(),
             },
@@ -251,10 +304,17 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
   }
 
   // Method to get subscribers with limit and offset
-  private async getContacts(args: { orgId: string, limit: number, offset: number }): Promise<Contact[]> {
-    const { orgId, limit, offset } = args
-    const params: ManageSubscriptionParams = { _action: 'list', orgId, limit, offset, where: { status: 'active' } }
-    const result = await this.settings.fictionContact.queries.ManageSubscription.run(params, { server: true })
+  private async getContacts(args: { orgId: string, limit: number, offset: number, filters?: ComplexDataFilter[] }): Promise<Contact[]> {
+    const { orgId, limit, offset, filters } = args
+    const params: ManageContactParams = {
+      _action: 'list',
+      orgId,
+      limit,
+      offset,
+      where: { status: 'active' },
+      filters,
+    }
+    const result = await this.settings.fictionContact.queries.ManageContact.run(params, { server: true })
     return result.data || []
   }
 
@@ -265,22 +325,62 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
     await fictionEmail.sendEmail({ ...emailConfig, to: email, caller: 'sendEmailToContact' }, { server: true, emailMode: 'sendInProd' })
   }
 
-  async queueCampaignEmails({ postId, orgId }: { postId: string, orgId: string }): Promise<void> {
+  async queueCampaignEmails(args: { postId: string, orgId: string, filters?: ComplexDataFilter[], pageSize?: number }): Promise<void> {
+    const { postId, orgId, filters, pageSize = 1000 } = args
     const db = this.db()
+    const fictionContact = this.settings.fictionContact
 
-    // Get all active contacts
-    const contacts = await db('fiction_contact')
-      .where({ orgId, status: 'active' })
-      .select('contactId', 'email')
+    // Use the existing ManageContact.run method to get contacts with filters
+    const response = await fictionContact.queries.ManageContact.run({
+      _action: 'list',
+      orgId,
+      filters,
+      where: { status: 'active' },
+      limit: pageSize, // Use pagination for large datasets
+      offset: 0,
+    }, { server: true })
 
-    // Create queue entries for all contacts
-    if (contacts.length > 0) {
-      const queueEntries = contacts.map(sub => ({
+    const contacts = response.data || []
+
+    // Handle pagination for large contact lists
+    let allContacts = [...contacts]
+    let page = 1
+    let hasMorePages = contacts.length === pageSize
+
+    while (hasMorePages) {
+      const offset = page * pageSize
+
+      // Fetch next page
+      const nextPageResponse = await fictionContact.queries.ManageContact.run({
+        _action: 'list',
+        orgId,
+        filters,
+        where: { status: 'active' },
+        limit: pageSize,
+        offset,
+      }, { server: true })
+
+      const nextPageContacts = nextPageResponse.data || []
+      if (nextPageContacts.length === 0) {
+        hasMorePages = false
+        break
+      }
+      else {
+        hasMorePages = nextPageContacts.length === pageSize
+      }
+
+      allContacts = [...allContacts, ...nextPageContacts]
+      page++
+    }
+
+    // Create queue entries for all filtered contacts
+    if (allContacts.length > 0) {
+      const queueEntries = allContacts.map(contact => ({
         emailId: objectId({ prefix: 'cem' }),
         postId,
         orgId,
-        contactId: sub.contactId,
-        email: sub.email,
+        contactId: contact.contactId,
+        email: contact.email,
         status: 'queued',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -301,8 +401,8 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
   // Process a single queued email
   async processQueuedEmail({
     emailRecord,
-  emailConfig,
-  campaignStats,
+    emailConfig,
+    campaignStats,
   }: {
     emailRecord: TableEmailConfig
     emailConfig: EmailSendConfig
@@ -312,7 +412,7 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
     const now = new Date().toISOString()
 
     try {
-    // Update record to 'in progress'
+      // Update record to 'in progress'
       await db(t.email)
         .where({ emailId: emailRecord.emailId })
         .update({
