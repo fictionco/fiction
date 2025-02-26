@@ -1,10 +1,14 @@
 import type { ComplexDataFilter, IndexMeta, PostHandlingObject, PostObject } from '@fiction/core'
 import type { FictionPosts } from '@fiction/posts'
-import type { Card } from '@fiction/site'
+import type { Card, Site } from '@fiction/site'
+import type { SiteContentPath } from '@fiction/site/load'
 import type { StockMedia } from '@fiction/ui/stock'
-import { toSlug } from '@fiction/core'
 
+import { toSlug } from '@fiction/core'
 import { Post } from '@fiction/posts'
+import { getSiteContentPaths } from '@fiction/site/load'
+import { manageSiteIndex } from '@fiction/site/utils/manage'
+import { activeSiteDisplayUrl } from '@fiction/site/utils/site'
 
 export type LoadPostsResult = {
   posts: Post[]
@@ -191,6 +195,77 @@ function findNextPost(currentPost: Post | undefined, posts: Post[]): Post | unde
 
   const currentIndex = posts.findIndex(p => p.postId === currentPost.postId)
   return currentIndex >= 0 ? posts[currentIndex + 1] : undefined
+}
+
+export function getNextPost(args: { single?: Post, posts?: Post[] }) {
+  const { single, posts = [] } = args
+  if (!single)
+    return undefined
+
+  const index = posts.findIndex(p => p.slug.value === single.slug.value)
+  if (index === -1)
+    return undefined
+
+  return posts[index + 1] || posts[index - 1] || undefined
+}
+
+export async function getPostPaths(args: {
+  site: Site
+  card: Card
+  viewPath: string
+  posts: PostHandlingObject
+}): Promise<SiteContentPath[]> {
+  const { site, viewPath, posts } = args
+  const { fictionPosts } = site.fictionSites.fictionEnv.getService<{ fictionPosts: FictionPosts }>()
+
+  const result = await loadPosts({
+    fictionPosts,
+    ...args,
+    postConfig: posts,
+    indexMeta: { limit: 1000 },
+  })
+
+  return result.posts.map(post => ({
+    type: 'post',
+    path: `/${viewPath}/${post.slug.value}`,
+  }))
+}
+
+export type PostLocation = {
+  url: string
+  site: Site
+  isCanonical?: boolean
+}
+
+export async function findPostLocations(args: { post: Post, fictionPosts: FictionPosts }): Promise<PostLocation[]> {
+  const { post, fictionPosts } = args
+  const fictionSites = fictionPosts.settings.fictionSites
+  if (!post)
+    return []
+
+  // Get all sites for the organization
+  const { sites } = await manageSiteIndex({ fictionSites, params: { _action: 'list' } })
+
+  const allLocations = await Promise.all(sites.map(async (site) => {
+    // Get all content paths for this site
+    const contentPaths = await getSiteContentPaths(site)
+
+    // Filter paths that match this post
+    const postPaths = contentPaths.filter(path => path.type === 'post' && path.meta?.postId === post.postId)
+
+    const siteUrl = activeSiteDisplayUrl(site, { mode: 'display' }).value
+
+    // Format the results
+    return postPaths.map((pathDetails) => {
+      const url = new URL(pathDetails.path, siteUrl).toString()
+      return { url, site }
+    })
+  }))
+
+  // Flatten the results
+  const locations = allLocations.flat()
+
+  return locations
 }
 
 export function getDemoPosts(args: { stock: StockMedia, limit?: number }): PostObject[] {

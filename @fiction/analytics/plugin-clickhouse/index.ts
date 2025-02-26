@@ -294,10 +294,11 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
       `toYYYYMMDDhhmmss(timestamp) BETWEEN ${clickhouseTimeStartAt} AND ${clickhouseTimeEndAt}`,
     )
 
-    if (filters) {
+    if (filters && filters.length > 0) {
       filters
         .filter((f) => {
           const available = eventFields.map(f => f.key)
+
           return !!available.includes(f.name as typeof available[number])
         })
         .forEach(({ name, value, operator }) => {

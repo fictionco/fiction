@@ -2,9 +2,9 @@ import type { CardFactory } from '@fiction/site/cardFactory'
 import type { SiteUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
 import { PostHandlingSchema } from '@fiction/core'
+import { getDemoPosts } from '@fiction/posts/utils/post'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
-import { getDemoPosts } from '../utils/post'
 
 // Schema definition
 export const schema = z.object({

@@ -1,11 +1,13 @@
 <script lang="ts" setup>
+import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { Post } from '../post.js'
-import { dayjs, vue } from '@fiction/core'
+import { toLabel, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import ElBadge from '@fiction/ui/ElBadge.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
+import PostAnalytics from './PostAnalytics.vue'
 import PostPreview from './PostPreview.vue'
+import PostShare from './PostShare.vue'
 
 defineOptions({ name: 'PostOverview' })
 
@@ -15,35 +17,30 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (event: 'navigate', payload: { key: string }): void
+  (event: 'navigate', payload: { key: 'compose' }): void
 }>()
 
-// Calculate time since post was created or updated
-const timeAgo = vue.computed(() => {
-  if (!props.post)
-    return ''
-  const dateToUse = props.post.dateAt.value || props.post.settings.updatedAt
-  return dateToUse ? dayjs(dateToUse).fromNow() : ''
+const service = useService()
+
+const panels = [
+  { key: 'preview', label: 'Preview' },
+  { key: 'share', label: 'Share' },
+  { key: 'analytics', label: 'Analytics' },
+]
+
+type PanelModeKey = 'preview' | 'share' | 'analytics'
+const activePanelKey = vue.computed<PanelModeKey>({
+  get: () => {
+    const r = service.fictionRouter.query.value
+    return r.panel as PanelModeKey || 'preview'
+  },
+  set: async (value) => {
+    const r = service.fictionRouter.query.value
+    await service.fictionRouter.push({ query: { ...r, panel: value } }, { caller: 'activePanelKey' })
+  },
 })
 
-// Determine post status for display
-const statusInfo = vue.computed(() => {
-  if (!props.post)
-    return { label: '', color: '', icon: '' }
-
-  const status = props.post.status.value
-
-  switch (status) {
-    case 'draft':
-      return { label: 'Draft', color: 'blue', icon: 'i-tabler-pencil' }
-    case 'scheduled':
-      return { label: 'Scheduled', color: 'amber', icon: 'i-tabler-calendar-time' }
-    case 'published':
-      return { label: 'Published', color: 'emerald', icon: 'i-tabler-check' }
-    default:
-      return { label: status, color: 'gray', icon: 'i-tabler-info-circle' }
-  }
-})
+const activePanel = vue.computed(() => panels.find(p => p.key === activePanelKey.value) || panels[0])
 
 // Calculate word count and reading time
 const readingStats = vue.computed(() => {
@@ -61,6 +58,20 @@ const readingStats = vue.computed(() => {
 
 const hasCategory = vue.computed(() => props.post?.categories.value?.length || 0)
 const hasTags = vue.computed(() => props.post?.tags.value?.length || 0)
+
+const statusMap = vue.computed<NavListItem>(() => {
+  const post = props.post
+  const status = post?.status.value || 'draft'
+
+  const statusMap = {
+    draft: { icon: { class: 'i-tabler-edit' }, theme: 'default' },
+    scheduled: { icon: { class: 'i-tabler-calendar' }, theme: 'orange' },
+    published: { icon: { class: 'i-tabler-check' }, theme: 'green' },
+    archived: { icon: { class: 'i-tabler-archive' }, theme: 'rose' },
+  } as const
+
+  return statusMap[status as keyof typeof statusMap] || statusMap.draft
+})
 </script>
 
 <template>
@@ -81,6 +92,29 @@ const hasTags = vue.computed(() => props.post?.tags.value?.length || 0)
             </div>
 
             <div class="flex flex-wrap gap-4 items-center text-sm">
+              <XButton
+                v-if="post?.status"
+                :theme="statusMap.theme"
+                target="_blank"
+                size="sm"
+                :icon="statusMap.icon"
+                data-test-id="post-status-badge"
+                design="outline"
+              >
+                {{ toLabel(post?.status.value) }}
+              </XButton>
+              <XButton
+                v-if="post?.emailStatus && post?.emailStatus.value !== post?.status.value"
+                theme="default"
+                target="_blank"
+                size="sm"
+                icon="i-tabler-mail"
+                data-test-id="post-email-status-badge"
+                design="outline"
+              >
+                {{ toLabel(post?.emailStatus.value) }}
+              </XButton>
+
               <div class="flex items-center gap-1 text-theme-500">
                 <i class="i-tabler-file-text" />
                 <span>{{ readingStats.words }} words</span>
@@ -115,21 +149,42 @@ const hasTags = vue.computed(() => props.post?.tags.value?.length || 0)
 
             <div class="pt-4 flex flex-wrap gap-3">
               <XButton
-                icon="i-tabler-settings"
+                icon="i-tabler-eye"
                 design="outline"
+                :theme="activePanelKey === 'preview' ? 'primary' : 'default'"
                 size="sm"
-                @click="emit('navigate', { key: 'compose' })"
+                @click="activePanelKey = 'preview'"
               >
-                Compose
+                Preview
               </XButton>
 
               <XButton
                 icon="i-tabler-share"
                 design="outline"
+                :theme="activePanelKey === 'share' ? 'primary' : 'default'"
                 size="sm"
-                @click="emit('navigate', { key: 'share' })"
+                @click="activePanelKey = 'share'"
               >
                 Share Options
+              </XButton>
+
+              <XButton
+                icon="i-tabler-chart-bar"
+                design="outline"
+                :theme="activePanelKey === 'analytics' ? 'primary' : 'default'"
+                size="sm"
+                @click="activePanelKey = 'analytics'"
+              >
+                Analytics
+              </XButton>
+
+              <XButton
+                icon="i-tabler-edit"
+                design="outline"
+                size="sm"
+                @click="emit('navigate', { key: 'compose' })"
+              >
+                Edit Post
               </XButton>
             </div>
           </div>
@@ -145,12 +200,13 @@ const hasTags = vue.computed(() => props.post?.tags.value?.length || 0)
         </div>
       </div>
 
-      <!-- Post preview -->
       <div class="pt-4 border-t border-theme-200 dark:border-theme-700">
         <h2 class="text-lg font-medium mb-4">
-          Preview
+          {{ activePanel.label }}
         </h2>
-        <PostPreview :post="post" :card="card" />
+        <PostShare v-if="activePanel.key === 'share'" :post :card />
+        <PostAnalytics v-else-if="activePanel.key === 'analytics'" :post :card />
+        <PostPreview v-else :post :card />
       </div>
     </div>
   </div>

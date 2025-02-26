@@ -1,5 +1,5 @@
 import type { FictionUser } from '@fiction/core'
-import type { FictionAnalytics, MetricDisplayItemWithData, MetricSelectorResult } from '.'
+import type { FictionAnalytics, MetricDisplayItemWithData, MetricSelectorResult, QueryParams, RequestDataFilter } from '.'
 import type { MetricDisplayItem } from './types'
 import { FictionObject, vue } from '@fiction/core'
 
@@ -13,6 +13,7 @@ export class MetricDisplayFactory extends FictionObject<{
   fictionAnalytics: FictionAnalytics
   fictionUser: FictionUser
   items: MetricDisplayItem[]
+  filters?: RequestDataFilter[]
 }> {
   items = this.settings.items
 
@@ -64,15 +65,17 @@ export class MetricDisplayFactory extends FictionObject<{
     }
   }
 
-  async init() {
+  async load(args: { params?: QueryParams } = {}) {
+    const { params } = args
     try {
       this.loading.value = true
 
-      await this.settings.fictionUser.userInitialized({ caller: 'MetricDisplayFactory.init' })
+      await this.settings.fictionUser.userInitialized({ caller: 'MetricDisplayFactory.load' })
 
       // Get data from analytics
       const response = await this.settings.fictionAnalytics.requests.CompiledMetrics.projectRequest({
         metrics: this.items,
+        ...params,
       })
 
       if (!response.data) {

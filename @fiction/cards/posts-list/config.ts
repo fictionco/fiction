@@ -3,7 +3,7 @@ import type { SiteUserConfig } from '@fiction/site/schema'
 import { PostHandlingSchema, SizeSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import z from 'zod'
-import { getDemoPosts } from '../utils/post'
+import { getDemoPosts } from '../../posts/utils/post'
 
 export const displaySchema = z.object({
   layout: z.enum(['grid', 'scroll']).optional(),

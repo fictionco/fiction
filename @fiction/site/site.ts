@@ -17,7 +17,7 @@ import { SiteHistory } from './utils/history.js'
 import { flattenCards, setLayoutOrder } from './utils/layout.js'
 import { activePageId, getPageById, getViewMap, updatePages } from './utils/page.js'
 import { addNewCard, removeCard } from './utils/region.js'
-import { saveSite, scrollActiveCardIntoView, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
+import { activeSiteHostname, saveSite, scrollActiveCardIntoView, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
 import '@vue/shared' // for non-portable types (?)
 
 export type EditorState = {
@@ -109,6 +109,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   status = vue.ref(this.settings.status)
   subDomain = vue.ref(this.settings.subDomain || shortId({ prefix: `${this.title.value || 'site'}-`, len: 3 }))
   customDomains = vue.ref(this.settings.customDomains || [])
+
   isAnimationDisabled = vue.ref(false)
   themeId = vue.ref(this.settings.themeId)
   theme = vue.computed(() => {

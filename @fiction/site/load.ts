@@ -307,6 +307,7 @@ function formatPath(basePath: string, path: string): string {
 export type SiteContentPath = {
   path: string
   type: 'post' | 'page' | 'item'
+  meta?: Record<string, any>
 }
 
 export async function getSiteContentPaths(site: Site): Promise<SiteContentPath[]> {

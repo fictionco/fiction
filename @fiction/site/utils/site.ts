@@ -256,9 +256,13 @@ export function activeSiteHostname(site: Site, opts: { isProd?: boolean } = {}) 
   })
 }
 
+export function getSitePrimaryDomain(site: Site) {
+  return site.customDomains.value.find(d => d.isPrimary) || site.customDomains.value[0] || activeSiteHostname(site).value
+}
+
 export function activeSiteDisplayUrl(site: Site, opts: { isProd?: boolean, mode: 'display' | 'staging' }) {
   return vue.computed(() => {
-    const { mode, isProd = site.isProd.value } = opts
+    const { mode = 'display', isProd = site.isProd.value } = opts
     const port = site.fictionSites.settings.fictionAppSites?.port.value
 
     if (site.primaryCustomDomain.value && mode === 'display') {

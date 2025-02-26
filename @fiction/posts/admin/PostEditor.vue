@@ -120,7 +120,7 @@ vue.watch(
       </div>
       <transition :name="transit" mode="out-in">
         <div v-if="activeKey === 'overview'">
-          <PostOverview :post :card />
+          <PostOverview :post :card @navigate="emit('navigate', $event)" />
         </div>
         <div v-else-if="activeKey === 'compose'" class="flex-grow flex flex-col gap-4 h-full min-h-0">
           <div class="flex gap-4 items-stretch">

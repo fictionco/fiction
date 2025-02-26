@@ -171,7 +171,7 @@ const fictionTeam = new FictionTeam({ ...s })
 const fictionForms = new FictionForms({ ...s, fictionSites })
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
 const fictionContact = new FictionContact(s)
-const fictionPosts = new FictionPosts({ fictionContact, ...s })
+const fictionPosts = new FictionPosts({ fictionContact, fictionSites, ...s })
 const fictionBrand = new FictionBrand({ ...s })
 
 const baseService = { ...s, fictionForms, fictionBrand, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionContact, fictionPosts }

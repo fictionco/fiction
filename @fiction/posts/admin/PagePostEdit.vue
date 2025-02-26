@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { PostObject } from '@fiction/core'
+import type { NavListItem, PostObject } from '@fiction/core'
 import type { FictionContact } from '@fiction/plugins/plugin-contact'
 import type { Card } from '@fiction/site'
 import type { InputOption } from '@fiction/ui'
@@ -453,14 +453,14 @@ const publishText = vue.computed(() => {
   }
 })
 
-const statusMap = vue.computed(() => {
+const statusMap = vue.computed<NavListItem>(() => {
   const status = post.value?.status.value || 'draft'
 
   const statusMap = {
-    draft: { icon: 'i-tabler-edit', theme: 'default' },
-    scheduled: { icon: 'i-tabler-calendar', theme: 'orange' },
-    published: { icon: 'i-tabler-check', theme: 'green' },
-    archived: { icon: 'i-tabler-archive', theme: 'rose' },
+    draft: { icon: { class: 'i-tabler-edit' }, theme: 'default' },
+    scheduled: { icon: { class: 'i-tabler-calendar' }, theme: 'orange', label: `Scheduled (${dayjs(post.value?.publishAt.value).format('MMM D, YYYY [at] h:mm A')})` },
+    published: { icon: { class: 'i-tabler-check' }, theme: 'green' },
+    archived: { icon: { class: 'i-tabler-archive' }, theme: 'rose' },
   } as const
 
   return statusMap[status as keyof typeof statusMap] || statusMap.draft
@@ -496,7 +496,7 @@ const statusMap = vue.computed(() => {
           design="outline"
           @click.stop="navigate({ key: 'review' })"
         >
-          {{ toLabel(post?.status.value) }}
+          {{ statusMap.label || toLabel(post?.status.value) }}
         </XButton>
         <XButton
           v-if="post?.emailStatus && post?.emailStatus.value !== post?.status.value"

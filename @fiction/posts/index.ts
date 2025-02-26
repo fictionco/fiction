@@ -4,7 +4,7 @@ import type { template as dashTemplate, panelTemplate } from '@fiction/admin/das
 import type { FictionAnalytics } from '@fiction/analytics'
 import type { ComplexDataFilter, FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, FictionRevision, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionContact } from '@fiction/plugin-contact'
-import type { Card } from '@fiction/site'
+import type { Card, FictionSites } from '@fiction/site'
 import type { WherePost } from './endpoint'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { QueryManagePost } from './endpoint'
@@ -28,6 +28,7 @@ export type FictionPostsSettings = {
   fictionRevision: FictionRevision
   fictionRouter: FictionRouter
   fictionContact: FictionContact
+  fictionSites: FictionSites
 } & FictionPluginSettings
 
 export * from './schema'
@@ -145,20 +146,6 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
         ],
       }),
     ] })
-  }
-
-  async runScheduler() {
-    if (!this.settings.fictionEnv.isApp.value) {
-      const { CronJob } = await import('cron')
-      const job = new CronJob(
-        '0 */1 * * * *',
-        () => {
-          this.log.info('RUN ----> job scheduler (5 minutes)')
-        },
-      )
-
-      job.start()
-    }
   }
 
   async getPost(args: { orgId: string, where: WherePost, card: Card }) {

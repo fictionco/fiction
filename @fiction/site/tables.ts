@@ -2,7 +2,7 @@ import type { ColType, Organization } from '@fiction/core'
 import type { CardGenerationConfig } from './generation.js'
 import type { SiteUserConfig } from './schema.js'
 import type { EditorState } from './site.js'
-import { standardTable, validHost } from '@fiction/core'
+import { createTableSchema, standardTable, validHost } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { z } from 'zod'
 
@@ -22,6 +22,7 @@ export type TableSiteConfig = Omit<ColType<typeof siteCols>, 'draft'> & st & {
   pages: CardConfigPortable[]
   draft?: TableSiteConfig
   org: Organization
+  customDomains: TableDomainConfig[]
 }
 
 type TablePageCardConfig = Partial<ColType<typeof pageCols>>
@@ -49,6 +50,15 @@ export const EffectPortableSchema = z.object({
   userConfig: z.record(z.unknown()),
 })
 
+export const domainCols = [
+  new Col({ key: 'domainId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('dmn')`)).index() }),
+  new Col({ key: 'siteId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.sites}.site_id`).onDelete('CASCADE').onUpdate('CASCADE').notNullable().index() }),
+  new Col({ key: 'hostname', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).notNullable().index() }),
+  new Col({ key: 'isPrimary', sec: 'setting', sch: ({ z }) => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
+  new Col({ key: 'isVerified', sec: 'setting', sch: ({ z }) => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
+] as const
+
+export const TableDomainSchema = createTableSchema(domainCols)
 export type TableDomainConfig = Partial<ColType<typeof domainCols>> & { hostname: string }
 
 export const siteCols = [
@@ -58,7 +68,6 @@ export const siteCols = [
   new Col({ key: 'title', sec: 'setting', sch: () => z.string().min(1), make: ({ s, col }) => s.string(col.k).defaultTo('') }),
   new Col({ key: 'themeId', sec: 'setting', sch: () => z.string().min(1), make: ({ s, col }) => s.string(col.k).notNullable() }),
   new Col({ key: 'subDomain', sec: 'setting', sch: () => z.string().min(1), make: ({ s, col, db }) => s.string(col.k).unique().notNullable().defaultTo(db.raw(`short_id(9)`)).index(), prepare: ({ value }) => (value).replaceAll(/[^\w-]+/g, '').toLowerCase() }),
-  new Col({ key: 'customDomains', sec: 'setting', sch: () => z.array(z.any()), make: ({ s, col }) => s.jsonb(col.k).defaultTo([]), prepare: ({ value }) => JSON.stringify((value || []).map(_ => ({ ..._, hostname: validHost(_.hostname) })).filter(_ => _.hostname)) }),
   new Col({ key: 'status', sec: 'setting', sch: () => z.enum(['pending', 'active', 'inactive']), make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('pending') }),
   new Col({ key: 'userConfig', sec: 'setting', sch: () => z.record(z.unknown()) as z.Schema<SiteUserConfig & Record<string, unknown>>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'userPrivate', sec: 'settingPrivate', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
@@ -87,14 +96,6 @@ export const pageCols = [
   new Col({ key: 'generation', sec: 'setting', sch: () => z.record(z.unknown()) as z.Schema<CardGenerationConfig>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'wordCount', sec: 'setting', sch: () => z.number(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
-] as const
-
-export const domainCols = [
-  new Col({ key: 'domainId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('dmn')`)).index() }),
-  new Col({ key: 'siteId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.sites}.site_id`).onDelete('CASCADE').onUpdate('CASCADE').notNullable().index() }),
-  new Col({ key: 'hostname', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).notNullable().index() }),
-  new Col({ key: 'isPrimary', sec: 'setting', sch: ({ z }) => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
-  new Col({ key: 'isVerified', sec: 'setting', sch: ({ z }) => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
 ] as const
 
 export const tables = [
