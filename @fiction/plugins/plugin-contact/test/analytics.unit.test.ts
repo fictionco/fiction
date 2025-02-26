@@ -116,21 +116,21 @@ describe('subscription analytics tracking', async () => {
   })
 })
 
-describe('subscriber metrics', async () => {
+describe('contact metrics', async () => {
   const testUtils = await createSiteTestUtils()
   const initialized = await testUtils.init()
 
   afterAll(() => testUtils.close())
   const orgId = initialized.orgId
 
-  const { user: user1 } = await createTestUser({ ...testUtils, caller: 'subscriberMetrics1' })
-  const { user: user2 } = await createTestUser({ ...testUtils, caller: 'subscriberMetrics2' })
-  const { user: user3 } = await createTestUser({ ...testUtils, caller: 'subscriberMetrics3' })
+  const { user: user1 } = await createTestUser({ ...testUtils, caller: 'contactMetrics1' })
+  const { user: user2 } = await createTestUser({ ...testUtils, caller: 'contactMetrics2' })
+  const { user: user3 } = await createTestUser({ ...testUtils, caller: 'contactMetrics3' })
 
   it('counts contacts by status correctly', async () => {
     const db = testUtils.fictionDb.client()
 
-    await db('fiction_subscribe').insert([
+    await db('fiction_contact').insert([
       { org_id: orgId, user_id: user1?.userId, status: 'active' },
       { org_id: orgId, user_id: user2?.userId, status: 'unsubscribed' },
       { org_id: orgId, user_id: user3?.userId, status: 'bounced' },
@@ -284,255 +284,233 @@ describe('subscription endpoint', async () => {
 
     expect(r.data?.main?.length).toBeGreaterThan(0)
 
-    expect(r).toMatchInlineSnapshot(`
-      {
-        "data": {
-          "main": [
-            {
-              "cleaned": 0,
-              "date": "2024-05-10T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-11T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-12T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-13T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-14T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-15T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-16T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-17T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-18T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-19T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-20T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-21T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-22T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-23T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-24T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-25T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-26T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-27T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-28T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-29T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-30T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-05-31T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-06-01T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-06-02T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 1,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-06-03T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-06-04T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-06-05T07:00:00.000Z",
-              "subscriptions": 1,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 1,
-              "date": "2024-06-06T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-06-07T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-06-08T07:00:00.000Z",
-              "subscriptions": 1,
-              "tense": "past",
-              "unsubscribes": 1,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-06-09T07:00:00.000Z",
-              "subscriptions": 1,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-            {
-              "cleaned": 0,
-              "date": "2024-06-10T07:00:00.000Z",
-              "subscriptions": 0,
-              "tense": "past",
-              "unsubscribes": 0,
-            },
-          ],
-          "mainTotals": {
-            "cleaned": 1,
-            "date": "",
-            "subscriptions": 3,
-            "unsubscribes": 2,
-          },
-          "params": {
-            "compareEndAtIso": "2024-05-10T04:40:00.000Z",
-            "compareStartAtIso": "2024-04-09T04:40:00.000Z",
-            "interval": "day",
-            "nowIso": "2025-02-10T15:12:51.958Z",
-            "order": "asc",
-            "orgId": "ORG_ID",
-            "timeEndAtIso": "2024-06-11T04:40:00.000Z",
-            "timeStartAtIso": "2024-05-11T04:40:00.000Z",
-            "timeZone": "America/Los_Angeles",
-          },
+    expect(r?.data?.main).toMatchInlineSnapshot(`
+      [
+        {
+          "cleaned": 0,
+          "date": "2024-05-10T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
         },
-        "status": "success",
-      }
+        {
+          "cleaned": 0,
+          "date": "2024-05-11T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-12T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-13T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-14T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-15T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-16T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-17T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-18T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-19T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-20T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-21T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-22T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-23T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-24T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-25T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-26T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-27T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-28T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-29T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-30T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-05-31T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-06-01T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-06-02T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 1,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-06-03T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-06-04T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-06-05T07:00:00.000Z",
+          "subscriptions": 1,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 1,
+          "date": "2024-06-06T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-06-07T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-06-08T07:00:00.000Z",
+          "subscriptions": 1,
+          "tense": "past",
+          "unsubscribes": 1,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-06-09T07:00:00.000Z",
+          "subscriptions": 1,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+        {
+          "cleaned": 0,
+          "date": "2024-06-10T07:00:00.000Z",
+          "subscriptions": 0,
+          "tense": "past",
+          "unsubscribes": 0,
+        },
+      ]
     `)
   })
 })

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { EmailSendConfig } from '../util.js'
 import { colorList } from '@fiction/core/utils/colors.js'
+import { toHtml } from '@fiction/core/utils/markdown'
 import * as unhead from '@unhead/vue'
 import { computed } from 'vue'
-import { renderEmailHtmlFromMarkdown } from '../markdownParser.js'
 
 const {
   subject = '',
@@ -44,7 +44,7 @@ const baseStyles = {
   hr: `border:none;border-top:1px solid ${hrColor.value};margin:3em 0; width: 5em;`,
 }
 
-const bodyContent = computed(() => bodyHtml || (bodyMarkdown ? renderEmailHtmlFromMarkdown(bodyMarkdown, { previewMode, theme }) : ''))
+const bodyContent = computed(() => bodyHtml || (bodyMarkdown ? toHtml(bodyMarkdown) : ''))
 
 unhead.useHead({
   bodyAttrs: { style: () => `margin:0;padding:0;background-color:${bgColor.value};font-family:${fontStack};font-size:18px;color:${textColor.value};` },

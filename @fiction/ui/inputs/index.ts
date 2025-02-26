@@ -8,9 +8,9 @@ type InputEntry = { el: vue.Component, shape?: string[] }
 export const inputs = {
   InputColorTheme: { el: def(() => import('./InputColorTheme.vue')) },
   InputColorScheme: { el: def(() => import('./InputColorScheme.vue')) },
-  InputSuperTitle: { el: def(() => import('./InputSuperTitle.vue')), shape: ['icon.*', 'text', 'theme'] },
+  InputSuperTitle: { el: def(() => import('./InputSuperTitle.vue')), shape: ['icon.*', 'text', 'theme', 'href'] },
   InputStandardSize: { el: def(() => import('./InputStandardSize.vue')) },
-  InputNav: { el: def(() => import('./InputNav.vue')), shape: ['0.icon.*', '0.iconAfter.*', '0.figure.*', '0.badge.*', '0.list.*', '0.media.*', '0.basePath', '0.description', '0.design', '0.emphasis', '0.href', '0.id', '0.info', '0.isActive', '0.isDisabled', '0.isHidden', '0.label', '0.onAuthState', '0.priority', '0.subLabel', '0.target', '0.testId', '0.theme', '0.value', '0.variant', '0.key', '0.action.*', '0.dateAt'] },
+  InputNav: { el: def(() => import('./InputNav.vue')), shape: ['0.count', '0.icon.*', '0.iconAfter.*', '0.figure.*', '0.badge.*', '0.list.*', '0.media.*', '0.basePath', '0.description', '0.design', '0.emphasis', '0.href', '0.id', '0.info', '0.isActive', '0.isDisabled', '0.isHidden', '0.label', '0.onAuthState', '0.priority', '0.subLabel', '0.target', '0.testId', '0.theme', '0.value', '0.variant', '0.key', '0.action.*', '0.dateAt'] },
   InputNavMenu: { el: def(() => import('./InputNavMenu.vue')), shape: ['0.description', '0.items', '0.title', '0.variant'] },
   InputBrand: { el: def(() => import('./InputBrand.vue')), shape: ['action.*', 'logo.*', 'tagline', 'href'] },
   InputActionArea: { el: def(() => import('./InputActionArea.vue')), shape: ['buttons.*', 'subscribe.*', 'proof.*', 'design', 'size', 'theme', 'title', 'variant'] },
@@ -200,38 +200,6 @@ export class InputOption extends FictionObject<InputOptionSettings> {
     })
   }
 }
-
-// // Limit recursion depth and handle arrays simply
-// type SchemaPrimitive = string | number | boolean | null | undefined
-
-// // Get object paths with limited depth
-// type SchemaPathsWithDepth<T, Depth extends number = 4> = T extends SchemaPrimitive
-//   ? never
-//   : Depth extends 0
-//     ? never
-//     : T extends Array<infer U>
-//       ? `${number}` | `${number}.${SchemaPathsWithDepth<U, Depth>}`
-//       : T extends object
-//         ? {
-//             [K in keyof T & string]:
-//               | K
-//               | `${K}.${SchemaPathsWithDepth<T[K], [-1, 0, 1, 2][Depth]>}`
-//           }[keyof T & string]
-//         : never
-
-// // Convert schema to bounded paths
-// type SchemaFields<T extends z.ZodObject<any>> = SchemaPathsWithDepth<z.infer<T>>
-
-// /**
-//  * Type helper to validate paths against a schema
-//  * Returns the path with proper typing from schema
-//  */
-// export function pathCheck<T extends z.ZodType>(
-//   path: SchemaPathsWithDepth<z.infer<T>>,
-//   _schema?: T,
-// ): SchemaPathsWithDepth<z.infer<T>> {
-//   return path
-// }
 
 // Key validation based on input type and schema
 type ValidOptionKey<

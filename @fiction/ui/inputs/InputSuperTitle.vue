@@ -17,6 +17,7 @@ const options = vue.computed(() => {
     createOption({ key: 'text', label: 'Text', input: 'InputText', schema }),
     createOption({ key: 'icon', label: 'Icon', input: 'InputIcon', schema }),
     createOption({ key: 'theme', label: 'Theme', input: 'InputColorTheme', schema }),
+    createOption({ key: 'href', label: 'Link', input: 'InputSiteRoute', schema }),
   ]
 
   return [
