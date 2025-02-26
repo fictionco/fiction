@@ -10,6 +10,8 @@ import XMedia from '@fiction/ui/media/XMedia.vue'
 import ProseEditor from '@fiction/ui/prose/editor/ProseEditor.vue'
 import ProseEditorToolbar from '@fiction/ui/prose/editor/ProseEditorToolbar.vue'
 import ElOptionWrap from './ElOptionWrap.vue'
+import PostOverview from './PostOverview.vue'
+
 import { postEditController } from './tools'
 
 defineOptions({ name: 'PostEditor' })
@@ -75,7 +77,7 @@ vue.watch(
   <div v-if="post" class="h-full">
     <div class="p-4 space-y-4 flex flex-col h-full">
       <div
-        class=" flex  space-x-2 "
+        class="flex space-x-2 "
         :class="activeKey === 'compose' ? 'justify-between' : 'justify-center'"
       >
         <div class="flex items-center gap-2 justify-center">
@@ -117,7 +119,10 @@ vue.watch(
         </div>
       </div>
       <transition :name="transit" mode="out-in">
-        <div v-if="activeKey === 'compose'" class="flex-grow flex flex-col gap-4 h-full min-h-0">
+        <div v-if="activeKey === 'overview'">
+          <PostOverview :post :card />
+        </div>
+        <div v-else-if="activeKey === 'compose'" class="flex-grow flex flex-col gap-4 h-full min-h-0">
           <div class="flex gap-4 items-stretch">
             <div :class="classes.panel" class="px-4 py-2 flex items-center justify-between grow w-full gap-6">
               <XText

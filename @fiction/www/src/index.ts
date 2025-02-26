@@ -228,6 +228,9 @@ export function setup(): ServiceConfig {
               await fictionAnalytics.runBeacon()
             }
 
+            // check scheduled and publish posts on interval
+            fictionPosts.fictionPublish.init()
+
             const mode = command !== 'dev' ? 'prod' : 'dev'
             await fictionApp.ssrServerSetup({ expressApp: srv?.expressApp, mode })
 

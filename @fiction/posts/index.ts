@@ -9,6 +9,7 @@ import type { WherePost } from './endpoint'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { QueryManagePost } from './endpoint'
 import { Post } from './post'
+import { FictionPublish } from './publish'
 import { getRoutes } from './routes'
 import { tables } from './schema'
 import { createHelloWorldPost } from './utils/index.js'
@@ -47,6 +48,8 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   })
 
   cacheKey = vue.ref(0)
+
+  fictionPublish = new FictionPublish({ fictionPosts: this, ...this.settings })
 
   constructor(settings: FictionPostsSettings) {
     super('FictionPosts', { ...settings, root: safeDirname(import.meta.url) })

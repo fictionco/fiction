@@ -19,6 +19,7 @@ export class Post extends FictionObject<PostConfig> {
   card = this.settings.card
   postId = this.settings.postId || objectId({ prefix: 'pst' })
   status = vue.ref(this.settings.status || 'draft')
+  emailStatus = vue.ref(this.settings.emailStatus || 'draft')
   title = vue.ref(this.settings.title || '')
   subTitle = vue.ref(this.settings.subTitle || '')
   excerpt = vue.ref(this.settings.excerpt || '')
@@ -79,6 +80,7 @@ export class Post extends FictionObject<PostConfig> {
       'publishMode',
       'hasChanges',
       'status',
+      'emailStatus',
       'tags',
       'categories',
       'authors',
@@ -149,6 +151,7 @@ export class Post extends FictionObject<PostConfig> {
       publishAt: this.publishAt.value,
       publishMode: this.publishMode.value,
       status: this.status.value,
+      emailStatus: this.emailStatus.value,
       tags: this.tags.value,
       categories: this.categories.value,
       authors: this.authors.value,

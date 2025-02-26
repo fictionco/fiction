@@ -1,17 +1,16 @@
 import type { ComplexDataFilter, EmailSendConfig } from '@fiction/core'
 import type { Contact } from '@fiction/plugins/plugin-contact'
 import type express from 'express'
-import type { T } from 'vitest/dist/chunks/environment.d8YfPkTm.js'
+import type { CampaignStats } from '../publish'
 import type { TablePostConfig } from '../schema'
-import type { CampaignStats } from '../send'
 import { dayjs, objectId, shortId } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, describe, expect, it, vi } from 'vitest'
 import { FictionPosts } from '..'
+import { FictionPublish } from '../publish'
 import { t } from '../schema'
-import { FictionSend } from '../send'
 
-describe('fictionSend', async () => {
+describe('fictionPublish', async () => {
   // Create test utils once at the beginning
   const testUtils = await createSiteTestUtils()
 
@@ -23,8 +22,8 @@ describe('fictionSend', async () => {
   // Create required service instances that aren't included in testUtils
   const fictionPosts = new FictionPosts(testUtils)
 
-  // Set up FictionSend instance
-  const fictionSend = new FictionSend({ ...testUtils, fictionPosts })
+  // Set up FictionPublish instance
+  const fictionPublish = new FictionPublish({ ...testUtils, fictionPosts })
 
   const db = () => testUtils.fictionDb.client()
 
@@ -79,7 +78,7 @@ describe('fictionSend', async () => {
     const testContact = await createContact()
 
     // Queue emails for campaign
-    await fictionSend.queueCampaignEmails({
+    await fictionPublish.queueCampaignEmails({
       postId: testPost.postId as string,
       orgId,
     })
@@ -118,8 +117,8 @@ describe('fictionSend', async () => {
     const untaggedContact = await createContact(['customer'])
 
     // Mock ManageContact.run to return filtered contacts
-    const originalRun = fictionSend.settings.fictionContact.queries.ManageContact.run
-    fictionSend.settings.fictionContact.queries.ManageContact.run = vi.fn(async (params, meta) => {
+    const originalRun = fictionPublish.settings.fictionContact.queries.ManageContact.run
+    fictionPublish.settings.fictionContact.queries.ManageContact.run = vi.fn(async (params, meta) => {
       if (params._action === 'list') {
         // Filter contacts based on filters parameter
         if (params.filters && params.filters.length > 0) {
@@ -154,7 +153,7 @@ describe('fictionSend', async () => {
     })
 
     // Queue emails for filtered campaign
-    await fictionSend.queueCampaignEmails({
+    await fictionPublish.queueCampaignEmails({
       postId: testPost.postId as string,
       orgId,
       filters,
@@ -174,7 +173,7 @@ describe('fictionSend', async () => {
     expect(queuedEmails[0].contactId).toBe(taggedContact.contactId)
 
     // Restore original function
-    fictionSend.settings.fictionContact.queries.ManageContact.run = originalRun
+    fictionPublish.settings.fictionContact.queries.ManageContact.run = originalRun
   })
 
   it('should handle target="nobody" mode and skip sending', async () => {
@@ -185,7 +184,7 @@ describe('fictionSend', async () => {
     await createContact() // Create a contact that should be ignored
 
     // Process campaign with 'nobody' target
-    const result = await fictionSend.processCampaign(testPost, { server: true })
+    const result = await fictionPublish.processCampaign(testPost, { server: true })
 
     // Check that no emails were queued
     const queuedEmails = await db()
@@ -217,8 +216,8 @@ describe('fictionSend', async () => {
     const regularContact = await createContact(['regular'])
 
     // Mock ManageContact and email sending
-    const originalRun = fictionSend.settings.fictionContact.queries.ManageContact.run
-    fictionSend.settings.fictionContact.queries.ManageContact.run = vi.fn(async (params, meta) => {
+    const originalRun = fictionPublish.settings.fictionContact.queries.ManageContact.run
+    fictionPublish.settings.fictionContact.queries.ManageContact.run = vi.fn(async (params, meta) => {
       if (params._action === 'list') {
         if (params.filters && params.filters.length > 0) {
           return {
@@ -252,7 +251,7 @@ describe('fictionSend', async () => {
 
     // Mock email sending
     const sendEmailMock = vi.fn().mockResolvedValue(undefined)
-    fictionSend.settings.fictionEmail.sendEmail = sendEmailMock
+    fictionPublish.settings.fictionEmail.sendEmail = sendEmailMock
 
     // Mock ManagePost serve
     const originalServe = fictionPosts.queries.ManagePost.serve
@@ -262,14 +261,14 @@ describe('fictionSend', async () => {
     })
 
     // Process the campaign
-    const result = await fictionSend.processCampaign({
+    const result = await fictionPublish.processCampaign({
       postId: testPost.postId,
       orgId,
       userId,
     }, { server: true })
 
     // Verify only VIP contact was processed
-    expect(fictionSend.settings.fictionContact.queries.ManageContact.run).toHaveBeenCalledWith(
+    expect(fictionPublish.settings.fictionContact.queries.ManageContact.run).toHaveBeenCalledWith(
       expect.objectContaining({
         _action: 'list',
         filters,
@@ -285,7 +284,7 @@ describe('fictionSend', async () => {
     expect(result.emailStats.sent).toBeGreaterThan(0)
 
     // Restore original functions
-    fictionSend.settings.fictionContact.queries.ManageContact.run = originalRun
+    fictionPublish.settings.fictionContact.queries.ManageContact.run = originalRun
     fictionPosts.queries.ManagePost.serve = originalServe
   })
 
@@ -293,7 +292,7 @@ describe('fictionSend', async () => {
     const testPost = await getTestPost()
 
     // Mock a large contact list that requires pagination
-    const originalRun = fictionSend.settings.fictionContact.queries.ManageContact.run
+    const originalRun = fictionPublish.settings.fictionContact.queries.ManageContact.run
 
     // Create mock contacts for first and second page
     const firstPageContacts = await Promise.all(Array.from({ length: 3 }).fill(0).map(_ => createContact())) as Contact[]
@@ -301,7 +300,7 @@ describe('fictionSend', async () => {
     const secondPageContacts = await Promise.all(Array.from({ length: 2 }).fill(0).map(_ => createContact())) as Contact[]
 
     let callCount = 0
-    fictionSend.settings.fictionContact.queries.ManageContact.run = vi.fn(async (params, meta) => {
+    fictionPublish.settings.fictionContact.queries.ManageContact.run = vi.fn(async (params, meta) => {
       if (params._action === 'list') {
         callCount++
         // First page
@@ -330,7 +329,7 @@ describe('fictionSend', async () => {
     })
 
     // Queue emails
-    await fictionSend.queueCampaignEmails({
+    await fictionPublish.queueCampaignEmails({
       postId: testPost.postId || '',
       orgId,
       pageSize: 3,
@@ -351,7 +350,7 @@ describe('fictionSend', async () => {
     expect(queuedEmails.length).toBe(5) // Total from both pages
 
     // Restore original function
-    fictionSend.settings.fictionContact.queries.ManageContact.run = originalRun
+    fictionPublish.settings.fictionContact.queries.ManageContact.run = originalRun
   })
 
   it('should update campaign progress during batch processing', async () => {
@@ -364,14 +363,14 @@ describe('fictionSend', async () => {
     }
 
     // Queue emails
-    await fictionSend.queueCampaignEmails({
+    await fictionPublish.queueCampaignEmails({
       postId: testPost.postId || '',
       orgId,
     })
 
     // Mock email sending
     const sendEmailMock = vi.fn().mockResolvedValue(undefined)
-    fictionSend.settings.fictionEmail.sendEmail = sendEmailMock
+    fictionPublish.settings.fictionEmail.sendEmail = sendEmailMock
 
     // Mock ManagePost serve to capture progress updates
     const progressUpdates: number[] = []
@@ -387,7 +386,7 @@ describe('fictionSend', async () => {
     })
 
     // Process the campaign
-    await fictionSend.processCampaign({
+    await fictionPublish.processCampaign({
       postId: testPost.postId,
       orgId,
       userId,
@@ -407,7 +406,7 @@ describe('fictionSend', async () => {
     const testPost = await getTestPost()
     // Mock email sending
     const sendEmailMock = vi.fn().mockResolvedValue(undefined)
-    fictionSend.settings.fictionEmail.sendEmail = sendEmailMock
+    fictionPublish.settings.fictionEmail.sendEmail = sendEmailMock
 
     const testContact = await createContact()
 
@@ -438,7 +437,7 @@ describe('fictionSend', async () => {
     }
 
     // Process the email
-    await fictionSend.processQueuedEmail({
+    await fictionPublish.processQueuedEmail({
       emailRecord,
       emailConfig: {
         subject: 'Test Email',
@@ -478,7 +477,7 @@ describe('fictionSend', async () => {
     // Mock email sending failure
     const sendError = new Error('SMTP error')
     const sendEmailMock = vi.fn().mockRejectedValue(sendError)
-    fictionSend.settings.fictionEmail.sendEmail = sendEmailMock
+    fictionPublish.settings.fictionEmail.sendEmail = sendEmailMock
 
     // Create a test queued email
     const emailId = objectId({ prefix: 'cem' })
@@ -508,7 +507,7 @@ describe('fictionSend', async () => {
     }
 
     // Process the email that will fail
-    await fictionSend.processQueuedEmail({
+    await fictionPublish.processQueuedEmail({
       emailRecord: {
         emailId,
         postId: testPost.postId,
@@ -561,7 +560,7 @@ describe('fictionSend', async () => {
     }
 
     // Get campaign stats
-    const stats = await fictionSend.getCampaignStats({
+    const stats = await fictionPublish.getCampaignStats({
       postId: testPost.postId || '',
       orgId,
     })
@@ -578,7 +577,7 @@ describe('fictionSend', async () => {
     const testPost = await getTestPost()
     // Mock analytics tracking
     const trackMock = vi.fn()
-    fictionSend.settings.fictionAnalytics.track = trackMock
+    fictionPublish.settings.fictionAnalytics.track = trackMock
 
     // Create mock request with webhook data
     const mockRequest = {
@@ -638,7 +637,7 @@ describe('fictionSend', async () => {
     // Process webhook event
     const { trackingEndpointHandler } = await import('../utils/tracking')
     await trackingEndpointHandler({
-      fictionSend,
+      fictionPublish,
       request: mockRequest,
       response: mockResponse,
     })
@@ -654,5 +653,113 @@ describe('fictionSend', async () => {
       regionName: 'CA',
       cityName: 'San Francisco',
     }))
+  })
+
+  it('should update email record with appropriate timestamps based on event type', async () => {
+    const testPost = await getTestPost()
+    const testContact = await createContact()
+
+    // Create test email record
+    const emailId = objectId({ prefix: 'cem' })
+    await db().table(t.email).insert({
+      emailId,
+      postId: testPost.postId,
+      orgId,
+      contactId: testContact.contactId,
+      email: testContact.email,
+      status: 'sent',
+      createdAt: dayjs().toISOString(),
+      updatedAt: dayjs().toISOString(),
+    })
+
+    // Create mock webhook requests for different event types
+    const createWebhookRequest = (eventType: 'delivered' | 'opened' | 'clicked') => ({
+      query: {},
+      params: {},
+      body: {
+        signature: { token: 'test', timestamp: Date.now() / 1000, signature: 'test' },
+        eventData: {
+          id: `event-${eventType}`,
+          timestamp: Date.now() / 1000,
+          event: eventType,
+          recipient: testContact.email,
+          recipientDomain: 'example.com',
+          userVariables: {
+            fromOrgId: orgId,
+            postId: testPost.postId,
+            contactId: testContact.contactId,
+            emailId, // Include emailId to target specific email record
+            env: testUtils.fictionEnv.isProd.value ? 'prod' : 'dev',
+          },
+          logLevel: 'info',
+          deliveryStatus: { attemptNo: 1 },
+          envelope: {
+            sender: 'sender@fiction.com',
+            transport: 'smtp',
+            targets: [testContact.email],
+            sendingIp: '127.0.0.1',
+          },
+          message: {
+            headers: {
+              to: testContact.email,
+              from: 'sender@fiction.com',
+              subject: 'Test Subject',
+              messageId: `message-${eventType}`,
+            },
+            size: 1024,
+          },
+        },
+      },
+    } as unknown as express.Request)
+
+    const mockResponse = {
+      send: vi.fn().mockReturnThis(),
+      end: vi.fn(),
+      status: vi.fn().mockReturnThis(),
+    } as unknown as express.Response
+
+    const { trackingEndpointHandler } = await import('../utils/tracking')
+
+    // Process 'delivered' event
+    await trackingEndpointHandler({
+      fictionPublish,
+      request: createWebhookRequest('delivered'),
+      response: mockResponse,
+    })
+
+    // Verify email record updated with delivered timestamp
+    let email = await db().table(t.email).where({ emailId }).first()
+    expect(email.status).toBe('delivered')
+    expect(email.deliveredAt).toBeTruthy()
+    expect(email.openedAt).toBeFalsy()
+    expect(email.clickedAt).toBeFalsy()
+
+    // Process 'opened' event
+    await trackingEndpointHandler({
+      fictionPublish,
+      request: createWebhookRequest('opened'),
+      response: mockResponse,
+    })
+
+    // Verify email record updated with opened timestamp
+    email = await db().table(t.email).where({ emailId }).first()
+    expect(email.status).toBe('opened')
+    expect(email.deliveredAt).toBeTruthy()
+    expect(email.openedAt).toBeTruthy()
+    expect(email.clickedAt).toBeFalsy()
+
+    // Process 'clicked' event
+    await trackingEndpointHandler({
+      fictionPublish,
+      request: createWebhookRequest('clicked'),
+      response: mockResponse,
+    })
+
+    // Verify email record updated with clicked timestamp
+    email = await db().table(t.email).where({ emailId }).first()
+    expect(email.status).toBe('clicked')
+    expect(email.deliveredAt).toBeTruthy()
+    expect(email.openedAt).toBeTruthy()
+    expect(email.clickedAt).toBeTruthy()
   })
 })

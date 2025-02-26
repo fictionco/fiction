@@ -1,9 +1,12 @@
 import type { TrackEventTypes } from '@fiction/analytics'
 import type { EmailUserVars } from '@fiction/core/plugin-email/endpoint'
 import type express from 'express'
-import type { FictionSend } from '../send'
+import type { FictionPublish } from '../publish'
+import type { TableEmailConfig } from '../schema'
 import { convertKeyCase } from '@fiction/core'
+
 import { z } from 'zod'
+import { t } from '../schema'
 
 export const EmailTrackingActionsEnum = z.enum(['delivered', 'failed', 'opened', 'clicked', 'unsubscribed', 'complained', 'bounced'])
 export type EmailTrackingActions = z.infer<typeof EmailTrackingActionsEnum>
@@ -82,24 +85,26 @@ const AnalyticsEventMap: Record<EmailTrackingActions, keyof TrackEventTypes> = {
 }
 
 export async function trackingEndpointHandler(args: {
-  fictionSend: FictionSend
+  fictionPublish: FictionPublish
   request: express.Request
   response: express.Response
 }): Promise<void> {
-  const { fictionSend, request, response } = args
+  const { fictionPublish, request, response } = args
   const query = request.query as Record<string, string>
   const params = request.params as { action?: 'init' }
   const body = convertKeyCase(request.body, { mode: 'camel' }) as MailgunWebhookRequestBody
 
-  const fictionAnalytics = fictionSend.settings.fictionAnalytics
-  const isProd = fictionSend.settings.fictionEnv.isProd.value
+  const fictionAnalytics = fictionPublish.settings.fictionAnalytics
+  const isProd = fictionPublish.settings.fictionEnv.isProd.value
+  const db = fictionPublish.db()
 
   try {
     const userVariables = body.eventData.userVariables || {}
     const geolocation = body.eventData.geolocation || {}
+    const now = new Date().toISOString()
 
     if ((isProd && userVariables.env !== 'prod') || (!isProd && userVariables.env === 'prod')) {
-      fictionSend.log.error('ignoring email event', {
+      fictionPublish.log.error('ignoring email event', {
         data: {
           isProd,
           env: userVariables.env,
@@ -107,24 +112,29 @@ export async function trackingEndpointHandler(args: {
           recipient: body.eventData.recipient,
         },
       })
+      response.status(200).send({ status: 'success', message: 'Event ignored due to environment mismatch' }).end()
       return
     }
 
-    fictionSend.log.info('email tracking webhook', { data: { query, params, body } })
+    fictionPublish.log.info('email tracking webhook', { data: { query, params, body } })
 
     let mapValue = body.eventData.event as keyof typeof AnalyticsEventMap
+    const eventType = body.eventData.event
 
-    if (body.eventData.event === 'failed' && body.eventData.severity === 'temporary') {
+    // Handle temporary failures as bounces
+    if (eventType === 'failed' && body.eventData.severity === 'temporary') {
       mapValue = 'bounced'
     }
 
     const event = AnalyticsEventMap[mapValue]
 
     if (!userVariables.fromOrgId) {
-      fictionSend.log.warn(`not tracking email (no fromOrgId)`, { data: { userVariables } })
+      fictionPublish.log.warn(`not tracking email (no fromOrgId)`, { data: { userVariables } })
+      response.status(200).send({ status: 'success', message: 'Missing organization ID' }).end()
       return
     }
 
+    // Track the event in analytics
     fictionAnalytics.track({
       orgId: userVariables.fromOrgId,
       event,
@@ -139,11 +149,61 @@ export async function trackingEndpointHandler(args: {
       channel: userVariables.caller,
     })
 
-    response.send(body).end()
+    // Update email record in database if we have the required IDs
+    if (userVariables.postId && userVariables.contactId) {
+      // Prepare update data based on event type
+      const updateData: Partial<TableEmailConfig> = {
+        updatedAt: now,
+        status: eventType as any,
+        metadata: {
+          ...(body.eventData.deliveryStatus || {}),
+          timestamp: body.eventData.timestamp,
+          messageId: body.eventData.message?.headers?.messageId,
+          url: body.eventData.url,
+          geolocation: body.eventData.geolocation,
+        },
+      }
+
+      // Add specific timestamp fields based on event type
+      switch (eventType) {
+        case 'delivered':
+          updateData.deliveredAt = now
+          break
+        case 'opened':
+          updateData.openedAt = now
+          break
+        case 'clicked':
+          updateData.clickedAt = now
+          break
+      }
+
+      // Update the email record
+      await db(t.email)
+        .where({ emailId: userVariables.emailId })
+        .update(updateData)
+        .catch((error) => {
+          fictionPublish.log.error('Failed to update email record', {
+            error,
+            data: {
+              postId: userVariables.postId,
+              contactId: userVariables.contactId,
+              eventType,
+            },
+          })
+        })
+    }
+    else {
+      fictionPublish.log.warn('Cannot update email record - missing IDs', {
+        data: { postId: userVariables?.postId, contactId: userVariables?.contactId },
+      })
+    }
+
+    // Respond with success
+    response.status(200).send({ status: 'success', event: eventType }).end()
   }
   catch (error) {
     const e = error as Error
-    fictionSend.log.error('tracking endpoint threw an error', { error })
+    fictionPublish.log.error('tracking endpoint threw an error', { error })
     response.status(400).send({ status: 'error', message: e.message }).end()
   }
 }

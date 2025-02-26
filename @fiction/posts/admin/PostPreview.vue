@@ -36,7 +36,7 @@ const activeFormatMode = vue.ref<'browser' | 'email'>('browser')
 
 <template>
   <div v-if="post" class="h-full max-w-screen-xl mx-auto">
-    <div class="p-12 flex flex-col gap-8 h-full">
+    <div class="flex flex-col gap-8 h-full">
       <div class="flex justify-between items-center gap-4">
         <div class="flex items-center gap-2">
           <XButton

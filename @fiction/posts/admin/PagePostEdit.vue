@@ -78,7 +78,7 @@ vue.onMounted(async () => {
   )
 })
 
-export type ViewModeKey = 'compose' | 'audience' | 'email' | 'web' | 'review'
+export type ViewModeKey = 'overview' | 'compose' | 'audience' | 'email' | 'web' | 'review'
 
 export type ViewMode = (PostObject & { value: ViewModeKey, options?: InputOption[] })
 const viewModes = vue.computed(() => {
@@ -87,6 +87,7 @@ const viewModes = vue.computed(() => {
 
   const recipientCount = recipientCountRef.value
   const out: ViewMode[] = [
+    { value: 'overview', title: 'Overview', icon: { class: 'i-tabler-file-power' } },
     { value: 'compose', title: 'Edit Post', icon: { class: 'i-tabler-edit' } },
     {
       value: 'audience',
@@ -337,7 +338,16 @@ const viewModes = vue.computed(() => {
   return out
 })
 
-const activeKey = vue.ref<ViewModeKey>('compose')
+const activeKey = vue.computed<ViewModeKey>({
+  get: () => {
+    const r = service.fictionRouter.query.value
+    return r.view as ViewModeKey || 'overview'
+  },
+  set: async (value) => {
+    const r = service.fictionRouter.query.value
+    await service.fictionRouter.push({ query: { ...r, view: value } }, { caller: 'activeKey' })
+  },
+})
 const activeViewModeIndex = vue.computed(() => viewModes.value.findIndex(v => v.value === activeKey.value))
 
 export type PanelNavigate = {
@@ -398,13 +408,17 @@ async function saveAndSchedule() {
 
   try {
     const p = post.value
-    p?.update({ status: 'scheduled' }, { caller: 'saveAndSchedule' })
+    const publishMode = p?.publishMode.value
+    p?.update({
+      status: publishMode === 'now' ? 'published' : 'scheduled',
+      emailStatus: 'scheduled',
+    }, { caller: 'saveAndSchedule' })
     await p?.save({ caller: 'saveAndSchedule' })
     scheduleModalVis.value = false
 
     await waitFor(100)
 
-    await navigate({ key: 'compose' })
+    await navigate({ key: 'overview' })
 
     successModalVis.value = true
   }
@@ -478,32 +492,60 @@ const statusMap = vue.computed(() => {
           target="_blank"
           size="sm"
           :icon="statusMap.icon"
-          data-test-id="preview-post-button"
+          data-test-id="post-status-badge"
           design="outline"
           @click.stop="navigate({ key: 'review' })"
         >
           {{ toLabel(post?.status.value) }}
         </XButton>
-      </template>
-      <template #headerRight>
-        <ElSavingSignal
-          v-if="post"
-          :is-dirty="post.saveUtil.isDirty.value"
-          data-test-id="draft-control-dropdown"
-        />
         <XButton
+          v-if="post?.emailStatus && post?.emailStatus.value !== post?.status.value"
           theme="default"
           target="_blank"
-          size="md"
-          icon="i-tabler-eye"
-          data-test-id="preview-post-button"
+          size="sm"
+          icon="i-tabler-mail"
+          data-test-id="post-email-status-badge"
           design="outline"
-          @click.stop="navigate({ dir: 'preview' })"
+          @click.stop="navigate({ key: 'review' })"
         >
-          Preview
+          {{ toLabel(post?.emailStatus.value) }}
         </XButton>
+      </template>
+      <template #headerRight>
+        <template v-if="activeKey !== 'overview'">
+          <ElSavingSignal
+            v-if="post"
+            :is-dirty="post.saveUtil.isDirty.value"
+            data-test-id="draft-control-dropdown"
+          />
+          <XButton
+            theme="default"
+            target="_blank"
+            size="md"
+            icon="i-tabler-eye"
+            data-test-id="preview-post-button"
+            design="outline"
+            @click.stop="navigate({ dir: 'preview' })"
+          >
+            Preview
+          </XButton>
+        </template>
 
-        <template v-if="post?.status && post?.status.value === 'draft'">
+        <template v-if="activeKey === 'overview'">
+          <XButton
+            v-if="activeViewModeIndex < viewModes.length - 1"
+            theme="primary"
+            design="solid"
+            size="md"
+            data-test-id="next-button-top"
+            icon-after="i-tabler-arrow-right"
+            @click.prevent="navigate({ dir: 'next' })"
+          >
+            Edit Post
+          </XButton>
+        </template>
+
+        <template v-else-if="post?.status && post?.status.value === 'draft'">
           <XButton
             v-if="activeViewModeIndex < viewModes.length - 1"
             theme="primary"
@@ -633,14 +675,14 @@ const statusMap = vue.computed(() => {
       transition-mode="slideUp"
       :has-close="true"
     >
-      <PostPreview :post :card />
+      <PostPreview class="p-12" :post :card />
     </ElModal>
 
     <ElModalConfirm
       v-model:vis="unscheduleModalConfirm"
       title="Unschedule Post?"
       sub="This will revert post to draft status. You'll need to republish."
-      @confirmed="savePost({ status: 'draft' })"
+      @confirmed="savePost({ status: 'draft', emailStatus: 'draft' })"
     />
   </div>
 </template>

@@ -2,14 +2,13 @@ import type { ComplexDataFilter, EmailSendConfig, EndpointMeta, EndpointResponse
 import type { Contact } from '@fiction/plugin-contact'
 import type { ManageContactParams } from '@fiction/plugin-contact/endpoint'
 import type { FictionPosts, TableEmailConfig, TablePostConfig } from '@fiction/posts'
-import type { c } from 'node_modules/vite/dist/node/moduleRunnerTransport.d-CXw_Ws6P'
 import type { FictionPostsSettings } from './index'
 import { abort, dayjs, Endpoint, FictionPlugin, objectId, safeDirname, vue, waitFor } from '@fiction/core'
 import { t } from './schema'
 import { getEmailForPost } from './utils/email'
 import { trackingEndpointHandler } from './utils/tracking'
 
-type FictionSendSettings = FictionPostsSettings & { fictionPosts: FictionPosts }
+type FictionPublishSettings = FictionPostsSettings & { fictionPosts: FictionPosts }
 
 export type CampaignStats = {
   total: number
@@ -20,11 +19,11 @@ export type CampaignStats = {
   inProgress: boolean
 }
 
-export class FictionSend extends FictionPlugin<FictionSendSettings> {
+export class FictionPublish extends FictionPlugin<FictionPublishSettings> {
   cacheKey = vue.ref(0)
   db = () => this.settings.fictionDb.client()
-  constructor(settings: FictionSendSettings) {
-    super('FictionSend', { root: safeDirname(import.meta.url), ...settings })
+  constructor(settings: FictionPublishSettings) {
+    super('FictionPublish', { root: safeDirname(import.meta.url), ...settings })
 
     this.trackingWebhookEndpoint()
   }
@@ -35,7 +34,7 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
     }
 
     const checkoutEndpoint = new Endpoint({
-      requestHandler: async (...r) => trackingEndpointHandler({ request: r[0], response: r[1], fictionSend: this }),
+      requestHandler: async (...r) => trackingEndpointHandler({ request: r[0], response: r[1], fictionPublish: this }),
       key: 'emailTrackingEndpoint',
       basePath: '/email-tracking/:action?',
       serverUrl: this.settings.fictionServer.serverUrl.value,
@@ -48,21 +47,49 @@ export class FictionSend extends FictionPlugin<FictionSendSettings> {
   }
 
   async init() {
-    await this.fictionEnv.events.on('fiveMinuteInterval', async () => this.scanAndSendrequestedCampaigns())
+    await this.fictionEnv.events.on('fiveMinuteInterval', async () => {
+      if (this.settings.fictionEnv.isApp.value) {
+        return
+      }
+      this.publishScheduledPosts()
+    })
   }
 
   // Method to scan and send scheduled emails
-  private async scanAndSendrequestedCampaigns(): Promise<void> {
+  private async publishScheduledPosts(): Promise<void> {
     const now = dayjs().toISOString()
 
-    // Find emails with status 'scheduled' and scheduledAt in the past
-    const requestedCampaigns = await this.db()
+    // Find posts with status 'scheduled' and publishAt in the past
+    const publishedPosts = await this.settings.fictionDb.client()
       .table(t.posts)
       .where('status', 'scheduled')
       .where('publishAt', '<=', now)
+      .update({
+        status: 'published',
+        dateAt: now,
+        hasChanges: false,
+      })
+      .returning('*')
+
+    if (publishedPosts.length > 0) {
+      this.log.info(`Published ${publishedPosts.length} scheduled posts`, {
+        data: { postIds: publishedPosts.map(p => p.postId) },
+      })
+    }
+
+    // Find emails with status 'scheduled' and scheduledAt in the past
+    const publishedCampaigns = await this.db()
+      .table(t.posts)
+      .where('emailStatus', 'scheduled')
+      .where('publishAt', '<=', now)
       .select<TablePostConfig[]>('*')
 
-    await Promise.all(requestedCampaigns.map(async c => this.processCampaign(c, { server: true })))
+    this.log.info(`Found ${publishedCampaigns.length} scheduled campaigns`)
+
+    if (publishedCampaigns.length === 0)
+      return
+
+    await Promise.all(publishedCampaigns.map(async c => this.processCampaign(c, { server: true })))
   }
 
   // Method to process each email
