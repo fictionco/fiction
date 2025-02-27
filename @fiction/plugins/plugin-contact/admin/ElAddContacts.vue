@@ -183,7 +183,7 @@ async function importSubscribers() {
             </CardButton>
             <CardButton
               :card
-              data-test-id="submit"
+              data-test-id="add-confirm-button"
               theme="primary"
               type="submit"
               icon="i-tabler-upload"
@@ -255,7 +255,7 @@ async function importSubscribers() {
           <CardButton
             v-else
             :card
-            data-test-id="save"
+            data-test-id="review-button"
             theme="primary"
             type="submit"
             icon-after="i-tabler-arrow-right"

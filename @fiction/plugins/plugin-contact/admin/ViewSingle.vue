@@ -5,7 +5,7 @@ import type { Contact, FictionContact } from '../index.js'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 import { deepMerge, gravatarUrlSync, standardDate, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
-import { InputOption } from '@fiction/ui/index.js'
+import { createOption  } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 
 type UserConfig = {
@@ -18,7 +18,7 @@ const service = useService<{ fictionContact: FictionContact }>()
 const loading = vue.ref(true)
 const sending = vue.ref('')
 
-const subscriber = vue.ref<Contact>({})
+const contact = vue.ref<Contact>({})
 
 async function load() {
   loading.value = true
@@ -37,12 +37,12 @@ async function load() {
     const r = await endpoint.projectRequest({ _action: 'list', where: { contactId } })
 
     if (!r.data || !r.data.length)
-      throw new Error('No subscriber found')
+      throw new Error('No contact found')
 
-    subscriber.value = r.data[0]
+    contact.value = r.data[0]
   }
   catch (error) {
-    console.error('Error loading subscriber', error)
+    console.error('Error loading contact', error)
   }
   finally {
     loading.value = false
@@ -60,7 +60,7 @@ vue.onMounted(() => {
 })
 
 const user = vue.computed(() => {
-  const s = subscriber.value
+  const s = contact.value
   return deepMerge([s, s.user, s.inlineUser]) as User
 })
 
@@ -71,7 +71,7 @@ function getAvatarUrl(user: User) {
 async function SaveContact(): Promise<undefined> {
   sending.value = 'saving'
   const endpoint = service.fictionContact.requests.ManageContact
-  const fields = subscriber.value
+  const fields = contact.value
   const contactId = fields.contactId
 
   if (!contactId)
@@ -86,41 +86,43 @@ const saveUtil = new AutosaveUtility({
   onSave: () => SaveContact(),
 })
 
-function updateContact(subscriberNew: Contact) {
-  subscriber.value = subscriberNew
+function updateContact(contactNew: Contact) {
+  contact.value = contactNew
 
   saveUtil.autosave({ caller: 'updateContact' })
 }
 
 const detailOptions = [
-  new InputOption({
-    testId: 'subscriber-email',
+  createOption({
+    key: 'control.email',
+    testId: 'contact-email',
     label: 'Contact Email',
     subLabel: 'The email address of the contact',
     input: 'InputControl',
     valueDisplay: () => {
       return {
-        status: subscriber.value?.email ? 'ready' : 'optional',
-        data: subscriber.value?.email,
+        status: contact.value?.email ? 'ready' : 'optional',
+        data: contact.value?.email,
       }
     },
     options: [
-      new InputOption({ key: 'email', label: 'Contact Email', input: 'InputText', placeholder: 'Enter Headline' }),
+      createOption({ key: 'email', label: 'Contact Email', input: 'InputText', placeholder: 'Enter Headline' }),
     ],
   }),
-  new InputOption({
-    testId: 'subscriber-status',
+  createOption({
+    key: 'control.status',
+    testId: 'contact-status',
     label: 'Status',
-    subLabel: 'The recipient status of the subscriber',
+    subLabel: 'The recipient status of the contact',
     input: 'InputControl',
     valueDisplay: () => {
       return {
-        status: subscriber.value?.status ? 'ready' : 'incomplete',
-        data: subscriber.value?.status,
+        status: contact.value?.status ? 'ready' : 'incomplete',
+        data: contact.value?.status,
       }
     },
     options: [
-      new InputOption({ key: 'status', label: 'Status', input: 'InputSelectCustom', list: [
+      createOption({ key: 'status', label: 'Status', input: 'InputSelectCustom', list: [
         'active',
         'unsubscribed',
         'cleaned',
@@ -128,86 +130,91 @@ const detailOptions = [
       ] }),
     ],
   }),
-  new InputOption({
-    testId: 'subscriber-tags',
+  createOption({
+    key: 'control.tags',
+    testId: 'contact-tags',
     label: 'Tags',
-    subLabel: 'Tags associated with the subscriber',
+    subLabel: 'Tags associated with the contact',
     input: 'InputControl',
     valueDisplay: () => {
       return {
-        status: subscriber.value?.tags?.length ? 'ready' : 'optional',
-        data: subscriber.value?.tags?.join(', '),
+        status: contact.value?.tags?.length ? 'ready' : 'optional',
+        data: contact.value?.tags?.join(', '),
       }
     },
     options: [
-      new InputOption({ key: 'tags', label: 'Tags', input: 'InputTags' }),
+      createOption({ key: 'tags', label: 'Tags', input: 'InputTags' }),
     ],
   }),
-  new InputOption({
-    testId: 'subscriber-created-at',
+  createOption({
+    key: 'control.createdAt',
+    testId: 'contact-created-at',
     label: 'Connection Created At',
-    subLabel: 'The date the subscriber was added to the list',
+    subLabel: 'The date the contact was added to the list',
     input: 'InputControl',
     valueDisplay: () => {
       return {
-        status: subscriber.value?.createdAt ? 'ready' : 'incomplete',
-        data: standardDate(subscriber.value?.createdAt, { withTime: true }),
+        status: contact.value?.createdAt ? 'ready' : 'incomplete',
+        data: standardDate(contact.value?.createdAt, { withTime: true }),
       }
     },
     options: [
-      new InputOption({ key: 'createdAt', label: 'Created At Date', input: 'InputDate', props: { includeTime: true } }),
+      createOption({ key: 'createdAt', label: 'Created At Date', input: 'InputDate', props: { includeTime: true } }),
     ],
   }),
-  new InputOption({
-    testId: 'subscriber-name',
+  createOption({
+    key: 'control.inlineUser.fullName',
+    testId: 'contact-name',
     label: 'Contact Name',
-    subLabel: 'The name of the subscriber',
+    subLabel: 'The name of the contact',
     input: 'InputControl',
     valueDisplay: () => {
       return {
-        status: subscriber.value?.inlineUser?.fullName ? 'ready' : 'optional',
-        data: subscriber.value?.inlineUser?.fullName,
+        status: contact.value?.inlineUser?.fullName ? 'ready' : 'optional',
+        data: contact.value?.inlineUser?.fullName,
       }
     },
     options: [
-      new InputOption({ key: 'inlineUser.fullName', label: 'Contact Name', input: 'InputText', placeholder: 'Enter Name' }),
+      createOption({ key: 'inlineUser.fullName', label: 'Contact Name', input: 'InputText', placeholder: 'Enter Name' }),
     ],
   }),
-  new InputOption({
-    testId: 'subscriber-avatar',
+  createOption({
+    key: 'control.inlineUser.avatar',
+    testId: 'contact-avatar',
     label: 'Contact Avatar',
-    subLabel: 'The avatar of the subscriber',
+    subLabel: 'The avatar of the contact',
     input: 'InputControl',
     valueDisplay: () => {
       return {
-        status: subscriber.value?.inlineUser?.avatar?.url ? 'ready' : 'optional',
-        data: subscriber.value?.inlineUser?.avatar,
+        status: contact.value?.inlineUser?.avatar?.url ? 'ready' : 'optional',
+        data: contact.value?.inlineUser?.avatar,
         format: 'media',
       }
     },
     options: [
-      new InputOption({ key: 'inlineUser.avatar', label: 'Contact Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
+      createOption({ key: 'inlineUser.avatar', label: 'Contact Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
     ],
   }),
-  new InputOption({
-    testId: 'subscriber-phone',
+  createOption({
+    key: 'control.inlineUser.phone',
+    testId: 'contact-phone',
     label: 'Contact Phone',
-    subLabel: 'The phone number of the subscriber',
+    subLabel: 'The phone number of the contact',
     input: 'InputControl',
     valueDisplay: () => {
       return {
-        status: subscriber.value?.inlineUser?.phone ? 'ready' : 'optional',
-        data: subscriber.value?.inlineUser?.phone,
+        status: contact.value?.inlineUser?.phone ? 'ready' : 'optional',
+        data: contact.value?.inlineUser?.phone,
       }
     },
     options: [
-      new InputOption({ key: 'inlineUser.phone', label: 'Contact Phone', input: 'InputPhone', placeholder: '+1 555 555 5555' }),
+      createOption({ key: 'inlineUser.phone', label: 'Contact Phone', input: 'InputPhone', placeholder: '+1 555 555 5555' }),
     ],
   }),
 ]
 
 const adminOptions = [
-  new InputOption({
+  createOption({
     key: 'deleteContact',
     label: 'Permanently Delete Contact',
     subLabel: 'This action cannot be undone',
@@ -222,11 +229,11 @@ const adminOptions = [
         onClick: async () => {
           const endpoint = service.fictionContact.requests.ManageContact
 
-          const confirmed = confirm('Are you sure you want to delete this subscriber?')
+          const confirmed = confirm('Are you sure you want to delete this contact?')
 
-          if (confirmed && subscriber.value.contactId) {
+          if (confirmed && contact.value.contactId) {
             sending.value = 'delete'
-            await endpoint.projectRequest({ _action: 'delete', where: [{ contactId: subscriber.value.contactId }] })
+            await endpoint.projectRequest({ _action: 'delete', where: [{ contactId: contact.value.contactId }] })
             await card.goto('/audience', { caller: 'deleteContact' })
             sending.value = ''
           }
@@ -238,14 +245,14 @@ const adminOptions = [
 
 const options = vue.computed(() => {
   return [
-    new InputOption({
+    createOption({
       key: 'userDetails',
       label: 'Contact Details',
       input: 'group',
       options: detailOptions,
       format: 'control',
     }),
-    new InputOption({
+    createOption({
       key: 'userDanger',
       label: 'Danger Zone',
       input: 'group',
@@ -269,7 +276,7 @@ const header = vue.computed(() => {
     title="Contact Details"
     :action="{
       buttons: [{
-        testId: 'subscriber-save-button',
+        testId: 'contact-save-button',
         label: saveUtil.isDirty.value ? 'Saving...' : 'Saved',
         onClick: () => SaveContact(),
         theme: saveUtil.isDirty.value ? 'orange' : 'theme',
@@ -279,14 +286,14 @@ const header = vue.computed(() => {
     :header
   >
     <FormEngine
-      :model-value="subscriber"
+      :model-value="contact"
       state-key="settingsTool"
       input-wrap-class="max-w-lg w-full"
       ui-size="lg"
       :options
       :card
       :disable-group-hide="true"
-      :data-value="JSON.stringify(subscriber)"
+      :data-value="JSON.stringify(contact)"
       @update:model-value="updateContact($event)"
     />
   </SettingsPanel>
