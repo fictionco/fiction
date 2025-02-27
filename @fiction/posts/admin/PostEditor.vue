@@ -82,7 +82,7 @@ vue.watch(
       >
         <div class="flex items-center gap-2 justify-center">
           <XButton
-            v-for="(mode, i) in viewModes"
+            v-for="(mode, i) in viewModes.filter(v => !v.isHidden)"
             :key="i"
             rounding="full"
             respond="icon:xl"

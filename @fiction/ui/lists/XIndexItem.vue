@@ -98,7 +98,7 @@ const linkProps = vue.computed(() => {
           :icon="item.icon"
           :theme="theme"
         />
-        <div class="space-y-2">
+        <div class="space-y-1">
           <div class="font-bold leading-6" :class="classes.titleSize">
             {{ item.label }}
           </div>

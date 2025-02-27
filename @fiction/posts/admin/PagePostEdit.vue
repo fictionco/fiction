@@ -80,15 +80,24 @@ vue.onMounted(async () => {
 
 export type ViewModeKey = 'overview' | 'compose' | 'audience' | 'email' | 'web' | 'review'
 
-export type ViewMode = (PostObject & { value: ViewModeKey, options?: InputOption[] })
+export type ViewMode = (PostObject & { value: ViewModeKey, options?: InputOption[], isHidden?: boolean })
 const viewModes = vue.computed(() => {
-  const emailConfig = post.value?.emailConfig.value
   const org = service.fictionUser.activeOrganization.value
 
   const recipientCount = recipientCountRef.value
+  const isDraft = post.value?.status.value === 'draft'
   const out: ViewMode[] = [
-    { value: 'overview', title: 'Overview', icon: { class: 'i-tabler-file-power' } },
-    { value: 'compose', title: 'Edit Post', icon: { class: 'i-tabler-edit' } },
+    {
+      value: 'overview',
+      title: 'Overview',
+      icon: { class: 'i-tabler-file-power' },
+      isHidden: isDraft,
+    },
+    {
+      value: 'compose',
+      title: 'Edit Post',
+      icon: { class: 'i-tabler-edit' },
+    },
     {
       value: 'audience',
       title: 'Select Audience',
@@ -197,7 +206,7 @@ const viewModes = vue.computed(() => {
             createOption({
               schema,
               key: 'emailConfig.sender.senderEmail',
-              label: 'Send From Email',
+              label: 'Reply To Email',
               subLabel: 'The "sent from" email address',
               input: 'InputEmail',
               placeholder: org?.orgEmail || 'Enter Email',
@@ -341,13 +350,16 @@ const viewModes = vue.computed(() => {
 const activeKey = vue.computed<ViewModeKey>({
   get: () => {
     const r = service.fictionRouter.query.value
-    return r.view as ViewModeKey || 'overview'
+    const view = r.view as ViewModeKey || 'overview'
+    const visibleModes = viewModes.value.filter(v => !v.isHidden)
+    return visibleModes.find(v => v.value === view)?.value || visibleModes[0].value
   },
   set: async (value) => {
     const r = service.fictionRouter.query.value
     await service.fictionRouter.push({ query: { ...r, view: value } }, { caller: 'activeKey' })
   },
 })
+
 const activeViewModeIndex = vue.computed(() => viewModes.value.findIndex(v => v.value === activeKey.value))
 
 export type PanelNavigate = {

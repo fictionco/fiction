@@ -12,7 +12,7 @@ const emit = defineEmits(['update:vis'])
 
 <template>
   <ElModal
-    modal-class="max-w-screen-lg w-[calc(100%-1rem)]"
+    modal-class="max-w-screen-md w-[calc(100%-1rem)]"
     transition-mode="slideUp"
     :vis
     :has-close="true"

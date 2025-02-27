@@ -57,39 +57,44 @@ export class FictionPublish extends FictionPlugin<FictionPublishSettings> {
 
   // Method to scan and send scheduled emails
   private async publishScheduledPosts(): Promise<void> {
-    const now = dayjs().toISOString()
+    try {
+      const now = dayjs().toISOString()
 
-    // Find posts with status 'scheduled' and publishAt in the past
-    const publishedPosts = await this.settings.fictionDb.client()
-      .table(t.posts)
-      .where('status', 'scheduled')
-      .where('publishAt', '<=', now)
-      .update({
-        status: 'published',
-        dateAt: now,
-        hasChanges: false,
-      })
-      .returning('*')
+      // Find posts with status 'scheduled' and publishAt in the past
+      const publishedPosts = await this.settings.fictionDb.client()
+        .table(t.posts)
+        .where('status', 'scheduled')
+        .where('publishAt', '<=', now)
+        .update({
+          status: 'published',
+          dateAt: now,
+          hasChanges: false,
+        })
+        .returning('*')
 
-    if (publishedPosts.length > 0) {
-      this.log.info(`Published ${publishedPosts.length} scheduled posts`, {
-        data: { postIds: publishedPosts.map(p => p.postId) },
-      })
+      if (publishedPosts.length > 0) {
+        this.log.info(`Published ${publishedPosts.length} scheduled posts`, {
+          data: { postIds: publishedPosts.map(p => p.postId) },
+        })
+      }
+
+      // Find emails with status 'scheduled' and scheduledAt in the past
+      const publishedCampaigns = await this.db()
+        .table(t.posts)
+        .where('emailStatus', 'scheduled')
+        .where('publishAt', '<=', now)
+        .select<TablePostConfig[]>('*')
+
+      this.log.info(`Found ${publishedCampaigns.length} scheduled campaigns`)
+
+      if (publishedCampaigns.length === 0)
+        return
+
+      await Promise.all(publishedCampaigns.map(async c => this.processCampaign(c, { server: true })))
     }
-
-    // Find emails with status 'scheduled' and scheduledAt in the past
-    const publishedCampaigns = await this.db()
-      .table(t.posts)
-      .where('emailStatus', 'scheduled')
-      .where('publishAt', '<=', now)
-      .select<TablePostConfig[]>('*')
-
-    this.log.info(`Found ${publishedCampaigns.length} scheduled campaigns`)
-
-    if (publishedCampaigns.length === 0)
-      return
-
-    await Promise.all(publishedCampaigns.map(async c => this.processCampaign(c, { server: true })))
+    catch (error) {
+      this.log.error('Error in publishScheduledPosts', { error })
+    }
   }
 
   // Method to process each email

@@ -39,9 +39,9 @@ const tagInput = vue.ref<HTMLInputElement>()
 const sizeClasses = vue.computed(() => {
   const sizes = {
     'xxs': { wrap: 'gap-0.5 py-0.5', avatar: 'size-3', buttonContent: 'text-xs gap-0.5', button: 'xxs' },
-    'xs': { wrap: 'gap-1 py-0.5', avatar: 'size-4', buttonContent: 'text-xs gap-0.5', button: 'xxs' },
-    'sm': { wrap: 'gap-1.5 py-0.5', avatar: 'size-4', buttonContent: 'text-sm gap-0.5', button: 'xs' },
-    'md': { wrap: 'gap-2 py-1', avatar: 'size-5', buttonContent: 'text-sm gap-1', button: 'sm' },
+    'xs': { wrap: 'gap-1 py-1', avatar: 'size-4', buttonContent: 'text-xs gap-0.5', button: 'xxs' },
+    'sm': { wrap: 'gap-1.5 py-1', avatar: 'size-4', buttonContent: 'text-sm gap-0.5', button: 'xs' },
+    'md': { wrap: 'gap-2 py-2', avatar: 'size-5', buttonContent: 'text-sm gap-1', button: 'sm' },
     'lg': { wrap: 'gap-3 py-2', avatar: 'size-6', buttonContent: 'text-base gap-1', button: 'sm' },
     'xl': { wrap: 'gap-4 py-3', avatar: 'size-7', buttonContent: 'text-lg gap-1.5', button: 'md' },
     '2xl': { wrap: 'gap-5 py-4', avatar: 'size-8', buttonContent: 'text-xl  gap-1.5', button: 'lg' },
@@ -239,8 +239,8 @@ vue.watch(
           type="text"
           spellcheck="false"
           autocapitalize="off"
-          :autocomplete="!disabled && isFocused ? 'email' : 'off'"
-          :disabled="disabled"
+          autocomplete="off"
+          :disabled
           :required="required && !modelValue?.length"
           :placeholder="modelValue?.length ? '' : (placeholder || `Add ${label || 'emails'}...`)"
           class="flex-1 min-w-[8rem] p-1 font-mono bg-transparent border-0 focus:ring-0 focus:outline-none"

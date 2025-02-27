@@ -46,7 +46,7 @@ async function createNewPost() {
       return
     }
 
-    await card.goto({ path: '/edit-post', query: { postId } })
+    await card.goto({ path: '/edit-post', query: { postId, view: 'compose' } })
   }
   catch (error) {
     fictionEnv.events.emit('notify', {

@@ -43,9 +43,11 @@ export async function csvToEmailList(file: File): Promise<string[]> {
   })
 }
 
-export function parseAndValidateEmails(input?: string): string[] {
+export function parseAndValidateEmails(input?: string[] | string): string[] {
   if (!input)
     return []
 
-  return cleanEmails(input.split(/[\s,]+/).filter(Boolean))
+  const emails = typeof input === 'string' ? input.split('\n') : input
+
+  return cleanEmails(emails).filter(Boolean)
 }

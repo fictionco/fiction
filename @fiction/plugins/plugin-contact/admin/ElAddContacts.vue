@@ -27,9 +27,10 @@ const SAMPLE_EMAIL_NO = 5
 const loading = vue.ref(false)
 const draggingOver = vue.ref()
 const fileList = vue.shallowRef<FileList>()
-const importMethod = vue.ref<'csv' | 'text'>('text')
+const importMethod = vue.ref<'csv' | 'text' | 'input'>('input')
 const step = vue.ref<'import' | 'submit'>('import')
 const rawTextEmailList = vue.ref<string>()
+const inputEmailList = vue.ref<string[]>()
 const tagList = vue.ref<string[]>([dayjs().format('YYYY-MM')])
 const csvEmailList = vue.ref<string[]>([])
 async function uploadFiles() {
@@ -70,7 +71,17 @@ async function handleDropFile(ev: Event) {
   uploadFiles()
 }
 
-const emailList = vue.computed(() => importMethod.value === 'text' ? parseAndValidateEmails(rawTextEmailList.value) : csvEmailList.value)
+const emailList = vue.computed(() => {
+  if (importMethod.value === 'input') {
+    return inputEmailList.value || []
+  }
+  else if (importMethod.value === 'text') {
+    return parseAndValidateEmails(rawTextEmailList.value)
+  }
+  else {
+    return csvEmailList.value || []
+  }
+})
 
 function prepareSubmit() {
   step.value = 'submit'
@@ -131,6 +142,7 @@ async function importSubscribers() {
 
       csvEmailList.value = []
       rawTextEmailList.value = ''
+      inputEmailList.value = []
 
       service.fictionContact.cacheKey.value++
 
@@ -182,8 +194,8 @@ async function importSubscribers() {
             </CardButton>
           </div>
         </div>
-        <div class="p-8 rounded-md border border-theme-200 dark:border-theme-600/70 space-y-4 flex gap-6">
-          <div class=" basis-[250px] space-y-4">
+        <div class="p-8 rounded-md border border-theme-200 dark:border-theme-600/70 space-y-4 flex gap-10">
+          <div class="space-y-4 max-w-[250px]">
             <div>
               <div class="text-theme-500 font-normal text-sm">
                 Total Emails
@@ -197,11 +209,11 @@ async function importSubscribers() {
                 Tags to Add
               </div>
               <div v-if="tagList.length" class="font-semibold text-base flex gap-3 py-2">
-                <XButton v-for="tag in tagList" :key="tag" size="xs" design="ghost" theme="primary">
+                <XButton v-for="tag in tagList" :key="tag" size="xs" design="outline" theme="primary">
                   {{ tag }}
                 </XButton>
               </div>
-              <div class="py-3 text-xs text-theme-500">
+              <div v-else class="py-3 text-xs text-theme-500">
                 (No tags)
               </div>
             </div>
@@ -221,11 +233,12 @@ async function importSubscribers() {
             v-model="importMethod"
             input="InputRadioButton"
             :list="[
-              { label: 'By Email', value: 'text', icon: 'i-tabler-mail' },
-              { label: 'Import Contacts', value: 'csv', icon: 'i-tabler-file-type-csv' },
+              { label: 'By Email', value: 'input', icon: 'i-tabler-mail' },
+              { label: 'Import (CSV)', value: 'csv', icon: 'i-tabler-file-type-csv' },
+              { label: 'Comma Separated', value: 'text', icon: 'i-tabler-text-scan-2' },
             ]"
             default-text="Select Import Method"
-            ui-size="md"
+            ui-size="sm"
           />
           <CardButton
             v-if="!emailList.length"
@@ -249,7 +262,7 @@ async function importSubscribers() {
             :loading="loading"
             @click.prevent="prepareSubmit()"
           >
-            Review Details
+            Review and Add
           </CardButton>
         </div>
 
@@ -263,7 +276,18 @@ async function importSubscribers() {
           mode="out-in"
         >
           <ElInput
-            v-if="importMethod === 'text'"
+            v-if="importMethod === 'input'"
+            v-model="inputEmailList"
+            input="InputEmailMulti"
+            label="Enter Email Addresses"
+            sub-label="Tab or Enter to add multiple emails"
+            ui-size="lg"
+            :rows="5"
+            placeholder="email@example.com"
+            data-test-id="text-email-list"
+          />
+          <ElInput
+            v-else-if="importMethod === 'text'"
             v-model="rawTextEmailList"
             input="InputTextarea"
             label="Enter Email Addresses"
@@ -310,6 +334,7 @@ async function importSubscribers() {
         <ElInput
           v-model="tagList"
           input="InputTags"
+          ui-size="lg"
           label="Tags (Optional)"
           sub-label="Used to categorize contacts"
           :rows="10"

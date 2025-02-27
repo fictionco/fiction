@@ -40,6 +40,21 @@ const modalItems = vue.ref<Array<{ value: string, count: number }>>([])
 // Cache for search results
 const searchCache = new Map<string, Array<{ value: string, count: number }>>()
 
+// Size configuration
+const sizeClasses = vue.computed(() => {
+  const sizes = {
+    'xxs': { wrap: 'gap-0.5 py-0.5', avatar: 'size-3', buttonContent: 'text-xs gap-0.5', button: 'xxs' },
+    'xs': { wrap: 'gap-1 py-1', avatar: 'size-4', buttonContent: 'text-xs gap-0.5', button: 'xxs' },
+    'sm': { wrap: 'gap-1.5 py-1', avatar: 'size-4', buttonContent: 'text-sm gap-0.5', button: 'xs' },
+    'md': { wrap: 'gap-2 py-2', avatar: 'size-5', buttonContent: 'text-sm gap-1', button: 'sm' },
+    'lg': { wrap: 'gap-3 py-2', avatar: 'size-6', buttonContent: 'text-sm gap-1', button: 'sm' },
+    'xl': { wrap: 'gap-4 py-3', avatar: 'size-7', buttonContent: 'text-base gap-1.5', button: 'md' },
+    '2xl': { wrap: 'gap-5 py-4', avatar: 'size-8', buttonContent: 'text-base  gap-1.5', button: 'lg' },
+  }
+
+  return sizes[props.uiSize as keyof typeof sizes] || sizes.md
+})
+
 // Load initial popular items
 vue.onMounted(async () => {
   await fetchItems()
@@ -159,10 +174,10 @@ async function handleSort(sorted: string[]) {
   emit('update:modelValue', sorted.filter(v => props.modelValue?.includes(v)))
 }
 
-const containerStyles = vue.computed(() =>
+const containerClasses = vue.computed(() =>
   textInputClasses({
     uiSize: props.uiSize,
-    inputClass: 'flex flex-wrap items-center gap-1 !p-1.5',
+    inputClass: `flex flex-wrap items-center ${sizeClasses.value.wrap}`,
   }),
 )
 
@@ -173,7 +188,7 @@ const tagInput = vue.ref<HTMLInputElement>()
   <div class="space-y-3 relative">
     <div class="flex items-stretch gap-2">
       <!-- Main input -->
-      <div :class="containerStyles" @click.self="tagInput?.focus()">
+      <div :class="containerClasses" @click.self="tagInput?.focus()">
         <EffectDraggableSort
           class="inline-flex gap-2 flex-wrap items-center"
           :allow-horizontal="true"
@@ -184,7 +199,7 @@ const tagInput = vue.ref<HTMLInputElement>()
               v-for="item in modelValue"
               :key="item"
               :data-drag-id="item"
-              size="sm"
+              :size="(sizeClasses.button as StandardSize)"
               :theme="theme || 'default'"
               rounding="full"
               design="outline"
@@ -193,7 +208,7 @@ const tagInput = vue.ref<HTMLInputElement>()
               :classes="{ button: 'cursor-grab' }"
               @click.stop
             >
-              <span class="flex items-center gap-1 pl-1">
+              <span class="flex items-center" :class="sizeClasses.buttonContent">
                 <span>{{ item }}</span>
                 <span
                   class="i-tabler-x opacity-50 hover:opacity-100 cursor-pointer"

@@ -36,7 +36,7 @@ export class Post extends FictionObject<PostConfig> {
   userConfig = vue.ref(this.settings.userConfig || {})
   sender = vue.ref(this.settings.sender || {})
   visibility = vue.ref(this.settings.visibility || 'public')
-  emailConfig = vue.ref(this.settings.emailConfig || ({ filters: [], target: 'all' } as EmailConfig))
+  emailConfig = vue.ref({ filters: [], target: 'all', ...this.settings.emailConfig } as EmailConfig)
   isFeatured = vue.ref(this.settings.isFeatured || false)
   priority = vue.ref(this.settings.priority || 0)
 
