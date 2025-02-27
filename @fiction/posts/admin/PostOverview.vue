@@ -85,14 +85,14 @@ const statusMap = vue.computed<NavListItem>(() => {
           <div class="flex-grow space-y-6">
             <div>
               <div class="text-theme-400 dark:text-theme-500 text-sm mb-4">
-                {{ dayjs(post.publishAt.value).format('MMM D, YYYY [at] h:mm A') }}
+                {{ post.publishAt.value ? dayjs(post.publishAt.value).format('MMM D, YYYY [at] h:mm A') : 'No Publish Time Set' }}
               </div>
 
               <h1 class="text-2xl font-semibold mb-1 text-balance">
                 {{ post.title.value || 'Untitled Post' }}
               </h1>
               <p v-if="post.subTitle.value" class="text-theme-600 dark:text-theme-300 text-lg">
-                {{ post.subTitle.value }}
+                {{ post.subTitle.value || 'No Subtitle' }}
               </p>
             </div>
 

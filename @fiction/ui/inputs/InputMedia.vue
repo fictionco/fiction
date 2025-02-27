@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MediaObject, StandardSize } from '@fiction/core'
 import { determineMediaFormat, removeUndefined, vue } from '@fiction/core'
-import XButton from '../buttons/XButton.vue'
+import XIcon from '../media/XIcon.vue'
 import XMedia from '../media/XMedia.vue'
 import LibraryModal from './LibraryModal.vue'
 
@@ -46,6 +46,12 @@ const sizeMap = vue.computed(() => {
 
   return sz[uiSize || 'md']
 })
+
+function triggerModal(event: MouseEvent) {
+  event.preventDefault()
+  event.stopPropagation()
+  openMediaSelector()
+}
 </script>
 
 <template>
@@ -53,8 +59,8 @@ const sizeMap = vue.computed(() => {
     <div
       v-if="hasMedia"
       data-test-id="media-select-button"
-      class="relative overflow-hidden rounded-lg group bg-theme-100/40 dark:bg-theme-700/70 cursor-pointer"
-      @click.stop.prevent="openMediaSelector"
+      class="trigger-button relative overflow-hidden rounded-lg group bg-theme-100/40 dark:bg-theme-700/70 cursor-pointer"
+      @click="triggerModal($event)"
     >
       <XMedia
         :media="v"
@@ -71,17 +77,17 @@ const sizeMap = vue.computed(() => {
         </span>
       </div>
     </div>
-    <XButton
+    <div
       v-else
       data-test-id="media-select-button"
-      rounding="full"
-      theme="primary"
-      icon="i-tabler-photo"
-      :size="sizeMap.button"
-      @click.stop.prevent="openMediaSelector"
+      class="trigger-button group flex items-center justify-center gap-2 p-4 rounded-lg bg-theme-100/40 dark:bg-theme-700/70 hover:bg-theme-100/70 dark:hover:bg-theme-700 cursor-pointer text-theme-500 dark:text-theme-400 hover:text-theme-600 dark:hover:text-theme-300"
+      @click="triggerModal($event)"
     >
-      {{ isBackground ? 'Edit Background' : 'Select Media' }}
-    </XButton>
+      <XIcon :media="{ class: 'i-tabler-photo' }" class="size-6" />
+      <div class="text-sm">
+        {{ isBackground ? 'Edit Background' : 'Select Media' }}
+      </div>
+    </div>
 
     <LibraryModal
       v-model:vis="vis"

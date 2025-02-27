@@ -71,6 +71,15 @@ vue.watch(
     transit.value = v < old ? 'slide-prev' : 'slide-next'
   },
 )
+
+function triggerMediaModal() {
+  setTimeout(() => {
+    const button = document.querySelector('[data-option-key="media"] .trigger-button') as HTMLElement | null
+    if (button) {
+      button.click()
+    }
+  }, 0)
+}
 </script>
 
 <template>
@@ -150,8 +159,9 @@ vue.watch(
               <XMedia
                 data-test-id="featured-post-media"
                 :media="post.media.value"
-                class="h-full w-full dark:bg-theme-900 shadow-inner rounded-md overflow-hidden "
+                class="h-full w-full dark:bg-theme-900 shadow-inner rounded-md overflow-hidden hover:opacity-85 cursor-pointer"
                 image-mode="contain"
+                @click="triggerMediaModal()"
               />
             </div>
           </div>

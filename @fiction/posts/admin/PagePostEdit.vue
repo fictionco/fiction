@@ -197,7 +197,7 @@ const viewModes = vue.computed(() => {
           options: [
             createOption({
               schema,
-              key: 'emailConfig.sender.senderName',
+              key: 'sender.senderName',
               label: 'Send From Name',
               subLabel: 'The name that will appear in the inbox',
               input: 'InputText',
@@ -205,7 +205,7 @@ const viewModes = vue.computed(() => {
             }),
             createOption({
               schema,
-              key: 'emailConfig.sender.senderEmail',
+              key: 'sender.senderEmail',
               label: 'Reply To Email',
               subLabel: 'The "sent from" email address',
               input: 'InputEmail',
@@ -221,7 +221,7 @@ const viewModes = vue.computed(() => {
           options: [
             createOption({
               schema,
-              key: 'emailConfig.sender.websiteUrl',
+              key: 'sender.websiteUrl',
               label: 'Website URL',
               subLabel: 'Adds a link to your website in the email footer',
               input: 'InputUrl',
@@ -229,7 +229,7 @@ const viewModes = vue.computed(() => {
             }),
             createOption({
               schema,
-              key: 'emailConfig.sender.companyName',
+              key: 'sender.companyName',
               label: 'Company Name',
               subLabel: 'The legal name of your company',
               input: 'InputText',
@@ -240,7 +240,7 @@ const viewModes = vue.computed(() => {
             }),
             createOption({
               schema,
-              key: 'emailConfig.sender.streetAddress',
+              key: 'sender.streetAddress',
               label: 'Street Address',
               subLabel: 'The physical address of your company',
               input: 'InputText',
