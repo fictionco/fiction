@@ -121,29 +121,29 @@ const sections = vue.computed<ReviewSection[]>(() => [
       {
         label: 'Title',
         value: props.post.title.value,
-        actions: [{ label: 'Edit', key: 'compose' }],
+        actions: [{ label: 'Post Settings', key: 'compose' }],
       },
       {
         label: 'Subtitle',
         value: props.post.subTitle.value || 'No subtitle',
-        actions: [{ label: 'Edit', key: 'compose' }],
+        actions: [{ label: 'Post Settings', key: 'compose' }],
       },
       {
         label: 'Word count',
         value: getObjectWordCount(props.post.toConfig()),
-        actions: [{ label: 'Edit', key: 'compose' }],
+        actions: [{ label: 'Post Settings', key: 'compose' }],
       },
       {
         label: 'Authors',
         value: props.post.authors?.value.map(a => a.fullName).join(', ') || 'No authors',
-        actions: [{ label: 'Edit', key: 'compose' }],
+        actions: [{ label: 'Post Settings', key: 'compose' }],
       },
       {
         label: 'Publication date',
         value: props.post.publishAt.value
           ? dayjs(props.post.publishAt.value).format('MMM D, YYYY [at] h:mm A')
           : 'Not scheduled',
-        actions: [{ label: 'Edit', key: 'review' }],
+        actions: [{ label: 'Post Settings', key: 'review' }],
       },
     ],
   },
@@ -157,17 +157,17 @@ const sections = vue.computed<ReviewSection[]>(() => [
         label: 'Email audience',
         value: getAudienceInfo(props.post.emailConfig?.value?.target),
         badge: props.recipientCount ? `${props.recipientCount} recipients` : undefined,
-        actions: [{ label: 'Edit', key: 'audience' }],
+        actions: [{ label: 'Edit Audience', key: 'audience' }],
       },
       {
         label: 'Subject line',
         value: props.post.emailConfig?.value?.subject || props.post.title.value,
-        actions: [{ label: 'Edit', key: 'email' }],
+        actions: [{ label: 'Email Settings', key: 'email' }],
       },
       {
         label: 'Preview text',
         value: props.post.emailConfig?.value?.preview || props.post.subTitle.value || 'No preview text',
-        actions: [{ label: 'Edit', key: 'email' }],
+        actions: [{ label: 'Email Settings', key: 'email' }],
       },
     ],
   },
@@ -180,17 +180,17 @@ const sections = vue.computed<ReviewSection[]>(() => [
       {
         label: 'Web audience',
         value: getVisibilityInfo(props.post.visibility.value),
-        actions: [{ label: 'Edit', key: 'audience' }],
+        actions: [{ label: 'Edit Audience', key: 'audience' }],
       },
       {
         label: 'URL Slug',
         value: props.post.slug.value || 'Not set',
-        actions: [{ label: 'Edit', key: 'web' }],
+        actions: [{ label: 'Web Settings', key: 'web' }],
       },
       {
         label: 'Featured Media',
         value: 'media',
-        actions: [{ label: 'Edit', key: 'web' }],
+        actions: [{ label: 'Web Settings', key: 'web' }],
       },
     ],
   },
@@ -328,7 +328,7 @@ const hasNoEmailRecipients = vue.computed(() =>
               <!-- String value display -->
               <div
                 v-else
-                class="text-theme-700/60 dark:text-theme-200  p-4 font-bold bg-theme-50 dark:bg-theme-700/60 rounded-lg"
+                class="text-theme-700/60 dark:text-theme-200  p-4 font-mono text-lg bg-theme-50 dark:bg-theme-700/60 rounded-lg"
               >
                 {{ item.value }}
               </div>
