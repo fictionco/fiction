@@ -24,6 +24,7 @@ export const inputs = {
   InputMarkdown: { el: def(() => import('./InputMarkdown.vue')) },
   InputList: { el: def(() => import('./InputList.vue')) },
   InputEmail: { el: def(() => import('./InputEmail.vue')) },
+  InputEmailMulti: { el: def(() => import('./InputEmailMulti.vue')) },
   InputOneTimeCode: { el: def(() => import('./InputOneTimeCode.vue')) },
   InputText: { el: def(() => import('./InputText.vue')) },
   InputUrl: { el: def(() => import('./InputUrl.vue')) },

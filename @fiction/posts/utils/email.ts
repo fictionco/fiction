@@ -36,7 +36,7 @@ export async function getEmailForPost(args: {
     preview: postConfig.emailConfig?.preview || (withDefaults ? 'No Preview' : ''),
     title: postConfig?.title || (withDefaults ? 'No Title' : ''),
     subTitle: postConfig?.subTitle || (withDefaults ? 'No Subtitle' : ''),
-    bodyMarkdown: await proseToMarkdown(postConfig?.content || (withDefaults ? 'No content' : '')),
+    content: postConfig?.content || (withDefaults ? 'No content' : ''),
     superTitle: {
       icon: avatar,
       text: senderName || (withDefaults ? 'No Publication Title' : ''),

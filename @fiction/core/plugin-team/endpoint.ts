@@ -98,7 +98,7 @@ export class QuerySeekInviteFromUser extends TeamQuery {
 
     const { fullName } = user
 
-    const bodyMarkdown = `Hi ${fullName}!\n\n${
+    const contentMarkdown = `Hi ${fullName}!\n\n${
       requestingName || 'A user'
     } (${requestingEmail}) has requested access to one of your organizations.`
 
@@ -112,7 +112,7 @@ export class QuerySeekInviteFromUser extends TeamQuery {
     await this.settings.fictionEmail.renderAndSendEmail({
       to: email,
       subject: `${requestingName || requestingEmail}: Request for Access`,
-      bodyMarkdown,
+      contentMarkdown,
       title: 'Request for Access',
       subTitle: 'A user has requested access to your organization.',
       buttons: [{
@@ -207,7 +207,7 @@ export class QueryTeamInvite extends TeamQuery {
         meta,
       )
 
-      const bodyMarkdown = `Hello!\n\nGood news. ${bearer?.fullName || 'A user'} (${
+      const contentMarkdown = `Hello!\n\nGood news. ${bearer?.fullName || 'A user'} (${
         bearer?.email || 'unknown'
       }) has added you as an ${memberAccess} to the "${
         org.orgName
@@ -218,7 +218,7 @@ export class QueryTeamInvite extends TeamQuery {
         subject: `${org.orgName}: You've been invited!`,
         title: `Your Invitation`,
         subTitle: `To join ${org.orgName} on Fiction`,
-        bodyMarkdown,
+        contentMarkdown,
         buttons: [
           { label: linkText, href: linkUrl, theme: 'primary' },
         ],

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil.js'
 import type { Post } from '../post.js'
@@ -6,6 +7,7 @@ import { toLabel, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElBrowserFrameDevice from '@fiction/ui/frame/ElBrowserFrameDevice.vue'
 import { getPostPreviewRoute } from '../utils/links.js'
+import PostEmailSendTest from './PostEmailSendTest.vue'
 
 defineOptions({ name: 'PostPreview' })
 
@@ -16,22 +18,24 @@ const { post, card } = defineProps<{
 
 const frameRef = vue.ref<HTMLElement & { frameUtility: FrameUtility }>() // Reference to the child component
 
-const formatModes = [
-  { label: 'browser', icon: 'i-tabler-browser', wrapClass: 'w-full' },
-  { label: 'email', icon: 'i-tabler-mail', wrapClass: 'w-[60%] max-w-sm' },
+type FormatMode = 'browser' | 'email' | 'test'
+const formatModes: (NavListItem & { wrapClass: string, key: FormatMode })[] = [
+  { key: 'browser', icon: { class: 'i-tabler-browser' }, wrapClass: 'w-full' },
+  { key: 'email', icon: { class: 'i-tabler-mail' }, wrapClass: 'w-[60%] max-w-sm' },
+  { key: 'test', label: 'Send Test Email', icon: { class: 'i-tabler-mail' }, wrapClass: 'w-[90%] max-w-2xl' },
 ] as const
 
 const deviceModes = [
-  { label: 'desktop', icon: 'i-tabler-device-desktop', wrapClass: 'w-full' },
-  { label: 'mobile', icon: 'i-tabler-device-mobile', wrapClass: 'w-[60%] max-w-sm' },
-  { label: 'tablet', icon: 'i-tabler-device-ipad', wrapClass: 'w-[85%] max-w-xl' },
-  { label: 'landscape', icon: 'i-tabler-device-ipad-horizontal', wrapClass: 'w-[90%] max-w-2xl' },
+  { key: 'desktop', icon: 'i-tabler-device-desktop', wrapClass: 'w-full' },
+  { key: 'mobile', icon: 'i-tabler-device-mobile', wrapClass: 'w-[60%] max-w-sm' },
+  { key: 'tablet', icon: 'i-tabler-device-ipad', wrapClass: 'w-[85%] max-w-xl' },
+  { key: 'landscape', icon: 'i-tabler-device-ipad-horizontal', wrapClass: 'w-[90%] max-w-2xl' },
 ] as const
 
-type DeviceMode = typeof deviceModes[number]['label']
+type DeviceMode = typeof deviceModes[number]['key']
 const activeDeviceMode = vue.ref<DeviceMode>('desktop')
-const deviceModeConfig = vue.computed(() => deviceModes.find(mode => mode.label === activeDeviceMode.value))
-const activeFormatMode = vue.ref<'browser' | 'email'>('browser')
+const deviceModeConfig = vue.computed(() => deviceModes.find(mode => mode.key === activeDeviceMode.value))
+const activeFormatMode = vue.ref<FormatMode>('browser')
 </script>
 
 <template>
@@ -45,12 +49,12 @@ const activeFormatMode = vue.ref<'browser' | 'email'>('browser')
             rounding="full"
             respond="icon:xl"
             design="outline"
-            :theme="activeFormatMode === mode.label ? 'primary' : 'default'"
+            :theme="activeFormatMode === mode.key ? 'primary' : 'default'"
             :icon="mode.icon"
             size="xs"
-            @click.stop="activeFormatMode = mode.label"
+            @click.stop="activeFormatMode = mode.key"
           >
-            {{ toLabel(mode.label) }}
+            {{ mode.label || toLabel(mode.key) }}
           </XButton>
         </div>
         <div class="flex items-center gap-2">
@@ -60,17 +64,19 @@ const activeFormatMode = vue.ref<'browser' | 'email'>('browser')
             rounding="full"
             respond="icon:xl"
             design="outline"
-            :theme="activeDeviceMode === mode.label ? 'rose' : 'default'"
+            :theme="activeDeviceMode === mode.key ? 'rose' : 'default'"
             :icon="mode.icon"
             size="xs"
-            @click.stop="activeDeviceMode = mode.label"
+            @click.stop="activeDeviceMode = mode.key"
           >
-            {{ toLabel(mode.label) }}
+            {{ toLabel(mode.key) }}
           </XButton>
         </div>
       </div>
       <div class="min-h-0 h-full relative mx-auto flex flex-col" :class="deviceModeConfig?.wrapClass">
+        <PostEmailSendTest v-if="activeFormatMode === 'test'" :post :card class="max-w-screen-sm mx-auto" />
         <ElBrowserFrameDevice
+          v-else
           ref="frameRef"
           :device-mode="activeDeviceMode"
           class="rounded-md shadow-lg border border-theme-200"

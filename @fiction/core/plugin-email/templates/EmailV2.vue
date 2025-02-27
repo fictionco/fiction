@@ -9,8 +9,7 @@ const {
   subject = '',
   title = '',
   subTitle = '',
-  bodyHtml = '',
-  bodyMarkdown = '',
+  content = '',
   preview = '',
   buttons,
   superTitle,
@@ -22,6 +21,7 @@ const {
   theme = 'blue',
   previewMode = '',
   footerLinks = [],
+  emailType = 'campaign',
 } = defineProps<EmailSendConfig>()
 
 // Precalculate colors based on props
@@ -43,8 +43,6 @@ const baseStyles = {
   link: `color:${textColor.value};text-decoration:none;`,
   hr: `border:none;border-top:1px solid ${hrColor.value};margin:3em 0; width: 5em;`,
 }
-
-const bodyContent = computed(() => bodyHtml || (bodyMarkdown ? toHtml(bodyMarkdown) : ''))
 
 unhead.useHead({
   bodyAttrs: { style: () => `margin:0;padding:0;background-color:${bgColor.value};font-family:${fontStack};font-size:18px;color:${textColor.value};` },
@@ -346,7 +344,7 @@ unhead.useHead({
         </figure>
 
         <!-- Content -->
-        <div v-if="bodyContent" class="prose-content" v-html="bodyContent" />
+        <div v-if="content" class="prose-content" v-html="content" />
 
         <!-- Buttons -->
         <div v-if="buttons" style="margin:32px 0;">
@@ -391,12 +389,17 @@ unhead.useHead({
         <table id="last-line" style="width:100%;margin-top:32px;" cellpadding="0" cellspacing="0">
           <tbody>
             <tr>
-              <td v-if="unsubscribeUrl">
+              <td v-if="unsubscribeUrl && emailType === 'campaign'">
                 <a :href="unsubscribeUrl">Unsubscribe</a>
                 <span>•</span>
                 <a href="mailto:admin@fiction.com">Report Abuse</a>
               </td>
-              <td v-if="poweredByFiction" style="text-align:right;">
+              <td
+                v-if="poweredByFiction"
+                :style="{
+                  textAlign: emailType === 'campaign' ? 'right' : 'left',
+                }"
+              >
                 <a
                   href="https://www.fiction.com"
                   target="_blank"

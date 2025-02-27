@@ -99,17 +99,17 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
         await webhook.send({ text: message, attachments })
 
         if (notifyEmail) {
-          let markdownText = ''
+          let content = ''
 
           if (attachments && attachments.length > 0) {
             attachments[0].fields?.forEach((field) => {
-              markdownText += `* **${field.title}**: ${field.value}\n`
+              content += `- ${field.title}: ${field.value}\n`
             })
           }
           await this.settings.fictionEmail.renderAndSendEmail({
             to: this.monitorEmail,
             subject: `Notify: ${message}`,
-            bodyMarkdown: markdownText,
+            content,
             caller: 'monitor',
           }, { server: true })
         }

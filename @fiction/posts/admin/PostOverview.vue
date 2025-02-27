@@ -2,8 +2,9 @@
 import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { Post } from '../post.js'
-import { toLabel, useService, vue } from '@fiction/core'
+import { dayjs, toLabel, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
+import SuperTitle from '@fiction/ui/common/XSuperTitle.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import PostAnalytics from './PostAnalytics.vue'
 import PostPreview from './PostPreview.vue'
@@ -83,6 +84,10 @@ const statusMap = vue.computed<NavListItem>(() => {
           <!-- Left column with primary info -->
           <div class="flex-grow space-y-6">
             <div>
+              <div class="text-theme-400 dark:text-theme-500 text-sm mb-4">
+                {{ dayjs(post.publishAt.value).format('MMM D, YYYY [at] h:mm A') }}
+              </div>
+
               <h1 class="text-2xl font-semibold mb-1 text-balance">
                 {{ post.title.value || 'Untitled Post' }}
               </h1>

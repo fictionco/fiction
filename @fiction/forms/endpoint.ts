@@ -198,7 +198,7 @@ export class QueryManageSubmission extends FormQuery {
       },
       ).join('\n')
 
-      const bodyMarkdown = `${heading}:\n\n${formattedDetails}`
+      const content = `${heading}:\n\n${formattedDetails}`
 
       if (!this.settings.fictionEmail) {
         throw new Error('No email service available')
@@ -210,7 +210,7 @@ export class QueryManageSubmission extends FormQuery {
       const emailPromises = emailList.map(async item => this.settings.fictionEmail.renderAndSendEmail({
         to: item.email,
         subject: heading,
-        bodyMarkdown,
+        content,
         title,
         subTitle: `Details are below`,
         buttons: [{ label: 'Fiction Dashboard', href: `${this.settings.fictionEnv.meta.app?.url}/app` }],
@@ -219,7 +219,7 @@ export class QueryManageSubmission extends FormQuery {
 
       const emails = await Promise.all(emailPromises)
 
-      this.log.info('Email sent for new form submission', { data: { heading, bodyMarkdown } })
+      this.log.info('Email sent for new form submission', { data: { heading, content } })
 
       const data = (emails.map(e => e.data).filter(Boolean)) as EmailResponse[]
 

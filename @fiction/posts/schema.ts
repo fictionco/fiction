@@ -26,7 +26,6 @@ export type TablePostConfig = Partial<ColType<typeof postCols>> & {
 
 export type PostUserConfig = {
   isContentCompletionDisabled?: boolean
-  testEmails?: string
 } & SiteUserConfig
 
 export type PostDraft = Partial<{ draftId: string, title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string }>

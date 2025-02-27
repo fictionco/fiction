@@ -42,7 +42,7 @@ export async function setup(args: { context?: 'node' | 'app', mainFilePath?: str
         subject: `${emailVars.appName}: Email Action Subject`,
         title: 'Email Action Title',
         subTitle: 'Email Action Subtitle',
-        bodyMarkdown: `Email Action Body Markdown`,
+        content: `Email Action Body Markdown`,
         to: `${emailVars.email}`,
         buttons: [
           {

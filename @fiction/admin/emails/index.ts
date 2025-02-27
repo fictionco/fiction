@@ -26,7 +26,7 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
         subject: `${emailVars.appName}: Verify Your Email`,
         title: 'Verify Your Email',
         subTitle: 'Click the Link Below',
-        bodyMarkdown: `Verify your email using the code: **${emailVars.code}** or click the button below.`,
+        content: `Verify your email using the code: <strong>${emailVars.code}</strong> or click the button below.`,
         to: `${emailVars.email}`,
         buttons: [
           { label: 'Verify Email', href: emailVars.callbackUrl, theme: 'primary' },
@@ -58,7 +58,7 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
         subject: `${emailVars.appName}: Your Sign-In Link 🪄`,
         title: 'Your Sign-In Link is Ready',
         subTitle: 'Click the link below to log in',
-        bodyMarkdown: [
+        contentMarkdown: [
           `[This link](${emailVars.callbackUrl}) will sign you in to ${emailVars.appName}.`,
           `Alternatively, you can login with this code: **${emailVars.code}**.`,
           `If you didn't request this email, don't worry, you can safely ignore it.`,

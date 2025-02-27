@@ -11,7 +11,8 @@ export type EmailSendConfig = {
   superTitle?: SuperTitle
   title?: string
   subTitle?: string
-  bodyMarkdown?: string
+  content?: string
+  contentMarkdown?: string
   mediaFeatured?: MediaObject
   theme?: ColorThemeBright
 

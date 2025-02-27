@@ -38,7 +38,7 @@ export type ManagePostParamsRequest =
   | { _action: 'list', type?: string, loadDraft?: boolean } & IndexQuery & ({ orgId: string, where?: { orgId?: string } } | { where: { orgId: string } })
   | { _action: 'deletePosts', selectedIds?: string[], orgId: string, userId: string }
   | { _action: 'restoreFromRevision', where: WherePost, revisionId: string }
-  | { _action: 'emailSendTest', where: WherePost, testEmails: string, maxEmails?: number }
+  | { _action: 'emailSendTest', where: WherePost, testEmails: string[], maxEmails?: number }
 
 export type ManagePostParams = ManagePostParamsRequest & {
   userId?: string
@@ -593,7 +593,7 @@ export class QueryManagePost extends PostsQuery {
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    const allEmails = testEmails.split(',').map(email => email.trim())
+    const allEmails = testEmails.map(email => email.trim())
     const validEmails = allEmails.filter(email => emailRegex.test(email))
     const badlyFormattedEmails = allEmails.filter(email => !emailRegex.test(email))
 

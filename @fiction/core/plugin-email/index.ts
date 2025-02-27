@@ -1,14 +1,16 @@
+import type { ViteDevServer } from 'vite'
 import type { FictionMedia } from '../plugin-media'
 import type { FictionPluginSettings } from '../plugin.js'
 import type { MediaObject } from '../schemas/schemas'
 import type { EndpointMeta } from '../utils/index.js'
+
 import type { EmailSendConfig } from './util'
 import { renderSSRHead } from '@unhead/ssr'
 import { createHead } from '@unhead/vue'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { FictionPlugin } from '../plugin.js'
 import { isTest, safeDirname, vue } from '../utils/index.js'
-import { proseToMarkdown } from '../utils/markdown.js'
+import { proseToMarkdown, renderMarkdown } from '../utils/markdown.js'
 import { QueryTransactionalEmail } from './endpoint.js'
 
 export * from './util'
@@ -47,14 +49,38 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
       this.queries.TransactionEmail.getClient()
   }
 
-  async getRenderer() {
-    const { config } = await import('@vue-email/compiler')
-    return config(`${safeDirname(import.meta.url)}/templates`, {
-      verbose: false,
-      options: {
-        baseUrl: 'https://www.fiction.com/', // unused
-      },
+  renderer?: ViteDevServer
+  async getNodeRenderer() {
+    if (this.renderer)
+      return this.renderer
+
+    const { createServer } = await import('vite')
+    const { default: vue } = await import('@vitejs/plugin-vue')
+    this.renderer = await createServer({
+      configFile: false,
+      plugins: [vue()],
+      server: { middlewareMode: true },
     })
+
+    return this.renderer
+  }
+
+  async parseTemplateNode() {
+    const { fileURLToPath } = await import('node:url')
+    const path = await import('node:path')
+
+    const templatePath = path.join(path.dirname(fileURLToPath(import.meta.url)), 'templates', 'EmailV2.vue')
+
+    const renderer = await this.getNodeRenderer()
+
+    try {
+      const { default: EmailV2Component } = await renderer.ssrLoadModule(templatePath)
+      return EmailV2Component as vue.Component
+    }
+    catch (error) {
+      console.error('Error loading EmailV2.vue module:', error)
+      throw error
+    }
   }
 
   rawTemplate = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -63,11 +89,14 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
   async compileTemplateToHtml(args: { emailConfig: EmailSendConfig }): Promise<string> {
     const { emailConfig } = args
     const { renderToString } = await import('vue/server-renderer')
-    const EmailV2 = vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/templates/EmailV2.vue'))
 
-    if (emailConfig.bodyHtml && !emailConfig.bodyMarkdown) {
-      emailConfig.bodyMarkdown = await proseToMarkdown(emailConfig.bodyHtml)
+    if (!emailConfig.content && emailConfig.contentMarkdown) {
+      emailConfig.content = await renderMarkdown(emailConfig.contentMarkdown)
     }
+
+    const EmailV2: vue.Component = this.settings.fictionEnv.isApp.value
+      ? vue.defineAsyncComponent(() => import('./templates/EmailV2.vue'))
+      : await this.parseTemplateNode()
 
     const app: vue.App = vue.createSSRApp(EmailV2, emailConfig)
 

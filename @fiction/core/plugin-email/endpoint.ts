@@ -100,7 +100,7 @@ export type TransactionalEmailParams =
   | { _action: 'send', fields: EmailSendConfig }
   | { _action: 'unsubscribe', fields: { email: string } }
 
-type NodeMailOptions = Omit<Mail.Options, 'to' | 'html' | 'text'> & { to: string, html: string, text: string }
+type NodeMailOptions = Omit<Mail.Options, 'to' | 'html' | 'text'> & { to: string, html: string, text?: string }
 
 export type EmailResponse = {
   isSent: boolean
@@ -139,10 +139,9 @@ export class QueryTransactionalEmail extends EmailQuery {
     const shouldSend = this.shouldSendEmail(meta)
 
     const html = fields.bodyHtml || ''
-    const text = fields.bodyMarkdown || ''
     const sendingDomain = this.settings.fictionEmail.settings.sendingDomain
 
-    if (!html && !text)
+    if (!html)
       throw abort('missing bodyHtml or bodyMarkdown')
 
     const {
@@ -216,7 +215,6 @@ export class QueryTransactionalEmail extends EmailQuery {
       to,
       subject,
       html,
-      text,
       replyTo,
       headers,
     }

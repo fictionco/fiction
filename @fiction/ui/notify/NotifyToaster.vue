@@ -13,6 +13,7 @@ const defaultToasts: UserNotification[] = props.dev
       { type: 'success', message: 'Success!', more: 'This is a success message.', key: 'success' },
       { type: 'error', message: 'Error!', more: 'This is an error message.', key: 'error' },
       { type: 'info', message: 'Info', key: 'info' },
+      { type: 'success', message: 'Success! This has a longer message that should be formatted.', more: 'This is a success message.', key: 'success' },
     ]
   : []
 
@@ -73,16 +74,16 @@ vue.onMounted(() => {
         <div
           v-for="(toast, i) in topToasts"
           :key="i"
-          class="pointer-events-auto mb-4 w-full max-w-xs overflow-hidden rounded-full bg-black/80 dark:bg-theme-700/90 text-sm text-white dark:text-theme-0 shadow-xl border border-black dark:border-theme-500 transition-all duration-300"
+          class="pointer-events-auto mb-4 w-full max-w-sm overflow-hidden rounded-2xl bg-black/80 dark:bg-theme-800/90 text-sm text-white dark:text-theme-0 shadow-xl border border-black dark:border-theme-600 transition-all duration-300"
           :class="[toast.type]"
         >
-          <div class="py-2 pl-2 pr-4">
-            <div class="flex items-center justify-between">
-              <div class="ml-4 capitalize">
-                <div class="text-sm font-semibold tracking-tight">
+          <div class="py-3 px-5">
+            <div class="flex items-center justify-between gap-2">
+              <div class="space-y-0.5">
+                <div class="text-sm font-semibold text-pretty">
                   {{ capitalizeFirstLetter(toast.message) }}
                 </div>
-                <div v-if="toast.more" class="text-xs opacity-80">
+                <div v-if="toast.more" class="text-[.9em] opacity-80 font-medium text-pretty">
                   {{ toast.more }}
                 </div>
               </div>
