@@ -621,7 +621,7 @@ const statusMap = vue.computed<NavListItem>(() => {
       <div class="p-4 font-semibold">
         Schedule Publish
       </div>
-      <ElForm v-if="post" class="p-4 space-y-6 relative" @submit="saveAndSchedule()">
+      <ElForm data-test-id="publish-panel" v-if="post" class="p-4 space-y-6 relative" @submit="saveAndSchedule()">
         <div class="space-y-6 p-12">
           <ElInput
             v-model="post.publishMode.value"
@@ -649,6 +649,7 @@ const statusMap = vue.computed<NavListItem>(() => {
             input="InputDate"
             :input-props="{ dateMode: 'future', includeTime: true }"
             required
+            data-option-path="publishAt"
           />
         </div>
         <div class="flex justify-between gap-6">
@@ -662,10 +663,12 @@ const statusMap = vue.computed<NavListItem>(() => {
           </XButton>
           <XButton
             size="md"
+            data-test-id="schedule-publish-button"
             theme="primary"
             icon="i-tabler-calendar-bolt"
             type="submit"
             :loading="sending === 'schedule'"
+            :disabled="!post.publishMode.value || (post.publishMode.value === 'schedule' && !post.publishAt.value)"
           >
             {{ publishText }}
           </XButton>

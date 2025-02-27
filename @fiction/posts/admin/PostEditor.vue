@@ -150,7 +150,7 @@ function triggerMediaModal() {
                 class="dark:text-theme-300 text-xl"
                 :is-editable="true"
                 placeholder="Enter Subtitle"
-                data-test-id="post-editor-sub-title"
+                data-test-id="post-editor-subTitle"
                 :disable-formatting="true"
                 @update:model-value="handleUpdate({ key: 'subTitle', value: $event as string, caller: 'proseEditor:subTitle' })"
               />
@@ -218,6 +218,7 @@ function triggerMediaModal() {
                     design="outline"
                     icon-after="i-tabler-arrow-right"
                     @click="emit('navigate', { dir: 'next' })"
+                    data-test-id="next-button-bottom"
                   >
                     Next
                   </XButton>
@@ -228,6 +229,7 @@ function triggerMediaModal() {
                     icon="i-tabler-calendar"
                     icon-after="i-tabler-arrow-right"
                     @click.stop="emit('navigate', { dir: 'schedule' })"
+                     data-test-id="schedule-button-bottom"
                   >
                     Schedule
                   </XButton>
@@ -238,6 +240,7 @@ function triggerMediaModal() {
                     icon="i-tabler-calendar-off"
                     icon-after="i-tabler-arrow-back-up"
                     @click.stop="emit('navigate', { dir: 'unschedule' })"
+                    data-test-id="unschedule-button-bottom"
                   >
                     Unschedule
                   </XButton>

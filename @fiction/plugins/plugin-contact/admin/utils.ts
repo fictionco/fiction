@@ -47,7 +47,7 @@ export function parseAndValidateEmails(input?: string[] | string): string[] {
   if (!input)
     return []
 
-  const emails = typeof input === 'string' ? input.split('\n') : input
+  const emails = typeof input === 'string' ? input.split(/[\s,]+/) : input
 
   return cleanEmails(emails).filter(Boolean)
 }

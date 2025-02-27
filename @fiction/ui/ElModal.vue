@@ -150,7 +150,7 @@ export default {
               @click.stop="resetUi({ scope: 'inputs', cause: `modalClick`, trigger: 'elementClick' })"
             >
               <div v-if="hasClose" class="absolute top-0 right-0">
-                <ElClose @click.stop="close({ reason: 'escape' })" />
+                <ElClose @click.stop="close({ reason: 'escape' })" data-test-id="close-modal" />
               </div>
               <slot />
             </div>

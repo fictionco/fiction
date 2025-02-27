@@ -68,7 +68,7 @@ const stepConfig: StepConfig = {
       {
         title: 'Create New Post',
         subTitle: 'Give it a title, you can change this later',
-        key: 'postTitle',
+        key: 'title',
         class: 'max-w-lg',
         isLoading: isSubmitting.value,
         onClick: () => createNewPost(),
@@ -94,7 +94,7 @@ const stepConfig: StepConfig = {
       data-test-id="createPostModal"
       :classes="{ step: 'bg-theme-0 dark:bg-theme-950 text-theme-900 dark:text-theme-0' }"
     >
-      <div v-if="step.key === 'postTitle'" class="">
+      <div v-if="step.key === 'title'" class="">
         <ElInput
           v-model="postDetails.title"
           input="InputText"
@@ -102,7 +102,7 @@ const stepConfig: StepConfig = {
             'placeholder': `Enter post title`,
             'aria-label': 'Post title',
           }"
-          data-test-id="postTitleInput"
+          data-test-id="start-post-title"
           ui-size="lg"
           required
         />

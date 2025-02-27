@@ -285,6 +285,29 @@ export class PlaywrightLogger {
   }
 }
 
+async function highlightElement(page: Page, selector?: string): Promise<boolean> {
+  if (!selector)
+    return false
+
+  try {
+    const exists = await page.evaluate((sel) => {
+      const element = document.querySelector(sel) as HTMLElement | null
+      if (element) {
+        const originalOutline = element.style.outline
+        element.style.outline = '3px solid red'
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        setTimeout(() => { element.style.outline = originalOutline }, 2000)
+        return true
+      }
+      return false
+    }, selector)
+    return exists
+  }
+  catch (error) {
+    return false
+  }
+}
+
 type TestPageAction = {
   type: 'visible' | 'goto' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'notHasText' | 'hasValue' | 'notHasValue' | 'scrollTo' | 'frameInteraction' | 'callback' | 'hasAttribute'
   selector?: string
@@ -347,6 +370,7 @@ export async function performActions(args: {
 
     if (['click', 'fill', 'hasText', 'hasValue', 'hasAttribute', 'visible'].includes(action.type)) {
       await element.first().waitFor({ state: 'visible', timeout: 30000 })
+      await highlightElement(page, action.selector)
     }
 
     logger.info(toSnake(action.type, { upper: true }), { data: removeUndefined(action) })

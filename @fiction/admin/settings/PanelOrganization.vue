@@ -121,8 +121,8 @@ const newsletterOptions = [
   createOption({
     key: 'control.senderEmail',
     testId: 'senderEmail',
-    label: 'Sender Email',
-    subLabel: 'ReplyTo email for newsletters.',
+    label: `Reply To Email`,
+    subLabel: 'ReplyTo email for email campaigns and newsletters.',
     input: 'InputControl',
     valueDisplay: () => {
       const { senderEmail } = org.value || {}
@@ -136,7 +136,7 @@ const newsletterOptions = [
     ],
   }),
   createOption({
-    key: 'control.fromName',
+    key: 'control.senderName',
     testId: 'senderName',
     label: 'Sender Name',
     subLabel: 'Email will be sent with this name.',
@@ -159,10 +159,10 @@ const newsletterOptions = [
     ],
   }),
   createOption({
-    key: 'control.pubTagline',
-    testId: 'pubTagline',
+    key: 'control.description',
+    testId: 'description',
     label: 'Headline / Tagline',
-    subLabel: 'Short of your publication.',
+    subLabel: 'A catchy tagline explaining what you do.',
     input: 'InputControl',
     valueDisplay: () => {
       return {
@@ -171,51 +171,20 @@ const newsletterOptions = [
       }
     },
     options: [
-      createOption({ schema, key: 'description', label: 'Headline / Tagline', description: 'Used in descriptions and meta info', input: 'InputText', placeholder: 'A sentence on what you do...' }),
+      createOption({
+        schema,
+        key: 'description',
+        label: 'Headline / Tagline',
+        description: 'Used in descriptions and meta info',
+        input: 'InputText',
+        placeholder: 'A sentence on what you do...',
+      }),
     ],
   }),
 ]
 
 const legalOptions = [
-  createOption({
-    key: 'control.terms',
-    testId: 'legal',
-    label: 'Terms of Service URL',
-    input: 'InputControl',
-    valueDisplay: () => {
-      const { termsUrl } = org.value?.legal || {}
-      const out = []
-      if (termsUrl)
-        out.push('Terms of Service Added')
 
-      return {
-        status: termsUrl ? 'ready' : 'optional',
-        data: out.join(', '),
-      }
-    },
-    options: [
-      createOption({ schema, key: 'legal.termsUrl', label: 'Terms of Service URL', input: 'InputUrl' }),
-    ],
-  }),
-  createOption({
-    key: 'control.privacy',
-    testId: 'legal',
-    label: 'Privacy Policy URL',
-    input: 'InputControl',
-    valueDisplay: () => {
-      const { privacyUrl } = org.value?.legal || {}
-      const out = []
-      if (privacyUrl)
-        out.push('Privacy Policy Added')
-      return {
-        status: privacyUrl ? 'ready' : 'optional',
-        data: out.join(', '),
-      }
-    },
-    options: [
-      createOption({ schema, key: 'legal.privacyUrl', label: 'Privacy Policy URL', input: 'InputUrl' }),
-    ],
-  }),
   createOption({
     key: 'control.address',
     testId: 'streetAddress',
@@ -249,10 +218,10 @@ const legalOptions = [
     subLabel: 'For copyright and legal.',
     input: 'InputControl',
     valueDisplay: () => {
-      const { streetAddress } = org.value || {}
+      const { companyName } = org.value || {}
       return {
-        status: streetAddress ? 'ready' : 'optional',
-        data: streetAddress,
+        status: companyName ? 'ready' : 'optional',
+        data: companyName,
       }
     },
     options: [
@@ -266,6 +235,45 @@ const legalOptions = [
           autocomplete: 'organization',
         },
       }),
+    ],
+  }),
+  createOption({
+    key: 'control.termsUrl',
+    testId: 'termsUrl',
+    label: 'Terms of Service URL',
+    input: 'InputControl',
+    valueDisplay: () => {
+      const { termsUrl } = org.value?.legal || {}
+      const out = []
+      if (termsUrl)
+        out.push('Terms of Service Added')
+
+      return {
+        status: termsUrl ? 'ready' : 'optional',
+        data: out.join(', '),
+      }
+    },
+    options: [
+      createOption({ schema, key: 'legal.termsUrl', label: 'Terms of Service URL', input: 'InputUrl' }),
+    ],
+  }),
+  createOption({
+    key: 'control.privacyUrl',
+    testId: 'privacyUrl',
+    label: 'Privacy Policy URL',
+    input: 'InputControl',
+    valueDisplay: () => {
+      const { privacyUrl } = org.value?.legal || {}
+      const out = []
+      if (privacyUrl)
+        out.push('Privacy Policy Added')
+      return {
+        status: privacyUrl ? 'ready' : 'optional',
+        data: out.join(', '),
+      }
+    },
+    options: [
+      createOption({ schema, key: 'legal.privacyUrl', label: 'Privacy Policy URL', input: 'InputUrl' }),
     ],
   }),
 ]
@@ -342,7 +350,7 @@ const options = vue.computed(() => {
     }),
     createOption({
       key: 'legal',
-      label: 'Additional Info',
+      label: 'Trust and Compliance',
       input: 'group',
       options: legalOptions,
       format: 'control',

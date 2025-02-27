@@ -5,7 +5,16 @@ import { inputs } from '.'
 
 defineOptions({ name: 'ElInput' })
 
-const { modelValue, label = '', subLabel = '', description = '', inputProps = {}, uiSize = 'md', input, defaultValue } = defineProps<{
+const {
+  modelValue,
+  label = '',
+  subLabel = '',
+  description = '',
+  inputProps = {},
+  uiSize = 'md',
+  input,
+  defaultValue,
+} = defineProps<{
   modelValue?: any
   label?: string
   subLabel?: string
@@ -14,6 +23,7 @@ const { modelValue, label = '', subLabel = '', description = '', inputProps = {}
   uiSize?: UiElementSize
   input?: keyof typeof inputs | vue.Component | 'title' | 'group' | 'hidden'
   defaultValue?: any
+  optionPath?: string
 }>()
 
 const emit = defineEmits<{
@@ -135,6 +145,7 @@ const cls = vue.computed(() => {
         v-if="inputComponent"
         ref="inputEl"
         :model-value="modelValue"
+        :option-path="attrs['data-option-path']"
         v-bind="{ ...omit(attrs, 'class', 'data-test-id', 'data-option-path', 'model-value'), ...inputProps }"
         :ui-size="uiSize"
         @update:model-value="updateValue($event)"

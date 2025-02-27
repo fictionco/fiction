@@ -166,6 +166,7 @@ export class InputOption extends FictionObject<InputOptionSettings> {
         placeholder: this.placeholder.value,
         required: this.isRequired.value,
         key: this.key.value,
+        optionPath: this.key.value,
         options: this.options.value,
         list: this.list.value,
         disabled: this.settings.disabled,

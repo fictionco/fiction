@@ -22,6 +22,7 @@ const { title, subTitle, superTitle, card, post, value, options = [] } = defineP
   <ElForm
     id="validForm"
     class="relative z-10 mx-auto w-full p-4 md:p-10 max-w-screen-md"
+    :data-test-id="`${value}-panel`"
   >
     <div class="relative z-10 mb-4 flex gap-4 md:text-center md:justify-center">
       <div class="space-y-5">

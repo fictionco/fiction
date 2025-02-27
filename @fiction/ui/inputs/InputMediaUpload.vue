@@ -150,10 +150,10 @@ function triggerFileInput() {
         class="shrink-0"
         design="solid"
         rounding="md"
-        icon="i-tabler-upload"
+        icon-after="i-tabler-upload"
         :loading="uploading"
         @click.prevent="triggerFileInput"
-      />
+      >Upload</XButton>
       <input
         :value="modelValue?.url"
         type="text"

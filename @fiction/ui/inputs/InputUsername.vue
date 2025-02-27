@@ -4,10 +4,11 @@ import type { CheckColumnValue } from '@fiction/core/plugin-db/endpoint'
 import type { UiElementSize } from '../utils'
 import { useService, vue } from '@fiction/core'
 import { inputClasses } from './theme'
+import ElTooltip from '../common/ElTooltip.vue'
 
 const props = defineProps({
   modelValue: { type: [String], default: '' },
-  placeholder: { type: [String], default: '' },
+  placeholder: { type: String, default: '' },
   beforeInput: { type: String, default: '' },
   afterInput: { type: String, default: '' },
   inputClass: { type: String, default: '' },
@@ -24,9 +25,8 @@ const emit = defineEmits<{
 
 const { fictionDb } = useService()
 const initialValue = vue.ref(props.modelValue)
-const initialStatus = initialValue.value === '' ? 'unknown' : 'success'
-const status = vue.ref<ResponseStatus>(initialStatus)
-const reason = vue.ref<ValidationReason>(initialStatus)
+const status = vue.ref<ResponseStatus>(props.modelValue ? 'success' : 'unknown')
+const reason = vue.ref<ValidationReason>(props.modelValue ? 'current' : 'unknown')
 const validEl = vue.ref<HTMLInputElement>()
 const isValid = vue.ref(-1)
 const reasonText = vue.computed(() => {
@@ -40,6 +40,7 @@ const reasonText = vue.computed(() => {
     loading: 'Checking...',
     taken: 'Not available',
     reserved: 'Reserved',
+    unknown: '',
   } as const
 
   return r[reason.value as keyof typeof r]
@@ -47,15 +48,20 @@ const reasonText = vue.computed(() => {
 
 async function handleEmit(target: EventTarget | null) {
   const el = target as HTMLInputElement
-
   const value = el.value
 
   const columns = props.columns.map(c => ({ ...c, value: !c.value ? value : c.value }))
 
   emit('update:modelValue', value)
 
-  if (!value)
+  // Reset status when empty
+  if (!value) {
+    status.value = 'unknown'
+    reason.value = 'unknown'
+    isValid.value = -1
+    validEl.value?.setCustomValidity('')
     return
+  }
 
   if (value === initialValue.value) {
     status.value = 'success'
@@ -105,7 +111,7 @@ const icon = vue.computed(() => {
     error: { icon: 'i-tabler-exclamation-circle', color: 'text-red-500' },
     loading: { icon: 'i-tabler-reload animate-spin', color: 'text-theme-400' },
     fail: { icon: 'i-tabler-x', color: 'text-red-500' },
-    unknown: { icon: 'i-tabler-question-circle', color: 'text-theme-400' },
+    unknown: { icon: 'i-tabler-line-dashed', color: 'text-theme-400' },
   }
 
   return i[status.value]
@@ -135,10 +141,12 @@ const cls = vue.computed(() => inputClasses({ uiSize: props.uiSize }))
       <div v-if="afterInput" class="text-theme-400 dark:text-theme-600" :class="cls.padY">
         {{ afterInput }}
       </div>
-      <div class="text-[1.2em] shrink-0" :class="[icon.color, icon.icon]" />
+      <ElTooltip :content="reasonText" class="flex items-center" direction="top">
+        <div class="text-[1.3em] shrink-0" :class="[icon.color, icon.icon]" />
+      </ElTooltip>
     </div>
-    <div v-if="reasonText || reason" class="mt-1.5 text-[.7em] font-sans text-theme-400">
-      {{ reasonText || reason }}
+    <div v-if="reasonText" class="mt-1.5 text-[.7em] font-sans text-theme-400">
+      {{ reasonText }}
     </div>
   </div>
 </template>

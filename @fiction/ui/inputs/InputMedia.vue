@@ -7,10 +7,11 @@ import LibraryModal from './LibraryModal.vue'
 
 defineOptions({ name: 'InputMedia' })
 
-const { modelValue = {}, isBackground = false, uiSize = 'md' } = defineProps<{
+const { modelValue = {}, isBackground = false, uiSize = 'md', optionPath = 'none' } = defineProps<{
   modelValue?: MediaObject
   isBackground?: boolean
   uiSize?: StandardSize
+  optionPath?: string
 }>()
 
 const emit = defineEmits<{
@@ -55,7 +56,7 @@ function triggerModal(event: MouseEvent) {
 </script>
 
 <template>
-  <div class="relative">
+  <div class="relative py-2">
     <div
       v-if="hasMedia"
       data-test-id="media-select-button"
@@ -95,6 +96,7 @@ function triggerModal(event: MouseEvent) {
       :tools="[...(isBackground ? ['background'] as const : []), 'upload', 'media', 'html']"
       default-tool="media"
       title="Media Manager"
+      :test-id="`media-modal-${optionPath}`"
       @update:model-value="handleMediaUpdate"
     />
   </div>

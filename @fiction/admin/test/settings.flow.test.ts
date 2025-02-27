@@ -1,5 +1,6 @@
 import type { Organization } from '@fiction/core'
-import { isCi } from '@fiction/core'
+import { isCi, pathCheck } from '@fiction/core'
+import { OrgSchema as schema } from '@fiction/core/plugin-user/schema'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
 import { afterAll, describe, expect, it } from 'vitest'
 
@@ -19,10 +20,10 @@ describe('settings e2e', async () => {
       path: '/app/settings',
       actions: [
         { type: 'click', selector: `[data-test-id="orgName-edit-button"]` },
-        { type: 'fill', selector: `[data-option-path="orgName"] input`, text: 'Org Name Test' },
+        { type: 'fill', selector: `[data-option-path="${pathCheck('orgName', schema)}"] input`, text: 'Org Name Test' },
         { type: 'click', selector: `[data-test-id="orgName-modal-apply"]` },
         { type: 'click', selector: `[data-test-id="orgEmail-edit-button"]` },
-        { type: 'fill', selector: `[data-option-path="orgEmail"] input`, text: 'billing@example.com' },
+        { type: 'fill', selector: `[data-option-path="${pathCheck('orgEmail', schema)}"] input`, text: 'billing@example.com' },
         { type: 'click', selector: `[data-test-id="orgEmail-modal-apply"]` },
         { type: 'click', selector: `[data-test-id="orgAvatar-edit-button"]` },
         { type: 'click', selector: `[data-test-id="media-select-button"]` },
@@ -30,15 +31,15 @@ describe('settings e2e', async () => {
         { type: 'fill', selector: `[data-test-id="media-upload-input"] input[type="text"]`, text: 'https://picsum.photos/id/237/200/300' },
         { type: 'click', selector: `[data-test-id="media-apply"]` },
         { type: 'click', selector: `[data-test-id="orgAvatar-modal-apply"]` },
-        { type: 'click', selector: `[data-test-id="pubTagline-edit-button"]` },
-        { type: 'fill', selector: `[data-option-path="publication.tagline"] input`, text: 'Test Description' },
-        { type: 'click', selector: `[data-test-id="pubTagline-modal-apply"]` },
-        { type: 'click', selector: `[data-test-id="pubEmail-edit-button"]` },
-        { type: 'fill', selector: `[data-option-path="publication.email"] input`, text: 'test@example.com' },
-        { type: 'click', selector: `[data-test-id="pubEmail-modal-apply"]` },
-        { type: 'click', selector: `[data-test-id="legal-edit-button"]` },
-        { type: 'fill', selector: `[data-option-path="legal.termsUrl"] input`, text: 'https://www.test.com/url' },
-        { type: 'click', selector: `[data-test-id="legal-modal-apply"]` },
+        { type: 'click', selector: `[data-test-id="description-edit-button"]` },
+        { type: 'fill', selector: `[data-option-path="${pathCheck('description', schema)}"] input`, text: 'Test Description' },
+        { type: 'click', selector: `[data-test-id="description-modal-apply"]` },
+        { type: 'click', selector: `[data-test-id="senderEmail-edit-button"]` },
+        { type: 'fill', selector: `[data-option-path="${pathCheck('senderEmail', schema)}"] input`, text: 'test@example.com' },
+        { type: 'click', selector: `[data-test-id="senderEmail-modal-apply"]` },
+        { type: 'click', selector: `[data-test-id="termsUrl-edit-button"]` },
+        { type: 'fill', selector: `[data-option-path="${pathCheck('legal.termsUrl', schema)}"] input`, text: 'https://www.test.com/url' },
+        { type: 'click', selector: `[data-test-id="termsUrl-modal-apply"]` },
         { type: 'click', selector: `[data-test-id="saveButton"]`, waitAfter: 3000 },
         { type: 'value', selector: `[data-form-engine-depth="0"]`, onValue: (value) => {
           const v = value as Organization

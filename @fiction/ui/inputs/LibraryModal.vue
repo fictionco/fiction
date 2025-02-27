@@ -12,12 +12,14 @@ import LibraryBackground from './LibraryBackground.vue'
 
 import LibraryIcon from './LibraryIcon.vue'
 import LibraryMediaGallery from './LibraryMediaGallery.vue'
+import TestEditor from '../prose/editor/test/TestEditor.vue'
 
 const props = defineProps<{
   modelValue: MediaObject
   vis?: boolean
   tools?: string[] // Filter by these option keys
   title?: string
+  testId?: string
 }>()
 
 const emit = defineEmits<{
@@ -233,7 +235,7 @@ vue.onUnmounted(() => {
     :has-close="false"
     @update:vis="emit('update:vis', $event)"
   >
-    <div data-test-id="media-modal" class="bg-white text-theme-900 dark:bg-theme-900 dark:text-theme-100 rounded-lg overflow-hidden">
+    <div :data-test-id="testId" class="bg-white text-theme-900 dark:bg-theme-900 dark:text-theme-100 rounded-lg overflow-hidden">
       <!-- Header -->
       <div class="p-4 border-b border-theme-200 dark:border-theme-700">
         <div class="flex items-center justify-between">
