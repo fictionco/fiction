@@ -39,7 +39,7 @@ describe('email actions', async () => {
     expect(emailHtml).toBeDefined()
     expect(user.verify?.code).toBeDefined()
     expect(emailHtml).toContain(user.verify?.code)
-    expect(emailHtml, 'contains callbackUrl').toContain(callbackUrl)
+    expect(emailHtml, 'contains callbackUrl').toContain(callbackUrl.replace(/&/g, '&amp;'))
     expect(emailHtml).toContain('Email Action Title')
 
     const code = user.verify?.code || ''
@@ -52,33 +52,222 @@ describe('email actions', async () => {
 
     const replaced = emailActionSnapshot(r.data?.html || '', r.emailVars)
     expect(replaced).toMatchInlineSnapshot(`
-      "<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><tailwind-clean-component><html lang="en" dir="ltr" class="" style=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="x-apple-disable-message-reformatting"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><title>Test Fiction App: Email Action Subject</title><meta name="description" content="Email Action Title -- Email Action Subtitle"/><style data-id="__vue-email-style">
-                tbody { font-size: 1rem; line-height: 1.65; }
-                h1, h2 { line-height: 1.2; }
-                h3, h4, h5 { line-height: 1.4; }
-                h5, h6 { font-weight: bold; }
-                ol, ul, dd, dt { font-size: 1rem; line-height: 1.65; }
-                dt { font-weight: bold; margin-top: 0.5rem; }
-                dd { margin-inline-start: 1.5rem; }
-                ul, ol { padding-inline-start: 1.5rem; }
-                img, figure { max-width: 100%; height: auto; }
-                img[data-emoji] { display: inline; }
-                figure img { border-radius: .5rem; display: block; }
-                figcaption { font-size: 0.8rem; text-align: center; color: #666; margin-top: 0.5rem;  }
-                figcaption a { color: inherit; }
-                a { transition: opacity 0.2s; }
-                a:hover { opacity: 0.8; }
-              </style></head><div style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0;">Email Action Title -- Email Action Subtitle<div> ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿</div></div><body style="font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;;"><div class="py-8 px-4" style="max-width:600px;margin:0px auto;color:#0e0f11; padding-top: 2rem;
-          padding-bottom: 2rem; padding-left: 1rem;
-          padding-right: 1rem;"><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="margin-bottom:16px;"><tbody><tr><td/><td role="presentation" class="w-[22px]" style="width: 22px;"><a href="https://www.fiction.com"><img style="display:block;outline:none;border:none;text-decoration:none; border-radius: 0.375rem; border-width: 2px !important; border-color: rgb(255,255,255,0.1) !important; border-style: solid !important;" src="https://media.fiction.com/fiction-relative-media/med67346c74b7deb0d749ed8584-fiction-icon.png?blurhash=U9EMLDD%2500%3Fb9FWBay%25M00Rj%7Eqxu_3%25Mt74n" width="22" class="rounded-md !border-2 !border-white/10 !border-solid"/></a></td><td role="presentation" class="pl-3" style="padding-left: 0.75rem;"><a href="https://www.fiction.com" class="text-inherit font-normal text-[14px] no-underline" style="color: inherit; font-weight: 400; font-size: 14px; text-decoration-line: none;">Fiction</a></td></tr></tbody></table><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation"><tbody><tr><td><h1 style="margin:0 0 0 0;font-weight:bold;font-size:28px;line-height:1.3;" data-test-id="email-title" data-title="Email Action Title">Email Action Title</h1><h3 style="margin:0 0 0 0;font-weight:normal;font-size:24px;line-height:1.33; margin-top: 0px;
-          margin-bottom: 0px; opacity: 0.6;" data-test-id="email-sub-title" class="my-0 opacity-60"><span>Email Action Subtitle</span> <span class="opacity-30" style="opacity: 0.3;">↘</span></h3></td></tr></tbody></table><hr style="width:100%;border:none;border-top:1px solid #eaeaea;border-top:1px solid #DEDFE2;opacity:.5;margin:2rem 0;"/><div data-test-id="email-content" class="body-content"><p style="font-size:1.1rem;line-height:1.65;font-weight:normal">Email Action Body Markdown</p>
-      </div><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" class="mt-8 mb-8 text-left" style="margin-top: 2rem; margin-bottom: 2rem; text-align: left;"><tbody><tr><td><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-block;"><tbody><tr><td></td><td role="presentation" class=""><a style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;padding:0px 0px 0px 0px;white-space:nowrap; background-color: rgb(44,103,255); color: rgb(255,255,255); padding-top: 0.75rem;
-          padding-bottom: 0.75rem; padding-left: 1rem;
-          padding-right: 1rem; border-radius: 0.375rem; font-size: 16px; border-radius: 9999px; font-weight: 500; user-select: none; transition-property: all;
-          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-          transition-duration: 150ms;" href="http://localhost:[port]/__transaction/test-action?code=[code]&token=[token]&email=[email]&userId=[userId]" data-type="primary" class="hover:opacity-80">Verify Email</a></td></tr></tbody></table></td></tr></tbody></table><hr style="width:100%;border:none;border-top:1px solid #eaeaea;border-top:1px solid #DEDFE2;opacity:.5;margin:2rem 0;"/><table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" class="subtle-text text-normal" style="margin-top: 2rem; text-align: left; font-size: 0.75rem;
-          line-height: 1rem;"><tbody><tr><td/><td role="presentation" class="w-[65%] align-top" style="width: 65%; vertical-align: top;"><img style="display: block; outline: none; border: none; text-decoration: none" src="https://media.fiction.com/fiction-relative-media/med67346c748bb0340fb4d37701-fiction-email-footer.png?blurhash=U2DS%5D%5D%7Eq00_N00_4%25M4n00_N%3FcIU%7Eq9F%25M-%3B" width="80" alt="Powered by Fiction.com"/><p style="font-size:14px;line-height:24px;margin:16px 0;"><a class="text-normal hover:opacity-80" href="https://www.fiction.com" style="margin-top: 1rem; text-decoration-line: none; color: inherit; opacity: 0.4;">Powered by Fiction.com ↗ </a></p></td><td role="presentation" class="w-[35%] text-right align-top text-xs" style="width: 35%; text-align: right; vertical-align: top; font-size: 0.75rem;
-          line-height: 1rem;"><!--v-if--><!--v-if--></td></tr></tbody></table></div></body></html></tailwind-clean-component>"
+      "<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+      <html xmlns="http://www.w3.org/1999/xhtml"  lang="en" dir="ltr"><head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Test Fiction App: Email Action Subject</title>
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+      <meta name="description" content="Email Action Title -- Email Action Subtitle">
+      <meta name="color-scheme" content="light dark">
+      <meta name="supported-color-schemes" content="light dark">
+      <style>
+             /* Base typography */
+              body { line-height: 1.6; font-size: 18px; }
+
+              p, ul, ol, dl {
+              margin-top: 1.5em;
+              margin-bottom: 1.5em;
+              }
+
+
+
+              figure,  pre, table, .x-button-container {
+               margin-top: 2em;
+               margin-bottom: 2em;
+              }
+
+              p, ul, ol, dl, blockquote, pre, table {
+              font-size: 18px;
+              }
+
+              /* Headers */
+              h1, h2, h3, h4, h5, h6 {
+              margin: 1.5em 0 0.75em;
+              line-height: 1.3;
+              }
+              h1 { font-size: 36px; }
+              h2 { font-size: 27px; }
+              h3 { font-size: 22px; }
+              h4 { font-size: 20px; }
+              h5 { font-size: 18px; }
+              h6 { font-size: 18px; }
+
+              /* Lists and definition terms */
+              ul, ol, dl {
+              padding-left: 1.5em;
+              font-size: 18px;
+              }
+              ul {list-style-type: disc;}
+              ol {list-style-type: decimal;}
+              li { margin: 0.5em 0; }
+              li p { margin: 0; }
+              dt {
+              font-weight: 600;
+              margin-top: 1em;
+              }
+              dd { margin-left: 1.5em; }
+
+
+
+              blockquote {
+
+                margin-left: 1em;
+                padding-left: 1.5em;
+                font-style: italic;
+                border-left: 3px solid #b3b9c5;
+              }
+
+              blockquote p, blockquote{
+                line-height: 1.5;
+                font-size: 20px;
+              }
+
+              blockquote p {
+                margin: 1em 0;
+              }
+              blockquote p:first-child {
+                margin-top: 0;
+              }
+              blockquote p:last-child {
+                margin-bottom: 0;
+              }
+
+              pre{
+                padding: 1em;
+                background-color: #e6e9f1;
+                border-radius: 0.5em;
+                overflow-x: auto;
+                font-size:16px;
+              }
+              pre code {
+                background-color: transparent;
+                padding: 0;
+                border-radius: 0;
+              }
+
+              code {
+                background-color: #e6e9f1;
+                padding: 0.1em 0.3em;
+                border-radius: 0.3em;
+                font-size:16px;
+              }
+
+              .prose-content table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 1.5em 0;
+              }
+              .prose-content tbody tr:nth-child(odd) {
+                background-color: rgba(0,0,0,.05);
+              }
+              .prose-content table td {
+                vertical-align: top;
+                text-align: center;
+              }
+
+              /* Images and figures */
+              img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 0.5em;
+              }
+              img[data-emoji] {
+                display: inline;
+                border-radius: 0;
+                vertical-align: -0.1em;
+              }
+              figure {
+                text-align: center;
+              }
+              figcaption {
+                margin-top: 0.75em;
+                font-size: 16px;
+                color: #394151;
+              }
+              /* Links */
+              #themed-content a{
+                color: #2563eb;
+                text-decoration: underline;
+              }
+              #themed-content a:hover {
+                color: #3b82f6;
+              }
+
+              #themed-footer {
+                color: #0e0f11
+              }
+              #themed-footer a {
+                color: inherit;
+                text-decoration: none;
+              }
+              #themed-footer a:hover {
+              text-decoration: underline;
+              }
+
+              #last-line a, #last-line span, #last-line  {
+                font-size: 13px;
+              }
+              #last-line a {
+                color: #646E82;
+                text-decoration: none;
+              }
+              #last-line a:hover {
+                text-decoration: underline;
+              }
+
+              #last-line span {
+                opacity: 0.6;
+                margin: 0 1em;
+              }
+
+
+              .x-button {
+                display: inline-block;
+                padding: 12px 18px;
+                background-color: #2563eb;
+                color: #ffffff !important;
+                text-decoration: none !important;
+                border-radius: 9999px;
+                font-weight: 600;
+                margin: 0 auto;
+                text-align: center;
+                mso-padding-alt: 0;
+                mso-text-raise: 7.5pt;
+                font-size: 16px;
+                line-height: 1;
+              }
+
+              .x-button.naked {
+                background-color: rgba(229,231,235,0.4);
+                color: #2563eb;
+              }
+
+              .x-button img {
+                vertical-align: -0.3em;
+              }
+
+              .x-button:hover {
+                background-color: #3b82f6;
+              }
+
+              .x-button.sm{
+                padding: 8px 16px;
+                font-size: 14px;
+              }
+
+              .x-button.lg{
+                padding: 14px 24px;
+                font-size: 18px;
+              }
+
+              hr { border: none; border-top: 1px solid rgba(0,0,0,.1); margin: 2em 0; }</style>
+      </head><body  style="margin:0;padding:0;background-color:#ffffff;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif;font-size:18px;color:#0e0f11">
+
+
+      <div><!-- Preview Text Hack --><div style="display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font-family:sans-serif;">Email Action Title -- Email Action Subtitle <!-- Prevent Gmail app from showing funky characters --> ‌ ‌ ‌ ‌ ‌  ‌ ‌ ‌ ‌ ‌  ‌ ‌ ‌ ‌ ‌  <!-- Force preview text to fill available space --> ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div><!-- Main Container --><div style="width:100%;max-width:600px;margin:0 auto;padding:32px 16px;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif;color:#0e0f11;"><!-- Super Title --><table style="margin-bottom:16px;"><tbody><tr><td><img src="https://fiction-media-dev.s3.amazonaws.com/fiction-relative-media/med67bbf278308514c8c9f01f66-fiction-icon.png?blurhash=U9EMLDD%2500%3Fb9FWBay%25M00Rj%7Eqxu_3%25Mt74n" width="22" alt="Logo" style="display:block;border-radius:5px;border:1.5px solid #ffffff;width:22px;height:22px;object-fit:cover;margin-right:8px;"></td><td><a href="https://www.fiction.com" style="color:#394151;text-decoration:none;font-weight:600;font-size:14px;">Fiction</a></td></tr></tbody></table><!-- Title Section --><div id="themed-content" class="themed-content"><h1 style="margin:0 0 8px;font-size:24px;line-height:1.33;">Email Action Title</h1><h3 style="margin:0;font-weight:normal;font-size:24px;line-height:1.33;color:#394151;">Email Action Subtitle</h3><hr style="border:none;border-top:1px solid #b3b9c5;margin:3em 0; width: 5em;"><!-- Featured Image --><!----><!-- Content --><div class="prose-content">Email Action Body Markdown</div><!-- Buttons --><div style="margin:32px 0;"><!--[--><a href="http://localhost:[port]/__transaction/test-action?code=[code]&amp;token=[token]&amp;email=[email]&amp;userId=[userId]" class="x-button">Verify Email</a><!--]--></div></div><hr style="border:none;border-top:1px solid #b3b9c5;margin:3em 0; width: 5em;"><!-- Footer --><div id="themed-footer" style="margin-top:2em;"><!-- Footer Links --><div style="margin-bottom:32px;"><!--[--><!--]--></div><!-- CompanyName Info --><div style="font-size:13px;"><div>© 2025 Test Fiction App</div><!----></div><!-- Legal Footer --><table id="last-line" style="width:100%;margin-top:32px;" cellpadding="0" cellspacing="0"><tbody><tr><!----><td style="text-align:right;"><a href="https://www.fiction.com" target="_blank" rel="noopener"> Powered by Fiction.com </a></td></tr></tbody></table></div></div></div>
+
+
+      </body></html>"
     `)
 
     await kit.performActions({

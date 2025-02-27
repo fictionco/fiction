@@ -38,7 +38,7 @@ export function getEmails(args: { fictionContact: FictionContact }) {
         emailVars,
         subject: `${senderName}: Please Confirm ✅`,
         title: 'Confirm Your Subscription',
-        subTitle: 'One quick click to complete',
+        subTitle: 'Just click to complete',
         content: `Click the button to confirm you'd like to follow <strong>${senderName}</strong>.`,
         to: emailVars.email,
         senderName,
