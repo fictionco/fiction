@@ -6,7 +6,7 @@ import { afterAll, describe, expect, it } from 'vitest'
 import { setup } from './kit.main.js'
 
 describe('subscribe uiux', { retry: isCi() ? 3 : 0 }, async () => {
-  const kit = await createUiTestingKit({ headless: false, setup, slowMo: 0 })
+  const kit = await createUiTestingKit({ headless: false, setup, slowMo: 2000 })
 
   afterAll(async () => kit?.close())
   const testUtils = kit.testUtils
@@ -48,6 +48,11 @@ describe('subscribe uiux', { retry: isCi() ? 3 : 0 }, async () => {
 
     vars = r.emailVars
 
+    const emailContent = r.data?.html || ''
+    expect(emailContent).toContain('Confirm')
+    expect(emailContent).toContain(vars.callbackUrl.replace(/&/g, '&amp;'))
+    expect(emailContent).not.toContain(vars.unsubscribeUrl.replace(/&/g, '&amp;'))
+
     const r2 = await testUtils.fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { userId: user2.userId! } }, { server: true, returnAuthority: ['verify'] })
 
     expect(r2.data?.verify?.code).toBe(r.emailVars.code)
@@ -67,10 +72,7 @@ describe('subscribe uiux', { retry: isCi() ? 3 : 0 }, async () => {
     const searchParamKeys = Array.from(u.searchParams.keys())
     expect(searchParamKeys).toEqual(expect.arrayContaining(['orgId', 'orgName', 'orgEmail', 'token', 'code', 'email', 'userId']))
 
-    const emailContent = r.data?.html || ''
-    expect(emailContent).toContain('Confirm Subscription')
-    expect(emailContent).toContain(vars.callbackUrl)
-    expect(emailContent).not.toContain(vars.unsubscribeUrl)
+
   })
 
   it('logs in when callback url is visited and redirects to base route', { retry: 2 }, async () => {

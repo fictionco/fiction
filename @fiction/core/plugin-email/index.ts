@@ -104,6 +104,8 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
     app.use(meta)
 
     const htmlBody = await renderToString(app)
+    console.log('emailConfig--------------------', emailConfig)
+    console.log('htmlBody--------------------', htmlBody)
 
     const { headTags, htmlAttrs, bodyAttrs, bodyTags, bodyTagsOpen } = await renderSSRHead(meta)
 

@@ -36,16 +36,16 @@ export function getEmails(args: { fictionContact: FictionContact }) {
 
       return {
         emailVars,
-        subject: `Confirm Your Subscription 👍`,
+        subject: `${senderName}: Please Confirm ✅`,
         title: 'Confirm Your Subscription',
-        subTitle: 'Just click the link below',
-        content: `Please click the button below to confirm you'd like to receive emails from <strong>${senderName}</strong>.`,
+        subTitle: 'One quick click to complete',
+        content: `Click the button to confirm you'd like to follow <strong>${senderName}</strong>.`,
         to: emailVars.email,
         senderName,
         senderEmail,
         emailType: 'alert',
         buttons: [
-          { label: 'Confirm Subscription', href: emailVars.callbackUrl, theme: 'primary' },
+          { label: 'Confirm', href: emailVars.callbackUrl, theme: 'primary' },
         ],
         superTitle: { text: senderName, icon: avatar, href: emailVars.callbackUrl },
       } satisfies EmailConfigResponse

@@ -405,7 +405,7 @@ unhead.useHead({
                   target="_blank"
                   rel="noopener"
                 >
-                  Created with Fiction.com
+                  Powered by Fiction.com
                 </a>
               </td>
             </tr>
