@@ -10,7 +10,7 @@ import { comparePassword } from '../utils'
 describe('user endpoint tests', async () => {
   const testUtils = createTestUtils()
 
-  await testUtils.init()
+  const { user } = await testUtils.init()
 
   afterAll(() => testUtils.close())
 
@@ -228,14 +228,18 @@ describe('user endpoint tests', async () => {
     const fictionUser = testUtils.fictionUser
     const fictionDb = testUtils.fictionDb
     const pw = 'newPassword123'
+    const email = user?.email || ''
+    const r = await fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { email } }, { server: true, isTest: true, returnAuthority: ['verify'] })
+    workingUser = r.data
     const updateParams = {
       _action: 'update',
       fields: { password: pw },
-      where: { userId: workingUser?.userId || '' },
+      where: { userId: user?.userId || '' },
+      code: user?.verify?.code,
     } as const
     const meta = {
       request: { ip: '192.168.1.1' } as Request,
-      bearer: workingUser,
+      bearer: user,
       caller: 'testUpdateUserPassword',
     }
     const updateResponse = await fictionUser.queries.ManageUser.serve(updateParams, meta)
@@ -247,9 +251,9 @@ describe('user endpoint tests', async () => {
 
     const db = fictionDb.client()
 
-    const dbUser = await db.select<User>('*').from(standardTable.user).where({ userId: workingUser?.userId }).first()
+    const dbUser = await db.select<User>('*').from(standardTable.user).where({ userId: user?.userId }).first()
 
-    expect(dbUser?.email).toBe(workingUser?.email)
+    expect(dbUser?.email).toBe(user?.email)
 
     if (!dbUser?.hashedPassword)
       throw new Error('No hashed password')
@@ -263,7 +267,7 @@ describe('user endpoint tests', async () => {
     const fictionUser = testUtils.fictionUser
 
     // Assuming a user has been created already and we know their ID
-    const existingUserId = workingUser?.userId
+    const existingUserId = user?.userId
 
     // Prepare the parameters for the 'update' action
     const updateParams = {
@@ -279,7 +283,7 @@ describe('user endpoint tests', async () => {
     // Meta information required for the endpoint
     const meta = {
       request: { ip: '192.168.1.1' } as Request,
-      bearer: workingUser,
+      bearer: user,
       caller: 'testUpdateUser',
     }
 
@@ -297,7 +301,7 @@ describe('user endpoint tests', async () => {
     expect(updateResponse.user?.userId).toBe(existingUserId)
     expect(updateResponse?.token).toBeFalsy()
 
-    expect(Object.keys(workingUser?.geo || {})).toMatchInlineSnapshot(`
+    expect(Object.keys(user?.geo || {})).toMatchInlineSnapshot(`
       [
         "ip",
         "cityName",
