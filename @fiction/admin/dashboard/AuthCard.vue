@@ -241,6 +241,7 @@ const quotes = [
   { text: 'Become who you are.', author: 'Nietzsche' },
   { text: 'Take massive action now!', author: 'Tony Robbins' },
   { text: 'Change your story, change your life.', author: 'Lori Gottlieb' },
+  { text: 'It all begins with your story...', author: 'Andrew Powers' },
 ]
 
 const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length)])

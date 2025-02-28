@@ -65,7 +65,7 @@ const transactionConfig = vue.computed<TransactionProps | undefined>(() => {
     'verify-success': {
       title: 'Email verified!',
       subTitle: 'Your account is now active',
-      icon: 'i-tabler-check-circle',
+      icon: 'i-tabler-user-check',
       status: 'success',
     },
     'magic-link-sent': {
@@ -406,10 +406,10 @@ async function sendVerificationEmail(email: string) {
 }
 
 const quotes = [
-  { text: 'Every journey begins with a single step.', author: 'Lao Tzu' },
-  { text: 'Simplicity is the ultimate sophistication.', author: 'Leonardo da Vinci' },
-  { text: 'Make it simple, but significant.', author: 'Don Draper' },
-  { text: 'The key to growth is the introduction of higher dimensions of consciousness.', author: 'Lao Tzu' },
+{ text: 'Yesterday you said tomorrow.', author: 'Nike' },
+  { text: 'Become who you are.', author: 'Nietzsche' },
+  { text: 'Take massive action now!', author: 'Tony Robbins' },
+  { text: 'Change your story, change your life.', author: 'Lori Gottlieb' },
 ]
 
 const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length)])
@@ -454,7 +454,7 @@ vue.watch(() => itemId.value, () => {
     <TransactionWrap v-bind="transactionConfig">
       <ElForm
         class="space-y-5"
-        data-test-id="auth-form"
+        data-test-id="form"
         :data-value="JSON.stringify(fields)"
         :notify="formError"
         @submit="handleFormSubmit()"
@@ -465,24 +465,17 @@ vue.watch(() => itemId.value, () => {
             v-if="['verify-success', 'password-updated'].includes(itemId)"
             class="text-center space-y-4"
           >
-            <div class="text-2xl text-theme-700 dark:text-theme-300 mb-4">
-              <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-300 mb-2">
-                <span class="i-tabler-check text-3xl" />
-              </div>
-            </div>
 
-            <p class="text-theme-700 dark:text-theme-100 text-lg">
-              {{ itemId === 'verify-success' ? 'Your email has been verified!' : 'Your password has been updated!' }}
-            </p>
 
-            <p class="text-theme-500 dark:text-theme-400 text-sm">
+            <p class="text-theme-500 dark:text-theme-400 text-sm text-pretty my-6">
               Redirecting to dashboard in {{ redirectCountdown }} seconds...
             </p>
 
             <XButton
-              format="block"
               theme="primary"
               design="solid"
+              size="lg"
+              icon-after="i-tabler-arrow-up-right"
               data-test-id="continue-button"
               @click.prevent="redirectToDashboard()"
             >
@@ -509,14 +502,10 @@ vue.watch(() => itemId.value, () => {
 
           <!-- Email verification screen -->
           <template v-else-if="itemId === 'verify-email'">
-            <div class="text-center mb-4">
-              <p class="text-theme-700 dark:text-theme-100">
-                We've sent a verification code to your email
-              </p>
-            </div>
+
 
             <ElInput
-              data-test-id="input-verification-code"
+              data-test-id="input-one-time-code"
               class="w-full"
               label="Verification code"
               input="InputOneTimeCode"
@@ -533,18 +522,19 @@ vue.watch(() => itemId.value, () => {
               design="solid"
               size="lg"
               :loading="sending === 'button'"
-              data-test-id="verify-email-button"
+              data-test-id="submit-button-verify"
               icon="i-tabler-check"
             >
               Verify email
             </XButton>
 
-            <div class="text-theme-500 dark:text-theme-400 text-sm text-center">
+            <div class="text-theme-500 dark:text-theme-400 text-xs text-center ">
               <p>Didn't receive the code?</p>
               <XButton
                 size="xs"
                 design="link"
                 theme="default"
+                data-test-id="resend-code"
                 @click.prevent="sendVerificationEmail(fields.email)"
               >
                 Send again
@@ -609,7 +599,7 @@ vue.watch(() => itemId.value, () => {
             <ElInput
               v-if="itemId === 'welcome'"
               key="inputCurrentPassword"
-              data-test-id="input-current-password"
+              data-test-id="input-password"
               input="InputPassword"
               label="Password"
               class="w-full"
@@ -660,7 +650,7 @@ vue.watch(() => itemId.value, () => {
             <!-- Action buttons -->
             <XButton
               v-if="itemId === 'set-new-password'"
-              data-test-id="update-password-button"
+              data-test-id="submit-button-password-reset"
               type="submit"
               format="block"
               theme="primary"
@@ -674,7 +664,7 @@ vue.watch(() => itemId.value, () => {
 
             <XButton
               v-else-if="itemId === 'welcome'"
-              data-test-id="login-button"
+              data-test-id="submit-button-login"
               type="submit"
               format="block"
               theme="primary"
@@ -688,7 +678,7 @@ vue.watch(() => itemId.value, () => {
 
             <XButton
               v-if="itemId === 'register'"
-              data-test-id="register-button"
+              data-test-id="submit-button-register"
               type="submit"
               format="block"
               theme="primary"
@@ -703,7 +693,7 @@ vue.watch(() => itemId.value, () => {
             <XButton
               v-if="['request-magic-link', 'reset-password'].includes(itemId)"
               :key="`submit-send-email-${itemId}`"
-              data-test-id="submit-button-send-email"
+              :data-test-id="itemId === 'request-magic-link' ? 'submit-button-magic-link' : 'submit-button-reset'"
               type="submit"
               format="block"
               theme="primary"

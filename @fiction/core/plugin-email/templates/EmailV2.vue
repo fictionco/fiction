@@ -35,7 +35,7 @@ const bgColor = computed(() => previewMode === 'dark' ? colorList.gray[900] : co
 const panelColor = computed(() => previewMode === 'dark' ? colorList.gray[800] : colorList.gray[100])
 
 const fontStack = '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif'
-const previewText = computed(() => preview || (title ? `${title} -- ${subTitle || ''}` : ''))
+const previewText = computed(() => preview || [title, subTitle].filter(Boolean).join(' - '))
 
 // Base styles that can be reused
 const baseStyles = {
@@ -268,13 +268,8 @@ unhead.useHead({
     <!-- Preview Text Hack -->
     <div style="display: none; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; font-family: sans-serif;">
       {{ previewText }}
-      <!-- Prevent Gmail app from showing funky characters -->
-      &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
-      &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
-      &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
-      <!-- Force preview text to fill available space -->
-      &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847;
-      &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847;
+      <!-- Repeating characters to fill preview area -->
+    {{ "&#847; &zwnj;&nbsp;".repeat(100) }}
     </div>
 
     <!-- Main Container -->

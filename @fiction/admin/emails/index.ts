@@ -1,7 +1,7 @@
-import type { EndpointMeta, EndpointResponse, User } from '@fiction/core'
+import type {  EndpointResponse, User } from '@fiction/core'
 import type { EmailConfigResponse } from '@fiction/plugin-transactions'
 import type { FictionAdmin } from '..'
-import { abort, vue } from '@fiction/core'
+import {  vue } from '@fiction/core'
 import { EmailAction } from '@fiction/plugin-transactions'
 
 export type VerifyRequestVars = {
@@ -32,7 +32,6 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
         title: 'Verify Your Email',
         subTitle: 'Confirm your account to get started',
         contentMarkdown: [
-          `Thank you for creating an account with ${emailVars.appName}.`,
           `Your verification code is: **${emailVars.code}**`,
           `You can either enter this code or click the button below.`,
         ].join('\n\n'),
@@ -40,22 +39,8 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
         buttons: [
           { label: 'Verify Email', href: verifyUrl, theme: 'primary' },
         ],
+        emailType: 'alert',
       } satisfies EmailConfigResponse
-    },
-    serverTransaction: async (args, meta: EndpointMeta) => {
-      const { code, email, transaction } = args
-
-      const fictionUser = transaction.settings.fictionTransactions?.settings.fictionUser
-
-      if (!fictionUser)
-        throw abort('Required services missing', { expose: true })
-
-      const user = await fictionUser.queries.ManageUser.serve(
-        { _action: 'verifyEmail', code, email },
-        { ...meta, server: true },
-      )
-
-      return user
     },
   })
 
@@ -106,6 +91,7 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
           `If you didn't request this code, please ignore this email.`,
         ].join('\n\n'),
         to: `${emailVars.email}`,
+        emailType: 'alert',
       }
     },
   })
@@ -125,7 +111,6 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
         contentMarkdown: [
           `We received a request to reset your password.`,
           `Click the button below to create a new password.`,
-          `This link will expire in 24 hours.`,
           `If you didn't request this, you can safely ignore this email.`,
         ].join('\n\n'),
         to: `${emailVars.email}`,

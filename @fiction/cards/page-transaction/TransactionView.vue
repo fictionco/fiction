@@ -24,10 +24,10 @@ const uc = vue.computed(() => props.card.userConfig.value)
 
       <div class="z-40 absolute bottom-16 w-full flex justify-center">
         <blockquote v-if="quote.text" class="mx-auto max-w-xs text-right text-balance">
-          <p class="text-lg lg:text-xl x-font-title">
+          <p class="text-lg lg:text-4xl x-font-title font-bold tracking-tight text-pretty">
             "{{ quote.text }}"
           </p>
-          <footer v-if="quote.author" class="text-base lg:text-lg mt-2">
+          <footer v-if="quote.author" class="text-base lg:text-lg mt-2 text-primary-500 dark:text-primary-400">
             &mdash; <cite>{{ quote.author }}</cite>
           </footer>
         </blockquote>
@@ -39,6 +39,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
         :color1-scale="700"
         color2="gray"
         :color2-scale="1000"
+        :speed="500"
       />
     </div>
     <div class="relative flex min-h-screen grow flex-col items-center shrink-0">
