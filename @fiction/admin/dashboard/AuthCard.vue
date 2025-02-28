@@ -23,21 +23,71 @@ const uc = vue.computed(() => props.card.userConfig.value)
 
 const { fictionRouter, fictionAdmin, fictionEnv, fictionUser } = useService<{ fictionAdmin: FictionAdmin }>()
 
-type AuthItemId = 'welcome' | 'register' | 'confirm' | 'magic' | undefined | ''
+const authItems = [
+  'welcome',
+  'register',
+  'sent-verification',
+  'confirm-verification',
+  'sent-magic-link',
+  'request-magic-link',
+  'request-password-reset',
+  'sent-password-reset',
+  'set-new-password',
+] as const
 
-const itemId = vue.computed(() => {
+type AuthItemId = typeof authItems[number]
+
+const itemId = vue.computed<AuthItemId>(() => {
   const val = (fictionRouter.params.value.itemId as AuthItemId) || 'welcome'
 
-  return ['welcome', 'register', 'confirm', 'magic'].includes(val) ? val : 'welcome'
+  return authItems.includes(val) ? val : 'welcome'
 })
-const fields = vue.ref({ email: '', fullName: '', orgName: '', password: '', oneTimeCode: '' })
+
+type TransactionProps = InstanceType<typeof TransactionWrap>['$props']
+
+const config = vue.computed<TransactionProps | undefined>(() => {
+  const mapping: Record<AuthItemId, TransactionProps> = {
+    'register': { title: 'Create your account', subTitle: 'Get started in seconds', icon: 'i-tabler-user-plus' },
+    'welcome': { title: 'Welcome back', subTitle: 'Choose how you\'d like to sign in', icon: 'i-tabler-user-share' },
+    'sent-verification': { title: 'Check your inbox!', subTitle: 'We sent an email verification link', icon: 'i-tabler-mail', status: 'success' },
+    'confirm-verification': { title: 'Verify your email', subTitle: 'Enter the code we sent to your email', icon: 'i-tabler-mail' },
+    'sent-magic-link': { title: 'Check your inbox!', subTitle: 'We sent a sign-in link', icon: 'i-tabler-mail', status: 'success' },
+    'request-magic-link': { title: 'Sign In Link', subTitle: 'We\'ll email you a sign-in link', icon: 'i-tabler-sparkles' },
+    'request-password-reset': { title: 'Reset Password', subTitle: 'Enter your email to reset your password', icon: 'i-tabler-lock' },
+    'sent-password-reset': { title: 'Check your inbox!', subTitle: 'We sent a reset link', icon: 'i-tabler-mail', status: 'success' },
+    'set-new-password': { title: 'Set New Password', subTitle: 'Enter your new password', icon: 'i-tabler-key' },
+  }
+
+  return mapping[itemId.value || 'welcome'] || mapping.welcome
+})
+
+const fields = vue.ref({
+  email: '',
+  fullName: '',
+  orgName: '',
+  password: '',
+  passwordConfirm: '',
+  oneTimeCode: '',
+})
+
+vue.onMounted(() => {
+  vue.watch(() => fictionRouter.query.value, () => {
+    const { email, code } = fictionRouter.query.value as { email?: string, code?: string }
+
+    if (email)
+      fields.value.email = email || ''
+
+    if (code)
+      fields.value.oneTimeCode = code || ''
+  }, { immediate: true })
+})
 
 const sending = vue.ref<'google' | 'button' | ''>('')
 const formError = vue.ref('')
 const lastItemId = vue.ref()
 const showOneTimeCode = vue.ref(false)
 
-async function updateItemItemId(id: string) {
+async function updateItemItemId(id: AuthItemId) {
   await fictionRouter.push({ path: props.card.link(`/auth/${id}`), query: fictionRouter.query.value }, { caller: 'authCard' })
 }
 
@@ -48,10 +98,21 @@ async function handleFormSubmit() {
   if (itemId.value === 'welcome' || itemId.value === 'register') {
     await passwordLogin()
   }
-  else if (itemId.value === 'magic') {
+  else if (itemId.value === 'request-magic-link') {
     await sendMagicLink()
   }
-  else if (itemId.value === 'confirm') {
+  else if (itemId.value === 'request-password-reset') {
+    await sendPasswordResetEmail()
+  }
+  else if (itemId.value === 'set-new-password') {
+    if (fields.value.password !== fields.value.passwordConfirm) {
+      formError.value = 'Passwords do not match'
+      return
+    }
+
+    await loginWithCode()
+  }
+  else if (itemId.value === 'sent-magic-link') {
     if (!fields.value.oneTimeCode) {
       formError.value = 'Enter a valid code'
       return
@@ -64,7 +125,9 @@ async function handleFormSubmit() {
   }
 }
 
-async function loginWithCode() {
+async function loginWithCode(args: { newPassword?: string } = {}) {
+  const { newPassword } = args
+
   sending.value = 'button'
 
   const { email, oneTimeCode } = fields.value
@@ -77,11 +140,38 @@ async function loginWithCode() {
     return
   }
 
-  const r = await fictionUser.requests.ManageUser.request({ _action: 'loginWithCode', where: { email }, code: oneTimeCode })
+  const r = await fictionUser.requests.ManageUser.request({
+    _action: 'loginWithCode',
+    where: { email },
+    code: oneTimeCode,
+    newPassword,
+  })
 
   if (r.status === 'success') {
     logger.info('loginWithCode SUCCESS REDIRECT')
     await props.card.goto({ path: '/', query: { } }, { caller: 'authCard-loginWithCode' })
+  }
+
+  sending.value = ''
+}
+
+async function sendPasswordResetEmail() {
+  sending.value = 'button'
+  formError.value = ''
+
+  const { email } = fields.value
+
+  const r = await fictionAdmin.emailActions.passwordReset.requestSend({
+    to: email,
+    queryVars: { },
+  })
+
+  if (r?.status === 'error') {
+    formError.value = r.message || 'An error occurred'
+  }
+  else if (r?.status === 'success') {
+    lastItemId.value = itemId.value
+    updateItemItemId('sent-password-reset')
   }
 
   sending.value = ''
@@ -112,7 +202,7 @@ async function sendMagicLink(): Promise<void> {
   }
   else if (r?.status === 'success') {
     lastItemId.value = itemId.value
-    updateItemItemId('confirm')
+    updateItemItemId('sent-magic-link')
   }
 
   sending.value = ''
@@ -145,19 +235,6 @@ async function passwordLogin() {
     }
   }
 }
-
-type TransactionProps = InstanceType<typeof TransactionWrap>['$props']
-
-const config = vue.computed<TransactionProps | undefined>(() => {
-  const mapping: Record<string, TransactionProps> = {
-    register: { title: 'Create your account', subTitle: 'Get started in seconds', icon: 'i-tabler-user-plus' },
-    welcome: { title: 'Welcome back', subTitle: 'Choose how you\'d like to sign in', icon: 'i-tabler-user-share' },
-    confirm: { title: 'Check your inbox!', icon: 'i-tabler-mail', status: 'success' },
-    magic: { title: 'Sign In Link', subTitle: 'We\'ll email you a sign-in link', icon: 'i-tabler-sparkles' },
-  }
-
-  return mapping[itemId.value || 'welcome'] || mapping.welcome
-})
 
 const quotes = [
   { text: 'Yesterday you said tomorrow.', author: 'Nike' },
@@ -200,10 +277,6 @@ async function runGoogleLogin() {
 }
 
 vue.watch(() => itemId.value, () => {
-  if (itemId.value === 'confirm') {
-    showOneTimeCode.value = false
-  }
-
   formError.value = ''
 })
 </script>
@@ -213,69 +286,27 @@ vue.watch(() => itemId.value, () => {
     <TransactionWrap v-bind="config">
       <ElForm class="space-y-5" data-test-id="form" :data-value="JSON.stringify(fields)" :notify="formError" @submit="handleFormSubmit()">
         <EffectTransitionList>
-          <template v-if="itemId === 'confirm'">
-            <div v-if="!showOneTimeCode" class="text-center text-balance text-base text-theme-700 dark:text-theme-100 space-y-4">
-              <p>We sent a sign-in link to <span class="font-bold text-theme-700 dark:text-theme-0">{{ fields.email || "an email" }}</span>.</p>
-              <p v-if="fields.email ">
-                <XButton
-                  size="sm"
-                  design="ghost"
-                  theme="default"
-                  icon-after="i-tabler-arrow-down"
-                  data-test-id="to-one-time-code"
-                  @click.prevent="showOneTimeCode = !showOneTimeCode"
-                >
-                  Enter Verification Code
-                </XButton>
-              </p>
-            </div>
-            <div v-if="showOneTimeCode && fields.email" class="w-full">
-              <ElInput
-                key="InputOneTimeCode"
-                data-test-id="input-one-time-code"
-                class="my-6"
-                input="InputOneTimeCode"
-                label="One Time Code"
-                sub-label="Check your email for the code"
-                :input-props="{
-                  autocomplete: 'one-time-code',
-                  required: true,
-                  placeholder: 'Enter the code from your email',
-                  focusFirst: true,
-                }"
-                ui-size="lg"
-                :model-value="fields.oneTimeCode"
-                @update:model-value="fields.oneTimeCode = $event"
-                @complete="loginWithCode"
-              />
-              <XButton
-                data-test-id="code-login-button"
-                type="submit"
-                format="block"
-                theme="primary"
-                design="outline"
-                size="lg"
-                :loading="sending === 'button'"
-                icon="i-tabler-lock-open"
-              >
-                Login with Code
-              </XButton>
-            </div>
-            <div class="pt-6 text-center">
+          <div
+            v-if="itemId.includes('sent')"
+            class="text-center text-balance text-base text-theme-700 dark:text-theme-100 space-y-4"
+          >
+            <p>
               <XButton
                 size="sm"
-                design="link"
+                design="ghost"
+                theme="default"
                 icon="i-tabler-arrow-left"
-                data-test-id="to-login"
+                data-test-id="to-one-time-code"
                 @click.prevent="updateItemItemId('welcome')"
               >
                 Back to Login
               </XButton>
-            </div>
-          </template>
+            </p>
+          </div>
+
           <template v-else>
             <XButton
-              v-if="['welcome', 'register'].includes(itemId)"
+              v-if="['welcome', 'register'].includes(itemId || '')"
               :key="`googleLogin-${itemId}`"
               data-test-id="google-login-button"
               type="submit"
@@ -290,14 +321,14 @@ vue.watch(() => itemId.value, () => {
               {{ itemId === 'register' ? 'Sign up' : 'Login' }} With Google
             </XButton>
 
-            <div v-if="['welcome', 'register'].includes(itemId)" class="text-center text-theme-500 flex items-center justify-center gap-4">
+            <div v-if="['welcome', 'register'].includes(itemId || '')" class="text-center text-theme-500 flex items-center justify-center gap-4">
               <div class="border-b border-theme-200 border-theme-700/60 grow" />
               <span>or</span>
               <div class="border-b border-theme-200 border-theme-700/60 grow" />
             </div>
 
             <ElInput
-              v-if="['welcome', 'register', 'magic'].includes(itemId)"
+              v-if="['welcome', 'register', 'request-magic-link', 'request-password-reset'].includes(itemId || '')"
               :key="`inputEmail-${itemId}`"
               data-test-id="input-email"
               class="w-full"
@@ -333,9 +364,44 @@ vue.watch(() => itemId.value, () => {
               :model-value="fields.password"
               @update:model-value="fields.password = $event"
             />
+            <ElInput
+              v-if="itemId === 'set-new-password'"
+              key="set-new-password"
+              v-model="fields.password"
+              data-test-id="input-new-password"
+              input="InputPassword"
+              label="Password"
+              class="w-full"
+              :input-props="{ autocomplete: 'new-password', required: true, placeholder: 'Create a password' }"
+              ui-size="lg"
+            />
+            <ElInput
+              v-if="itemId === 'set-new-password'"
+              key="set-new-password-confirm"
+              v-model="fields.passwordConfirm"
+              data-test-id="input-new-password-confirm"
+              input="InputPassword"
+              label="Confirm Password"
+              class="w-full"
+              :input-props="{ autocomplete: 'new-password', required: true, placeholder: 'Confirm your password' }"
+              ui-size="lg"
+            />
 
             <XButton
-              v-if="itemId === 'welcome'"
+              v-if="itemId === 'set-new-password'"
+              data-test-id="code-login-button"
+              type="submit"
+              format="block"
+              theme="primary"
+              design="outline"
+              size="lg"
+              :loading="sending === 'button'"
+              icon="i-tabler-lock-open"
+            >
+              Set New Password
+            </XButton>
+            <XButton
+              v-else-if="itemId === 'welcome'"
               :key="`passwordLogin-${itemId}`"
               data-test-id="submit-button-login"
               type="submit"
@@ -363,38 +429,38 @@ vue.watch(() => itemId.value, () => {
               Create Account
             </XButton>
             <XButton
-              v-if="itemId === 'magic'"
-              :key="`magicLink-${itemId}`"
-              data-test-id="submit-button-magic"
+              v-if="['request-magic-link', 'request-password-reset'].includes(itemId || '')"
+              :key="`submit-send-email-${itemId}`"
+              data-test-id="submit-button-send-email"
               type="submit"
               format="block"
               theme="primary"
               design="outline"
               size="lg"
               :loading="sending === 'button'"
-              icon="i-tabler-sparkles"
+              icon-after="i-tabler-arrow-right"
             >
-              Send Sign In Link
+              {{ itemId === 'request-magic-link' ? 'Send Sign In Link' : 'Send Reset Link' }}
             </XButton>
 
             <div class="text-theme-400 dark:text-theme-500 text-xs font-sans text-balance text-center space-y-8 pt-4">
-              <div class="text-center flex gap-4 justify-center flex-wrap flex-col items-center">
+              <div class="text-center flex gap-4 justify-center flex-wrap items-center">
                 <XButton
                   v-if="itemId === 'welcome'"
-                  size="sm"
-                  design="ghost"
-                  theme="primary"
+                  size="xs"
+                  design="link"
+                  theme="default"
                   icon="i-tabler-rocket"
                   data-test-id="to-register"
                   @click.prevent="updateItemItemId('register')"
                 >
-                  Need an Account?
+                  Create Account
                 </XButton>
                 <XButton
-                  v-if="['register', 'magic'].includes(itemId)"
-                  size="sm"
-                  design="ghost"
-                  theme="green"
+                  v-if="['register', 'request-magic-link'].includes(itemId || '')"
+                  size="xs"
+                  design="link"
+                  theme="default"
                   icon="i-tabler-arrow-up-right"
                   data-test-id="to-welcome"
                   @click.prevent="updateItemItemId('welcome')"
@@ -402,13 +468,13 @@ vue.watch(() => itemId.value, () => {
                   Login instead?
                 </XButton>
                 <XButton
-                  v-if="['welcome', 'register'].includes(itemId)"
-                  size="sm"
+                  v-if="['welcome', 'register'].includes(itemId || '')"
+                  size="xs"
                   design="link"
                   theme="default"
                   icon="i-tabler-wand"
                   data-test-id="to-magic"
-                  @click.prevent="updateItemItemId('magic')"
+                  @click.prevent="updateItemItemId('request-password-reset')"
                 >
                   Forgot Password
                 </XButton>

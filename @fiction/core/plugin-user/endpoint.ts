@@ -41,7 +41,7 @@ export type ManageUserParams =
   | { _action: 'getUserWithToken', token: string, code?: string }
   | { _action: 'login', where: WhereUser, password?: string, createUserFields?: Partial<User>, createOnEmpty?: boolean }
   | { _action: 'loginGoogle', credential?: string, code?: string, createUserFields?: Partial<User>, createOnEmpty?: boolean }
-  | { _action: 'loginWithCode', where: WhereUser, code: string }
+  | { _action: 'loginWithCode', where: WhereUser, code: string, newPassword?: string }
   | { _action: 'event', eventName: 'resetPassword', where: WhereUser }
   | { _action: 'manageOnboard', settings: OnboardSettings, orgId?: string, userId?: string }
 
@@ -259,6 +259,21 @@ export class QueryManageUser extends UserBaseQuery {
       throw abort('Bearer does not have the required permissions or invalid token')
   }
 
+  async updatePassword(args: { where: WhereUser, password: string, code: string }, meta: EndpointMeta) {
+    const { where, password, code } = args
+
+    await verifyCode({
+      ...where,
+      verificationCode: code,
+      fictionDb: this.settings.fictionDb,
+      isProd: this.settings.fictionEnv?.isProd.value,
+    })
+
+    const hashedPassword = await hashPassword(password)
+
+    await this.db().table(t.user).update({ hashedPassword }).where(where).returning<User[]>('*')
+  }
+
   private async updateUser(params: ManageUserParams & { _action: 'update' }, meta: EndpointMeta): Promise<User | undefined> {
     const { where, fields, code } = params
     const db = this.db()
@@ -274,12 +289,10 @@ export class QueryManageUser extends UserBaseQuery {
     const updateType = meta?.server ? 'internal' : 'update'
     const insertFields = this.settings.fictionDb.prep({ type: updateType, fields, meta, table: t.user })
 
-    let passwordChanged = false
     // Handle password updates with hashing
-    if (fields.password) {
-      insertFields.hashedPassword = await hashPassword(fields.password)
+    if (fields.password && code) {
+      await this.updatePassword({ where, password: fields.password, code }, meta)
       delete fields.password // Remove plaintext password from fields
-      passwordChanged = true
     }
 
     await validateNewEmail({
@@ -299,7 +312,7 @@ export class QueryManageUser extends UserBaseQuery {
     if (!user)
       throw abort(`user not found`, { data: where })
 
-    this.settings.fictionUser.events.emit('updateUser', { user: existingUser!, passwordChanged })
+    this.settings.fictionUser.events.emit('updateUser', { user: existingUser! })
 
     return user
   }
@@ -414,7 +427,7 @@ export class QueryManageUser extends UserBaseQuery {
   }
 
   private async loginWithCode(params: ManageUserParams & { _action: 'loginWithCode' }, meta: EndpointMeta): Promise<User | undefined> {
-    const { where, code } = params
+    const { where, code, newPassword } = params
 
     if (!where || !code) {
       throw abort('email and code required')
@@ -435,6 +448,10 @@ export class QueryManageUser extends UserBaseQuery {
       fictionDb,
       isProd: fictionEnv?.isProd.value,
     })
+
+    if (newPassword && code) {
+      await this.updatePassword({ where, password: newPassword, code }, meta)
+    }
 
     // 3. After verification, clear the verification code to prevent reuse
     await this.db()

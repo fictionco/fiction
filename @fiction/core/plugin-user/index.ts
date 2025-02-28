@@ -45,7 +45,7 @@ export type UserPluginSettings = {
 export type UserEventMap = {
   newUser: CustomEvent<{ user: User, params: ManageUserParams & { _action: 'create' } }>
   newUserVerified: CustomEvent<{ user: User }>
-  updateUser: CustomEvent<{ user: User, newEmail?: string, passwordChanged?: boolean }>
+  updateUser: CustomEvent<{ user: User, newEmail?: string }>
   logout: CustomEvent<{ user?: User }>
   currentUser: CustomEvent<{ user?: User }>
   resetPassword: CustomEvent<{ user: User }>

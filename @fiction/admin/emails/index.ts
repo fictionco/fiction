@@ -12,6 +12,9 @@ export type VerifyRequestVars = {
 export function getEmails(args: { fictionAdmin: FictionAdmin }) {
   const { fictionAdmin } = args
   const fictionTransactions = fictionAdmin.settings.fictionTransactions
+  const authBasePath = '/app/auth'
+
+  // Verification email action
   const verifyEmailAction = new EmailAction<{
     transactionArgs: VerifyRequestVars
     transactionResponse: EndpointResponse<User>
@@ -19,17 +22,23 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
   }>({
     fictionTransactions,
     actionId: 'verifyEmail',
-    template: vue.defineAsyncComponent<vue.Component>(async () => import('./VEmailVerify.vue')), // <vue.Component> avoids circular reference
+    template: vue.defineAsyncComponent<vue.Component>(async () => import('./VEmailVerify.vue')),
     emailConfig: async (emailVars) => {
+      const verifyUrl = `${emailVars.originUrl}${authBasePath}/verify-email?code=${emailVars.code}&email=${emailVars.email}`
+
       return {
         emailVars,
         subject: `${emailVars.appName}: Verify Your Email`,
         title: 'Verify Your Email',
-        subTitle: 'Click the Link Below',
-        content: `Verify your email using the code: <strong>${emailVars.code}</strong> or click the button below.`,
+        subTitle: 'Confirm your account to get started',
+        contentMarkdown: [
+          `Thank you for creating an account with ${emailVars.appName}.`,
+          `Your verification code is: **${emailVars.code}**`,
+          `You can either enter this code or click the button below.`,
+        ].join('\n\n'),
         to: `${emailVars.email}`,
         buttons: [
-          { label: 'Verify Email', href: emailVars.callbackUrl, theme: 'primary' },
+          { label: 'Verify Email', href: verifyUrl, theme: 'primary' },
         ],
       } satisfies EmailConfigResponse
     },
@@ -39,9 +48,12 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
       const fictionUser = transaction.settings.fictionTransactions?.settings.fictionUser
 
       if (!fictionUser)
-        throw abort('missing modules', { expose: true })
+        throw abort('Required services missing', { expose: true })
 
-      const user = await fictionUser.queries.ManageUser.serve({ _action: 'verifyEmail', code, email }, { ...meta, server: true })
+      const user = await fictionUser.queries.ManageUser.serve(
+        { _action: 'verifyEmail', code, email },
+        { ...meta, server: true },
+      )
 
       return user
     },
@@ -53,45 +65,81 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
     template: vue.defineAsyncComponent<vue.Component>(async () => import('./ActionMagicLogin.vue')),
     actionId: 'magicLogin',
     emailConfig: async (emailVars) => {
+      const signInUrl = `${emailVars.originUrl}${authBasePath}/magic-link-sent?code=${emailVars.code}&email=${emailVars.email}`
+
       return {
         emailVars,
-        subject: `${emailVars.appName}: Your Sign-In Link 🪄`,
-        title: 'Your Sign-In Link is Ready',
-        subTitle: 'Click the link below to log in',
+        subject: `${emailVars.appName}: Your Sign-In Link`,
+        title: 'Sign in to your account',
+        subTitle: 'No password needed',
         contentMarkdown: [
-          `[This link](${emailVars.callbackUrl}) will sign you in to ${emailVars.appName}.`,
-          `Alternatively, you can login with this code: **${emailVars.code}**.`,
-          `If you didn't request this email, don't worry, you can safely ignore it.`,
-        ].join(`\n\n`),
+          `Click the button below to sign in to your ${emailVars.appName} account.`,
+          `Or use this code to sign in: **${emailVars.code}**`,
+          `This link will expire in 24 hours.`,
+        ].join('\n\n'),
         to: `${emailVars.email}`,
         buttons: [
           {
-            label: `Sign in to ${emailVars.appName}`,
-            href: emailVars.callbackUrl,
+            label: 'Sign in now',
+            href: signInUrl,
             theme: 'primary',
           },
         ],
+        emailType: 'alert',
       } satisfies EmailConfigResponse
     },
-
   })
 
-  // Magic Login Email Action
+  // One-time code email
   const oneTimeCode = new EmailAction({
     fictionTransactions,
     actionId: 'oneTimeCode',
     emailConfig: async (emailVars) => {
       return {
         emailVars,
-        subject: `${emailVars.appName}: Your One-Time-Code 🧑‍💻`,
-        title: 'Here is your one-time code',
-        subTitle: 'Use this code to verify your email',
-        bodyMarkdown: `Use this code to verify your email: **${emailVars.code}**`,
+        subject: `${emailVars.appName}: Your verification code`,
+        title: 'Your verification code',
+        subTitle: 'Use this code to verify your account',
+        bodyMarkdown: [
+          `Your verification code is: **${emailVars.code}**`,
+          `This code will expire in 30 minutes.`,
+          `If you didn't request this code, please ignore this email.`,
+        ].join('\n\n'),
         to: `${emailVars.email}`,
       }
     },
-
   })
 
-  return { verifyEmailAction, magicLoginEmailAction, oneTimeCode }
+  // Password reset email
+  const passwordReset = new EmailAction({
+    fictionTransactions,
+    actionId: 'passwordReset',
+    emailConfig: async (emailVars) => {
+      const resetUrl = `${emailVars.originUrl}${authBasePath}/set-new-password?code=${emailVars.code}&email=${emailVars.email}`
+
+      return {
+        emailVars,
+        subject: `${emailVars.appName}: Reset your password`,
+        title: 'Reset your password',
+        subTitle: 'Create a new password for your account',
+        contentMarkdown: [
+          `We received a request to reset your password.`,
+          `Click the button below to create a new password.`,
+          `This link will expire in 24 hours.`,
+          `If you didn't request this, you can safely ignore this email.`,
+        ].join('\n\n'),
+        to: `${emailVars.email}`,
+        buttons: [
+          {
+            label: 'Reset Password',
+            href: resetUrl,
+            theme: 'primary',
+          },
+        ],
+        emailType: 'alert',
+      }
+    },
+  })
+
+  return { verifyEmailAction, magicLoginEmailAction, oneTimeCode, passwordReset }
 }

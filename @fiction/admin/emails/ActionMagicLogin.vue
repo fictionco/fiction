@@ -4,13 +4,15 @@ import type { FictionAdmin } from '..'
 import TransactionWrap from '@fiction/cards/page-transaction/TransactionWrap.vue'
 import { useService, vue } from '@fiction/core'
 
-type ActionProps = FictionAdmin['emailActions']['magicLoginEmailAction']
+defineOptions({ name: 'ActionMagicLogin' })
 
 const { card, queryVars } = defineProps<{
   card: Card
   action: ActionProps
   queryVars: Record<string, any>
 }>()
+
+type ActionProps = FictionAdmin['emailActions']['magicLoginEmailAction']
 
 const { fictionUser } = useService()
 

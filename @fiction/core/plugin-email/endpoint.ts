@@ -172,17 +172,21 @@ export class QueryTransactionalEmail extends EmailQuery {
 
     const replyTo = (senderName ? `${senderName} <${senderEmail}>` : senderEmail) || this.fromAppEmail()
 
-    const from = replaceEmailDomain(replyTo, sendingDomain)
+    const sendingDomainEmail = `noreply@${sendingDomain || 'fiction.com'}`
+
+    const from = replyTo.includes('fiction.com') ? replyTo : senderName ? `${senderName} <${sendingDomainEmail}>` : sendingDomainEmail
 
     if (!to)
       throw abort('missing email: to', meta)
+
+    const messageId = emailId || `fiction-${Date.now()}-${Math.random().toString(36).substring(2, 12)}`
 
     const headers: Record<string, string> = {
       'X-MAILER': 'Fiction',
       'X-MAILGUN-VARIABLES': JSON.stringify(emailVars),
 
       // Improved email identification and tracking
-      'Message-ID': `<${emailId}>`,
+      'Message-ID': `<${messageId}@${sendingDomain || 'fiction.com'}>`,
       'X-Entity-Ref-ID': emailId || `fiction-${Date.now()}`,
 
       // Responsible sender information
@@ -193,6 +197,9 @@ export class QueryTransactionalEmail extends EmailQuery {
       'X-Fiction-User-ID': toUserId || '',
       'X-Fiction-Org-ID': fromOrgId || '',
       'X-Fiction-Site-ID': fromSiteId || '',
+      'X-Fiction-Sender-Email': senderEmail || '',
+      'X-Fiction-Email-Type': emailType || 'update',
+      'X-Fiction-Sender-Name': senderName || '',
 
       // Prevent auto-responders
       'X-Auto-Response-Suppress': 'OOF, AutoReply',
@@ -208,6 +215,7 @@ export class QueryTransactionalEmail extends EmailQuery {
 
     if (unsubscribeUrl) {
       headers['List-Unsubscribe'] = `<${unsubscribeUrl}>`
+      headers['List-Unsubscribe-Post'] = 'List-Unsubscribe=One-Click'
     }
 
     const theEmail: NodeMailOptions = {

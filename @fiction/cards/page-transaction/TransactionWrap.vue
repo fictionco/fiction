@@ -17,9 +17,9 @@ const props = defineProps({
 })
 
 const iconThemes: Record<string, { class: string, icon?: string }> = {
-  pending: { class: 'bg-theme-100/50 text-theme-500 dark:bg-theme-700 dark:text-theme-100', icon: 'i-tabler-stop' },
-  success: { class: 'bg-green-100 text-green-800 dark:bg-green-800/50 dark:text-green-50', icon: 'i-tabler-check' },
-  error: { class: 'bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-100', icon: 'i-tabler-x' },
+  pending: { class: 'text-theme-800 border-theme-300/50 dark:border-theme-500 bg-theme-100/50 dark:bg-theme-800/30 dark:text-theme-50', icon: 'i-tabler-stop' },
+  success: { class: 'text-primary-800 border-primary-500 dark:border-primary-400 bg-primary-100/50 dark:bg-primary-800/30 dark:text-primary-50', icon: 'i-tabler-check' },
+  error: { class: 'text-rose-800 border-rose-500 dark:border-rose-400 bg-rose-100/50 dark:bg-rose-800/30 dark:text-rose-50', icon: 'i-tabler-x' },
 }
 
 const ico = vue.computed(() => iconThemes[props.status as keyof typeof iconThemes] || iconThemes.pending)
@@ -46,7 +46,7 @@ const ico = vue.computed(() => iconThemes[props.status as keyof typeof iconTheme
         <div v-if="title || subTitle" :key="title" class="mb-6 md:text-center md:flex md:flex-col space-y-4  items-center justify-center">
           <div
             v-if="icon || ico.icon"
-            class="rounded-full size-12 md:size-16 inline-flex items-center justify-center"
+            class="rounded-full size-12 md:size-16 inline-flex items-center justify-center border"
             :class="ico.class"
             :title="superTitle?.text"
           >
