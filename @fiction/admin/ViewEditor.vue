@@ -128,7 +128,7 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
             <TransitionWidth>
               <div
                 v-show="!controller.hideToolDrawers.value && contextTool"
-                class="hidden md:block flex-none w-[300px] lg:w-[370px] xl:w-[400px] 2xl:w-[420px] bg-theme-0 dark:bg-theme-900 border-l border-theme-200 dark:border-theme-700 overflow-y-scroll overflow-x-clip no-scrollbar"
+                class="hidden md:block flex-none w-[300px] lg:w-[370px] xl:w-[400px] 2xl:w-[420px] bg-theme-0 dark:bg-theme-900 border-l border-theme-200 dark:border-theme-700 overflow-y-scroll overflow-x-clip scroll-container no-scrollbar"
               >
                 <transition
                   mode="out-in"

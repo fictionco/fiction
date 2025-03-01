@@ -2,6 +2,7 @@
 import type { UiElementSize } from '../utils'
 import { omit, vue, waitFor } from '@fiction/core'
 import { inputs } from '.'
+import { smoothScrollToView } from '../anim/scrolling'
 
 defineOptions({ name: 'ElInput' })
 
@@ -127,26 +128,22 @@ vue.onMounted(() => {
         emit('activate', activePath)
         await waitFor(500)
         if (inputRef.value) {
-          const rect = inputRef.value.getBoundingClientRect()
-          const isFullyVisible = (
-            rect.top >= 0
-            && rect.left >= 0
-            && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-            && rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-          )
+          const scrolled = await smoothScrollToView({
+            element: inputRef.value,
+            onlyIfNeeded: true,
+            containerClass: 'scroll-container',
+          })
 
-          if (!isFullyVisible) {
-            inputRef.value?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' })
-          }
+          // Brief pause after scrolling if needed
+          if (scrolled)
+            await waitFor(50)
+
+          // Show highlight animation
+          isHighlighted.value = true
+          setTimeout(() => {
+            isHighlighted.value = false
+          }, 600)
         }
-
-        await waitFor(700)
-
-        isHighlighted.value = true
-
-        await waitFor(1000)
-
-        isHighlighted.value = false
       }
       else {
         activated.value = false
@@ -232,21 +229,17 @@ function updateActivePath() {
 
 <style lang="less" scoped>
 .highlight-selected {
-  animation: highlightInput .4s linear forwards;
+  animation: highlightInput 1.2s cubic-bezier(0.25,1,0.33,1) forwards;
 }
 
 @keyframes highlightInput {
   0% {
-    opacity: 0.2;
-  }
-  25% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.2;
+    opacity: 0.5;
+    transform: scale(0.97);
   }
   100% {
     opacity: 1;
+    transform: scale(1);
   }
 }
 </style>
