@@ -10,7 +10,7 @@ export type FramePostMessageList =
   | { messageType: 'setCard', data: { cardConfig: CardConfigPortable, caller?: string } }
   | { messageType: 'resetUi', data: { cause: string, scope: ResetUiScope, trigger: ResetUiTrigger } }
   | { messageType: 'setActiveCard', data: { cardId: string, caller?: string } }
-  | { messageType: 'setEditItem', data: { cardId: string, path: string, caller?: string } }
+  | { messageType: 'setEditPath', data: { cardId: string, path: string, caller?: string } }
   | { messageType: 'navigate', data: { urlOrPath: string, siteId: string } }
   | { messageType: 'frameReady', data: undefined }
   | { messageType: 'keypress', data: { key: string, direction: 'up' | 'down' } }
@@ -132,8 +132,8 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     this.send({ msg: { messageType: 'setActiveCard', data: args } })
   }
 
-  syncEditItem(args: (FramePostMessageList & { messageType: 'setEditItem' })['data']) {
-    this.send({ msg: { messageType: 'setEditItem', data: args } })
+  syncEditPath(args: (FramePostMessageList & { messageType: 'setEditPath' })['data']) {
+    this.send({ msg: { messageType: 'setEditPath', data: args } })
   }
 
   syncCard(args: { caller: string, cardConfig: CardConfigPortable }) {
@@ -200,13 +200,10 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
       }
 
       // set item in UI that is being edited
-      case 'setEditItem': {
-        const { cardId, path, caller } = msg.data
-        const card = site.availableCards.value.find(c => c.cardId === cardId)
-        if (card)
-          card.editItem.value = path
-        else
-          this.log.error('No card found', { data: { cardId, caller, path } })
+      case 'setEditPath': {
+        const { path } = msg.data
+
+        site.editor.value.editPath = path
 
         break
       }

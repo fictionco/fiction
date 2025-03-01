@@ -85,9 +85,10 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
               <SuperTitle
                 v-if="uc.superTitle"
                 :card
-                class="mb-4"
+                class="mb-6"
                 base-path="superTitle"
                 :super-title="uc.superTitle"
+                size="lg"
               />
               <EffectFitText
                 tag="h1"

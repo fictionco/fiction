@@ -12,13 +12,13 @@ const featureSchema = z.object({
   icon: MediaIconSchema.optional().describe('Visual representation [ai]'),
   color: z.enum(colorThemeUser).optional().describe('Feature color theme'),
   action: ActionAreaSchema.optional().describe('Interactive buttons [ai]'),
-  columns: z.enum(['1', '2', '3', '4', '5', '6']).optional().describe('Width in masonry layout'),
+  columns: z.enum(['1', '2', '3', '4']).optional().describe('Width in masonry layout'),
 })
 
 export const schema = z.object({
   layout: z.object({
     style: z.enum(['grid', 'masonry', 'cards', 'carousel']).optional().describe('Display format'),
-    columns: z.enum(['2', '3', '4', '5', '6']).optional().describe('Grid columns count'),
+    columns: z.enum(['1', '2', '3', '4']).optional().describe('Grid columns count'),
     spacing: z.enum(['tight', 'normal', 'relaxed']).optional().describe('Gap between features'),
     align: z.enum(['left', 'center']).optional().describe('Content alignment'),
   }).optional().describe('Layout settings'),
@@ -57,6 +57,7 @@ const options: InputOption[] = [
             key: 'items.0.description',
             label: 'Description',
             input: 'InputTextarea',
+            props: { rows: 3 },
             schema,
           }),
           createOption({
@@ -69,6 +70,13 @@ const options: InputOption[] = [
             key: 'items.0.color',
             label: 'Accent Color',
             input: 'InputColorTheme',
+            schema,
+          }),
+          createOption({
+            key: 'items.0.columns',
+            label: 'Column Span (Masonry Mode)',
+            input: 'InputSelect',
+            props: { list: ['1', '2', '3', '4'] },
             schema,
           }),
           createOption({
@@ -86,21 +94,6 @@ const options: InputOption[] = [
                 key: 'items.0.action',
                 label: 'Actions',
                 input: 'InputActionArea',
-                schema,
-              }),
-            ],
-          }),
-          createOption({
-            input: 'group',
-            label: 'Layout',
-            key: 'layoutGroup',
-            isClosed: true,
-            options: [
-              createOption({
-                key: 'items.0.columns',
-                label: 'Width (Masonry)',
-                input: 'InputSelect',
-                props: { list: ['1', '2', '3', '4'] },
                 schema,
               }),
             ],
@@ -135,7 +128,7 @@ const options: InputOption[] = [
         subLabel: 'How wide should each feature be?',
         input: 'InputRadioButton',
         props: { uiSize: 'sm' },
-        list: ['2', '3', '4'],
+        list: ['1', '2', '3', '4'],
         schema,
       }),
       createOption({

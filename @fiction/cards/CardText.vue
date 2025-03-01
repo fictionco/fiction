@@ -60,6 +60,7 @@ function shouldStopProp(event: MouseEvent) {
     event.preventDefault()
     const cardId = card.cardId
     card?.site?.setActiveCard({ cardId })
+    card?.setEditPath({ path, caller: 'CardText-shouldStopProp' })
   }
 }
 

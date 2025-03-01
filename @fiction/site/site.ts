@@ -23,6 +23,7 @@ import '@vue/shared' // for non-portable types (?)
 export type EditorState = {
   selectedCardId: string
   selectedPageId: string
+  editPath: string
   tempPage: CardConfigPortable
   tempSite: Record<string, any>
   selectedRegionId: PageRegion | undefined
@@ -222,6 +223,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     selectedCardId: '',
     selectedPageId: '',
     selectedRegionId: 'main',
+    editPath: '',
     savedCardOrder: {},
     savedEditingStyle: 'quick',
     savedPrefersColorScheme: '',
@@ -231,6 +233,21 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     isDirty: false,
     ...this.settings.editor,
   })
+
+  setEditPath(args: { path: string, caller: string }) {
+    const { path, caller } = args
+
+    if (!this || this?.siteMode.value === 'standard') {
+      return
+    }
+
+    this.editor.value.editPath = path
+    this.frame.syncEditPath({
+      cardId: this.activeCard.value?.cardId || '',
+      path,
+      caller: `card:syncCard:${caller}`,
+    })
+  }
 
   editorStored = vue.computed(() => {
     // get object of keys with store in them

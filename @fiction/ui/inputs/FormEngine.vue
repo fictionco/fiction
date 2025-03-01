@@ -14,10 +14,12 @@ defineOptions({ name: 'FormEngine' })
 
 const {
   options,
+  activePath,
+  editPath,
+  basePath = '',
   stateKey = 'formEngine',
   modelValue = {},
   depth = 0,
-  basePath = '',
   inputWrapClass = '',
   inputProps = {},
   uiSize = 'md',
@@ -27,6 +29,8 @@ const {
 } = defineProps<{
   stateKey?: string
   options: InputOption[]
+  activePath?: string
+  editPath?: string
   loading?: boolean
   modelValue?: Record<string, unknown>
   depth?: number
@@ -41,9 +45,10 @@ const {
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: Record<string, unknown>): void
-  (event: 'update:editPath', payload: string): void
+  (event: 'update:activePath', payload: string): void
   (event: 'update:updatePath', payload: string): void
   (event: 'keydown', payload: KeyboardEvent): void
+  (event: 'activate', payload: string): void
 }>()
 
 // Create a function to recursively get all group options and their isClosed status
@@ -59,12 +64,6 @@ function getGroupClosedStatus(options: InputOption[]): Record<string, boolean> {
   }, {} as Record<string, boolean>)
 }
 
-// const menuVisibility = localRef<Record<string, boolean>>({
-//   lifecycle: 'session',
-//   def: getGroupClosedStatus(options),
-//   key: `FormEngine-${stateKey?}`,
-// })
-
 const menuVisibility = vue.ref<Record<string, boolean>>(getGroupClosedStatus(options))
 
 function hide(opt: InputOption, change?: 'toggle' | 'show' | 'hide') {
@@ -74,28 +73,21 @@ function hide(opt: InputOption, change?: 'toggle' | 'show' | 'hide') {
     return
 
   if (change) {
-    const val = change === 'toggle' ? !menuVisibility.value[key] : change === 'show'
+    let val: boolean
+    if (change === 'toggle') {
+      val = !menuVisibility.value[key]
+    }
+    else if (change === 'show') {
+      val = false
+    }
+    else {
+      val = true
+    }
+
     menuVisibility.value = { ...menuVisibility.value, [key]: val }
   }
 
   return menuVisibility.value[key]
-}
-
-function getOptionPath(opt: InputOption, index?: number) {
-  const key = opt.key.value
-  const input = opt.input.value
-  // Ignore the key if this is an InputControl
-  if (typeof input === 'string' && input === 'InputControl') {
-    return basePath
-  }
-  const path = basePath ? `${basePath}.${key}` : key
-
-  if (index !== undefined && index >= 0) {
-    return `${path}.${index}`
-  }
-  else {
-    return path
-  }
 }
 
 const cls = vue.computed(() => {
@@ -151,13 +143,37 @@ function getGroupClasses(opt: InputOption) {
   return opt.settings.format === 'control' ? '' : cls.value.groupPad
 }
 
+function getOptionPath(args: { opt: InputOption, index?: number, mode?: 'base' | 'edit' }): string {
+  const { opt, index, mode = 'base' } = args
+  const key = opt.key.value
+  const input = opt.input.value
+
+  const root = mode === 'edit' ? editPath : basePath
+  // Ignore the key if this is an InputControl
+  if (typeof input === 'string' && input === 'InputControl') {
+    return root || ''
+  }
+  const path = root ? `${root}.${key}` : key
+
+  return (index !== undefined && index >= 0) ? `${path}.${index}` : path
+}
+
 function update(args: { opt: InputOption, value: Record<string, unknown> }) {
   const { opt, value } = args
-  const path = getOptionPath(opt)
+  const path = getOptionPath({ opt })
   emit('update:modelValue', setNested({ path, data: modelValue, value }))
 
   // used to track which paths have been updated
   emit('update:updatePath', path)
+}
+
+function activateOption(args: { opt: InputOption, path: string }) {
+  const { opt, path } = args
+
+  if (opt.input.value === 'group') {
+    hide(opt, 'show')
+  }
+  emit('activate', path)
 }
 </script>
 
@@ -198,15 +214,18 @@ function update(args: { opt: InputOption, value: Record<string, unknown> }) {
                 <FormEngine
                   :state-key="stateKey"
                   :ui-size="uiSize"
+                  :base-path="basePath"
+                  :edit-path="editPath"
+                  :active-path="activePath"
                   :input-props="inputProps"
                   :options="opt.options.value || []"
                   :input-wrap-class="inputWrapClass"
                   :model-value="modelValue"
                   :depth="depth + 1"
-                  :base-path="basePath"
                   :format="opt.settings.format"
                   @update:model-value="emit('update:modelValue', $event)"
-                  @update:edit-path="emit('update:editPath', $event)"
+                  @update:active-path="emit('update:activePath', $event)"
+                  @activate="activateOption({ opt, path: $event })"
                 />
               </div>
             </div>
@@ -219,25 +238,30 @@ function update(args: { opt: InputOption, value: Record<string, unknown> }) {
           class="mb-1"
           :class="i === 0 ? 'mt-0' : 'mt-1'"
         />
-        <input v-else-if="opt.input.value === 'hidden'" :data-option-path="opt.key.value" type="hidden" :value="getNested({ path: getOptionPath(opt), data: modelValue })">
+        <input v-else-if="opt.input.value === 'hidden'" :data-option-path="opt.key.value" type="hidden" :value="getNested({ path: getOptionPath({ opt }), data: modelValue })">
 
         <div v-else :data-input-wrap="inputWrapClass" :class="getInputWrapClasses(opt)" :data-depth="depth" :data-option-key="opt.key.value">
           <ElInput
             v-if="opt.isHidden.value !== true"
             :ui-size="uiSize"
+            :active-path="activePath"
             :data-option-path="opt.key.value"
             :data-test-id="opt.settings.testId || opt.key.value"
             class="setting-input"
-            :control-option="opt"
             :input-class="opt.settings.inputClass"
-            v-bind="{ ...opt.outputProps.value }"
-            :input-props="{ ...inputProps }"
+            v-bind="{ ...opt.wrapProps.value }"
+            :input-props="{
+              controlOption: opt,
+              ...opt.outputProps.value,
+              ...inputProps,
+            }"
             :input="opt.input.value"
-            :model-value="getNested({ path: getOptionPath(opt), data: modelValue })"
-            @click="emit('update:editPath', getOptionPath(opt))"
-            @update:edit-index="emit('update:editPath', getOptionPath(opt, $event))"
+            :model-value="getNested({ path: getOptionPath({ opt }), data: modelValue })"
+            :edit-path="[basePath, editPath, opt.key.value].filter(Boolean).join('.')"
             @update:model-value="update({ opt, value: $event })"
+            @update:active-path="emit('update:activePath', $event)"
             @keydown="emit('keydown', $event)"
+            @activate="activateOption({ opt, path: $event })"
           />
         </div>
       </template>

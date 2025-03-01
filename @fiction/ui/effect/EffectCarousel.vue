@@ -9,6 +9,7 @@ const props = defineProps<{
   options?: Partial<Flickity.Options>
   slides: T[]
   activeIndex: number
+  trigger?: number
 }>()
 
 const emit = defineEmits<{
@@ -103,11 +104,15 @@ async function initFlickity() {
 }
 
 vue.onMounted(async () => {
-  vue.watch(() => props.slides.length, () => {
-    vue.nextTick(async () => {
-      await initFlickity()
-    })
-  }, { immediate: true })
+  vue.watch(
+    () => [props.slides.length, props.trigger],
+    () => {
+      vue.nextTick(async () => {
+        await initFlickity()
+      })
+    },
+    { immediate: true },
+  )
 
   vue.watch(() => props.activeIndex, (newIndex) => {
     if (flkty && flkty.selectedIndex !== newIndex) {

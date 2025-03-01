@@ -362,22 +362,10 @@ export class Card<
   }
 
   // syncing of item being edited
-  editItem = vue.ref<string | undefined>()
-  setEditItem(args: { path: string, caller: string }) {
-    const { path, caller } = args
-
-    const site = this.site
-
-    if (!site || site?.siteMode.value === 'standard') {
-      return
-    }
-
-    this.editItem.value = path
-    site.frame.syncEditItem({
-      cardId: this.cardId,
-      path,
-      caller: `card:syncCard:${caller}`,
-    })
+  editPath = vue.computed(() => this.isActive.value ? this.site?.editor.value.editPath : undefined)
+  setEditPath = (args: { path: string, caller: string }) => {
+    const path = `userConfig.${args.path}`
+    this.site?.setEditPath({...args, path})
   }
 
   link(location?: vueRouter.RouteLocationRaw, opts?: { caller?: string }) {

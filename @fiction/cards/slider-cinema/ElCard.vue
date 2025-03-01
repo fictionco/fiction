@@ -24,8 +24,8 @@ const autoPlayInterval = vue.computed(() =>
 )
 
 // Watch for edit mode to pause carousel
-vue.watch(() => props.card.editItem.value, (path) => {
-  if (!props.card.isActive.value)
+vue.watch(() => props.card.editPath.value, (path) => {
+  if (!path)
     return
 
   const [index] = getDotpathArrayIndices(path)
@@ -55,7 +55,7 @@ const flickityOptions = vue.computed(() => ({
       <template #default="{ slide: item, index: i }">
         <div
           class="carousel-cell relative w-full h-screen"
-          @click="card.setEditItem({ path: `items.${i}`, caller: 'cinema' })"
+          @click="card.site?.setEditPath({ path: `items.${i}`, caller: 'cinema' })"
         >
           <div v-if="!item.media?.overlay" class="absolute inset-0 bg-black/50 z-10" />
           <XMedia

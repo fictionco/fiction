@@ -15,8 +15,6 @@ defineProps({
 
 <template>
   <div class="tool pb-24 pt-1">
-    <div>
-      <slot />
-    </div>
+    <slot />
   </div>
 </template>

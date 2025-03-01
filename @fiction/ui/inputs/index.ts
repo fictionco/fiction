@@ -150,6 +150,19 @@ export class InputOption extends FictionObject<InputOptionSettings> {
   schema = vue.shallowRef(this.settings.schema)
   generation = vue.ref(this.settings.generation || {})
 
+  wrapProps = vue.computed(() => {
+
+    if(this.input.value === 'InputControl'){
+      return {}
+    }
+
+    return  {
+      label: this.label.value,
+      subLabel: this.subLabel.value,
+      description: this.description.value,
+    }
+  })
+
   outputProps = vue.computed(() => {
     if (this.input.value === 'InputControl') {
       return {
@@ -160,9 +173,6 @@ export class InputOption extends FictionObject<InputOptionSettings> {
     }
     else {
       return {
-        label: this.label.value,
-        subLabel: this.subLabel.value,
-        description: this.description.value,
         placeholder: this.placeholder.value,
         required: this.isRequired.value,
         key: this.key.value,

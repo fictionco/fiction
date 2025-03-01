@@ -406,10 +406,13 @@ async function sendVerificationEmail(email: string) {
 }
 
 const quotes = [
-{ text: 'Yesterday you said tomorrow.', author: 'Nike' },
+  { text: 'Yesterday you said tomorrow.', author: 'Nike' },
   { text: 'Become who you are.', author: 'Nietzsche' },
   { text: 'Take massive action now!', author: 'Tony Robbins' },
   { text: 'Change your story, change your life.', author: 'Lori Gottlieb' },
+  { text: 'It all begins with your story...', author: 'Andrew Powers' },
+  { text: 'Be as you wish to seem.', author: 'Socrates' },
+
 ]
 
 const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length)])
@@ -465,8 +468,6 @@ vue.watch(() => itemId.value, () => {
             v-if="['verify-success', 'password-updated'].includes(itemId)"
             class="text-center space-y-4"
           >
-
-
             <p class="text-theme-500 dark:text-theme-400 text-sm text-pretty my-6">
               Redirecting to dashboard in {{ redirectCountdown }} seconds...
             </p>
@@ -502,8 +503,6 @@ vue.watch(() => itemId.value, () => {
 
           <!-- Email verification screen -->
           <template v-else-if="itemId === 'verify-email'">
-
-
             <ElInput
               data-test-id="input-one-time-code"
               class="w-full"

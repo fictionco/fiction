@@ -6,10 +6,11 @@ import { createOption } from './index.js'
 
 defineOptions({ name: 'InputActionArea' })
 
-const { modelValue } = defineProps<{ modelValue?: SuperTitle }>()
+const { modelValue, activePath, editPath } = defineProps<{ modelValue?: SuperTitle, activePath?: string, editPath?: string }>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: SuperTitle): void
+  (event: 'update:activePath', payload: string): void
 }>()
 
 const options = vue.computed(() => {
@@ -34,14 +35,17 @@ const options = vue.computed(() => {
 </script>
 
 <template>
-  <div>
+  <div class="super-title-input">
     <FormEngine
       state-key="superTitleInput"
       :depth="1"
       :model-value="modelValue"
       ui-size="md"
       :options
+      :active-path="activePath"
+      :edit-path="editPath"
       @update:model-value="emit('update:modelValue', $event)"
+      @update:active-path="emit('update:activePath', $event)"
     />
   </div>
 </template>

@@ -19,37 +19,36 @@ const textareaWrapper = vue.ref<HTMLElement>()
 
 const textareaElement = vue.ref<HTMLElement>()
 
-function setHeight(): void {
-  const ta = textareaElement.value
-  const tw = textareaWrapper.value
-  if (!ta || !tw)
-    return
+// function setHeight(): void {
+//   const ta = textareaElement.value
+//   const tw = textareaWrapper.value
+//   if (!ta || !tw)
+//     return
 
-  tw.style.height = ta.style.height
-  ta.style.height = 'auto'
-  const newHeight = Math.min(ta.scrollHeight, props.maxHeight)
-  ta.style.height = `${newHeight}px`
-  tw.style.height = 'auto'
-}
-onResetUi(() => setHeight())
+//   tw.style.height = ta.style.height
+//   ta.style.height = 'auto'
+//   const newHeight = Math.min(ta.scrollHeight, props.maxHeight)
+//   ta.style.height = `${newHeight}px`
+//   tw.style.height = 'auto'
+// }
+// onResetUi(() => setHeight())
 
-vue.onMounted(() => {
-  const ta = textareaElement.value
-  if (!ta)
-    return
+// vue.onMounted(() => {
+//   const ta = textareaElement.value
+//   if (!ta)
+//     return
 
-  setHeight()
+//   setHeight()
 
-  // ta.addEventListener("input", () => setHeight())
+//   // ta.addEventListener("input", () => setHeight())
 
-  vue.watch(
-    () => props.modelValue,
-    () => setHeight(),
-  )
-})
+//   vue.watch(
+//     () => props.modelValue,
+//     () => setHeight(),
+//   )
+// })
 
 function send(el: EventTarget | null): void {
-  setHeight()
   const elem = el as HTMLInputElement
   const txt = elem.value
   emit('update:modelValue', txt)

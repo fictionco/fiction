@@ -16,6 +16,8 @@ const {
   itemLabel = 'Item',
   itemName = 'Item',
   site,
+  activePath,
+  editPath,
 } = defineProps<{
   modelValue?: BasicItem[]
   options?: InputOption[]
@@ -27,11 +29,14 @@ const {
   max?: number
   uiSize?: StandardSize
   site?: Site
+  activePath?: string
+  editPath?: string
 }>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: BasicItem[]): void
-  (event: 'update:editIndex', payload: number): void
+  (event: 'update:activePath', payload: string): void
+  (event: 'activate', payload: string): void
 }>()
 
 type KeyedItem = Record<string, unknown> & { _key: string }
@@ -126,11 +131,16 @@ function removeItem(item: Record<string, unknown> & { _key: string }) {
   openItem.value = -1
 }
 
-function toggleItem(index: number) {
-  openItem.value = openItem.value === index ? -1 : index
-
-  if (openItem.value === index)
-    emit('update:editIndex', index)
+function toggleItem(index: number, action?: 'show' | 'hide') {
+  if (action === 'show') {
+    openItem.value = index
+  }
+  else if (action === 'hide') {
+    openItem.value = -1
+  }
+  else {
+    openItem.value = openItem.value === index ? -1 : index
+  }
 }
 
 let sortable: Sortable | undefined
@@ -170,6 +180,12 @@ vue.onMounted(async () => {
     await createDraggable()
   }, { immediate: true })
 })
+
+function activateItem(args: { index: number, path: string }) {
+  const { index, path } = args
+  toggleItem(index, 'show')
+  emit('activate', path)
+}
 </script>
 
 <template>
@@ -201,14 +217,18 @@ vue.onMounted(async () => {
         </div>
       </div>
       <TransitionSlide>
-        <div v-if="openItem === i">
+        <div v-show="openItem === i">
           <div class="py-4 px-3 space-y-5">
             <FormEngine
               :model-value="item"
               :options
               :depth="1"
+              :active-path="activePath"
+              :edit-path="`${editPath}.${i}`"
               :input-props="{ site }"
               @update:model-value="updateIndexValue(i, $event)"
+              @update:active-path="emit('update:activePath', $event)"
+              @activate="activateItem({ index: i, path: $event })"
             />
           </div>
         </div>

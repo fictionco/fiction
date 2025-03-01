@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { UiElementSize } from '../utils'
-import { omit, vue } from '@fiction/core'
+import { omit, vue, waitFor } from '@fiction/core'
 import { inputs } from '.'
 
 defineOptions({ name: 'ElInput' })
@@ -14,6 +14,9 @@ const {
   uiSize = 'md',
   input,
   defaultValue,
+  editPath,
+  activePath,
+  placeholder,
 } = defineProps<{
   modelValue?: any
   label?: string
@@ -23,13 +26,17 @@ const {
   uiSize?: UiElementSize
   input?: keyof typeof inputs | vue.Component | 'title' | 'group' | 'hidden'
   defaultValue?: any
-  optionPath?: string
+  editPath?: string
+  activePath?: string
+  placeholder?: string
 }>()
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: any): void
   (e: 'update:editIndex', value: number): void
+  (e: 'update:activePath', value: string): void
   (e: 'keydown', value: KeyboardEvent): void
+  (e: 'activate', value: string): void
 }>()
 
 type InputProps = {
@@ -102,11 +109,52 @@ async function updateValue(value: any): Promise<void> {
   emit('update:modelValue', value)
 }
 
+const inputRef = vue.ref<HTMLElement>()
+const activated = vue.ref(false)
+const isHighlighted = vue.ref(false)
+
 vue.onMounted(() => {
   // Let the child els load
   setTimeout(async () => {
     await setValidity()
   }, 300)
+
+  vue.watch(
+    () => activePath,
+    async () => {
+      if (activePath && activePath === editPath) {
+        activated.value = true
+        emit('activate', activePath)
+        await waitFor(500)
+        if (inputRef.value) {
+          const rect = inputRef.value.getBoundingClientRect()
+          const isFullyVisible = (
+            rect.top >= 0
+            && rect.left >= 0
+            && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+            && rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+          )
+
+          if (!isFullyVisible) {
+            inputRef.value?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' })
+          }
+        }
+
+        await waitFor(700)
+
+        isHighlighted.value = true
+
+        await waitFor(1000)
+
+        isHighlighted.value = false
+      }
+      else {
+        activated.value = false
+        isHighlighted.value = false
+      }
+    },
+    { immediate: true },
+  )
 })
 
 const cls = vue.computed(() => {
@@ -120,13 +168,31 @@ const cls = vue.computed(() => {
 
   return map[size as keyof typeof map] || map.md
 })
+
+function updateActivePath() {
+  emit('update:activePath', editPath || '')
+}
 </script>
 
 <template>
-  <div :key="label" class="f-el-input space-y-0.5 font-sans" :class="[valid ? 'valid' : 'not-valid', attrs.class]">
+  <div
+    ref="inputRef"
+    :key="label"
+    :edit-path="editPath || '---'"
+    :active-path="activePath || '---'"
+    class="f-el-input space-y-0.5 font-sans "
+    :class="[
+      valid ? 'valid' : 'not-valid',
+      attrs.class,
+      isHighlighted ? 'highlight-selected' : '',
+    ]"
+    @click.stop="updateActivePath()"
+  >
     <div v-if="label || description" class="text-input-label-size flex justify-between mb-1.5">
       <div class="text items-center" :class="cls.labelSize">
-        <div class="flex items-center space-x-2 text-theme-700 dark:text-theme-0">
+        <div
+          class="flex items-center space-x-2 text-theme-700 dark:text-theme-0"
+        >
           <label v-if="label" class="font-medium" :for="attrs.for" v-text="label" />
           <div v-if="description" class="group relative flex items-center">
             <div class="text-lg text-theme-500 hover:text-theme-400 i-tabler-info-circle group-hover:opacity-40 cursor-help" />
@@ -139,15 +205,19 @@ const cls = vue.computed(() => {
       </div>
       <slot name="labelRight" />
     </div>
-    <div class="input-area">
+    <div
+      class="input-area"
+    >
       <component
         :is="inputComponent"
         v-if="inputComponent"
         ref="inputEl"
         :model-value="modelValue"
-        :option-path="attrs['data-option-path']"
         v-bind="{ ...omit(attrs, 'class', 'data-test-id', 'data-option-path', 'model-value'), ...inputProps }"
         :ui-size="uiSize"
+        :placeholder
+        :edit-path="editPath"
+        :active-path="activePath"
         @update:model-value="updateValue($event)"
         @update:edit-index="emit('update:editIndex', $event)"
         @keydown="emit('keydown', $event)"
@@ -159,3 +229,24 @@ const cls = vue.computed(() => {
     </div>
   </div>
 </template>
+
+<style lang="less" scoped>
+.highlight-selected {
+  animation: highlightInput .4s linear forwards;
+}
+
+@keyframes highlightInput {
+  0% {
+    opacity: 0.2;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+</style>

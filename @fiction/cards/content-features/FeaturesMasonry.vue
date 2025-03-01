@@ -21,18 +21,16 @@ const gridGap = vue.computed(() => ({
 
 // Use fixed Tailwind classes for column spans
 function getColSpan(feature: NonNullable<UserConfig['items']>[0]) {
-  const cols = feature.columns || '2'
+  const cols = feature.columns || props.layout?.columns || '3'
 
   const spanClasses = {
-    6: 'col-span-12 md:col-span-12',
-    5: 'col-span-12 md:col-span-10',
-    4: 'col-span-12 md:col-span-8',
-    3: 'col-span-12 md:col-span-6',
-    2: 'col-span-12 md:col-span-4',
-    1: 'col-span-12 md:col-span-2',
+    4: 'col-span-12 md:col-span-3',
+    3: 'col-span-12 md:col-span-4',
+    2: 'col-span-12 md:col-span-6',
+    1: 'col-span-12 md:col-span-12',
   }
 
-  return spanClasses[cols] || 'col-span-12 md:col-span-4'
+  return spanClasses[cols] || spanClasses['3']
 }
 
 const displayFeatures = vue.computed(() => {

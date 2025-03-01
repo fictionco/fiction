@@ -23,6 +23,12 @@ const carouselWidth = vue.computed(() => ({
   5: 'w-[85%] md:w-[18%]',
   6: 'w-[85%] md:w-[15%]',
 }[props.layout?.columns || '3']))
+
+const trigger = vue.ref(0)
+vue.onMounted(() => {
+  // Trigger carousel update on layout or style change
+  vue.watch(() => [props.layout, props.style], () => trigger.value++)
+})
 </script>
 
 <template>
@@ -31,6 +37,7 @@ const carouselWidth = vue.computed(() => ({
       v-model:active-index="activeIndex"
       :slides="features"
       :options="{ wrapAround: true }"
+      :trigger
     >
       <template #default="{ slide, index }">
         <div class="carousel-cell mr-8 flex items-stretch min-h-full" :class="[carouselWidth]">
