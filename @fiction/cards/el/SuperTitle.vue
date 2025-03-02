@@ -53,7 +53,7 @@ const sizeClasses = vue.computed(() => {
     v-if="sup.text"
     class="flex items-center antialiased"
     :class="[colorStyle.text, sizeClasses.gap]"
-    @click="card.setEditPath({ path: basePath, caller: 'superTitle' })"
+    @click="card.setEditPath({ path: `${basePath}.icon`, caller: 'superTitle' })"
   >
     <div
       v-if="sup.icon"

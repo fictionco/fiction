@@ -251,9 +251,9 @@ function activateOption(args: { opt: InputOption, path: string }) {
             :input-class="opt.settings.inputClass"
             v-bind="{ ...opt.wrapProps.value }"
             :input-props="{
-              controlOption: opt,
               ...opt.outputProps.value,
               ...inputProps,
+              ...(opt.input.value === 'InputControl' ? { controlOption: opt } : {}),
             }"
             :input="opt.input.value"
             :model-value="getNested({ path: getOptionPath({ opt }), data: modelValue })"

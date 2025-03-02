@@ -26,7 +26,7 @@ const draggableMode = vue.ref<number>(-1)
       @click="handle.onClick?.({ event: $event })"
     >
       <div
-        class="p-1 flex gap-0.5 font-medium items-center justify-center  shrink-0 font-mono text-xs"
+        class="p-1 flex gap-0.5 font-medium items-center justify-center  shrink-0 font-mono text-xs w-full min-w-0"
         :class="[
           handle.hasDrawer ? 'rounded-tl-full' : 'rounded-l-full',
         ]"
@@ -36,10 +36,12 @@ const draggableMode = vue.ref<number>(-1)
         >
           <div class="i-carbon-draggable text-lg" />
         </div>
-        <div class="flex items-center gap-1.5">
+        <div class="flex items-center gap-1.5 flex-grow min-w-0">
           <div :class="handle.icon ?? 'i-carbon-blockchain'" class="text-base" />
 
-          <div>{{ handle.title || "Untitled" }}</div>
+          <div class="truncate min-w-0">
+            {{ handle.title || "Untitled" }}
+          </div>
 
           <div v-if="handle.subTitle" class="ml-1 text-[.9em]" :class="handle.isActive ? 'text-primary-400 dark:text-primary-300' : 'text-theme-500 dark:text-theme-400'">
             {{ handle.subTitle }}

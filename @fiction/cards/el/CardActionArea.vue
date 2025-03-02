@@ -38,7 +38,12 @@ const hasActions = vue.computed(() => {
 </script>
 
 <template>
-  <div v-if="hasActions" class="space-y-8" data-part="CardActionArea">
+  <div
+    v-if="hasActions"
+    class="space-y-8"
+    data-part="CardActionArea"
+    @click="card.setEditPath({ path: basePath, caller: 'CardActionArea' })"
+  >
     <div>
       <CardActionAreaSubscribe
         v-if="uc?.variant === 'subscribe'"

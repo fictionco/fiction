@@ -212,7 +212,6 @@ function updateActivePath() {
         :model-value="modelValue"
         v-bind="{ ...omit(attrs, 'class', 'data-test-id', 'data-option-path', 'model-value'), ...inputProps }"
         :ui-size="uiSize"
-        :placeholder
         :edit-path="editPath"
         :active-path="activePath"
         @update:model-value="updateValue($event)"
@@ -229,13 +228,13 @@ function updateActivePath() {
 
 <style lang="less" scoped>
 .highlight-selected {
-  animation: highlightInput 1.2s cubic-bezier(0.25,1,0.33,1) forwards;
+  animation: highlightInput .5s cubic-bezier(0.25,1,0.33,1) forwards;
 }
 
 @keyframes highlightInput {
   0% {
     opacity: 0.5;
-    transform: scale(0.97);
+    transform: scale(0.98);
   }
   100% {
     opacity: 1;

@@ -93,8 +93,8 @@ function getTitleTag() {
     return seoConfig.title
 
   const titleTemplate = site.value?.fullConfig.value?.site?.titleTemplate || '{{pageTitle}}'
-  const pageTitle = page.value?.title?.value || toLabel(page.value?.slug?.value) || 'Home'
-  const siteTitle = site.value?.title?.value || 'Untitled Site'
+  const siteTitle = site.value?.title?.value || '(Untitled Site)'
+  const pageTitle = page.value?.title?.value || toLabel(page.value?.slug?.value) || '(No Title)'
 
   return simpleHandlebarsParser(titleTemplate, { pageTitle, siteTitle })
 }

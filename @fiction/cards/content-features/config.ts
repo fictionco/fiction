@@ -75,6 +75,7 @@ const options: InputOption[] = [
           createOption({
             key: 'items.0.columns',
             label: 'Column Span (Masonry Mode)',
+            subLabel: 'Set the width in masonry layout',
             input: 'InputSelect',
             props: { list: ['1', '2', '3', '4'] },
             schema,

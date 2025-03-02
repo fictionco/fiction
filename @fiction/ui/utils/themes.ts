@@ -82,7 +82,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, {
       base: 'bg-primary-500 dark:bg-primary-700/70 text-primary-0 dark:text-primary-50',
       border: 'border-primary-600/80 dark:border-primary-600',
       input: `bg-primary-50 dark:bg-primary-800/20
-            ring-primary-300 dark:ring-primary-600/70
+            ring-primary-500 dark:ring-primary-600/70
             focus:ring-primary-700 focus:bg-primary-50/50
             dark:focus:ring-primary-600 dark:focus:bg-primary-800/40
             text-primary-800 dark:text-primary-0
@@ -775,8 +775,8 @@ export const inputTheme: Record<Partial<ColorThemeUser>, {
             focus-within:ring-theme-600 dark:focus-within:ring-theme-500
             text-theme-900 dark:text-theme-100
             placeholder:text-theme-400 dark:placeholder:text-theme-500` },
-  primary: { input: `bg-primary-50 dark:bg-primary-800/20
-            ring-primary-300 dark:ring-primary-600/70
+  primary: { input: `bg-primary-50/60 dark:bg-primary-800/20
+            ring-primary-400 dark:ring-primary-600/70
             focus:ring-primary-700 focus:bg-primary-50/50
             dark:focus:ring-primary-600 dark:focus:bg-primary-800/40
             text-primary-800 dark:text-primary-0
@@ -842,7 +842,7 @@ export const inputTheme: Record<Partial<ColorThemeUser>, {
               text-sky-800 dark:text-sky-0
               placeholder:text-sky-300 dark:placeholder:text-sky-600` },
   teal: { input: `bg-teal-50 dark:bg-teal-800/20
-              ring-teal-300 dark:ring-teal-600/70
+              ring-teal-600 dark:ring-teal-600/70
               focus:ring-teal-700 focus:bg-teal-50/50
               dark:focus:ring-teal-600 dark:focus:bg-teal-800/40
               text-teal-800 dark:text-teal-0

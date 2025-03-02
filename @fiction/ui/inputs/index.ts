@@ -122,7 +122,7 @@ export interface InputOptionSettings {
 
 export type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) | undefined
 
-type InputOptionConfig = Omit<InputOptionSettings, 'options'> & { options?: InputOptionConfig[] }
+export type InputOptionConfig = Omit<InputOptionSettings, 'options'> & { options?: InputOptionConfig[] }
 
 export class InputOption extends FictionObject<InputOptionSettings> {
   key = vue.ref(this.settings.key || '*')
@@ -151,12 +151,11 @@ export class InputOption extends FictionObject<InputOptionSettings> {
   generation = vue.ref(this.settings.generation || {})
 
   wrapProps = vue.computed(() => {
-
-    if(this.input.value === 'InputControl'){
+    if (this.input.value === 'InputControl') {
       return {}
     }
 
-    return  {
+    return {
       label: this.label.value,
       subLabel: this.subLabel.value,
       description: this.description.value,
