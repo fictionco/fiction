@@ -23,6 +23,7 @@ const indexMeta = vue.ref<IndexMeta>({
   count: 0,
 })
 
+const viewId = vue.computed(() => card.site?.siteRouter.params.value.viewId as string)
 const routeSlug = vue.computed(() => card.site?.siteRouter.params.value.itemId as string)
 const uc = vue.computed(() => card.userConfig.value || {})
 
@@ -63,7 +64,13 @@ vue.onServerPrefetch(fetchPosts)
 </script>
 
 <template>
-  <div :class="card.classes.value.contentWidth">
+  <div
+    :class="card.classes.value.contentWidth"
+    :data-post-format="uc.posts?.format"
+    :data-post-limit="uc.posts?.limit"
+    :data-item-id="routeSlug"
+    :data-view-id="card.site?.siteRouter.params.value.viewId"
+  >
     <transition
       enter-active-class="ease-out duration-200"
       enter-from-class="opacity-0 translate-y-10"
@@ -77,29 +84,44 @@ vue.onServerPrefetch(fetchPosts)
         <ElSpinner class="size-8 text-theme-500" />
       </div>
 
-      <ElMagazineSingle
-        v-else-if="routeSlug && singlePost"
-        :key="routeSlug"
-        :card="card"
-        :post="singlePost"
-        :next-post="nextPost"
-        :loading
-      />
+      <template v-else-if="routeSlug">
+        <ElMagazineSingle
+          v-if="singlePost"
+          :key="routeSlug"
+          :card="card"
+          :post="singlePost"
+          :next-post="nextPost"
+          :loading
+        />
+        <El404
+          v-else
+          title="Post Not Found"
+          sub-title="We couldn't find the post at this location"
+          :buttons="[{
+            label: 'All Posts',
+            icon: 'i-tabler-article',
+            href: card.link(`/${viewId}`),
+            theme: 'primary',
+          }]"
+        />
+      </template>
 
-      <ElMagazineIndex
-        v-else-if="posts.length"
-        :card="card"
-        :posts="posts"
-        :index-meta="indexMeta"
-        :loading
-        @update:index-meta="updateIndexMeta"
-      />
+      <template v-else>
+        <ElMagazineIndex
+          v-if="posts.length"
+          :card="card"
+          :posts="posts"
+          :index-meta="indexMeta"
+          :loading
+          @update:index-meta="updateIndexMeta"
+        />
 
-      <El404
-        v-else-if="!loading && !posts.length"
-        title="No Posts Available"
-        sub-title="Check back later for new content"
-      />
+        <El404
+          v-else-if=" !posts.length"
+          title="No Posts Available"
+          sub-title="Check back later for new content"
+        />
+      </template>
     </transition>
   </div>
 </template>

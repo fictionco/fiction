@@ -9,6 +9,7 @@ import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import El404 from '@fiction/ui/page/El404.vue'
+import XEntry from '@fiction/ui/prose/XEntry.vue'
 import CardButton from '../CardButton.vue'
 import CardTextPost from '../CardTextPost.vue'
 import ElAuthor from './ElAuthor.vue'
@@ -25,7 +26,6 @@ const service = useService<{ fictionPosts: FictionPosts }>()
 const userIsAuthor = vue.computed(() => {
   return post?.settings.authors?.some(a => a.userId === service.fictionUser.activeUser.value?.userId)
 })
-const proseClass = `prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-auto focus:outline-none max-w-[55ch]`
 
 const imageAspect = vue.computed(() => {
   const img = post?.media.value
@@ -47,8 +47,8 @@ const imageAspect = vue.computed(() => {
     >
       <ElSpinner class="h-12 w-12" />
     </div>
-    <article v-if="post" class="p-8 pb-44">
-      <div class="space-y-8 my-[min(max(35px,_5vw),_60px)] prose:max-w-none text-center max-w-screen-lg mx-auto" :class="proseClass">
+    <article v-if="post">
+      <div class="space-y-8  text-center max-w-screen-lg mx-auto">
         <div class="tags space-x-3 not-prose">
           <CardButton size="sm" :card design="link" :href="allPostsLink({ card })" rounding="full">
             &larr; All Posts
@@ -78,13 +78,13 @@ const imageAspect = vue.computed(() => {
           tag="h1"
           path="title"
           :post="post"
-          class="text-6xl font-semibold x-font-title text-balance"
+          class="text-6xl font-semibold x-font-title text-pretty"
         />
         <CardTextPost
           :post="post"
           tag="h2"
           path="subTitle"
-          class="text-3xl font-medium dark:text-theme-400 text-balance"
+          class="text-3xl font-medium dark:text-theme-400 text-pretty"
         />
         <div class="flex justify-center">
           <ElAuthor v-for="(author, i) in post.authors.value" :key="i" :user="author" :date-at="post.dateAt.value" />
@@ -93,10 +93,12 @@ const imageAspect = vue.computed(() => {
       <AnimClipPath :animate="true" class="my-[min(max(35px,_5vw),_60px)]" caller="magSingle">
         <XMedia :media="post.media.value" :class="imageAspect" class=" mx-auto relative overflow-hidden rounded-lg" />
       </AnimClipPath>
-      <div :class="proseClass">
-        <CardTextPost :post="post" path="content" class="content-container" />
+      <div class="py-12 md:py-16 px-12 max-w-[900px] mx-auto focus:outline-none space-y-6 lg:space-y-12 @container/prose">
+        <XEntry :theme="post.theme.value" class="text-sm @[500px]/prose:text-base @[700px]/prose:text-2xl focus:outline-none">
+          <CardTextPost :post="post" path="content" />
+        </XEntry>
 
-        <div v-if="post.tags.value?.length" class="not-prose tags flex gap-4 my-8 items-center px-4 justify-center" :class="proseClass">
+        <div v-if="post.tags.value?.length" class="not-prose tags flex gap-4 my-6 lg:my-16 items-center px-4 justify-center">
           <div class="text-xs italic text-theme-500">
             tagged with &rarr;
           </div>
@@ -112,16 +114,19 @@ const imageAspect = vue.computed(() => {
           </div>
         </div>
 
-        <CardLink v-if="nextPost" :card :href="postLink({ card, slug: nextPost.slug.value })" class="mt-16 next-post flex not-prose gap-8 items-center border rounded-lg bg-theme-50/50 hover:bg-theme-50 dark:bg-theme-800/50 dark:hover:bg-theme-800 border-theme-200 dark:border-theme-700 p-6">
+        <CardLink
+          v-if="nextPost"
+          :card
+          :href="postLink({ card, slug: nextPost.slug.value })"
+          class="mt-16 next-post flex not-prose gap-8 items-center justify-center   rounded-xl bg-theme-50 dark:bg-theme-700/50 hover:bg-theme-100 hover:dark:bg-theme-700 p-6"
+        >
           <div>
-            <div v-if="nextPost.media.value?.url" class="rounded-lg ring-2 ring-theme-200 dark:ring-theme-700 size-32 relative overflow-hidden" :class="imageAspect">
-              <img :src="nextPost.media.value?.url" alt="Post media" class="absolute h-full w-full object-cover object-center">
-            </div>
+            <XMedia :media="nextPost.media.value" class="size-16 rounded-full overflow-hidden" />
           </div>
 
           <div class="space-y-2">
-            <div v-if="nextPost" class="font-sans text-xs">
-              Next Post &rarr;
+            <div v-if="nextPost" class="font-sans text-sm font-medium text-primary-500 dark:text-primary-400">
+              Next Post
             </div>
             <h1 class="text-2xl font-bold x-font-title text-balance">
               {{ nextPost.title.value }}

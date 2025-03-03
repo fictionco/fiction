@@ -75,20 +75,42 @@
     letter-spacing: 0.05em;
   }
 
+  section {
+    margin: 2em 0;
+  }
 
+  aside {
+    @apply my-8 p-4 lg:p-6 rounded-xl;
+    background: rgba(var(--primary-100) / 1);
+    border: 1px solid rgba(var(--primary-200) / 1);
+    color: rgba(var(--primary-900) / 1);
+    font-size: 0.9em;
+    line-height: 1.6;
+
+    p {
+      margin: 0;
+    }
+  }
+  &.dark aside {
+    background: rgba(var(--primary-800) / .7);
+    border-color: rgba(var(--primary-700) / 1);
+    color: rgba(var(--primary-50) / 1);
+    p {
+      color: rgba(var(--primary-400) / 1);
+    }
+  }
 
   /* Paragraph spacing and styles */
   p {
     line-height: 1.75;
-    @apply my-6;
-    color: rgba(var(--theme-900) / 1);
+    margin: 1.5em 0;
 
     &:first-child { @apply mt-0; }
     &:last-child { @apply mb-0; }
   }
 
   &.dark p {
-    color: rgba(var(--theme-100) / 1);
+    color: inherit;
   }
 
   mark{
@@ -140,9 +162,8 @@
     max-width: 85ch;
     font-family: var(--font-family-title, unset);
     font-weight: var(--font-weight-title, 600);
-    color: rgba(var(--theme-800) / 1);
     border-left: 3px solid rgba(var(--post-theme-light) / .1);
-
+    line-height: 1.5;
     p {
       margin: .5em 0;
 
@@ -154,10 +175,8 @@
     /* Optional footer for attribution */
     footer {
       @apply mt-4 text-sm;
-      color: rgba(var(--theme-600) / .1);
 
       &::before {
-        content: "—";
         @apply mr-2;
       }
     }
@@ -168,9 +187,6 @@
     color: rgba(var(--theme-100) / 1);
     border-left-color: rgba(var(--post-theme-dark) / .1);
 
-    footer {
-      color: rgba(var(--theme-400) / 1);
-    }
   }
 
   /* Code blocks */
@@ -220,17 +236,13 @@
     li {
       @apply my-2 pl-2;
 
-      &::marker {
-        color: rgba(var(--theme-500) / 1);
-      }
+
+    }
+    p {
+      margin: 0;
     }
   }
 
-  /* Dark mode list markers */
-  &.dark ul li::marker,
-  &.dark ol li::marker {
-    color: rgba(var(--theme-400) / 1);
-  }
 
   ul { @apply list-disc; }
   ol { @apply list-decimal; }

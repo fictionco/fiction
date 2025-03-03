@@ -143,7 +143,7 @@ function handleEditDropdownClick(item: { value: 'delete' | 'edit' | 'add' }) {
       <div>
         <div class="relative">
           <div
-            v-if="standardUc?.headers?.title"
+            v-if="standardUc?.headers?.title && !card?.site?.currentItemId.value"
             class="mb-8 lg:mb-16"
             :class="[card.classes.value.contentWidth]"
             data-standard-header

@@ -80,8 +80,11 @@ export function activePageId(args: { siteRouter: FictionRouter, viewMapRef: vue.
     },
     async set(cardId: string) {
       const { siteRouter } = args
-
+      const currentViewId = siteRouter.current.value.params.viewId || '_home'
       let viewId = Object.entries(viewMapRef.value).find(([_k, v]) => v === cardId)?.[0]
+
+      if (viewId === currentViewId)
+        return // Prevent re-push if already on the correct viewId
 
       if (viewId === '_home')
         viewId = ''

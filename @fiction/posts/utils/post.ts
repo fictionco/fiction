@@ -310,7 +310,7 @@ export function getDemoPosts(args: { stock: StockMedia, limit?: number }): PostO
 
           <aside >
             <h3>Visualization Secrets Revealed</h3>
-            <ul style="margin: 16px 0;">
+            <ul>
               <li>
                 <strong>Choose Your Story Type:</strong>
                 <p>See how different charts evoke different emotional responses? Match your visualization to your narrative.</p>
@@ -363,7 +363,7 @@ export function getDemoPosts(args: { stock: StockMedia, limit?: number }): PostO
             <div >
               <div>
                 <h3>What Search Engines See</h3>
-                <ul style="margin: 16px 0;">
+                <ul>
                   <li>
                     <strong>Clear Structure</strong>
                     <p>Notice how well-organized content ranks better? It's not coincidence.</p>
@@ -381,7 +381,7 @@ export function getDemoPosts(args: { stock: StockMedia, limit?: number }): PostO
 
               <div>
                 <h3>What Readers Experience</h3>
-                <ul style="margin: 16px 0;">
+                <ul>
                   <li>
                     <strong>Instant Relevance</strong>
                     <p>Feel that moment when content perfectly matches your need?</p>
@@ -402,7 +402,7 @@ export function getDemoPosts(args: { stock: StockMedia, limit?: number }): PostO
           <aside >
             <h3>Your SEO Transformation Checklist</h3>
             <p>Watch how your content changes when you focus on these elements:</p>
-            <ol style="margin: 16px 0;">
+            <ol>
               <li>Is your content answering real questions?</li>
               <li>Could a friend understand your headlines?</li>
               <li>Does your page structure feel natural?</li>
