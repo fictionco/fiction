@@ -1,7 +1,6 @@
 import type { EmailSendConfig, Organization } from '@fiction/core'
 import type { FictionContact } from '@fiction/plugin-contact'
 import type { FictionPosts, Post, TablePostConfig } from '..'
-import { proseToMarkdown } from '@fiction/core'
 
 export async function getEmailForPost(args: {
   org: Organization

@@ -3,7 +3,7 @@
     "admin": {
       "ViewEditor.vue": null,
       "dashboard": {
-        "AuthCard.vue": null,
+        "AuthView.vue": null,
         "DashBar.vue": null,
         "DashBarMenu.vue": null,
         "DashDarkModeToggle.vue": null,
@@ -36,8 +36,6 @@
       "emails": {
         "ActionMagicLogin.vue": null,
         "VEmailVerify.vue": null,
-        "__EmailPassword.vue": null,
-        "__VForgotPassword.vue": null,
         "index.ts": null
       },
       "hooks.ts": null,
@@ -64,6 +62,9 @@
       },
       "tailwind.config.ts": null,
       "test": {
+        "__snapshots__": {
+          "signin.uiux.test.ts.snap": null
+        },
         "email.main.ts": null,
         "emailVerify.uiux.test.ts": null,
         "onboard.spot.test.ts": null,
@@ -418,8 +419,7 @@
         "ElMagazineIndex.vue": null,
         "ElMagazineSingle.vue": null,
         "config.ts": null,
-        "index.ts": null,
-        "utils.ts": null
+        "index.ts": null
       },
       "proof-logos": {
         "ElLogos.vue": null,
@@ -492,7 +492,6 @@
         "head.ts": null,
         "icon.ts": null,
         "nav.ts": null,
-        "post.ts": null,
         "test": {
           "head.unit.test.ts": null,
           "icon.unit.test.ts": null
@@ -569,9 +568,7 @@
           "fiction-icon.png": null
         },
         "index.ts": null,
-        "markdownParser.ts": null,
         "preview": {
-          "EmailPreview.vue": null,
           "content.ts": null
         },
         "templates": {
@@ -579,8 +576,7 @@
           "EmailV2.vue": null
         },
         "test": {
-          "endpoint.unit.test.ts": null,
-          "markdownParser.unit.test.ts": null
+          "endpoint.unit.test.ts": null
         },
         "util.ts": null
       },
@@ -1085,9 +1081,13 @@
         "InputRevisionHistory.vue": null,
         "PagePostEdit.vue": null,
         "PagePostIndex.vue": null,
+        "PostAnalytics.vue": null,
         "PostEditor.vue": null,
+        "PostEmailSendTest.vue": null,
         "PostLoad.vue": null,
+        "PostOverview.vue": null,
         "PostPreview.vue": null,
+        "PostShare.vue": null,
         "ToolHistory.vue": null,
         "ToolPostMain.vue": null,
         "ViewManage.vue": null,
@@ -1107,9 +1107,9 @@
       "package.json": null,
       "post.ts": null,
       "postLoader.ts": null,
+      "publish.ts": null,
       "routes.ts": null,
       "schema.ts": null,
-      "send.ts": null,
       "test": {
         "endpoint.unit.test.ts": null,
         "postAuthors.unit.test.ts": null,
@@ -1118,6 +1118,7 @@
         "postRevisions.unit.test.ts": null,
         "postTestUtils.main.ts": null,
         "postTestUtils.ts": null,
+        "publish.unit.test.ts": null,
         "utils.unit.test.ts": null
       },
       "types.ts": null,
@@ -1129,6 +1130,7 @@
         "email.ts": null,
         "index.ts": null,
         "links.ts": null,
+        "post.ts": null,
         "tracking.ts": null
       },
       "widgets": {
@@ -1471,7 +1473,8 @@
         "animateText.ts": null,
         "gradientUtil.ts": null,
         "index.ts": null,
-        "popupUtil.ts": null
+        "popupUtil.ts": null,
+        "scrolling.ts": null
       },
       "brand": {
         "FictionLogo.svg": null,
@@ -1483,7 +1486,6 @@
       "buttons": {
         "XButton.vue": null,
         "XButtonList.vue": null,
-        "__ActionButtons.vue": null,
         "test": {
           "TestButtonsAll.vue": null
         }
@@ -1559,6 +1561,7 @@
         "InputElBox.vue": null,
         "InputElTab.vue": null,
         "InputEmail.vue": null,
+        "InputEmailMulti.vue": null,
         "InputFont.vue": null,
         "InputGradient.vue": null,
         "InputIcon.vue": null,

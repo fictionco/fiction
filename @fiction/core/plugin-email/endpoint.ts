@@ -10,7 +10,6 @@ import nodeMailerHtmlToText from 'nodemailer-html-to-text'
 import { Query } from '../query.js'
 import { abort, isActualBrowser } from '../utils/index.js'
 import { isCi } from '../utils/vars.js'
-import { replaceEmailDomain } from './util.js'
 
 export type EmailQuerySettings = FictionPluginSettings & {
   fictionEmail: FictionEmail

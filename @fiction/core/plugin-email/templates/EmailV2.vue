@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { EmailSendConfig } from '../util.js'
 import { colorList } from '@fiction/core/utils/colors.js'
-import { toHtml } from '@fiction/core/utils/markdown'
 import * as unhead from '@unhead/vue'
 import { computed } from 'vue'
 
@@ -269,7 +268,7 @@ unhead.useHead({
     <div style="display: none; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; font-family: sans-serif;">
       {{ previewText }}
       <!-- Repeating characters to fill preview area -->
-    {{ "&#847; &zwnj;&nbsp;".repeat(100) }}
+      {{ "&#847; &zwnj;&nbsp;".repeat(100) }}
     </div>
 
     <!-- Main Container -->

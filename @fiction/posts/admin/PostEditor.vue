@@ -229,7 +229,7 @@ function triggerMediaModal() {
                     icon="i-tabler-calendar"
                     icon-after="i-tabler-arrow-right"
                     @click.stop="emit('navigate', { dir: 'schedule' })"
-                     data-test-id="schedule-button-bottom"
+                    data-test-id="schedule-button-bottom"
                   >
                     Schedule
                   </XButton>

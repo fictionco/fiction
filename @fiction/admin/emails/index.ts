@@ -1,7 +1,7 @@
-import type {  EndpointResponse, User } from '@fiction/core'
+import type { EndpointResponse, User } from '@fiction/core'
 import type { EmailConfigResponse } from '@fiction/plugin-transactions'
 import type { FictionAdmin } from '..'
-import {  vue } from '@fiction/core'
+import { vue } from '@fiction/core'
 import { EmailAction } from '@fiction/plugin-transactions'
 
 export type VerifyRequestVars = {

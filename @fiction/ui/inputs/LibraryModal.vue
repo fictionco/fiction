@@ -8,11 +8,10 @@ import ElModal from '../ElModal.vue'
 import XLogo from '../media/XLogo.vue'
 import XMedia from '../media/XMedia.vue'
 import FormEngine from './FormEngine.vue'
-import LibraryBackground from './LibraryBackground.vue'
 
+import LibraryBackground from './LibraryBackground.vue'
 import LibraryIcon from './LibraryIcon.vue'
 import LibraryMediaGallery from './LibraryMediaGallery.vue'
-import TestEditor from '../prose/editor/test/TestEditor.vue'
 
 const props = defineProps<{
   modelValue: MediaObject

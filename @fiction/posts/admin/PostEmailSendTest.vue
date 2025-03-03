@@ -2,9 +2,7 @@
 import type { Card } from '@fiction/site'
 import type { FictionPosts } from '../index.js'
 import type { Post } from '../post.js'
-import type { TablePostConfig } from '../schema.js'
 
-import test from 'node:test'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import { InputOption } from '@fiction/ui/index.js'

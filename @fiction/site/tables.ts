@@ -2,7 +2,7 @@ import type { ColType, Organization } from '@fiction/core'
 import type { CardGenerationConfig } from './generation.js'
 import type { SiteUserConfig } from './schema.js'
 import type { EditorState } from './site.js'
-import { createTableSchema, standardTable, validHost } from '@fiction/core'
+import { createTableSchema, standardTable } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { z } from 'zod'
 

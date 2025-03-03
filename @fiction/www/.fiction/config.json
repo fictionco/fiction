@@ -145,8 +145,8 @@
       "path": "/api/forms/ManageSubmission"
     },
     {
-      "key": "ManageSubscription",
-      "path": "/api/subscribe/ManageSubscription"
+      "key": "ManageContact",
+      "path": "/api/subscribe/ManageContact"
     },
     {
       "key": "SubscriptionAnalytics",
@@ -155,6 +155,10 @@
     {
       "key": "ManagePost",
       "path": "/api/fiction-posts/ManagePost"
+    },
+    {
+      "key": "emailTrackingEndpoint",
+      "path": "/api/email-tracking/:action?"
     },
     {
       "key": "ManageBrandGuide",

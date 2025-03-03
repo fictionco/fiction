@@ -17,11 +17,10 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
   const magicLinkAction = kit.testUtils?.fictionAdmin.emailActions.magicLoginEmailAction
   const resetPasswordAction = kit.testUtils?.fictionAdmin.emailActions.passwordReset
 
-  if(!user.email)
+  if (!user.email)
     throw new Error('missing user')
 
   const to = user.email
-
 
   it('sends magic link email successfully', async () => {
     const browserRequest = await magicLinkAction.requestSend({
@@ -31,23 +30,23 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
     })
 
     const recipient = browserRequest?.data?.recipient
-    expect(recipient?.userId, "User ID in magic link recipient should match").toBe(user.userId)
+    expect(recipient?.userId, 'User ID in magic link recipient should match').toBe(user.userId)
 
     const r = await magicLinkAction.serveSend({ recipient: user, queryVars: {} }, { server: true })
     const v = JSON.parse(emailActionSnapshot(JSON.stringify(r.emailVars), r.emailVars))
 
-    expect(user.verify?.code, "Verification code should match email vars").toBe(r.emailVars.code)
-    expect(v).toMatchSnapshot("Magic link email variables")
+    expect(user.verify?.code, 'Verification code should match email vars').toBe(r.emailVars.code)
+    expect(v).toMatchSnapshot('Magic link email variables')
 
     const replaced = r.data?.html || ''
-    expect(emailActionSnapshot(replaced, r.emailVars)).toMatchSnapshot("Magic link email HTML content")
+    expect(emailActionSnapshot(replaced, r.emailVars)).toMatchSnapshot('Magic link email HTML content')
   })
 
   it('navigates to magic link and redirects to dashboard', async () => {
     const magicLinkResponse = await magicLinkAction.serveSend({ recipient: user, queryVars: {} }, { server: true })
     const callbackUrl = magicLinkResponse.emailVars?.callbackUrl
 
-    expect(callbackUrl, "Magic link callback URL should be defined").toBeTruthy()
+    expect(callbackUrl, 'Magic link callback URL should be defined').toBeTruthy()
 
     await kit.performActions({
       caller: 'magic-link-login',
@@ -88,17 +87,17 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
           type: 'value',
           selector: '[data-test-id="form"]',
           onValue: (v) => {
-            expect(v?.email, "Email input should match filled value").toBe(testEmail)
-            expect(v?.fullName, "Name input should match filled value").toBe(testName)
-            expect(v?.password, "Password input should match filled value").toBe(testPassword)
-          }
+            expect(v?.email, 'Email input should match filled value').toBe(testEmail)
+            expect(v?.fullName, 'Name input should match filled value').toBe(testName)
+            expect(v?.password, 'Password input should match filled value').toBe(testPassword)
+          },
         },
 
         // Submit registration
         { type: 'click', selector: '[data-test-id="submit-button-register"]' },
 
         // Verify we're taken to verification screen
-        { type: 'click', selector: '[data-test-id="input-one-time-code"] [data-test-id="digit-1"]'  },
+        { type: 'click', selector: '[data-test-id="input-one-time-code"] [data-test-id="digit-1"]' },
 
         // Enter verification code
         {
@@ -115,7 +114,7 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
 
         // Manually continue to dashboard
         { type: 'click', selector: '[data-test-id="continue-button"]' },
-        { type: 'visible', selector: '[data-pathname="/onboard"]'  },
+        { type: 'visible', selector: '[data-pathname="/onboard"]' },
       ],
     })
   })
@@ -126,7 +125,7 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
       path: '/auth/welcome',
       actions: [
         // Navigate to password reset
-        { type: 'click', selector: '[data-test-id="to-reset-password"]'},
+        { type: 'click', selector: '[data-test-id="to-reset-password"]' },
         { type: 'visible', selector: '[data-test-id="input-email"]', wait: 1000 },
 
         // Fill email for password reset
@@ -145,7 +144,7 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
     })
 
     // update user to latest (verify was updated)
-    const r = await testUtils.fictionUser.queries.ManageUser.serve({_action: 'retrieve', where: {userId: user.userId || ''}}, { server: true, returnAuthority: ['verify'] })
+    const r = await testUtils.fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { userId: user.userId || '' } }, { server: true, returnAuthority: ['verify'] })
 
     user = r.data || user
 
@@ -153,11 +152,9 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
     const resetResponse = await resetPasswordAction.serveSend({ recipient: user, queryVars: {} }, { server: true })
     const resetCode = resetResponse.emailVars?.code
 
-
     expect(resetCode).toBe(user?.verify?.code)
 
-    expect(resetCode, "Reset password code should be defined").toBeTruthy()
-
+    expect(resetCode, 'Reset password code should be defined').toBeTruthy()
 
     // Simulate clicking the reset link in email
     await kit.performActions({

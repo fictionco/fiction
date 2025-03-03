@@ -3,8 +3,8 @@ import type { ResponseStatus, ValidationReason } from '@fiction/core'
 import type { CheckColumnValue } from '@fiction/core/plugin-db/endpoint'
 import type { UiElementSize } from '../utils'
 import { useService, vue } from '@fiction/core'
-import { inputClasses } from './theme'
 import ElTooltip from '../common/ElTooltip.vue'
+import { inputClasses } from './theme'
 
 const props = defineProps({
   modelValue: { type: [String], default: '' },

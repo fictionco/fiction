@@ -89,12 +89,6 @@ const options = [
 export function getDefaultUserConfig(args: { stock: StockMedia }): UserConfig {
   const { stock } = args
   return {
-    standard: {
-      headers: {
-        title: 'Latest Articles',
-        subTitle: 'Discover our latest insights and stories',
-      },
-    },
     posts: {
       format: 'standard',
       limit: 12,

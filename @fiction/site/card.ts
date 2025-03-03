@@ -365,7 +365,7 @@ export class Card<
   editPath = vue.computed(() => this.isActive.value ? this.site?.editor.value.editPath : undefined)
   setEditPath = (args: { path: string, caller: string }) => {
     const path = `userConfig.${args.path}`
-    this.site?.setEditPath({...args, path})
+    this.site?.setEditPath({ ...args, path })
   }
 
   link(location?: vueRouter.RouteLocationRaw, opts?: { caller?: string }) {

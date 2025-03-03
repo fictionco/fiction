@@ -71,8 +71,6 @@ describe('subscribe uiux', { retry: isCi() ? 3 : 0 }, async () => {
 
     const searchParamKeys = Array.from(u.searchParams.keys())
     expect(searchParamKeys).toEqual(expect.arrayContaining(['orgId', 'orgName', 'orgEmail', 'token', 'code', 'email', 'userId']))
-
-
   })
 
   it('logs in when callback url is visited and redirects to base route', { retry: 2 }, async () => {

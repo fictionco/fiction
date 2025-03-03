@@ -128,8 +128,13 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
     // get vector embedding for content
     const emb = await this.getEmbeddings([new Document({ pageContent: runPrompt })])
 
+    const vector = emb[0].values
+
+    if (!vector)
+      throw abort('no vector')
+
     // see closest matches
-    const r = await pineconeIndex.query({ vector: emb[0].values, topK: 3, includeMetadata: true })
+    const r = await pineconeIndex.query({ vector, topK: 3, includeMetadata: true })
 
     return (
       r.matches?.map((m) => {

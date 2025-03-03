@@ -17,7 +17,7 @@ import { SiteHistory } from './utils/history.js'
 import { flattenCards, setLayoutOrder } from './utils/layout.js'
 import { activePageId, getPageById, getViewMap, updatePages } from './utils/page.js'
 import { addNewCard, removeCard } from './utils/region.js'
-import { activeSiteHostname, saveSite, scrollActiveCardIntoView, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
+import { saveSite, scrollActiveCardIntoView, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
 import '@vue/shared' // for non-portable types (?)
 
 export type EditorState = {

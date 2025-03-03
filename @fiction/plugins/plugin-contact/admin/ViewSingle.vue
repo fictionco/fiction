@@ -5,7 +5,7 @@ import type { Contact, FictionContact } from '../index.js'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 import { deepMerge, gravatarUrlSync, standardDate, useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
-import { createOption  } from '@fiction/ui/index.js'
+import { createOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 
 type UserConfig = {

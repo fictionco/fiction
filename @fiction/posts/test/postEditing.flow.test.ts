@@ -1,4 +1,4 @@
-import { isCi, pathCheck, dayjs } from '@fiction/core'
+import { dayjs, isCi, pathCheck } from '@fiction/core'
 import { describe, it } from 'vitest'
 import { TablePostSchema as schema } from '../schema'
 import { createPostsUiTestingKit } from './postTestUtils'
@@ -19,7 +19,7 @@ describe('postEditing', async () => {
         { type: 'fill', selector: `[data-test-id="post-editor-${pathCheck('subTitle', schema)}"]`, text: 'hello world' },
         { type: 'fill', selector: `[data-test-id="prose-editor-content"] .tiptap`, text: 'jack and jill' },
         { type: 'click', selector: `[data-test-id="featured-post-media"]` },
-        { type: 'click', selector: `[data-test-id="media-modal-media"] [data-test-id="media-upload-input"] input`, text: 'https://picsum.photos/id/237/200/300'},
+        { type: 'click', selector: `[data-test-id="media-modal-media"] [data-test-id="media-upload-input"] input`, text: 'https://picsum.photos/id/237/200/300' },
         { type: 'click', selector: `[data-test-id="media-apply"]` },
         // Test navigating to the audience panel
         { type: 'click', selector: '[data-test-id="next-button-top"]' },
