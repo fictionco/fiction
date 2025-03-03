@@ -26,7 +26,7 @@ const items: NavItem[] = [
 </script>
 
 <template>
-  <WidgetWrap :widget class="pt-4">
+  <WidgetWrap :widget>
     <div v-for="(item, i) in items" :key="i">
       <a
         :href="item.href"

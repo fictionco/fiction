@@ -10,7 +10,7 @@ const { card } = defineProps<{ card: Card }>()
 
 <template>
   <SettingsPanel title="Manage Team">
-    <div class="p-6 xl:p-12">
+    <div class="p-4 md:p-6 xl:p-12">
       <ElTeamList :card />
     </div>
   </SettingsPanel>

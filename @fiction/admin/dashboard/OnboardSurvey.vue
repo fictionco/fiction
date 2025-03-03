@@ -241,7 +241,7 @@ const stepConfig: StepConfig = {
     class="onboarding-survey-veil text-theme-800 dark:text-theme-0 fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gradient-to-br from-theme-975 via-black to-theme-975"
   >
     <div class="fixed inset-0 z-10 overflow-y-auto">
-      <div class=" text-white absolute py-8 px-16 w-full flex justify-between">
+      <div class=" text-white absolute py-4 md:py-8 px-4 md:px-16 w-full flex justify-between">
         <XMedia class="h-[35px]" :media="localMedia.fictionIconInline" />
         <ElSavingSignal change-type="publish" :is-dirty="saveUtil.isDirty.value" />
       </div>

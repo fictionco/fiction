@@ -189,7 +189,7 @@ const hasBack = vue.computed(() => {
           <div
             v-if="!step.noButton"
             class="flex pt-2 gap-4 items-center"
-            :class="!hasBack ? 'justify-end' : 'justify-between'"
+            :class="!hasBack ? 'justify-center' : 'justify-between'"
           >
             <XButton
               :class="!hasBack ? 'hidden' : ''"

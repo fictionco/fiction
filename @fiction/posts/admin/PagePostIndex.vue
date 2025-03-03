@@ -8,7 +8,7 @@ const { card } = defineProps<{ card: Card }>()
 
 <template>
   <SettingsPanel :title="card.title.value">
-    <div class="p-6 xl:p-12">
+    <div class="p-4 md:p-6 xl:p-12">
       <ElPostIndex :card />
     </div>
   </SettingsPanel>

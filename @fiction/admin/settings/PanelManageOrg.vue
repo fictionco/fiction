@@ -96,7 +96,7 @@ const otherItemList = list.value.filter(item => !item.isActive)
 
 <template>
   <SettingsPanel title="Your Organizations" :header>
-    <div class="p-6 xl:p-12">
+    <div class="p-4 md:p-6 xl:p-12">
       <div class="space-y-6">
         <ElIndexGrid
           :list="activeItemList"
