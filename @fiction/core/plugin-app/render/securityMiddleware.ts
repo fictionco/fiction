@@ -73,9 +73,10 @@ function getClientIP(req: express.Request): string {
 
 export function detectRecursivePath(args: { pathname: string, maxLength?: number, checkLength?: number }): boolean {
   const { pathname, maxLength = 500, checkLength = 50 } = args
+
   const pathSegments = pathname.split('/') || []
-  return pathname.length > maxLength
-    || pathSegments.some(seg => seg.length > checkLength && /(.+)\1{2,}/.test(seg))
+  // eslint-disable-next-line regexp/optimal-quantifier-concatenation
+  return pathname.length > maxLength || pathSegments.some(seg => seg.length > checkLength && /(.{3,})\1{3,}/.test(seg))
 }
 
 function isIPBlocked(ip: string): boolean {
@@ -147,7 +148,7 @@ export const securityMiddleware: express.RequestHandler = (req, res, next) => {
     }
 
     // Check for recursive URL blowups
-    if (detectRecursivePath({pathname})) {
+    if (detectRecursivePath({ pathname })) {
       fails.push('recursive URL pattern')
     }
 

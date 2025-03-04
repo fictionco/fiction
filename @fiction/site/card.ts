@@ -76,6 +76,7 @@ interface CardTemplateSettings<
   description?: string
   category?: CardCategory[]
   classification?: CardClassification
+  screenshot?: { light: string, dark: string }
   icon?: string
   colorTheme?: typeof colorTheme[number]
   el: CardTemplateSurface<S>[ 'component' ]

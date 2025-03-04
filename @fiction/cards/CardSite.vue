@@ -124,7 +124,7 @@ unhead.useHead({
   title: () => getTitleTag(),
   meta: [
     { charset: 'UTF-8' },
-    { name: 'generator', content: 'Fiction.com Website Builder' },
+    { name: 'generator', content: 'Fiction.com' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
     { name: 'description', content: () => pageConfig.value.site?.description || page.value?.description.value || '' },
     { name: 'robots', content: () => pageConfig.value.site?.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },

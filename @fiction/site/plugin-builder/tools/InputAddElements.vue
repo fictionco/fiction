@@ -2,9 +2,12 @@
 import type { EditorTool } from '@fiction/admin'
 import type { CardTemplate } from '../../card'
 import type { Site } from '../../site'
-import { toLabel, vue } from '@fiction/core'
+import screenDefaultDark from '@fiction/cards/utils/img/screen-dark.svg'
+import screenDefaultLight from '@fiction/cards/utils/img/screen-light.svg'
+import { isDarkOrLightMode, toLabel, vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import XButton from '@fiction/ui/buttons/XButton.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 import { OldCardCategorySchema } from '../../card'
 
 const props = defineProps({
@@ -50,6 +53,13 @@ const addElementsVisible = vue.ref(true)
 function toggleAddElements() {
   addElementsVisible.value = !addElementsVisible.value
 }
+
+const colorMode = vue.computed(() => isDarkOrLightMode())
+function getScreenshotUrl(template: CardTemplate) {
+  return colorMode.value === 'light'
+    ? template.settings.screenshot?.light || screenDefaultLight
+    : template.settings.screenshot?.dark || screenDefaultDark
+}
 </script>
 
 <template>
@@ -76,22 +86,27 @@ function toggleAddElements() {
               {{ toLabel(i) }}
             </div>
             <div class="space-y-2">
-              <div class="flex flex-wrap gap-2">
-                <XButton
+              <div class="grid grid-cols-3 gap-4">
+                <div
                   v-for="(item, ii) in tplGroup"
                   :key="ii"
                   :data-test-id="`add-element-${item.settings.templateId}`"
                   :theme="item.settings.colorTheme || 'theme'"
-                  class="cursor-pointer hover:opacity-80"
-                  rounding="full"
-                  design="ghost"
-                  size="xs"
-                  href="#"
+                  class="text-xs cursor-pointer hover:opacity-80 flex flex-col items-center justify-center "
+
                   :icon="item.settings.icon"
                   @click.prevent="addCard({ templateId: item.settings.templateId })"
                 >
-                  {{ item.settings.title }}
-                </XButton>
+                  <XMedia
+                    :media="{ url: getScreenshotUrl(item) }"
+                    class="w-full aspect-[5/3] rounded-md border border-theme-300/70 dark:border-theme-600 overflow-hidden shadow-md"
+                  />
+                  <div
+                    class="p-1 text-[10px] tracking-tight line-clamp-2 truncate w-full text-center text-theme-400 dark:text-theme-200 font-mono font-medium"
+                  >
+                    {{ item.settings.title }}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
