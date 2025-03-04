@@ -3,5 +3,5 @@
 <rect width="12" height="12" rx="2" transform="matrix(-1 0 0 1 40 22)" fill="#112F60"/>
 <rect width="12" height="12" rx="2" transform="matrix(-1 0 0 1 40 47)" fill="#0061FF"/>
 <rect width="12" height="12" rx="2" transform="matrix(-1 0 0 1 40 91)" fill="#112F60"/>
-<rect x="47" y="47" width="119" height="37" rx="2" fill="#4C668F" fill-opacity="0.6"/>
+<rect x="47" y="47" width="120" height="37" rx="2" fill="#4C668F" fill-opacity="0.6"/>
 </svg>

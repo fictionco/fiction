@@ -169,6 +169,13 @@ const cls = vue.computed(() => {
 function updateActivePath() {
   emit('update:activePath', editPath || '')
 }
+
+const componentProps = vue.computed(() => {
+  return {
+    ...omit(attrs, 'class', 'data-test-id', 'data-option-path', 'model-value'),
+    ...inputProps,
+  }
+})
 </script>
 
 <template>
@@ -210,7 +217,7 @@ function updateActivePath() {
         v-if="inputComponent"
         ref="inputEl"
         :model-value="modelValue"
-        v-bind="{ ...omit(attrs, 'class', 'data-test-id', 'data-option-path', 'model-value'), ...inputProps }"
+        v-bind="componentProps"
         :ui-size="uiSize"
         :edit-path="editPath"
         :active-path="activePath"
