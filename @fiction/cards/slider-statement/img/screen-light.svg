@@ -1,0 +1,24 @@
+<svg width="200" height="120" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_12_468)">
+<rect width="200" height="120" fill="white"/>
+<rect x="67" y="58" width="56" height="5" rx="1.63934" fill="#8BA3CA"/>
+<rect x="67" y="69" width="62" height="5" rx="1.63934" fill="#8BA3CA"/>
+<rect x="67" y="45" width="71" height="7" rx="2.29508" fill="#101622" fill-opacity="0.8"/>
+<g opacity="0.5">
+<rect x="167" y="58" width="56" height="5" rx="1.63934" fill="#8BA3CA" fill-opacity="0.6"/>
+<rect x="167" y="69" width="62" height="5" rx="1.63934" fill="#8BA3CA" fill-opacity="0.6"/>
+<rect x="167" y="45" width="71" height="7" rx="2.29508" fill="#051026" fill-opacity="0.8"/>
+</g>
+<g opacity="0.5">
+<rect x="-38" y="58" width="56" height="5" rx="1.63934" fill="#8BA3CA" fill-opacity="0.6"/>
+<rect x="-38" y="69" width="62" height="5" rx="1.63934" fill="#8BA3CA" fill-opacity="0.6"/>
+<rect x="-38" y="45" width="71" height="7" rx="2.29508" fill="#000D32" fill-opacity="0.8"/>
+</g>
+<path d="M63.0001 50.75L56.8281 53.995L58.0071 47.122L53.0071 42.255L59.9071 41.255L62.9931 35.002L66.0791 41.255L72.9791 42.255L67.9791 47.122L69.1581 53.995L63.0001 50.75Z" stroke="#3F497E" stroke-opacity="0.2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_12_468">
+<rect width="200" height="120" fill="white"/>
+</clipPath>
+</defs>
+</svg>
