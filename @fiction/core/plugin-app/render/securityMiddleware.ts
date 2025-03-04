@@ -10,6 +10,10 @@ const CLEANUP_INTERVAL = 60 * 60 * 1000
 const BLOCK_DURATION = 24 * 60 * 60 * 1000
 // Threshold for blocking (3 suspicious requests)
 const BLOCK_THRESHOLD = 3
+// Max pathname length for recursive URL check
+const MAX_PATHNAME_LENGTH = 1000
+// Minimum repeats for substring repetition
+const MIN_REPEATS = 5
 
 // Existing patterns...
 const BLOCKED_PATTERNS = [
@@ -28,7 +32,6 @@ const BLOCKED_PATTERNS = [
   /shell\.php/i,
   /cgi-bin/i,
   /bin\/sh$/i,
-
   // New patterns for email/webmail probing
   /roundcube/i,
   /zimbra/i,
@@ -39,8 +42,7 @@ const BLOCKED_PATTERNS = [
   /pop3/i,
   /email-admin/i,
   /mail-admin/i,
-
-  // manual patterns
+  // Manual patterns
   /fan\.fiction/i,
   /lat\.fiction/i,
   /non\.fiction/i,
@@ -66,7 +68,11 @@ function hasPathTraversalAttempt(pathname: string): boolean {
 }
 
 function getClientIP(req: express.Request): string {
-  return (req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || '').split(',')[0].trim()
+  return (
+    (req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress || ''
+  )
+    .split(',')[0]
+    .trim()
 }
 
 function isIPBlocked(ip: string): boolean {
@@ -82,7 +88,10 @@ function isIPBlocked(ip: string): boolean {
 }
 
 function incrementIPBlock(ip: string): number {
-  const record = blockedIPs.get(ip) || { count: 0, expires: Date.now() + BLOCK_DURATION }
+  const record = blockedIPs.get(ip) || {
+    count: 0,
+    expires: Date.now() + BLOCK_DURATION,
+  }
   record.count++
 
   if (record.count >= BLOCK_THRESHOLD) {
@@ -90,8 +99,6 @@ function incrementIPBlock(ip: string): number {
   }
 
   blockedIPs.set(ip, record)
-
-  // return number of times
   return record.count
 }
 
@@ -114,11 +121,10 @@ export const securityMiddleware: express.RequestHandler = (req, res, next) => {
 
     // Check if IP is already blocked
     if (isIPBlocked(clientIP)) {
-      // block here
+      // could block here
     }
 
     const vars = getRequestVars({ request: req })
-
     const url = vars.URL || ''
     const userAgent = vars.USER_AGENT || ''
     const pathname = vars.PATHNAME || ''
@@ -137,13 +143,21 @@ export const securityMiddleware: express.RequestHandler = (req, res, next) => {
       fails.push('blocked user agent')
     }
 
+    // Check for recursive URL blowups
+    const lastSegment = pathname.split('/').pop() || ''
+
+    // eslint-disable-next-line regexp/optimal-quantifier-concatenation
+    const hasRepeatedSubstring = new RegExp(`(.+)\\1{${MIN_REPEATS - 1},}`).test(lastSegment)
+    const isPathnameTooLong = pathname.length > MAX_PATHNAME_LENGTH
+    if (isPathnameTooLong || hasRepeatedSubstring) {
+      fails.push('recursive URL pattern')
+    }
+
     const isSuspicious = fails.length > 0
 
     if (isSuspicious) {
       incrementIPBlock(clientIP)
-
       res.status(403).end()
-
       return
     }
 
