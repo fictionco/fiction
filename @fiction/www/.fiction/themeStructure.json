@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2025-03-03T22:03:16.860Z",
+  "generatedAt": "2025-03-04T01:21:03.351Z",
   "theme": [
     {
       "themeId": "minimal",
@@ -17,13 +17,13 @@
       "config": {
         "sections": {
           "header": {
-            "cardId": "crd67c627254a872923768a8fb4",
+            "cardId": "crd67c6557f5961f0288fc0d94d",
             "templateId": "cardPageAreaV1",
             "regionId": "header",
             "cards": [
               {
-                "parentId": "crd67c627254a872923768a8fb4",
-                "cardId": "crd67c627257da76b0b9abe345e",
+                "parentId": "crd67c6557f5961f0288fc0d94d",
+                "cardId": "crd67c6557f5ad7ccc54808d7f4",
                 "templateId": "cardSiteNavV1",
                 "userConfig": {
                   "standard": {
@@ -98,13 +98,13 @@
             "effects": []
           },
           "footer": {
-            "cardId": "crd67c6272592784409c124ef3a",
+            "cardId": "crd67c6557f43f3d597b3af3ffe",
             "templateId": "cardPageAreaV1",
             "regionId": "footer",
             "cards": [
               {
-                "parentId": "crd67c6272592784409c124ef3a",
-                "cardId": "crd67c62725eb17e1604cd5b9ed",
+                "parentId": "crd67c6557f43f3d597b3af3ffe",
+                "cardId": "crd67c6557f65eb234fe15d8baf",
                 "templateId": "cardTickerV1",
                 "userConfig": {
                   "fontSize": 6,
@@ -127,8 +127,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6272592784409c124ef3a",
-                "cardId": "crd67c627251f74707b1cc85e99",
+                "parentId": "crd67c6557f43f3d597b3af3ffe",
+                "cardId": "crd67c6557f1d40c691ef1a82f1",
                 "templateId": "cardCtaV1",
                 "userConfig": {
                   "standard": {
@@ -154,8 +154,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6272592784409c124ef3a",
-                "cardId": "crd67c62725bde0e36c9e008bb4",
+                "parentId": "crd67c6557f43f3d597b3af3ffe",
+                "cardId": "crd67c6557fb6d7e8976f965bb8",
                 "templateId": "cardFooterPersonalV1",
                 "userConfig": {
                   "brand": {
@@ -234,12 +234,12 @@
             "effects": []
           },
           "hidden": {
-            "cardId": "crd67c627250f4ebfde2e457171",
+            "cardId": "crd67c6557f137412d16dbde15a",
             "templateId": "cardPageAreaV1",
             "cards": [
               {
-                "parentId": "crd67c627250f4ebfde2e457171",
-                "cardId": "crd67c62725c10c6ddd8d7f9560",
+                "parentId": "crd67c6557f137412d16dbde15a",
+                "cardId": "crd67c6557f71cdc1fc05659078",
                 "templateId": "cardModalMediaV1",
                 "userConfig": {},
                 "regionId": "main",
@@ -250,8 +250,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c627250f4ebfde2e457171",
-                "cardId": "crd67c62725d515b63b9a694e51",
+                "parentId": "crd67c6557f137412d16dbde15a",
+                "cardId": "crd67c6557f4872fb8c511eec90",
                 "templateId": "cardTextEffectV1",
                 "userConfig": {},
                 "regionId": "main",
@@ -262,8 +262,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c627250f4ebfde2e457171",
-                "cardId": "crd67c62725016d51dd0ff7bf5f",
+                "parentId": "crd67c6557f137412d16dbde15a",
+                "cardId": "crd67c6557f4355f338bbe1bee9",
                 "templateId": "cardCaptureV1",
                 "userConfig": {
                   "standard": {
@@ -316,13 +316,13 @@
         },
         "pages": [
           {
-            "cardId": "crd67c62725a671fccfd0c466e0",
+            "cardId": "crd67c6557fa3b40c165df0f327",
             "templateId": "cardPageWrapV1",
             "slug": "_home",
             "cards": [
               {
-                "parentId": "crd67c62725a671fccfd0c466e0",
-                "cardId": "crd67c62725447bb30ecf8153e2",
+                "parentId": "crd67c6557fa3b40c165df0f327",
+                "cardId": "crd67c6557f2e5f82af895cf7a6",
                 "templateId": "cardProfileV1",
                 "userConfig": {
                   "superTitle": {
@@ -334,34 +334,30 @@
                     {
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440972/arpowers_minimal_stock_background_for_profile_photo_professiona_8c9d8ca7-baed-4c38-a0c5-7280b9fd1aab_sv1wnv.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556283/arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_5ef92f82-5327-4bbf-8446-05d855c08abc_yvhufx.png",
                         "tags": [
                           "annotated",
                           "aspect:portrait",
-                          "color:neutral",
-                          "man",
-                          "person",
+                          "color:cool",
+                          "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_8c9d8ca7-baed-4c38-a0c5-7280b9fd1aab_sv1wnv"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_5ef92f82-5327-4bbf-8446-05d855c08abc_yvhufx"
                       }
                     },
                     {
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556346/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_8b17dc54-1507-49d5-a510-bb773a01043f_d9gbkp.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556239/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5f99902c-0878-4f99-b1e9-0f9585c5faf7_nrgfic.png",
                         "tags": [
                           "annotated",
                           "aspect:portrait",
                           "aspect:square",
                           "color:warm",
-                          "man",
-                          "nature",
                           "object",
-                          "people",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_8b17dc54-1507-49d5-a510-bb773a01043f_d9gbkp"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5f99902c-0878-4f99-b1e9-0f9585c5faf7_nrgfic"
                       }
                     }
                   ],
@@ -432,8 +428,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c62725a671fccfd0c466e0",
-                "cardId": "crd67c627250cc8266a457cf7fe",
+                "parentId": "crd67c6557fa3b40c165df0f327",
+                "cardId": "crd67c6557fd3968aad2e5cf4b1",
                 "templateId": "cardBentoV1",
                 "userConfig": {
                   "items": [
@@ -488,14 +484,15 @@
                       "title": "Card With Media",
                       "content": "Add media or background images to create visual interest.",
                       "bg": {
-                        "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1733967760/arpowers_minimalist_realistic_mediterranean_scene_futuristic_an_b445f5e5-ec6a-4210-aa91-1ebe7a4c35d0_miws1h.png",
+                        "format": "video",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724636660/replicate-prediction-8wx45kv5bdrj40chhh7r523pym_co9n3y.mp4",
                         "tags": [
+                          "aspect:landscape",
+                          "aspect:square",
                           "background",
-                          "aspect:wide",
-                          "color:multi"
+                          "video"
                         ],
-                        "slug": "arpowers_minimalist_realistic_mediterranean_scene_futuristic_an_b445f5e5-ec6a-4210-aa91-1ebe7a4c35d0_miws1h",
+                        "slug": "replicate-prediction-8wx45kv5bdrj40chhh7r523pym_co9n3y",
                         "overlay": {
                           "opacity": 0.4
                         }
@@ -521,8 +518,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c62725a671fccfd0c466e0",
-                "cardId": "crd67c62725ddc62ba2200ef807",
+                "parentId": "crd67c6557fa3b40c165df0f327",
+                "cardId": "crd67c6557f92aa71c51727beaa",
                 "templateId": "cardQuotesV1",
                 "userConfig": {
                   "items": [
@@ -535,17 +532,18 @@
                         "subLabel": "Marketing Director",
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441031/arpowers_incredibly_beautiful_profile_photo_of_woman_business_a_441161c2-e844-41c4-a636-e8b40370aecd_lihece.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441018/arpowers_minimal_stock_background_for_profile_photo_professiona_8f8842a3-efb2-4ece-8b37-a52d99f2fb2b_rl7atx.png",
                           "tags": [
                             "annotated",
                             "aspect:landscape",
-                            "color:warm",
-                            "headshot",
+                            "color:cool",
                             "person",
+                            "silhouette",
+                            "wideshot",
                             "woman",
                             "image"
                           ],
-                          "slug": "arpowers_incredibly_beautiful_profile_photo_of_woman_business_a_441161c2-e844-41c4-a636-e8b40370aecd_lihece"
+                          "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_8f8842a3-efb2-4ece-8b37-a52d99f2fb2b_rl7atx"
                         }
                       },
                       "org": {
@@ -590,21 +588,17 @@
             "effects": []
           },
           {
-            "cardId": "crd67c62725650a9960e9f8e11a",
+            "cardId": "crd67c6557f78ba2436c6bcddd2",
             "templateId": "cardPageWrapV1",
             "slug": "blog",
             "cards": [
               {
-                "parentId": "crd67c62725650a9960e9f8e11a",
-                "cardId": "crd67c62725733736df0b6ef059",
+                "parentId": "crd67c6557f78ba2436c6bcddd2",
+                "cardId": "crd67c6557fe1c9651ce3337c08",
                 "templateId": "cardPostsMagazineV1",
                 "userConfig": {
                   "standard": {
-                    "showOnSingle": true,
-                    "headers": {
-                      "title": "Latest Articles",
-                      "subTitle": "Discover our latest insights and stories"
-                    }
+                    "showOnSingle": true
                   },
                   "posts": {
                     "format": "local",
@@ -619,6 +613,346 @@
                             "fullName": "Marcus Lee",
                             "title": "Data Journalist",
                             "email": "marcus@example.com",
+                            "avatar": {
+                              "format": "image",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443255/arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_1633893b-f298-4d6a-b1eb-f02c8069fe64_za5ifd.png",
+                              "tags": [
+                                "annotated",
+                                "aspect:landscape",
+                                "color:warm",
+                                "man",
+                                "person",
+                                "wideshot",
+                                "woman",
+                                "image"
+                              ],
+                              "slug": "arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_1633893b-f298-4d6a-b1eb-f02c8069fe64_za5ifd"
+                            }
+                          }
+                        ],
+                        "content": "\n        <article>\n          <p><em>Close your eyes and imagine</em> your data coming to life, each number transforming into a compelling story that captivates your readers. What if your charts could speak directly to your audience's deepest concerns?</p>\n\n          <h2>When Numbers Tell Tales</h2>\n          <p>Think about the last time a statistic genuinely moved you. What made it memorable? Was it the number itself, or the story it told? Let's discover how to create these moments for your readers.</p>\n\n          <div >\n            <h2>Your Data Storytelling Journey</h2>\n            <ol style=\"margin: 20px 0;\">\n              <li>\n                <h3>Find the Heart of Your Data</h3>\n                <p>Notice how raw numbers feel cold until you connect them to human experience? Start by asking: \"Why would my reader care about this?\"</p>\n              </li>\n              <li>\n                <h3>Build the Bridge</h3>\n                <p>What if you could connect your data directly to your readers' lives? Look for the personal impact in every statistic.</p>\n              </li>\n              <li>\n                <h3>Create the Aha Moment</h3>\n                <p>Remember the last time you had a sudden insight? That's what we want to create for your readers.</p>\n              </li>\n            </ol>\n          </div>\n\n          <aside >\n            <h3>Visualization Secrets Revealed</h3>\n            <ul>\n              <li>\n                <strong>Choose Your Story Type:</strong>\n                <p>See how different charts evoke different emotional responses? Match your visualization to your narrative.</p>\n              </li>\n              <li>\n                <strong>Simplify for Impact:</strong>\n                <p>Ever notice how the clearest charts often have the strongest impact?</p>\n              </li>\n              <li>\n                <strong>Guide the Eye:</strong>\n                <p>What catches your attention first in a visualization? Use this natural tendency to lead your readers through the data.</p>\n              </li>\n            </ul>\n          </aside>\n\n          <blockquote>\n            \"The goal isn't to tell your readers about data—it's to show them what matters. Imagine the moment they finally see what you see.\"\n            <footer style=\"margin-top: 8px;\">\n              <cite>— Marcus Lee</cite>\n            </footer>\n          </blockquote>\n\n          <p>Ready to transform your data from forgettable figures into unforgettable stories? Let's begin your journey into data storytelling mastery.</p>\n        </article>\n      ",
+                        "excerpt": "Transform dry statistics into compelling narratives that your readers can't resist. Discover the storyteller hiding in your spreadsheets.",
+                        "categories": [
+                          "Analytics"
+                        ],
+                        "tags": [
+                          "data",
+                          "storytelling",
+                          "visualization"
+                        ],
+                        "media": {
+                          "format": "image",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556261/arpowers_minimal_midshot_photo_of_object_2050s_aesthetic_incred_85d766ca-3cc0-4722-a9bd-7ca2c2229b18_blgxdm.png",
+                          "tags": [
+                            "annotated",
+                            "aspect:portrait",
+                            "color:warm",
+                            "object",
+                            "image"
+                          ],
+                          "slug": "arpowers_minimal_midshot_photo_of_object_2050s_aesthetic_incred_85d766ca-3cc0-4722-a9bd-7ca2c2229b18_blgxdm"
+                        },
+                        "dateAt": "2024-03-18T00:00:00.000Z"
+                      },
+                      {
+                        "title": "Why Your SEO Isn't Working (And How to Fix It)",
+                        "subTitle": "Discover the human side of search engine optimization",
+                        "slug": "seo-content-guide",
+                        "authors": [
+                          {
+                            "fullName": "Priya Sharma",
+                            "title": "SEO Strategist",
+                            "email": "priya@example.com",
+                            "avatar": {
+                              "format": "image",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441628/arpowers_minimal_stock_background_for_profile_photo_professiona_8a53bfc2-2716-4349-99f4-3828415cd280_b7jbeg.png",
+                              "tags": [
+                                "annotated",
+                                "aspect:landscape",
+                                "color:warm",
+                                "midshot",
+                                "person",
+                                "woman"
+                              ],
+                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_8a53bfc2-2716-4349-99f4-3828415cd280_b7jbeg"
+                            }
+                          }
+                        ],
+                        "content": "\n        <article>\n          <p><em>Remember the last time</em> you searched for something important? That feeling of finding exactly what you needed? That's not luck—it's strategic SEO at work. Let's make your content the answer people are searching for.</p>\n\n          <section>\n            <h2>The Truth About Modern SEO</h2>\n            <p>Forget everything you think you know about SEO. Imagine if ranking well was less about technical tricks and more about genuinely understanding your readers. Let's explore how this shift changes everything.</p>\n\n            <div >\n              <div>\n                <h3>What Search Engines See</h3>\n                <ul>\n                  <li>\n                    <strong>Clear Structure</strong>\n                    <p>Notice how well-organized content ranks better? It's not coincidence.</p>\n                  </li>\n                  <li>\n                    <strong>Natural Language</strong>\n                    <p>What if your keywords flowed as naturally as a conversation?</p>\n                  </li>\n                  <li>\n                    <strong>Valuable Links</strong>\n                    <p>Think of links as virtual handshakes—they build trust.</p>\n                  </li>\n                </ul>\n              </div>\n\n              <div>\n                <h3>What Readers Experience</h3>\n                <ul>\n                  <li>\n                    <strong>Instant Relevance</strong>\n                    <p>Feel that moment when content perfectly matches your need?</p>\n                  </li>\n                  <li>\n                    <strong>Easy Navigation</strong>\n                    <p>Imagine finding everything you need without trying.</p>\n                  </li>\n                  <li>\n                    <strong>Complete Answers</strong>\n                    <p>What if every search led to a satisfying conclusion?</p>\n                  </li>\n                </ul>\n              </div>\n            </div>\n          </section>\n\n          <aside >\n            <h3>Your SEO Transformation Checklist</h3>\n            <p>Watch how your content changes when you focus on these elements:</p>\n            <ol>\n              <li>Is your content answering real questions?</li>\n              <li>Could a friend understand your headlines?</li>\n              <li>Does your page structure feel natural?</li>\n              <li>Are you using terms your audience uses?</li>\n            </ol>\n          </aside>\n\n          <div>\n            <h3>The Secret Most SEO Experts Won't Tell You</h3>\n            <p>The best SEO strategy is creating content so good, so useful, that people can't help but share it. Imagine your content becoming the go-to resource in your field.</p>\n          </div>\n\n          <p>Ready to see your content climb the rankings while genuinely helping your readers? Let's make your SEO work for both search engines and humans.</p>\n        </article>\n      ",
+                        "excerpt": "Stop fighting algorithms and start connecting with readers. Discover how human-centered SEO transforms your search rankings.",
+                        "categories": [
+                          "SEO"
+                        ],
+                        "tags": [
+                          "optimization",
+                          "search",
+                          "content strategy"
+                        ],
+                        "media": {
+                          "format": "image",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725068/arpowers_Minimalist_futuristic_interpretation_of_an_zeus_elegan_ce9febc4-733e-49e2-976f-8e1f321407c4_fhmivm.png",
+                          "tags": [
+                            "aspect:landscape",
+                            "color:warm",
+                            "image",
+                            "object",
+                            "annotated"
+                          ],
+                          "slug": "arpowers_Minimalist_futuristic_interpretation_of_an_zeus_elegan_ce9febc4-733e-49e2-976f-8e1f321407c4_fhmivm"
+                        },
+                        "dateAt": "2024-03-17T00:00:00.000Z"
+                      },
+                      {
+                        "title": "The Art of Compelling Headlines",
+                        "subTitle": "Transform your ordinary titles into attention-grabbing headlines",
+                        "slug": "headline-writing-guide",
+                        "authors": [
+                          {
+                            "fullName": "Sarah Chen",
+                            "title": "Content Strategy Lead",
+                            "email": "sarah@example.com",
+                            "avatar": {
+                              "format": "video",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1733965053/replicate-prediction-wtfb2100xxrj00ckq1cb7s94hg_rhvr5g.mp4",
+                              "tags": [
+                                "aspect:landscape",
+                                "person",
+                                "video"
+                              ],
+                              "slug": "replicate-prediction-wtfb2100xxrj00ckq1cb7s94hg_rhvr5g"
+                            }
+                          }
+                        ],
+                        "content": "\n        <article>\n          <p><em>Picture this:</em> Your brilliant article sits unread while others get all the attention. The difference? Often it's just the headline. Let's transform your headlines from forgotten to unforgettable.</p>\n\n          <h2>The 4 U's That Make Headlines Irresistible</h2>\n\n          <p>Notice how great headlines seem to pull you in effortlessly? Here's the framework behind that magic:</p>\n\n          <ul style=\"margin: 24px 0;\">\n            <li>\n              <h3>Useful</h3>\n              <p>Imagine your reader asking \"What's in it for me?\" Your headline should answer that instantly.</p>\n            </li>\n            <li>\n              <h3>Urgent</h3>\n              <p>Feel that slight anxiety when you might miss out on something important? That's urgency at work.</p>\n            </li>\n            <li>\n              <h3>Unique</h3>\n              <p>What would it feel like if your headline stood out from thousands of others? That's the power of uniqueness.</p>\n            </li>\n            <li>\n              <h3>Ultra-specific</h3>\n              <p>See how detailed headlines build instant credibility? They promise—and deliver—clear value.</p>\n            </li>\n          </ul>\n\n          <h2>Transform Your Headlines Today</h2>\n\n          <aside >\n            <p><strong>Try this exercise:</strong> Take your last three blog titles and rewrite each one using the 4 U's. Watch how they transform from basic statements into compelling invitations.</p>\n          </aside>\n\n          <p>Have you ever noticed how some blogs seem to consistently capture attention while others struggle? The secret often lies in their headlines. Let's unlock that secret together.</p>\n\n          <blockquote>\n            \"The headlines which work best are those that promise a story the audience already cares about. Now imagine how powerful your writing becomes when you master this art.\"\n            <footer>\n              <cite>— John Caples, Advertising Legend</cite>\n            </footer>\n          </blockquote>\n\n          <p>Ready to see your engagement numbers transform? Your next great headline is waiting to be written. Let's create it together.</p>\n        </article>\n      ",
+                        "excerpt": "Discover the secrets of headlines that don't just attract clicks—they compel action. Transform your titles from skippable to unforgettable.",
+                        "categories": [
+                          "Writing"
+                        ],
+                        "tags": [
+                          "headlines",
+                          "copywriting",
+                          "engagement"
+                        ],
+                        "media": {
+                          "format": "image",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556219/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_14486649-e275-41ce-8214-aebf8f6d0a1a_jse0bc.png",
+                          "tags": [
+                            "annotated",
+                            "aspect:landscape",
+                            "aspect:square",
+                            "color:cool",
+                            "object",
+                            "image"
+                          ],
+                          "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_14486649-e275-41ce-8214-aebf8f6d0a1a_jse0bc"
+                        },
+                        "dateAt": "2024-03-20T00:00:00.000Z"
+                      },
+                      {
+                        "title": "Visual Hierarchy in Blog Design",
+                        "subTitle": "Master the invisible force that guides your readers' journey",
+                        "slug": "visual-hierarchy-guide",
+                        "authors": [
+                          {
+                            "fullName": "Alex Rivera",
+                            "title": "UX Design Director",
+                            "email": "alex@example.com",
+                            "avatar": {
+                              "format": "image",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443243/arpowers_minimal_headshot_photo_met_gala_ancient_greek_beauty_c_aa0a4022-53e9-403c-9acc-5a8b2df9a074_c27nif.png",
+                              "tags": [
+                                "annotated",
+                                "aspect:square",
+                                "color:warm",
+                                "headshot",
+                                "person",
+                                "realistic",
+                                "woman",
+                                "image"
+                              ],
+                              "slug": "arpowers_minimal_headshot_photo_met_gala_ancient_greek_beauty_c_aa0a4022-53e9-403c-9acc-5a8b2df9a074_c27nif"
+                            }
+                          }
+                        ],
+                        "content": "\n        <article>\n          <p><em>Imagine</em> your readers flowing effortlessly through your content, intuitively knowing where to look next. That's not magic—it's visual hierarchy at work. Let's explore how to create this seamless experience for your readers.</p>\n\n          <h2>The Secret Language of Visual Design</h2>\n\n          <p>Have you ever wondered why some blog posts feel professional while others seem amateur? The difference often lies in the subtle art of visual hierarchy. Let's decode this visual language together.</p>\n\n          <div>\n            <section>\n              <h3>Size & Scale</h3>\n              <p>Watch how your eye naturally moves to larger elements first. Notice how this natural behavior creates a visual journey through your content. What if you could harness this power to guide your readers exactly where you want them to go?</p>\n            </section>\n\n            <section>\n              <h3>Color & Contrast</h3>\n              <p>Feel the pull of contrasting elements, the way they catch your attention and direct your focus. Imagine using this powerful tool to highlight your most important messages.</p>\n            </section>\n          </div>\n\n          <aside>\n            <h3 style=\"margin-top: 0;\">Designer's Secret Weapon</h3>\n            <p>Picture your perfect reader skimming your content. Where do their eyes go first? Second? By understanding this journey, you can craft a visual experience that feels both natural and engaging.</p>\n          </aside>\n\n          <h2>Transform Your Blog's Visual Appeal</h2>\n\n          <ol >\n            <li>\n              <h4>Establish Clear Hierarchy</h4>\n              <p>See how different heading sizes create natural breakpoints in your content?</p>\n            </li>\n            <li>\n              <h4>Use White Space Strategically</h4>\n              <p>Notice how breathing room around elements makes them feel more important?</p>\n            </li>\n            <li>\n              <h4>Create Visual Patterns</h4>\n              <p>What if your design elements worked together to create a cohesive reading experience?</p>\n            </li>\n          </ol>\n\n          <div >\n            <h3 >Pro Tip That Changes Everything</h3>\n            <p>Always test your design with real content. Notice how beautiful typography with poor content hierarchy still fails to engage readers? That's why we always start with content strategy.</p>\n          </div>\n\n          <p>Ready to transform your blog's visual impact? Let's take your first step toward a more engaging design today.</p>\n        </article>\n      ",
+                        "excerpt": "Master the invisible forces that guide your readers through your content. Transform your blog from chaotic to captivating through strategic visual design.",
+                        "categories": [
+                          "Design"
+                        ],
+                        "tags": [
+                          "visual design",
+                          "typography",
+                          "layout"
+                        ],
+                        "media": {
+                          "format": "image",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556306/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_14001eab-faa2-4c3d-a043-321b080b73cd_juorma.png",
+                          "tags": [
+                            "annotated",
+                            "aspect:portrait",
+                            "aspect:square",
+                            "color:warm",
+                            "object",
+                            "image"
+                          ],
+                          "slug": "arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_14001eab-faa2-4c3d-a043-321b080b73cd_juorma"
+                        },
+                        "dateAt": "2024-03-19T00:00:00.000Z"
+                      },
+                      {
+                        "title": "Write Like a Master Storyteller",
+                        "subTitle": "Weave psychological triggers into your narratives",
+                        "slug": "storytelling-psychology",
+                        "authors": [
+                          {
+                            "fullName": "Maya Patel",
+                            "title": "Narrative Psychologist",
+                            "email": "maya@example.com",
+                            "avatar": {
+                              "format": "image",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441081/arpowers_minimal_stock_background_for_profile_photo_professiona_eb177108-8f40-42aa-bb03-af178461afe4_1_v8exxm.png",
+                              "tags": [
+                                "annotated",
+                                "aspect:landscape",
+                                "color:warm",
+                                "man",
+                                "midshot",
+                                "person",
+                                "image"
+                              ],
+                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_eb177108-8f40-42aa-bb03-af178461afe4_1_v8exxm"
+                            }
+                          }
+                        ],
+                        "content": "\n        <article>\n          <p><em>What if</em> every piece you wrote could hold readers spellbound until the very last word? The ancient art of storytelling isn't just for novelists—it's a powerful tool for anyone sharing ideas.</p>\n\n          <h2>The Hidden Structure of Captivating Writing</h2>\n          <p>Notice how certain passages seem to pull you through them effortlessly? This isn't accident—it's psychology at work.</p>\n\n          <h3>The Three Pillars of Magnetic Writing</h3>\n          <ol>\n            <li>\n              <h4>Tension and Release</h4>\n              <p>Feel how your mind leans forward when a question is posed? Watch how master writers create tiny mysteries throughout their work, leading you paragraph by paragraph.</p>\n            </li>\n            <li>\n              <h4>Sensory Bridges</h4>\n              <p>Remember the last time a piece of writing made you feel like you were actually there? That's the power of engaging multiple senses in your descriptions.</p>\n            </li>\n            <li>\n              <h4>Emotional Resonance</h4>\n              <p>Have you noticed how the most memorable writing makes you feel something? Let's explore how to weave emotion into every paragraph.</p>\n            </li>\n          </ol>\n\n          <h3>Transform Your Next Piece</h3>\n          <p>Imagine starting your next article not with facts, but with a scene that pulls readers into your world:</p>\n\n          <blockquote>\n            <p>\"The cursor blinked accusingly on the empty screen. You know that feeling—when you have something important to say, but the words seem just out of reach...\"</p>\n          </blockquote>\n\n          <h3>The Psychology Behind the Magic</h3>\n          <ul>\n            <li>Pattern interrupts that wake up the reader's mind</li>\n            <li>Strategic curiosity gaps that pull readers forward</li>\n            <li>Memory hooks that make your ideas stick</li>\n            <li>Narrative arcs that satisfy the brain's need for completion</li>\n          </ul>\n\n          <p>What powerful story are you ready to tell? Let's make your next piece of writing unforgettable.</p>\n        </article>\n      ",
+                        "excerpt": "Master the psychological principles that make readers hang on your every word. Transform your writing from merely informative to utterly captivating.",
+                        "categories": [
+                          "Writing"
+                        ],
+                        "tags": [
+                          "psychology",
+                          "storytelling",
+                          "writing"
+                        ],
+                        "media": {
+                          "format": "image",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556310/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_59c5e3d3-695e-4a03-88ac-ca87bff23762_pyzzqu.png",
+                          "tags": [
+                            "annotated",
+                            "aspect:portrait",
+                            "aspect:square",
+                            "color:warm",
+                            "object",
+                            "image"
+                          ],
+                          "slug": "arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_59c5e3d3-695e-4a03-88ac-ca87bff23762_pyzzqu"
+                        },
+                        "dateAt": "2024-03-14T00:00:00.000Z"
+                      },
+                      {
+                        "title": "The Science of Memorable Ideas",
+                        "subTitle": "Why some concepts spread while others fade",
+                        "slug": "idea-memorability",
+                        "authors": [
+                          {
+                            "fullName": "David Zhang",
+                            "title": "Cognitive Science Researcher",
+                            "email": "david@example.com",
+                            "avatar": {
+                              "format": "image",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440979/arpowers_incredibly_beautiful_profile_photo_of_man_business_att_f254b6af-df34-44b8-b3dc-ab101ba764be_z5pwdm.png",
+                              "tags": [
+                                "annotated",
+                                "aspect:square",
+                                "color:cool",
+                                "man",
+                                "person",
+                                "image"
+                              ],
+                              "slug": "arpowers_incredibly_beautiful_profile_photo_of_man_business_att_f254b6af-df34-44b8-b3dc-ab101ba764be_z5pwdm"
+                            }
+                          }
+                        ],
+                        "content": "\n        <article>\n          <p><em>Consider</em> the last idea that stayed with you for days. What made it stick? The science of memorable ideas isn't about being clever—it's about understanding how the human mind processes and retains information.</p>\n\n          <h2>The Architecture of Memorable Ideas</h2>\n          <p>Watch how your mind naturally gravitates toward certain concepts while others slip away. Let's decode this fascinating process.</p>\n\n          <h3>Core Elements of Sticky Ideas</h3>\n          <ul>\n            <li>\n              <h4>The Concrete Principle</h4>\n              <p>Notice how abstract concepts become clearer when anchored to tangible examples? That's your brain's preference for the concrete over the abstract.</p>\n            </li>\n            <li>\n              <h4>The Pattern Effect</h4>\n              <p>What happens when you recognize a familiar pattern in a new context? Your brain suddenly lights up with understanding.</p>\n            </li>\n            <li>\n              <h4>The Emotion Gateway</h4>\n              <p>Remember how ideas connected to strong emotions seem to write themselves directly into your memory?</p>\n            </li>\n          </ul>\n\n          <h3>Making Your Ideas Unforgettable</h3>\n          <ol>\n            <li>\n              <h4>The Velcro Method</h4>\n              <p>Imagine your idea as a hook looking for loops in your reader's mind. What existing knowledge can you connect to?</p>\n            </li>\n            <li>\n              <h4>The Curiosity Bridge</h4>\n              <p>Feel that slight tension when a story is left unfinished? That's your brain's natural desire for completion—use it.</p>\n            </li>\n            <li>\n              <h4>The Echo Chamber</h4>\n              <p>What if your idea could replay itself in your reader's mind, getting stronger with each iteration?</p>\n            </li>\n          </ol>\n\n          <blockquote>\n            <p>\"The most memorable ideas aren't just understood—they're felt, seen, and experienced.\"</p>\n            <footer>\n              <cite>— Dr. Eleanor Hughes, Memory Researcher</cite>\n            </footer>\n          </blockquote>\n\n          <h3>Transform Your Next Idea</h3>\n          <p>Before you share your next big concept, ask yourself:</p>\n          <ul>\n            <li>Could a child understand this?</li>\n            <li>Does it connect to something people already know?</li>\n            <li>Will it make them feel something?</li>\n            <li>Can they see it in action?</li>\n          </ul>\n\n          <p>Ready to make your ideas impossible to forget? Let's build something memorable together.</p>\n        </article>\n      ",
+                        "excerpt": "Discover why some ideas stick while others slip away. Learn the cognitive science behind creating concepts that lodge themselves in memory.",
+                        "categories": [
+                          "Psychology"
+                        ],
+                        "tags": [
+                          "cognition",
+                          "memory",
+                          "communication"
+                        ],
+                        "media": {
+                          "format": "image",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724555832/arpowers_minimal_midshot_photo_of_laurels_futuristic_ancient_gr_16603d41-f199-4adc-aa62-51f9248793f1_zaciyk.png",
+                          "tags": [
+                            "annotated",
+                            "aspect:portrait",
+                            "aspect:square",
+                            "color:warm",
+                            "object",
+                            "image"
+                          ],
+                          "slug": "arpowers_minimal_midshot_photo_of_laurels_futuristic_ancient_gr_16603d41-f199-4adc-aa62-51f9248793f1_zaciyk"
+                        },
+                        "dateAt": "2024-03-13T00:00:00.000Z"
+                      },
+                      {
+                        "title": "Email Marketing Psychology",
+                        "subTitle": "The neuroscience of inbox engagement",
+                        "slug": "email-psychology",
+                        "authors": [
+                          {
+                            "fullName": "Emma Rodriguez",
+                            "title": "Email Marketing Strategist",
+                            "email": "emma@example.com",
+                            "avatar": {
+                              "format": "video",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724640264/replicate-prediction-5t67ctedz9rj00chhj5b6xt79c_nmrixq.mp4",
+                              "tags": [
+                                "aspect:landscape",
+                                "man",
+                                "person",
+                                "video"
+                              ],
+                              "slug": "replicate-prediction-5t67ctedz9rj00chhj5b6xt79c_nmrixq"
+                            }
+                          }
+                        ],
+                        "content": "[Previous post content structure but focused on email marketing psychology]",
+                        "excerpt": "Unlock the psychological triggers that make emails irresistible to open and act upon. Transform your campaigns from inbox noise to anticipated value.",
+                        "categories": [
+                          "Marketing"
+                        ],
+                        "tags": [
+                          "email",
+                          "psychology",
+                          "conversion"
+                        ],
+                        "media": {
+                          "format": "image",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556405/arpowers_close-up_photo_of_art_deco_statue_ancient_greek_ideal__95cb200f-30a0-478a-9737-f4846d630dde_kjx4qm.png",
+                          "tags": [
+                            "annotated",
+                            "aspect:square",
+                            "color:warm",
+                            "object",
+                            "image"
+                          ],
+                          "slug": "arpowers_close-up_photo_of_art_deco_statue_ancient_greek_ideal__95cb200f-30a0-478a-9737-f4846d630dde_kjx4qm"
+                        },
+                        "dateAt": "2024-03-12T00:00:00.000Z"
+                      },
+                      {
+                        "title": "Color Theory for Conversions",
+                        "subTitle": "Using color psychology to drive action",
+                        "slug": "color-psychology",
+                        "authors": [
+                          {
+                            "fullName": "James Wilson",
+                            "title": "Conversion Design Expert",
+                            "email": "james@example.com",
                             "avatar": {
                               "format": "image",
                               "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441012/arpowers_minimal_stock_background_for_profile_photo_professiona_2e276870-5fbd-4138-be32-a7c961799b11_uykxly.png",
@@ -638,349 +972,6 @@
                             }
                           }
                         ],
-                        "content": "\n        <article>\n          <p><em>Close your eyes and imagine</em> your data coming to life, each number transforming into a compelling story that captivates your readers. What if your charts could speak directly to your audience's deepest concerns?</p>\n\n          <h2>When Numbers Tell Tales</h2>\n          <p>Think about the last time a statistic genuinely moved you. What made it memorable? Was it the number itself, or the story it told? Let's discover how to create these moments for your readers.</p>\n\n          <div >\n            <h2>Your Data Storytelling Journey</h2>\n            <ol style=\"margin: 20px 0;\">\n              <li>\n                <h3>Find the Heart of Your Data</h3>\n                <p>Notice how raw numbers feel cold until you connect them to human experience? Start by asking: \"Why would my reader care about this?\"</p>\n              </li>\n              <li>\n                <h3>Build the Bridge</h3>\n                <p>What if you could connect your data directly to your readers' lives? Look for the personal impact in every statistic.</p>\n              </li>\n              <li>\n                <h3>Create the Aha Moment</h3>\n                <p>Remember the last time you had a sudden insight? That's what we want to create for your readers.</p>\n              </li>\n            </ol>\n          </div>\n\n          <aside >\n            <h3>Visualization Secrets Revealed</h3>\n            <ul style=\"margin: 16px 0;\">\n              <li>\n                <strong>Choose Your Story Type:</strong>\n                <p>See how different charts evoke different emotional responses? Match your visualization to your narrative.</p>\n              </li>\n              <li>\n                <strong>Simplify for Impact:</strong>\n                <p>Ever notice how the clearest charts often have the strongest impact?</p>\n              </li>\n              <li>\n                <strong>Guide the Eye:</strong>\n                <p>What catches your attention first in a visualization? Use this natural tendency to lead your readers through the data.</p>\n              </li>\n            </ul>\n          </aside>\n\n          <blockquote>\n            \"The goal isn't to tell your readers about data—it's to show them what matters. Imagine the moment they finally see what you see.\"\n            <footer style=\"margin-top: 8px;\">\n              <cite>— Marcus Lee</cite>\n            </footer>\n          </blockquote>\n\n          <p>Ready to transform your data from forgettable figures into unforgettable stories? Let's begin your journey into data storytelling mastery.</p>\n        </article>\n      ",
-                        "excerpt": "Transform dry statistics into compelling narratives that your readers can't resist. Discover the storyteller hiding in your spreadsheets.",
-                        "categories": [
-                          "Analytics"
-                        ],
-                        "tags": [
-                          "data",
-                          "storytelling",
-                          "visualization"
-                        ],
-                        "media": {
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556219/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_14486649-e275-41ce-8214-aebf8f6d0a1a_jse0bc.png",
-                          "tags": [
-                            "annotated",
-                            "aspect:landscape",
-                            "aspect:square",
-                            "color:cool",
-                            "object",
-                            "image"
-                          ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_14486649-e275-41ce-8214-aebf8f6d0a1a_jse0bc"
-                        },
-                        "dateAt": "2024-03-18T00:00:00.000Z"
-                      },
-                      {
-                        "title": "Why Your SEO Isn't Working (And How to Fix It)",
-                        "subTitle": "Discover the human side of search engine optimization",
-                        "slug": "seo-content-guide",
-                        "authors": [
-                          {
-                            "fullName": "Priya Sharma",
-                            "title": "SEO Strategist",
-                            "email": "priya@example.com",
-                            "avatar": {
-                              "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440970/arpowers_incredibly_beautiful_profile_photo_of_man_business_att_ce0f1952-b6bd-493f-a26d-25e1237dc26d_nskmz4.png",
-                              "tags": [
-                                "annotated",
-                                "aspect:portrait",
-                                "color:neutral",
-                                "man",
-                                "person",
-                                "silhouette",
-                                "image"
-                              ],
-                              "slug": "arpowers_incredibly_beautiful_profile_photo_of_man_business_att_ce0f1952-b6bd-493f-a26d-25e1237dc26d_nskmz4"
-                            }
-                          }
-                        ],
-                        "content": "\n        <article>\n          <p><em>Remember the last time</em> you searched for something important? That feeling of finding exactly what you needed? That's not luck—it's strategic SEO at work. Let's make your content the answer people are searching for.</p>\n\n          <section>\n            <h2>The Truth About Modern SEO</h2>\n            <p>Forget everything you think you know about SEO. Imagine if ranking well was less about technical tricks and more about genuinely understanding your readers. Let's explore how this shift changes everything.</p>\n\n            <div >\n              <div>\n                <h3>What Search Engines See</h3>\n                <ul style=\"margin: 16px 0;\">\n                  <li>\n                    <strong>Clear Structure</strong>\n                    <p>Notice how well-organized content ranks better? It's not coincidence.</p>\n                  </li>\n                  <li>\n                    <strong>Natural Language</strong>\n                    <p>What if your keywords flowed as naturally as a conversation?</p>\n                  </li>\n                  <li>\n                    <strong>Valuable Links</strong>\n                    <p>Think of links as virtual handshakes—they build trust.</p>\n                  </li>\n                </ul>\n              </div>\n\n              <div>\n                <h3>What Readers Experience</h3>\n                <ul style=\"margin: 16px 0;\">\n                  <li>\n                    <strong>Instant Relevance</strong>\n                    <p>Feel that moment when content perfectly matches your need?</p>\n                  </li>\n                  <li>\n                    <strong>Easy Navigation</strong>\n                    <p>Imagine finding everything you need without trying.</p>\n                  </li>\n                  <li>\n                    <strong>Complete Answers</strong>\n                    <p>What if every search led to a satisfying conclusion?</p>\n                  </li>\n                </ul>\n              </div>\n            </div>\n          </section>\n\n          <aside >\n            <h3>Your SEO Transformation Checklist</h3>\n            <p>Watch how your content changes when you focus on these elements:</p>\n            <ol style=\"margin: 16px 0;\">\n              <li>Is your content answering real questions?</li>\n              <li>Could a friend understand your headlines?</li>\n              <li>Does your page structure feel natural?</li>\n              <li>Are you using terms your audience uses?</li>\n            </ol>\n          </aside>\n\n          <div>\n            <h3>The Secret Most SEO Experts Won't Tell You</h3>\n            <p>The best SEO strategy is creating content so good, so useful, that people can't help but share it. Imagine your content becoming the go-to resource in your field.</p>\n          </div>\n\n          <p>Ready to see your content climb the rankings while genuinely helping your readers? Let's make your SEO work for both search engines and humans.</p>\n        </article>\n      ",
-                        "excerpt": "Stop fighting algorithms and start connecting with readers. Discover how human-centered SEO transforms your search rankings.",
-                        "categories": [
-                          "SEO"
-                        ],
-                        "tags": [
-                          "optimization",
-                          "search",
-                          "content strategy"
-                        ],
-                        "media": {
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556378/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_987d238b-9d42-4753-a41d-67c422307c06_wsxqzj.png",
-                          "tags": [
-                            "annotated",
-                            "aspect:square",
-                            "color:warm",
-                            "object",
-                            "image"
-                          ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_987d238b-9d42-4753-a41d-67c422307c06_wsxqzj"
-                        },
-                        "dateAt": "2024-03-17T00:00:00.000Z"
-                      },
-                      {
-                        "title": "The Art of Compelling Headlines",
-                        "subTitle": "Transform your ordinary titles into attention-grabbing headlines",
-                        "slug": "headline-writing-guide",
-                        "authors": [
-                          {
-                            "fullName": "Sarah Chen",
-                            "title": "Content Strategy Lead",
-                            "email": "sarah@example.com",
-                            "avatar": {
-                              "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441075/arpowers_incredibly_beautiful_headshot_of_man_business_attire_S_b814db0a-bcb1-41ff-9cce-4e086f551d4b_veptuf.png",
-                              "tags": [
-                                "annotated",
-                                "aspect:landscape",
-                                "aspect:square",
-                                "color:warm",
-                                "man",
-                                "midshot",
-                                "person",
-                                "image"
-                              ],
-                              "slug": "arpowers_incredibly_beautiful_headshot_of_man_business_attire_S_b814db0a-bcb1-41ff-9cce-4e086f551d4b_veptuf"
-                            }
-                          }
-                        ],
-                        "content": "\n        <article>\n          <p><em>Picture this:</em> Your brilliant article sits unread while others get all the attention. The difference? Often it's just the headline. Let's transform your headlines from forgotten to unforgettable.</p>\n\n          <h2>The 4 U's That Make Headlines Irresistible</h2>\n\n          <p>Notice how great headlines seem to pull you in effortlessly? Here's the framework behind that magic:</p>\n\n          <ul style=\"margin: 24px 0;\">\n            <li>\n              <h3>Useful</h3>\n              <p>Imagine your reader asking \"What's in it for me?\" Your headline should answer that instantly.</p>\n            </li>\n            <li>\n              <h3>Urgent</h3>\n              <p>Feel that slight anxiety when you might miss out on something important? That's urgency at work.</p>\n            </li>\n            <li>\n              <h3>Unique</h3>\n              <p>What would it feel like if your headline stood out from thousands of others? That's the power of uniqueness.</p>\n            </li>\n            <li>\n              <h3>Ultra-specific</h3>\n              <p>See how detailed headlines build instant credibility? They promise—and deliver—clear value.</p>\n            </li>\n          </ul>\n\n          <h2>Transform Your Headlines Today</h2>\n\n          <aside >\n            <p><strong>Try this exercise:</strong> Take your last three blog titles and rewrite each one using the 4 U's. Watch how they transform from basic statements into compelling invitations.</p>\n          </aside>\n\n          <p>Have you ever noticed how some blogs seem to consistently capture attention while others struggle? The secret often lies in their headlines. Let's unlock that secret together.</p>\n\n          <blockquote>\n            \"The headlines which work best are those that promise a story the audience already cares about. Now imagine how powerful your writing becomes when you master this art.\"\n            <footer>\n              <cite>— John Caples, Advertising Legend</cite>\n            </footer>\n          </blockquote>\n\n          <p>Ready to see your engagement numbers transform? Your next great headline is waiting to be written. Let's create it together.</p>\n        </article>\n      ",
-                        "excerpt": "Discover the secrets of headlines that don't just attract clicks—they compel action. Transform your titles from skippable to unforgettable.",
-                        "categories": [
-                          "Writing"
-                        ],
-                        "tags": [
-                          "headlines",
-                          "copywriting",
-                          "engagement"
-                        ],
-                        "media": {
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1733967874/arpowers_minimalist_realistic_mediterranean_scene_futuristic_an_38509819-d3c9-4946-af53-5c4b40976d76_ckg2yi.png",
-                          "tags": [
-                            "aspect:wide",
-                            "object",
-                            "color:warm"
-                          ],
-                          "slug": "arpowers_minimalist_realistic_mediterranean_scene_futuristic_an_38509819-d3c9-4946-af53-5c4b40976d76_ckg2yi"
-                        },
-                        "dateAt": "2024-03-20T00:00:00.000Z"
-                      },
-                      {
-                        "title": "Visual Hierarchy in Blog Design",
-                        "subTitle": "Master the invisible force that guides your readers' journey",
-                        "slug": "visual-hierarchy-guide",
-                        "authors": [
-                          {
-                            "fullName": "Alex Rivera",
-                            "title": "UX Design Director",
-                            "email": "alex@example.com",
-                            "avatar": {
-                              "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441017/arpowers_minimal_stock_background_for_profile_photo_professiona_60c1bd31-1ca6-41b4-9d73-7abe5a377202_fjh5s1.png",
-                              "tags": [
-                                "annotated",
-                                "aspect:landscape",
-                                "color:cool",
-                                "headshot",
-                                "person",
-                                "woman",
-                                "image"
-                              ],
-                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_60c1bd31-1ca6-41b4-9d73-7abe5a377202_fjh5s1"
-                            }
-                          }
-                        ],
-                        "content": "\n        <article>\n          <p><em>Imagine</em> your readers flowing effortlessly through your content, intuitively knowing where to look next. That's not magic—it's visual hierarchy at work. Let's explore how to create this seamless experience for your readers.</p>\n\n          <h2>The Secret Language of Visual Design</h2>\n\n          <p>Have you ever wondered why some blog posts feel professional while others seem amateur? The difference often lies in the subtle art of visual hierarchy. Let's decode this visual language together.</p>\n\n          <div>\n            <section>\n              <h3>Size & Scale</h3>\n              <p>Watch how your eye naturally moves to larger elements first. Notice how this natural behavior creates a visual journey through your content. What if you could harness this power to guide your readers exactly where you want them to go?</p>\n            </section>\n\n            <section>\n              <h3>Color & Contrast</h3>\n              <p>Feel the pull of contrasting elements, the way they catch your attention and direct your focus. Imagine using this powerful tool to highlight your most important messages.</p>\n            </section>\n          </div>\n\n          <aside>\n            <h3 style=\"margin-top: 0;\">Designer's Secret Weapon</h3>\n            <p>Picture your perfect reader skimming your content. Where do their eyes go first? Second? By understanding this journey, you can craft a visual experience that feels both natural and engaging.</p>\n          </aside>\n\n          <h2>Transform Your Blog's Visual Appeal</h2>\n\n          <ol >\n            <li>\n              <h4>Establish Clear Hierarchy</h4>\n              <p>See how different heading sizes create natural breakpoints in your content?</p>\n            </li>\n            <li>\n              <h4>Use White Space Strategically</h4>\n              <p>Notice how breathing room around elements makes them feel more important?</p>\n            </li>\n            <li>\n              <h4>Create Visual Patterns</h4>\n              <p>What if your design elements worked together to create a cohesive reading experience?</p>\n            </li>\n          </ol>\n\n          <div >\n            <h3 >Pro Tip That Changes Everything</h3>\n            <p>Always test your design with real content. Notice how beautiful typography with poor content hierarchy still fails to engage readers? That's why we always start with content strategy.</p>\n          </div>\n\n          <p>Ready to transform your blog's visual impact? Let's take your first step toward a more engaging design today.</p>\n        </article>\n      ",
-                        "excerpt": "Master the invisible forces that guide your readers through your content. Transform your blog from chaotic to captivating through strategic visual design.",
-                        "categories": [
-                          "Design"
-                        ],
-                        "tags": [
-                          "visual design",
-                          "typography",
-                          "layout"
-                        ],
-                        "media": {
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556413/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_03472686-63d4-4669-b4f1-8ebb5a56fb6a_zlysqy.png",
-                          "tags": [
-                            "annotated",
-                            "aspect:square",
-                            "color:cool",
-                            "object",
-                            "image"
-                          ],
-                          "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_03472686-63d4-4669-b4f1-8ebb5a56fb6a_zlysqy"
-                        },
-                        "dateAt": "2024-03-19T00:00:00.000Z"
-                      },
-                      {
-                        "title": "Write Like a Master Storyteller",
-                        "subTitle": "Weave psychological triggers into your narratives",
-                        "slug": "storytelling-psychology",
-                        "authors": [
-                          {
-                            "fullName": "Maya Patel",
-                            "title": "Narrative Psychologist",
-                            "email": "maya@example.com",
-                            "avatar": {
-                              "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441023/arpowers_interesting_stock_profile_photo_professional_attire_Si_33bdce91-45d3-4e0e-8848-bb5eada19423_oq02a1.png",
-                              "tags": [
-                                "annotated",
-                                "aspect:square",
-                                "color:warm",
-                                "headshot",
-                                "nature",
-                                "people",
-                                "person",
-                                "woman",
-                                "image"
-                              ],
-                              "slug": "arpowers_interesting_stock_profile_photo_professional_attire_Si_33bdce91-45d3-4e0e-8848-bb5eada19423_oq02a1"
-                            }
-                          }
-                        ],
-                        "content": "\n        <article>\n          <p><em>What if</em> every piece you wrote could hold readers spellbound until the very last word? The ancient art of storytelling isn't just for novelists—it's a powerful tool for anyone sharing ideas.</p>\n\n          <h2>The Hidden Structure of Captivating Writing</h2>\n          <p>Notice how certain passages seem to pull you through them effortlessly? This isn't accident—it's psychology at work.</p>\n\n          <h3>The Three Pillars of Magnetic Writing</h3>\n          <ol>\n            <li>\n              <h4>Tension and Release</h4>\n              <p>Feel how your mind leans forward when a question is posed? Watch how master writers create tiny mysteries throughout their work, leading you paragraph by paragraph.</p>\n            </li>\n            <li>\n              <h4>Sensory Bridges</h4>\n              <p>Remember the last time a piece of writing made you feel like you were actually there? That's the power of engaging multiple senses in your descriptions.</p>\n            </li>\n            <li>\n              <h4>Emotional Resonance</h4>\n              <p>Have you noticed how the most memorable writing makes you feel something? Let's explore how to weave emotion into every paragraph.</p>\n            </li>\n          </ol>\n\n          <h3>Transform Your Next Piece</h3>\n          <p>Imagine starting your next article not with facts, but with a scene that pulls readers into your world:</p>\n\n          <blockquote>\n            <p>\"The cursor blinked accusingly on the empty screen. You know that feeling—when you have something important to say, but the words seem just out of reach...\"</p>\n          </blockquote>\n\n          <h3>The Psychology Behind the Magic</h3>\n          <ul>\n            <li>Pattern interrupts that wake up the reader's mind</li>\n            <li>Strategic curiosity gaps that pull readers forward</li>\n            <li>Memory hooks that make your ideas stick</li>\n            <li>Narrative arcs that satisfy the brain's need for completion</li>\n          </ul>\n\n          <p>What powerful story are you ready to tell? Let's make your next piece of writing unforgettable.</p>\n        </article>\n      ",
-                        "excerpt": "Master the psychological principles that make readers hang on your every word. Transform your writing from merely informative to utterly captivating.",
-                        "categories": [
-                          "Writing"
-                        ],
-                        "tags": [
-                          "psychology",
-                          "storytelling",
-                          "writing"
-                        ],
-                        "media": {
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556427/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_aa60f070-db66-40ff-9c0b-68f0b8dfaa12_rmtfzi.png",
-                          "tags": [
-                            "annotated",
-                            "aspect:tall",
-                            "color:warm",
-                            "object",
-                            "image"
-                          ],
-                          "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_aa60f070-db66-40ff-9c0b-68f0b8dfaa12_rmtfzi"
-                        },
-                        "dateAt": "2024-03-14T00:00:00.000Z"
-                      },
-                      {
-                        "title": "The Science of Memorable Ideas",
-                        "subTitle": "Why some concepts spread while others fade",
-                        "slug": "idea-memorability",
-                        "authors": [
-                          {
-                            "fullName": "David Zhang",
-                            "title": "Cognitive Science Researcher",
-                            "email": "david@example.com",
-                            "avatar": {
-                              "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441064/arpowers_incredibly_beautiful_profile_photo_of_man_business_att_b7b0bc9f-3f06-4d55-a205-5314d5c26b82_jvuipg.png",
-                              "tags": [
-                                "annotated",
-                                "aspect:landscape",
-                                "aspect:square",
-                                "color:warm",
-                                "man",
-                                "person",
-                                "image"
-                              ],
-                              "slug": "arpowers_incredibly_beautiful_profile_photo_of_man_business_att_b7b0bc9f-3f06-4d55-a205-5314d5c26b82_jvuipg"
-                            }
-                          }
-                        ],
-                        "content": "\n        <article>\n          <p><em>Consider</em> the last idea that stayed with you for days. What made it stick? The science of memorable ideas isn't about being clever—it's about understanding how the human mind processes and retains information.</p>\n\n          <h2>The Architecture of Memorable Ideas</h2>\n          <p>Watch how your mind naturally gravitates toward certain concepts while others slip away. Let's decode this fascinating process.</p>\n\n          <h3>Core Elements of Sticky Ideas</h3>\n          <ul>\n            <li>\n              <h4>The Concrete Principle</h4>\n              <p>Notice how abstract concepts become clearer when anchored to tangible examples? That's your brain's preference for the concrete over the abstract.</p>\n            </li>\n            <li>\n              <h4>The Pattern Effect</h4>\n              <p>What happens when you recognize a familiar pattern in a new context? Your brain suddenly lights up with understanding.</p>\n            </li>\n            <li>\n              <h4>The Emotion Gateway</h4>\n              <p>Remember how ideas connected to strong emotions seem to write themselves directly into your memory?</p>\n            </li>\n          </ul>\n\n          <h3>Making Your Ideas Unforgettable</h3>\n          <ol>\n            <li>\n              <h4>The Velcro Method</h4>\n              <p>Imagine your idea as a hook looking for loops in your reader's mind. What existing knowledge can you connect to?</p>\n            </li>\n            <li>\n              <h4>The Curiosity Bridge</h4>\n              <p>Feel that slight tension when a story is left unfinished? That's your brain's natural desire for completion—use it.</p>\n            </li>\n            <li>\n              <h4>The Echo Chamber</h4>\n              <p>What if your idea could replay itself in your reader's mind, getting stronger with each iteration?</p>\n            </li>\n          </ol>\n\n          <blockquote>\n            <p>\"The most memorable ideas aren't just understood—they're felt, seen, and experienced.\"</p>\n            <footer>\n              <cite>— Dr. Eleanor Hughes, Memory Researcher</cite>\n            </footer>\n          </blockquote>\n\n          <h3>Transform Your Next Idea</h3>\n          <p>Before you share your next big concept, ask yourself:</p>\n          <ul>\n            <li>Could a child understand this?</li>\n            <li>Does it connect to something people already know?</li>\n            <li>Will it make them feel something?</li>\n            <li>Can they see it in action?</li>\n          </ul>\n\n          <p>Ready to make your ideas impossible to forget? Let's build something memorable together.</p>\n        </article>\n      ",
-                        "excerpt": "Discover why some ideas stick while others slip away. Learn the cognitive science behind creating concepts that lodge themselves in memory.",
-                        "categories": [
-                          "Psychology"
-                        ],
-                        "tags": [
-                          "cognition",
-                          "memory",
-                          "communication"
-                        ],
-                        "media": {
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724550017/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5811ac26-6ab8-4125-b62f-7e8800e5bbd2_kro9o1.png",
-                          "tags": [
-                            "annotated",
-                            "color:warm",
-                            "image",
-                            "object",
-                            "aspect:wide"
-                          ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5811ac26-6ab8-4125-b62f-7e8800e5bbd2_kro9o1"
-                        },
-                        "dateAt": "2024-03-13T00:00:00.000Z"
-                      },
-                      {
-                        "title": "Email Marketing Psychology",
-                        "subTitle": "The neuroscience of inbox engagement",
-                        "slug": "email-psychology",
-                        "authors": [
-                          {
-                            "fullName": "Emma Rodriguez",
-                            "title": "Email Marketing Strategist",
-                            "email": "emma@example.com",
-                            "avatar": {
-                              "format": "video",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1733965055/replicate-prediction-8t2ew7vqahrj20ckq1d8s5wfb8_yrn9ys.mp4",
-                              "tags": [
-                                "aspect:landscape",
-                                "video",
-                                "person"
-                              ],
-                              "slug": "replicate-prediction-8t2ew7vqahrj20ckq1d8s5wfb8_yrn9ys"
-                            }
-                          }
-                        ],
-                        "content": "[Previous post content structure but focused on email marketing psychology]",
-                        "excerpt": "Unlock the psychological triggers that make emails irresistible to open and act upon. Transform your campaigns from inbox noise to anticipated value.",
-                        "categories": [
-                          "Marketing"
-                        ],
-                        "tags": [
-                          "email",
-                          "psychology",
-                          "conversion"
-                        ],
-                        "media": {
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556320/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_d84c6546-f1a3-4171-8d57-bae4de7d33cd_kyjjmy.png",
-                          "tags": [
-                            "annotated",
-                            "aspect:portrait",
-                            "color:warm",
-                            "object",
-                            "aspect:square"
-                          ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_d84c6546-f1a3-4171-8d57-bae4de7d33cd_kyjjmy"
-                        },
-                        "dateAt": "2024-03-12T00:00:00.000Z"
-                      },
-                      {
-                        "title": "Color Theory for Conversions",
-                        "subTitle": "Using color psychology to drive action",
-                        "slug": "color-psychology",
-                        "authors": [
-                          {
-                            "fullName": "James Wilson",
-                            "title": "Conversion Design Expert",
-                            "email": "james@example.com",
-                            "avatar": {
-                              "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724442516/arpowers_minimal_stock_background_for_profile_photo_professiona_517eeb25-03bc-4096-ae2c-c52c0e2fa2cb_i23rth.png",
-                              "tags": [
-                                "annotated",
-                                "aspect:landscape",
-                                "color:warm",
-                                "man",
-                                "midshot",
-                                "person",
-                                "silhouette",
-                                "technology",
-                                "image"
-                              ],
-                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_517eeb25-03bc-4096-ae2c-c52c0e2fa2cb_i23rth"
-                            }
-                          }
-                        ],
                         "content": "[Previous post content structure but focused on color psychology]",
                         "excerpt": "Master the subtle art of color psychology to create designs that don't just look good—they convert. Learn the science behind color-driven decision making.",
                         "categories": [
@@ -993,15 +984,13 @@
                         ],
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556148/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_6f69a8db-4ca2-40cb-b8bf-ec5181eb3937_dfvpef.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1733967874/arpowers_minimalist_realistic_mediterranean_scene_futuristic_an_38509819-d3c9-4946-af53-5c4b40976d76_ckg2yi.png",
                           "tags": [
-                            "annotated",
-                            "color:warm",
-                            "image",
+                            "aspect:wide",
                             "object",
-                            "aspect:wide"
+                            "color:warm"
                           ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_6f69a8db-4ca2-40cb-b8bf-ec5181eb3937_dfvpef"
+                          "slug": "arpowers_minimalist_realistic_mediterranean_scene_futuristic_an_38509819-d3c9-4946-af53-5c4b40976d76_ckg2yi"
                         },
                         "dateAt": "2024-03-11T00:00:00.000Z"
                       },
@@ -1016,17 +1005,20 @@
                             "email": "sophia@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440993/arpowers_incredibly_beautiful_profile_photo_of_man_business_a_e9012f39-4a77-408c-89ce-6ba9ec088d76_3_pckjnr.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441002/arpowers_incredibly_beautiful_profile_photo_of_woman_business_a_4d1aa14f-015f-4e9e-a7ee-6c7451cb8874_mkmvny.png",
                               "tags": [
                                 "annotated",
                                 "aspect:landscape",
                                 "aspect:square",
                                 "color:warm",
-                                "man",
+                                "nature",
+                                "people",
                                 "person",
+                                "silhouette",
+                                "woman",
                                 "image"
                               ],
-                              "slug": "arpowers_incredibly_beautiful_profile_photo_of_man_business_a_e9012f39-4a77-408c-89ce-6ba9ec088d76_3_pckjnr"
+                              "slug": "arpowers_incredibly_beautiful_profile_photo_of_woman_business_a_4d1aa14f-015f-4e9e-a7ee-6c7451cb8874_mkmvny"
                             }
                           }
                         ],
@@ -1083,13 +1075,13 @@
             "effects": []
           },
           {
-            "cardId": "crd67c62725a207419c3ae10c4b",
+            "cardId": "crd67c6557feaf61b9b5194de92",
             "templateId": "cardPageWrapV1",
             "slug": "contact",
             "cards": [
               {
-                "parentId": "crd67c62725a207419c3ae10c4b",
-                "cardId": "crd67c62725c95e4207ab021e14",
+                "parentId": "crd67c6557feaf61b9b5194de92",
+                "cardId": "crd67c6557f7c52338015077514",
                 "templateId": "cardHeroV1",
                 "userConfig": {
                   "title": "Contact Us",
@@ -1113,8 +1105,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c62725a207419c3ae10c4b",
-                "cardId": "crd67c627256b22cc17199d02a6",
+                "parentId": "crd67c6557feaf61b9b5194de92",
+                "cardId": "crd67c6557f9c25c6a8bf94c70e",
                 "templateId": "cardContactV1",
                 "userConfig": {
                   "layout": "right",
@@ -1201,8 +1193,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c62725a207419c3ae10c4b",
-                "cardId": "crd67c62725018a9c7605feea0b",
+                "parentId": "crd67c6557feaf61b9b5194de92",
+                "cardId": "crd67c6557fc4424dc5c6bdce8d",
                 "templateId": "cardMapsV1",
                 "userConfig": {
                   "maps": [
@@ -1342,13 +1334,13 @@
       "config": {
         "sections": {
           "header": {
-            "cardId": "crd67c62725e6c9bcfa8f2a5d6b",
+            "cardId": "crd67c6557f62020203cfa6b20b",
             "templateId": "cardPageAreaV1",
             "regionId": "header",
             "cards": [
               {
-                "parentId": "crd67c62725e6c9bcfa8f2a5d6b",
-                "cardId": "crd67c62725ceff21c4dfa7356f",
+                "parentId": "crd67c6557f62020203cfa6b20b",
+                "cardId": "crd67c6557f4b2bf37fdb1b7335",
                 "templateId": "cardSiteNavV1",
                 "userConfig": {
                   "standard": {
@@ -1428,13 +1420,13 @@
             "effects": []
           },
           "footer": {
-            "cardId": "crd67c62725ce20913f68e2665c",
+            "cardId": "crd67c6557f10285d9085178ed0",
             "templateId": "cardPageAreaV1",
             "regionId": "footer",
             "cards": [
               {
-                "parentId": "crd67c62725ce20913f68e2665c",
-                "cardId": "crd67c62725cdd7b1bf4975ae68",
+                "parentId": "crd67c6557f10285d9085178ed0",
+                "cardId": "crd67c6557f1d9725491dcbcb5b",
                 "templateId": "cardCtaV1",
                 "userConfig": {
                   "standard": {
@@ -1471,8 +1463,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c62725ce20913f68e2665c",
-                "cardId": "crd67c62725f43803fbdb2baaa1",
+                "parentId": "crd67c6557f10285d9085178ed0",
+                "cardId": "crd67c6557f787f1a04424d1f49",
                 "templateId": "cardFooterProV1",
                 "userConfig": {
                   "brand": {
@@ -1614,12 +1606,12 @@
             "effects": []
           },
           "hidden": {
-            "cardId": "crd67c62725eba1686cf940762c",
+            "cardId": "crd67c6557f53c5211f7ef158cc",
             "templateId": "cardPageAreaV1",
             "cards": [
               {
-                "parentId": "crd67c62725eba1686cf940762c",
-                "cardId": "crd67c627259bf03585801028b2",
+                "parentId": "crd67c6557f53c5211f7ef158cc",
+                "cardId": "crd67c6557f00fe233cbaee934f",
                 "templateId": "cardModalMediaV1",
                 "userConfig": {},
                 "regionId": "main",
@@ -1630,8 +1622,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c62725eba1686cf940762c",
-                "cardId": "crd67c627258b059806e8327aff",
+                "parentId": "crd67c6557f53c5211f7ef158cc",
+                "cardId": "crd67c6557f2ad25254aece3ba3",
                 "templateId": "cardCaptureV1",
                 "userConfig": {
                   "standard": {
@@ -1684,13 +1676,13 @@
         },
         "pages": [
           {
-            "cardId": "crd67c627259d000db8dc3b60ed",
+            "cardId": "crd67c6557fe31b3b62d99ae113",
             "templateId": "cardPageWrapV1",
             "slug": "_home",
             "cards": [
               {
-                "parentId": "crd67c627259d000db8dc3b60ed",
-                "cardId": "crd67c6272583d0c7b5e55a5503",
+                "parentId": "crd67c6557fe31b3b62d99ae113",
+                "cardId": "crd67c6557f84302afce0fe228a",
                 "templateId": "cardOverlaySliderV1",
                 "userConfig": {
                   "standard": {
@@ -1703,16 +1695,16 @@
                       "subTitle": "Where classical illusion meets modern sophistication",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441628/arpowers_minimal_stock_background_for_profile_photo_professiona_8a53bfc2-2716-4349-99f4-3828415cd280_b7jbeg.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440997/arpowers_incredibly_beautiful_profile_photo_of_woman_business_a_f766e1d7-f5fc-482e-9087-44e3cff07d66_pldzlt.png",
                         "tags": [
                           "annotated",
                           "aspect:landscape",
-                          "color:warm",
-                          "midshot",
+                          "color:cool",
                           "person",
-                          "woman"
+                          "woman",
+                          "aspect:square"
                         ],
-                        "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_8a53bfc2-2716-4349-99f4-3828415cd280_b7jbeg"
+                        "slug": "arpowers_incredibly_beautiful_profile_photo_of_woman_business_a_f766e1d7-f5fc-482e-9087-44e3cff07d66_pldzlt"
                       },
                       "textBlend": "difference"
                     },
@@ -1721,17 +1713,18 @@
                       "subTitle": "Crafting unforgettable moments of wonder for elite audiences",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1725686154/sarah-bands-headshot.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440976/arpowers_minimal_stock_background_for_profile_photo_professiona_546520de-2e14-4107-a639-598588d9c3f5_lqt6p6.png",
                         "tags": [
                           "annotated",
-                          "aspect:square",
+                          "aspect:portrait",
                           "color:warm",
                           "headshot",
-                          "realistic",
+                          "person",
+                          "silhouette",
                           "woman",
                           "image"
                         ],
-                        "slug": "sarah-bands-headshot"
+                        "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_546520de-2e14-4107-a639-598588d9c3f5_lqt6p6"
                       },
                       "textBlend": "difference"
                     },
@@ -1740,17 +1733,18 @@
                       "subTitle": "Transform your event into an extraordinary experience",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440966/arpowers_interesting_stock_profile_photo_professional_attire_Si_774e67c0-8433-42fb-800f-182ad0b02ef8_resl2l.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443255/arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_1633893b-f298-4d6a-b1eb-f02c8069fe64_za5ifd.png",
                         "tags": [
                           "annotated",
-                          "aspect:square",
+                          "aspect:landscape",
                           "color:warm",
-                          "midshot",
+                          "man",
                           "person",
+                          "wideshot",
                           "woman",
                           "image"
                         ],
-                        "slug": "arpowers_interesting_stock_profile_photo_professional_attire_Si_774e67c0-8433-42fb-800f-182ad0b02ef8_resl2l"
+                        "slug": "arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_1633893b-f298-4d6a-b1eb-f02c8069fe64_za5ifd"
                       },
                       "textBlend": "difference"
                     }
@@ -1764,8 +1758,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c627259d000db8dc3b60ed",
-                "cardId": "crd67c6272545935b8019cf2bc6",
+                "parentId": "crd67c6557fe31b3b62d99ae113",
+                "cardId": "crd67c6557f93201ecf40ee4bd2",
                 "templateId": "cardFeaturesV1",
                 "userConfig": {
                   "layout": {
@@ -1823,8 +1817,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c627259d000db8dc3b60ed",
-                "cardId": "crd67c627251d4c11d6ada07364",
+                "parentId": "crd67c6557fe31b3b62d99ae113",
+                "cardId": "crd67c6557f29845752e55fb702",
                 "templateId": "cardHeroV1",
                 "userConfig": {
                   "title": "Illusionist & Creative Director",
@@ -1852,17 +1846,18 @@
                   },
                   "media": {
                     "format": "image",
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441011/arpowers_minimal_stock_background_for_profile_photo_professiona_a37d1df3-5379-4b17-8544-5363aad3508d_o2lrtt.png",
+                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440978/arpowers_incredibly_beautiful_headshot_of_woman_business_attire_7725af67-56f7-4c3c-8a2c-9515a89d58bf_okyddt.png",
                     "tags": [
                       "annotated",
+                      "aspect:landscape",
                       "aspect:square",
                       "color:warm",
                       "person",
-                      "silhouette",
+                      "realistic",
                       "woman",
                       "image"
                     ],
-                    "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_a37d1df3-5379-4b17-8544-5363aad3508d_o2lrtt"
+                    "slug": "arpowers_incredibly_beautiful_headshot_of_woman_business_attire_7725af67-56f7-4c3c-8a2c-9515a89d58bf_okyddt"
                   }
                 },
                 "regionId": "main",
@@ -1873,8 +1868,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c627259d000db8dc3b60ed",
-                "cardId": "crd67c62725a718d13446787c32",
+                "parentId": "crd67c6557fe31b3b62d99ae113",
+                "cardId": "crd67c6557fb2a8582e1d936eaa",
                 "templateId": "cardMetricsV1",
                 "userConfig": {
                   "layout": "grid",
@@ -1912,8 +1907,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c627259d000db8dc3b60ed",
-                "cardId": "crd67c62725c5f0f24f862bece7",
+                "parentId": "crd67c6557fe31b3b62d99ae113",
+                "cardId": "crd67c6557fb5d006ea68b2a9c7",
                 "templateId": "CardParallaxScrollV1",
                 "userConfig": {
                   "standard": {
@@ -1938,15 +1933,15 @@
                       "content": "Reimagined the impossible for Google's AI showcase. Created visual metaphors where technology and magic become indistinguishable.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556192/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_430c5e7f-3b67-4286-9677-df287aa199f1_vce8s7.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556185/arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_962ef25a-cb07-4233-a1c5-b158d2c98575_rfnots.png",
                         "tags": [
                           "annotated",
-                          "aspect:landscape",
-                          "color:cool",
+                          "color:warm",
+                          "image",
                           "object",
-                          "image"
+                          "aspect:tall"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_430c5e7f-3b67-4286-9677-df287aa199f1_vce8s7"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_962ef25a-cb07-4233-a1c5-b158d2c98575_rfnots"
                       },
                       "parallaxStrength": 0.4,
                       "action": {
@@ -1963,15 +1958,15 @@
                       "content": "Lead illusion designer for Season 5. Transformed classical sleight of hand into contemporary visual storytelling.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725067/arpowers_Minimalist_futuristic_interpretation_of_a_aphrodite_el_f46ef008-6dab-4623-945e-fce9017b0f84_td7h3n.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556108/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_4f68d524-46d5-44c5-bae8-8a0a0a552fcc_fopm7x.png",
                         "tags": [
-                          "aspect:landscape",
-                          "color:warm",
+                          "annotated",
+                          "color:cool",
                           "image",
                           "object",
-                          "annotated"
+                          "aspect:wide"
                         ],
-                        "slug": "arpowers_Minimalist_futuristic_interpretation_of_a_aphrodite_el_f46ef008-6dab-4623-945e-fce9017b0f84_td7h3n"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_4f68d524-46d5-44c5-bae8-8a0a0a552fcc_fopm7x"
                       },
                       "parallaxStrength": 0.6,
                       "action": {
@@ -1988,14 +1983,15 @@
                       "content": "Crafted an intimate performance where the principles of misdirection mirror the beauty of orbital mechanics.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556494/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_fee8427e-5c76-4af3-9524-4f068caf4194_mvtypu.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725068/arpowers_minimal_mid_photo_of_famous_landmark_interesting_looki_f175193b-d8c8-451f-b5ac-78d4846cec27_s4t94r.png",
                         "tags": [
-                          "annotated",
-                          "aspect:wide",
-                          "color:warm",
-                          "object"
+                          "aspect:landscape",
+                          "color:multi",
+                          "image",
+                          "object",
+                          "annotated"
                         ],
-                        "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_fee8427e-5c76-4af3-9524-4f068caf4194_mvtypu"
+                        "slug": "arpowers_minimal_mid_photo_of_famous_landmark_interesting_looki_f175193b-d8c8-451f-b5ac-78d4846cec27_s4t94r"
                       },
                       "parallaxStrength": 0.5,
                       "action": {
@@ -2017,8 +2013,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c627259d000db8dc3b60ed",
-                "cardId": "crd67c62725096d59aee4a9bfdc",
+                "parentId": "crd67c6557fe31b3b62d99ae113",
+                "cardId": "crd67c6557ff2f092671c440534",
                 "templateId": "cardPostsListV1",
                 "userConfig": {
                   "standard": {
@@ -2055,23 +2051,20 @@
                             "title": "Data Journalist",
                             "email": "marcus@example.com",
                             "avatar": {
-                              "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443235/arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_151aeb1d-43c1-4253-9024-589479de3d89_cvvv2k.png",
+                              "format": "video",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724639820/replicate-prediction-559jvxt0y9rj40chhhxsrfm6er_zrb9u3.mp4",
                               "tags": [
-                                "annotated",
+                                "abstract",
                                 "aspect:landscape",
-                                "aspect:square",
-                                "color:cool",
-                                "midshot",
                                 "person",
-                                "woman",
-                                "image"
+                                "video",
+                                "woman"
                               ],
-                              "slug": "arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_151aeb1d-43c1-4253-9024-589479de3d89_cvvv2k"
+                              "slug": "replicate-prediction-559jvxt0y9rj40chhhxsrfm6er_zrb9u3"
                             }
                           }
                         ],
-                        "content": "\n        <article>\n          <p><em>Close your eyes and imagine</em> your data coming to life, each number transforming into a compelling story that captivates your readers. What if your charts could speak directly to your audience's deepest concerns?</p>\n\n          <h2>When Numbers Tell Tales</h2>\n          <p>Think about the last time a statistic genuinely moved you. What made it memorable? Was it the number itself, or the story it told? Let's discover how to create these moments for your readers.</p>\n\n          <div >\n            <h2>Your Data Storytelling Journey</h2>\n            <ol style=\"margin: 20px 0;\">\n              <li>\n                <h3>Find the Heart of Your Data</h3>\n                <p>Notice how raw numbers feel cold until you connect them to human experience? Start by asking: \"Why would my reader care about this?\"</p>\n              </li>\n              <li>\n                <h3>Build the Bridge</h3>\n                <p>What if you could connect your data directly to your readers' lives? Look for the personal impact in every statistic.</p>\n              </li>\n              <li>\n                <h3>Create the Aha Moment</h3>\n                <p>Remember the last time you had a sudden insight? That's what we want to create for your readers.</p>\n              </li>\n            </ol>\n          </div>\n\n          <aside >\n            <h3>Visualization Secrets Revealed</h3>\n            <ul style=\"margin: 16px 0;\">\n              <li>\n                <strong>Choose Your Story Type:</strong>\n                <p>See how different charts evoke different emotional responses? Match your visualization to your narrative.</p>\n              </li>\n              <li>\n                <strong>Simplify for Impact:</strong>\n                <p>Ever notice how the clearest charts often have the strongest impact?</p>\n              </li>\n              <li>\n                <strong>Guide the Eye:</strong>\n                <p>What catches your attention first in a visualization? Use this natural tendency to lead your readers through the data.</p>\n              </li>\n            </ul>\n          </aside>\n\n          <blockquote>\n            \"The goal isn't to tell your readers about data—it's to show them what matters. Imagine the moment they finally see what you see.\"\n            <footer style=\"margin-top: 8px;\">\n              <cite>— Marcus Lee</cite>\n            </footer>\n          </blockquote>\n\n          <p>Ready to transform your data from forgettable figures into unforgettable stories? Let's begin your journey into data storytelling mastery.</p>\n        </article>\n      ",
+                        "content": "\n        <article>\n          <p><em>Close your eyes and imagine</em> your data coming to life, each number transforming into a compelling story that captivates your readers. What if your charts could speak directly to your audience's deepest concerns?</p>\n\n          <h2>When Numbers Tell Tales</h2>\n          <p>Think about the last time a statistic genuinely moved you. What made it memorable? Was it the number itself, or the story it told? Let's discover how to create these moments for your readers.</p>\n\n          <div >\n            <h2>Your Data Storytelling Journey</h2>\n            <ol style=\"margin: 20px 0;\">\n              <li>\n                <h3>Find the Heart of Your Data</h3>\n                <p>Notice how raw numbers feel cold until you connect them to human experience? Start by asking: \"Why would my reader care about this?\"</p>\n              </li>\n              <li>\n                <h3>Build the Bridge</h3>\n                <p>What if you could connect your data directly to your readers' lives? Look for the personal impact in every statistic.</p>\n              </li>\n              <li>\n                <h3>Create the Aha Moment</h3>\n                <p>Remember the last time you had a sudden insight? That's what we want to create for your readers.</p>\n              </li>\n            </ol>\n          </div>\n\n          <aside >\n            <h3>Visualization Secrets Revealed</h3>\n            <ul>\n              <li>\n                <strong>Choose Your Story Type:</strong>\n                <p>See how different charts evoke different emotional responses? Match your visualization to your narrative.</p>\n              </li>\n              <li>\n                <strong>Simplify for Impact:</strong>\n                <p>Ever notice how the clearest charts often have the strongest impact?</p>\n              </li>\n              <li>\n                <strong>Guide the Eye:</strong>\n                <p>What catches your attention first in a visualization? Use this natural tendency to lead your readers through the data.</p>\n              </li>\n            </ul>\n          </aside>\n\n          <blockquote>\n            \"The goal isn't to tell your readers about data—it's to show them what matters. Imagine the moment they finally see what you see.\"\n            <footer style=\"margin-top: 8px;\">\n              <cite>— Marcus Lee</cite>\n            </footer>\n          </blockquote>\n\n          <p>Ready to transform your data from forgettable figures into unforgettable stories? Let's begin your journey into data storytelling mastery.</p>\n        </article>\n      ",
                         "excerpt": "Transform dry statistics into compelling narratives that your readers can't resist. Discover the storyteller hiding in your spreadsheets.",
                         "categories": [
                           "Analytics"
@@ -2083,13 +2076,13 @@
                         ],
                         "media": {
                           "format": "video",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1733965053/replicate-prediction-8201cvzxahrj20ckq1ab16ebs4_scwjtp.mp4",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724636734/replicate-prediction-98p779gk79rj00chhgpb1q8emg_zoreh0.mp4",
                           "tags": [
                             "aspect:landscape",
                             "background",
                             "video"
                           ],
-                          "slug": "replicate-prediction-8201cvzxahrj20ckq1ab16ebs4_scwjtp"
+                          "slug": "replicate-prediction-98p779gk79rj00chhgpb1q8emg_zoreh0"
                         },
                         "dateAt": "2024-03-18T00:00:00.000Z"
                       },
@@ -2104,22 +2097,21 @@
                             "email": "priya@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443251/arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_dcf90573-20b3-4e04-81f0-148536257f1a_baqmvj.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441081/arpowers_minimal_stock_background_for_profile_photo_professiona_eb177108-8f40-42aa-bb03-af178461afe4_1_v8exxm.png",
                               "tags": [
                                 "annotated",
                                 "aspect:landscape",
-                                "aspect:square",
                                 "color:warm",
+                                "man",
                                 "midshot",
                                 "person",
-                                "woman",
                                 "image"
                               ],
-                              "slug": "arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_dcf90573-20b3-4e04-81f0-148536257f1a_baqmvj"
+                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_eb177108-8f40-42aa-bb03-af178461afe4_1_v8exxm"
                             }
                           }
                         ],
-                        "content": "\n        <article>\n          <p><em>Remember the last time</em> you searched for something important? That feeling of finding exactly what you needed? That's not luck—it's strategic SEO at work. Let's make your content the answer people are searching for.</p>\n\n          <section>\n            <h2>The Truth About Modern SEO</h2>\n            <p>Forget everything you think you know about SEO. Imagine if ranking well was less about technical tricks and more about genuinely understanding your readers. Let's explore how this shift changes everything.</p>\n\n            <div >\n              <div>\n                <h3>What Search Engines See</h3>\n                <ul style=\"margin: 16px 0;\">\n                  <li>\n                    <strong>Clear Structure</strong>\n                    <p>Notice how well-organized content ranks better? It's not coincidence.</p>\n                  </li>\n                  <li>\n                    <strong>Natural Language</strong>\n                    <p>What if your keywords flowed as naturally as a conversation?</p>\n                  </li>\n                  <li>\n                    <strong>Valuable Links</strong>\n                    <p>Think of links as virtual handshakes—they build trust.</p>\n                  </li>\n                </ul>\n              </div>\n\n              <div>\n                <h3>What Readers Experience</h3>\n                <ul style=\"margin: 16px 0;\">\n                  <li>\n                    <strong>Instant Relevance</strong>\n                    <p>Feel that moment when content perfectly matches your need?</p>\n                  </li>\n                  <li>\n                    <strong>Easy Navigation</strong>\n                    <p>Imagine finding everything you need without trying.</p>\n                  </li>\n                  <li>\n                    <strong>Complete Answers</strong>\n                    <p>What if every search led to a satisfying conclusion?</p>\n                  </li>\n                </ul>\n              </div>\n            </div>\n          </section>\n\n          <aside >\n            <h3>Your SEO Transformation Checklist</h3>\n            <p>Watch how your content changes when you focus on these elements:</p>\n            <ol style=\"margin: 16px 0;\">\n              <li>Is your content answering real questions?</li>\n              <li>Could a friend understand your headlines?</li>\n              <li>Does your page structure feel natural?</li>\n              <li>Are you using terms your audience uses?</li>\n            </ol>\n          </aside>\n\n          <div>\n            <h3>The Secret Most SEO Experts Won't Tell You</h3>\n            <p>The best SEO strategy is creating content so good, so useful, that people can't help but share it. Imagine your content becoming the go-to resource in your field.</p>\n          </div>\n\n          <p>Ready to see your content climb the rankings while genuinely helping your readers? Let's make your SEO work for both search engines and humans.</p>\n        </article>\n      ",
+                        "content": "\n        <article>\n          <p><em>Remember the last time</em> you searched for something important? That feeling of finding exactly what you needed? That's not luck—it's strategic SEO at work. Let's make your content the answer people are searching for.</p>\n\n          <section>\n            <h2>The Truth About Modern SEO</h2>\n            <p>Forget everything you think you know about SEO. Imagine if ranking well was less about technical tricks and more about genuinely understanding your readers. Let's explore how this shift changes everything.</p>\n\n            <div >\n              <div>\n                <h3>What Search Engines See</h3>\n                <ul>\n                  <li>\n                    <strong>Clear Structure</strong>\n                    <p>Notice how well-organized content ranks better? It's not coincidence.</p>\n                  </li>\n                  <li>\n                    <strong>Natural Language</strong>\n                    <p>What if your keywords flowed as naturally as a conversation?</p>\n                  </li>\n                  <li>\n                    <strong>Valuable Links</strong>\n                    <p>Think of links as virtual handshakes—they build trust.</p>\n                  </li>\n                </ul>\n              </div>\n\n              <div>\n                <h3>What Readers Experience</h3>\n                <ul>\n                  <li>\n                    <strong>Instant Relevance</strong>\n                    <p>Feel that moment when content perfectly matches your need?</p>\n                  </li>\n                  <li>\n                    <strong>Easy Navigation</strong>\n                    <p>Imagine finding everything you need without trying.</p>\n                  </li>\n                  <li>\n                    <strong>Complete Answers</strong>\n                    <p>What if every search led to a satisfying conclusion?</p>\n                  </li>\n                </ul>\n              </div>\n            </div>\n          </section>\n\n          <aside >\n            <h3>Your SEO Transformation Checklist</h3>\n            <p>Watch how your content changes when you focus on these elements:</p>\n            <ol>\n              <li>Is your content answering real questions?</li>\n              <li>Could a friend understand your headlines?</li>\n              <li>Does your page structure feel natural?</li>\n              <li>Are you using terms your audience uses?</li>\n            </ol>\n          </aside>\n\n          <div>\n            <h3>The Secret Most SEO Experts Won't Tell You</h3>\n            <p>The best SEO strategy is creating content so good, so useful, that people can't help but share it. Imagine your content becoming the go-to resource in your field.</p>\n          </div>\n\n          <p>Ready to see your content climb the rankings while genuinely helping your readers? Let's make your SEO work for both search engines and humans.</p>\n        </article>\n      ",
                         "excerpt": "Stop fighting algorithms and start connecting with readers. Discover how human-centered SEO transforms your search rankings.",
                         "categories": [
                           "SEO"
@@ -2131,16 +2123,16 @@
                         ],
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724550022/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_427e4e07-b84a-40d1-9222-6b5a7a3d7352_yfp6sc.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556310/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_59c5e3d3-695e-4a03-88ac-ca87bff23762_pyzzqu.png",
                           "tags": [
                             "annotated",
+                            "aspect:portrait",
+                            "aspect:square",
                             "color:warm",
-                            "image",
-                            "man",
                             "object",
-                            "aspect:wide"
+                            "image"
                           ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_427e4e07-b84a-40d1-9222-6b5a7a3d7352_yfp6sc"
+                          "slug": "arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_59c5e3d3-695e-4a03-88ac-ca87bff23762_pyzzqu"
                         },
                         "dateAt": "2024-03-17T00:00:00.000Z"
                       },
@@ -2155,18 +2147,18 @@
                             "email": "sarah@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440991/arpowers_incredibly_beautiful_profile_photo_of_man_business_att_70ec2878-7ae3-49ff-98bc-6029a7d2b9fa_td60vp.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440983/arpowers_minimal_stock_background_for_profile_photo_professiona_e88ac2a8-eeb3-42e0-9edb-43e7361f0aaf_t6cfzb.png",
                               "tags": [
                                 "annotated",
-                                "aspect:landscape",
-                                "aspect:square",
+                                "aspect:portrait",
                                 "color:warm",
                                 "man",
                                 "midshot",
                                 "person",
+                                "silhouette",
                                 "image"
                               ],
-                              "slug": "arpowers_incredibly_beautiful_profile_photo_of_man_business_att_70ec2878-7ae3-49ff-98bc-6029a7d2b9fa_td60vp"
+                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_e88ac2a8-eeb3-42e0-9edb-43e7361f0aaf_t6cfzb"
                             }
                           }
                         ],
@@ -2182,15 +2174,15 @@
                         ],
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556499/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_1361d2ff-ef40-4af2-a3d2-a8ef4880a55d_pgbcea.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556422/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_198efc44-5a6f-4e44-8086-198356fe7544_kle0os.png",
                           "tags": [
                             "annotated",
-                            "aspect:tall",
+                            "aspect:square",
                             "color:warm",
                             "object",
                             "image"
                           ],
-                          "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_1361d2ff-ef40-4af2-a3d2-a8ef4880a55d_pgbcea"
+                          "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_198efc44-5a6f-4e44-8086-198356fe7544_kle0os"
                         },
                         "dateAt": "2024-03-20T00:00:00.000Z"
                       }
@@ -2218,13 +2210,13 @@
             "effects": []
           },
           {
-            "cardId": "crd67c6272543ebcf7f30072667",
+            "cardId": "crd67c6557fb1fabd7533db4c9f",
             "templateId": "cardPageWrapV1",
             "slug": "work",
             "cards": [
               {
-                "parentId": "crd67c6272543ebcf7f30072667",
-                "cardId": "crd67c62725ca883b46f1b4209e",
+                "parentId": "crd67c6557fb1fabd7533db4c9f",
+                "cardId": "crd67c6557f7ff1673b2c73576d",
                 "templateId": "cardHeroV1",
                 "userConfig": {
                   "title": "Portfolio of Wonder",
@@ -2251,13 +2243,15 @@
                   },
                   "media": {
                     "format": "image",
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1733967608/arpowers_minimalist_realistic_mediterranean_scene_futuristic_an_712613aa-ea34-47e5-aa5e-1a598b78f781_ql8cac.png",
+                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556144/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5c3f0980-d14a-4b5c-8b3d-982d320ec1fc_nh4j0p.png",
                     "tags": [
-                      "background",
-                      "aspect:wide",
-                      "color:warm"
+                      "annotated",
+                      "color:warm",
+                      "image",
+                      "object",
+                      "aspect:wide"
                     ],
-                    "slug": "arpowers_minimalist_realistic_mediterranean_scene_futuristic_an_712613aa-ea34-47e5-aa5e-1a598b78f781_ql8cac"
+                    "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5c3f0980-d14a-4b5c-8b3d-982d320ec1fc_nh4j0p"
                   }
                 },
                 "regionId": "main",
@@ -2268,8 +2262,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6272543ebcf7f30072667",
-                "cardId": "crd67c62725ce742e8b5bc3c247",
+                "parentId": "crd67c6557fb1fabd7533db4c9f",
+                "cardId": "crd67c6557f4401ae566fcb4c76",
                 "templateId": "cardBentoV1",
                 "userConfig": {
                   "items": [
@@ -2282,16 +2276,15 @@
                       "content": "Reimagining the future through impossible moments. A groundbreaking fusion of classical magic and artificial intelligence.",
                       "bg": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556244/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_4b9aa180-978e-48ca-b88f-7e385e01efd3_loes2x.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556422/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_198efc44-5a6f-4e44-8086-198356fe7544_kle0os.png",
                         "tags": [
                           "annotated",
-                          "aspect:portrait",
                           "aspect:square",
-                          "color:cool",
+                          "color:warm",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_4b9aa180-978e-48ca-b88f-7e385e01efd3_loes2x"
+                        "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_198efc44-5a6f-4e44-8086-198356fe7544_kle0os"
                       },
                       "cols": 6,
                       "rows": 2,
@@ -2311,15 +2304,15 @@
                       "content": "Lead illusion designer for \"The Magicians\" Season 5, bringing authenticity to modern magical storytelling.",
                       "bg": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556197/arpowers_minimal_wideshot_photo_of_object_light_and_shadows_anc_6ac8046d-d5da-4b49-a050-21a22e220176_whdppw.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556445/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_fa5deba3-358d-4d98-9bd2-798d155aee7a_ddlyns.png",
                         "tags": [
                           "annotated",
-                          "aspect:landscape",
+                          "aspect:square",
                           "color:warm",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_wideshot_photo_of_object_light_and_shadows_anc_6ac8046d-d5da-4b49-a050-21a22e220176_whdppw"
+                        "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_fa5deba3-358d-4d98-9bd2-798d155aee7a_ddlyns"
                       },
                       "cols": 3,
                       "rows": 2,
@@ -2329,16 +2322,14 @@
                       "title": "Broadway Magic",
                       "content": "Technical direction for \"The Prestige\" stage adaptation, merging Victorian illusions with contemporary theater.",
                       "bg": {
-                        "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556338/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal__55376da2-811e-4ef3-ac72-d11e2d38c691_2_faph5o.png",
+                        "format": "video",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724555276/Gen-3_Alpha_530605946_futuristic_ancient_g_Cropped_-_arpowers_m_vig5an.mp4",
                         "tags": [
-                          "annotated",
-                          "aspect:wide",
-                          "color:warm",
+                          "aspect:landscape",
                           "object",
-                          "image"
+                          "video"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal__55376da2-811e-4ef3-ac72-d11e2d38c691_2_faph5o"
+                        "slug": "Gen-3_Alpha_530605946_futuristic_ancient_g_Cropped_-_arpowers_m_vig5an"
                       },
                       "cols": 3,
                       "rows": 2,
@@ -2352,23 +2343,6 @@
                       "title": "SpaceX Executive Retreat",
                       "content": "Custom close-up performance exploring the parallels between space exploration and impossible possibilities.",
                       "media": {
-                        "format": "video",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724638588/replicate-prediction-jevb9nw2tdrj20chhhtbkat29g_ucxc1y.mp4",
-                        "tags": [
-                          "aspect:landscape",
-                          "object",
-                          "video"
-                        ],
-                        "slug": "replicate-prediction-jevb9nw2tdrj20chhhtbkat29g_ucxc1y"
-                      },
-                      "cols": 4,
-                      "rows": 3,
-                      "theme": "indigo"
-                    },
-                    {
-                      "title": "Microsoft HoloLens Launch",
-                      "content": "Magical product reveal combining classical sleight of hand with augmented reality.",
-                      "bg": {
                         "format": "image",
                         "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724550005/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_96b5594c-edbe-4d8d-8a5a-0bf228922f7f_1_rbdvce.png",
                         "tags": [
@@ -2382,6 +2356,25 @@
                       },
                       "cols": 4,
                       "rows": 3,
+                      "theme": "indigo"
+                    },
+                    {
+                      "title": "Microsoft HoloLens Launch",
+                      "content": "Magical product reveal combining classical sleight of hand with augmented reality.",
+                      "bg": {
+                        "format": "image",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556157/arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_237498ba-11da-4fbf-813d-69d9650e3c1e_hvqyv1.png",
+                        "tags": [
+                          "annotated",
+                          "color:warm",
+                          "image",
+                          "object",
+                          "aspect:wide"
+                        ],
+                        "slug": "arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_237498ba-11da-4fbf-813d-69d9650e3c1e_hvqyv1"
+                      },
+                      "cols": 4,
+                      "rows": 3,
                       "theme": "cyan"
                     },
                     {
@@ -2389,16 +2382,16 @@
                       "content": "Sold-out theater show featuring signature illusions and world premieres.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556224/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_c2a59fad-3b84-470c-a307-d9b1e8ecb3ec_zmnxet.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556315/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_a2a285ab-ee34-4037-9236-9e7a1c55e23d_nefprh.png",
                         "tags": [
                           "annotated",
-                          "aspect:landscape",
+                          "aspect:portrait",
                           "aspect:square",
-                          "color:cool",
+                          "color:warm",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_c2a59fad-3b84-470c-a307-d9b1e8ecb3ec_zmnxet"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_a2a285ab-ee34-4037-9236-9e7a1c55e23d_nefprh"
                       },
                       "verticalPosition": "top",
                       "cols": 4,
@@ -2415,8 +2408,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6272543ebcf7f30072667",
-                "cardId": "crd67c627250dd3c9e09a244cd7",
+                "parentId": "crd67c6557fb1fabd7533db4c9f",
+                "cardId": "crd67c6557fce767dae08cf280a",
                 "templateId": "cardPhotoGalleryV1",
                 "userConfig": {
                   "layout": {
@@ -2436,15 +2429,16 @@
                       "content": "Creating impossible moments for product launches and brand experiences that leave lasting impressions.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556350/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_96b5594c-edbe-4d8d-8a5a-0bf228922f7f_rqw3ey.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724555832/arpowers_minimal_midshot_photo_of_laurels_futuristic_ancient_gr_16603d41-f199-4adc-aa62-51f9248793f1_zaciyk.png",
                         "tags": [
                           "annotated",
-                          "color:cool",
-                          "image",
+                          "aspect:portrait",
+                          "aspect:square",
+                          "color:warm",
                           "object",
-                          "aspect:wide"
+                          "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_96b5594c-edbe-4d8d-8a5a-0bf228922f7f_rqw3ey"
+                        "slug": "arpowers_minimal_midshot_photo_of_laurels_futuristic_ancient_gr_16603d41-f199-4adc-aa62-51f9248793f1_zaciyk"
                       },
                       "cols": "2",
                       "theme": "blue"
@@ -2454,18 +2448,16 @@
                       "content": "Bringing authentic illusions to the screen through technical direction and performance.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556341/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_12401694-bb22-4f7b-9617-4e52872c0a66_jpfqrt.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725064/arpowers_Minimalist_futuristic_interpretation_of_a_poseiden_ele_1a9bb2c0-a94d-490b-b59a-854a1e41516f_g65add.png",
                         "tags": [
-                          "annotated",
-                          "aspect:portrait",
-                          "aspect:square",
+                          "aspect:landscape",
                           "color:warm",
-                          "nature",
+                          "image",
+                          "man",
                           "object",
-                          "people",
-                          "image"
+                          "annotated"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_12401694-bb22-4f7b-9617-4e52872c0a66_jpfqrt"
+                        "slug": "arpowers_Minimalist_futuristic_interpretation_of_a_poseiden_ele_1a9bb2c0-a94d-490b-b59a-854a1e41516f_g65add"
                       },
                       "cols": "2",
                       "theme": "emerald"
@@ -2475,15 +2467,15 @@
                       "content": "Crafting intimate magical experiences for exclusive gatherings and celebrations.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725067/arpowers_Minimalist_futuristic_interpretation_of_an_achiles_ele_8c01d18a-e42a-47b4-b59d-a07dabeb3c03_xgzujz.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556477/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_c03cbb8a-90c0-42ee-ba70-fbd127e445a4_nwguvx.png",
                         "tags": [
-                          "aspect:landscape",
+                          "annotated",
+                          "aspect:tall",
                           "color:warm",
-                          "image",
                           "object",
-                          "annotated"
+                          "image"
                         ],
-                        "slug": "arpowers_Minimalist_futuristic_interpretation_of_an_achiles_ele_8c01d18a-e42a-47b4-b59d-a07dabeb3c03_xgzujz"
+                        "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_c03cbb8a-90c0-42ee-ba70-fbd127e445a4_nwguvx"
                       },
                       "cols": "2",
                       "theme": "violet"
@@ -2493,16 +2485,16 @@
                       "content": "Theater performances that combine classical illusion with modern storytelling.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556298/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_b50e9db3-34e6-4089-be9a-5fd1584c9ebd_z61gqa.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556103/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_427e4e07-b84a-40d1-9222-6b5a7a3d7352_xus1tx.png",
                         "tags": [
                           "annotated",
-                          "aspect:portrait",
-                          "aspect:square",
                           "color:warm",
+                          "image",
+                          "man",
                           "object",
-                          "image"
+                          "aspect:wide"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_b50e9db3-34e6-4089-be9a-5fd1584c9ebd_z61gqa"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_427e4e07-b84a-40d1-9222-6b5a7a3d7352_xus1tx"
                       },
                       "cols": "2",
                       "theme": "indigo"
@@ -2512,15 +2504,15 @@
                       "content": "Behind-the-scenes magic design for entertainment and corporate clients.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556431/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gr_73a93aad-b34c-4328-8ef9-6a90f4ac55bd_3_cgpasf.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556068/arpowers_minimal_mid_shot_photo_of_item_ancient_greek_ideal_bea_2fc9cea8-00b4-47b4-957f-aa995071aaad_xekbep.png",
                         "tags": [
                           "annotated",
-                          "aspect:tall",
+                          "aspect:landscape",
                           "color:warm",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gr_73a93aad-b34c-4328-8ef9-6a90f4ac55bd_3_cgpasf"
+                        "slug": "arpowers_minimal_mid_shot_photo_of_item_ancient_greek_ideal_bea_2fc9cea8-00b4-47b4-957f-aa995071aaad_xekbep"
                       },
                       "cols": "2",
                       "theme": "cyan"
@@ -2530,15 +2522,16 @@
                       "content": "Bringing sophisticated illusion to prestigious venues worldwide.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556130/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_16ec2682-8379-4aeb-a5b6-518d10b73c68_jcjjol.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556187/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_15f06b6c-8492-4d3a-9c0b-57a9b18e839d_zoq8og.png",
                         "tags": [
                           "annotated",
+                          "aspect:landscape",
+                          "aspect:square",
                           "color:warm",
-                          "image",
                           "object",
-                          "aspect:wide"
+                          "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_16ec2682-8379-4aeb-a5b6-518d10b73c68_jcjjol"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_15f06b6c-8492-4d3a-9c0b-57a9b18e839d_zoq8og"
                       },
                       "cols": "2",
                       "theme": "rose"
@@ -2571,13 +2564,13 @@
             "effects": []
           },
           {
-            "cardId": "crd67c62725aeca754f95962915",
+            "cardId": "crd67c6557f3c1fe937e2faa517",
             "templateId": "cardPageWrapV1",
             "slug": "about",
             "cards": [
               {
-                "parentId": "crd67c62725aeca754f95962915",
-                "cardId": "crd67c6272525d631e7cbe2bc1a",
+                "parentId": "crd67c6557f3c1fe937e2faa517",
+                "cardId": "crd67c6557f37d1cb5100589d66",
                 "templateId": "cardStoryV1",
                 "userConfig": {
                   "layout": "left",
@@ -2588,11 +2581,10 @@
                       "content": "My journey began on the streets of Chicago, where the city's rich history of vaudeville and mystery first captured my imagination. At age seven, I discovered an old copy of Hoffman's Modern Magic in my grandfather's library. That weathered tome, with its cryptic illustrations and secrets, sparked a lifelong obsession with the art of the impossible.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440967/arpowers_incredibly_beautiful_profile_photo_business_attire_Sil_dd158f53-8be3-46fe-91da-e9fbda1d4516_tffnws.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441630/arpowers_minimal_stock_background_for_profile_photo_professiona_4becd944-10bc-44b4-969b-9a85b3885409_mv0js5.png",
                         "tags": [
                           "annotated",
                           "aspect:landscape",
-                          "aspect:square",
                           "color:warm",
                           "nature",
                           "people",
@@ -2601,32 +2593,12 @@
                           "woman",
                           "image"
                         ],
-                        "slug": "arpowers_incredibly_beautiful_profile_photo_business_attire_Sil_dd158f53-8be3-46fe-91da-e9fbda1d4516_tffnws"
+                        "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_4becd944-10bc-44b4-969b-9a85b3885409_mv0js5"
                       }
                     },
                     {
                       "title": "The Art of Wonder",
                       "content": "Under the mentorship of master illusionists at the McBride Magic & Mystery School, I delved deep into both classical techniques and psychological principles. Here, I learned that true magic lies not in the mechanics of deception, but in creating moments of genuine astonishment that resonate long after the performance ends.",
-                      "media": {
-                        "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556346/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_8b17dc54-1507-49d5-a510-bb773a01043f_d9gbkp.png",
-                        "tags": [
-                          "annotated",
-                          "aspect:portrait",
-                          "aspect:square",
-                          "color:warm",
-                          "man",
-                          "nature",
-                          "object",
-                          "people",
-                          "image"
-                        ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_8b17dc54-1507-49d5-a510-bb773a01043f_d9gbkp"
-                      }
-                    },
-                    {
-                      "title": "Modern Mystique",
-                      "content": "Today, I blend classical sleight of hand with contemporary presentation to create experiences that challenge the boundaries between illusion and reality. Whether consulting for major productions or performing at exclusive gatherings, my mission remains constant: to create sophisticated moments of wonder that engage both intellect and imagination.",
                       "media": {
                         "format": "image",
                         "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440971/arpowers_interesting_stock_profile_photo_professional_attire_Si_a105c699-f12d-4ecb-8015-a6272ea33c17_zwgcz2.png",
@@ -2645,6 +2617,26 @@
                         ],
                         "slug": "arpowers_interesting_stock_profile_photo_professional_attire_Si_a105c699-f12d-4ecb-8015-a6272ea33c17_zwgcz2"
                       }
+                    },
+                    {
+                      "title": "Modern Mystique",
+                      "content": "Today, I blend classical sleight of hand with contemporary presentation to create experiences that challenge the boundaries between illusion and reality. Whether consulting for major productions or performing at exclusive gatherings, my mission remains constant: to create sophisticated moments of wonder that engage both intellect and imagination.",
+                      "media": {
+                        "format": "image",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443247/arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_99e1189b-dc7a-4d84-8ef3-dfe9a657f53b_vhkhic.png",
+                        "tags": [
+                          "annotated",
+                          "aspect:landscape",
+                          "color:warm",
+                          "midshot",
+                          "nature",
+                          "people",
+                          "person",
+                          "woman",
+                          "image"
+                        ],
+                        "slug": "arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_99e1189b-dc7a-4d84-8ef3-dfe9a657f53b_vhkhic"
+                      }
                     }
                   ],
                   "standard": {
@@ -2662,8 +2654,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c62725aeca754f95962915",
-                "cardId": "crd67c62725151bd29a14859018",
+                "parentId": "crd67c6557f3c1fe937e2faa517",
+                "cardId": "crd67c6557f8670c396b04a50d0",
                 "templateId": "cardTimelineV1",
                 "userConfig": {
                   "items": [
@@ -2723,8 +2715,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c62725aeca754f95962915",
-                "cardId": "crd67c6272582b8f082bd0c6eed",
+                "parentId": "crd67c6557f3c1fe937e2faa517",
+                "cardId": "crd67c6557f0ec2dac69b679a15",
                 "templateId": "cardQuotesV1",
                 "userConfig": {
                   "items": [
@@ -2735,17 +2727,17 @@
                         "subLabel": "Master Illusionist",
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1725686123/profile-man-4_abgcuk.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1725686125/profile-man-3_pxzud9.png",
                           "tags": [
                             "annotated",
                             "aspect:square",
-                            "color:cool",
+                            "color:warm",
                             "headshot",
                             "man",
                             "realistic",
                             "image"
                           ],
-                          "slug": "profile-man-4_abgcuk"
+                          "slug": "profile-man-3_pxzud9"
                         }
                       }
                     },
@@ -2756,19 +2748,19 @@
                         "subLabel": "Innovation Director, Google",
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441023/arpowers_interesting_stock_profile_photo_professional_attire_Si_33bdce91-45d3-4e0e-8848-bb5eada19423_oq02a1.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441017/arpowers_minimal_stock_background_for_profile_photo_professiona_3be631fa-0377-4636-9d51-4e015030eed9_fhj8jk.png",
                           "tags": [
                             "annotated",
+                            "aspect:portrait",
                             "aspect:square",
                             "color:warm",
-                            "headshot",
-                            "nature",
-                            "people",
+                            "man",
                             "person",
+                            "silhouette",
                             "woman",
                             "image"
                           ],
-                          "slug": "arpowers_interesting_stock_profile_photo_professional_attire_Si_33bdce91-45d3-4e0e-8848-bb5eada19423_oq02a1"
+                          "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_3be631fa-0377-4636-9d51-4e015030eed9_fhj8jk"
                         }
                       }
                     },
@@ -2779,17 +2771,18 @@
                         "subLabel": "Executive Producer, Netflix",
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441005/arpowers_incredibly_beautiful_profile_photo_of_man_business_att_7ebcd8f4-c725-4951-a6b4-0b6a1edcfbaf_oowzv5.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441625/arpowers_minimal_stock_background_for_profile_photo_professiona_3a694c25-ee52-4e0e-932f-4efc62c2f4f0_ol7wns.png",
                           "tags": [
                             "annotated",
                             "aspect:landscape",
-                            "color:warm",
+                            "color:neutral",
+                            "headshot",
                             "man",
-                            "midshot",
                             "person",
+                            "silhouette",
                             "image"
                           ],
-                          "slug": "arpowers_incredibly_beautiful_profile_photo_of_man_business_att_7ebcd8f4-c725-4951-a6b4-0b6a1edcfbaf_oowzv5"
+                          "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_3a694c25-ee52-4e0e-932f-4efc62c2f4f0_ol7wns"
                         }
                       }
                     }
@@ -2821,21 +2814,17 @@
             "effects": []
           },
           {
-            "cardId": "crd67c62725962c3a2c3311ac30",
+            "cardId": "crd67c6557f582153bdc25a8e38",
             "templateId": "cardPageWrapV1",
             "slug": "blog",
             "cards": [
               {
-                "parentId": "crd67c62725962c3a2c3311ac30",
-                "cardId": "crd67c62725a04eb2076c32630a",
+                "parentId": "crd67c6557f582153bdc25a8e38",
+                "cardId": "crd67c6557f203649f164c2bd04",
                 "templateId": "cardPostsMagazineV1",
                 "userConfig": {
                   "standard": {
-                    "showOnSingle": true,
-                    "headers": {
-                      "title": "Latest Articles",
-                      "subTitle": "Discover our latest insights and stories"
-                    }
+                    "showOnSingle": true
                   },
                   "posts": {
                     "format": "standard",
@@ -2852,22 +2841,21 @@
                             "email": "marcus@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441071/arpowers_incredibly_beautiful_headshot_of_woman_business_attire_8cb13179-584f-4336-b1e8-c163e2f0df17_suesjf.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440968/arpowers_minimal_stock_background_for_profile_photo_professiona_78720aee-9795-4ac4-bca9-e6188591bf0a_n5u7ny.png",
                               "tags": [
                                 "annotated",
                                 "aspect:landscape",
-                                "color:warm",
-                                "headshot",
+                                "color:neutral",
+                                "man",
+                                "midshot",
                                 "person",
-                                "realistic",
-                                "woman",
                                 "image"
                               ],
-                              "slug": "arpowers_incredibly_beautiful_headshot_of_woman_business_attire_8cb13179-584f-4336-b1e8-c163e2f0df17_suesjf"
+                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_78720aee-9795-4ac4-bca9-e6188591bf0a_n5u7ny"
                             }
                           }
                         ],
-                        "content": "\n        <article>\n          <p><em>Close your eyes and imagine</em> your data coming to life, each number transforming into a compelling story that captivates your readers. What if your charts could speak directly to your audience's deepest concerns?</p>\n\n          <h2>When Numbers Tell Tales</h2>\n          <p>Think about the last time a statistic genuinely moved you. What made it memorable? Was it the number itself, or the story it told? Let's discover how to create these moments for your readers.</p>\n\n          <div >\n            <h2>Your Data Storytelling Journey</h2>\n            <ol style=\"margin: 20px 0;\">\n              <li>\n                <h3>Find the Heart of Your Data</h3>\n                <p>Notice how raw numbers feel cold until you connect them to human experience? Start by asking: \"Why would my reader care about this?\"</p>\n              </li>\n              <li>\n                <h3>Build the Bridge</h3>\n                <p>What if you could connect your data directly to your readers' lives? Look for the personal impact in every statistic.</p>\n              </li>\n              <li>\n                <h3>Create the Aha Moment</h3>\n                <p>Remember the last time you had a sudden insight? That's what we want to create for your readers.</p>\n              </li>\n            </ol>\n          </div>\n\n          <aside >\n            <h3>Visualization Secrets Revealed</h3>\n            <ul style=\"margin: 16px 0;\">\n              <li>\n                <strong>Choose Your Story Type:</strong>\n                <p>See how different charts evoke different emotional responses? Match your visualization to your narrative.</p>\n              </li>\n              <li>\n                <strong>Simplify for Impact:</strong>\n                <p>Ever notice how the clearest charts often have the strongest impact?</p>\n              </li>\n              <li>\n                <strong>Guide the Eye:</strong>\n                <p>What catches your attention first in a visualization? Use this natural tendency to lead your readers through the data.</p>\n              </li>\n            </ul>\n          </aside>\n\n          <blockquote>\n            \"The goal isn't to tell your readers about data—it's to show them what matters. Imagine the moment they finally see what you see.\"\n            <footer style=\"margin-top: 8px;\">\n              <cite>— Marcus Lee</cite>\n            </footer>\n          </blockquote>\n\n          <p>Ready to transform your data from forgettable figures into unforgettable stories? Let's begin your journey into data storytelling mastery.</p>\n        </article>\n      ",
+                        "content": "\n        <article>\n          <p><em>Close your eyes and imagine</em> your data coming to life, each number transforming into a compelling story that captivates your readers. What if your charts could speak directly to your audience's deepest concerns?</p>\n\n          <h2>When Numbers Tell Tales</h2>\n          <p>Think about the last time a statistic genuinely moved you. What made it memorable? Was it the number itself, or the story it told? Let's discover how to create these moments for your readers.</p>\n\n          <div >\n            <h2>Your Data Storytelling Journey</h2>\n            <ol style=\"margin: 20px 0;\">\n              <li>\n                <h3>Find the Heart of Your Data</h3>\n                <p>Notice how raw numbers feel cold until you connect them to human experience? Start by asking: \"Why would my reader care about this?\"</p>\n              </li>\n              <li>\n                <h3>Build the Bridge</h3>\n                <p>What if you could connect your data directly to your readers' lives? Look for the personal impact in every statistic.</p>\n              </li>\n              <li>\n                <h3>Create the Aha Moment</h3>\n                <p>Remember the last time you had a sudden insight? That's what we want to create for your readers.</p>\n              </li>\n            </ol>\n          </div>\n\n          <aside >\n            <h3>Visualization Secrets Revealed</h3>\n            <ul>\n              <li>\n                <strong>Choose Your Story Type:</strong>\n                <p>See how different charts evoke different emotional responses? Match your visualization to your narrative.</p>\n              </li>\n              <li>\n                <strong>Simplify for Impact:</strong>\n                <p>Ever notice how the clearest charts often have the strongest impact?</p>\n              </li>\n              <li>\n                <strong>Guide the Eye:</strong>\n                <p>What catches your attention first in a visualization? Use this natural tendency to lead your readers through the data.</p>\n              </li>\n            </ul>\n          </aside>\n\n          <blockquote>\n            \"The goal isn't to tell your readers about data—it's to show them what matters. Imagine the moment they finally see what you see.\"\n            <footer style=\"margin-top: 8px;\">\n              <cite>— Marcus Lee</cite>\n            </footer>\n          </blockquote>\n\n          <p>Ready to transform your data from forgettable figures into unforgettable stories? Let's begin your journey into data storytelling mastery.</p>\n        </article>\n      ",
                         "excerpt": "Transform dry statistics into compelling narratives that your readers can't resist. Discover the storyteller hiding in your spreadsheets.",
                         "categories": [
                           "Analytics"
@@ -2878,14 +2866,14 @@
                           "visualization"
                         ],
                         "media": {
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1733967332/arpowers_minimalist_realistic_mediterranean_scene_futuristic_an_cc45fa22-6d51-49c9-bd97-91bd9f334ee4_jzxctd.png",
+                          "format": "video",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724634905/replicate-prediction-jch406tws9rj40chhgya0y8tc8_ykfz5l.mp4",
                           "tags": [
+                            "aspect:landscape",
                             "background",
-                            "aspect:wide",
-                            "color:warm"
+                            "video"
                           ],
-                          "slug": "arpowers_minimalist_realistic_mediterranean_scene_futuristic_an_cc45fa22-6d51-49c9-bd97-91bd9f334ee4_jzxctd"
+                          "slug": "replicate-prediction-jch406tws9rj40chhgya0y8tc8_ykfz5l"
                         },
                         "dateAt": "2024-03-18T00:00:00.000Z"
                       },
@@ -2900,22 +2888,24 @@
                             "email": "priya@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441028/arpowers_incredibly_beautiful_profile_photo_of_man_business_att_b0083721-ba4c-4499-8853-52422401ee30_iucdcx.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440975/arpowers_minimal_stock_background_for_profile_photo_professiona_ade3f441-2a5d-4523-8d1d-d90d6b46767b_s0jyx2.png",
                               "tags": [
                                 "annotated",
-                                "aspect:landscape",
+                                "aspect:portrait",
                                 "aspect:square",
                                 "color:warm",
+                                "headshot",
                                 "man",
                                 "person",
                                 "silhouette",
+                                "woman",
                                 "image"
                               ],
-                              "slug": "arpowers_incredibly_beautiful_profile_photo_of_man_business_att_b0083721-ba4c-4499-8853-52422401ee30_iucdcx"
+                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_ade3f441-2a5d-4523-8d1d-d90d6b46767b_s0jyx2"
                             }
                           }
                         ],
-                        "content": "\n        <article>\n          <p><em>Remember the last time</em> you searched for something important? That feeling of finding exactly what you needed? That's not luck—it's strategic SEO at work. Let's make your content the answer people are searching for.</p>\n\n          <section>\n            <h2>The Truth About Modern SEO</h2>\n            <p>Forget everything you think you know about SEO. Imagine if ranking well was less about technical tricks and more about genuinely understanding your readers. Let's explore how this shift changes everything.</p>\n\n            <div >\n              <div>\n                <h3>What Search Engines See</h3>\n                <ul style=\"margin: 16px 0;\">\n                  <li>\n                    <strong>Clear Structure</strong>\n                    <p>Notice how well-organized content ranks better? It's not coincidence.</p>\n                  </li>\n                  <li>\n                    <strong>Natural Language</strong>\n                    <p>What if your keywords flowed as naturally as a conversation?</p>\n                  </li>\n                  <li>\n                    <strong>Valuable Links</strong>\n                    <p>Think of links as virtual handshakes—they build trust.</p>\n                  </li>\n                </ul>\n              </div>\n\n              <div>\n                <h3>What Readers Experience</h3>\n                <ul style=\"margin: 16px 0;\">\n                  <li>\n                    <strong>Instant Relevance</strong>\n                    <p>Feel that moment when content perfectly matches your need?</p>\n                  </li>\n                  <li>\n                    <strong>Easy Navigation</strong>\n                    <p>Imagine finding everything you need without trying.</p>\n                  </li>\n                  <li>\n                    <strong>Complete Answers</strong>\n                    <p>What if every search led to a satisfying conclusion?</p>\n                  </li>\n                </ul>\n              </div>\n            </div>\n          </section>\n\n          <aside >\n            <h3>Your SEO Transformation Checklist</h3>\n            <p>Watch how your content changes when you focus on these elements:</p>\n            <ol style=\"margin: 16px 0;\">\n              <li>Is your content answering real questions?</li>\n              <li>Could a friend understand your headlines?</li>\n              <li>Does your page structure feel natural?</li>\n              <li>Are you using terms your audience uses?</li>\n            </ol>\n          </aside>\n\n          <div>\n            <h3>The Secret Most SEO Experts Won't Tell You</h3>\n            <p>The best SEO strategy is creating content so good, so useful, that people can't help but share it. Imagine your content becoming the go-to resource in your field.</p>\n          </div>\n\n          <p>Ready to see your content climb the rankings while genuinely helping your readers? Let's make your SEO work for both search engines and humans.</p>\n        </article>\n      ",
+                        "content": "\n        <article>\n          <p><em>Remember the last time</em> you searched for something important? That feeling of finding exactly what you needed? That's not luck—it's strategic SEO at work. Let's make your content the answer people are searching for.</p>\n\n          <section>\n            <h2>The Truth About Modern SEO</h2>\n            <p>Forget everything you think you know about SEO. Imagine if ranking well was less about technical tricks and more about genuinely understanding your readers. Let's explore how this shift changes everything.</p>\n\n            <div >\n              <div>\n                <h3>What Search Engines See</h3>\n                <ul>\n                  <li>\n                    <strong>Clear Structure</strong>\n                    <p>Notice how well-organized content ranks better? It's not coincidence.</p>\n                  </li>\n                  <li>\n                    <strong>Natural Language</strong>\n                    <p>What if your keywords flowed as naturally as a conversation?</p>\n                  </li>\n                  <li>\n                    <strong>Valuable Links</strong>\n                    <p>Think of links as virtual handshakes—they build trust.</p>\n                  </li>\n                </ul>\n              </div>\n\n              <div>\n                <h3>What Readers Experience</h3>\n                <ul>\n                  <li>\n                    <strong>Instant Relevance</strong>\n                    <p>Feel that moment when content perfectly matches your need?</p>\n                  </li>\n                  <li>\n                    <strong>Easy Navigation</strong>\n                    <p>Imagine finding everything you need without trying.</p>\n                  </li>\n                  <li>\n                    <strong>Complete Answers</strong>\n                    <p>What if every search led to a satisfying conclusion?</p>\n                  </li>\n                </ul>\n              </div>\n            </div>\n          </section>\n\n          <aside >\n            <h3>Your SEO Transformation Checklist</h3>\n            <p>Watch how your content changes when you focus on these elements:</p>\n            <ol>\n              <li>Is your content answering real questions?</li>\n              <li>Could a friend understand your headlines?</li>\n              <li>Does your page structure feel natural?</li>\n              <li>Are you using terms your audience uses?</li>\n            </ol>\n          </aside>\n\n          <div>\n            <h3>The Secret Most SEO Experts Won't Tell You</h3>\n            <p>The best SEO strategy is creating content so good, so useful, that people can't help but share it. Imagine your content becoming the go-to resource in your field.</p>\n          </div>\n\n          <p>Ready to see your content climb the rankings while genuinely helping your readers? Let's make your SEO work for both search engines and humans.</p>\n        </article>\n      ",
                         "excerpt": "Stop fighting algorithms and start connecting with readers. Discover how human-centered SEO transforms your search rankings.",
                         "categories": [
                           "SEO"
@@ -2927,15 +2917,16 @@
                         ],
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725068/arpowers_Minimalist_futuristic_interpretation_of_an_zeus_elegan_ce9febc4-733e-49e2-976f-8e1f321407c4_fhmivm.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556206/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_c954fed0-a698-4b95-8470-e8a0541b0b55_qkrjxn.png",
                           "tags": [
+                            "annotated",
                             "aspect:landscape",
-                            "color:warm",
-                            "image",
+                            "aspect:square",
+                            "color:cool",
                             "object",
-                            "annotated"
+                            "image"
                           ],
-                          "slug": "arpowers_Minimalist_futuristic_interpretation_of_an_zeus_elegan_ce9febc4-733e-49e2-976f-8e1f321407c4_fhmivm"
+                          "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_c954fed0-a698-4b95-8470-e8a0541b0b55_qkrjxn"
                         },
                         "dateAt": "2024-03-17T00:00:00.000Z"
                       },
@@ -2950,17 +2941,16 @@
                             "email": "sarah@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441633/arpowers_minimal_stock_background_for_profile_photo_professiona_5f1b25ee-d128-4c8e-8097-9628d186d288_ocelul.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440981/arpowers_incredibly_beautiful_headshot_of_man_business_attire_S_b6072062-5193-4028-8e73-60084ce9ccba_zbflsl.png",
                               "tags": [
                                 "annotated",
                                 "aspect:landscape",
-                                "color:cool",
+                                "color:neutral",
                                 "man",
                                 "person",
-                                "silhouette",
                                 "image"
                               ],
-                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_5f1b25ee-d128-4c8e-8097-9628d186d288_ocelul"
+                              "slug": "arpowers_incredibly_beautiful_headshot_of_man_business_attire_S_b6072062-5193-4028-8e73-60084ce9ccba_zbflsl"
                             }
                           }
                         ],
@@ -2976,15 +2966,16 @@
                         ],
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556320/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_d84c6546-f1a3-4171-8d57-bae4de7d33cd_kyjjmy.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556239/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5f99902c-0878-4f99-b1e9-0f9585c5faf7_nrgfic.png",
                           "tags": [
                             "annotated",
                             "aspect:portrait",
+                            "aspect:square",
                             "color:warm",
                             "object",
-                            "aspect:square"
+                            "image"
                           ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_d84c6546-f1a3-4171-8d57-bae4de7d33cd_kyjjmy"
+                          "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5f99902c-0878-4f99-b1e9-0f9585c5faf7_nrgfic"
                         },
                         "dateAt": "2024-03-20T00:00:00.000Z"
                       }
@@ -3011,13 +3002,13 @@
             "effects": []
           },
           {
-            "cardId": "crd67c627259484ee4c1fc61b18",
+            "cardId": "crd67c6557fc10cefa9e320bfa0",
             "templateId": "cardPageWrapV1",
             "slug": "contact",
             "cards": [
               {
-                "parentId": "crd67c627259484ee4c1fc61b18",
-                "cardId": "crd67c62725dad64266a464bc8a",
+                "parentId": "crd67c6557fc10cefa9e320bfa0",
+                "cardId": "crd67c6557fed57d69fc6381578",
                 "templateId": "cardHeroV1",
                 "userConfig": {
                   "title": "Enter Your Title",
@@ -3034,8 +3025,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c627259484ee4c1fc61b18",
-                "cardId": "crd67c627251d00c7d2738e5834",
+                "parentId": "crd67c6557fc10cefa9e320bfa0",
+                "cardId": "crd67c6557f44a5a9c5b39ccec3",
                 "templateId": "cardContactV1",
                 "userConfig": {
                   "layout": "right",
@@ -3122,8 +3113,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c627259484ee4c1fc61b18",
-                "cardId": "crd67c627256287c2deb6c7d157",
+                "parentId": "crd67c6557fc10cefa9e320bfa0",
+                "cardId": "crd67c6557f6af74890fc26a055",
                 "templateId": "cardMapsV1",
                 "userConfig": {
                   "maps": [
@@ -3254,13 +3245,13 @@
       "config": {
         "sections": {
           "header": {
-            "cardId": "crd67c627251fbbbdae38991b2b",
+            "cardId": "crd67c6557fa7880c979533df87",
             "templateId": "cardPageAreaV1",
             "regionId": "header",
             "cards": [
               {
-                "parentId": "crd67c627251fbbbdae38991b2b",
-                "cardId": "crd67c627254c2a049b2a86eb8e",
+                "parentId": "crd67c6557fa7880c979533df87",
+                "cardId": "crd67c6557fb4fe8116078f143d",
                 "templateId": "cardSiteNavV1",
                 "userConfig": {
                   "standard": {
@@ -3298,13 +3289,13 @@
             "effects": []
           },
           "footer": {
-            "cardId": "crd67c627254a39879100f44b26",
+            "cardId": "crd67c6557f9613f82d3f09bdba",
             "templateId": "cardPageAreaV1",
             "regionId": "footer",
             "cards": [
               {
-                "parentId": "crd67c627254a39879100f44b26",
-                "cardId": "crd67c6272516c1264c3660d17d",
+                "parentId": "crd67c6557f9613f82d3f09bdba",
+                "cardId": "crd67c6557f6624ce2edfb9135e",
                 "templateId": "cardFooterPersonalV1",
                 "userConfig": {
                   "brand": {
@@ -3343,12 +3334,12 @@
             "effects": []
           },
           "hidden": {
-            "cardId": "crd67c6272590dafc784a50b9ce",
+            "cardId": "crd67c6557fd64a8501287fd027",
             "templateId": "cardPageAreaV1",
             "cards": [
               {
-                "parentId": "crd67c6272590dafc784a50b9ce",
-                "cardId": "crd67c62725c7ddf22641603276",
+                "parentId": "crd67c6557fd64a8501287fd027",
+                "cardId": "crd67c6557f96b6359c3c0a2636",
                 "templateId": "cardModalMediaV1",
                 "userConfig": {},
                 "regionId": "main",
@@ -3359,8 +3350,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6272590dafc784a50b9ce",
-                "cardId": "crd67c6272519f74d562bb57914",
+                "parentId": "crd67c6557fd64a8501287fd027",
+                "cardId": "crd67c6557ff202c5ca3e931ccc",
                 "templateId": "cardTextEffectV1",
                 "userConfig": {},
                 "regionId": "main",
@@ -3371,8 +3362,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6272590dafc784a50b9ce",
-                "cardId": "crd67c6272581988cbeab7acd3b",
+                "parentId": "crd67c6557fd64a8501287fd027",
+                "cardId": "crd67c6557f983c8961b3f2951b",
                 "templateId": "cardCaptureV1",
                 "userConfig": {
                   "standard": {
@@ -3425,13 +3416,13 @@
         },
         "pages": [
           {
-            "cardId": "crd67c6272583233a8424715d4e",
+            "cardId": "crd67c6557fc615b224258622fb",
             "templateId": "cardPageWrapV1",
             "slug": "_home",
             "cards": [
               {
-                "parentId": "crd67c6272583233a8424715d4e",
-                "cardId": "crd67c62725cc4efdfae1862642",
+                "parentId": "crd67c6557fc615b224258622fb",
+                "cardId": "crd67c6557ff6f336ff4f798eca",
                 "templateId": "cardHeroV1",
                 "userConfig": {
                   "title": "Hello World",

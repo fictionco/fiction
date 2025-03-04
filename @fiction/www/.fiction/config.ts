@@ -45,6 +45,7 @@ export interface CompiledServiceConfig {
     | 'STRIPE_SECRET_KEY_TEST'
     | 'TOKEN_SECRET'
     | 'UNSPLASH_ACCESS_KEY'
+    | 'XAI_API_KEY'
   routes: 'engine' | 'renderTest'
   menus: ''
   endpoints:

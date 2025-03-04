@@ -66,13 +66,34 @@ const envVarNames = [
   'FLY_API_TOKEN',
   'OPENAI_API_KEY',
   'ANTHROPIC_API_KEY',
+  'XAI_API_KEY',
   'REDIS_URL',
   'APOLLO_API_KEY',
   'CLICKHOUSE_URL',
 ] as const
 
 const v = getEnvVars(fictionEnv, envVarNames)
-const { redisUrl, apolloApiKey, flyApiToken, googleClientId, googleClientSecret, tokenSecret, postgresUrl, smtpHost, smtpPassword, smtpUser, slackWebhookUrl, sentryPublicDsn, awsAccessKey, awsBucketMedia, clickhouseUrl, awsAccessKeySecret, openaiApiKey, anthropicApiKey } = v
+const {
+  redisUrl,
+  apolloApiKey,
+  flyApiToken,
+  googleClientId,
+  googleClientSecret,
+  tokenSecret,
+  postgresUrl,
+  smtpHost,
+  smtpPassword,
+  smtpUser,
+  slackWebhookUrl,
+  sentryPublicDsn,
+  awsAccessKey,
+  awsBucketMedia,
+  clickhouseUrl,
+  awsAccessKeySecret,
+  openaiApiKey,
+  anthropicApiKey,
+  xaiApiKey,
+} = v
 
 const comboPort = +fictionEnv.var('APP_PORT')
 
@@ -147,7 +168,7 @@ const basicService = { ...base, fictionRevision, fictionUser, fictionMonitor, fi
 const fictionAws = new FictionAws({ ...basicService, awsAccessKey, awsAccessKeySecret })
 const fictionMedia = new FictionMedia({ ...basicService, fictionAws, awsBucketMedia, cdnUrl: `https://media.fiction.com` })
 const fictionTransactions = new FictionTransactions({ ...basicService, fictionMedia })
-const fictionAi = new FictionAi({ ...basicService, fictionMedia, openaiApiKey, anthropicApiKey })
+const fictionAi = new FictionAi({ ...basicService, fictionMedia, openaiApiKey, anthropicApiKey, xaiApiKey })
 const fictionStripe = new FictionStripe({
   ...basicService,
   secretKeyLive: fictionEnv.var('STRIPE_SECRET_KEY_PROD'),

@@ -95,8 +95,6 @@ export class ContentCommand {
 
      ${this.getObjectivesInstruction(objectives)}
   </content_guidelines>
-
-   ${this.IMAGE_INSTRUCTION}
   `,
     }
   }

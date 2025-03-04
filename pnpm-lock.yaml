@@ -90,7 +90,7 @@ importers:
         version: 6.2.0(@types/node@22.13.9)(jiti@1.21.7)(less@4.2.2)(tsx@4.19.3)(yaml@2.7.0)
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.13.9)(@vitest/browser@3.0.7)(@vitest/ui@3.0.7)(happy-dom@17.1.8)(jiti@1.21.7)(jsdom@26.0.0)(less@4.2.2)(msw@2.7.3(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.13.9)(@vitest/browser@3.0.7)(@vitest/ui@3.0.7)(happy-dom@17.1.9)(jiti@1.21.7)(jsdom@26.0.0)(less@4.2.2)(msw@2.7.3(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.8.2)
@@ -132,8 +132,8 @@ importers:
         specifier: ^9.21.0
         version: 9.21.0(jiti@1.21.7)
       happy-dom:
-        specifier: ^17.1.8
-        version: 17.1.8
+        specifier: ^17.1.9
+        version: 17.1.9
       jsdom:
         specifier: ^26.0.0
         version: 26.0.0
@@ -525,8 +525,8 @@ importers:
         specifier: ^4.7.8
         version: 4.7.8
       happy-dom:
-        specifier: ^17.1.8
-        version: 17.1.8
+        specifier: ^17.1.9
+        version: 17.1.9
       helmet:
         specifier: ^8.0.0
         version: 8.0.0
@@ -894,6 +894,9 @@ importers:
       '@ai-sdk/openai':
         specifier: ^1.2.0
         version: 1.2.0(zod@3.24.2)
+      '@ai-sdk/xai':
+        specifier: ^1.1.12
+        version: 1.1.12(zod@3.24.2)
       '@fiction/core':
         specifier: workspace:*
         version: link:../../core
@@ -1483,6 +1486,12 @@ packages:
     peerDependencies:
       zod: ^3.0.0
 
+  '@ai-sdk/openai-compatible@0.1.12':
+    resolution: {integrity: sha512-2bMhAEeiRz4lbW5ixjGjbPhwyqjtujkjLVpqqtqWvvUDvtUM3cw1go9pqWFgaNKSBDaXRUfi8mkAVrn1yRuY2A==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.0.0
+
   '@ai-sdk/openai@1.2.0':
     resolution: {integrity: sha512-tzxH6OxKL5ffts4zJPdziQSJGGpSrQcJmuSrE92jCt7pJ4PAU5Dx4tjNNFIU8lSfwarLnywejZEt3Fz0uQZZOQ==}
     engines: {node: '>=18'}
@@ -1531,6 +1540,12 @@ packages:
     peerDependenciesMeta:
       vue:
         optional: true
+
+  '@ai-sdk/xai@1.1.12':
+    resolution: {integrity: sha512-e60KtMDOR7vGV7hPpsar4jY6sw6sUSI6zpCVDQEkVv6B0MUzD1s5DQnCvo6+hnqVjZJHgktIFvc5QwnpVZkXPw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.0.0
 
   '@algolia/autocomplete-core@1.17.7':
     resolution: {integrity: sha512-BjiPOW6ks90UKl7TwMv7oNQMnzU+t/wk9mgIDi6b1tXpUek7MW0lbNOUHpvam9pe3lVCf4xPFT+lK7s+e+fs7Q==}
@@ -4939,8 +4954,8 @@ packages:
     resolution: {integrity: sha512-v+p6ongsrp0yTGbJXjgxPow2+DL93DASP4kXCDKb8/bwRtt9OEF3whggkkDkGNzgcWy2XaF4a8nZglC7uElscg==}
     engines: {node: '>=8'}
 
-  cacheable@1.8.8:
-    resolution: {integrity: sha512-OE1/jlarWxROUIpd0qGBSKFLkNsotY8pt4GeiVErUYh/NUeTNrT+SBksUgllQv4m6a0W/VZsLuiHb88maavqEw==}
+  cacheable@1.8.9:
+    resolution: {integrity: sha512-FicwAUyWnrtnd4QqYAoRlNs44/a1jTL7XDKqm5gJ90wz1DQPlC7U2Rd1Tydpv+E7WAr4sQHuw8Q8M3nZMAyecQ==}
 
   call-bind-apply-helpers@1.0.2:
     resolution: {integrity: sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==}
@@ -5600,8 +5615,8 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
-  electron-to-chromium@1.5.110:
-    resolution: {integrity: sha512-/p/OvOm6AfLtQteAHTUWwf+Vhh76PlluagzQlSnxMoOJ4R6SmAScWBrVev6rExJoUhP9zudN9+lBxoYUEmC1HQ==}
+  electron-to-chromium@1.5.111:
+    resolution: {integrity: sha512-vJyJlO95wQRAw6K2ZGF/8nol7AcbCOnp8S6H91mwOOBbXoS9seDBYxCTPYAFsvXLxl3lc0jLXXe9GLxC4nXVog==}
 
   elliptic@6.6.1:
     resolution: {integrity: sha512-RaddvvMatK2LJHqFJ+YA4WysVN5Ita9E35botqIYspQ4TkRAlCicdzKOjlyv/1Za5RyTNn7di//eEV0uTAfe3g==}
@@ -6046,8 +6061,8 @@ packages:
     resolution: {integrity: sha512-d+l3qxjSesT4V7v2fh+QnmFnUWv9lSpjarhShNTgBOfA0ttejbQUAlHLitbjkoRiDulW0OPoQPYIGhIC8ohejg==}
     engines: {node: '>=18'}
 
-  file-entry-cache@10.0.6:
-    resolution: {integrity: sha512-0wvv16mVo9nN0Md3k7DMjgAPKG/TY4F/gYMBVb/wMThFRJvzrpaqBFqF6km9wf8QfYTN+mNg5aeaBLfy8k35uA==}
+  file-entry-cache@10.0.7:
+    resolution: {integrity: sha512-txsf5fu3anp2ff3+gOJJzRImtrtm/oa9tYLN0iTuINZ++EyVR/nRrg2fKYwvG/pXDofcrvvb0scEbX3NyW/COw==}
 
   file-entry-cache@8.0.0:
     resolution: {integrity: sha512-XXTUwCvisa5oacNGRP9SfNtYBNAMi+RPwBFmblZEF7N7swHYQS6/Zfk7SRwx4D5j3CH211YNRco1DEMNVfZCnQ==}
@@ -6087,8 +6102,8 @@ packages:
     resolution: {integrity: sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw==}
     engines: {node: '>=16'}
 
-  flat-cache@6.1.6:
-    resolution: {integrity: sha512-F+CKgSwp0pzLx67u+Zy1aCueVWFAHWbXepvXlZ+bWVTaASbm5SyCnSJ80Fp1ePEmS57wU+Bf6cx6525qtMZ4lQ==}
+  flat-cache@6.1.7:
+    resolution: {integrity: sha512-qwZ4xf1v1m7Rc9XiORly31YaChvKt6oNVHuqqZcoED/7O+ToyNVGobKsIAopY9ODcWpEDKEBAbrSOCBHtNQvew==}
 
   flatted@3.3.3:
     resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
@@ -6370,8 +6385,8 @@ packages:
     engines: {node: '>=0.4.7'}
     hasBin: true
 
-  happy-dom@17.1.8:
-    resolution: {integrity: sha512-Yxbq/FG79z1rhAf/iB6YM8wO2JB/JDQBy99RiLSs+2siEAi5J05x9eW1nnASHZJbpldjJE2KuFLsLZ+AzX/IxA==}
+  happy-dom@17.1.9:
+    resolution: {integrity: sha512-HL26ajjMVe/wr3xlzjF0sCPCiAKaZJcIRFZHmG4yKHRJp4YAkHPG5X6GfWxCeDTpOmuHhNiOyNKUoZjjnm0tjw==}
     engines: {node: '>=18.0.0'}
 
   hard-rejection@2.1.0:
@@ -9886,6 +9901,12 @@ snapshots:
       '@ai-sdk/provider-utils': 2.1.10(zod@3.24.2)
       zod: 3.24.2
 
+  '@ai-sdk/openai-compatible@0.1.12(zod@3.24.2)':
+    dependencies:
+      '@ai-sdk/provider': 1.0.9
+      '@ai-sdk/provider-utils': 2.1.10(zod@3.24.2)
+      zod: 3.24.2
+
   '@ai-sdk/openai@1.2.0(zod@3.24.2)':
     dependencies:
       '@ai-sdk/provider': 1.0.9
@@ -9932,6 +9953,13 @@ snapshots:
       vue: 3.5.13(typescript@5.8.2)
     transitivePeerDependencies:
       - zod
+
+  '@ai-sdk/xai@1.1.12(zod@3.24.2)':
+    dependencies:
+      '@ai-sdk/openai-compatible': 0.1.12(zod@3.24.2)
+      '@ai-sdk/provider': 1.0.9
+      '@ai-sdk/provider-utils': 2.1.10(zod@3.24.2)
+      zod: 3.24.2
 
   '@algolia/autocomplete-core@1.17.7(@algolia/client-search@5.20.3)(algoliasearch@5.20.3)(search-insights@2.17.2)':
     dependencies:
@@ -13374,7 +13402,7 @@ snapshots:
       msw: 2.7.3(@types/node@22.13.9)(typescript@5.8.2)
       sirv: 3.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.0.7(@types/debug@4.1.12)(@types/node@22.13.9)(@vitest/browser@3.0.7)(@vitest/ui@3.0.7)(happy-dom@17.1.8)(jiti@1.21.7)(jsdom@26.0.0)(less@4.2.2)(msw@2.7.3(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+      vitest: 3.0.7(@types/debug@4.1.12)(@types/node@22.13.9)(@vitest/browser@3.0.7)(@vitest/ui@3.0.7)(happy-dom@17.1.9)(jiti@1.21.7)(jsdom@26.0.0)(less@4.2.2)(msw@2.7.3(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
       ws: 8.18.1
     optionalDependencies:
       playwright: 1.50.1
@@ -13397,7 +13425,7 @@ snapshots:
       magicast: 0.3.5
       test-exclude: 7.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.0.7(@types/debug@4.1.12)(@types/node@22.13.9)(@vitest/browser@3.0.7)(@vitest/ui@3.0.7)(happy-dom@17.1.8)(jiti@1.21.7)(jsdom@26.0.0)(less@4.2.2)(msw@2.7.3(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+      vitest: 3.0.7(@types/debug@4.1.12)(@types/node@22.13.9)(@vitest/browser@3.0.7)(@vitest/ui@3.0.7)(happy-dom@17.1.9)(jiti@1.21.7)(jsdom@26.0.0)(less@4.2.2)(msw@2.7.3(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -13407,7 +13435,7 @@ snapshots:
       eslint: 9.21.0(jiti@1.21.7)
     optionalDependencies:
       typescript: 5.8.2
-      vitest: 3.0.7(@types/debug@4.1.12)(@types/node@22.13.9)(@vitest/browser@3.0.7)(@vitest/ui@3.0.7)(happy-dom@17.1.8)(jiti@1.21.7)(jsdom@26.0.0)(less@4.2.2)(msw@2.7.3(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+      vitest: 3.0.7(@types/debug@4.1.12)(@types/node@22.13.9)(@vitest/browser@3.0.7)(@vitest/ui@3.0.7)(happy-dom@17.1.9)(jiti@1.21.7)(jsdom@26.0.0)(less@4.2.2)(msw@2.7.3(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
 
   '@vitest/expect@3.0.7':
     dependencies:
@@ -13453,7 +13481,7 @@ snapshots:
       sirv: 3.0.1
       tinyglobby: 0.2.12
       tinyrainbow: 2.0.0
-      vitest: 3.0.7(@types/debug@4.1.12)(@types/node@22.13.9)(@vitest/browser@3.0.7)(@vitest/ui@3.0.7)(happy-dom@17.1.8)(jiti@1.21.7)(jsdom@26.0.0)(less@4.2.2)(msw@2.7.3(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+      vitest: 3.0.7(@types/debug@4.1.12)(@types/node@22.13.9)(@vitest/browser@3.0.7)(@vitest/ui@3.0.7)(happy-dom@17.1.9)(jiti@1.21.7)(jsdom@26.0.0)(less@4.2.2)(msw@2.7.3(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
 
   '@vitest/utils@3.0.7':
     dependencies:
@@ -14055,7 +14083,7 @@ snapshots:
   browserslist@4.24.4:
     dependencies:
       caniuse-lite: 1.0.30001701
-      electron-to-chromium: 1.5.110
+      electron-to-chromium: 1.5.111
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.24.4)
 
@@ -14108,7 +14136,7 @@ snapshots:
       normalize-url: 6.1.0
       responselike: 2.0.1
 
-  cacheable@1.8.8:
+  cacheable@1.8.9:
     dependencies:
       hookified: 1.7.1
       keyv: 5.3.1
@@ -14749,7 +14777,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  electron-to-chromium@1.5.110: {}
+  electron-to-chromium@1.5.111: {}
 
   elliptic@6.6.1:
     dependencies:
@@ -15384,9 +15412,9 @@ snapshots:
     dependencies:
       is-unicode-supported: 2.1.0
 
-  file-entry-cache@10.0.6:
+  file-entry-cache@10.0.7:
     dependencies:
-      flat-cache: 6.1.6
+      flat-cache: 6.1.7
 
   file-entry-cache@8.0.0:
     dependencies:
@@ -15435,9 +15463,9 @@ snapshots:
       flatted: 3.3.3
       keyv: 4.5.4
 
-  flat-cache@6.1.6:
+  flat-cache@6.1.7:
     dependencies:
-      cacheable: 1.8.8
+      cacheable: 1.8.9
       flatted: 3.3.3
       hookified: 1.7.1
 
@@ -15779,7 +15807,7 @@ snapshots:
     optionalDependencies:
       uglify-js: 3.19.3
 
-  happy-dom@17.1.8:
+  happy-dom@17.1.9:
     dependencies:
       webidl-conversions: 7.0.0
       whatwg-mimetype: 3.0.0
@@ -19017,7 +19045,7 @@ snapshots:
       '@textlint/types': 14.4.2
       '@textlint/utils': 14.4.2
       debug: 4.4.0(supports-color@5.5.0)
-      file-entry-cache: 10.0.6
+      file-entry-cache: 10.0.7
       get-stdin: 5.0.1
       glob: 10.4.5
       md5: 2.3.0
@@ -19505,7 +19533,7 @@ snapshots:
       - typescript
       - universal-cookie
 
-  vitest@3.0.7(@types/debug@4.1.12)(@types/node@22.13.9)(@vitest/browser@3.0.7)(@vitest/ui@3.0.7)(happy-dom@17.1.8)(jiti@1.21.7)(jsdom@26.0.0)(less@4.2.2)(msw@2.7.3(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0):
+  vitest@3.0.7(@types/debug@4.1.12)(@types/node@22.13.9)(@vitest/browser@3.0.7)(@vitest/ui@3.0.7)(happy-dom@17.1.9)(jiti@1.21.7)(jsdom@26.0.0)(less@4.2.2)(msw@2.7.3(@types/node@22.13.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0):
     dependencies:
       '@vitest/expect': 3.0.7
       '@vitest/mocker': 3.0.7(msw@2.7.3(@types/node@22.13.9)(typescript@5.8.2))(vite@6.2.0(@types/node@22.13.9)(jiti@1.21.7)(less@4.2.2)(tsx@4.19.3)(yaml@2.7.0))
@@ -19532,7 +19560,7 @@ snapshots:
       '@types/node': 22.13.9
       '@vitest/browser': 3.0.7(@types/node@22.13.9)(playwright@1.50.1)(typescript@5.8.2)(vite@6.2.0(@types/node@22.13.9)(jiti@1.21.7)(less@4.2.2)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.7)
       '@vitest/ui': 3.0.7(vitest@3.0.7)
-      happy-dom: 17.1.8
+      happy-dom: 17.1.9
       jsdom: 26.0.0
     transitivePeerDependencies:
       - jiti

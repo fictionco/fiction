@@ -2,9 +2,8 @@ import type { EndpointMeta, EndpointResponse, TableMediaConfig } from '@fiction/
 import type { PineconeRecord, RecordMetadata } from '@pinecone-database/pinecone'
 import type { FictionAi, FictionAiSettings } from '.'
 import type { SourceItem } from './tables'
-import { abort, objectId, Query, Shortcodes } from '@fiction/core'
+import { abort, objectId, Query } from '@fiction/core'
 
-import { createStockMediaHandler } from '@fiction/ui/stock'
 import { Pinecone } from '@pinecone-database/pinecone'
 import { generateText } from 'ai'
 import { Document, TextSplitter } from './splitter'
@@ -57,6 +56,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
   async getAiModels() {
     const { createOpenAI } = await import('@ai-sdk/openai')
     const { createAnthropic } = await import('@ai-sdk/anthropic')
+    const { createXai } = await import('@ai-sdk/xai')
 
     const anthropic = createAnthropic({
       apiKey: this.settings.anthropicApiKey,
@@ -66,7 +66,11 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
       apiKey: this.settings.openaiApiKey,
     })
 
-    return { openai, anthropic }
+    const xai = createXai({
+      apiKey: this.settings.xaiApiKey,
+    })
+
+    return { openai, anthropic, xai }
   }
 
   async getOpenAiApi() {
@@ -147,7 +151,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
   async getChatCompletion(args: AiCompletionSettings): Promise<EndpointResponse<AiResult>> {
     const { useSimilaritySearch, searchNamespace, runPrompt } = args
 
-    const { anthropic } = await this.getAiModels()
+    const { anthropic, xai, openai } = await this.getAiModels()
 
     if (useSimilaritySearch) {
       if (!searchNamespace)
@@ -170,7 +174,9 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
 
     this.log.info('sending messages', { data: { generateArgs } })
 
-    const { text } = await generateText({ model: anthropic('claude-3-5-sonnet-20240620'), ...generateArgs })
+    const model = await anthropic('claude-3-5-sonnet-latest')
+
+    const { text } = await generateText({ model, ...generateArgs })
 
     // const response = await openAi.chat.completions.create({
     //   model: 'gpt-4-turbo-preview',
@@ -182,54 +188,54 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
 
     const rawCompletion = text
 
-    const shortcodes = new Shortcodes({ fictionEnv: this.settings.fictionEnv })
+    // const shortcodes = new Shortcodes({ fictionEnv: this.settings.fictionEnv })
 
     const message = ''
     const more = ''
-    shortcodes.addShortcode<{
-      search?: string
-      description?: string
-      orientation?: 'portrait' | 'landscape' | 'squarish'
-      subject?: 'person' | 'object'
-    }>('stock_img', async (args) => {
-      const { attributes } = args
+    // shortcodes.addShortcode<{
+    //   search?: string
+    //   description?: string
+    //   orientation?: 'portrait' | 'landscape' | 'squarish'
+    //   subject?: 'person' | 'object'
+    // }>('stock_img', async (args) => {
+    //   const { attributes } = args
 
-      const orientation = attributes?.orientation || 'squarish'
-      const subject = attributes?.subject || 'person'
+    //   const orientation = attributes?.orientation || 'squarish'
+    //   const subject = attributes?.subject || 'person'
 
-      const stock = await createStockMediaHandler()
+    //   const stock = await createStockMediaHandler()
 
-      const mediaItem = stock.getRandomByAspectRatio(orientation, { tags: ['object', 'image'] })
+    //   const mediaItem = stock.getRandomByAspectRatio(orientation, { tags: ['object', 'image'] })
 
-      //  const search = attributes?.search || ''
-      // const description = attributes?.description || ''
-      // const _prompt = [
-      //   `Prompt: ${search}`,
-      //   `Format: ${description || 'none'}`,
-      //   `Constraints: make SURE the image has no text, logos, or watermarks on it.`,
-      //   `Style: ${objectives.imageStyle}.`,
+    //   //  const search = attributes?.search || ''
+    //   // const description = attributes?.description || ''
+    //   // const _prompt = [
+    //   //   `Prompt: ${search}`,
+    //   //   `Format: ${description || 'none'}`,
+    //   //   `Constraints: make SURE the image has no text, logos, or watermarks on it.`,
+    //   //   `Style: ${objectives.imageStyle}.`,
 
-      // ].filter(Boolean).join('\n')
+    //   // ].filter(Boolean).join('\n')
 
-      // const start = Date.now()
-      // this.log.info('creating image', { data: { prompt, orientation, orgId, userId } })
-      // const r = await this.settings.fictionAi.queries.AiImage.serve({ _action: 'createImage', prompt, orientation, orgId, userId }, { server: true })
+    //   // const start = Date.now()
+    //   // this.log.info('creating image', { data: { prompt, orientation, orgId, userId } })
+    //   // const r = await this.settings.fictionAi.queries.AiImage.serve({ _action: 'createImage', prompt, orientation, orgId, userId }, { server: true })
 
-      // if (r.status === 'error' || !r.data) {
-      //   message = 'There was a "safety" API error during image generation. Try again, change image style if needed.'
-      //   more = 'This happens when images are similar to trademarked works, etc...'
-      //   throw new Error(message)
-      // }
+    //   // if (r.status === 'error' || !r.data) {
+    //   //   message = 'There was a "safety" API error during image generation. Try again, change image style if needed.'
+    //   //   more = 'This happens when images are similar to trademarked works, etc...'
+    //   //   throw new Error(message)
+    //   // }
 
-      // this.log.info(`created image in ${Math.round((Date.now() - start) / 1000)}s`, { data: { r } })
-      return mediaItem.url
-    })
+    //   // this.log.info(`created image in ${Math.round((Date.now() - start) / 1000)}s`, { data: { r } })
+    //   return mediaItem.url
+    // })
 
     this.log.info('parsing raw completion', { data: { rawCompletion } })
 
     let completion
     try {
-      const parsedCompletion = await shortcodes.parseObject(rawCompletion)
+      const parsedCompletion = await rawCompletion
       completion = JSON.parse(parsedCompletion)
       this.log.info('returning completion', { data: { completion } })
     }

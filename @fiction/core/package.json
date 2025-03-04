@@ -82,7 +82,7 @@
     "google-auth-library": "^9.15.1",
     "google-one-tap": "^1.0.6",
     "handlebars": "^4.7.8",
-    "happy-dom": "^17.1.8",
+    "happy-dom": "^17.1.9",
     "helmet": "^8.0.0",
     "html-minifier": "^4.0.0",
     "htmlparser2": "^10.0.0",

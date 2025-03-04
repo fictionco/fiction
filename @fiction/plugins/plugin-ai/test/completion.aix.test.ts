@@ -72,14 +72,17 @@ describe('ai completions', async () => {
       {
         "images": [
           {
-            "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556163/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_b98d7681-0d3c-4f0d-8b28-b06b7c9d269c_kpokem.png",
+            "url": "/images/minimal-tech-fashion-workspace.jpg",
           },
           {
-            "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556219/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_14486649-e275-41ce-8214-aebf8f6d0a1a_jse0bc.png",
+            "url": "/images/cyberpunk-fashion-design.jpg",
+          },
+          {
+            "url": "/images/digital-fashion-innovation.jpg",
           },
         ],
-        "subTitle": "Discover cutting-edge fashion designs that empower your unique identity and elevate your presence in the digital age",
-        "title": "Revolutionize Your Style with Jane Smith",
+        "subTitle": "Experience the fusion of cutting-edge design and timeless style, crafted to transform your digital presence into a powerful fashion statement",
+        "title": "Redefining Fashion Through Digital Innovation",
       }
     `)
   }, 90000)
@@ -103,7 +106,7 @@ describe('ai completions', async () => {
 
     expect(r4.data?.completion).toMatchInlineSnapshot(`
       {
-        "suggestion1": "the sky was clear, and the next, a wall of darkness loomed on the horizon. The storm's eye approached with terrifying speed, transforming day into night.",
+        "suggestion1": "I was standing at the window when the tornado ripped through Main Street, tearing roofs from houses like tissue paper",
       }
     `)
   }, 90000)
