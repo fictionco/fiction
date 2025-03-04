@@ -59,7 +59,7 @@ describe('generation utils', async () => {
   })
 
   it('parses description correctly', () => {
-    const description = 'This is a test [ai seconds=4 type=image]'
+    const description = 'This is a test [@ai seconds=4 type=image]'
     const result = parseDescription(description)
     expect(result).toEqual({
       description: 'This is a test',
@@ -115,7 +115,7 @@ describe('generation utils', async () => {
   })
 
   it('handles numeric meta correctly in parseDescription', () => {
-    const description = 'This is a test [ai time=40 count=10]'
+    const description = 'This is a test [@ai time=40 count=10]'
     const result = parseDescription(description)
     expect(result).toEqual({
       description: 'This is a test',
@@ -151,7 +151,7 @@ describe('generation utils', async () => {
     const jsonSchema = {
       properties: {
         title: { type: 'string', description: 'Primary hero headline, 3 to 13 words' },
-        subTitle: { type: 'string', description: 'Secondary hero headline, 10 to 30 words [ai]' },
+        subTitle: { type: 'string', description: 'Secondary hero headline, 10 to 30 words [@ai]' },
       },
     } as unknown as JsonSchema7ObjectType
 

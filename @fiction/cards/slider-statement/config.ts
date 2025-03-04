@@ -7,7 +7,7 @@ import { z } from 'zod'
 
 // Core schema for individual statement content
 export const StatementSchema = z.object({
-  title: z.string().optional().describe('The headline that captures attention (3-8 words) [ai]'),
+  title: z.string().optional().describe('The headline that captures attention (3-8 words) [@ai]'),
   content: z.string().optional().describe('The main message that drives your point home'),
   action: ActionAreaSchema.optional().describe('call-to-action area'),
   shape: DecorationShapeSchema.optional().describe('The shape of the image'),

@@ -6,12 +6,12 @@ import { z } from 'zod'
 
 // Individual feature schema
 const featureSchema = z.object({
-  title: z.string().optional().describe('Feature name or headline [ai]'),
-  description: z.string().optional().describe('Feature explanation text [ai]'),
+  title: z.string().optional().describe('Feature name or headline [@ai]'),
+  description: z.string().optional().describe('Feature explanation text [@ai]'),
   href: z.string().optional().describe('Link destination'),
-  icon: MediaIconSchema.optional().describe('Visual representation [ai]'),
+  icon: MediaIconSchema.optional().describe('Visual representation [@ai]'),
   color: z.enum(colorThemeUser).optional().describe('Feature color theme'),
-  action: ActionAreaSchema.optional().describe('Interactive buttons [ai]'),
+  action: ActionAreaSchema.optional().describe('Interactive buttons [@ai]'),
   columns: z.enum(['1', '2', '3', '4']).optional().describe('Width in masonry layout'),
 })
 
@@ -22,7 +22,7 @@ export const schema = z.object({
     spacing: z.enum(['tight', 'normal', 'relaxed']).optional().describe('Gap between features'),
     align: z.enum(['left', 'center']).optional().describe('Content alignment'),
   }).optional().describe('Layout settings'),
-  items: z.array(featureSchema).optional().describe('Feature list items [ai]'),
+  items: z.array(featureSchema).optional().describe('Feature list items [@ai]'),
   style: z.object({
     iconSize: SizeSchema.optional().describe('Icon dimensions'),
     iconStyle: z.enum(['outline', 'solid', 'duotone']).optional().describe('Icon visual style'),

@@ -5,9 +5,9 @@ import { createOption } from '@fiction/ui/index.js'
 import { z } from 'zod'
 
 const schema = z.object({
-  superTitle: SuperTitleSchema.optional().describe('Social proof that builds trust (e.g. "Join 22,300+ readers") [ai]'),
-  title: z.string().optional().describe('5-7 word hook emphasizing key benefit (e.g. "Get Weekly Growth Strategies") [ai]'),
-  subTitle: z.string().optional().describe('Specific outcome subscribers will achieve (e.g. "Double conversions in 30 days") [ai]'),
+  superTitle: SuperTitleSchema.optional().describe('Social proof that builds trust (e.g. "Join 22,300+ readers") [@ai]'),
+  title: z.string().optional().describe('5-7 word hook emphasizing key benefit (e.g. "Get Weekly Growth Strategies") [@ai]'),
+  subTitle: z.string().optional().describe('Specific outcome subscribers will achieve (e.g. "Double conversions in 30 days") [@ai]'),
   media: MediaBasicSchema.optional().describe('Visual element reinforcing offer - lead magnet preview or trust indicators'),
   action: ActionAreaSchema.optional().describe('Form buttons, success messages and proof elements'),
   presentationMode: z.enum(['inline', 'onScroll', 'onLoad']).optional().describe('When to show: inline (always), onScroll (after scrolling), onLoad (immediate)'),

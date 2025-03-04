@@ -11,20 +11,20 @@ export const ContactItemSchema = NavListItemSchema.pick({
   value: true,
   href: true,
   icon: true,
-}).describe('Contact method details [ai]')
+}).describe('Contact method details [@ai]')
 
 const ContactGroupSchema = NavListSchema.pick({
   title: true,
   description: true,
 }).extend({
   items: z.array(ContactItemSchema).optional(),
-}).describe('Group of contact methods [ai]')
+}).describe('Group of contact methods [@ai]')
 
 // Main configuration schema
 export const schema = z.object({
   layout: z.enum(['left', 'right', 'stacked']).optional().describe('Layout style - form position relative to contact details'),
-  groups: z.array(ContactGroupSchema).optional().describe('Organized groups of contact information [ai]'),
-  action: ActionAreaSchema.optional().describe('actions and forms [ai]'),
+  groups: z.array(ContactGroupSchema).optional().describe('Organized groups of contact information [@ai]'),
+  action: ActionAreaSchema.optional().describe('actions and forms [@ai]'),
   form: FormUserConfigSchema.optional().describe('Form submission settings'),
 })
 

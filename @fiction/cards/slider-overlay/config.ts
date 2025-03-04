@@ -15,7 +15,7 @@ const SlideSchema = PostSchema.pick({
 
 export const schema = z.object({
   autoSlide: z.boolean().optional().describe('Animate slide transition automatically'),
-  items: z.array(SlideSchema).optional().describe('Slides for slider with media, title, and subtitle [ai seconds=12]'),
+  items: z.array(SlideSchema).optional().describe('Slides for slider with media, title, and subtitle [@ai seconds=12]'),
 })
 
 export type UserConfig = z.infer<typeof schema> & SiteUserConfig

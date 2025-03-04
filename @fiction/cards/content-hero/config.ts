@@ -5,19 +5,19 @@ import { createOption } from '@fiction/ui'
 import { z } from 'zod'
 
 const LayerMediaScheme = z.object({
-  media: MediaBasicSchema.optional().describe('Layer image [ai]'),
+  media: MediaBasicSchema.optional().describe('Layer image [@ai]'),
   position: z.enum(['top', 'bottom', 'left', 'right', 'center', 'bottomRight', 'topRight', 'bottomLeft', 'topLeft']).optional().describe('Layer placement'),
   widthPercent: z.number().optional().describe('Layer width %'),
 })
 
 export const schema = z.object({
   layout: z.enum(['justify', 'center', 'left', 'right']).optional().describe('Content alignment'),
-  title: z.string().optional().describe('Main headline (3-13 words) [ai]'),
-  subTitle: z.string().optional().describe('Supporting message (10-30 words) [ai]'),
-  superTitle: SuperTitleSchema.optional().describe('Small text above title [ai]'),
+  title: z.string().optional().describe('Main headline (3-13 words) [@ai]'),
+  subTitle: z.string().optional().describe('Supporting message (10-30 words) [@ai]'),
+  superTitle: SuperTitleSchema.optional().describe('Small text above title [@ai]'),
   media: MediaBasicSchema.optional().describe('Primary visual'),
-  caption: z.string().optional().describe('Media description [ai]'),
-  action: ActionAreaSchema.optional().describe('Call-to-action buttons [ai]'),
+  caption: z.string().optional().describe('Media description [@ai]'),
+  action: ActionAreaSchema.optional().describe('Call-to-action buttons [@ai]'),
   overlays: z.array(LayerMediaScheme).optional().describe('Decorative image layers'),
 })
 type UserConfig = z.infer<typeof schema>

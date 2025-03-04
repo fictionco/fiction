@@ -15,9 +15,9 @@ const MemberSchema = PostSchema.pick({
 
 export const schema = z.object({
   layout: z.enum(['mediabox', 'grid']).optional().describe('Team display format'),
-  title: z.string().optional().describe('Team section title [ai]'),
-  subTitle: z.string().optional().describe('Team description [ai]'),
-  items: z.array(MemberSchema).optional().describe('Team member list [ai]'),
+  title: z.string().optional().describe('Team section title [@ai]'),
+  subTitle: z.string().optional().describe('Team description [@ai]'),
+  items: z.array(MemberSchema).optional().describe('Team member list [@ai]'),
 })
 export type UserConfig = z.infer<typeof schema>
 type MemberConfig = z.infer<typeof MemberSchema>

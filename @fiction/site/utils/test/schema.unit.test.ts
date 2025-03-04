@@ -215,7 +215,7 @@ describe('schema tools', () => {
         },
         "subTitle": "string, Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs",
         "superTitle": {
-          "$icon": "object, Visual indicator icon [ai]",
+          "$icon": "object, Visual indicator icon [@ai]",
           "icon": {
             "alt": "string",
             "aspect": "string",
@@ -227,7 +227,7 @@ describe('schema tools', () => {
             "props": "object",
             "url": "string",
           },
-          "text": "string, Short text above main title [ai]",
+          "text": "string, Short text above main title [@ai]",
           "theme": "string, Color style",
         },
         "title": "string, Primary headline for profile 3 to 8 words",

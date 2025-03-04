@@ -15,7 +15,7 @@ export const CinemaItemSchema = z.object({
 })
 
 export const schema = z.object({
-  items: z.array(CinemaItemSchema).optional().describe('Array of slides to display in the cinema view [ai seconds=15]'),
+  items: z.array(CinemaItemSchema).optional().describe('Array of slides to display in the cinema view [@ai seconds=15]'),
   autoSlide: z.boolean().optional().describe('Enable automatic slide transitions every 12 seconds'),
 })
 

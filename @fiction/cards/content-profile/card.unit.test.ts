@@ -33,13 +33,13 @@ describe('minimalProfile', async () => {
             "description": "List of social media links",
             "properties": {
               "buttons": {
-                "description": "Interactive buttons [ai]",
+                "description": "Interactive buttons [@ai]",
                 "items": {
                   "additionalProperties": false,
                   "description": "ActionButtonSchema",
                   "properties": {
                     "design": {
-                      "description": "Button visual style [ai]",
+                      "description": "Button visual style [@ai]",
                       "enum": [
                         "solid",
                         "ghost",
@@ -71,7 +71,7 @@ describe('minimalProfile', async () => {
                       "type": "string",
                     },
                     "href": {
-                      "description": "Button link URL or /path [ai]",
+                      "description": "Button link URL or /path [@ai]",
                       "type": "string",
                     },
                     "icon": {
@@ -83,7 +83,7 @@ describe('minimalProfile', async () => {
                           "$ref": "#/properties/superTitle/properties/icon",
                         },
                       ],
-                      "description": "Button icon [ai]",
+                      "description": "Button icon [@ai]",
                     },
                     "iconAfter": {
                       "anyOf": [
@@ -96,7 +96,7 @@ describe('minimalProfile', async () => {
                       ],
                     },
                     "label": {
-                      "description": "Button text [ai]",
+                      "description": "Button text [@ai]",
                       "type": "string",
                     },
                     "loading": {
@@ -134,7 +134,7 @@ describe('minimalProfile', async () => {
                       "type": "string",
                     },
                     "theme": {
-                      "description": "Button color scheme [ai]",
+                      "description": "Button color scheme [@ai]",
                       "enum": [
                         "theme",
                         "primary",
@@ -213,18 +213,18 @@ describe('minimalProfile', async () => {
               },
               "subscribe": {
                 "additionalProperties": false,
-                "description": "Email capture settings [ai]",
+                "description": "Email capture settings [@ai]",
                 "properties": {
                   "button": {
                     "additionalProperties": false,
-                    "description": "buttons [ai]",
+                    "description": "buttons [@ai]",
                     "properties": {
                       "icon": {
                         "$ref": "#/properties/superTitle/properties/icon",
-                        "description": "Button icon [ai]",
+                        "description": "Button icon [@ai]",
                       },
                       "label": {
-                        "description": "Button text [ai]",
+                        "description": "Button text [@ai]",
                         "type": "string",
                       },
                     },
@@ -234,7 +234,7 @@ describe('minimalProfile', async () => {
                     "additionalProperties": false,
                     "properties": {
                       "placeholder": {
-                        "description": "Email input placeholder [ai]",
+                        "description": "Email input placeholder [@ai]",
                         "type": "string",
                       },
                     },
@@ -244,11 +244,11 @@ describe('minimalProfile', async () => {
                     "additionalProperties": false,
                     "properties": {
                       "content": {
-                        "description": "Success message content [ai]",
+                        "description": "Success message content [@ai]",
                         "type": "string",
                       },
                       "title": {
-                        "description": "Success message title [ai]",
+                        "description": "Success message title [@ai]",
                         "type": "string",
                       },
                     },
@@ -262,11 +262,11 @@ describe('minimalProfile', async () => {
                 "description": "Color scheme",
               },
               "title": {
-                "description": "Header text above actions [ai]",
+                "description": "Header text above actions [@ai]",
                 "type": "string",
               },
               "variant": {
-                "description": "Action type format [ai]",
+                "description": "Action type format [@ai]",
                 "enum": [
                   "buttons",
                   "subscribe",
@@ -277,7 +277,7 @@ describe('minimalProfile', async () => {
             "type": "object",
           },
           "content": {
-            "description": "Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs [ai]",
+            "description": "Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs [@ai]",
             "type": "string",
           },
           "details": {
@@ -311,7 +311,7 @@ describe('minimalProfile', async () => {
             "type": "array",
           },
           "detailsTitle": {
-            "description": "Title for list of details [ai]",
+            "description": "Title for list of details [@ai]",
             "type": "string",
           },
           "layout": {
@@ -323,7 +323,7 @@ describe('minimalProfile', async () => {
             "type": "string",
           },
           "mediaItems": {
-            "description": "Splash pictures in portrait format [ai seconds=40]",
+            "description": "Splash pictures in portrait format [@ai seconds=40]",
             "items": {
               "additionalProperties": false,
               "description": "NavListItemSchema",
@@ -694,7 +694,7 @@ describe('minimalProfile', async () => {
             "properties": {
               "icon": {
                 "additionalProperties": false,
-                "description": "Visual indicator icon [ai]",
+                "description": "Visual indicator icon [@ai]",
                 "properties": {
                   "alt": {
                     "type": "string",
@@ -749,7 +749,7 @@ describe('minimalProfile', async () => {
                 "type": "object",
               },
               "text": {
-                "description": "Short text above main title [ai]",
+                "description": "Short text above main title [@ai]",
                 "type": "string",
               },
               "theme": {
@@ -791,7 +791,7 @@ describe('minimalProfile', async () => {
             "type": "object",
           },
           "title": {
-            "description": "Primary headline for profile 3 to 8 words [ai]",
+            "description": "Primary headline for profile 3 to 8 words [@ai]",
             "type": "string",
           },
         },

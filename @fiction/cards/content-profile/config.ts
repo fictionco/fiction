@@ -19,12 +19,12 @@ const mediaSchema = NavListItemSchema.pick({
 })
 
 export const schema = z.object({
-  title: z.string().optional().describe('Primary headline for profile 3 to 8 words [ai]'),
-  content: z.string().optional().describe('Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs [ai]'),
+  title: z.string().optional().describe('Primary headline for profile 3 to 8 words [@ai]'),
+  content: z.string().optional().describe('Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs [@ai]'),
   superTitle: SuperTitleSchema.optional(),
   layout: z.enum(['left', 'right']).optional().describe('Media on left or right'),
-  mediaItems: z.array(mediaSchema).optional().describe('Splash pictures in portrait format [ai seconds=40]'),
-  detailsTitle: z.string().optional().describe('Title for list of details [ai]'),
+  mediaItems: z.array(mediaSchema).optional().describe('Splash pictures in portrait format [@ai seconds=40]'),
+  detailsTitle: z.string().optional().describe('Title for list of details [@ai]'),
   details: z.array(detailSchema).optional().describe('List of details with contact details, location, etc.'),
   action: ActionAreaSchema.optional().describe('List of social media links'),
 })

@@ -37,7 +37,7 @@ export const schema = z.object({
   scrollEffect: z.boolean().default(true).optional().describe('Enable scroll-based animation speed effect'),
   scrollIntensity: z.number().min(0).max(100).default(25).optional().describe('How much scroll position affects animation speed (%)'),
 
-  items: z.array(SchemaTicker).default([]).describe('Array of ticker items [ai label=Ticker Items]'),
+  items: z.array(SchemaTicker).default([]).describe('Array of ticker items [@ai label=Ticker Items]'),
 })
 
 export type UserConfig = z.infer<typeof schema>

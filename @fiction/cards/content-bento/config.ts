@@ -8,15 +8,15 @@ import { z } from 'zod'
 
 const BentoItemSchema = z.object({
   // Content Elements
-  superTitle: SuperTitleSchema.optional().describe('Short attention-grabbing text above title [ai]'),
-  title: z.string().optional().describe('Main headline for this content box [ai]'),
-  content: z.string().optional().describe('Supporting text that expands on your title - aim for 1-2 sentences [ai]'),
-  media: MediaDisplaySchema.optional().describe('Visual content to display in this box [ai]'),
+  superTitle: SuperTitleSchema.optional().describe('Short attention-grabbing text above title [@ai]'),
+  title: z.string().optional().describe('Main headline for this content box [@ai]'),
+  content: z.string().optional().describe('Supporting text that expands on your title - aim for 1-2 sentences [@ai]'),
+  media: MediaDisplaySchema.optional().describe('Visual content to display in this box [@ai]'),
   href: z.string().optional().describe('Make entire box clickable'),
-  action: ActionAreaSchema.optional().describe('Add buttons or interactive elements [ai]'),
+  action: ActionAreaSchema.optional().describe('Add buttons or interactive elements [@ai]'),
 
   // Visual Style
-  bg: MediaDisplaySchema.optional().describe('Background image or video [ai]'),
+  bg: MediaDisplaySchema.optional().describe('Background image or video [@ai]'),
   theme: z.enum(colorThemeUser).optional().describe('Color theme for this box'),
   themeMode: z.enum(['light', 'dark', 'auto']).optional().describe('Adjust content contrast against background'),
 
@@ -28,7 +28,7 @@ const BentoItemSchema = z.object({
 })
 
 export const schema = z.object({
-  items: z.array(BentoItemSchema).describe('Collection of content boxes in grid layout [ai]'),
+  items: z.array(BentoItemSchema).describe('Collection of content boxes in grid layout [@ai]'),
   gapSize: SizeSchema.optional().describe('Spacing between boxes'),
   animate: z.enum(['expand', 'swipe', '']).optional().describe('Animation style for box appearance'),
 })
