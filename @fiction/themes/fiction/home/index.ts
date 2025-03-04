@@ -33,7 +33,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                 theme: 'orange',
                 icon: { class: 'i-tabler-north-star' },
               },
-              title: `Your Personal Brand On [text_effect type=squiggle]Autopilot[/text_effect]`,
+              title: `Your Personal Brand On [@text_effect type=squiggle]Autopilot[/@text_effect]`,
               subTitle: `An incredible tool to help you create, share, and grow your personal brand online.`,
 
               action: {

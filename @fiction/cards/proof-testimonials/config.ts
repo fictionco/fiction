@@ -220,7 +220,7 @@ export async function getConfig(args: { factory: CardFactory, templateId: string
             standard: {
               headers: {
                 superTitle: { text: 'High-Impact Stories' },
-                title: 'Create Instant [text_effect]Credibility[/text_effect]',
+                title: 'Create Instant [@text_effect]Credibility[/@text_effect]',
                 subTitle: 'Watch how the mega layout amplifies your most powerful customer stories. Perfect for featuring industry leaders or remarkable transformations.',
               },
             },

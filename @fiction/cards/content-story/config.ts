@@ -122,7 +122,7 @@ async function getDefaultConfig(args: { factory: CardFactory, numItems?: number 
 
   const defaultItems: StorySection[] = [
     {
-      content: `<p>[text_effect]Your story[/text_effect] begins to unfold as readers scroll down the page. This engaging format naturally draws attention and keeps your audience immersed in your narrative.</p>
+      content: `<p>[@text_effect]Your story[/@text_effect] begins to unfold as readers scroll down the page. This engaging format naturally draws attention and keeps your audience immersed in your narrative.</p>
                <p>See how the images beside your text create visual anchor points, helping readers connect with key moments in your story while maintaining a smooth reading flow.</p>`,
       media: stock.getRandomByTags(['aspect:square']),
     },

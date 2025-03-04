@@ -48,17 +48,24 @@ const imageAspect = vue.computed(() => {
       <ElSpinner class="h-12 w-12" />
     </div>
     <article v-if="post">
-      <div class="space-y-8  text-center max-w-screen-lg mx-auto">
-        <div class="tags space-x-3 not-prose">
-          <CardButton size="sm" :card design="link" :href="allPostsLink({ card })" rounding="full">
-            &larr; All Posts
+      <div class="space-y-8  text-center max-w-screen-lg mx-auto mb-12">
+        <div class="tags space-x-4">
+          <CardButton
+            size="sm"
+            :card
+            design="link"
+            :href="allPostsLink({ card })"
+            rounding="full"
+            icon="i-tabler-arrow-left"
+          >
+            All Posts
           </CardButton>
           <CardButton
             v-for="(cat, i) in post.categories.value"
             :key="i"
             size="sm"
             :card
-            rounding="full"
+            design="outline"
             :text="cat"
             :href="taxonomyLink({ card, taxonomy: 'category', term: cat })"
           />
@@ -68,41 +75,44 @@ const imageAspect = vue.computed(() => {
             :card
             :href="postEditLink({ post })"
             class="flex items-center"
-            rounding="full"
+            design="outline"
+            icon="i-tabler-edit"
             theme="green"
           >
             Edit Post
           </CardButton>
         </div>
-        <CardTextPost
-          tag="h1"
-          path="title"
-          :post="post"
-          class="text-6xl font-semibold x-font-title text-pretty"
-        />
-        <CardTextPost
-          :post="post"
-          tag="h2"
-          path="subTitle"
-          class="text-3xl font-medium dark:text-theme-400 text-pretty"
-        />
-        <div class="flex justify-center">
-          <ElAuthor v-for="(author, i) in post.authors.value" :key="i" :user="author" :date-at="post.dateAt.value" />
+        <div class="space-y-4">
+          <CardTextPost
+            tag="h1"
+            path="title"
+            :post="post"
+            class="text-2xl md:text-4xl xl:text-6xl font-semibold x-font-title text-pretty"
+          />
+          <CardTextPost
+            :post="post"
+            tag="h2"
+            path="subTitle"
+            class="text-lg md:text-2xl xl:text-3xl dark:text-theme-400 text-pretty"
+          />
+          <div class="flex justify-center">
+            <ElAuthor v-for="(author, i) in post.authors.value" :key="i" :user="author" :date-at="post.dateAt.value" />
+          </div>
         </div>
       </div>
       <AnimClipPath :animate="true" class="my-[min(max(35px,_5vw),_60px)]" caller="magSingle">
         <XMedia :media="post.media.value" :class="imageAspect" class=" mx-auto relative overflow-hidden rounded-lg" />
       </AnimClipPath>
-      <div class="py-12 md:py-16 px-12 max-w-[900px] mx-auto focus:outline-none space-y-6 lg:space-y-12 @container/prose">
-        <XEntry :theme="post.theme.value" class="text-sm @[500px]/prose:text-base @[700px]/prose:text-2xl focus:outline-none">
+      <div class=" max-w-[900px] mx-auto focus:outline-none space-y-8 lg:space-y-12 @container/prose">
+        <XEntry :theme="post.theme.value" class="text-base @[500px]/prose:text-lg @[700px]/prose:text-2xl focus:outline-none">
           <CardTextPost :post="post" path="content" />
         </XEntry>
 
-        <div v-if="post.tags.value?.length" class="not-prose tags flex gap-4 my-6 lg:my-16 items-center px-4 justify-center">
-          <div class="text-xs italic text-theme-500">
-            tagged with &rarr;
+        <div v-if="post.tags.value?.length" class="not-prose tags flex gap-8 my-6 lg:my-16 items-center px-4 justify-center">
+          <div class="text-xs italic text-theme-500 text-right">
+            tagged with
           </div>
-          <div class="gap-3 flex">
+          <div class="gap-2 flex items-center flex-wrap">
             <CardButton
               v-for="(tag, i) in post.tags.value"
               :key="i"
@@ -118,7 +128,7 @@ const imageAspect = vue.computed(() => {
           v-if="nextPost"
           :card
           :href="postLink({ card, slug: nextPost.slug.value })"
-          class="mt-16 next-post flex not-prose gap-8 items-center justify-center   rounded-xl bg-theme-50 dark:bg-theme-700/50 hover:bg-theme-100 hover:dark:bg-theme-700 p-6"
+          class="mt-16 next-post flex flex-col md:flex-row not-prose gap-4 md:gap-8 md:items-center justify-center   rounded-xl bg-theme-50 dark:bg-theme-700/50 hover:bg-theme-100 hover:dark:bg-theme-700 p-6 lg:p-12"
         >
           <div>
             <XMedia :media="nextPost.media.value" class="size-16 rounded-full overflow-hidden" />
@@ -138,13 +148,3 @@ const imageAspect = vue.computed(() => {
     <El404 v-else title="Post Not Found" :buttons="[{ label: 'All Posts', href: card.link('/:viewId') }]" />
   </div>
 </template>
-
-<style lang="less">
-.content-container > p:first-of-type::first-letter {
-  font-size: 2em;
-    line-height: 1;
-    margin-right: 0.1rem;
-    text-transform: uppercase;
-
-}
-</style>

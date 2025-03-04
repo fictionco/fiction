@@ -69,7 +69,7 @@ describe('cardCompletion', async () => {
            - Don't reuse the name of the site subject in the content. As its provided elsewhere.
            - Focus on the likely problems of the target customer, in the likely context they can be solved by the site creator.
            - Use an SEO-friendly approach without compromising the natural flow of information.
-           For images, use shortcodes formatted as [stock_img search="(a prompt for image creation that will give a relevant and quality image)" orientation="(portrait or landscape or squarish)"], ensuring relevance to the content.",
+           For images, use shortcodes formatted as [@stock_img search="(a prompt for image creation that will give a relevant and quality image)" orientation="(portrait or landscape or squarish)"], ensuring relevance to the content.",
             "role": "system",
           },
           {

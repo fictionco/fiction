@@ -192,7 +192,8 @@ export class Shortcodes extends FictionObject<{ fictionEnv?: FictionEnv }> {
   }
 
   parseToMatches(input: string): ShortcodeMatch[] {
-    const regex = /\\?\[\s*([\w\-@]+)(?:\s+([^[\]]+?))?\s*\](?:((?:.|\n)*?)\[\/\1\])?/g
+    // Updated regex to match [@...] instead of [...]
+    const regex = /\\?\[@\s*([\w\-@]+)(?:\s+([^[\]]+?))?\s*\](?:((?:.|\n)*?)\[\/@\1\])?/g
     return Array.from(input.matchAll(regex))
       .map(([fullMatch, shortcode, attrString, content = '']) => ({
         shortcode,
@@ -260,6 +261,6 @@ export class Shortcodes extends FictionObject<{ fictionEnv?: FictionEnv }> {
   }
 
   private containsShortcode(input: string): boolean {
-    return /\[\s*[\w\-@]+/.test(input)
+    return /\[@\s*[\w\-@]+/.test(input)
   }
 }

@@ -221,7 +221,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                 text: 'Feeling frustrated? The solution is here.',
                 theme: 'orange',
               },
-              title: `Your Story Is [text_effect type=squiggle]Worth Telling[/text_effect]`,
+              title: `Your Story Is [@text_effect type=squiggle]Worth Telling[/@text_effect]`,
               subTitle: `Lots of people struggle to build a personal brand! Fiction simplifies the process, give it a try and see the difference.`,
               action: {
                 buttons: [
