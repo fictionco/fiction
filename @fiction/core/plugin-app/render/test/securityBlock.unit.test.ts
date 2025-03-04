@@ -1,7 +1,45 @@
 import type express from 'express'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { securityMiddleware } from '../securityMiddleware'
+import { detectRecursivePath, securityMiddleware } from '../securityMiddleware'
 
+
+describe('detectRecursivePath', () => {
+  it('returns false for normal paths without repetition', () => {
+    expect(detectRecursivePath({ pathname: '/users/john/profile', maxLength: 500 })).toBe(false);
+    expect(detectRecursivePath({ pathname: '/blog/post/123', maxLength: 500 })).toBe(false);
+  });
+
+  it('returns true when total path length exceeds maxLength', () => {
+    const longPath = '/a'.repeat(501);
+    expect(detectRecursivePath({ pathname: longPath, maxLength: 500 })).toBe(true);
+  });
+
+  it('returns true for segments over checkLength chars with repeating patterns at end', () => {
+    const repeatingEnd = '/users/' + 'abc'.repeat(20); // 60 chars in last segment
+    expect(detectRecursivePath({ pathname: repeatingEnd, maxLength: 500, checkLength: 50 })).toBe(true);
+  });
+
+  it('returns true for middle segments over checkLength chars with repeating patterns', () => {
+    const repeatingMiddle = '/blog/' + 'bla'.repeat(18) + '/whatever'; // 54 chars in middle segment
+    expect(detectRecursivePath({ pathname: repeatingMiddle, maxLength: 500, checkLength: 50 })).toBe(true);
+  });
+
+  it('returns false for long segments without repetition', () => {
+    const longNonRepeating = '/users/' + 'abcdefghijklmnopqrstuvwxyz'.repeat(2); // 52 chars
+    expect(detectRecursivePath({ pathname: longNonRepeating, maxLength: 500, checkLength: 50 })).toBe(false);
+  });
+
+  it('handles empty or root paths', () => {
+    expect(detectRecursivePath({ pathname: '', maxLength: 500 })).toBe(false);
+    expect(detectRecursivePath({ pathname: '/', maxLength: 500 })).toBe(false);
+  });
+
+  it('respects custom checkLength', () => {
+    const repeatingShort = '/users/' + 'xyz'.repeat(10); // 30 chars
+    expect(detectRecursivePath({ pathname: repeatingShort, maxLength: 500, checkLength: 25 })).toBe(true);
+    expect(detectRecursivePath({ pathname: repeatingShort, maxLength: 500, checkLength: 40 })).toBe(false);
+  });
+});
 describe('security Middleware', () => {
   let req: Partial<express.Request>
   let res: Partial<express.Response>

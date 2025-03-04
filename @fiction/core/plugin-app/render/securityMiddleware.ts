@@ -10,10 +10,6 @@ const CLEANUP_INTERVAL = 60 * 60 * 1000
 const BLOCK_DURATION = 24 * 60 * 60 * 1000
 // Threshold for blocking (3 suspicious requests)
 const BLOCK_THRESHOLD = 3
-// Max pathname length for recursive URL check
-const MAX_PATHNAME_LENGTH = 1000
-// Minimum repeats for substring repetition
-const MIN_REPEATS = 5
 
 // Existing patterns...
 const BLOCKED_PATTERNS = [
@@ -73,6 +69,13 @@ function getClientIP(req: express.Request): string {
   )
     .split(',')[0]
     .trim()
+}
+
+export function detectRecursivePath(args: { pathname: string, maxLength?: number, checkLength?: number }): boolean {
+  const { pathname, maxLength = 500, checkLength = 50 } = args
+  const pathSegments = pathname.split('/') || []
+  return pathname.length > maxLength
+    || pathSegments.some(seg => seg.length > checkLength && /(.+)\1{2,}/.test(seg))
 }
 
 function isIPBlocked(ip: string): boolean {
@@ -144,12 +147,7 @@ export const securityMiddleware: express.RequestHandler = (req, res, next) => {
     }
 
     // Check for recursive URL blowups
-    const lastSegment = pathname.split('/').pop() || ''
-
-    // eslint-disable-next-line regexp/optimal-quantifier-concatenation
-    const hasRepeatedSubstring = new RegExp(`(.+)\\1{${MIN_REPEATS - 1},}`).test(lastSegment)
-    const isPathnameTooLong = pathname.length > MAX_PATHNAME_LENGTH
-    if (isPathnameTooLong || hasRepeatedSubstring) {
+    if (detectRecursivePath({pathname})) {
       fails.push('recursive URL pattern')
     }
 

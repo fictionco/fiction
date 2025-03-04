@@ -24,8 +24,8 @@
 :443 {
 	reverse_proxy fiction-gateway.internal:6565 {
 		header_up Host {http.request.host}
-		header_up X-Real-IP {remote_ip}
-		header_up X-Forwarded-For {remote_ip}
+		header_up X-Real-IP {http.request.remote.ip}
+		header_up X-Forwarded-For {http.request.remote.ip}
 		header_up X-Forwarded-Proto https
 	}
 
