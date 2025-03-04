@@ -2,6 +2,8 @@
 import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 
+defineOptions({ name: 'InputElBox' })
+
 const props = defineProps({
   label: { type: [String, Number], default: '' },
   icon: { type: String, default: '' },

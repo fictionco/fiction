@@ -3,6 +3,8 @@ import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 import InputElBox from './InputElBox.vue'
 
+defineOptions({ name: 'InputRating' })
+
 const props = defineProps({
   modelValue: { type: [Number], default: undefined },
   countStart: { type: [Number, String], default: 0 },

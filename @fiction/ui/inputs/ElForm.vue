@@ -2,6 +2,8 @@
 import { vue } from '@fiction/core'
 import ElSpinner from '../loaders/ElSpinner.vue'
 
+defineOptions({ name: 'ElForm' })
+
 const props = defineProps({
   name: { type: String, default: '' },
   save: { type: Boolean, default: false },

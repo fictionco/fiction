@@ -2,6 +2,8 @@
 import type { MediaObject, vue } from '@fiction/core'
 import ElInput from './ElInput.vue'
 
+defineOptions({ name: 'InputOverlay' })
+
 const props = defineProps({
   modelValue: {
     type: Object as vue.PropType<MediaObject['overlay']>,

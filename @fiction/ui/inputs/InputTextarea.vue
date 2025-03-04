@@ -3,6 +3,8 @@ import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { textInputClasses } from './theme'
 
+defineOptions({ name: 'InputTextarea' })
+
 const props = defineProps({
   modelValue: { type: String, default: '' },
   rows: { type: Number, default: undefined },

@@ -3,6 +3,8 @@ import type { NavListItem, StandardSize } from '@fiction/core'
 import { normList, vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 
+defineOptions({ name: 'InputRadioButton' })
+
 const { modelValue, list = [], uiSize = 'sm' } = defineProps<{
   modelValue?: string | number
   list?: NavListItem[]

@@ -3,6 +3,8 @@ import type { ColorThemeUser } from '@fiction/core'
 import type { UiElementSize } from '../utils'
 import { textInputClasses } from './theme'
 
+defineOptions({ name: 'InputEmail' })
+
 const {
   modelValue = '',
   placeholder = 'Type an email...',

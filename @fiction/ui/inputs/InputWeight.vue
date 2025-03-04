@@ -3,6 +3,8 @@ import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 
+defineOptions({ name: 'InputWeight' })
+
 const props = defineProps({
   min: { type: [String, Number], default: '1' },
   max: { type: [String, Number], default: '10' },

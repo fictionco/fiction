@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
 
+defineOptions({ name: 'InputRange' })
+
 const props = defineProps({
   modelValue: { type: [String, Number], default: undefined },
   min: { type: [String, Number], default: 0 },

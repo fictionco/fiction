@@ -4,6 +4,8 @@ import { vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 import { getCheckboxClasses } from './theme'
 
+defineOptions({ name: 'InputCheckbox' })
+
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
   text: { type: String, default: '' },

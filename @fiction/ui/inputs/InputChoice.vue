@@ -4,7 +4,7 @@ import type { RouteLocationRaw } from 'vue-router'
 import { normalizeList, vue } from '@fiction/core'
 import InputElTab from './InputElTab.vue'
 
-type RouteListItem = ListItem & { route?: RouteLocationRaw }
+defineOptions({ name: 'InputChoice' })
 
 const props = defineProps({
   modelValue: { type: [Number, String], default: undefined },
@@ -23,6 +23,8 @@ const emit = defineEmits<{
   ): void
   (event: 'continue', payload: number | string | undefined | undefined): void
 }>()
+
+type RouteListItem = ListItem & { route?: RouteLocationRaw }
 
 const attrs = vue.useAttrs()
 

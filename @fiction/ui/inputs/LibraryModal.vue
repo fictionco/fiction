@@ -13,6 +13,8 @@ import LibraryBackground from './LibraryBackground.vue'
 import LibraryIcon from './LibraryIcon.vue'
 import LibraryMediaGallery from './LibraryMediaGallery.vue'
 
+defineOptions({ name: 'LibraryModal' })
+
 const props = defineProps<{
   modelValue: MediaObject
   vis?: boolean

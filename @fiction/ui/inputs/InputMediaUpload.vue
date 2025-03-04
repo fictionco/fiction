@@ -6,6 +6,8 @@ import { resizeImage } from '@fiction/core/plugin-media/browserResize'
 import XButton from '../buttons/XButton.vue'
 import { textInputClasses } from './theme'
 
+defineOptions({ name: 'InputMediaUpload' })
+
 const {
   modelValue,
   fileTypes = ['jpg', 'png', 'gif', 'svg', 'webp', 'mp4', 'webm'],

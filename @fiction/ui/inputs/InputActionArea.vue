@@ -6,15 +6,18 @@ import { createOption } from './index.js'
 
 defineOptions({ name: 'InputActionArea' })
 
-const { modelValue, variants, defaultVariant = 'buttons', proof = [] } = defineProps<{
+const { modelValue, variants, defaultVariant = 'buttons', proof = [], activePath, editPath } = defineProps<{
   modelValue?: ActionArea
   variants?: ActionArea['variant'][]
   proof?: (keyof NonNullable<ActionArea['proof']>)[]
   defaultVariant?: ActionArea['variant']
+  activePath?: string
+  editPath?: string
 }>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: ActionArea): void
+  (event: 'update:activePath', payload: string): void
 }>()
 
 const val = vue.computed(() => {
@@ -174,7 +177,10 @@ const options = vue.computed(() => {
       :model-value="val"
       ui-size="md"
       :options
+      :active-path="activePath"
+      :edit-path="editPath"
       @update:model-value="emit('update:modelValue', $event)"
+      @update:active-path="emit('update:activePath', $event)"
     />
   </div>
 </template>

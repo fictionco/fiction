@@ -64,7 +64,7 @@ const testEmails = vue.computed({
 </script>
 
 <template>
-  <ElForm v-if="post" class="space-y-6 w-full p-12" @submit="sendTest()">
+  <ElForm v-if="post" class="space-y-6 w-full p-4 md:p-12" @submit="sendTest()">
     <ElInput
       v-model="testEmails"
       label="Send Test Emails"

@@ -5,6 +5,8 @@ import { NavListSchema as schema } from '@fiction/core'
 import FormEngine from './FormEngine.vue'
 import { createOption } from './index.js'
 
+defineOptions({ name: 'InputNavMenu' })
+
 const { modelValue = [] } = defineProps<{ modelValue?: NavList[] }>()
 
 const emit = defineEmits<{

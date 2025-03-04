@@ -4,7 +4,7 @@ import { SuperTitleSchema as schema, vue } from '@fiction/core'
 import FormEngine from './FormEngine.vue'
 import { createOption } from './index.js'
 
-defineOptions({ name: 'InputActionArea' })
+defineOptions({ name: 'InputSuperTitle' })
 
 const { modelValue, activePath, editPath } = defineProps<{ modelValue?: SuperTitle, activePath?: string, editPath?: string }>()
 

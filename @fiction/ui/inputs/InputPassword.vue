@@ -3,6 +3,8 @@ import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { textInputClasses } from './theme'
 
+defineOptions({ name: 'InputPassword' })
+
 defineProps({
   modelValue: { type: String, default: '' },
   inputClass: { type: String, default: '' },

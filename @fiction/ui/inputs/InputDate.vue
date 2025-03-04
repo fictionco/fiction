@@ -3,6 +3,8 @@ import type { UiElementSize } from '../utils'
 import { dayjs, isDarkOrLightMode, vue } from '@fiction/core'
 import { textInputClasses } from './theme'
 
+defineOptions({ name: 'InputDate' })
+
 const props = defineProps({
   modelValue: { type: [String], default: '' },
   inputClass: { type: String, default: '' },

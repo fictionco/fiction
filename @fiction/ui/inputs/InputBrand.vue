@@ -5,10 +5,13 @@ import { brandSchema as schema } from '@fiction/core'
 import FormEngine from './FormEngine.vue'
 import { createOption } from './index.js'
 
-const { modelValue } = defineProps<{ modelValue?: BrandObject }>()
+defineOptions({ name: 'InputBrand' })
+
+const { modelValue, activePath, editPath } = defineProps<{ modelValue?: BrandObject, activePath?: string, editPath?: string }>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: BrandObject): void
+  (event: 'update:activePath', payload: string): void
 }>()
 
 const options: InputOption[] = [
@@ -27,7 +30,10 @@ const options: InputOption[] = [
       :model-value="modelValue"
       ui-size="md"
       :options="options"
+      :active-path="activePath"
+      :edit-path="editPath"
       @update:model-value="emit('update:modelValue', $event)"
+      @update:active-path="emit('update:activePath', $event)"
     />
   </div>
 </template>

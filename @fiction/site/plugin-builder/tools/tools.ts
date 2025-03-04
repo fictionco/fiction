@@ -9,7 +9,7 @@ export const tools = [
   {
     toolId: 'editLayout',
     title: 'Edit Content and Layout',
-    icon: 'i-tabler-drag-drop-2',
+    icon: 'i-tabler-circle-plus',
     widthClasses: 'w-[430px]',
     el: vue.defineAsyncComponent(async () => import('./ToolPageLayout.vue')),
     isPrimary: true,
@@ -17,7 +17,7 @@ export const tools = [
   {
     toolId: 'editPage',
     title: 'Edit Page Details',
-    icon: 'i-tabler-file-export',
+    icon: 'i-tabler-file-description',
     widthClasses: 'w-[430px]',
     el: vue.defineAsyncComponent(async () => import('./ToolPageEdit.vue')),
     isPrimary: true,
@@ -38,7 +38,7 @@ export const tools = [
   {
     toolId: 'global',
     title: 'Settings and Tags',
-    icon: 'i-tabler-adjustments',
+    icon: 'i-tabler-tag',
     isPrimary: true,
     widthClasses: 'w-[500px]',
     el: vue.defineAsyncComponent(async () => import('./ToolPageGlobal.vue')),
@@ -46,7 +46,7 @@ export const tools = [
   {
     toolId: 'styling',
     title: 'Fonts and Colors',
-    icon: 'i-tabler-color-picker',
+    icon: 'i-tabler-palette',
     isPrimary: true,
     el: vue.defineAsyncComponent(async () => import('./ToolGlobalStyling.vue')),
   },

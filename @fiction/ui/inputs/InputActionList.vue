@@ -2,6 +2,8 @@
 import type { ActionButton, vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 
+defineOptions({ name: 'InputActionList' })
+
 const props = defineProps({
   buttons: { type: Array as vue.PropType<ActionButton[]>, default: () => [] },
   uiSize: { type: String as vue.PropType<ActionButton['size']>, default: 'sm' },

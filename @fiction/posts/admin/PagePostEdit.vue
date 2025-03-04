@@ -483,12 +483,19 @@ const statusMap = vue.computed<NavListItem>(() => {
   <div>
     <ViewEditor :tool-props="{ post, card }" :controller="postEditController" :loading="loading" :card>
       <template #headerLeft>
-        <XButton theme="default" :href="card.link('/posts')" class="shrink-0" icon="i-tabler-arrow-left" design="ghost">
+        <XButton
+          theme="default"
+          :href="card.link('/posts')"
+          class="shrink-0"
+          icon="i-tabler-arrow-left"
+          design="ghost"
+          respond="icon:md"
+        >
           All
         </XButton>
         <div class="flex space-x-1 font-medium pr-4">
           <RouterLink
-            class=" whitespace-nowrap text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0 flex items-center gap-1"
+            class="hidden md:flex whitespace-nowrap text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0  items-center gap-1"
             :to="card.link('/posts')"
           >
             <span class="i-tabler-file-text text-xl inline-block dark:text-theme-500" />
@@ -506,6 +513,7 @@ const statusMap = vue.computed<NavListItem>(() => {
           :icon="statusMap.icon"
           data-test-id="post-status-badge"
           design="outline"
+          class="hidden md:block"
           @click.stop="navigate({ key: 'review' })"
         >
           {{ statusMap.label || toLabel(post?.status.value) }}
@@ -529,6 +537,7 @@ const statusMap = vue.computed<NavListItem>(() => {
             v-if="post"
             :is-dirty="post.saveUtil.isDirty.value"
             data-test-id="draft-control-dropdown"
+            class="hidden md:block"
           />
           <XButton
             theme="default"
@@ -621,7 +630,7 @@ const statusMap = vue.computed<NavListItem>(() => {
       <div class="p-4 font-semibold">
         Schedule Publish
       </div>
-      <ElForm data-test-id="publish-panel" v-if="post" class="p-4 space-y-6 relative" @submit="saveAndSchedule()">
+      <ElForm v-if="post" data-test-id="publish-panel" class="p-4 space-y-6 relative" @submit="saveAndSchedule()">
         <div class="space-y-6 p-12">
           <ElInput
             v-model="post.publishMode.value"

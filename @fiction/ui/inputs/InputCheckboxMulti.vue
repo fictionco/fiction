@@ -4,6 +4,8 @@ import { normList, vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 import { getCheckboxClasses } from './theme.js'
 
+defineOptions({ name: 'InputCheckboxMulti' })
+
 const { modelValue = [], list = [], inputClass = '', uiSize = 'md' } = defineProps<{
   modelValue?: string | string[]
   list?: NavListItem[]

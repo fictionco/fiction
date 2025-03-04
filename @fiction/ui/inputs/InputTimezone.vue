@@ -4,6 +4,8 @@ import { vue } from '@fiction/core'
 import timezones from '@fiction/core/utils/lib/timezones.json'
 import InputSelect from './InputSelectCustom.vue'
 
+defineOptions({ name: 'InputTimezone' })
+
 interface TimezoneItem {
   offset: string
   name: string

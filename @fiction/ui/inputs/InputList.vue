@@ -8,7 +8,7 @@ import TransitionSlide from '../anim/TransitionSlide.vue'
 import XButton from '../buttons/XButton.vue'
 import FormEngine from './FormEngine.vue'
 
-export type BasicItem = Record<string, unknown> & { _key?: string }
+defineOptions({ name: 'InputList' })
 
 const {
   modelValue = [],
@@ -38,6 +38,8 @@ const emit = defineEmits<{
   (event: 'update:activePath', payload: string): void
   (event: 'activate', payload: string): void
 }>()
+
+export type BasicItem = Record<string, unknown> & { _key?: string }
 
 type KeyedItem = Record<string, unknown> & { _key: string }
 

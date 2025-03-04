@@ -8,6 +8,8 @@ import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import { twMerge } from 'tailwind-merge'
 
+defineOptions({ name: 'InputMarkdown' })
+
 const props = defineProps({
   modelValue: { type: String, default: '' },
   rows: { type: Number, default: 1 },

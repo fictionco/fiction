@@ -2,6 +2,8 @@
 import type { StandardSize, vue } from '@fiction/core'
 import { textInputClasses } from './theme'
 
+defineOptions({ name: 'InputUrl' })
+
 defineProps({
   modelValue: { type: [String], default: '' },
   placeholder: { type: [String], default: 'https://' },

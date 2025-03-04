@@ -5,6 +5,8 @@ import { vue } from '@fiction/core'
 import ProseEditor from '../prose/editor/ProseEditor.vue'
 import ProseEditorToolbar from '../prose/editor/ProseEditorToolbar.vue'
 
+defineOptions({ name: 'InputProse' })
+
 defineProps({
   modelValue: { type: String, default: '' },
   inputClass: { type: String, default: '' },
@@ -19,7 +21,7 @@ function handleEmit(payload: string): void {
   emit('update:modelValue', payload)
 }
 
-const proseEditorEl = vue.ref<HTMLElement & { editor: Editor }>()
+const proseEditorEl = vue.shallowRef<HTMLElement & { editor: Editor }>()
 
 const editor = vue.computed(() => {
   return proseEditorEl.value?.editor
@@ -39,24 +41,3 @@ const editor = vue.computed(() => {
     </div>
   </div>
 </template>
-
-<style lang="less">
-@import url('@fiction/ui/entry.less');
-.prose{
-  > *:first-child{
-    margin-top: .5em;
-  }
-  > *:last-child{
-    margin-bottom: .5em;
-  }
-
-  .tiptap{
-    > *:first-child{
-      margin-top: .5em;
-    }
-    > *:last-child{
-      margin-bottom: .5em;
-    }
-  }
-}
-</style>

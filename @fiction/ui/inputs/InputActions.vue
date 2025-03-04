@@ -5,6 +5,8 @@ import { ActionButtonSchema as schema } from '@fiction/core'
 import { createOption } from './index.js'
 import InputList from './InputList.vue'
 
+defineOptions({ name: 'InputActions' })
+
 const { modelValue = [] } = defineProps<{ modelValue?: BasicItem[] }>()
 
 const emit = defineEmits<{

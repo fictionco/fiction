@@ -3,6 +3,8 @@ import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 
+defineOptions({ name: 'InputToggle' })
+
 const props = defineProps({
   modelValue: { type: [Boolean, String], default: false },
   textOff: { type: String, default: '' },

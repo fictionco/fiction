@@ -3,6 +3,8 @@ import type { UiElementSize } from '../utils'
 import { vue } from '@fiction/core'
 import { textInputClasses } from './theme'
 
+defineOptions({ name: 'InputPhone' })
+
 defineProps({
   modelValue: { type: [String], default: '' },
   inputClass: { type: String, default: '' },

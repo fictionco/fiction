@@ -16,7 +16,7 @@ import type { template as MagazineTemplate } from '@fiction/cards/posts-magazine
 import type { template as QuotesTemplate } from '@fiction/cards/proof-quotes'
 import type { template as TickerTemplate } from '@fiction/cards/typography-ticker'
 
-import type { Site } from '@fiction/site'
+import type { Site, ThemeConfig } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { SiteUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
@@ -200,7 +200,7 @@ export async function getHidden(args: SectionArgs) {
   })
 }
 
-export async function getConfig(args: Omit<SectionArgs, 'stock'>) {
+export async function getConfig(args: Omit<SectionArgs, 'stock'>): Promise<ThemeConfig> {
   const { factory } = args
   const stock = await factory.getStockMedia()
   const a = { ...args, stock }
@@ -216,5 +216,11 @@ export async function getConfig(args: Omit<SectionArgs, 'stock'>) {
   return {
     sections: { header, footer, hidden },
     pages,
+    userConfig: {
+      site: {
+        prefersColorScheme: 'dark',
+        primaryColor: 'blue',
+      },
+    },
   }
 }

@@ -3,6 +3,8 @@ import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { textInputClasses } from './theme'
 
+defineOptions({ name: 'InputNumber' })
+
 const props = defineProps({
   modelValue: { type: [String, Number], default: '' },
   min: { type: [String, Number], default: 0 },

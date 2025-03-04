@@ -2,6 +2,8 @@
 import { vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 
+defineOptions({ name: 'InputSubmit' })
+
 const attrs = vue.useAttrs()
 </script>
 

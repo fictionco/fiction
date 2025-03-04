@@ -4,6 +4,8 @@ import type { UiElementFormat, UiElementSize, UiElementStyle } from '../utils'
 import { normalizeList, onResetUi, resetUi, vue } from '@fiction/core'
 import { getButtonClasses } from '../utils'
 
+defineOptions({ name: 'InputDropDown' })
+
 const props = defineProps({
   modelValue: { type: String, default: undefined },
   list: { type: Array as vue.PropType<(ListItem | string | undefined)[]>, default: () => [] },

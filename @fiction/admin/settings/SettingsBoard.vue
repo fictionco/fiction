@@ -78,10 +78,10 @@ const nav = vue.computed<NavListItem[]>(() => {
 
 function getNavItemClass(item: NavListItem, index: number) {
   return item.isActive
-    ? 'bg-primary-100/50 text-theme-700 dark:bg-theme-800 dark:text-theme-0'
+    ? 'bg-primary-100/50 text-primary-700 dark:bg-primary-950/50 dark:text-primary-50'
     : index === 0 && !currentItemId.value
-      ? 'lg:bg-primary-100/50 lg:text-theme-700 lg:dark:bg-theme-800 lg:dark:text-theme-0'
-      : 'text-theme-600 dark:text-theme-0 hover:bg-theme-100/30 dark:hover:bg-theme-700/60'
+      ? 'lg:bg-primary-100/50 lg:text-primary-700 lg:dark:bg-primary-950/50 lg:dark:text-primary-50'
+      : 'text-theme-600 dark:text-theme-200 dark:bg-theme-800/50 bg-theme-50/60 hover:bg-theme-100/30 dark:hover:bg-theme-700/60'
 }
 
 const transitionDirection = vue.ref<'left' | 'right'>('right')
@@ -133,7 +133,7 @@ const parentPanelProps = vue.computed(() => {
             <div class="space-y-3">
               <ElHeader
                 v-if="header"
-                class="bg-theme-50/20 dark:bg-theme-800 rounded-xl p-4"
+                class="border-b border-theme-300/50 dark:border-theme-700 px-4 pb-6"
                 :model-value="header"
                 :theme="theme || 'primary'"
                 @update:model-value="emit('update:header', $event)"
@@ -150,14 +150,18 @@ const parentPanelProps = vue.computed(() => {
               >
                 <XIcon
                   v-if="v.icon"
-                  class="text-[1.2em] xl:text-[1.5em] shrink-0 text-theme-500 dark:text-theme-50"
+                  class="text-[1.2em] xl:text-[1.5em] shrink-0 "
+                  :class="v.isActive || (i === 0 && !currentItemId) ? 'text-primary-700 dark:text-primary-500' : 'text-theme-500 dark:text-theme-300'"
                   :media="v.icon || {}"
                 />
                 <div class="min-w-0 truncate overflow-ellipsis text-left">
                   <div class="font-semibold truncate">
                     {{ v.label }}
                   </div>
-                  <div class="text-theme-400 dark:text-theme-500 truncate text-sm">
+                  <div
+                    class=" truncate text-sm"
+                    :class="v.isActive || (i === 0 && !currentItemId) ? 'text-primary-700 dark:text-primary-500' : 'text-theme-400 dark:text-theme-500'"
+                  >
                     {{ v.description }}
                   </div>
                 </div>

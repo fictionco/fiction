@@ -8,12 +8,12 @@ import type { template as galleryTemplate } from '@fiction/cards/gallery-masonry
 import type { template as parallaxScollTemplate } from '@fiction/cards/gallery-parallax-scroll'
 import type { template as templateFooterPro } from '@fiction/cards/page-footer-pro/index'
 import type { template as cardSiteNavV1Template } from '@fiction/cards/page-nav/index'
-import type { template as postListTemplate } from '@fiction/cards/posts-list'
+import type { template as postListTemplate, templateId } from '@fiction/cards/posts-list'
 import type { template as metricsTemplate } from '@fiction/cards/proof-metrics/index'
 import type { template as quotesTemplate } from '@fiction/cards/proof-quotes/index'
 import type { template as cardOverlaySliderV1Template } from '@fiction/cards/slider-overlay/index'
 
-import type { Site } from '@fiction/site'
+import type { Site, ThemeConfig } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { SiteUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
@@ -39,20 +39,20 @@ export async function getPages(args: SectionArgs) {
             autoSlide: true,
             items: [
               {
-                title: 'The Art of Prestige',
-                subTitle: 'Where classical illusion meets modern sophistication',
+                title: 'Your Primary Headline',
+                subTitle: 'Notice how a strong subheadline adds context and depth',
                 media: stock.getRandomByTags(['woman']),
                 textBlend: 'difference',
               },
               {
-                title: 'Masters of Misdirection',
-                subTitle: 'Crafting unforgettable moments of wonder for elite audiences',
+                title: 'Memorable First Impressions',
+                subTitle: 'Multiple slides help showcase different aspects of your brand',
                 media: stock.getRandomByTags(['woman']),
                 textBlend: 'difference',
               },
               {
-                title: 'Beyond Illusion',
-                subTitle: 'Transform your event into an extraordinary experience',
+                title: 'Your Brand Position',
+                subTitle: 'Use this space to communicate your unique value proposition',
                 media: stock.getRandomByTags(['woman']),
                 textBlend: 'difference',
               },
@@ -64,29 +64,29 @@ export async function getPages(args: SectionArgs) {
           userConfig: {
             standard: {
               headers: {
-                title: 'Signature Performances',
-                subTitle: 'Curated magical experiences for discerning audiences',
+                title: 'Core Offerings',
+                subTitle: 'Highlight your primary services or specialties here',
                 layout: 'left',
               },
             },
             items: [
               {
-                title: 'Corporate Illusions',
-                description: 'Elevate your corporate message through sophisticated deception. From product reveals to brand storytelling, we transform business objectives into moments of astonishment.',
+                title: 'Primary Service',
+                description: 'Describe your first key offering here. What problem does it solve? Who is it for? Use 2-3 concise sentences that highlight benefits rather than just features.',
                 icon: { iconId: 'briefcase' },
                 color: 'blue',
                 columns: '2',
               },
               {
-                title: 'Creative Direction',
-                description: 'Behind the scenes of television\'s most captivating illusions. Bringing magical authenticity to productions like Netflix\'s "The Magicians" and Broadway\'s "The Prestige".',
+                title: 'Secondary Service',
+                description: 'Your second offering should complement the first. Notice how these descriptions establish expertise without being overly technical or filled with jargon.',
                 icon: { iconId: 'bulb' },
                 color: 'emerald',
                 columns: '2',
               },
               {
-                title: 'Private Exhibitions',
-                description: 'Intimate performances crafted for distinguished gatherings. Specializing in high-society events where every detail is an opportunity for wonder.',
+                title: 'Tertiary Service',
+                description: 'Complete your service trinity with a third distinct offering. The icon, color, and description work together to create a cohesive yet varied presentation.',
                 icon: { iconId: 'users' },
                 color: 'indigo',
                 columns: '2',
@@ -101,18 +101,18 @@ export async function getPages(args: SectionArgs) {
           templateId: 'cardHeroV1',
           userConfig: {
             layout: 'left',
-            title: 'Illusionist & Creative Director',
-            subTitle: 'Crafting sophisticated deceptions for elite corporate events and entertainment productions. Based in Chicago, performing worldwide.',
+            title: 'Your Professional Title',
+            subTitle: 'This brief professional bio should be approximately 15-25 words. Focus on expertise, location, and scope of service.',
             superTitle: {
-              text: 'The Art of Prestige',
+              text: 'Brand Tagline',
               icon: { iconId: 'star' },
               theme: 'primary',
             },
             media: stock.getRandomByTags(['woman']),
             action: {
               buttons: [
-                { label: 'Past Performances', href: '/work', theme: 'primary' },
-                { label: 'Begin the Journey', href: '/contact' },
+                { label: 'Primary CTA', href: '/work', theme: 'primary' },
+                { label: 'Secondary CTA', href: '/contact' },
               ],
             },
           },
@@ -123,14 +123,14 @@ export async function getPages(args: SectionArgs) {
           userConfig: {
             standard: {
               headers: {
-                title: 'A Legacy of Wonder',
-                subTitle: 'Fifteen years of orchestrating astonishment',
+                title: 'Proof Points',
+                subTitle: 'Numbers that demonstrate your impact and experience',
               },
             },
             items: [
-              { label: 'Annual Performances', value: 120, format: 'number', description: 'Elite events' },
-              { label: 'Client Enchantment', value: 82, format: 'percent', description: 'Return engagements' },
-              { label: 'Global Reach', value: 23, description: 'Countries mystified' },
+              { label: 'Key Metric #1', value: 120, format: 'number', description: 'Brief explanation' },
+              { label: 'Success Rate', value: 98, format: 'percent', description: 'Client satisfaction' },
+              { label: 'Industry Reach', value: 23, description: 'Markets served' },
             ],
           },
         }),
@@ -140,42 +140,42 @@ export async function getPages(args: SectionArgs) {
             standard: {
               headers: {
                 layout: 'center',
-                superTitle: { text: 'Portfolio', icon: { iconId: 'wand' }, theme: 'primary' },
-                title: 'Recent Illusions',
-                subTitle: 'Selected performances and creative direction',
+                superTitle: { text: 'Portfolio', icon: { iconId: 'briefcase' }, theme: 'primary' },
+                title: 'Featured Projects',
+                subTitle: 'See how the parallax effect creates visual interest as you scroll',
               },
             },
             items: [
               {
-                title: 'Google I/O 2023',
-                content: 'Reimagined the impossible for Google\'s AI showcase. Created visual metaphors where technology and magic become indistinguishable.',
+                title: 'Project One Title',
+                content: 'Describe your first featured project. What challenge did it address? What was your approach? What were the results?',
                 media: stock.getRandomByTags(['object']),
                 parallaxStrength: 0.4,
                 action: {
                   buttons: [
-                    { label: 'Reveal the Magic', href: '/work/google-io' },
+                    { label: 'View Details', href: '/work/project-one' },
                   ],
                 },
               },
               {
-                title: 'Netflix\'s "The Magicians"',
-                content: 'Lead illusion designer for Season 5. Transformed classical sleight of hand into contemporary visual storytelling.',
+                title: 'Project Two Title',
+                content: 'Your second project demonstrates range and versatility. This description should be similar in length but highlight different skills.',
                 media: stock.getRandomByTags(['object']),
                 parallaxStrength: 0.6,
                 action: {
                   buttons: [
-                    { label: 'Behind the Illusion', href: '/work/netflix' },
+                    { label: 'Learn More', href: '/work/project-two' },
                   ],
                 },
               },
               {
-                title: 'SpaceX Executive Retreat',
-                content: 'Crafted an intimate performance where the principles of misdirection mirror the beauty of orbital mechanics.',
+                title: 'Project Three Title',
+                content: 'Complete the showcase with a third distinctive project. Notice how these three together create a compelling narrative about your capabilities.',
                 media: stock.getRandomByTags(['object']),
                 parallaxStrength: 0.5,
                 action: {
                   buttons: [
-                    { label: 'Experience the Wonder', href: '/work/spacex' },
+                    { label: 'Explore Project', href: '/work/project-three' },
                   ],
                 },
               },
@@ -187,8 +187,8 @@ export async function getPages(args: SectionArgs) {
           userConfig: {
             standard: {
               headers: {
-                title: 'Mysteries Unveiled',
-                subTitle: 'Exploring the art and psychology of modern illusion',
+                title: 'Latest Insights',
+                subTitle: 'Share your expertise through regular content updates',
               },
             },
             posts: {
@@ -208,18 +208,18 @@ export async function getPages(args: SectionArgs) {
         await factory.fromTemplate<typeof heroTemplate>({
           templateId: 'cardHeroV1',
           userConfig: {
-            title: 'Portfolio of Wonder',
-            subTitle: 'A collection of extraordinary performances and innovative magical consulting across corporate, entertainment, and private sectors',
+            title: 'Portfolio',
+            subTitle: 'A curated collection of projects demonstrating your expertise and approach across different contexts',
             superTitle: {
               text: 'Selected Works',
-              icon: { iconId: 'wand' },
+              icon: { iconId: 'briefcase' },
               theme: 'primary',
             },
             media: stock.getRandomByTags(['aspect:wide']),
             action: {
               buttons: [
-                { label: 'Discover the Magic', href: '#featured', theme: 'primary' },
-                { label: 'Consulting Work', href: '#consulting' },
+                { label: 'View Projects', href: '#featured', theme: 'primary' },
+                { label: 'Client Work', href: '#consulting' },
               ],
             },
           },
@@ -229,54 +229,54 @@ export async function getPages(args: SectionArgs) {
           userConfig: {
             items: [
               {
-                superTitle: { text: 'Featured Performance', theme: 'blue' },
-                title: 'Google I/O 2023',
-                content: 'Reimagining the future through impossible moments. A groundbreaking fusion of classical magic and artificial intelligence.',
+                superTitle: { text: 'Featured Project', theme: 'blue' },
+                title: 'Primary Project Name',
+                content: 'Notice how this featured project gets more space. Use this for your most impressive or recent work.',
                 bg: stock.getRandomByTags(['object']),
                 cols: 6,
                 rows: 2,
                 theme: 'blue',
                 verticalPosition: 'top',
                 action: {
-                  buttons: [{ label: 'Explore Project', href: '/work/google-io' }],
+                  buttons: [{ label: 'View Project', href: '/work/project-one' }],
                 },
               },
               {
-                title: 'Netflix Creative Direction',
-                content: 'Lead illusion designer for "The Magicians" Season 5, bringing authenticity to modern magical storytelling.',
+                title: 'Secondary Project',
+                content: 'Smaller tiles work well for supporting projects. Keep descriptions brief but impactful.',
                 bg: stock.getRandomByTags(['object']),
                 cols: 3,
                 rows: 2,
                 theme: 'emerald',
               },
               {
-                title: 'Broadway Magic',
-                content: 'Technical direction for "The Prestige" stage adaptation, merging Victorian illusions with contemporary theater.',
+                title: 'Tertiary Project',
+                content: 'The bento grid layout allows for visual hierarchy while maintaining a cohesive look.',
                 bg: stock.getRandomByTags(['object']),
                 cols: 3,
                 rows: 2,
                 theme: 'violet',
               },
               {
-                superTitle: { text: 'Private Event', theme: 'indigo' },
-                title: 'SpaceX Executive Retreat',
-                content: 'Custom close-up performance exploring the parallels between space exploration and impossible possibilities.',
+                superTitle: { text: 'Client Work', theme: 'indigo' },
+                title: 'Client Project Title',
+                content: 'For client work, focus on the challenge and your solution rather than technical details.',
                 media: stock.getRandomByTags(['object']),
                 cols: 4,
                 rows: 3,
                 theme: 'indigo',
               },
               {
-                title: 'Microsoft HoloLens Launch',
-                content: 'Magical product reveal combining classical sleight of hand with augmented reality.',
+                title: 'Product Launch',
+                content: 'Color coding your projects by type creates an intuitive navigation experience.',
                 bg: stock.getRandomByTags(['object']),
                 cols: 4,
                 rows: 3,
                 theme: 'cyan',
               },
               {
-                title: 'Royal Albert Hall',
-                content: 'Sold-out theater show featuring signature illusions and world premieres.',
+                title: 'Featured Presentation',
+                content: 'The mix of images and video creates visual interest throughout your portfolio.',
                 media: stock.getRandomByTags(['object']),
                 verticalPosition: 'top',
                 cols: 4,
@@ -291,49 +291,49 @@ export async function getPages(args: SectionArgs) {
           userConfig: {
             standard: {
               headers: {
-                title: 'Performance Gallery',
-                subTitle: 'Moments of wonder captured across global venues',
+                title: 'Project Gallery',
+                subTitle: 'Visual showcase of work across different contexts',
               },
             },
             items: [
               {
-                title: 'Corporate Innovation',
-                content: 'Creating impossible moments for product launches and brand experiences that leave lasting impressions.',
+                title: 'Category One',
+                content: 'Each gallery item can represent a category of work rather than individual projects.',
                 media: stock.getRandomByTags(['object']),
                 cols: '2',
                 theme: 'blue',
               },
               {
-                title: 'Television Magic',
-                content: 'Bringing authentic illusions to the screen through technical direction and performance.',
+                title: 'Category Two',
+                content: 'Consistent styling creates cohesion while different images maintain visual interest.',
                 media: stock.getRandomByTags(['object']),
                 cols: '2',
                 theme: 'emerald',
               },
               {
-                title: 'Private Events',
-                content: 'Crafting intimate magical experiences for exclusive gatherings and celebrations.',
+                title: 'Category Three',
+                content: 'The lightbox functionality allows visitors to view full-size images without leaving the page.',
                 media: stock.getRandomByTags(['object']),
                 cols: '2',
                 theme: 'violet',
               },
               {
-                title: 'Stage Shows',
-                content: 'Theater performances that combine classical illusion with modern storytelling.',
+                title: 'Category Four',
+                content: 'Themes can match your brand colors while maintaining a coordinated palette.',
                 media: stock.getRandomByTags(['object']),
                 cols: '2',
                 theme: 'indigo',
               },
               {
-                title: 'Consulting Projects',
-                content: 'Behind-the-scenes magic design for entertainment and corporate clients.',
+                title: 'Category Five',
+                content: 'Brief descriptions help visitors understand the context of each visual.',
                 media: stock.getRandomByTags(['object']),
                 cols: '2',
                 theme: 'cyan',
               },
               {
-                title: 'International Tours',
-                content: 'Bringing sophisticated illusion to prestigious venues worldwide.',
+                title: 'Category Six',
+                content: 'Six categories create a balanced layout that works well on most screen sizes.',
                 media: stock.getRandomByTags(['object']),
                 cols: '2',
                 theme: 'rose',
@@ -363,24 +363,24 @@ export async function getPages(args: SectionArgs) {
           userConfig: {
             standard: {
               headers: {
-                title: 'The Story Behind the Wonder',
-                subTitle: 'From childhood curiosity to mastery of the impossible',
+                title: 'My Story',
+                subTitle: 'How personal experience shaped professional expertise',
               },
             },
             items: [
               {
-                title: 'A Spark of Magic',
-                content: 'My journey began on the streets of Chicago, where the city\'s rich history of vaudeville and mystery first captured my imagination. At age seven, I discovered an old copy of Hoffman\'s Modern Magic in my grandfather\'s library. That weathered tome, with its cryptic illustrations and secrets, sparked a lifelong obsession with the art of the impossible.',
+                title: 'The Beginning',
+                content: 'Start with your origin story. What sparked your interest in your field? Share a personal anecdote that connects emotionally with readers while establishing the foundation of your expertise.',
                 media: stock.getRandomByTags(['people']),
               },
               {
-                title: 'The Art of Wonder',
-                content: 'Under the mentorship of master illusionists at the McBride Magic & Mystery School, I delved deep into both classical techniques and psychological principles. Here, I learned that true magic lies not in the mechanics of deception, but in creating moments of genuine astonishment that resonate long after the performance ends.',
+                title: 'The Development',
+                content: 'Describe your professional development. What training, mentorship, or pivotal experiences shaped your approach? This section bridges your beginning with your current professional identity.',
                 media: stock.getRandomByTags(['people']),
               },
               {
-                title: 'Modern Mystique',
-                content: 'Today, I blend classical sleight of hand with contemporary presentation to create experiences that challenge the boundaries between illusion and reality. Whether consulting for major productions or performing at exclusive gatherings, my mission remains constant: to create sophisticated moments of wonder that engage both intellect and imagination.',
+                title: 'The Approach',
+                content: 'Articulate your current philosophy and methodology. How do your experiences inform your work today? This section should connect your past with your present offerings and establish your unique value.',
                 media: stock.getRandomByTags(['people']),
               },
             ],
@@ -391,38 +391,38 @@ export async function getPages(args: SectionArgs) {
           userConfig: {
             standard: {
               headers: {
-                title: 'Milestones in Mystery',
-                subTitle: 'Key moments in the pursuit of the impossible',
+                title: 'Professional Timeline',
+                subTitle: 'Key milestones in the evolution of expertise',
               },
             },
             items: [
               {
-                title: 'First International Tour',
-                content: 'Debut performances across Europe, culminating in a sold-out show at London\'s prestigious Magic Circle Theatre',
+                title: 'Early Achievement',
+                content: 'Describe an early professional milestone that established your foundation in the field',
                 date: '2009',
                 icon: { iconId: 'plane' },
               },
               {
-                title: 'Television Debut',
-                content: 'Featured consultant and performer for "Masters of Illusion," introducing innovative effects that redefined close-up magic for television',
+                title: 'Major Transition',
+                content: 'Highlight a pivotal moment that marked growth or a shift in your professional trajectory',
                 date: '2012',
                 icon: { iconId: 'device-tv' },
               },
               {
-                title: 'FISM World Championship',
-                content: 'Awarded first place in Close-up Magic at the Olympics of Magic, presenting original effects that have since become industry standards',
+                title: 'Industry Recognition',
+                content: 'Feature an award, publication, or other recognition that validates your expertise externally',
                 date: '2015',
                 icon: { iconId: 'award' },
               },
               {
-                title: 'Corporate Innovation',
-                content: 'Pioneered the integration of classical magic principles with product launches and brand reveals for Fortune 500 companies',
+                title: 'Innovation Point',
+                content: 'Describe a project or initiative where you created something new or pioneered an approach',
                 date: '2018',
                 icon: { iconId: 'briefcase' },
               },
               {
-                title: 'Creative Direction',
-                content: 'Lead illusion designer for major streaming productions, bridging the gap between practical effects and digital wizardry',
+                title: 'Current Focus',
+                content: 'Share your present professional emphasis, connecting past achievements with future direction',
                 date: '2021',
                 icon: { iconId: 'bulb' },
               },
@@ -434,32 +434,32 @@ export async function getPages(args: SectionArgs) {
           userConfig: {
             standard: {
               headers: {
-                title: 'Voices of Wonder',
-                subTitle: 'What audiences and clients say about their experience',
+                title: 'Client Testimonials',
+                subTitle: 'What others say about working with me',
               },
             },
             items: [
               {
-                text: 'In an age of digital effects and virtual reality, his performances remind us that true magic happens in real-time, right before our eyes.',
+                text: 'A compelling testimonial focuses on specific results or experiences rather than generic praise. The quote should sound authentic and conversational.',
                 author: {
-                  label: 'David Copperfield',
-                  subLabel: 'Master Illusionist',
+                  label: 'Client Name',
+                  subLabel: 'Professional Title, Company',
                   media: stock.getRandomByTags(['man']),
                 },
               },
               {
-                text: 'His ability to weave our product story into a moment of genuine astonishment transformed our launch from a presentation into an unforgettable experience.',
+                text: 'Include testimonials from different client types to demonstrate versatility. Each quote should highlight different aspects of your service or approach.',
                 author: {
-                  label: 'Samantha Chen',
-                  subLabel: 'Innovation Director, Google',
+                  label: 'Client Name',
+                  subLabel: 'Position, Organization',
                   media: stock.getRandomByTags(['woman']),
                 },
               },
               {
-                text: 'The consulting work he provided for our production brought an authenticity to the magic that respected both the art form and our audience\'s intelligence.',
+                text: 'The most powerful testimonials address initial client concerns and how you overcame them. This builds trust with potential clients who may have similar hesitations.',
                 author: {
-                  label: 'Michael Zhang',
-                  subLabel: 'Executive Producer, Netflix',
+                  label: 'Client Name',
+                  subLabel: 'Role, Company',
                   media: stock.getRandomByTags(['man']),
                 },
               },
@@ -504,7 +504,7 @@ export async function getHeader(args: SectionArgs) {
             logo: {
               variant: 'typography',
               typography: {
-                label: 'Prestige',
+                label: 'Brand Name',
                 font: { family: 'DM Serif Display' },
               },
               scale: 1.1,
@@ -512,7 +512,7 @@ export async function getHeader(args: SectionArgs) {
           },
           nav: {
             primary: [
-              { label: 'Work', href: '/work' },
+              { label: 'Portfolio', href: '/work' },
               { label: 'About', href: '/about' },
             ],
             utility: [
@@ -551,12 +551,12 @@ export async function getFooter(args: SectionArgs) {
       await factory.fromTemplate<typeof CtaTemplate>({
         templateId: 'cardCtaV1',
         userConfig: {
-          title: 'Ready to Experience the Impossible?',
-          subTitle: 'Let\'s create a moment of genuine astonishment for your next event',
+          title: 'Ready to Start Your Project?',
+          subTitle: 'Take the first step toward achieving your goals',
           action: {
             buttons: [
-              { label: 'Begin the Journey', href: '/contact', theme: 'primary' },
-              { label: 'Explore Our Craft', href: '/services' },
+              { label: 'Get in Touch', href: '/contact', theme: 'primary' },
+              { label: 'View Services', href: '/services' },
             ],
           },
         },
@@ -568,35 +568,35 @@ export async function getFooter(args: SectionArgs) {
             logo: {
               variant: 'typography',
               typography: {
-                label: 'Prestige',
+                label: 'Brand Name',
                 font: { family: 'DM Serif Display' },
               },
               scale: 1.3,
             },
-            tagline: 'Corporate Magic & Consulting',
+            tagline: 'Your Tagline Here',
           },
           menus: [
             {
-              title: 'Performances',
+              title: 'Services',
               items: [
-                { label: 'Corporate Illusions', href: '/services/corporate', icon: { iconId: 'building' } },
-                { label: 'Private Exhibitions', href: '/services/private', icon: { iconId: 'glass' } },
-                { label: 'Creative Direction', href: '/services/consulting', icon: { iconId: 'bulb' } },
+                { label: 'Service One', href: '/services/one', icon: { iconId: 'building' } },
+                { label: 'Service Two', href: '/services/two', icon: { iconId: 'settings' } },
+                { label: 'Service Three', href: '/services/three', icon: { iconId: 'bulb' } },
               ],
             },
             {
               title: 'Resources',
               items: [
-                { label: 'Technical Specifications', href: '/tech-specs', icon: { iconId: 'settings' } },
-                { label: 'Event Planning Guide', href: '/planning', icon: { iconId: 'calendar' } },
-                { label: 'Press Portfolio', href: '/press', icon: { iconId: 'newspaper' } },
+                { label: 'Resource One', href: '/resources/one', icon: { iconId: 'file' } },
+                { label: 'Resource Two', href: '/resources/two', icon: { iconId: 'calendar' } },
+                { label: 'Resource Three', href: '/resources/three', icon: { iconId: 'news' } },
               ],
             },
           ],
           badges: {
             buttons: [
-              { label: 'Member of The Inner Magic Circle with Gold Star', href: '/credentials', theme: 'primary', design: 'ghost', icon: { iconId: 'wand' } },
-              { label: 'FISM World Champion of Magic', href: '/about', theme: 'blue', design: 'ghost', icon: { iconId: 'award' } },
+              { label: 'Industry Certification One', href: '/credentials', theme: 'primary', design: 'ghost', icon: { iconId: 'certificate' } },
+              { label: 'Professional Association', href: '/about', theme: 'blue', design: 'ghost', icon: { iconId: 'award' } },
             ],
           },
           additional: {
@@ -635,7 +635,7 @@ export async function getHidden(args: SectionArgs) {
   })
 }
 
-export async function getConfig(args: Omit<SectionArgs, 'stock'>) {
+export async function getConfig(args: Omit<SectionArgs, 'stock'>): Promise<ThemeConfig> {
   const { factory } = args
   const stock = await factory.getStockMedia()
   const a = { ...args, stock }
@@ -650,5 +650,11 @@ export async function getConfig(args: Omit<SectionArgs, 'stock'>) {
   return {
     sections: { header, footer, hidden },
     pages,
+    userConfig: {
+      site: {
+        prefersColorScheme: 'dark',
+        primaryColor: 'indigo',
+      },
+    },
   }
 }

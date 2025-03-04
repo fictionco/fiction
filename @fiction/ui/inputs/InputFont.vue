@@ -5,6 +5,8 @@ import { groupBy, vue } from '@fiction/core'
 import { safeStacks } from '@fiction/core/utils/fonts'
 import InputSelectCustom from './InputSelectCustom.vue'
 
+defineOptions({ name: 'InputFont' })
+
 const { modelValue = {}, uiSize = 'md', noPreview = false } = defineProps<{
   modelValue?: FontFamily
   uiSize?: StandardSize

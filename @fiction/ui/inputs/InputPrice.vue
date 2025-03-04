@@ -3,6 +3,8 @@ import type { StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { inputClasses } from './theme'
 
+defineOptions({ name: 'InputPrice' })
+
 const props = defineProps({
   modelValue: { type: [String, Number], default: '' },
   currencySymbol: { type: String, default: '$' },

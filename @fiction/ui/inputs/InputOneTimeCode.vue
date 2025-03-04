@@ -4,6 +4,8 @@ import { debounce, vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 import { inputClasses } from './theme'
 
+defineOptions({ name: 'InputOneTimeCode' })
+
 const props = defineProps<{
   modelValue?: string
   inputClass?: string

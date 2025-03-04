@@ -2,6 +2,8 @@
 import { vue } from '@fiction/core'
 import ElInput from './ElInput.vue'
 
+defineOptions({ name: 'InputOrigins' })
+
 const props = defineProps({
   modelValue: {
     type: Array as vue.PropType<string[]>,

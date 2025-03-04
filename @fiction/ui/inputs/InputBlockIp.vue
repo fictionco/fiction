@@ -3,10 +3,7 @@ import type { FictionUser } from '@fiction/core'
 import { getNetworkIp, useService, vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 
-export interface BlockIp {
-  ipName?: string
-  ipAddress?: string
-}
+defineOptions({ name: 'InputBlockIp' })
 
 const props = defineProps({
   modelValue: {
@@ -14,7 +11,14 @@ const props = defineProps({
     default: () => [],
   },
 })
+
 const emit = defineEmits(['update:modelValue'])
+
+export interface BlockIp {
+  ipName?: string
+  ipAddress?: string
+}
+
 const { fictionUser } = useService<{ fictionUser: FictionUser }>()
 const ips = vue.computed<BlockIp[]>({
   get: () => props.modelValue ?? [],

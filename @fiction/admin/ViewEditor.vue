@@ -19,7 +19,7 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
 
 <template>
   <div>
-    <div class="flex flex-col h-full md:h-[100dvh]">
+    <div class="flex flex-col h-[100dvh]">
       <!-- Header Bar -->
       <div class="flex-none border-b border-theme-200 dark:border-theme-700 bg-theme-0 dark:bg-theme-950">
         <div class="flex py-2 items-center justify-between px-4">
@@ -39,7 +39,7 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
         <TransitionWidth>
           <div
             v-show="!controller.hideToolDrawers.value"
-            class="no-scrollbar flex-none w-[60px] relative "
+            class="no-scrollbar flex-none w-[60px] relative hidden md:block"
             @click.stop="resetUi({ scope: 'inputs', cause: 'clickEditorTools', trigger: 'elementClick' })"
           >
             <div class="flex flex-col justify-between py-6 z-40 relative h-full bg-theme-0 dark:bg-theme-900 border-r border-theme-200 dark:border-theme-700">
@@ -98,7 +98,7 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
               <div
                 v-if="primaryTool"
                 :key="primaryTool.toolId"
-                class="absolute left-full h-full bg-theme-0 dark:bg-theme-900 top-0 z-30 border-r shadow-[10px_0_18px_-15px_rgba(0,0,0,0.6)] border-theme-300/70 dark:border-theme-600 overflow-scroll no-scrollbar "
+                class="max-w-[70vw] absolute left-full h-full bg-theme-0 dark:bg-theme-900 top-0 z-30 border-r shadow-[10px_0_18px_-15px_rgba(0,0,0,0.6)] border-theme-300/70 dark:border-theme-600 overflow-scroll no-scrollbar "
                 :class="primaryTool.widthClasses || 'w-[360px]'"
               >
                 <component

@@ -294,6 +294,8 @@ vue.onMounted(async () => {
 </template>
 
 <style lang="less">
+@import url('@fiction/ui/entry.less');
+
 html,
 body,
 #app,

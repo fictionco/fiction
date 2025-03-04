@@ -3,6 +3,8 @@ import type { StandardSize } from '@fiction/core'
 import type { PropType } from 'vue'
 import { computed, ref, watch } from 'vue'
 
+defineOptions({ name: 'InputElTab' })
+
 const props = defineProps({
   label: { type: [String, Number], default: '' },
   icon: { type: String, default: '' },

@@ -3,6 +3,8 @@ import type { ListItem, StandardSize } from '@fiction/core'
 import { normalizeList, vue } from '@fiction/core'
 import { textInputClasses } from './theme'
 
+defineOptions({ name: 'InputSelect' })
+
 const props = defineProps({
   defaultValue: { type: [Number, String, Boolean], default: '' },
   modelValue: { type: [Number, String, Boolean], default: '' },

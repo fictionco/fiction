@@ -3,6 +3,8 @@ import type { NavListItem, StandardSize } from '@fiction/core'
 import { normList, vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 
+defineOptions({ name: 'InputRadio' })
+
 const props = defineProps({
   modelValue: { type: [String, Number, Boolean], default: null },
   list: { type: Array as vue.PropType<NavListItem[]>, default: () => [] },

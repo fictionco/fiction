@@ -6,10 +6,13 @@ import { createStockMediaHandler } from '../stock'
 import FormEngine from './FormEngine.vue'
 import { createOption } from './index.js'
 
-const { modelValue } = defineProps<{ modelValue?: PostHandlingObject }>()
+defineOptions({ name: 'InputPosts' })
+
+const { modelValue, activePath, editPath } = defineProps<{ modelValue?: PostHandlingObject, activePath?: string, editPath?: string }>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: PostHandlingObject): void
+  (event: 'update:activePath', payload: string): void
 }>()
 
 const baseOptions = [
@@ -155,7 +158,10 @@ const options = vue.computed(() => {
       :model-value="modelValue"
       ui-size="md"
       :options="options"
+      :active-path="activePath"
+      :edit-path="editPath"
       @update:model-value="emit('update:modelValue', $event as PostHandlingObject)"
+      @update:active-path="emit('update:activePath', $event)"
     />
   </div>
 </template>

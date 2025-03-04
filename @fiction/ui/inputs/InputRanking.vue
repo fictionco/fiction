@@ -3,6 +3,8 @@ import type { ListItem } from '@fiction/core'
 import { DraggableList, normalizeList, vue } from '@fiction/core'
 import InputElTab from './InputElTab.vue'
 
+defineOptions({ name: 'InputRanking' })
+
 const props = defineProps({
   modelValue: { type: Array, default: () => [] },
   list: {

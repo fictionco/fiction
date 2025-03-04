@@ -133,7 +133,7 @@ function triggerMediaModal() {
         </div>
         <div v-else-if="activeKey === 'compose'" class="flex-grow flex flex-col gap-4 h-full min-h-0">
           <div class="flex gap-4 items-stretch">
-            <div :class="classes.panel" class="px-4 py-2 flex items-center justify-between grow w-full gap-6">
+            <div :class="classes.panel" class="px-4 py-2 flex flex-col md:flex-row md:items-center md:justify-between grow w-full gap-2 md:gap-6">
               <XText
                 :model-value="post.title.value"
                 tag="h1"
@@ -169,13 +169,13 @@ function triggerMediaModal() {
             class="h-full  @container  overflow-hidden flex flex-col"
             :class="classes.panel"
           >
-            <div class="flex gap-4 md:gap-6 items-center justify-between px-4 py-2 border-b border-theme-200 dark:border-theme-600">
+            <div class="flex gap-4 md:gap-6 items-center justify-between px-2 md:px-4 py-2 border-b border-theme-200 dark:border-theme-600">
               <div class="w-full">
                 <ProseEditorToolbar v-if="proseEditorEl?.editor" :editor="proseEditorEl?.editor" />
               </div>
             </div>
-            <div class="relative max-h-[100%] overflow-scroll w-full aspect-[3/4] min-h-0 dark:bg-theme-950/80 no-scrollbar">
-              <div class="pt-12 md:pt-16 pb-[50vh] px-12 max-w-[900px] mx-auto focus:outline-none space-y-6">
+            <div class="relative max-h-[100%] grow overflow-scroll w-full min-h-0 dark:bg-theme-950/80 no-scrollbar">
+              <div class="pt-6 md:pt-16 pb-[50vh] px-6 md:px-12 max-w-[900px] mx-auto focus:outline-none space-y-6">
                 <ProseEditor
                   ref="proseEditorEl"
                   :model-value="post.content.value"
@@ -217,8 +217,8 @@ function triggerMediaModal() {
                     theme="primary"
                     design="outline"
                     icon-after="i-tabler-arrow-right"
-                    @click="emit('navigate', { dir: 'next' })"
                     data-test-id="next-button-bottom"
+                    @click="emit('navigate', { dir: 'next' })"
                   >
                     Next
                   </XButton>
@@ -228,8 +228,8 @@ function triggerMediaModal() {
                     design="solid"
                     icon="i-tabler-calendar"
                     icon-after="i-tabler-arrow-right"
-                    @click.stop="emit('navigate', { dir: 'schedule' })"
                     data-test-id="schedule-button-bottom"
+                    @click.stop="emit('navigate', { dir: 'schedule' })"
                   >
                     Schedule
                   </XButton>
@@ -239,8 +239,8 @@ function triggerMediaModal() {
                     design="outline"
                     icon="i-tabler-calendar-off"
                     icon-after="i-tabler-arrow-back-up"
-                    @click.stop="emit('navigate', { dir: 'unschedule' })"
                     data-test-id="unschedule-button-bottom"
+                    @click.stop="emit('navigate', { dir: 'unschedule' })"
                   >
                     Unschedule
                   </XButton>

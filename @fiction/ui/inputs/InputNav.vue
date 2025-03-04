@@ -6,6 +6,8 @@ import { NavListItemSchema as schema } from '@fiction/core'
 import FormEngine from './FormEngine.vue'
 import { createOption } from './index.js'
 
+defineOptions({ name: 'InputNav' })
+
 const {
   modelValue,
   hasChildNav = true,

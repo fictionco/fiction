@@ -4,7 +4,7 @@ import type { RouteLocationRaw } from 'vue-router'
 import { normalizeList, onResetUi, resetUi, shortId, vue } from '@fiction/core'
 import { selectInputClasses } from './theme'
 
-type RouteListItem = ListItem & { route?: RouteLocationRaw }
+defineOptions({ name: 'InputSelectCustom' })
 
 const props = defineProps({
   modelValue: { type: [Number, String, Boolean], default: undefined },
@@ -27,6 +27,8 @@ const emit = defineEmits<{
   (event: 'update:search', payload: string | undefined): void
   (event: 'update:focused', payload: boolean): void
 }>()
+
+type RouteListItem = ListItem & { route?: RouteLocationRaw }
 
 const randomId = shortId()
 

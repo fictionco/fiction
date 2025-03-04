@@ -3,6 +3,8 @@ import type { ListItem, StandardSize } from '@fiction/core'
 import { normalizeList, vue } from '@fiction/core'
 import InputElTab from './InputElTab.vue'
 
+defineOptions({ name: 'InputMultipleChoice' })
+
 const props = defineProps({
   modelValue: { type: Array as vue.PropType<(string | number)[]>, default: () => [] },
   list: { type: Array as vue.PropType<(ListItem | 'divider' | string | number)[]>, default: () => [] },

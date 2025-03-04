@@ -8,7 +8,7 @@ import XDropDown from '../common/XDropDown.vue'
 import InputSelectCustom from './InputSelectCustom.vue'
 import InputUrl from './InputUrl.vue'
 
-type RouteMode = 'url' | 'page' | 'media'
+defineOptions({ name: 'InputSiteRoute' })
 
 const props = defineProps<{
   modelValue?: string
@@ -21,6 +21,8 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
   (e: 'navigate', path: string): void
 }>()
+
+type RouteMode = 'url' | 'page' | 'media'
 
 const mode = vue.ref<RouteMode>('url')
 const urlValue = vue.ref(props.modelValue || '')

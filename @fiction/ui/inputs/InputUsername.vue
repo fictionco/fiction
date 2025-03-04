@@ -6,6 +6,8 @@ import { useService, vue } from '@fiction/core'
 import ElTooltip from '../common/ElTooltip.vue'
 import { inputClasses } from './theme'
 
+defineOptions({ name: 'InputUsername' })
+
 const props = defineProps({
   modelValue: { type: [String], default: '' },
   placeholder: { type: String, default: '' },
