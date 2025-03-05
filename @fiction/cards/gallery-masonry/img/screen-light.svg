@@ -1,0 +1,16 @@
+<svg width="200" height="120" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g style="mix-blend-mode:difference" clip-path="url(#clip0_27_9)">
+<rect width="200" height="120" fill="white"/>
+<rect x="64.86" y="25.86" width="29.28" height="34.28" rx="7.14" fill="#155DFC" fill-opacity="0.32" stroke="#155DFC" stroke-width="1.72"/>
+<rect x="29.86" y="25.86" width="29.28" height="75.28" rx="7.14" fill="#155DFC" fill-opacity="0.32" stroke="#155DFC" stroke-width="1.72"/>
+<rect x="64.86" y="66.86" width="64.28" height="34.28" rx="7.14" fill="#155DFC" fill-opacity="0.32" stroke="#155DFC" stroke-width="1.72"/>
+<rect x="99.86" y="25.86" width="64.28" height="34.28" rx="7.14" fill="#155DFC" fill-opacity="0.32" stroke="#155DFC" stroke-width="1.72"/>
+<rect x="134.86" y="66.86" width="29.28" height="34.28" rx="7.14" fill="#155DFC" fill-opacity="0.32" stroke="#155DFC" stroke-width="1.72"/>
+<rect x="29.86" y="107.86" width="134.28" height="34.28" rx="7.14" fill="#155DFC" fill-opacity="0.32" stroke="#155DFC" stroke-width="1.72"/>
+</g>
+<defs>
+<clipPath id="clip0_27_9">
+<rect width="200" height="120" fill="white"/>
+</clipPath>
+</defs>
+</svg>

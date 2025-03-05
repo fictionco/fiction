@@ -22,6 +22,10 @@ export const template = cardTemplate({
     const { getConfig } = await import('./config')
     return getConfig(args)
   },
+  screenshot: {
+    light: new URL('img/screen-light.svg', import.meta.url).href,
+    dark: new URL('img/screen-dark.svg', import.meta.url).href,
+  },
 })
 
 export type { UserConfig } from './config'
