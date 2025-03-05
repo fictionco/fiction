@@ -37,7 +37,7 @@ export async function getDemosPage(args: { site: Site, factory: CardFactory }) {
         text: 'Component Library',
       },
       title: 'Interactive Component Demos',
-      subTitle: 'Explore our library of professionally designed components for your website',
+      subTitle: 'Professional designed elements for personal brand sites',
       layout: 'center',
       action: { buttons: [] },
     },
