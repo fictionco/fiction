@@ -1,0 +1,15 @@
+<svg width="200" height="120" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g style="mix-blend-mode:difference">
+<rect width="200" height="120" fill="white"/>
+<g style="mix-blend-mode:difference">
+<rect x="73.36" y="32.36" width="104.28" height="55.28" rx="2.89324" fill="#2B7FFF" fill-opacity="0.32"/>
+<rect x="73.36" y="32.36" width="104.28" height="55.28" rx="2.89324" stroke="#2B7FFF" stroke-width="2.72"/>
+</g>
+<g style="mix-blend-mode:difference">
+<rect x="31" y="47" width="57" height="13" rx="4" fill="#2B7FFF"/>
+</g>
+<g style="mix-blend-mode:difference">
+<rect x="31" y="68" width="74" height="7" rx="3.5" fill="#2B7FFF"/>
+</g>
+</g>
+</svg>

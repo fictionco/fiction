@@ -22,6 +22,11 @@ export const template = cardTemplate({
   },
 
   getBaseConfig: () => ({ standard: { spaceSize: 'sm' } }),
+
+  screenshot: {
+    light: new URL('img/screen-light.svg', import.meta.url).href,
+    dark: new URL('img/screen-dark.svg', import.meta.url).href,
+  },
 })
 
 // Optional: Export type for use in other components
