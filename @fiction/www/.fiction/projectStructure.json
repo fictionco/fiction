@@ -185,12 +185,20 @@
       "content-bento": {
         "ElBento.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null,
         "utils.ts": null
       },
       "content-faq": {
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "content-features": {
@@ -200,18 +208,30 @@
         "FeaturesGrid.vue": null,
         "FeaturesMasonry.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "content-hero": {
         "ElHero.vue": null,
         "config.ts": null,
         "hero.card-ui.test.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "content-people": {
         "ElCard.vue": null,
         "StandardTeam.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null,
         "static": {
           "people-natasha.png": null,
@@ -224,16 +244,28 @@
         "ElCard.vue": null,
         "card.unit.test.ts": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "content-steps": {
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "content-story": {
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null,
         "static": {
           "bond1.png": null,
@@ -245,11 +277,19 @@
       "content-timeline": {
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "content-tour": {
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "convert-capture": {
@@ -259,21 +299,37 @@
         "EmailForm.vue": null,
         "captureCard.card-ui.test.ts": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "convert-contact": {
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "convert-cta": {
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "convert-pricing": {
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "effect-shape": {
@@ -305,12 +361,20 @@
       "gallery-masonry": {
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "gallery-parallax-scroll": {
         "CardContent.vue": null,
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null,
         "static": {
           "trek-1.png": null,
@@ -322,6 +386,10 @@
       "gallery-showcase": {
         "ElShowcase.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null,
         "showcase.card-ui.test.ts": null,
         "static": {
@@ -345,11 +413,19 @@
         "ElCard.vue": null,
         "ElMap.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "media-marquee": {
         "ElMarquee.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null,
         "marquee.card-ui.test.ts": null,
         "static": {
@@ -378,22 +454,38 @@
       "page-area": {
         "ElArea.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "page-footer-personal": {
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "page-footer-pro": {
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "page-nav": {
         "ElCard.vue": null,
         "XNav.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "page-transaction": {
@@ -411,6 +503,10 @@
         "PostCard.vue": null,
         "PostCardContent.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "posts-magazine": {
@@ -419,21 +515,37 @@
         "ElMagazineIndex.vue": null,
         "ElMagazineSingle.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "proof-logos": {
         "ElLogos.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "proof-metrics": {
         "ElMetrics.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "proof-quotes": {
         "ElQuote.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "proof-testimonials": {
@@ -442,6 +554,10 @@
         "LayoutMega.vue": null,
         "LayoutSlider.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "slider-cinema": {
@@ -452,6 +568,8 @@
           "desert-photo.mp4": null,
           "mountain-photo.mp4": null,
           "night-photo.mp4": null,
+          "screen-dark.svg": null,
+          "screen-light.svg": null,
           "wildlife-photo.mp4": null
         },
         "index.ts": null
@@ -459,11 +577,19 @@
       "slider-overlay": {
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "slider-statement": {
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "social-insta": {
@@ -480,17 +606,29 @@
       "typography-fit-text": {
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "typography-ticker": {
         "ElCard.vue": null,
         "config.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "index.ts": null
       },
       "utils": {
         "generateStructure.ts": null,
         "head.ts": null,
         "icon.ts": null,
+        "img": {
+          "screen-dark.svg": null,
+          "screen-light.svg": null
+        },
         "nav.ts": null,
         "test": {
           "head.unit.test.ts": null,
@@ -1301,6 +1439,10 @@
           "index.ts": null
         },
         "config.ts": null,
+        "demos": {
+          "DemoGrid.vue": null,
+          "index.ts": null
+        },
         "developer": {
           "el": {
             "ElBenefits.vue": null,

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2025-03-04T01:21:03.351Z",
+  "generatedAt": "2025-03-05T21:11:52.709Z",
   "theme": [
     {
       "themeId": "minimal",
@@ -17,13 +17,13 @@
       "config": {
         "sections": {
           "header": {
-            "cardId": "crd67c6557f5961f0288fc0d94d",
+            "cardId": "crd67c8be18bc729e37280d8037",
             "templateId": "cardPageAreaV1",
             "regionId": "header",
             "cards": [
               {
-                "parentId": "crd67c6557f5961f0288fc0d94d",
-                "cardId": "crd67c6557f5ad7ccc54808d7f4",
+                "parentId": "crd67c8be18bc729e37280d8037",
+                "cardId": "crd67c8be18b1d13769923d63d7",
                 "templateId": "cardSiteNavV1",
                 "userConfig": {
                   "standard": {
@@ -98,13 +98,13 @@
             "effects": []
           },
           "footer": {
-            "cardId": "crd67c6557f43f3d597b3af3ffe",
+            "cardId": "crd67c8be1848defeb14709c002",
             "templateId": "cardPageAreaV1",
             "regionId": "footer",
             "cards": [
               {
-                "parentId": "crd67c6557f43f3d597b3af3ffe",
-                "cardId": "crd67c6557f65eb234fe15d8baf",
+                "parentId": "crd67c8be1848defeb14709c002",
+                "cardId": "crd67c8be18e2d6ac8731763104",
                 "templateId": "cardTickerV1",
                 "userConfig": {
                   "fontSize": 6,
@@ -127,8 +127,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557f43f3d597b3af3ffe",
-                "cardId": "crd67c6557f1d40c691ef1a82f1",
+                "parentId": "crd67c8be1848defeb14709c002",
+                "cardId": "crd67c8be18ee6ccb473fe5099d",
                 "templateId": "cardCtaV1",
                 "userConfig": {
                   "standard": {
@@ -154,8 +154,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557f43f3d597b3af3ffe",
-                "cardId": "crd67c6557fb6d7e8976f965bb8",
+                "parentId": "crd67c8be1848defeb14709c002",
+                "cardId": "crd67c8be180ff803a558fe7a1f",
                 "templateId": "cardFooterPersonalV1",
                 "userConfig": {
                   "brand": {
@@ -234,12 +234,12 @@
             "effects": []
           },
           "hidden": {
-            "cardId": "crd67c6557f137412d16dbde15a",
+            "cardId": "crd67c8be18196eb4977f92449c",
             "templateId": "cardPageAreaV1",
             "cards": [
               {
-                "parentId": "crd67c6557f137412d16dbde15a",
-                "cardId": "crd67c6557f71cdc1fc05659078",
+                "parentId": "crd67c8be18196eb4977f92449c",
+                "cardId": "crd67c8be188e40a53d992fc6f2",
                 "templateId": "cardModalMediaV1",
                 "userConfig": {},
                 "regionId": "main",
@@ -250,8 +250,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557f137412d16dbde15a",
-                "cardId": "crd67c6557f4872fb8c511eec90",
+                "parentId": "crd67c8be18196eb4977f92449c",
+                "cardId": "crd67c8be18854f1909112f7f5d",
                 "templateId": "cardTextEffectV1",
                 "userConfig": {},
                 "regionId": "main",
@@ -262,8 +262,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557f137412d16dbde15a",
-                "cardId": "crd67c6557f4355f338bbe1bee9",
+                "parentId": "crd67c8be18196eb4977f92449c",
+                "cardId": "crd67c8be18c2c4ad3fb80633d3",
                 "templateId": "cardCaptureV1",
                 "userConfig": {
                   "standard": {
@@ -316,13 +316,13 @@
         },
         "pages": [
           {
-            "cardId": "crd67c6557fa3b40c165df0f327",
+            "cardId": "crd67c8be18f7ca7196a7c6065b",
             "templateId": "cardPageWrapV1",
             "slug": "_home",
             "cards": [
               {
-                "parentId": "crd67c6557fa3b40c165df0f327",
-                "cardId": "crd67c6557f2e5f82af895cf7a6",
+                "parentId": "crd67c8be18f7ca7196a7c6065b",
+                "cardId": "crd67c8be18715db8d21c93a4aa",
                 "templateId": "cardProfileV1",
                 "userConfig": {
                   "superTitle": {
@@ -334,30 +334,31 @@
                     {
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556283/arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_5ef92f82-5327-4bbf-8446-05d855c08abc_yvhufx.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556301/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_cc62f99f-b02e-4d9b-a38b-689b68a346a1_dhcszf.png",
                         "tags": [
                           "annotated",
                           "aspect:portrait",
+                          "aspect:square",
                           "color:cool",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_5ef92f82-5327-4bbf-8446-05d855c08abc_yvhufx"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_cc62f99f-b02e-4d9b-a38b-689b68a346a1_dhcszf"
                       }
                     },
                     {
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556239/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5f99902c-0878-4f99-b1e9-0f9585c5faf7_nrgfic.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556244/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_4b9aa180-978e-48ca-b88f-7e385e01efd3_loes2x.png",
                         "tags": [
                           "annotated",
                           "aspect:portrait",
                           "aspect:square",
-                          "color:warm",
+                          "color:cool",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5f99902c-0878-4f99-b1e9-0f9585c5faf7_nrgfic"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_4b9aa180-978e-48ca-b88f-7e385e01efd3_loes2x"
                       }
                     }
                   ],
@@ -428,8 +429,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557fa3b40c165df0f327",
-                "cardId": "crd67c6557fd3968aad2e5cf4b1",
+                "parentId": "crd67c8be18f7ca7196a7c6065b",
+                "cardId": "crd67c8be1807e6a954d5d4f33b",
                 "templateId": "cardBentoV1",
                 "userConfig": {
                   "items": [
@@ -485,14 +486,14 @@
                       "content": "Add media or background images to create visual interest.",
                       "bg": {
                         "format": "video",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724636660/replicate-prediction-8wx45kv5bdrj40chhh7r523pym_co9n3y.mp4",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724640872/replicate-prediction-qqjb0pdhqsrj40chhjc9zb270r_o3pnc9.mp4",
                         "tags": [
                           "aspect:landscape",
-                          "aspect:square",
-                          "background",
-                          "video"
+                          "object",
+                          "video",
+                          "background"
                         ],
-                        "slug": "replicate-prediction-8wx45kv5bdrj40chhh7r523pym_co9n3y",
+                        "slug": "replicate-prediction-qqjb0pdhqsrj40chhjc9zb270r_o3pnc9",
                         "overlay": {
                           "opacity": 0.4
                         }
@@ -518,8 +519,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557fa3b40c165df0f327",
-                "cardId": "crd67c6557f92aa71c51727beaa",
+                "parentId": "crd67c8be18f7ca7196a7c6065b",
+                "cardId": "crd67c8be18792521dad8f47c36",
                 "templateId": "cardQuotesV1",
                 "userConfig": {
                   "items": [
@@ -532,18 +533,17 @@
                         "subLabel": "Marketing Director",
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441018/arpowers_minimal_stock_background_for_profile_photo_professiona_8f8842a3-efb2-4ece-8b37-a52d99f2fb2b_rl7atx.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443232/arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_d2564113-06ec-41f8-a7aa-b59d021cc011_twdbcs.png",
                           "tags": [
                             "annotated",
                             "aspect:landscape",
-                            "color:cool",
+                            "color:warm",
+                            "midshot",
                             "person",
-                            "silhouette",
-                            "wideshot",
                             "woman",
                             "image"
                           ],
-                          "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_8f8842a3-efb2-4ece-8b37-a52d99f2fb2b_rl7atx"
+                          "slug": "arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_d2564113-06ec-41f8-a7aa-b59d021cc011_twdbcs"
                         }
                       },
                       "org": {
@@ -588,13 +588,13 @@
             "effects": []
           },
           {
-            "cardId": "crd67c6557f78ba2436c6bcddd2",
+            "cardId": "crd67c8be18c4470e5d7e3e32cc",
             "templateId": "cardPageWrapV1",
             "slug": "blog",
             "cards": [
               {
-                "parentId": "crd67c6557f78ba2436c6bcddd2",
-                "cardId": "crd67c6557fe1c9651ce3337c08",
+                "parentId": "crd67c8be18c4470e5d7e3e32cc",
+                "cardId": "crd67c8be1887bd9f1d1a32171d",
                 "templateId": "cardPostsMagazineV1",
                 "userConfig": {
                   "standard": {
@@ -615,18 +615,20 @@
                             "email": "marcus@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443255/arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_1633893b-f298-4d6a-b1eb-f02c8069fe64_za5ifd.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441038/arpowers_incredibly_beautiful_profile_photo_of_man_business_att_789f5e99-8028-4331-b491-09afbfb8e82d_usnqsz.png",
                               "tags": [
                                 "annotated",
                                 "aspect:landscape",
+                                "aspect:square",
                                 "color:warm",
                                 "man",
+                                "nature",
+                                "people",
                                 "person",
-                                "wideshot",
-                                "woman",
+                                "silhouette",
                                 "image"
                               ],
-                              "slug": "arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_1633893b-f298-4d6a-b1eb-f02c8069fe64_za5ifd"
+                              "slug": "arpowers_incredibly_beautiful_profile_photo_of_man_business_att_789f5e99-8028-4331-b491-09afbfb8e82d_usnqsz"
                             }
                           }
                         ],
@@ -642,15 +644,15 @@
                         ],
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556261/arpowers_minimal_midshot_photo_of_object_2050s_aesthetic_incred_85d766ca-3cc0-4722-a9bd-7ca2c2229b18_blgxdm.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556080/arpowers_minimal_mid_shot_photo_of_item_ancient_greek_ideal_bea_ade3f08e-801f-458c-9741-cbcc750bdabf_aeadrc.png",
                           "tags": [
                             "annotated",
-                            "aspect:portrait",
+                            "aspect:landscape",
                             "color:warm",
                             "object",
                             "image"
                           ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_2050s_aesthetic_incred_85d766ca-3cc0-4722-a9bd-7ca2c2229b18_blgxdm"
+                          "slug": "arpowers_minimal_mid_shot_photo_of_item_ancient_greek_ideal_bea_ade3f08e-801f-458c-9741-cbcc750bdabf_aeadrc"
                         },
                         "dateAt": "2024-03-18T00:00:00.000Z"
                       },
@@ -665,16 +667,18 @@
                             "email": "priya@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441628/arpowers_minimal_stock_background_for_profile_photo_professiona_8a53bfc2-2716-4349-99f4-3828415cd280_b7jbeg.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441004/arpowers_interesting_stock_profile_photo_professional_attire_Si_dc7cbdd0-e7ff-4ee8-a1bc-7e7471e78775_xpjber.png",
                               "tags": [
                                 "annotated",
-                                "aspect:landscape",
+                                "aspect:portrait",
+                                "aspect:square",
                                 "color:warm",
                                 "midshot",
                                 "person",
-                                "woman"
+                                "woman",
+                                "image"
                               ],
-                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_8a53bfc2-2716-4349-99f4-3828415cd280_b7jbeg"
+                              "slug": "arpowers_interesting_stock_profile_photo_professional_attire_Si_dc7cbdd0-e7ff-4ee8-a1bc-7e7471e78775_xpjber"
                             }
                           }
                         ],
@@ -690,15 +694,14 @@
                         ],
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725068/arpowers_Minimalist_futuristic_interpretation_of_an_zeus_elegan_ce9febc4-733e-49e2-976f-8e1f321407c4_fhmivm.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556419/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_b5557989-a67c-4dad-85a8-c21f2c0dedae_vbwpdu.png",
                           "tags": [
-                            "aspect:landscape",
+                            "annotated",
+                            "aspect:wide",
                             "color:warm",
-                            "image",
-                            "object",
-                            "annotated"
+                            "object"
                           ],
-                          "slug": "arpowers_Minimalist_futuristic_interpretation_of_an_zeus_elegan_ce9febc4-733e-49e2-976f-8e1f321407c4_fhmivm"
+                          "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_b5557989-a67c-4dad-85a8-c21f2c0dedae_vbwpdu"
                         },
                         "dateAt": "2024-03-17T00:00:00.000Z"
                       },
@@ -712,14 +715,22 @@
                             "title": "Content Strategy Lead",
                             "email": "sarah@example.com",
                             "avatar": {
-                              "format": "video",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1733965053/replicate-prediction-wtfb2100xxrj00ckq1cb7s94hg_rhvr5g.mp4",
+                              "format": "image",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440971/arpowers_interesting_stock_profile_photo_professional_attire_Si_a105c699-f12d-4ecb-8015-a6272ea33c17_zwgcz2.png",
                               "tags": [
-                                "aspect:landscape",
+                                "annotated",
+                                "aspect:square",
+                                "color:cool",
+                                "man",
+                                "midshot",
+                                "nature",
+                                "people",
                                 "person",
-                                "video"
+                                "silhouette",
+                                "woman",
+                                "image"
                               ],
-                              "slug": "replicate-prediction-wtfb2100xxrj00ckq1cb7s94hg_rhvr5g"
+                              "slug": "arpowers_interesting_stock_profile_photo_professional_attire_Si_a105c699-f12d-4ecb-8015-a6272ea33c17_zwgcz2"
                             }
                           }
                         ],
@@ -734,17 +745,15 @@
                           "engagement"
                         ],
                         "media": {
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556219/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_14486649-e275-41ce-8214-aebf8f6d0a1a_jse0bc.png",
+                          "format": "video",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724640270/replicate-prediction-zh0pg61bmsrj40chhj5skkhe4m_fftcwx.mp4",
                           "tags": [
-                            "annotated",
                             "aspect:landscape",
-                            "aspect:square",
-                            "color:cool",
                             "object",
-                            "image"
+                            "video",
+                            "background"
                           ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_14486649-e275-41ce-8214-aebf8f6d0a1a_jse0bc"
+                          "slug": "replicate-prediction-zh0pg61bmsrj40chhj5skkhe4m_fftcwx"
                         },
                         "dateAt": "2024-03-20T00:00:00.000Z"
                       },
@@ -758,19 +767,16 @@
                             "title": "UX Design Director",
                             "email": "alex@example.com",
                             "avatar": {
-                              "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443243/arpowers_minimal_headshot_photo_met_gala_ancient_greek_beauty_c_aa0a4022-53e9-403c-9acc-5a8b2df9a074_c27nif.png",
+                              "format": "video",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724639820/replicate-prediction-559jvxt0y9rj40chhhxsrfm6er_zrb9u3.mp4",
                               "tags": [
-                                "annotated",
-                                "aspect:square",
-                                "color:warm",
-                                "headshot",
+                                "abstract",
+                                "aspect:landscape",
                                 "person",
-                                "realistic",
-                                "woman",
-                                "image"
+                                "video",
+                                "woman"
                               ],
-                              "slug": "arpowers_minimal_headshot_photo_met_gala_ancient_greek_beauty_c_aa0a4022-53e9-403c-9acc-5a8b2df9a074_c27nif"
+                              "slug": "replicate-prediction-559jvxt0y9rj40chhhxsrfm6er_zrb9u3"
                             }
                           }
                         ],
@@ -786,16 +792,15 @@
                         ],
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556306/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_14001eab-faa2-4c3d-a043-321b080b73cd_juorma.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556387/arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_8ede6028-d3a5-4418-b020-3c802d2a8742_qm4lkf.png",
                           "tags": [
                             "annotated",
-                            "aspect:portrait",
                             "aspect:square",
                             "color:warm",
                             "object",
                             "image"
                           ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_14001eab-faa2-4c3d-a043-321b080b73cd_juorma"
+                          "slug": "arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_8ede6028-d3a5-4418-b020-3c802d2a8742_qm4lkf"
                         },
                         "dateAt": "2024-03-19T00:00:00.000Z"
                       },
@@ -810,17 +815,17 @@
                             "email": "maya@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441081/arpowers_minimal_stock_background_for_profile_photo_professiona_eb177108-8f40-42aa-bb03-af178461afe4_1_v8exxm.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440970/arpowers_incredibly_beautiful_headshot_of_woman_business_attire_88472b73-95d1-4756-ae38-f47ba2c84677_koglpc.png",
                               "tags": [
                                 "annotated",
-                                "aspect:landscape",
+                                "aspect:square",
                                 "color:warm",
-                                "man",
-                                "midshot",
+                                "headshot",
                                 "person",
+                                "woman",
                                 "image"
                               ],
-                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_eb177108-8f40-42aa-bb03-af178461afe4_1_v8exxm"
+                              "slug": "arpowers_incredibly_beautiful_headshot_of_woman_business_attire_88472b73-95d1-4756-ae38-f47ba2c84677_koglpc"
                             }
                           }
                         ],
@@ -860,16 +865,17 @@
                             "email": "david@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440979/arpowers_incredibly_beautiful_profile_photo_of_man_business_att_f254b6af-df34-44b8-b3dc-ab101ba764be_z5pwdm.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441620/arpowers_minimal_stock_background_for_profile_photo_professiona_aeaaa73b-5b44-4f95-bf63-fd0efb7a64ab_r4styd.png",
                               "tags": [
                                 "annotated",
-                                "aspect:square",
-                                "color:cool",
+                                "aspect:landscape",
+                                "color:warm",
                                 "man",
+                                "midshot",
                                 "person",
-                                "image"
+                                "aspect:square"
                               ],
-                              "slug": "arpowers_incredibly_beautiful_profile_photo_of_man_business_att_f254b6af-df34-44b8-b3dc-ab101ba764be_z5pwdm"
+                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_aeaaa73b-5b44-4f95-bf63-fd0efb7a64ab_r4styd"
                             }
                           }
                         ],
@@ -885,7 +891,7 @@
                         ],
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724555832/arpowers_minimal_midshot_photo_of_laurels_futuristic_ancient_gr_16603d41-f199-4adc-aa62-51f9248793f1_zaciyk.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556252/arpowers_minimal_midshot_photo_of_object_2030s_futuristic_ancie_421c505b-190c-47bb-a1d0-ca92b08cab3c_yybbhm.png",
                           "tags": [
                             "annotated",
                             "aspect:portrait",
@@ -894,7 +900,7 @@
                             "object",
                             "image"
                           ],
-                          "slug": "arpowers_minimal_midshot_photo_of_laurels_futuristic_ancient_gr_16603d41-f199-4adc-aa62-51f9248793f1_zaciyk"
+                          "slug": "arpowers_minimal_midshot_photo_of_object_2030s_futuristic_ancie_421c505b-190c-47bb-a1d0-ca92b08cab3c_yybbhm"
                         },
                         "dateAt": "2024-03-13T00:00:00.000Z"
                       },
@@ -908,15 +914,18 @@
                             "title": "Email Marketing Strategist",
                             "email": "emma@example.com",
                             "avatar": {
-                              "format": "video",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724640264/replicate-prediction-5t67ctedz9rj00chhj5b6xt79c_nmrixq.mp4",
+                              "format": "image",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441014/arpowers_minimal_stock_background_for_profile_photo_professiona_43973f4e-64f7-4db6-9dce-8debb2752090_vywbzt.png",
                               "tags": [
-                                "aspect:landscape",
-                                "man",
+                                "annotated",
+                                "aspect:portrait",
+                                "color:warm",
                                 "person",
-                                "video"
+                                "silhouette",
+                                "woman",
+                                "image"
                               ],
-                              "slug": "replicate-prediction-5t67ctedz9rj00chhj5b6xt79c_nmrixq"
+                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_43973f4e-64f7-4db6-9dce-8debb2752090_vywbzt"
                             }
                           }
                         ],
@@ -932,7 +941,7 @@
                         ],
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556405/arpowers_close-up_photo_of_art_deco_statue_ancient_greek_ideal__95cb200f-30a0-478a-9737-f4846d630dde_kjx4qm.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556382/arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_6782b71e-739f-4d30-abaf-cee8f4e4163e_wigvas.png",
                           "tags": [
                             "annotated",
                             "aspect:square",
@@ -940,7 +949,7 @@
                             "object",
                             "image"
                           ],
-                          "slug": "arpowers_close-up_photo_of_art_deco_statue_ancient_greek_ideal__95cb200f-30a0-478a-9737-f4846d630dde_kjx4qm"
+                          "slug": "arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_6782b71e-739f-4d30-abaf-cee8f4e4163e_wigvas"
                         },
                         "dateAt": "2024-03-12T00:00:00.000Z"
                       },
@@ -955,20 +964,19 @@
                             "email": "james@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441012/arpowers_minimal_stock_background_for_profile_photo_professiona_2e276870-5fbd-4138-be32-a7c961799b11_uykxly.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441023/arpowers_interesting_stock_profile_photo_professional_attire_Si_33bdce91-45d3-4e0e-8848-bb5eada19423_oq02a1.png",
                               "tags": [
                                 "annotated",
-                                "aspect:portrait",
                                 "aspect:square",
-                                "color:cool",
+                                "color:warm",
+                                "headshot",
                                 "nature",
                                 "people",
                                 "person",
-                                "silhouette",
                                 "woman",
                                 "image"
                               ],
-                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_2e276870-5fbd-4138-be32-a7c961799b11_uykxly"
+                              "slug": "arpowers_interesting_stock_profile_photo_professional_attire_Si_33bdce91-45d3-4e0e-8848-bb5eada19423_oq02a1"
                             }
                           }
                         ],
@@ -984,13 +992,15 @@
                         ],
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1733967874/arpowers_minimalist_realistic_mediterranean_scene_futuristic_an_38509819-d3c9-4946-af53-5c4b40976d76_ckg2yi.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556266/arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_c5bee5e5-78dd-4613-ae89-0df0c483f02a_coxsq3.png",
                           "tags": [
-                            "aspect:wide",
+                            "annotated",
+                            "aspect:portrait",
+                            "color:cool",
                             "object",
-                            "color:warm"
+                            "image"
                           ],
-                          "slug": "arpowers_minimalist_realistic_mediterranean_scene_futuristic_an_38509819-d3c9-4946-af53-5c4b40976d76_ckg2yi"
+                          "slug": "arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_c5bee5e5-78dd-4613-ae89-0df0c483f02a_coxsq3"
                         },
                         "dateAt": "2024-03-11T00:00:00.000Z"
                       },
@@ -1005,20 +1015,17 @@
                             "email": "sophia@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441002/arpowers_incredibly_beautiful_profile_photo_of_woman_business_a_4d1aa14f-015f-4e9e-a7ee-6c7451cb8874_mkmvny.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441070/arpowers_incredibly_beautiful_profile_photo_of_man_business_att_adf360c8-717e-443c-834c-c100652b6032_mufh7k.png",
                               "tags": [
                                 "annotated",
                                 "aspect:landscape",
                                 "aspect:square",
                                 "color:warm",
-                                "nature",
-                                "people",
+                                "man",
                                 "person",
-                                "silhouette",
-                                "woman",
                                 "image"
                               ],
-                              "slug": "arpowers_incredibly_beautiful_profile_photo_of_woman_business_a_4d1aa14f-015f-4e9e-a7ee-6c7451cb8874_mkmvny"
+                              "slug": "arpowers_incredibly_beautiful_profile_photo_of_man_business_att_adf360c8-717e-443c-834c-c100652b6032_mufh7k"
                             }
                           }
                         ],
@@ -1034,15 +1041,16 @@
                         ],
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725068/arpowers_minimal_mid_photo_of_famous_landmark_interesting_looki_f175193b-d8c8-451f-b5ac-78d4846cec27_s4t94r.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724555832/arpowers_minimal_midshot_photo_of_laurels_futuristic_ancient_gr_16603d41-f199-4adc-aa62-51f9248793f1_zaciyk.png",
                           "tags": [
-                            "aspect:landscape",
-                            "color:multi",
-                            "image",
+                            "annotated",
+                            "aspect:portrait",
+                            "aspect:square",
+                            "color:warm",
                             "object",
-                            "annotated"
+                            "image"
                           ],
-                          "slug": "arpowers_minimal_mid_photo_of_famous_landmark_interesting_looki_f175193b-d8c8-451f-b5ac-78d4846cec27_s4t94r"
+                          "slug": "arpowers_minimal_midshot_photo_of_laurels_futuristic_ancient_gr_16603d41-f199-4adc-aa62-51f9248793f1_zaciyk"
                         },
                         "dateAt": "2024-03-10T00:00:00.000Z"
                       }
@@ -1075,13 +1083,13 @@
             "effects": []
           },
           {
-            "cardId": "crd67c6557feaf61b9b5194de92",
+            "cardId": "crd67c8be18be65a650dfdf2c0c",
             "templateId": "cardPageWrapV1",
             "slug": "contact",
             "cards": [
               {
-                "parentId": "crd67c6557feaf61b9b5194de92",
-                "cardId": "crd67c6557f7c52338015077514",
+                "parentId": "crd67c8be18be65a650dfdf2c0c",
+                "cardId": "crd67c8be18c17377cba990eaa3",
                 "templateId": "cardHeroV1",
                 "userConfig": {
                   "title": "Contact Us",
@@ -1105,8 +1113,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557feaf61b9b5194de92",
-                "cardId": "crd67c6557f9c25c6a8bf94c70e",
+                "parentId": "crd67c8be18be65a650dfdf2c0c",
+                "cardId": "crd67c8be18c667e8cd30ce3ec4",
                 "templateId": "cardContactV1",
                 "userConfig": {
                   "layout": "right",
@@ -1193,8 +1201,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557feaf61b9b5194de92",
-                "cardId": "crd67c6557fc4424dc5c6bdce8d",
+                "parentId": "crd67c8be18be65a650dfdf2c0c",
+                "cardId": "crd67c8be184c2817359b952ebd",
                 "templateId": "cardMapsV1",
                 "userConfig": {
                   "maps": [
@@ -1271,7 +1279,8 @@
                 "stack": "sans"
               }
             },
-            "prefersColorScheme": "dark"
+            "prefersColorScheme": "dark",
+            "primaryColor": "blue"
           }
         }
       },
@@ -1334,13 +1343,13 @@
       "config": {
         "sections": {
           "header": {
-            "cardId": "crd67c6557f62020203cfa6b20b",
+            "cardId": "crd67c8be187665c23ceba0a5b4",
             "templateId": "cardPageAreaV1",
             "regionId": "header",
             "cards": [
               {
-                "parentId": "crd67c6557f62020203cfa6b20b",
-                "cardId": "crd67c6557f4b2bf37fdb1b7335",
+                "parentId": "crd67c8be187665c23ceba0a5b4",
+                "cardId": "crd67c8be1868bfc2a111a2425f",
                 "templateId": "cardSiteNavV1",
                 "userConfig": {
                   "standard": {
@@ -1349,7 +1358,7 @@
                   "brand": {
                     "logo": {
                       "typography": {
-                        "label": "Prestige",
+                        "label": "Brand Name",
                         "font": {
                           "family": "DM Serif Display"
                         }
@@ -1362,7 +1371,7 @@
                   "nav": {
                     "primary": [
                       {
-                        "label": "Work",
+                        "label": "Portfolio",
                         "href": "/work"
                       },
                       {
@@ -1420,13 +1429,13 @@
             "effects": []
           },
           "footer": {
-            "cardId": "crd67c6557f10285d9085178ed0",
+            "cardId": "crd67c8be18384c7a301d2a4795",
             "templateId": "cardPageAreaV1",
             "regionId": "footer",
             "cards": [
               {
-                "parentId": "crd67c6557f10285d9085178ed0",
-                "cardId": "crd67c6557f1d9725491dcbcb5b",
+                "parentId": "crd67c8be18384c7a301d2a4795",
+                "cardId": "crd67c8be18418f2def6f102959",
                 "templateId": "cardCtaV1",
                 "userConfig": {
                   "standard": {
@@ -1438,18 +1447,18 @@
                       "iconId": "north-star"
                     }
                   },
-                  "title": "Ready to Experience the Impossible?",
-                  "subTitle": "Let's create a moment of genuine astonishment for your next event",
+                  "title": "Ready to Start Your Project?",
+                  "subTitle": "Take the first step toward achieving your goals",
                   "action": {
                     "variant": "subscribe",
                     "buttons": [
                       {
-                        "label": "Begin the Journey",
+                        "label": "Get in Touch",
                         "href": "/contact",
                         "theme": "primary"
                       },
                       {
-                        "label": "Explore Our Craft",
+                        "label": "View Services",
                         "href": "/services"
                       }
                     ]
@@ -1463,47 +1472,47 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557f10285d9085178ed0",
-                "cardId": "crd67c6557f787f1a04424d1f49",
+                "parentId": "crd67c8be18384c7a301d2a4795",
+                "cardId": "crd67c8be187e853754ab9efbcb",
                 "templateId": "cardFooterProV1",
                 "userConfig": {
                   "brand": {
                     "logo": {
                       "variant": "typography",
                       "typography": {
-                        "label": "Prestige",
+                        "label": "Brand Name",
                         "font": {
                           "family": "DM Serif Display"
                         }
                       },
                       "scale": 1.3
                     },
-                    "tagline": "Corporate Magic & Consulting",
+                    "tagline": "Your Tagline Here",
                     "action": {
                       "buttons": []
                     }
                   },
                   "menus": [
                     {
-                      "title": "Performances",
+                      "title": "Services",
                       "items": [
                         {
-                          "label": "Corporate Illusions",
-                          "href": "/services/corporate",
+                          "label": "Service One",
+                          "href": "/services/one",
                           "icon": {
                             "iconId": "building"
                           }
                         },
                         {
-                          "label": "Private Exhibitions",
-                          "href": "/services/private",
+                          "label": "Service Two",
+                          "href": "/services/two",
                           "icon": {
-                            "iconId": "glass"
+                            "iconId": "settings"
                           }
                         },
                         {
-                          "label": "Creative Direction",
-                          "href": "/services/consulting",
+                          "label": "Service Three",
+                          "href": "/services/three",
                           "icon": {
                             "iconId": "bulb"
                           }
@@ -1514,24 +1523,24 @@
                       "title": "Resources",
                       "items": [
                         {
-                          "label": "Technical Specifications",
-                          "href": "/tech-specs",
+                          "label": "Resource One",
+                          "href": "/resources/one",
                           "icon": {
-                            "iconId": "settings"
+                            "iconId": "file"
                           }
                         },
                         {
-                          "label": "Event Planning Guide",
-                          "href": "/planning",
+                          "label": "Resource Two",
+                          "href": "/resources/two",
                           "icon": {
                             "iconId": "calendar"
                           }
                         },
                         {
-                          "label": "Press Portfolio",
-                          "href": "/press",
+                          "label": "Resource Three",
+                          "href": "/resources/three",
                           "icon": {
-                            "iconId": "newspaper"
+                            "iconId": "news"
                           }
                         }
                       ]
@@ -1540,16 +1549,16 @@
                   "badges": {
                     "buttons": [
                       {
-                        "label": "Member of The Inner Magic Circle with Gold Star",
+                        "label": "Industry Certification One",
                         "href": "/credentials",
                         "theme": "primary",
                         "design": "ghost",
                         "icon": {
-                          "iconId": "wand"
+                          "iconId": "certificate"
                         }
                       },
                       {
-                        "label": "FISM World Champion of Magic",
+                        "label": "Professional Association",
                         "href": "/about",
                         "theme": "blue",
                         "design": "ghost",
@@ -1606,12 +1615,12 @@
             "effects": []
           },
           "hidden": {
-            "cardId": "crd67c6557f53c5211f7ef158cc",
+            "cardId": "crd67c8be18cefeb2f68343040d",
             "templateId": "cardPageAreaV1",
             "cards": [
               {
-                "parentId": "crd67c6557f53c5211f7ef158cc",
-                "cardId": "crd67c6557f00fe233cbaee934f",
+                "parentId": "crd67c8be18cefeb2f68343040d",
+                "cardId": "crd67c8be18be3e2b6c2e234af0",
                 "templateId": "cardModalMediaV1",
                 "userConfig": {},
                 "regionId": "main",
@@ -1622,8 +1631,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557f53c5211f7ef158cc",
-                "cardId": "crd67c6557f2ad25254aece3ba3",
+                "parentId": "crd67c8be18cefeb2f68343040d",
+                "cardId": "crd67c8be182680f953aa6cbcc1",
                 "templateId": "cardCaptureV1",
                 "userConfig": {
                   "standard": {
@@ -1676,13 +1685,13 @@
         },
         "pages": [
           {
-            "cardId": "crd67c6557fe31b3b62d99ae113",
+            "cardId": "crd67c8be18e1d146c3c4a6b8c2",
             "templateId": "cardPageWrapV1",
             "slug": "_home",
             "cards": [
               {
-                "parentId": "crd67c6557fe31b3b62d99ae113",
-                "cardId": "crd67c6557f84302afce0fe228a",
+                "parentId": "crd67c8be18e1d146c3c4a6b8c2",
+                "cardId": "crd67c8be18421fc2bf77913c47",
                 "templateId": "cardOverlaySliderV1",
                 "userConfig": {
                   "standard": {
@@ -1691,60 +1700,62 @@
                   "autoSlide": true,
                   "items": [
                     {
-                      "title": "The Art of Prestige",
-                      "subTitle": "Where classical illusion meets modern sophistication",
+                      "title": "Your Primary Headline",
+                      "subTitle": "Notice how a strong subheadline adds context and depth",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440997/arpowers_incredibly_beautiful_profile_photo_of_woman_business_a_f766e1d7-f5fc-482e-9087-44e3cff07d66_pldzlt.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440978/arpowers_incredibly_beautiful_headshot_of_woman_business_attire_7725af67-56f7-4c3c-8a2c-9515a89d58bf_okyddt.png",
                         "tags": [
                           "annotated",
                           "aspect:landscape",
-                          "color:cool",
+                          "aspect:square",
+                          "color:warm",
                           "person",
+                          "realistic",
                           "woman",
-                          "aspect:square"
+                          "image"
                         ],
-                        "slug": "arpowers_incredibly_beautiful_profile_photo_of_woman_business_a_f766e1d7-f5fc-482e-9087-44e3cff07d66_pldzlt"
+                        "slug": "arpowers_incredibly_beautiful_headshot_of_woman_business_attire_7725af67-56f7-4c3c-8a2c-9515a89d58bf_okyddt"
                       },
                       "textBlend": "difference"
                     },
                     {
-                      "title": "Masters of Misdirection",
-                      "subTitle": "Crafting unforgettable moments of wonder for elite audiences",
+                      "title": "Memorable First Impressions",
+                      "subTitle": "Multiple slides help showcase different aspects of your brand",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440976/arpowers_minimal_stock_background_for_profile_photo_professiona_546520de-2e14-4107-a639-598588d9c3f5_lqt6p6.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443251/arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_dcf90573-20b3-4e04-81f0-148536257f1a_baqmvj.png",
                         "tags": [
                           "annotated",
-                          "aspect:portrait",
+                          "aspect:landscape",
+                          "aspect:square",
+                          "color:warm",
+                          "midshot",
+                          "person",
+                          "woman",
+                          "image"
+                        ],
+                        "slug": "arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_dcf90573-20b3-4e04-81f0-148536257f1a_baqmvj"
+                      },
+                      "textBlend": "difference"
+                    },
+                    {
+                      "title": "Your Brand Position",
+                      "subTitle": "Use this space to communicate your unique value proposition",
+                      "media": {
+                        "format": "image",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443236/arpowers_minimal_headshot_photo_met_gala_ancient_greek_beauty_c_9e26b69d-68f5-49f3-927b-7fd0192118b4_mzneoa.png",
+                        "tags": [
+                          "annotated",
+                          "aspect:square",
                           "color:warm",
                           "headshot",
-                          "person",
-                          "silhouette",
-                          "woman",
-                          "image"
-                        ],
-                        "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_546520de-2e14-4107-a639-598588d9c3f5_lqt6p6"
-                      },
-                      "textBlend": "difference"
-                    },
-                    {
-                      "title": "Beyond Illusion",
-                      "subTitle": "Transform your event into an extraordinary experience",
-                      "media": {
-                        "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443255/arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_1633893b-f298-4d6a-b1eb-f02c8069fe64_za5ifd.png",
-                        "tags": [
-                          "annotated",
-                          "aspect:landscape",
-                          "color:warm",
                           "man",
                           "person",
-                          "wideshot",
-                          "woman",
-                          "image"
+                          "realistic",
+                          "woman"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_1633893b-f298-4d6a-b1eb-f02c8069fe64_za5ifd"
+                        "slug": "arpowers_minimal_headshot_photo_met_gala_ancient_greek_beauty_c_9e26b69d-68f5-49f3-927b-7fd0192118b4_mzneoa"
                       },
                       "textBlend": "difference"
                     }
@@ -1758,8 +1769,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557fe31b3b62d99ae113",
-                "cardId": "crd67c6557f93201ecf40ee4bd2",
+                "parentId": "crd67c8be18e1d146c3c4a6b8c2",
+                "cardId": "crd67c8be18316b17a54d8d00c2",
                 "templateId": "cardFeaturesV1",
                 "userConfig": {
                   "layout": {
@@ -1770,8 +1781,8 @@
                   },
                   "items": [
                     {
-                      "title": "Corporate Illusions",
-                      "description": "Elevate your corporate message through sophisticated deception. From product reveals to brand storytelling, we transform business objectives into moments of astonishment.",
+                      "title": "Primary Service",
+                      "description": "Describe your first key offering here. What problem does it solve? Who is it for? Use 2-3 concise sentences that highlight benefits rather than just features.",
                       "icon": {
                         "iconId": "briefcase"
                       },
@@ -1779,8 +1790,8 @@
                       "columns": "2"
                     },
                     {
-                      "title": "Creative Direction",
-                      "description": "Behind the scenes of television's most captivating illusions. Bringing magical authenticity to productions like Netflix's \"The Magicians\" and Broadway's \"The Prestige\".",
+                      "title": "Secondary Service",
+                      "description": "Your second offering should complement the first. Notice how these descriptions establish expertise without being overly technical or filled with jargon.",
                       "icon": {
                         "iconId": "bulb"
                       },
@@ -1788,8 +1799,8 @@
                       "columns": "2"
                     },
                     {
-                      "title": "Private Exhibitions",
-                      "description": "Intimate performances crafted for distinguished gatherings. Specializing in high-society events where every detail is an opportunity for wonder.",
+                      "title": "Tertiary Service",
+                      "description": "Complete your service trinity with a third distinct offering. The icon, color, and description work together to create a cohesive yet varied presentation.",
                       "icon": {
                         "iconId": "users"
                       },
@@ -1803,8 +1814,8 @@
                   },
                   "standard": {
                     "headers": {
-                      "title": "Signature Performances",
-                      "subTitle": "Curated magical experiences for discerning audiences",
+                      "title": "Core Offerings",
+                      "subTitle": "Highlight your primary services or specialties here",
                       "layout": "left"
                     }
                   }
@@ -1817,28 +1828,28 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557fe31b3b62d99ae113",
-                "cardId": "crd67c6557f29845752e55fb702",
+                "parentId": "crd67c8be18e1d146c3c4a6b8c2",
+                "cardId": "crd67c8be183f771e613abc642a",
                 "templateId": "cardHeroV1",
                 "userConfig": {
-                  "title": "Illusionist & Creative Director",
-                  "subTitle": "Crafting sophisticated deceptions for elite corporate events and entertainment productions. Based in Chicago, performing worldwide.",
+                  "title": "Your Professional Title",
+                  "subTitle": "This brief professional bio should be approximately 15-25 words. Focus on expertise, location, and scope of service.",
                   "action": {
                     "buttons": [
                       {
-                        "label": "Past Performances",
+                        "label": "Primary CTA",
                         "href": "/work",
                         "theme": "primary"
                       },
                       {
-                        "label": "Begin the Journey",
+                        "label": "Secondary CTA",
                         "href": "/contact"
                       }
                     ]
                   },
                   "layout": "left",
                   "superTitle": {
-                    "text": "The Art of Prestige",
+                    "text": "Brand Tagline",
                     "icon": {
                       "iconId": "star"
                     },
@@ -1846,18 +1857,18 @@
                   },
                   "media": {
                     "format": "image",
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440978/arpowers_incredibly_beautiful_headshot_of_woman_business_attire_7725af67-56f7-4c3c-8a2c-9515a89d58bf_okyddt.png",
+                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443235/arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_151aeb1d-43c1-4253-9024-589479de3d89_cvvv2k.png",
                     "tags": [
                       "annotated",
                       "aspect:landscape",
                       "aspect:square",
-                      "color:warm",
+                      "color:cool",
+                      "midshot",
                       "person",
-                      "realistic",
                       "woman",
                       "image"
                     ],
-                    "slug": "arpowers_incredibly_beautiful_headshot_of_woman_business_attire_7725af67-56f7-4c3c-8a2c-9515a89d58bf_okyddt"
+                    "slug": "arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_151aeb1d-43c1-4253-9024-589479de3d89_cvvv2k"
                   }
                 },
                 "regionId": "main",
@@ -1868,34 +1879,34 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557fe31b3b62d99ae113",
-                "cardId": "crd67c6557fb2a8582e1d936eaa",
+                "parentId": "crd67c8be18e1d146c3c4a6b8c2",
+                "cardId": "crd67c8be182cce4342b0479a81",
                 "templateId": "cardMetricsV1",
                 "userConfig": {
                   "layout": "grid",
                   "items": [
                     {
-                      "label": "Annual Performances",
+                      "label": "Key Metric #1",
                       "value": 120,
                       "format": "number",
-                      "description": "Elite events"
+                      "description": "Brief explanation"
                     },
                     {
-                      "label": "Client Enchantment",
-                      "value": 82,
+                      "label": "Success Rate",
+                      "value": 98,
                       "format": "percent",
-                      "description": "Return engagements"
+                      "description": "Client satisfaction"
                     },
                     {
-                      "label": "Global Reach",
+                      "label": "Industry Reach",
                       "value": 23,
-                      "description": "Countries mystified"
+                      "description": "Markets served"
                     }
                   ],
                   "standard": {
                     "headers": {
-                      "title": "A Legacy of Wonder",
-                      "subTitle": "Fifteen years of orchestrating astonishment"
+                      "title": "Proof Points",
+                      "subTitle": "Numbers that demonstrate your impact and experience"
                     }
                   }
                 },
@@ -1907,8 +1918,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557fe31b3b62d99ae113",
-                "cardId": "crd67c6557fb5d006ea68b2a9c7",
+                "parentId": "crd67c8be18e1d146c3c4a6b8c2",
+                "cardId": "crd67c8be18053f14b8498a8223",
                 "templateId": "CardParallaxScrollV1",
                 "userConfig": {
                   "standard": {
@@ -1919,86 +1930,86 @@
                       "superTitle": {
                         "text": "Portfolio",
                         "icon": {
-                          "iconId": "wand"
+                          "iconId": "briefcase"
                         },
                         "theme": "primary"
                       },
-                      "title": "Recent Illusions",
-                      "subTitle": "Selected performances and creative direction"
+                      "title": "Featured Projects",
+                      "subTitle": "See how the parallax effect creates visual interest as you scroll"
                     }
                   },
                   "items": [
                     {
-                      "title": "Google I/O 2023",
-                      "content": "Reimagined the impossible for Google's AI showcase. Created visual metaphors where technology and magic become indistinguishable.",
+                      "title": "Project One Title",
+                      "content": "Describe your first featured project. What challenge did it address? What was your approach? What were the results?",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556185/arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_962ef25a-cb07-4233-a1c5-b158d2c98575_rfnots.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556125/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_36012f77-cda6-4bae-9ae1-5c6bcaf6be56_uj42se.png",
                         "tags": [
                           "annotated",
                           "color:warm",
                           "image",
+                          "man",
                           "object",
-                          "aspect:tall"
+                          "aspect:wide"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_962ef25a-cb07-4233-a1c5-b158d2c98575_rfnots"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_36012f77-cda6-4bae-9ae1-5c6bcaf6be56_uj42se"
                       },
                       "parallaxStrength": 0.4,
                       "action": {
                         "buttons": [
                           {
-                            "label": "Reveal the Magic",
-                            "href": "/work/google-io"
+                            "label": "View Details",
+                            "href": "/work/project-one"
                           }
                         ]
                       }
                     },
                     {
-                      "title": "Netflix's \"The Magicians\"",
-                      "content": "Lead illusion designer for Season 5. Transformed classical sleight of hand into contemporary visual storytelling.",
+                      "title": "Project Two Title",
+                      "content": "Your second project demonstrates range and versatility. This description should be similar in length but highlight different skills.",
                       "media": {
-                        "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556108/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_4f68d524-46d5-44c5-bae8-8a0a0a552fcc_fopm7x.png",
+                        "format": "video",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724637812/replicate-prediction-6e219ad5n5rj40chhhkr82vfkc_eqyc4l.mp4",
                         "tags": [
-                          "annotated",
-                          "color:cool",
-                          "image",
+                          "aspect:landscape",
+                          "aspect:square",
                           "object",
-                          "aspect:wide"
+                          "video"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_4f68d524-46d5-44c5-bae8-8a0a0a552fcc_fopm7x"
+                        "slug": "replicate-prediction-6e219ad5n5rj40chhhkr82vfkc_eqyc4l"
                       },
                       "parallaxStrength": 0.6,
                       "action": {
                         "buttons": [
                           {
-                            "label": "Behind the Illusion",
-                            "href": "/work/netflix"
+                            "label": "Learn More",
+                            "href": "/work/project-two"
                           }
                         ]
                       }
                     },
                     {
-                      "title": "SpaceX Executive Retreat",
-                      "content": "Crafted an intimate performance where the principles of misdirection mirror the beauty of orbital mechanics.",
+                      "title": "Project Three Title",
+                      "content": "Complete the showcase with a third distinctive project. Notice how these three together create a compelling narrative about your capabilities.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725068/arpowers_minimal_mid_photo_of_famous_landmark_interesting_looki_f175193b-d8c8-451f-b5ac-78d4846cec27_s4t94r.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556266/arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_c5bee5e5-78dd-4613-ae89-0df0c483f02a_coxsq3.png",
                         "tags": [
-                          "aspect:landscape",
-                          "color:multi",
-                          "image",
+                          "annotated",
+                          "aspect:portrait",
+                          "color:cool",
                           "object",
-                          "annotated"
+                          "image"
                         ],
-                        "slug": "arpowers_minimal_mid_photo_of_famous_landmark_interesting_looki_f175193b-d8c8-451f-b5ac-78d4846cec27_s4t94r"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_c5bee5e5-78dd-4613-ae89-0df0c483f02a_coxsq3"
                       },
                       "parallaxStrength": 0.5,
                       "action": {
                         "buttons": [
                           {
-                            "label": "Experience the Wonder",
-                            "href": "/work/spacex"
+                            "label": "Explore Project",
+                            "href": "/work/project-three"
                           }
                         ]
                       }
@@ -2013,15 +2024,15 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557fe31b3b62d99ae113",
-                "cardId": "crd67c6557ff2f092671c440534",
+                "parentId": "crd67c8be18e1d146c3c4a6b8c2",
+                "cardId": "crd67c8be188411ffc007996835",
                 "templateId": "cardPostsListV1",
                 "userConfig": {
                   "standard": {
                     "showOnSingle": true,
                     "headers": {
-                      "title": "Mysteries Unveiled",
-                      "subTitle": "Exploring the art and psychology of modern illusion"
+                      "title": "Latest Insights",
+                      "subTitle": "Share your expertise through regular content updates"
                     }
                   },
                   "display": {
@@ -2051,16 +2062,18 @@
                             "title": "Data Journalist",
                             "email": "marcus@example.com",
                             "avatar": {
-                              "format": "video",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724639820/replicate-prediction-559jvxt0y9rj40chhhxsrfm6er_zrb9u3.mp4",
+                              "format": "image",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441070/arpowers_incredibly_beautiful_profile_photo_of_man_business_att_adf360c8-717e-443c-834c-c100652b6032_mufh7k.png",
                               "tags": [
-                                "abstract",
+                                "annotated",
                                 "aspect:landscape",
+                                "aspect:square",
+                                "color:warm",
+                                "man",
                                 "person",
-                                "video",
-                                "woman"
+                                "image"
                               ],
-                              "slug": "replicate-prediction-559jvxt0y9rj40chhhxsrfm6er_zrb9u3"
+                              "slug": "arpowers_incredibly_beautiful_profile_photo_of_man_business_att_adf360c8-717e-443c-834c-c100652b6032_mufh7k"
                             }
                           }
                         ],
@@ -2076,13 +2089,13 @@
                         ],
                         "media": {
                           "format": "video",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724636734/replicate-prediction-98p779gk79rj00chhgpb1q8emg_zoreh0.mp4",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1733965053/replicate-prediction-8201cvzxahrj20ckq1ab16ebs4_scwjtp.mp4",
                           "tags": [
                             "aspect:landscape",
                             "background",
                             "video"
                           ],
-                          "slug": "replicate-prediction-98p779gk79rj00chhgpb1q8emg_zoreh0"
+                          "slug": "replicate-prediction-8201cvzxahrj20ckq1ab16ebs4_scwjtp"
                         },
                         "dateAt": "2024-03-18T00:00:00.000Z"
                       },
@@ -2097,17 +2110,17 @@
                             "email": "priya@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441081/arpowers_minimal_stock_background_for_profile_photo_professiona_eb177108-8f40-42aa-bb03-af178461afe4_1_v8exxm.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440967/arpowers_minimal_stock_background_for_profile_photo_mid_shot_pr_69a37edd-207f-44a5-9076-d4a4797ce76a_nnwjah.png",
                               "tags": [
                                 "annotated",
-                                "aspect:landscape",
+                                "aspect:portrait",
                                 "color:warm",
-                                "man",
-                                "midshot",
                                 "person",
+                                "silhouette",
+                                "woman",
                                 "image"
                               ],
-                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_eb177108-8f40-42aa-bb03-af178461afe4_1_v8exxm"
+                              "slug": "arpowers_minimal_stock_background_for_profile_photo_mid_shot_pr_69a37edd-207f-44a5-9076-d4a4797ce76a_nnwjah"
                             }
                           }
                         ],
@@ -2123,16 +2136,15 @@
                         ],
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556310/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_59c5e3d3-695e-4a03-88ac-ca87bff23762_pyzzqu.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725068/arpowers_Minimalist_futuristic_interpretation_of_an_zeus_elegan_ce9febc4-733e-49e2-976f-8e1f321407c4_fhmivm.png",
                           "tags": [
-                            "annotated",
-                            "aspect:portrait",
-                            "aspect:square",
+                            "aspect:landscape",
                             "color:warm",
+                            "image",
                             "object",
-                            "image"
+                            "annotated"
                           ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_59c5e3d3-695e-4a03-88ac-ca87bff23762_pyzzqu"
+                          "slug": "arpowers_Minimalist_futuristic_interpretation_of_an_zeus_elegan_ce9febc4-733e-49e2-976f-8e1f321407c4_fhmivm"
                         },
                         "dateAt": "2024-03-17T00:00:00.000Z"
                       },
@@ -2147,18 +2159,21 @@
                             "email": "sarah@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440983/arpowers_minimal_stock_background_for_profile_photo_professiona_e88ac2a8-eeb3-42e0-9edb-43e7361f0aaf_t6cfzb.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441626/arpowers_minimal_stock_background_for_mid_shot_profile_photo_Si_4e966e8b-83e4-4d41-9392-18df007d630f_pbeaqg.png",
                               "tags": [
                                 "annotated",
-                                "aspect:portrait",
-                                "color:warm",
+                                "aspect:landscape",
+                                "aspect:square",
+                                "color:cool",
                                 "man",
                                 "midshot",
+                                "nature",
+                                "people",
                                 "person",
                                 "silhouette",
                                 "image"
                               ],
-                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_e88ac2a8-eeb3-42e0-9edb-43e7361f0aaf_t6cfzb"
+                              "slug": "arpowers_minimal_stock_background_for_mid_shot_profile_photo_Si_4e966e8b-83e4-4d41-9392-18df007d630f_pbeaqg"
                             }
                           }
                         ],
@@ -2174,15 +2189,15 @@
                         ],
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556422/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_198efc44-5a6f-4e44-8086-198356fe7544_kle0os.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724550031/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_f5334b4a-7d58-4b67-9a10-5e5677736e72_sagqfj.png",
                           "tags": [
                             "annotated",
-                            "aspect:square",
+                            "aspect:wide",
                             "color:warm",
                             "object",
                             "image"
                           ],
-                          "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_198efc44-5a6f-4e44-8086-198356fe7544_kle0os"
+                          "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_f5334b4a-7d58-4b67-9a10-5e5677736e72_sagqfj"
                         },
                         "dateAt": "2024-03-20T00:00:00.000Z"
                       }
@@ -2210,26 +2225,26 @@
             "effects": []
           },
           {
-            "cardId": "crd67c6557fb1fabd7533db4c9f",
+            "cardId": "crd67c8be18eb2abdbd8979177c",
             "templateId": "cardPageWrapV1",
             "slug": "work",
             "cards": [
               {
-                "parentId": "crd67c6557fb1fabd7533db4c9f",
-                "cardId": "crd67c6557f7ff1673b2c73576d",
+                "parentId": "crd67c8be18eb2abdbd8979177c",
+                "cardId": "crd67c8be18b0df434d7ddd23b0",
                 "templateId": "cardHeroV1",
                 "userConfig": {
-                  "title": "Portfolio of Wonder",
-                  "subTitle": "A collection of extraordinary performances and innovative magical consulting across corporate, entertainment, and private sectors",
+                  "title": "Portfolio",
+                  "subTitle": "A curated collection of projects demonstrating your expertise and approach across different contexts",
                   "action": {
                     "buttons": [
                       {
-                        "label": "Discover the Magic",
+                        "label": "View Projects",
                         "href": "#featured",
                         "theme": "primary"
                       },
                       {
-                        "label": "Consulting Work",
+                        "label": "Client Work",
                         "href": "#consulting"
                       }
                     ]
@@ -2237,21 +2252,21 @@
                   "superTitle": {
                     "text": "Selected Works",
                     "icon": {
-                      "iconId": "wand"
+                      "iconId": "briefcase"
                     },
                     "theme": "primary"
                   },
                   "media": {
                     "format": "image",
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556144/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5c3f0980-d14a-4b5c-8b3d-982d320ec1fc_nh4j0p.png",
+                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556485/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_339820fd-46be-4114-a6f2-a59e713fee99_kzvcor.png",
                     "tags": [
                       "annotated",
+                      "aspect:wide",
                       "color:warm",
-                      "image",
                       "object",
-                      "aspect:wide"
+                      "image"
                     ],
-                    "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5c3f0980-d14a-4b5c-8b3d-982d320ec1fc_nh4j0p"
+                    "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_339820fd-46be-4114-a6f2-a59e713fee99_kzvcor"
                   }
                 },
                 "regionId": "main",
@@ -2262,127 +2277,21 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557fb1fabd7533db4c9f",
-                "cardId": "crd67c6557f4401ae566fcb4c76",
+                "parentId": "crd67c8be18eb2abdbd8979177c",
+                "cardId": "crd67c8be18b5114145fd2ebc82",
                 "templateId": "cardBentoV1",
                 "userConfig": {
                   "items": [
                     {
                       "superTitle": {
-                        "text": "Featured Performance",
+                        "text": "Featured Project",
                         "theme": "blue"
                       },
-                      "title": "Google I/O 2023",
-                      "content": "Reimagining the future through impossible moments. A groundbreaking fusion of classical magic and artificial intelligence.",
+                      "title": "Primary Project Name",
+                      "content": "Notice how this featured project gets more space. Use this for your most impressive or recent work.",
                       "bg": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556422/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_198efc44-5a6f-4e44-8086-198356fe7544_kle0os.png",
-                        "tags": [
-                          "annotated",
-                          "aspect:square",
-                          "color:warm",
-                          "object",
-                          "image"
-                        ],
-                        "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_198efc44-5a6f-4e44-8086-198356fe7544_kle0os"
-                      },
-                      "cols": 6,
-                      "rows": 2,
-                      "theme": "blue",
-                      "verticalPosition": "top",
-                      "action": {
-                        "buttons": [
-                          {
-                            "label": "Explore Project",
-                            "href": "/work/google-io"
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "title": "Netflix Creative Direction",
-                      "content": "Lead illusion designer for \"The Magicians\" Season 5, bringing authenticity to modern magical storytelling.",
-                      "bg": {
-                        "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556445/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_fa5deba3-358d-4d98-9bd2-798d155aee7a_ddlyns.png",
-                        "tags": [
-                          "annotated",
-                          "aspect:square",
-                          "color:warm",
-                          "object",
-                          "image"
-                        ],
-                        "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_fa5deba3-358d-4d98-9bd2-798d155aee7a_ddlyns"
-                      },
-                      "cols": 3,
-                      "rows": 2,
-                      "theme": "emerald"
-                    },
-                    {
-                      "title": "Broadway Magic",
-                      "content": "Technical direction for \"The Prestige\" stage adaptation, merging Victorian illusions with contemporary theater.",
-                      "bg": {
-                        "format": "video",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724555276/Gen-3_Alpha_530605946_futuristic_ancient_g_Cropped_-_arpowers_m_vig5an.mp4",
-                        "tags": [
-                          "aspect:landscape",
-                          "object",
-                          "video"
-                        ],
-                        "slug": "Gen-3_Alpha_530605946_futuristic_ancient_g_Cropped_-_arpowers_m_vig5an"
-                      },
-                      "cols": 3,
-                      "rows": 2,
-                      "theme": "violet"
-                    },
-                    {
-                      "superTitle": {
-                        "text": "Private Event",
-                        "theme": "indigo"
-                      },
-                      "title": "SpaceX Executive Retreat",
-                      "content": "Custom close-up performance exploring the parallels between space exploration and impossible possibilities.",
-                      "media": {
-                        "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724550005/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_96b5594c-edbe-4d8d-8a5a-0bf228922f7f_1_rbdvce.png",
-                        "tags": [
-                          "annotated",
-                          "aspect:wide",
-                          "color:cool",
-                          "object",
-                          "image"
-                        ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_96b5594c-edbe-4d8d-8a5a-0bf228922f7f_1_rbdvce"
-                      },
-                      "cols": 4,
-                      "rows": 3,
-                      "theme": "indigo"
-                    },
-                    {
-                      "title": "Microsoft HoloLens Launch",
-                      "content": "Magical product reveal combining classical sleight of hand with augmented reality.",
-                      "bg": {
-                        "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556157/arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_237498ba-11da-4fbf-813d-69d9650e3c1e_hvqyv1.png",
-                        "tags": [
-                          "annotated",
-                          "color:warm",
-                          "image",
-                          "object",
-                          "aspect:wide"
-                        ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_237498ba-11da-4fbf-813d-69d9650e3c1e_hvqyv1"
-                      },
-                      "cols": 4,
-                      "rows": 3,
-                      "theme": "cyan"
-                    },
-                    {
-                      "title": "Royal Albert Hall",
-                      "content": "Sold-out theater show featuring signature illusions and world premieres.",
-                      "media": {
-                        "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556315/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_a2a285ab-ee34-4037-9236-9e7a1c55e23d_nefprh.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556229/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_1e92bb12-3dad-4d64-ba27-8a09a7ef30dd_e4vqjv.png",
                         "tags": [
                           "annotated",
                           "aspect:portrait",
@@ -2391,7 +2300,113 @@
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_a2a285ab-ee34-4037-9236-9e7a1c55e23d_nefprh"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_1e92bb12-3dad-4d64-ba27-8a09a7ef30dd_e4vqjv"
+                      },
+                      "cols": 6,
+                      "rows": 2,
+                      "theme": "blue",
+                      "verticalPosition": "top",
+                      "action": {
+                        "buttons": [
+                          {
+                            "label": "View Project",
+                            "href": "/work/project-one"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "title": "Secondary Project",
+                      "content": "Smaller tiles work well for supporting projects. Keep descriptions brief but impactful.",
+                      "bg": {
+                        "format": "image",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556185/arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_962ef25a-cb07-4233-a1c5-b158d2c98575_rfnots.png",
+                        "tags": [
+                          "annotated",
+                          "color:warm",
+                          "image",
+                          "object",
+                          "aspect:tall"
+                        ],
+                        "slug": "arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_962ef25a-cb07-4233-a1c5-b158d2c98575_rfnots"
+                      },
+                      "cols": 3,
+                      "rows": 2,
+                      "theme": "emerald"
+                    },
+                    {
+                      "title": "Tertiary Project",
+                      "content": "The bento grid layout allows for visual hierarchy while maintaining a cohesive look.",
+                      "bg": {
+                        "format": "video",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724555294/Gen-3_Alpha_1536169769_futuristic_ancient_g_Cropped_-_arpowers_m_asf5qt.mp4",
+                        "tags": [
+                          "aspect:landscape",
+                          "aspect:square",
+                          "object",
+                          "video",
+                          "background"
+                        ],
+                        "slug": "Gen-3_Alpha_1536169769_futuristic_ancient_g_Cropped_-_arpowers_m_asf5qt"
+                      },
+                      "cols": 3,
+                      "rows": 2,
+                      "theme": "violet"
+                    },
+                    {
+                      "superTitle": {
+                        "text": "Client Work",
+                        "theme": "indigo"
+                      },
+                      "title": "Client Project Title",
+                      "content": "For client work, focus on the challenge and your solution rather than technical details.",
+                      "media": {
+                        "format": "image",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556130/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_16ec2682-8379-4aeb-a5b6-518d10b73c68_jcjjol.png",
+                        "tags": [
+                          "annotated",
+                          "color:warm",
+                          "image",
+                          "object",
+                          "aspect:wide"
+                        ],
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_16ec2682-8379-4aeb-a5b6-518d10b73c68_jcjjol"
+                      },
+                      "cols": 4,
+                      "rows": 3,
+                      "theme": "indigo"
+                    },
+                    {
+                      "title": "Product Launch",
+                      "content": "Color coding your projects by type creates an intuitive navigation experience.",
+                      "bg": {
+                        "format": "image",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556279/arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_9de3451f-189e-4e2c-8433-fd19a32a2c73_tumlwu.png",
+                        "tags": [
+                          "annotated",
+                          "aspect:portrait",
+                          "color:warm",
+                          "object",
+                          "image"
+                        ],
+                        "slug": "arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_9de3451f-189e-4e2c-8433-fd19a32a2c73_tumlwu"
+                      },
+                      "cols": 4,
+                      "rows": 3,
+                      "theme": "cyan"
+                    },
+                    {
+                      "title": "Featured Presentation",
+                      "content": "The mix of images and video creates visual interest throughout your portfolio.",
+                      "media": {
+                        "format": "video",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724638588/replicate-prediction-jevb9nw2tdrj20chhhtbkat29g_ucxc1y.mp4",
+                        "tags": [
+                          "aspect:landscape",
+                          "object",
+                          "video"
+                        ],
+                        "slug": "replicate-prediction-jevb9nw2tdrj20chhhtbkat29g_ucxc1y"
                       },
                       "verticalPosition": "top",
                       "cols": 4,
@@ -2408,8 +2423,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557fb1fabd7533db4c9f",
-                "cardId": "crd67c6557fce767dae08cf280a",
+                "parentId": "crd67c8be18eb2abdbd8979177c",
+                "cardId": "crd67c8be18ad391bf38378aae7",
                 "templateId": "cardPhotoGalleryV1",
                 "userConfig": {
                   "layout": {
@@ -2425,11 +2440,29 @@
                   },
                   "items": [
                     {
-                      "title": "Corporate Innovation",
-                      "content": "Creating impossible moments for product launches and brand experiences that leave lasting impressions.",
+                      "title": "Category One",
+                      "content": "Each gallery item can represent a category of work rather than individual projects.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724555832/arpowers_minimal_midshot_photo_of_laurels_futuristic_ancient_gr_16603d41-f199-4adc-aa62-51f9248793f1_zaciyk.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556068/arpowers_minimal_mid_shot_photo_of_item_ancient_greek_ideal_bea_2fc9cea8-00b4-47b4-957f-aa995071aaad_xekbep.png",
+                        "tags": [
+                          "annotated",
+                          "aspect:landscape",
+                          "color:warm",
+                          "object",
+                          "image"
+                        ],
+                        "slug": "arpowers_minimal_mid_shot_photo_of_item_ancient_greek_ideal_bea_2fc9cea8-00b4-47b4-957f-aa995071aaad_xekbep"
+                      },
+                      "cols": "2",
+                      "theme": "blue"
+                    },
+                    {
+                      "title": "Category Two",
+                      "content": "Consistent styling creates cohesion while different images maintain visual interest.",
+                      "media": {
+                        "format": "image",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556298/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_b50e9db3-34e6-4089-be9a-5fd1584c9ebd_z61gqa.png",
                         "tags": [
                           "annotated",
                           "aspect:portrait",
@@ -2438,33 +2471,14 @@
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_laurels_futuristic_ancient_gr_16603d41-f199-4adc-aa62-51f9248793f1_zaciyk"
-                      },
-                      "cols": "2",
-                      "theme": "blue"
-                    },
-                    {
-                      "title": "Television Magic",
-                      "content": "Bringing authentic illusions to the screen through technical direction and performance.",
-                      "media": {
-                        "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725064/arpowers_Minimalist_futuristic_interpretation_of_a_poseiden_ele_1a9bb2c0-a94d-490b-b59a-854a1e41516f_g65add.png",
-                        "tags": [
-                          "aspect:landscape",
-                          "color:warm",
-                          "image",
-                          "man",
-                          "object",
-                          "annotated"
-                        ],
-                        "slug": "arpowers_Minimalist_futuristic_interpretation_of_a_poseiden_ele_1a9bb2c0-a94d-490b-b59a-854a1e41516f_g65add"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_b50e9db3-34e6-4089-be9a-5fd1584c9ebd_z61gqa"
                       },
                       "cols": "2",
                       "theme": "emerald"
                     },
                     {
-                      "title": "Private Events",
-                      "content": "Crafting intimate magical experiences for exclusive gatherings and celebrations.",
+                      "title": "Category Three",
+                      "content": "The lightbox functionality allows visitors to view full-size images without leaving the page.",
                       "media": {
                         "format": "image",
                         "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556477/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_c03cbb8a-90c0-42ee-ba70-fbd127e445a4_nwguvx.png",
@@ -2481,57 +2495,56 @@
                       "theme": "violet"
                     },
                     {
-                      "title": "Stage Shows",
-                      "content": "Theater performances that combine classical illusion with modern storytelling.",
+                      "title": "Category Four",
+                      "content": "Themes can match your brand colors while maintaining a coordinated palette.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556103/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_427e4e07-b84a-40d1-9222-6b5a7a3d7352_xus1tx.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556224/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_c2a59fad-3b84-470c-a307-d9b1e8ecb3ec_zmnxet.png",
                         "tags": [
                           "annotated",
-                          "color:warm",
-                          "image",
-                          "man",
+                          "aspect:landscape",
+                          "aspect:square",
+                          "color:cool",
                           "object",
-                          "aspect:wide"
+                          "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_427e4e07-b84a-40d1-9222-6b5a7a3d7352_xus1tx"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_c2a59fad-3b84-470c-a307-d9b1e8ecb3ec_zmnxet"
                       },
                       "cols": "2",
                       "theme": "indigo"
                     },
                     {
-                      "title": "Consulting Projects",
-                      "content": "Behind-the-scenes magic design for entertainment and corporate clients.",
+                      "title": "Category Five",
+                      "content": "Brief descriptions help visitors understand the context of each visual.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556068/arpowers_minimal_mid_shot_photo_of_item_ancient_greek_ideal_bea_2fc9cea8-00b4-47b4-957f-aa995071aaad_xekbep.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556419/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_b5557989-a67c-4dad-85a8-c21f2c0dedae_vbwpdu.png",
                         "tags": [
                           "annotated",
-                          "aspect:landscape",
+                          "aspect:wide",
                           "color:warm",
-                          "object",
-                          "image"
+                          "object"
                         ],
-                        "slug": "arpowers_minimal_mid_shot_photo_of_item_ancient_greek_ideal_bea_2fc9cea8-00b4-47b4-957f-aa995071aaad_xekbep"
+                        "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_b5557989-a67c-4dad-85a8-c21f2c0dedae_vbwpdu"
                       },
                       "cols": "2",
                       "theme": "cyan"
                     },
                     {
-                      "title": "International Tours",
-                      "content": "Bringing sophisticated illusion to prestigious venues worldwide.",
+                      "title": "Category Six",
+                      "content": "Six categories create a balanced layout that works well on most screen sizes.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556187/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_15f06b6c-8492-4d3a-9c0b-57a9b18e839d_zoq8og.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556288/arpowers_minimal_midshot_photo_of_object_2030s_futuristic_ancie_3c00d98d-2cb1-49cf-8563-43c43573ea53_ixbak5.png",
                         "tags": [
                           "annotated",
-                          "aspect:landscape",
+                          "aspect:portrait",
                           "aspect:square",
                           "color:warm",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_15f06b6c-8492-4d3a-9c0b-57a9b18e839d_zoq8og"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_2030s_futuristic_ancie_3c00d98d-2cb1-49cf-8563-43c43573ea53_ixbak5"
                       },
                       "cols": "2",
                       "theme": "rose"
@@ -2539,8 +2552,8 @@
                   ],
                   "standard": {
                     "headers": {
-                      "title": "Performance Gallery",
-                      "subTitle": "Moments of wonder captured across global venues"
+                      "title": "Project Gallery",
+                      "subTitle": "Visual showcase of work across different contexts"
                     }
                   }
                 },
@@ -2564,27 +2577,48 @@
             "effects": []
           },
           {
-            "cardId": "crd67c6557f3c1fe937e2faa517",
+            "cardId": "crd67c8be18d6926e8ad213268a",
             "templateId": "cardPageWrapV1",
             "slug": "about",
             "cards": [
               {
-                "parentId": "crd67c6557f3c1fe937e2faa517",
-                "cardId": "crd67c6557f37d1cb5100589d66",
+                "parentId": "crd67c8be18d6926e8ad213268a",
+                "cardId": "crd67c8be1833e711beeaf2fb7b",
                 "templateId": "cardStoryV1",
                 "userConfig": {
                   "layout": "left",
                   "scrollHandling": "scrolling",
                   "items": [
                     {
-                      "title": "A Spark of Magic",
-                      "content": "My journey began on the streets of Chicago, where the city's rich history of vaudeville and mystery first captured my imagination. At age seven, I discovered an old copy of Hoffman's Modern Magic in my grandfather's library. That weathered tome, with its cryptic illustrations and secrets, sparked a lifelong obsession with the art of the impossible.",
+                      "title": "The Beginning",
+                      "content": "Start with your origin story. What sparked your interest in your field? Share a personal anecdote that connects emotionally with readers while establishing the foundation of your expertise.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441630/arpowers_minimal_stock_background_for_profile_photo_professiona_4becd944-10bc-44b4-969b-9a85b3885409_mv0js5.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556091/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_8b17dc54-1507-49d5-a510-bb773a01043f_1_oyq7mu.png",
+                        "tags": [
+                          "annotated",
+                          "aspect:portrait",
+                          "aspect:square",
+                          "color:warm",
+                          "man",
+                          "nature",
+                          "object",
+                          "people",
+                          "image"
+                        ],
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_8b17dc54-1507-49d5-a510-bb773a01043f_1_oyq7mu"
+                      }
+                    },
+                    {
+                      "title": "The Development",
+                      "content": "Describe your professional development. What training, mentorship, or pivotal experiences shaped your approach? This section bridges your beginning with your current professional identity.",
+                      "media": {
+                        "format": "image",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441002/arpowers_incredibly_beautiful_profile_photo_of_woman_business_a_4d1aa14f-015f-4e9e-a7ee-6c7451cb8874_mkmvny.png",
                         "tags": [
                           "annotated",
                           "aspect:landscape",
+                          "aspect:square",
                           "color:warm",
                           "nature",
                           "people",
@@ -2593,56 +2627,32 @@
                           "woman",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_4becd944-10bc-44b4-969b-9a85b3885409_mv0js5"
+                        "slug": "arpowers_incredibly_beautiful_profile_photo_of_woman_business_a_4d1aa14f-015f-4e9e-a7ee-6c7451cb8874_mkmvny"
                       }
                     },
                     {
-                      "title": "The Art of Wonder",
-                      "content": "Under the mentorship of master illusionists at the McBride Magic & Mystery School, I delved deep into both classical techniques and psychological principles. Here, I learned that true magic lies not in the mechanics of deception, but in creating moments of genuine astonishment that resonate long after the performance ends.",
+                      "title": "The Approach",
+                      "content": "Articulate your current philosophy and methodology. How do your experiences inform your work today? This section should connect your past with your present offerings and establish your unique value.",
                       "media": {
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440971/arpowers_interesting_stock_profile_photo_professional_attire_Si_a105c699-f12d-4ecb-8015-a6272ea33c17_zwgcz2.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724555823/arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_71a0138f-a4e3-4893-9be0-6ceba235df26_bqholx.png",
                         "tags": [
                           "annotated",
                           "aspect:square",
                           "color:cool",
-                          "man",
-                          "midshot",
                           "nature",
+                          "object",
                           "people",
-                          "person",
-                          "silhouette",
-                          "woman",
                           "image"
                         ],
-                        "slug": "arpowers_interesting_stock_profile_photo_professional_attire_Si_a105c699-f12d-4ecb-8015-a6272ea33c17_zwgcz2"
-                      }
-                    },
-                    {
-                      "title": "Modern Mystique",
-                      "content": "Today, I blend classical sleight of hand with contemporary presentation to create experiences that challenge the boundaries between illusion and reality. Whether consulting for major productions or performing at exclusive gatherings, my mission remains constant: to create sophisticated moments of wonder that engage both intellect and imagination.",
-                      "media": {
-                        "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443247/arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_99e1189b-dc7a-4d84-8ef3-dfe9a657f53b_vhkhic.png",
-                        "tags": [
-                          "annotated",
-                          "aspect:landscape",
-                          "color:warm",
-                          "midshot",
-                          "nature",
-                          "people",
-                          "person",
-                          "woman",
-                          "image"
-                        ],
-                        "slug": "arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_99e1189b-dc7a-4d84-8ef3-dfe9a657f53b_vhkhic"
+                        "slug": "arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_71a0138f-a4e3-4893-9be0-6ceba235df26_bqholx"
                       }
                     }
                   ],
                   "standard": {
                     "headers": {
-                      "title": "The Story Behind the Wonder",
-                      "subTitle": "From childhood curiosity to mastery of the impossible"
+                      "title": "My Story",
+                      "subTitle": "How personal experience shaped professional expertise"
                     }
                   }
                 },
@@ -2654,46 +2664,46 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557f3c1fe937e2faa517",
-                "cardId": "crd67c6557f8670c396b04a50d0",
+                "parentId": "crd67c8be18d6926e8ad213268a",
+                "cardId": "crd67c8be18fe1c582b32f143cd",
                 "templateId": "cardTimelineV1",
                 "userConfig": {
                   "items": [
                     {
-                      "title": "First International Tour",
-                      "content": "Debut performances across Europe, culminating in a sold-out show at London's prestigious Magic Circle Theatre",
+                      "title": "Early Achievement",
+                      "content": "Describe an early professional milestone that established your foundation in the field",
                       "date": "2009",
                       "icon": {
                         "iconId": "plane"
                       }
                     },
                     {
-                      "title": "Television Debut",
-                      "content": "Featured consultant and performer for \"Masters of Illusion,\" introducing innovative effects that redefined close-up magic for television",
+                      "title": "Major Transition",
+                      "content": "Highlight a pivotal moment that marked growth or a shift in your professional trajectory",
                       "date": "2012",
                       "icon": {
                         "iconId": "device-tv"
                       }
                     },
                     {
-                      "title": "FISM World Championship",
-                      "content": "Awarded first place in Close-up Magic at the Olympics of Magic, presenting original effects that have since become industry standards",
+                      "title": "Industry Recognition",
+                      "content": "Feature an award, publication, or other recognition that validates your expertise externally",
                       "date": "2015",
                       "icon": {
                         "iconId": "award"
                       }
                     },
                     {
-                      "title": "Corporate Innovation",
-                      "content": "Pioneered the integration of classical magic principles with product launches and brand reveals for Fortune 500 companies",
+                      "title": "Innovation Point",
+                      "content": "Describe a project or initiative where you created something new or pioneered an approach",
                       "date": "2018",
                       "icon": {
                         "iconId": "briefcase"
                       }
                     },
                     {
-                      "title": "Creative Direction",
-                      "content": "Lead illusion designer for major streaming productions, bridging the gap between practical effects and digital wizardry",
+                      "title": "Current Focus",
+                      "content": "Share your present professional emphasis, connecting past achievements with future direction",
                       "date": "2021",
                       "icon": {
                         "iconId": "bulb"
@@ -2702,8 +2712,8 @@
                   ],
                   "standard": {
                     "headers": {
-                      "title": "Milestones in Mystery",
-                      "subTitle": "Key moments in the pursuit of the impossible"
+                      "title": "Professional Timeline",
+                      "subTitle": "Key milestones in the evolution of expertise"
                     }
                   }
                 },
@@ -2715,19 +2725,19 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557f3c1fe937e2faa517",
-                "cardId": "crd67c6557f0ec2dac69b679a15",
+                "parentId": "crd67c8be18d6926e8ad213268a",
+                "cardId": "crd67c8be1883115c83ea0cf578",
                 "templateId": "cardQuotesV1",
                 "userConfig": {
                   "items": [
                     {
-                      "text": "In an age of digital effects and virtual reality, his performances remind us that true magic happens in real-time, right before our eyes.",
+                      "text": "A compelling testimonial focuses on specific results or experiences rather than generic praise. The quote should sound authentic and conversational.",
                       "author": {
-                        "label": "David Copperfield",
-                        "subLabel": "Master Illusionist",
+                        "label": "Client Name",
+                        "subLabel": "Professional Title, Company",
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1725686125/profile-man-3_pxzud9.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1725686124/profile-man-6_aratfe.png",
                           "tags": [
                             "annotated",
                             "aspect:square",
@@ -2737,60 +2747,58 @@
                             "realistic",
                             "image"
                           ],
-                          "slug": "profile-man-3_pxzud9"
+                          "slug": "profile-man-6_aratfe"
                         }
                       }
                     },
                     {
-                      "text": "His ability to weave our product story into a moment of genuine astonishment transformed our launch from a presentation into an unforgettable experience.",
+                      "text": "Include testimonials from different client types to demonstrate versatility. Each quote should highlight different aspects of your service or approach.",
                       "author": {
-                        "label": "Samantha Chen",
-                        "subLabel": "Innovation Director, Google",
+                        "label": "Client Name",
+                        "subLabel": "Position, Organization",
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441017/arpowers_minimal_stock_background_for_profile_photo_professiona_3be631fa-0377-4636-9d51-4e015030eed9_fhj8jk.png",
-                          "tags": [
-                            "annotated",
-                            "aspect:portrait",
-                            "aspect:square",
-                            "color:warm",
-                            "man",
-                            "person",
-                            "silhouette",
-                            "woman",
-                            "image"
-                          ],
-                          "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_3be631fa-0377-4636-9d51-4e015030eed9_fhj8jk"
-                        }
-                      }
-                    },
-                    {
-                      "text": "The consulting work he provided for our production brought an authenticity to the magic that respected both the art form and our audience's intelligence.",
-                      "author": {
-                        "label": "Michael Zhang",
-                        "subLabel": "Executive Producer, Netflix",
-                        "media": {
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441625/arpowers_minimal_stock_background_for_profile_photo_professiona_3a694c25-ee52-4e0e-932f-4efc62c2f4f0_ol7wns.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443253/arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_66bb224b-8c74-43bf-a013-b9389b334282_plxete.png",
                           "tags": [
                             "annotated",
                             "aspect:landscape",
+                            "aspect:square",
+                            "color:warm",
+                            "midshot",
+                            "person",
+                            "woman",
+                            "image"
+                          ],
+                          "slug": "arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_66bb224b-8c74-43bf-a013-b9389b334282_plxete"
+                        }
+                      }
+                    },
+                    {
+                      "text": "The most powerful testimonials address initial client concerns and how you overcame them. This builds trust with potential clients who may have similar hesitations.",
+                      "author": {
+                        "label": "Client Name",
+                        "subLabel": "Role, Company",
+                        "media": {
+                          "format": "image",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1725686120/profile-man-1_rsifqh.png",
+                          "tags": [
+                            "annotated",
+                            "aspect:square",
                             "color:neutral",
                             "headshot",
                             "man",
-                            "person",
-                            "silhouette",
+                            "realistic",
                             "image"
                           ],
-                          "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_3a694c25-ee52-4e0e-932f-4efc62c2f4f0_ol7wns"
+                          "slug": "profile-man-1_rsifqh"
                         }
                       }
                     }
                   ],
                   "standard": {
                     "headers": {
-                      "title": "Voices of Wonder",
-                      "subTitle": "What audiences and clients say about their experience"
+                      "title": "Client Testimonials",
+                      "subTitle": "What others say about working with me"
                     }
                   }
                 },
@@ -2814,13 +2822,13 @@
             "effects": []
           },
           {
-            "cardId": "crd67c6557f582153bdc25a8e38",
+            "cardId": "crd67c8be18b2f259e39d4f3a8a",
             "templateId": "cardPageWrapV1",
             "slug": "blog",
             "cards": [
               {
-                "parentId": "crd67c6557f582153bdc25a8e38",
-                "cardId": "crd67c6557f203649f164c2bd04",
+                "parentId": "crd67c8be18b2f259e39d4f3a8a",
+                "cardId": "crd67c8be18ff052db213a429ac",
                 "templateId": "cardPostsMagazineV1",
                 "userConfig": {
                   "standard": {
@@ -2841,17 +2849,17 @@
                             "email": "marcus@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440968/arpowers_minimal_stock_background_for_profile_photo_professiona_78720aee-9795-4ac4-bca9-e6188591bf0a_n5u7ny.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440966/arpowers_minimal_stock_background_for_profile_photo_professiona_62a15087-100b-4880-8932-1bf4f2375052_sio7al.png",
                               "tags": [
                                 "annotated",
-                                "aspect:landscape",
-                                "color:neutral",
+                                "aspect:portrait",
+                                "color:warm",
                                 "man",
                                 "midshot",
                                 "person",
                                 "image"
                               ],
-                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_78720aee-9795-4ac4-bca9-e6188591bf0a_n5u7ny"
+                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_62a15087-100b-4880-8932-1bf4f2375052_sio7al"
                             }
                           }
                         ],
@@ -2866,14 +2874,14 @@
                           "visualization"
                         ],
                         "media": {
-                          "format": "video",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724634905/replicate-prediction-jch406tws9rj40chhgya0y8tc8_ykfz5l.mp4",
+                          "format": "image",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1733967613/arpowers_minimalist_realistic_mediterranean_scene_futuristic_an_8ee14b01-7f2c-4731-93ee-8a9c590c654a_di6cyd.png",
                           "tags": [
-                            "aspect:landscape",
                             "background",
-                            "video"
+                            "aspect:wide",
+                            "color:warm"
                           ],
-                          "slug": "replicate-prediction-jch406tws9rj40chhgya0y8tc8_ykfz5l"
+                          "slug": "arpowers_minimalist_realistic_mediterranean_scene_futuristic_an_8ee14b01-7f2c-4731-93ee-8a9c590c654a_di6cyd"
                         },
                         "dateAt": "2024-03-18T00:00:00.000Z"
                       },
@@ -2888,20 +2896,18 @@
                             "email": "priya@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440975/arpowers_minimal_stock_background_for_profile_photo_professiona_ade3f441-2a5d-4523-8d1d-d90d6b46767b_s0jyx2.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443236/arpowers_minimal_headshot_photo_met_gala_ancient_greek_beauty_c_9e26b69d-68f5-49f3-927b-7fd0192118b4_mzneoa.png",
                               "tags": [
                                 "annotated",
-                                "aspect:portrait",
                                 "aspect:square",
                                 "color:warm",
                                 "headshot",
                                 "man",
                                 "person",
-                                "silhouette",
-                                "woman",
-                                "image"
+                                "realistic",
+                                "woman"
                               ],
-                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_ade3f441-2a5d-4523-8d1d-d90d6b46767b_s0jyx2"
+                              "slug": "arpowers_minimal_headshot_photo_met_gala_ancient_greek_beauty_c_9e26b69d-68f5-49f3-927b-7fd0192118b4_mzneoa"
                             }
                           }
                         ],
@@ -2916,17 +2922,15 @@
                           "content strategy"
                         ],
                         "media": {
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556206/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_c954fed0-a698-4b95-8470-e8a0541b0b55_qkrjxn.png",
+                          "format": "video",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724640270/replicate-prediction-zh0pg61bmsrj40chhj5skkhe4m_fftcwx.mp4",
                           "tags": [
-                            "annotated",
                             "aspect:landscape",
-                            "aspect:square",
-                            "color:cool",
                             "object",
-                            "image"
+                            "video",
+                            "background"
                           ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_c954fed0-a698-4b95-8470-e8a0541b0b55_qkrjxn"
+                          "slug": "replicate-prediction-zh0pg61bmsrj40chhj5skkhe4m_fftcwx"
                         },
                         "dateAt": "2024-03-17T00:00:00.000Z"
                       },
@@ -2941,16 +2945,18 @@
                             "email": "sarah@example.com",
                             "avatar": {
                               "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440981/arpowers_incredibly_beautiful_headshot_of_man_business_attire_S_b6072062-5193-4028-8e73-60084ce9ccba_zbflsl.png",
+                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441025/arpowers_interesting_profile_photo_interesting_beautiful_man_or_60087bac-d62b-4a12-b8ac-7557b9a95a78_grsgn6.png",
                               "tags": [
                                 "annotated",
-                                "aspect:landscape",
-                                "color:neutral",
-                                "man",
+                                "aspect:square",
+                                "color:warm",
+                                "headshot",
                                 "person",
+                                "realistic",
+                                "woman",
                                 "image"
                               ],
-                              "slug": "arpowers_incredibly_beautiful_headshot_of_man_business_attire_S_b6072062-5193-4028-8e73-60084ce9ccba_zbflsl"
+                              "slug": "arpowers_interesting_profile_photo_interesting_beautiful_man_or_60087bac-d62b-4a12-b8ac-7557b9a95a78_grsgn6"
                             }
                           }
                         ],
@@ -2966,16 +2972,15 @@
                         ],
                         "media": {
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556239/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5f99902c-0878-4f99-b1e9-0f9585c5faf7_nrgfic.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556392/arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_30b45650-f0d2-4fcb-8290-f0c2f26c292a_tkp2s4.png",
                           "tags": [
                             "annotated",
-                            "aspect:portrait",
                             "aspect:square",
                             "color:warm",
                             "object",
                             "image"
                           ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5f99902c-0878-4f99-b1e9-0f9585c5faf7_nrgfic"
+                          "slug": "arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_30b45650-f0d2-4fcb-8290-f0c2f26c292a_tkp2s4"
                         },
                         "dateAt": "2024-03-20T00:00:00.000Z"
                       }
@@ -3002,13 +3007,13 @@
             "effects": []
           },
           {
-            "cardId": "crd67c6557fc10cefa9e320bfa0",
+            "cardId": "crd67c8be18e0ebdd6c571810c3",
             "templateId": "cardPageWrapV1",
             "slug": "contact",
             "cards": [
               {
-                "parentId": "crd67c6557fc10cefa9e320bfa0",
-                "cardId": "crd67c6557fed57d69fc6381578",
+                "parentId": "crd67c8be18e0ebdd6c571810c3",
+                "cardId": "crd67c8be1880cc8bdccfe78b13",
                 "templateId": "cardHeroV1",
                 "userConfig": {
                   "title": "Enter Your Title",
@@ -3025,8 +3030,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557fc10cefa9e320bfa0",
-                "cardId": "crd67c6557f44a5a9c5b39ccec3",
+                "parentId": "crd67c8be18e0ebdd6c571810c3",
+                "cardId": "crd67c8be184d04fee511d0443d",
                 "templateId": "cardContactV1",
                 "userConfig": {
                   "layout": "right",
@@ -3113,8 +3118,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557fc10cefa9e320bfa0",
-                "cardId": "crd67c6557f6af74890fc26a055",
+                "parentId": "crd67c8be18e0ebdd6c571810c3",
+                "cardId": "crd67c8be18bd4ac83a2b8b8226",
                 "templateId": "cardMapsV1",
                 "userConfig": {
                   "maps": [
@@ -3186,7 +3191,7 @@
               }
             },
             "prefersColorScheme": "dark",
-            "primaryColor": "rose"
+            "primaryColor": "indigo"
           }
         }
       },
@@ -3245,13 +3250,13 @@
       "config": {
         "sections": {
           "header": {
-            "cardId": "crd67c6557fa7880c979533df87",
+            "cardId": "crd67c8be181fb51b063a7ebe90",
             "templateId": "cardPageAreaV1",
             "regionId": "header",
             "cards": [
               {
-                "parentId": "crd67c6557fa7880c979533df87",
-                "cardId": "crd67c6557fb4fe8116078f143d",
+                "parentId": "crd67c8be181fb51b063a7ebe90",
+                "cardId": "crd67c8be18997ed0183e2b011e",
                 "templateId": "cardSiteNavV1",
                 "userConfig": {
                   "standard": {
@@ -3289,13 +3294,13 @@
             "effects": []
           },
           "footer": {
-            "cardId": "crd67c6557f9613f82d3f09bdba",
+            "cardId": "crd67c8be18d6b55e87fa781e55",
             "templateId": "cardPageAreaV1",
             "regionId": "footer",
             "cards": [
               {
-                "parentId": "crd67c6557f9613f82d3f09bdba",
-                "cardId": "crd67c6557f6624ce2edfb9135e",
+                "parentId": "crd67c8be18d6b55e87fa781e55",
+                "cardId": "crd67c8be183a5b5323b2a00a6d",
                 "templateId": "cardFooterPersonalV1",
                 "userConfig": {
                   "brand": {
@@ -3334,12 +3339,12 @@
             "effects": []
           },
           "hidden": {
-            "cardId": "crd67c6557fd64a8501287fd027",
+            "cardId": "crd67c8be18e6a53d69a57cfcab",
             "templateId": "cardPageAreaV1",
             "cards": [
               {
-                "parentId": "crd67c6557fd64a8501287fd027",
-                "cardId": "crd67c6557f96b6359c3c0a2636",
+                "parentId": "crd67c8be18e6a53d69a57cfcab",
+                "cardId": "crd67c8be18638a0c4c60a51603",
                 "templateId": "cardModalMediaV1",
                 "userConfig": {},
                 "regionId": "main",
@@ -3350,8 +3355,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557fd64a8501287fd027",
-                "cardId": "crd67c6557ff202c5ca3e931ccc",
+                "parentId": "crd67c8be18e6a53d69a57cfcab",
+                "cardId": "crd67c8be184f912023da784fc4",
                 "templateId": "cardTextEffectV1",
                 "userConfig": {},
                 "regionId": "main",
@@ -3362,8 +3367,8 @@
                 "depth": 1
               },
               {
-                "parentId": "crd67c6557fd64a8501287fd027",
-                "cardId": "crd67c6557f983c8961b3f2951b",
+                "parentId": "crd67c8be18e6a53d69a57cfcab",
+                "cardId": "crd67c8be18a30c74b7efc0ca6e",
                 "templateId": "cardCaptureV1",
                 "userConfig": {
                   "standard": {
@@ -3416,13 +3421,13 @@
         },
         "pages": [
           {
-            "cardId": "crd67c6557fc615b224258622fb",
+            "cardId": "crd67c8be183c14d3dc067998d2",
             "templateId": "cardPageWrapV1",
             "slug": "_home",
             "cards": [
               {
-                "parentId": "crd67c6557fc615b224258622fb",
-                "cardId": "crd67c6557ff6f336ff4f798eca",
+                "parentId": "crd67c8be183c14d3dc067998d2",
+                "cardId": "crd67c8be18774794d07cb1d84b",
                 "templateId": "cardHeroV1",
                 "userConfig": {
                   "title": "Hello World",
