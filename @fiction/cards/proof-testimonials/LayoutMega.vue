@@ -16,10 +16,52 @@ const items = vue.computed(() => uc.value.items || [])
 
 const activeIndex = vue.ref(0)
 const activeItem = vue.computed(() => items.value[activeIndex.value] || items.value[0])
+const navItemsRef = vue.ref<HTMLDivElement[]>([])
 
 function setActiveItem(index: number) {
   activeIndex.value = index
+
+  // Wait for the DOM to update before scrolling
+  vue.nextTick(() => {
+    if (navItemsRef.value[index]) {
+      navItemsRef.value[index].scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center',
+      })
+    }
+  })
 }
+
+// Add auto-rotation if needed
+let intervalId: number | null = null
+
+function startAutoRotation() {
+  if (items.value.length <= 1)
+    return
+
+  intervalId = window.setInterval(() => {
+    const nextIndex = (activeIndex.value + 1) % items.value.length
+    setActiveItem(nextIndex)
+  }, 15000) // 5 seconds interval
+}
+
+function stopAutoRotation() {
+  if (intervalId !== null) {
+    window.clearInterval(intervalId)
+    intervalId = null
+  }
+}
+
+// Optional: Implement auto-rotation
+vue.onMounted(() => {
+  // Uncomment to enable auto-rotation
+  startAutoRotation()
+})
+
+vue.onBeforeUnmount(() => {
+  stopAutoRotation()
+})
 </script>
 
 <template>
@@ -48,15 +90,22 @@ function setActiveItem(index: number) {
                 :key="activeIndex"
                 tag="span"
                 animate="rise"
-                class="text-xl lg:text-2xl  2xl:text-4xl  !leading-[1.4] font-semibold x-font-title line-clamp-6  "
+                class="text-xl lg:text-2xl  2xl:text-4xl  !leading-[1.6] font-semibold x-font-title line-clamp-6  "
                 :card
                 :path="pathCheck(`items.${activeIndex}.content`, schema)"
               />
             </div>
           </div>
         </div>
-        <div class="flex gap-3 lg:gap-6  no-scrollbar justify-center py-3 overflow-x-auto snap-mandatory snap-x">
-          <div v-for="(item, i) in items" :key="i" class=" snap-center basis-1/3 lg:basis-auto transition-opacity duration-500 cursor-pointer" :class="activeIndex === i ? 'opacity-100' : 'opacity-40 hover:opacity-100'" @click="setActiveItem(i)">
+        <div class="flex gap-3 lg:gap-6  no-scrollbar justify-start py-3 overflow-x-auto snap-mandatory snap-x">
+          <div
+            v-for="(item, i) in items"
+            :key="i"
+            :ref="el => { if (el) navItemsRef[i] = el as HTMLDivElement }"
+            class=" snap-center basis-1/3 lg:basis-auto transition-opacity duration-500 cursor-pointer"
+            :class="activeIndex === i ? 'opacity-100' : 'opacity-40 hover:opacity-100'"
+            @click="setActiveItem(i)"
+          >
             <div class="flex justify-center flex-col items-center gap-2">
               <div><XMedia :media="item.user?.media" class="size-12 md:size-16 rounded-full overflow-clip ring-2 ring-white" /></div>
               <div class="text-center" :class="activeIndex === i ? 'font-semibold' : ''">

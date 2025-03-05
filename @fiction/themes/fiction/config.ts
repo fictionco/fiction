@@ -11,14 +11,15 @@ import type { Site, ThemeConfig } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { SiteUserConfig } from '@fiction/site/schema.js'
 import { getCardDemoListing, getDemoPages } from '@fiction/cards'
-
 import { dayjs } from '@fiction/core'
-import { googleOneTap } from '@fiction/core/plugin-user/google.js'
 
+import { googleOneTap } from '@fiction/core/plugin-user/google.js'
 import favicon from '@fiction/ui/brand/favicon.svg'
+
 import icon from '@fiction/ui/brand/icon.png'
 import shareImage from '@fiction/ui/brand/shareImage.png'
 import * as affiliate from './affiliate/index.js'
+import { getDemosPage } from './demos/index.js'
 import * as developer from './developer/index.js'
 import * as homePage from './home/index.js'
 import { getPricingPage } from './pages/pricing/index.js'
@@ -235,6 +236,7 @@ export async function getConfig(args: {
     homePage.getHomePage(pageArgs),
     getPricingPage(pageArgs),
     getAboutPage(pageArgs),
+    getDemosPage(pageArgs),
     developer.page({ ...args, factory }),
     affiliate.page({ ...args, factory }),
     ...demoPages,
@@ -294,14 +296,7 @@ export async function getConfig(args: {
                 primary: [
                   { label: 'Why Fiction', href: '/tour' },
                   { label: 'Plans & Pricing', href: '/pricing' },
-                  {
-                    label: 'Demos',
-                    list: {
-                      description: 'Professional components for your website',
-                      variant: 'expanded',
-                      items: webElementDemoItems,
-                    },
-                  },
+                  { label: 'Demos', href: '/demos' },
                 ],
                 utility: [
                   {

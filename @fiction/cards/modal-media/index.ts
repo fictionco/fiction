@@ -14,6 +14,7 @@ export const template = cardTemplate({
   isPublic: true,
   el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
   isDetached: () => true,
+  isEffect: true,
   async getConfig(args) {
     const { getConfig } = await import('./config')
     return getConfig({ ...args, templateId })

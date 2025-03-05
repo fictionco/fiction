@@ -32,6 +32,11 @@ community social proof to boost conversion rates.`,
   getBaseConfig: () => {
     return { standard: { spaceSize: 'xs' } }
   },
+
+  screenshot: {
+    light: new URL('img/screen-light.svg', import.meta.url).href,
+    dark: new URL('img/screen-dark.svg', import.meta.url).href,
+  },
 })
 
 // Optional: Export type for use in other components

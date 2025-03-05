@@ -82,6 +82,7 @@ interface CardTemplateSettings<
   el: CardTemplateSurface<S>[ 'component' ]
   isPublic?: boolean
   isEffect?: boolean
+  isDetached?: (args: { card: Card<CardTemplateUserConfigAll<S>> }) => boolean
   isPageCard?: boolean // full page wrap
   isContainer?: boolean // ui drawer
   isRegion?: boolean
@@ -92,7 +93,7 @@ interface CardTemplateSettings<
   getBaseConfig?: (args: CardSettings<CardTemplateUserConfigAll<S>>) => CardTemplateUserConfigAll<S>
   getQueries?: (args: CardQuerySettings) => CardTemplateSurface<S>[ 'queries' ]
   getContentPaths?: (args: { site: Site, card: Card<CardTemplateUserConfigAll<S>>, viewPath: string }) => Promise<SiteContentPath[]>
-  isDetached?: (args: { card: Card<CardTemplateUserConfigAll<S>> }) => boolean
+
 }
 
 export class CardTemplate<
