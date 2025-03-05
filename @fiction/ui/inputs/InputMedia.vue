@@ -25,7 +25,7 @@ const val = vue.computed(() => {
 
 const vis = vue.ref(false)
 const v = vue.computed(() => modelValue || {})
-const hasMedia = vue.computed(() => v.value.url || v.value.html)
+const hasMedia = vue.computed(() => v.value.url || v.value.html || (isBackground && v.value.gradient))
 
 function openMediaSelector() { vis.value = true }
 

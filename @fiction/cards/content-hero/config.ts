@@ -90,7 +90,12 @@ export function getOptions(): InputOption[] {
         createOption({
           key: 'media.aspect',
           label: 'Media Aspect',
-          input: 'InputMedia',
+          input: 'InputRadioButton',
+          list: [
+            { label: 'Square', value: 'aspect:square' },
+            { label: 'Portrait', value: 'aspect:portrait' },
+            { label: 'Landscape', value: 'aspect:landscape' },
+          ],
         }),
         createOption({
           key: 'caption',

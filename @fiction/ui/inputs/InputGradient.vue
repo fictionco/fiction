@@ -133,6 +133,7 @@ const colorPickerClasses = [
       class="hover:opacity-80 bar bg-theme-50 text-white text-center text-[10px] font-sans flex items-center justify-center dark:bg-theme-800 grow rounded-lg border-2 border-theme-300 dark:border-theme-600"
       :class="sizing.preview"
       :style="{ 'background-image': gradientCss }"
+      @click="addColor"
     >
       <span class="mix-blend-overlay font-bold">Gradient Preview</span>
     </div>
