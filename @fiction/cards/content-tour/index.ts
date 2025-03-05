@@ -22,6 +22,10 @@ builds compelling momentum toward your goals.`,
     const { getConfig } = await import('./config')
     return getConfig({ ...args, templateId })
   },
+  screenshot: {
+    light: new URL('img/screen-light.svg', import.meta.url).href,
+    dark: new URL('img/screen-dark.svg', import.meta.url).href,
+  },
 })
 
 // Export types for use in other components

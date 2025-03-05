@@ -78,10 +78,10 @@ const nav = vue.computed<NavListItem[]>(() => {
 
 function getNavItemClass(item: NavListItem, index: number) {
   return item.isActive
-    ? 'bg-primary-100/50 text-primary-700 dark:bg-primary-950/50 dark:text-primary-50'
+    ? 'bg-theme-100/50 text-theme-700 dark:bg-theme-800 dark:text-theme-50 ring-2 ring-theme-300 dark:ring-theme-600'
     : index === 0 && !currentItemId.value
-      ? 'lg:bg-primary-100/50 lg:text-primary-700 lg:dark:bg-primary-950/50 lg:dark:text-primary-50'
-      : 'text-theme-600 dark:text-theme-200 dark:bg-theme-800/50 bg-theme-50/60 hover:bg-theme-100/30 dark:hover:bg-theme-700/60'
+      ? 'lg:bg-theme-100/50 lg:text-theme-700 lg:dark:bg-theme-800 lg:dark:text-theme-50 ring-2 ring-theme-100 dark:ring-theme-700/90 lg:ring-2 lg:ring-theme-300 lg:dark:ring-theme-600'
+      : 'text-theme-600 dark:text-theme-200  hover:bg-theme-100/30 dark:hover:bg-theme-700/60 ring-2 ring-theme-100 dark:ring-theme-700/70'
 }
 
 const transitionDirection = vue.ref<'left' | 'right'>('right')
@@ -133,7 +133,7 @@ const parentPanelProps = vue.computed(() => {
             <div class="space-y-3">
               <ElHeader
                 v-if="header"
-                class="border-b border-theme-300/50 dark:border-theme-700 px-4 pb-6"
+                class="bg-theme-50 dark:bg-theme-800/50 rounded-xl p-4 lg:p-8"
                 :model-value="header"
                 :theme="theme || 'primary'"
                 @update:model-value="emit('update:header', $event)"
@@ -144,14 +144,14 @@ const parentPanelProps = vue.computed(() => {
                 v-for="(v, i) in nav"
                 :key="i"
                 :card
-                class="flex items-center gap-3 xl:gap-5 px-3 py-2.5 xl:px-5 xl:py-3 rounded-lg transition-all duration-100"
+                class="flex items-center gap-3 xl:gap-4 p-2.5 xl:p-3 rounded-lg transition-all duration-100"
                 :href="v.href"
                 :class="getNavItemClass(v, i)"
               >
                 <XIcon
                   v-if="v.icon"
-                  class="text-[1.2em] xl:text-[1.5em] shrink-0 "
-                  :class="v.isActive || (i === 0 && !currentItemId) ? 'text-primary-700 dark:text-primary-500' : 'text-theme-500 dark:text-theme-300'"
+                  class="text-[1.7em] shrink-0 "
+                  :class="v.isActive || (i === 0 && !currentItemId) ? 'text-theme-700 dark:text-theme-500' : 'text-theme-500 dark:text-theme-300'"
                   :media="v.icon || {}"
                 />
                 <div class="min-w-0 truncate overflow-ellipsis text-left">
@@ -160,11 +160,17 @@ const parentPanelProps = vue.computed(() => {
                   </div>
                   <div
                     class=" truncate text-sm"
-                    :class="v.isActive || (i === 0 && !currentItemId) ? 'text-primary-700 dark:text-primary-500' : 'text-theme-400 dark:text-theme-500'"
+                    :class="v.isActive || (i === 0 && !currentItemId) ? 'text-theme-700 dark:text-theme-500' : 'text-theme-400 dark:text-theme-500'"
                   >
                     {{ v.description }}
                   </div>
                 </div>
+                <XIcon
+                  v-if="v.icon"
+                  class="block md:hidden text-[1.7em] shrink-0 "
+                  :class="v.isActive || (i === 0 && !currentItemId) ? 'text-theme-700 dark:text-theme-500' : 'text-theme-500 dark:text-theme-300'"
+                  :media="{ class: 'i-tabler-chevron-right' }"
+                />
               </CardLink>
             </div>
           </div>

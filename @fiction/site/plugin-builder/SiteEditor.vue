@@ -15,7 +15,6 @@ import El404 from '@fiction/ui/page/El404.vue'
 import { getMountContext, loadSite } from '../load'
 import { activeSiteDisplayUrl } from '../utils/site'
 import SiteEditorFrame from './SiteEditorFrame.vue'
-import { adminEditorController } from './tools/tools'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -56,13 +55,13 @@ async function load() {
     site.value.frame.init({ caller: 'SiteEditor' })
 
     site.value.events.on('setActiveCard', () => {
-      adminEditorController.useTool({ toolId: 'editCard' })
+      site.value?.editorActivateTool({ toolId: 'editCard' })
     })
 
     fictionEnv.events.on('resetUi', (event) => {
       const { scope, trigger } = event.detail
       if (scope === 'iframe' && trigger !== 'routeChange')
-        adminEditorController.useTool({ toolId: '' })
+        site.value?.editorActivateTool({ toolId: '' })
     })
   }
   catch (error) {
@@ -127,8 +126,8 @@ async function resetToPublished() {
       </div>
     </div>
 
-    <template v-else>
-      <ViewEditor :tool-props="{ site }" :controller="adminEditorController" :card>
+    <template v-else-if="site">
+      <ViewEditor :tool-props="{ site }" :controller="site?.editorController" :card>
         <template #headerLeft>
           <div>
             <CardButton

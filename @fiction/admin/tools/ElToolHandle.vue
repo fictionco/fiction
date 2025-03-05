@@ -26,7 +26,7 @@ const draggableMode = vue.ref<number>(-1)
       @click="handle.onClick?.({ event: $event })"
     >
       <div
-        class="p-1 flex gap-0.5 font-medium items-center justify-center  shrink-0 font-mono text-xs w-full min-w-0"
+        class="p-1 flex gap-0.5 font-medium items-center justify-center font-mono text-xs w-full min-w-0"
         :class="[
           handle.hasDrawer ? 'rounded-tl-full' : 'rounded-l-full',
         ]"
@@ -43,13 +43,17 @@ const draggableMode = vue.ref<number>(-1)
             {{ handle.title || "Untitled" }}
           </div>
 
-          <div v-if="handle.subTitle" class="ml-1 text-[.9em]" :class="handle.isActive ? 'text-primary-400 dark:text-primary-300' : 'text-theme-500 dark:text-theme-400'">
+          <div
+            v-if="handle.subTitle"
+            class="ml-1 text-[.9em]"
+            :class="handle.isActive ? 'text-primary-400 dark:text-primary-300' : 'text-theme-500 dark:text-theme-400'"
+          >
             {{ handle.subTitle }}
           </div>
         </div>
       </div>
       <div
-        class="flex grow justify-end pr-0.5 min-w-0 overflow-hidden gap-0.5"
+        class="flex grow justify-end pr-0.5 overflow-hidden gap-0.5 shrink-0"
         :class="[
           handle.isActive ? 'dark:border-theme-500 border-theme-300' : 'dark:border-theme-500 border-theme-200']"
       >

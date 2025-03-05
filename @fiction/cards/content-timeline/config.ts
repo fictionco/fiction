@@ -1,6 +1,6 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StockMedia } from '@fiction/ui/stock'
-import { ActionAreaSchema, PostSchema } from '@fiction/core'
+import { ActionAreaSchema, dayjs, PostSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
 
@@ -48,13 +48,13 @@ export function getOptions() {
               schema,
               key: 'items.0.date',
               label: 'Start Date',
-              input: 'InputText',
+              input: 'InputDate',
             }),
             createOption({
               schema,
               key: 'items.0.endDate',
               label: 'End Date',
-              input: 'InputText',
+              input: 'InputDate',
             }),
           ],
         }),
@@ -176,7 +176,7 @@ export function getDefaultConfig(): UserConfig {
   return {
     items: [
       {
-        date: new Date().toISOString(),
+        date: dayjs().toISOString(),
         title: 'Achievement Title',
         subTitle: 'Role or Project Focus',
         content: 'Describe the impact: Include metrics, scale, and business outcomes.',

@@ -11,6 +11,7 @@ import type { QueryVarHook } from './utils/site.js'
 import { deepMerge, FictionObject, localRef, objectId, resetUi, Shortcodes, shortId, vue, waitFor } from '@fiction/core'
 import { TypedEventTarget } from '@fiction/core/utils/eventTarget.js'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
+import { siteEditorController } from './plugin-builder/tools/tools.js'
 import { activeSiteFont } from './utils/fonts.js'
 import { SiteFrameTools } from './utils/frame.js'
 import { SiteHistory } from './utils/history.js'
@@ -97,10 +98,11 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     setupRouteWatcher({ site: this, queryVarHooks })
   }
 
-  async editorActivateTool(args: { toolId: ToolKeys }) {
+  editorController = siteEditorController({ site: this })
+
+  async editorActivateTool(args: { toolId: ToolKeys | '' }) {
     const { toolId } = args
-    const { adminEditorController } = await import('@fiction/site/plugin-builder/tools/tools.js')
-    adminEditorController.useTool({ toolId })
+    this.editorController.useTool({ toolId })
   }
 
   siteId = this.settings.siteId || objectId({ prefix: 'ste' })

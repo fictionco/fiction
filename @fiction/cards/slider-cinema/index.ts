@@ -18,6 +18,10 @@ export const template = cardTemplate({
     return getConfig({ ...args, templateId })
   },
   getBaseConfig: () => ({ standard: { widthSize: 'none', spaceSize: 'none' } }),
+  screenshot: {
+    light: new URL('img/screen-light.svg', import.meta.url).href,
+    dark: new URL('img/screen-dark.svg', import.meta.url).href,
+  },
 })
 
 export type { CinemaItem, UserConfig } from './config'

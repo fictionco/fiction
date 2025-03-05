@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
 import type { UserConfig } from './config'
-import { pathCheck, vue } from '@fiction/core'
+import { dayjs, pathCheck, vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import AnimItemPop from '@fiction/ui/anim/AnimItemPop.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
@@ -105,18 +105,20 @@ const timelineLineStyle = vue.computed(() => {
         <div class="flex items-center gap-6">
           <AnimItemPop class="hidden md:block w-[120px] pt-2 pr-8 text-right" caller="timelineDate">
             <div class="text-sm font-medium text-theme-600 dark:text-theme-0 font-sans">
-              <CardText
-                :card="card"
-                :path="pathCheck(`items.${i}.date`, schema)"
-                tag="div"
+              <div
+                v-if="milestone.date"
                 class="text-theme-500 dark:text-theme-400"
-              />
-              <CardText
+                @click="card.setEditPath({ path: pathCheck(`items.${i}.date`, schema), caller: 'timelineDate' })"
+              >
+                {{ dayjs(milestone.date).format('MMM YYYY') }}
+              </div>
+              <div
                 v-if="milestone.endDate"
-                :card="card"
-                :path="pathCheck(`items.${i}.endDate`, schema)"
-                tag="div"
-              />
+                class="text-theme-500 dark:text-theme-400"
+                @click="card.setEditPath({ path: pathCheck(`items.${i}.endDate`, schema), caller: 'timelineDateEnd' })"
+              >
+                {{ dayjs(milestone.endDate).format('MMM YYYY') }}
+              </div>
             </div>
           </AnimItemPop>
 
