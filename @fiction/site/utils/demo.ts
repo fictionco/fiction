@@ -31,7 +31,7 @@ export async function createDemoPage(args: { site: Site, template: CardTemplate<
         userConfig: {
           superTitle: {
             text: category?.join(', ').toUpperCase(),
-            icon: { format: 'iconClass', class: icon },
+            icon: typeof icon === 'string' ? { class: icon } : icon,
             theme: colorTheme,
           },
           title,

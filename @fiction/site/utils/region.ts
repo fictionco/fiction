@@ -1,7 +1,7 @@
 import type { EndpointResponse } from '@fiction/core'
 import type { Site } from '../index.js'
 import type { CardConfigPortable, PageRegion, TableCardConfig } from '../tables.js'
-import { log } from '@fiction/core'
+import { log, waitFor } from '@fiction/core'
 import { Card } from '../card.js'
 
 const logger = log.contextLogger('regionUtils')
@@ -123,7 +123,7 @@ export async function addNewCard(args: {
   const tplCard = await tpl?.toCard({ cardId, site })
   const cardConfig = tplCard.toConfig() as TableCardConfig & { cardId: string }
 
-  const addCardAction = () => {
+  const addCardAction = async () => {
     if (addToCardId) {
       const card = site.availableCards.value.find(c => c.cardId === addToCardId)
       if (card)
@@ -137,6 +137,8 @@ export async function addNewCard(args: {
 
       regionCard.addCard({ cardConfig, location })
     }
+
+    await waitFor(30)
 
     if (onAdd)
       onAdd(cardConfig)

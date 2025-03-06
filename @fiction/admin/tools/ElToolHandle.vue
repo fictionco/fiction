@@ -2,6 +2,7 @@
 import type { Handle } from './tools'
 import { vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
+import XIcon from '@fiction/ui/media/XIcon.vue'
 
 defineProps({
   handle: { type: Object as vue.PropType<Handle>, required: true },
@@ -37,7 +38,7 @@ const draggableMode = vue.ref<number>(-1)
           <div class="i-carbon-draggable text-lg" />
         </div>
         <div class="flex items-center gap-1.5 flex-grow min-w-0">
-          <div :class="handle.icon ?? 'i-carbon-blockchain'" class="text-base" />
+          <XIcon v-if="handle.icon" :media="handle.icon" class="size-[1em]" />
 
           <div class="truncate min-w-0">
             {{ handle.title || "Untitled" }}

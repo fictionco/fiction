@@ -1,12 +1,17 @@
 <script lang="ts" setup>
 import type { EditorTool } from '@fiction/admin'
+import type { ListItem } from '@fiction/core'
 import type { CardTemplate } from '../../card'
 import type { Site } from '../../site'
+import type { PageRegion } from '../../tables'
 import screenDefaultDark from '@fiction/cards/utils/img/screen-dark.svg'
 import screenDefaultLight from '@fiction/cards/utils/img/screen-light.svg'
 import { isDarkOrLightMode, toLabel, vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import XButton from '@fiction/ui/buttons/XButton.vue'
+import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
+import InputText from '@fiction/ui/inputs/InputText.vue'
+
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import { OldCardCategorySchema } from '../../card'
 
@@ -42,17 +47,83 @@ const groupTemplates = vue.computed(() => {
   }, {} as Record<string, CardTemplate[]>))
 })
 
+// Search and filter
+const searchQuery = vue.ref('')
+const filteredTemplates = vue.computed(() => {
+  const templateGroups = { ...groupTemplates.value }
+  if (!searchQuery.value)
+    return templateGroups
+
+  const query = searchQuery.value.toLowerCase()
+  const filteredGroups: Record<string, CardTemplate[]> = {}
+
+  // Filter each group
+  Object.entries(templateGroups).forEach(([category, templates]) => {
+    const filtered = templates.filter((template) => {
+      const title = template.settings.title?.toLowerCase() || ''
+      const description = template.settings.description?.toLowerCase() || ''
+      const templateId = template.settings.templateId?.toLowerCase()
+      const categories = template.settings.category?.map(c => c.toLowerCase()) || []
+
+      return title.includes(query)
+        || description.includes(query)
+        || templateId?.includes(query)
+        || categories.some(c => c.includes(query))
+    })
+
+    if (filtered.length > 0) {
+      filteredGroups[category] = filtered
+    }
+  })
+
+  return filteredGroups
+})
+
+// Region selection
+const regionOptions = vue.computed<ListItem[]>(() => {
+  const sections = props.site.sections.value || {}
+  const options: ListItem[] = [
+    { label: 'Page Top', value: 'main_top' },
+    { label: 'Page Bottom', value: 'main' },
+  ]
+
+  // Add sections
+  Object.entries(sections).forEach(([key, value]) => {
+    options.push({
+      label: `${toLabel(key)}`,
+      value: key,
+    })
+  })
+
+  return options
+})
+
+const selectedRegion = vue.ref<PageRegion>('main')
+
+// Watch for changes in selected region
+vue.watch(selectedRegion, (newRegion) => {
+  if (props.site.editor.value) {
+    props.site.editor.value.selectedRegionId = newRegion
+  }
+})
+
 async function addCard(args: { templateId?: string }) {
   const { templateId = 'page' } = args
+  const r = selectedRegion.value.split('_')
+  const addToRegion = r[0] || 'main'
+  const location = (r[1] || 'bottom') as 'top' | 'bottom'
 
-  await props.site.addCard({ templateId, delay: 400 })
+  await props.site.addCard({
+    templateId,
+    delay: 400,
+    location,
+    addToRegion,
+  })
+
+  await props.site.editorActivateTool({ toolId: 'editLayout' })
 }
 
 const addElementsVisible = vue.ref(true)
-
-function toggleAddElements() {
-  addElementsVisible.value = !addElementsVisible.value
-}
 
 const colorMode = vue.computed(() => isDarkOrLightMode())
 function getScreenshotUrl(template: CardTemplate) {
@@ -60,29 +131,60 @@ function getScreenshotUrl(template: CardTemplate) {
     ? template.settings.screenshot?.light || screenDefaultLight
     : template.settings.screenshot?.dark || screenDefaultDark
 }
+
+// Reset search when closing
+vue.watch(addElementsVisible, (visible) => {
+  if (!visible) {
+    searchQuery.value = ''
+  }
+})
 </script>
 
 <template>
   <div>
-    <div v-if="false">
-      <XButton
-        data-test-id="add-new-elements"
-        :theme="addElementsVisible ? 'theme' : 'primary'"
-        rounding="full"
-        design="solid"
-        size="md"
-        :icon="addElementsVisible ? 'i-tabler-x' : 'i-tabler-plus'"
-        format="block"
-        @click.prevent="toggleAddElements()"
-      >
-        {{ addElementsVisible ? 'Close' : 'Add New Elements' }}
-      </XButton>
-    </div>
     <TransitionSlide>
       <div v-if="addElementsVisible">
-        <div class="space-y-4 select-none py-6">
-          <div v-for="(tplGroup, i) in groupTemplates" :key="i">
-            <div class="text-[10px] font-semibold text-theme-300 dark:text-theme-0 mb-2 tracking-wider uppercase">
+        <div class="flex items-center justify-between gap-3 mb-4">
+          <div class=" flex-1">
+            <div class="text-[10px] text-theme-500 mb-1 font-medium font-sans">
+              Filter Sections
+            </div>
+            <div class="relative">
+              <InputText
+                v-model="searchQuery"
+                placeholder="Search sections..."
+                ui-size="sm"
+              />
+              <button
+                v-if="searchQuery"
+                class="absolute right-2 top-1/2 transform -translate-y-1/2 text-theme-400 dark:text-theme-500 hover:text-theme-600 dark:hover:text-theme-300"
+                @click="searchQuery = ''"
+              >
+                <span class="i-tabler-x text-sm" />
+              </button>
+            </div>
+          </div>
+          <div>
+            <div class="text-[10px] text-theme-500 mb-1 font-medium font-sans">
+              Add To...
+            </div>
+            <InputSelectCustom
+              v-model="selectedRegion"
+              :list="regionOptions"
+              placeholder="Region"
+              ui-size="sm"
+              class="w-40"
+            />
+          </div>
+        </div>
+
+        <div class="space-y-2 select-none">
+          <div
+            v-for="(tplGroup, i) in filteredTemplates"
+            :key="i"
+            class="mb-6"
+          >
+            <div class="text-[10px] font-semibold text-theme-300 dark:text-theme-500 mb-2 tracking-wider uppercase">
               {{ toLabel(i) }}
             </div>
             <div class="space-y-2">
@@ -92,14 +194,13 @@ function getScreenshotUrl(template: CardTemplate) {
                   :key="ii"
                   :data-test-id="`add-element-${item.settings.templateId}`"
                   :theme="item.settings.colorTheme || 'theme'"
-                  class="text-xs cursor-pointer hover:opacity-80 flex flex-col items-center justify-center "
-
+                  class="text-xs cursor-pointer hover:opacity-80 flex flex-col items-center justify-center group"
                   :icon="item.settings.icon"
                   @click.prevent="addCard({ templateId: item.settings.templateId })"
                 >
                   <XMedia
                     :media="{ url: getScreenshotUrl(item) }"
-                    class="w-full aspect-[5/3] rounded-md border border-theme-300/70 dark:border-theme-600 overflow-hidden shadow-md"
+                    class="w-full aspect-[5/3] rounded-md border border-theme-300/70 dark:border-theme-600 overflow-hidden shadow-md group-hover:ring-1 group-hover:ring-theme-400 dark:group-hover:ring-theme-400 transition-all"
                   />
                   <div
                     class="p-1 text-[10px] tracking-tight line-clamp-2 truncate w-full text-center text-theme-400 dark:text-theme-200 font-mono font-medium"
@@ -109,6 +210,10 @@ function getScreenshotUrl(template: CardTemplate) {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div v-if="Object.keys(filteredTemplates).length === 0" class="py-8 text-center text-theme-400 dark:text-theme-500 text-sm">
+            No elements match your search
           </div>
         </div>
       </div>

@@ -17,7 +17,7 @@ const props = defineProps({
 })
 useService<{ fictionSites: FictionSites }>()
 
-const tool = { toolId: 'settings', icon: 'i-tabler-settings', title: 'Settings' }
+const tool = { toolId: 'settings', icon: { class: 'i-tabler-settings' }, title: 'Settings' }
 
 const options = vue.shallowRef<InputOption[]>([])
 
@@ -53,14 +53,14 @@ function setActiveCardConfig(config: Partial<TableCardConfig>) {
         class="m-4"
         title="Make A Selection"
         sub="Element settings appear here"
-        icon="i-tabler-click"
+        :icon="{ class: 'i-tabler-click' }"
       />
       <ElToolBanner
         v-else-if="!options.length"
         class="m-4"
         title="No Options"
         sub="This element doesn't have any settings."
-        icon="i-tabler-settings"
+        :icon="{ class: 'i-tabler-settings' }"
       />
       <template v-else>
         <FormEngine

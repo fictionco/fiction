@@ -32,9 +32,8 @@ export function selectInputClasses(args: { inputClass: string, classButton?: str
     },
     buttonClasses: {
       always: twMerge([
-        'focus:ring-0',
         'focus:outline-none',
-        'focus:border-theme-400',
+        'focus:border-0',
         'select-none',
         'font-mono',
         'font-normal',
@@ -42,9 +41,10 @@ export function selectInputClasses(args: { inputClass: string, classButton?: str
         'relative',
         'w-full',
         'rounded-lg',
-        'border',
-        'border-theme-300',
-        'dark:border-theme-600/70',
+        'border-0',
+        'ring-1',
+        'ring-theme-300',
+        'dark:ring-theme-600/70',
         'bg-theme-50/50',
         'shadow-xs',
         'dark:bg-theme-800/50',
@@ -96,7 +96,7 @@ export function inputClasses(args: { uiSize?: StandardSize }) {
   const sizeClasses: Record<UiElementSize, { padX: string, padY: string, textSize: string }> = {
     'xxs': { padX: 'px-2', padY: 'py-1', textSize: 'text-xs' },
     'xs': { padX: 'px-2', padY: 'py-1', textSize: 'text-xs' },
-    'sm': { padX: 'px-2.5', padY: 'py-1', textSize: 'text-xs' },
+    'sm': { padX: 'px-2.5', padY: 'py-1.5', textSize: 'text-sm' },
     'md': { padX: 'px-3', padY: 'py-1.5', textSize: 'text-base' },
     'lg': { padX: 'px-3', padY: 'py-2', textSize: 'text-lg' },
     'xl': { padX: 'px-4', padY: 'py-2.5', textSize: 'text-xl' },

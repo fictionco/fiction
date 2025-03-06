@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { UiElementSize } from '../utils'
-import { omit, vue, waitFor } from '@fiction/core'
+import { omit, resetUi, vue, waitFor } from '@fiction/core'
 import { inputs } from '.'
 import { smoothScrollToView } from '../anim/scrolling'
 
@@ -168,6 +168,7 @@ const cls = vue.computed(() => {
 
 function updateActivePath() {
   emit('update:activePath', editPath || '')
+  resetUi({ scope: 'inputs', cause: `ElInputClick`, trigger: 'elementClick' })
 }
 
 const componentProps = vue.computed(() => {

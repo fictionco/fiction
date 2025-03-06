@@ -7,7 +7,7 @@ export type ToolKeys = 'history' | 'postSettings'
 export const tools = [
   {
     toolId: 'history',
-    icon: 'i-tabler-history',
+    icon: { class: 'i-tabler-history' },
     el: vue.defineAsyncComponent(() => import('./ToolHistory.vue')),
     location: 'primary',
     isPrimary: 'bottom',
@@ -15,7 +15,7 @@ export const tools = [
   {
     toolId: 'emailPreview',
     title: 'Email Preview',
-    icon: 'i-tabler-eye',
+    icon: { class: 'i-tabler-eye' },
     location: 'primary',
     isPrimary: true,
     widthClasses: 'w-[400px] lg:w-[700px]',
@@ -24,7 +24,7 @@ export const tools = [
   {
     toolId: 'emailTest',
     title: 'Send Test Emails',
-    icon: 'i-tabler-mailbox',
+    icon: { class: 'i-tabler-mailbox' },
     location: 'primary',
     isPrimary: true,
     widthClasses: 'w-[400px] lg:w-[500px]',
@@ -33,7 +33,7 @@ export const tools = [
   {
     toolId: 'postSettings',
     title: 'Post Settings',
-    icon: 'i-tabler-edit-circle',
+    icon: { class: 'i-tabler-edit-circle' },
     location: 'context',
     isDefault: true,
     el: vue.defineAsyncComponent(() => import('./ToolPostMain.vue')),

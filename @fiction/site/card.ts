@@ -1,4 +1,4 @@
-import type { colorTheme, Query, vueRouter } from '@fiction/core'
+import type { colorTheme, MediaObject, Query, vueRouter } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import type { CardQuerySettings } from './cardQuery.js'
 import type { CardClassification } from './classification.js'
@@ -77,7 +77,7 @@ interface CardTemplateSettings<
   category?: CardCategory[]
   classification?: CardClassification
   screenshot?: { light: string, dark: string }
-  icon?: string
+  icon?: string | MediaObject
   colorTheme?: typeof colorTheme[number]
   el: CardTemplateSurface<S>[ 'component' ]
   isPublic?: boolean

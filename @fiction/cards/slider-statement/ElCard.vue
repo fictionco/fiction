@@ -39,11 +39,11 @@ function onSlideChange(index: number) {
             @click="activeIndex = index"
           >
             <div class="space-y-[2vw] relative">
-              <div class="z-10 relative space-y-6">
+              <div class="z-10 relative space-y-8">
                 <div class="flex items-baseline gap-12">
                   <CardText
                     tag="h2"
-                    class="text-4xl sm:!leading-[1.1] sm:text-4xl xl:text-5xl x-font-title font-semibold md:text-balance"
+                    class="text-4xl sm:!leading-[1.2] sm:text-4xl xl:text-5xl x-font-title font-semibold md:text-balance"
                     :card
                     :path="pathCheck(`items.${index}.title`, schema)"
                     animate="fade"
@@ -53,7 +53,7 @@ function onSlideChange(index: number) {
 
                 <CardText
                   tag="p"
-                  class="text-lg leading-relaxed sm:!leading-[1.4] sm:text-3xl opacity-90"
+                  class="text-lg leading-relaxed sm:!leading-[1.6] sm:text-3xl opacity-90"
                   :card
                   :path="pathCheck(`items.${index}.content`, schema)"
                   animate="fade"

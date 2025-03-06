@@ -1,4 +1,4 @@
-import type { ActionButton, ClickHandler, colorTheme } from '@fiction/core'
+import type { ActionButton, ClickHandler, colorTheme, MediaObject } from '@fiction/core'
 import { FictionObject, vue } from '@fiction/core'
 
 export type Handle = {
@@ -8,7 +8,7 @@ export type Handle = {
   subTitle?: string
   sub?: string
   depth: number
-  icon?: string
+  icon?: MediaObject
   colorTheme?: typeof colorTheme[number]
   isDraggable?: boolean
   hasDrawer?: boolean
@@ -21,7 +21,7 @@ export type Handle = {
 export type EditorTool<T extends string = string, U extends Record<string, any> = Record<string, any>> = {
   toolId: T
   title?: string
-  icon: string
+  icon: MediaObject
   el?: vue.Component
   isPrimary?: boolean | 'top' | 'bottom' | 'secondary'
   isDefault?: boolean

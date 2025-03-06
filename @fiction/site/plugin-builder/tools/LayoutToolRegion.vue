@@ -16,13 +16,14 @@ const props = defineProps({
 })
 
 function getCardHandle(card: Card): Handle {
+  const { icon } = card.tpl.value?.settings || {}
   return {
     testId: `layout-card-${card.templateId.value}`,
     title: card.tpl.value?.settings.title ?? 'Card',
     subTitle: card.isDetached.value ? '(detached)' : '',
     sub: card.title.value,
     handleId: card.cardId,
-    icon: card.tpl.value?.settings.icon,
+    icon: typeof icon === 'string' ? { class: icon } : icon,
     colorTheme: card.tpl.value?.settings.colorTheme,
     depth: card.depth.value,
     isDraggable: true,
@@ -79,7 +80,7 @@ function getCardHandle(card: Card): Handle {
         />
       </div>
       <div class="z-10 pl-3 text-xs flex gap-1 items-center   font-medium whitespace-nowrap">
-        {{ toLabel(scope) }} Scope
+        {{ scope === 'global' ? 'All Pages' : 'Current Page' }}
       </div>
     </div>
 

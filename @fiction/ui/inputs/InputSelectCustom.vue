@@ -169,6 +169,7 @@ function handleKeydown(event: KeyboardEvent) {
             themeClasses.buttonClasses.always,
             disabled ? themeClasses.buttonClasses.disabled : themeClasses.buttonClasses.regular,
           ]"
+          class="pr-[2em] truncate"
           :title="disabled ? (typeof disabled === 'string' ? disabled : 'Disabled') : 'Select'"
           :value="search ?? selectedItem?.name"
           :placeholder="String(defaultValue) || defaultText || 'Select'"
@@ -178,7 +179,7 @@ function handleKeydown(event: KeyboardEvent) {
           @blur="setFocused(false)"
         >
 
-        <div class="z-10 absolute right-1 top-0 h-full flex items-center px-1" :class="[themeClasses.selector.always, active ? themeClasses.selector.active : '']" @click.stop="toggle()">
+        <div class="z-10 absolute right-0.5 top-0 h-full flex items-center px-1" :class="[themeClasses.selector.always, active ? themeClasses.selector.active : '']" @click.stop="toggle()">
           <div v-if="loading" class="i-ci-loading animate-spin text-[1.2em]" />
           <div v-else class="i-tabler-selector text-[1.2em]" />
         </div>
@@ -242,12 +243,6 @@ function handleKeydown(event: KeyboardEvent) {
                     {{ item.description || item.desc }}
                   </div>
                 </div>
-                <span
-                  v-if="isSelected(item.value)"
-                  class="flex items-center pr-2"
-                >
-                  <div class="i-carbon-checkmark text-base" />
-                </span>
               </li>
             </template>
           </ul>

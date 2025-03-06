@@ -396,12 +396,22 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     })
   }
 
-  async addCard(args: { templateId: string, addToCardId?: string, delay?: number, cardId?: string, location?: 'top' | 'bottom' }) {
+  async addCard(args: {
+    templateId: string
+    addToCardId?: string
+    delay?: number
+    cardId?: string
+    location?: 'top' | 'bottom'
+    addToRegion?: PageRegion
+  }) {
     return addNewCard({
       site: this,
       ...args,
-      addToRegion: this.editor.value.selectedRegionId,
-      onAdd: config => config.cardId && (this.editor.value.selectedCardId = config.cardId),
+      onAdd: (config) => {
+        config.cardId && (this.editor.value.selectedCardId = config.cardId)
+
+        this.setActiveCard({ cardId: config.cardId || '' })
+      },
     })
   }
 

@@ -5,6 +5,7 @@ import { resetUi, toLabel, vue } from '@fiction/core'
 import TransitionWidth from '@fiction/ui/anim/TransitionWidth.vue'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
+import XIcon from '@fiction/ui/media/XIcon.vue'
 
 const { controller, toolProps, loading = false, card } = defineProps<{
   controller: AdminEditorController
@@ -59,7 +60,7 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
                         : 'text-theme-600/80 dark:text-theme-0 hover:bg-primary-500 hover:text-white ring-primary-600 dark:hover:bg-primary-600/60  hover:ring-1 ring-inset dark:hover:ring-primary-500  '"
                       @click="controller.useTool({ toolId: tool.toolId })"
                     >
-                      <div class="text-2xl" :class="tool.icon" />
+                      <XIcon class="size-6" :media="tool.icon" />
                     </div>
                   </ElTooltip>
                 </div>
@@ -80,7 +81,7 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
                         : 'text-theme-600/80 dark:text-theme-0 hover:bg-primary-500 hover:text-white ring-primary-600 dark:hover:bg-primary-600/60  hover:ring-1 ring-inset dark:hover:ring-primary-500  '"
                       @click="controller.useTool({ toolId: tool.toolId })"
                     >
-                      <div class="text-2xl" :class="tool.icon" />
+                      <XIcon class="size-6" :media="tool.icon" />
                     </div>
                   </ElTooltip>
                 </div>

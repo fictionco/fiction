@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { AdminEditorController, EditorTool } from '@fiction/admin'
+import type { ListItem } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import type { Site } from '../../site'
 import type { ToolKeys } from './tools.js'
@@ -8,6 +9,7 @@ import { vue } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
+import InputAddElements from './InputAddElements.vue'
 
 const props = defineProps<{
   site: Site
@@ -20,14 +22,14 @@ const { site, tool } = props
 const options = vue.computed<InputOption[]>(() => {
   return [
     createOption({
-      key: 'manageLayout',
-      label: 'Drag and Drop to Reorder',
+      key: 'group.addElements',
+      label: 'Click to Add Elements',
       input: 'group',
-      icon: { class: 'i-tabler-hand-grab' },
+      icon: { class: 'i-tabler-click' },
       options: [
         createOption({
-          key: 'manageLayoutInput',
-          input: vue.defineAsyncComponent(() => import('./InputManageLayout.vue')),
+          key: 'addElementsInputs',
+          input: InputAddElements,
           props: { site, tool },
         }),
       ],
@@ -40,21 +42,18 @@ const options = vue.computed<InputOption[]>(() => {
 <template>
   <ElTool
     :tool
-    :title="tool.title"
+    title="Add Sections"
     :icon="tool.icon"
-    :buttons="[
-      {
-        label: 'Add New Sections',
-        icon: { class: 'i-tabler-plus' },
-        size: 'xs',
-        onClick: () => props.controller.useTool({ toolId: 'addSections' }),
-      },
-    ]"
+    :buttons="[{
+      label: 'Manage Layout',
+      icon: { class: 'i-tabler-layout' },
+      size: 'xs',
+      onClick: () => props.controller.useTool({ toolId: 'editLayout' }),
+    }]"
   >
     <ElForm class="p-2">
       <FormEngine
         v-model="site.editPageConfig.value"
-        state-key="pageEdit"
         :options
         :input-props="{ site, tool }"
         :depth="1"

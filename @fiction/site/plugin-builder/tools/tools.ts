@@ -3,29 +3,36 @@ import type { Site } from '../../site'
 import { AdminEditorController } from '@fiction/admin'
 import { vue } from '@fiction/core'
 
-export type ToolKeys = 'managePages' | 'addPage' | 'editPage' | 'editLayout' | 'siteSettings' | 'global' | 'publish' | 'editCard' | 'styling' | 'history'
+export type ToolKeys = 'managePages' | 'addPage' | 'editPage' | 'addSections' | 'editLayout' | 'siteSettings' | 'global' | 'publish' | 'editCard' | 'styling' | 'history'
 
 export function getTools(args: { site: Site }) {
   return [
     {
+      toolId: 'addSections',
+      title: 'Add New Sections',
+      icon: { class: 'i-tabler-circle-plus' },
+      widthClasses: 'w-[500px]',
+      el: vue.defineAsyncComponent(async () => import('./ToolPageAddElements.vue')),
+      isPrimary: true,
+    },
+    {
       toolId: 'editLayout',
-      title: 'Edit Content and Layout',
-      icon: 'i-tabler-circle-plus',
-      widthClasses: 'w-[430px]',
+      title: 'Page Layout',
+      icon: { class: 'i-tabler-layout' },
       el: vue.defineAsyncComponent(async () => import('./ToolPageLayout.vue')),
       isPrimary: true,
     },
     {
       toolId: 'editPage',
       title: 'Edit Page Details',
-      icon: 'i-tabler-file-description',
+      icon: { class: 'i-tabler-file-description' },
       widthClasses: 'w-[430px]',
       el: vue.defineAsyncComponent(async () => import('./ToolPageEdit.vue')),
       isPrimary: true,
     },
     {
       toolId: 'managePages',
-      icon: 'i-tabler-files',
+      icon: { class: 'i-tabler-files' },
       title: 'Add and Manage Pages',
       el: vue.defineAsyncComponent(async () => import('./PageToolMaster.vue')),
       isPrimary: true,
@@ -33,13 +40,13 @@ export function getTools(args: { site: Site }) {
     {
       toolId: 'addPage',
       title: 'Add New Page',
-      icon: 'i-tabler-file-plus',
+      icon: { class: 'i-tabler-file-plus' },
       el: vue.defineAsyncComponent(async () => import('./ToolPageAdd.vue')),
     },
     {
       toolId: 'global',
       title: 'Settings and Tags',
-      icon: 'i-tabler-tag',
+      icon: { class: 'i-tabler-tag' },
       isPrimary: true,
       widthClasses: 'w-[500px]',
       el: vue.defineAsyncComponent(async () => import('./ToolPageGlobal.vue')),
@@ -47,14 +54,14 @@ export function getTools(args: { site: Site }) {
     {
       toolId: 'styling',
       title: 'Fonts and Colors',
-      icon: 'i-tabler-palette',
+      icon: { class: 'i-tabler-palette' },
       isPrimary: true,
       el: vue.defineAsyncComponent(async () => import('./ToolGlobalStyling.vue')),
     },
     {
       toolId: 'publish',
       title: 'Domain Settings',
-      icon: 'i-tabler-world-upload',
+      icon: { class: 'i-tabler-world-upload' },
       isPrimary: true,
       widthClasses: 'w-[600px]',
       el: vue.defineAsyncComponent(async () => import('./ToolPagePublish.vue')),
@@ -62,14 +69,14 @@ export function getTools(args: { site: Site }) {
     {
       toolId: 'history',
       title: 'Revision History',
-      icon: 'i-tabler-history',
+      icon: { class: 'i-tabler-history' },
       isPrimary: 'bottom',
       el: vue.defineAsyncComponent(async () => import('./ToolPageHistory.vue')),
     },
     {
       toolId: 'editCard',
       title: 'Element Editor',
-      icon: 'i-tabler-edit-circle',
+      icon: { class: 'i-tabler-edit-circle' },
       location: 'context',
       isDefault: true,
       props: (args) => {
