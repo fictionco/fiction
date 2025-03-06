@@ -57,47 +57,6 @@ export class FictionUi extends FictionPlugin<FictionUiSettings> {
             theme: tailwindVarColorScheme({ variable: 'theme', color: 'gray' }),
           },
 
-          typography: (args: any) => {
-            const { theme } = args as { theme: (key: string) => string }
-            return {
-              theme: {
-                css: {
-                  '--tw-prose-body': theme('colors.theme[800]'),
-                  '--tw-prose-headings': theme('colors.theme[900]'),
-                  '--tw-prose-lead': theme('colors.theme[700]'),
-                  '--tw-prose-links': theme('colors.theme[900]'),
-                  '--tw-prose-bold': theme('colors.theme[900]'),
-                  '--tw-prose-counters': theme('colors.theme[600]'),
-                  '--tw-prose-bullets': theme('colors.theme[400]'),
-                  '--tw-prose-hr': theme('colors.theme[300]'),
-                  '--tw-prose-quotes': theme('colors.theme[900]'),
-                  '--tw-prose-quote-borders': theme('colors.theme[300]'),
-                  '--tw-prose-captions': theme('colors.theme[700]'),
-                  '--tw-prose-code': theme('colors.theme[900]'),
-                  '--tw-prose-pre-code': theme('colors.theme[100]'),
-                  '--tw-prose-pre-bg': theme('colors.theme[900]'),
-                  '--tw-prose-th-borders': theme('colors.theme[300]'),
-                  '--tw-prose-td-borders': theme('colors.theme[200]'),
-                  '--tw-prose-invert-body': theme('colors.theme[200]'),
-                  '--tw-prose-invert-headings': theme('colors.white'),
-                  '--tw-prose-invert-lead': theme('colors.theme[300]'),
-                  '--tw-prose-invert-links': theme('colors.white'),
-                  '--tw-prose-invert-bold': theme('colors.white'),
-                  '--tw-prose-invert-counters': theme('colors.theme[400]'),
-                  '--tw-prose-invert-bullets': theme('colors.theme[600]'),
-                  '--tw-prose-invert-hr': theme('colors.theme[700]'),
-                  '--tw-prose-invert-quotes': theme('colors.theme[100]'),
-                  '--tw-prose-invert-quote-borders': theme('colors.theme[700]'),
-                  '--tw-prose-invert-captions': theme('colors.theme[400]'),
-                  '--tw-prose-invert-code': theme('colors.white'),
-                  '--tw-prose-invert-pre-code': theme('colors.theme[300]'),
-                  '--tw-prose-invert-pre-bg': 'rgb(0 0 0 / 50%)',
-                  '--tw-prose-invert-th-borders': theme('colors.theme[600]'),
-                  '--tw-prose-invert-td-borders': theme('colors.theme[700]'),
-                },
-              },
-            }
-          },
         },
       },
     }

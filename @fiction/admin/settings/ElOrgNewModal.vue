@@ -68,14 +68,14 @@ const options = vue.computed(() => {
   return [
     createOption({
       key: 'orgName',
-      label: 'Organization Title',
+      label: 'Title',
       input: 'InputText',
-      placeholder: 'My Organization',
+      placeholder: 'My Brand',
       isRequired: true,
     }),
     createOption({
       key: 'orgEmail',
-      label: 'Primary Organization Email',
+      label: 'Primary Email',
       subLabel: 'Used for notifications and billing',
       placeholder: 'Enter an email address',
       input: 'InputEmail',
@@ -87,7 +87,7 @@ const options = vue.computed(() => {
 const buttons = vue.computed(() => {
   return [
     {
-      label: 'Create New Organization',
+      label: 'Create New Brand',
       theme: 'primary' as const,
       onClick: send,
       loading: sending.value,
@@ -101,8 +101,8 @@ const buttons = vue.computed(() => {
     v-model="form"
     :vis
     :options
-    title="Create New Organization"
-    sub-title="Enter the details for your new organization"
+    title="Create New Brand"
+    sub-title="Enter the details for your new brand"
     :buttons="buttons"
     @update:vis="closeModal"
   />

@@ -102,15 +102,15 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
       await factory.fromTemplate<typeof dashTemplate>({
         templateId: 'dash',
         slug: 'sites',
-        title: 'Websites',
+        title: 'Sites',
         cards: [
           await factory.fromTemplate<typeof panelTemplate>({
             el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')),
             cards: [
               await factory.fromTemplate<typeof panelTemplate>({
                 slug: 'list',
-                title: 'Websites',
-                description: 'View and manage all your websites, domains, and site configurations',
+                title: 'Sites',
+                description: 'View and manage all your sites and landing pages',
                 el: vue.defineAsyncComponent(async () => import('./admin/ManageIndex.vue')),
                 userConfig: {
                   isNavItem: true,

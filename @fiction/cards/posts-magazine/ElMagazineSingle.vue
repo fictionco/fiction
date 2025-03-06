@@ -108,7 +108,7 @@ const imageAspect = vue.computed(() => {
           <CardTextPost :post="post" path="content" />
         </XEntry>
 
-        <div v-if="post.tags.value?.length" class="not-prose tags flex gap-8 my-6 lg:my-16 items-center px-4 justify-center">
+        <div v-if="post.tags.value?.length" class="tags flex gap-8 my-6 lg:my-16 items-center px-4 justify-center">
           <div class="text-xs italic text-theme-500 text-right">
             tagged with
           </div>
@@ -128,7 +128,7 @@ const imageAspect = vue.computed(() => {
           v-if="nextPost"
           :card
           :href="postLink({ card, slug: nextPost.slug.value })"
-          class="mt-16 next-post flex flex-col md:flex-row not-prose gap-4 md:gap-8 md:items-center justify-center   rounded-xl bg-theme-50 dark:bg-theme-700/50 hover:bg-theme-100 hover:dark:bg-theme-700 p-6 lg:p-12"
+          class="mt-16 next-post flex flex-col md:flex-row gap-4 md:gap-8 md:items-center justify-center   rounded-xl bg-theme-50 dark:bg-theme-700/50 hover:bg-theme-100 hover:dark:bg-theme-700 p-6 lg:p-12"
         >
           <div>
             <XMedia :media="nextPost.media.value" class="size-16 rounded-full overflow-hidden" />

@@ -116,8 +116,8 @@ async function maybeRemoveMember(): Promise<void> {
 
 const detailOptions = [
   new InputOption({
-    label: 'Organization Access',
-    subLabel: 'Set the level of access this user has to your organization',
+    label: 'Workspace Access',
+    subLabel: 'Set the level of access this user has to this workspace',
     input: 'InputControl',
 
     valueDisplay: () => {
@@ -130,7 +130,7 @@ const detailOptions = [
       new InputOption({
         disabled: !canChangeRole.value ? 'You can\'t change this user\'s role' : undefined,
         key: 'memberAccess',
-        label: 'Organization Role',
+        label: 'Workspace Role',
         input: 'InputSelectCustom',
         list: [
           { value: 'owner', label: 'Owner' },
@@ -143,7 +143,7 @@ const detailOptions = [
   }),
   new InputOption({
     label: 'Member Status',
-    subLabel: 'The status of this member in your organization',
+    subLabel: 'The status of this member in your workspace',
     input: 'InputControl',
     valueDisplay: () => {
       return {
@@ -176,7 +176,7 @@ const options = vue.computed(() => {
   return [
     new InputOption({
       key: 'userDetails',
-      label: 'Organization Relationship',
+      label: 'Workspace Relationship',
       input: 'group',
       options: detailOptions,
       format: 'control',

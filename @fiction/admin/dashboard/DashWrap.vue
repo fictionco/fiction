@@ -79,7 +79,7 @@ const bottomNav = vue.computed<NavItem[]>(() => {
     {
       label: 'Settings',
       href: `/settings`,
-      icon: 'i-tabler-adjustments',
+      icon: 'i-tabler-settings',
       isActive: currentViewId === 'settings',
     },
   ] satisfies NavItem[]

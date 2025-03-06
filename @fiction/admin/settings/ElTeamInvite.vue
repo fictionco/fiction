@@ -95,7 +95,7 @@ onResetUi(() => {
           <p class="text-theme-500 mt-2">
             Invite people to the "{{
               fictionUser.activeOrganization.value?.orgName
-            }}" Organization
+            }}" Workspace
           </p>
         </div>
 
@@ -110,7 +110,7 @@ onResetUi(() => {
             </h2>
             <div class="font-media text-theme-500 text-sm">
               An email will be sent with a link, and the email will be granted access to this
-              organization.
+              workspace.
             </div>
           </div>
 

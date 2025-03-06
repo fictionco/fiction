@@ -53,7 +53,7 @@ const controlOptions = [
   createOption({
     key: 'control.orgName',
     testId: 'orgName',
-    label: 'Organization Name',
+    label: 'Brand Name',
     subLabel: 'Used for publication name.',
     input: 'InputControl',
     valueDisplay: () => {
@@ -299,14 +299,14 @@ const adminOptions = [
   createOption({
     key: 'control.delete',
     testId: 'deleteOrg',
-    label: 'Delete Organization',
-    subLabel: 'Permanently delete this organization.',
+    label: 'Delete Brand Workspace',
+    subLabel: 'Permanently delete this brand.',
     input: 'InputControl',
     icon: { class: 'i-tabler-trash' },
     actions: () => [
       {
         testId: 'deleteOrgButton',
-        label: 'Delete Organization...',
+        label: 'Delete Brand Workspace...',
         theme: 'rose',
         design: 'ghost',
         icon: 'i-tabler-trash',
@@ -314,12 +314,12 @@ const adminOptions = [
         onClick: async () => {
           const endpoint = service.fictionUser.requests.ManageOrganization
 
-          const confirmed = confirm('Are you sure you want to delete this organization?')
+          const confirmed = confirm('Are you sure you want to delete this brand?')
           if (confirmed && org.value?.orgId) {
             sending.value = 'delete'
             const r = await endpoint.projectRequest({ _action: 'delete', where: { orgId: org.value?.orgId } })
             if (r.status === 'success') {
-              await card.goto('/', { caller: 'adminDeleteOrganization' })
+              await card.goto('/', { caller: 'adminDeleteBrand' })
             }
 
             sending.value = ''
@@ -372,20 +372,20 @@ const options = vue.computed(() => {
 const header = vue.computed(() => {
   return {
     title: org.value?.orgName,
-    subTitle: `Organization Details - id:${org.value?.orgId}`,
+    subTitle: `Brand Details - id:${org.value?.orgId}`,
     media: avatarUrl.value,
   }
 })
 
 vue.onMounted(async () => {
-  await service.fictionUser.userInitialized({ caller: 'PanelOrganization' })
+  await service.fictionUser.userInitialized({ caller: 'PanelBrand' })
   loading.value = false
 })
 </script>
 
 <template>
   <SettingsPanel
-    title="Organization Details"
+    title="Brand Details"
     :loading
     :action="{ buttons: [{
       testId: 'saveButton',

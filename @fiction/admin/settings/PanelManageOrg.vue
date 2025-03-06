@@ -100,20 +100,20 @@ const otherItemList = list.value.filter(item => !item.isActive)
       <div class="space-y-6">
         <ElIndexGrid
           :list="activeItemList"
-          list-title="Active Organization"
+          list-title="Active Workspace"
           :zero="{
-            title: 'No Organizations',
-            description: 'This user has no organizations.',
+            title: 'No Workspaces',
+            description: 'This user has no workspaces.',
             icon: 'i-tabler-building',
           }"
         />
 
         <ElIndexGrid
           :list="otherItemList"
-          list-title="Other Organizations"
+          list-title="Other Workspaces"
           :zero="{
-            title: 'No Additional Organizations',
-            description: 'Create more or request an invite to join an organization.',
+            title: 'No Additional Workspaces',
+            description: 'Create more or request an invite to join a workspace.',
             icon: 'i-tabler-building',
           }"
         />
