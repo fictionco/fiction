@@ -21,33 +21,26 @@ const { site, tool } = props
 const options = vue.computed<InputOption[]>(() => {
   const optionGroups = getPageOptions({ site })
   return [
-    createOption({
-      key: 'pageSetup',
-      label: 'Edit Page',
-      input: 'group',
-      icon: { class: 'i-tabler-file-text' },
-      options: [
-        optionGroups.essentials,
-        optionGroups.special,
-        optionGroups.seo,
-      ],
-    }),
-
+    optionGroups.essentials,
+    optionGroups.special,
+    optionGroups.seo,
   ]
 })
 </script>
 
 <template>
   <ElTool
-    v-bind="props"
-    title="Edit Page Details"
+    :tool
+    :title="tool.title"
+    :icon="tool.icon"
   >
-    <ElForm>
+    <ElForm class="p-2">
       <FormEngine
         v-model="site.editPageConfig.value"
         state-key="pageEdit"
         :options
         :input-props="{ site, tool }"
+        :depth="1"
       />
     </ElForm>
   </ElTool>

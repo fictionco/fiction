@@ -20,23 +20,15 @@ const { site, tool, controller } = props
 
 const options: InputOption[] = [
   createOption({
-    key: 'managePages',
-    label: 'Manage Pages',
+    key: 'group.managePages',
+    label: 'Pages',
     input: 'group',
     icon: { class: 'i-tabler-file-plus' },
     options: [
       createOption({
-        key: 'group.managePages',
-        label: 'Pages',
-        input: 'group',
-        icon: { class: 'i-tabler-file-plus' },
-        options: [
-          createOption({
-            key: 'managePagesInput',
-            input: InputManagePages,
-            props: { site, tool },
-          }),
-        ],
+        key: 'managePagesInput',
+        input: InputManagePages,
+        props: { site, tool },
       }),
     ],
   }),
@@ -44,9 +36,18 @@ const options: InputOption[] = [
 </script>
 
 <template>
-  <ElTool v-bind="props">
-    <ElForm>
-      <FormEngine state-key="toolMaster" :options :input-props="{ site, tool, controller }" />
+  <ElTool
+    :tool="tool"
+    :title="tool.title"
+    :icon="tool.icon"
+  >
+    <ElForm class="p-2">
+      <FormEngine
+        state-key="toolMaster"
+        :options
+        :input-props="{ site, tool, controller }"
+        :depth="1"
+      />
     </ElForm>
   </ElTool>
 </template>

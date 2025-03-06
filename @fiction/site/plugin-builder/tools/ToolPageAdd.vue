@@ -22,18 +22,7 @@ const { site, controller } = defineProps<{
 const loading = vue.ref(false)
 const options = vue.computed<InputOption[]>(() => {
   const optionGroups = getPageOptions({ site })
-  return [
-    createOption({
-      key: 'pageSetup',
-      label: 'Add New Page',
-      input: 'group',
-      icon: { class: 'i-tabler-file-text' },
-      options: [
-        optionGroups.essentials,
-      ],
-    }),
-
-  ]
+  return [optionGroups.essentials]
 })
 
 const page = vue.ref<CardConfigPortable>({ title: '', slug: '', cards: [{ templateId: 'cardHeroV1' }] })
@@ -71,14 +60,23 @@ async function save() {
 
 <template>
   <ElTool
-    v-bind="{ site, tool, controller }"
-    title="Add Page"
+    :tool="tool"
+    :title="tool.title"
+    :icon="tool.icon"
   >
-    <ElForm @submit="save()">
-      <FormEngine v-model="page" state-key="pageEdit" :options :input-props="{ site }" />
+    <ElForm class="p-2" @submit="save()">
+      <FormEngine v-model="page" state-key="pageEdit" :options :input-props="{ site }" :depth="1" />
 
-      <div class="text-right px-4 py-2">
-        <ElInput input="InputSubmit" :loading rounding="full" data-test-id="requestCreateNewPage">
+      <div
+        class="text-right mt-4"
+      >
+        <ElInput
+          input="InputSubmit"
+          :loading
+          rounding="full"
+          data-test-id="requestCreateNewPage"
+          icon="i-tabler-plus"
+        >
           Create New Page
         </ElInput>
       </div>

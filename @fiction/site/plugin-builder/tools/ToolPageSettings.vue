@@ -74,14 +74,17 @@ const v = vue.computed({
 
 <template>
   <ElTool
-    v-bind="{ site, tool, controller }"
+    :tool
+    :title="tool.title"
+    :icon="tool.icon"
   >
-    <ElForm>
+    <ElForm class="p-2">
       <FormEngine
         v-model="v"
         state-key="globalSettings"
         :options="options"
         :input-props="{ site }"
+        :depth="1"
       />
     </ElForm>
   </ElTool>

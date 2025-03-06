@@ -26,72 +26,63 @@ function getSuffixUrl() {
 }
 const options: InputOption[] = [
   createOption({
-    key: 'editor.hidePublishing',
-    label: 'Site Domain',
+    key: 'group.subDomain',
+    label: 'Fiction Subdomain',
     input: 'group',
-    icon: { class: 'i-tabler-world' },
+    icon: { class: 'i-tabler-world-bolt' },
     options: [
       createOption({
-        key: 'group.subDomain',
-        label: 'Fiction Subdomain',
-        input: 'group',
-        icon: { class: 'i-tabler-world-bolt' },
-        options: [
-          createOption({
-            key: 'subDomain',
-            label: 'Staging Domain',
-            subLabel: 'Your site\'s included web address',
-            description: 'Be default your site will be available at this address.',
-            input: 'InputUsername',
-            isRequired: true,
+        key: 'subDomain',
+        label: 'Staging Domain',
+        subLabel: 'Your site\'s included web address',
+        description: 'Be default your site will be available at this address.',
+        input: 'InputUsername',
+        isRequired: true,
 
-            props: {
-              beforeInput: 'https://',
-              afterInput: getSuffixUrl(),
-              table: t.sites,
-              columns: [{ name: 'subDomain' }],
-              uiSize: 'md',
-            },
-          }),
-        ],
+        props: {
+          beforeInput: 'https://',
+          afterInput: getSuffixUrl(),
+          table: t.sites,
+          columns: [{ name: 'subDomain' }],
+          uiSize: 'md',
+        },
       }),
+    ],
+  }),
+  createOption({
+    key: 'group.subDomain',
+    label: 'Custom Domain',
+    input: 'group',
+    icon: { class: 'i-tabler-world-www' },
+    options: [
       createOption({
-        key: 'group.subDomain',
-        label: 'Custom Domain',
-        input: 'group',
-        icon: { class: 'i-tabler-world-www' },
-        options: [
-          createOption({
-            key: 'customDomains',
-            label: 'Enter Custom Domain',
-            subLabel: 'Add custom domains for this site (e.g. www.example.com)',
-            description: 'Connect your own domain name to your site. You\'ll need to update your DNS settings with your domain provider.',
-            input: vue.defineAsyncComponent(() => import('./CustomDomain.vue')),
-            isRequired: true,
+        key: 'customDomains',
+        label: 'Enter Custom Domain',
+        subLabel: 'Add custom domains for this site (e.g. www.example.com)',
+        description: 'Connect your own domain name to your site. You\'ll need to update your DNS settings with your domain provider.',
+        input: vue.defineAsyncComponent(() => import('./CustomDomain.vue')),
+        isRequired: true,
 
-            props: {
-              destination: activeSiteHostname(props.site, { isProd: true }).value,
-              uiSize: 'md',
-            },
-          }),
-        ],
+        props: {
+          destination: activeSiteHostname(props.site, { isProd: true }).value,
+          uiSize: 'md',
+        },
       }),
+    ],
+  }),
+  createOption({
+    key: 'group.instructions',
+    label: 'Domain Setup Instructions',
+    input: 'group',
+    icon: { class: 'i-tabler-world-question' },
+    options: [
       createOption({
-        key: 'group.instructions',
-        label: 'Domain Setup Instructions',
-        input: 'group',
-        icon: { class: 'i-tabler-world-question' },
-        options: [
-          createOption({
-            key: 'domainSetupInstructions',
-            input: vue.defineAsyncComponent(() => import('./CustomDomainInstructions.vue')),
-            props: {
-              destination: activeSiteHostname(props.site, { isProd: true }).value,
-            },
-          }),
-        ],
+        key: 'domainSetupInstructions',
+        input: vue.defineAsyncComponent(() => import('./CustomDomainInstructions.vue')),
+        props: {
+          destination: activeSiteHostname(props.site, { isProd: true }).value,
+        },
       }),
-
     ],
   }),
 
@@ -107,14 +98,17 @@ const v = vue.computed({
 
 <template>
   <ElTool
-    v-bind="props"
+    :tool
+    :title="tool.title"
+    :icon="tool.icon"
   >
-    <ElForm>
+    <ElForm class="p-2">
       <FormEngine
         v-model="v"
         state-key="publishSettings"
         :options="options"
         :input-props="{ site }"
+        :depth="1"
       />
     </ElForm>
   </ElTool>
