@@ -32,36 +32,6 @@ function setActiveItem(index: number) {
     }
   })
 }
-
-// Add auto-rotation if needed
-let intervalId: number | null = null
-
-function startAutoRotation() {
-  if (items.value.length <= 1)
-    return
-
-  intervalId = window.setInterval(() => {
-    const nextIndex = (activeIndex.value + 1) % items.value.length
-    setActiveItem(nextIndex)
-  }, 15000) // 5 seconds interval
-}
-
-function stopAutoRotation() {
-  if (intervalId !== null) {
-    window.clearInterval(intervalId)
-    intervalId = null
-  }
-}
-
-// Optional: Implement auto-rotation
-vue.onMounted(() => {
-  // Uncomment to enable auto-rotation
-  startAutoRotation()
-})
-
-vue.onBeforeUnmount(() => {
-  stopAutoRotation()
-})
 </script>
 
 <template>

@@ -78,10 +78,10 @@ const nav = vue.computed<NavListItem[]>(() => {
 
 function getNavItemClass(item: NavListItem, index: number) {
   return item.isActive
-    ? 'bg-theme-100/50 text-theme-700 dark:bg-theme-800 dark:text-theme-50 ring-2 ring-theme-300 dark:ring-theme-600'
+    ? 'bg-theme-100/50 text-theme-700 dark:bg-theme-800 dark:text-theme-50 ring-1 ring-theme-300 dark:ring-theme-600'
     : index === 0 && !currentItemId.value
-      ? 'lg:bg-theme-100/50 lg:text-theme-700 lg:dark:bg-theme-800 lg:dark:text-theme-50 ring-2 ring-theme-100 dark:ring-theme-700/90 lg:ring-2 lg:ring-theme-300 lg:dark:ring-theme-600'
-      : 'text-theme-600 dark:text-theme-200  hover:bg-theme-100/30 dark:hover:bg-theme-700/60 ring-2 ring-theme-100 dark:ring-theme-700/70'
+      ? 'lg:bg-primary-50 lg:text-primary-700 lg:dark:bg-theme-800 lg:dark:text-theme-50 ring-1 ring-theme-100 dark:ring-theme-700/90 lg:ring-1 lg:ring-primary-600/50 lg:dark:ring-theme-600'
+      : 'text-theme-600 dark:text-theme-200  hover:bg-theme-100/30 dark:hover:bg-theme-700/60 ring-1 ring-theme-100 dark:ring-theme-700/70'
 }
 
 const transitionDirection = vue.ref<'left' | 'right'>('right')
@@ -151,18 +151,11 @@ const parentPanelProps = vue.computed(() => {
                 <XIcon
                   v-if="v.icon"
                   class="text-[1.7em] shrink-0 "
-                  :class="v.isActive || (i === 0 && !currentItemId) ? 'text-theme-700 dark:text-theme-500' : 'text-theme-500 dark:text-theme-300'"
                   :media="v.icon || {}"
                 />
                 <div class="min-w-0 truncate overflow-ellipsis text-left">
                   <div class="font-semibold truncate">
                     {{ v.label }}
-                  </div>
-                  <div
-                    class=" truncate text-sm"
-                    :class="v.isActive || (i === 0 && !currentItemId) ? 'text-theme-700 dark:text-theme-500' : 'text-theme-400 dark:text-theme-500'"
-                  >
-                    {{ v.description }}
                   </div>
                 </div>
                 <XIcon

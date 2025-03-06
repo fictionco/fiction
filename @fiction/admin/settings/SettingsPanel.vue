@@ -22,7 +22,10 @@ const emit = defineEmits<{
 
 <template>
   <div>
-    <div class="flex items-center justify-between p-4 border-b border-theme-300 dark:border-theme-700/70">
+    <div
+      v-if="title || action.buttons?.length"
+      class="flex items-center justify-between p-4 border-b border-theme-300 dark:border-theme-700/70"
+    >
       <div class="font-semibold text-lg">
         {{ title || 'No Title' }}
       </div>

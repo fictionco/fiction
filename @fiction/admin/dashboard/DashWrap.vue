@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { IndexItem, MediaObject, MemberAccess, NavItem } from '@fiction/core'
+import type { IndexItem, MediaObject, MemberAccess, NavListItem } from '@fiction/core'
 import type { FictionStripe } from '@fiction/plugin-stripe'
 import type { Card } from '@fiction/site/card'
 import type { FictionAdmin } from '..'
@@ -41,7 +41,7 @@ onResetUi(() => (showMobileNav.value = false))
 const accessLevel = vue.computed(() => fictionUser.activeRelation.value?.accessLevel || 0)
 const memberHasAccess = vue.computed(() => accessLevel.value >= getAccessLevel(access))
 
-const primaryNav = vue.computed<NavItem[]>(() => {
+const primaryNav = vue.computed<NavListItem[]>(() => {
   const site = card.site
   if (!site)
     return []
@@ -53,7 +53,8 @@ const primaryNav = vue.computed<NavItem[]>(() => {
     const slug = item.slug.value === '_home' ? '' : item.slug.value
     const itemUc = item.userConfig.value as UserConfig
     const isActive = slug === currentViewId || slug === uc.value.parentNavItemSlug || (!currentViewId && (!slug || slug === '_home'))
-    const icon = isActive && itemUc.navIconAlt ? itemUc.navIconAlt : itemUc.navIcon
+    const iconClass = isActive && itemUc.navIconAlt ? itemUc.navIconAlt : itemUc.navIcon
+    const icon = { class: iconClass }
     return {
       testId: slug,
       label: itemUc.navTitle || item.title.value || '',
@@ -69,28 +70,35 @@ const primaryNav = vue.computed<NavItem[]>(() => {
   return resultSorted || []
 })
 
-const bottomNav = vue.computed<NavItem[]>(() => {
+const bottomNav = vue.computed<NavListItem[]>(() => {
   const site = card.site
   if (!site)
     return []
   const currentViewId = site.siteRouter.params.value.viewId
-
+  const activeOrganization = fictionUser.activeOrganization.value
   return [
     {
-      label: 'Settings',
+      label: activeOrganization?.orgName || 'Settings',
+      subLabel: 'Brand Workspace',
       href: `/settings`,
-      icon: 'i-tabler-settings',
+      media: activeOrganization?.avatar,
+      icon: { class: 'i-tabler-settings' },
       isActive: currentViewId === 'settings',
     },
-  ] satisfies NavItem[]
+  ] satisfies NavListItem[]
 })
 
 const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
   return [
     {
+      label: 'Brand Settings',
+      href: card.link({ path: '/settings/account' }),
+      icon: 'i-tabler-building-cog',
+    },
+    {
       label: 'Account Settings',
       href: card.link({ path: '/settings/account' }),
-      icon: 'i-tabler-settings',
+      icon: 'i-tabler-user-cog',
     },
     {
       label: 'Dark/Light Mode',
@@ -99,7 +107,7 @@ const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
     },
     {
       label: 'Sign Out',
-      icon: 'i-tabler-arrow-big-left',
+      icon: 'i-tabler-logout',
       onClick: async (): Promise<void> => {
         loading.value = true
         await fictionUser?.logout({ redirect: '/' })

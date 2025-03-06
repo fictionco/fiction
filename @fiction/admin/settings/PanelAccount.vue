@@ -297,7 +297,7 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
 
 <template>
   <SettingsPanel
-    title="User Account and Author Profile"
+    title="Account Settings"
     :loading
     :header
     :action="{ buttons: [{

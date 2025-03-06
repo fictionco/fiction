@@ -2,7 +2,11 @@ import type { NavListItem } from '@fiction/core'
 import type { Card, Site } from '..'
 import { siteLink } from './manage.js'
 
-export function getSiteIndexItemList(sites: Site[], parentCard: Card): NavListItem[] {
+export type SiteListItem = NavListItem & {
+  stagingUrl: string
+}
+
+export function getSiteIndexItemList(sites: Site[], parentCard: Card): SiteListItem[] {
   if (!sites || !sites.length)
     return []
 
@@ -16,7 +20,7 @@ export function getSiteIndexItemList(sites: Site[], parentCard: Card): NavListIt
     const domain = site.primaryCustomDomain.value || fictionAppSites.liveUrl.value.replace('*', site.settings.subDomain || '')
     const displayDomain = domain.replace('https://', '').replace('http://', '').replace('www.', '')
     const editLink = siteLink({ site: parentCard.site, location: { path: '/edit-site', query: { siteId: site.settings.siteId } } })
-    const out: NavListItem = {
+    const out: SiteListItem = {
       label: site.settings.title || 'Untitled',
       description: `${displayDomain}`,
       key: site.settings.siteId,
@@ -24,6 +28,7 @@ export function getSiteIndexItemList(sites: Site[], parentCard: Card): NavListIt
       // figure: { el: vue.defineAsyncComponent(() => import('./fig/FigSite.vue')), props: { site } },
       dateAt: site.settings.updatedAt,
       icon: { class: 'i-tabler-browser' },
+      stagingUrl: site.frame.currentSiteFrameUrl.value,
     }
 
     return out

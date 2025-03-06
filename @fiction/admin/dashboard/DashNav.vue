@@ -1,18 +1,20 @@
 <script lang="ts" setup>
-import type { MediaObject, NavItem, vue } from '@fiction/core'
+import type { MediaObject, NavListItem, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import CardLink from '@fiction/cards/el/CardLink.vue'
 import { toLabel } from '@fiction/core'
+import ElIndexItemMedia from '@fiction/ui/lists/ElIndexItemMedia.vue'
+import XIcon from '@fiction/ui/media/XIcon.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 
 defineProps({
   icon: { type: Object as vue.PropType<MediaObject>, default: undefined },
-  nav: { type: Array as vue.PropType<NavItem[]>, default: () => [] },
-  navBottom: { type: Array as vue.PropType<NavItem[]>, default: () => [] },
+  nav: { type: Array as vue.PropType<NavListItem[]>, default: () => [] },
+  navBottom: { type: Array as vue.PropType<NavListItem[]>, default: () => [] },
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
+async function handleClick(event: MouseEvent, item: NavListItem): Promise<void> {
   if (item.onClick) {
     event.preventDefault()
     event.stopPropagation()
@@ -21,10 +23,10 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
 }
 
 const cls = {
-  active: 'font-semibold bg-primary-100/50 text-primary-950 dark:bg-primary-800/50 ring-1 ring-primary-300/60 dark:ring-primary-800 dark:text-primary-0',
+  active: 'font-semibold bg-primary-100/60 text-primary-700 dark:bg-primary-800/50 ring-2 ring-primary-600/50 dark:ring-primary-800 dark:text-primary-0',
   inactive: 'font-medium text-theme-700 dark:text-theme-200 dark:hover:bg-theme-700 hover:text-theme-900 border-theme-0',
   navItemWrap: 'group nav-item flex cursor-pointer items-center py-3 px-4 gap-3 truncate rounded-full font-sans text-base focus:outline-none transition-all duration-100',
-  icon: 'text-2xl shrink-0',
+  icon: 'size-6 shrink-0',
 }
 </script>
 
@@ -55,7 +57,7 @@ const cls = {
               :data-test-id="`dashboard-nav-${sub.testId}`"
               @click="handleClick($event, sub)"
             >
-              <div v-if="sub.icon" :class="[sub.icon, cls.icon]" />
+              <XIcon v-if="sub.icon" :media="sub.icon" :class="cls.icon" />
               <div class="pt-0.5 truncate" v-html="toLabel(sub.label)" />
             </CardLink>
           </div>
@@ -76,8 +78,24 @@ const cls = {
             :data-test-id="`dashboard-nav-${sub.testId}`"
             @click="handleClick($event, sub)"
           >
-            <div v-if="sub.icon" :class="[sub.icon, cls.icon]" />
-            <div class="pt-0.5" v-html="toLabel(sub.label)" />
+            <div>
+              <ElIndexItemMedia
+                v-if="sub.media"
+                :media="sub.media"
+                class="size-9 shrink-0"
+              />
+              <XIcon v-else-if="sub.icon" :media="sub.icon" :class="cls.icon" />
+            </div>
+            <div class="pt-0.5">
+              <div class="font-semibold" v-html="toLabel(sub.label)" />
+              <div
+                v-if="sub.subLabel"
+                class="text-xs "
+                :class="sub.isActive ? 'text-primary-700 dark:text-primary-300' : 'text-theme-500 dark:text-theme-400'"
+              >
+                {{ sub.subLabel }}
+              </div>
+            </div>
           </CardLink>
         </div>
       </div>

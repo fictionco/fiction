@@ -29,6 +29,7 @@ const mediaStyle = vue.computed(() => {
     base: `relative rounded-full overflow-hidden shrink-0`,
     iconWrapper: style?.bg,
     icon: style?.text,
+    ring: style?.ring,
   }
 })
 
@@ -41,14 +42,15 @@ const m = vue.computed(() => {
   <div :class="[mediaStyle.base, mediaStyle.iconWrapper, mediaStyle.icon]">
     <div
       v-if="m && !m?.url && !m?.html"
-      class="w-full h-full flex items-center justify-center"
+      :class="mediaStyle.ring"
+      class="w-full h-full flex items-center justify-center rounded-full ring-2 ring-inset"
     >
       <XIcon class="size-[60%]" :media="m" />
     </div>
     <div v-else class="absolute inset-0 overflow-hidden">
       <XMedia class="absolute inset-0 z-10" :media="m" />
       <div
-        class="absolute inset-0 z-20 mix-blend-difference pointer-events-none ring-2 ring-inset ring-black dark:ring-white rounded-full"
+        class="absolute inset-0 z-20 mix-blend-overlay dark:mix-blend-difference pointer-events-none ring-2 ring-inset ring-black dark:ring-white rounded-full"
       />
     </div>
   </div>

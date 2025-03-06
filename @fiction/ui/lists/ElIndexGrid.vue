@@ -70,7 +70,7 @@ async function paginate(dir: 'prev' | 'next') {
               :theme="act.theme || 'default'"
               :rounding="act.rounding || 'full'"
               :icon="act.icon"
-              size="md"
+              :size="act.size || 'sm'"
               @click.stop="act.onClick ? act.onClick({ event: $event, item: act }) : null"
             >
               {{ act.label }}
@@ -82,7 +82,7 @@ async function paginate(dir: 'prev' | 'next') {
         <div class="col-span-12">
           <div v-if="list.length" role="list" class="space-y-5">
             <template v-if="$slots.list">
-              <slot name="list" />
+              <slot name="list" :list />
             </template>
             <XIndexItem
               v-for="(item, i) in list"

@@ -101,7 +101,7 @@ const actions = vue.computed<ActionButton[]>(() => {
             {{ controlOption.label }}
           </div>
           <div v-else-if="v?.format === 'media' && isPlainObject(v?.data)" class="my-2">
-            <XMedia class="size-14" :media="(v?.data as MediaObject)" />
+            <XMedia class="size-14 rounded-full overflow-hidden" :media="(v?.data as MediaObject)" />
           </div>
           <div v-else-if="v?.format === 'list' && Array.isArray(v?.data)" class="my-2 space-y-2">
             <div v-for="(item, ii) in (v?.data as ListItem[])" :key="ii" class="gap-2 list-disc list-item ml-5">
