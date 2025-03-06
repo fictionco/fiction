@@ -96,7 +96,7 @@ export async function getUserConfig(args: { factory: CardFactory, stock: StockMe
 
   return {
     items: [{
-      text: 'Notice how a well-crafted testimonial can instantly build trust?',
+      text: 'A well-crafted quote can instantly build trust.',
       layout: 'featured',
       theme: 'emerald',
       author: {

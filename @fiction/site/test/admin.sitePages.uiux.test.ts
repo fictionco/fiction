@@ -20,7 +20,7 @@ describe('admin site pages', async () => {
       path: `/app/${initialViewId}?theme=minimal`,
       actions: [
         { type: 'visible', selector: `[data-view-id="${initialViewId}"]` },
-        { type: 'click', selector: `[data-test-id="tool-button-editLayout"]` },
+        { type: 'click', selector: `[data-test-id="tool-button-addSections"]` },
         { type: 'click', selector: `[data-test-id="add-element-cardHeroV1"]:first-of-type` },
         { type: 'visible', selector: `[data-test-id="layout-card-cardHeroV1"]` },
         { type: 'click', selector: `[data-test-id="tool-button-managePages"]` },

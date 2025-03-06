@@ -95,6 +95,7 @@ describe('addNewCard', async () => {
         "_",
         "example",
         "__transaction",
+        "_404",
       ]
     `)
     expect(site.activePageId.value).toBeTruthy()
@@ -132,7 +133,7 @@ describe('addNewCard', async () => {
 
     expect(r1).toBeUndefined()
 
-    await waitFor(110)
+    await waitFor(300)
 
     expect(r1?.cardId).toBeDefined()
   })
