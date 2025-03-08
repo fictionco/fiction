@@ -1,6 +1,6 @@
 import { toKebab } from '@fiction/core/index.js'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
-import { collectKeysFromOptions } from '@fiction/site/utils/schema'
+import { collectKeysFromOptions } from '@fiction/site/utils/optionSchema.js'
 import { afterAll, describe, expect, it } from 'vitest'
 import { template, templateId } from './index.js'
 

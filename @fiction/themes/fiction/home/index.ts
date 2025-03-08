@@ -29,17 +29,17 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
             templateId: 'cardHeroV1',
             userConfig: {
               superTitle: {
-                text: 'Invest in Your Influence & Authority',
+                text: 'The #1 Personal Branding Platform',
                 theme: 'orange',
-                icon: { class: 'i-tabler-north-star' },
+                icon: { class: 'i-tabler-award' },
               },
-              title: `Your Personal Brand On [@text_effect type=squiggle]Autopilot[/@text_effect]`,
-              subTitle: `An incredible tool to help you create, share, and grow your personal brand online.`,
+              title: `Put Your [@text_effect type=squiggle]Personal Brand[/@text_effect] Online.`,
+              subTitle: `Use Fiction to create your personal website, start a newsletter, and build your reputation.`,
 
               action: {
                 buttons: [
                   {
-                    label: 'Try Fiction Free',
+                    label: 'Start for Free',
                     href: '/app/auth?_reload=1',
                     theme: 'primary',
                     design: 'solid',

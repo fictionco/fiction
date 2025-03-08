@@ -1,6 +1,6 @@
 import { CardFactory } from '@fiction/site/cardFactory'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
-import { refineOptions } from '@fiction/site/utils/schema'
+import { refineOptions } from '@fiction/site/utils/optionSchema'
 import { describe, expect, it } from 'vitest'
 import { getCardTemplates, getDemoPages } from '..'
 

@@ -248,7 +248,7 @@ export const ActionButtonSchema = z.object({
   disabled: z.boolean().optional(),
   onClick: ClickHandlerSchema.optional(),
   testId: z.string().optional(),
-  target: z.enum(['_blank', '_self']).optional(),
+  target: z.enum(['_blank', '_self']).optional().describe('Link target [@ai]'),
   hover: ButtonHoverSchema.optional(),
   type: z.enum(['button', 'submit', 'reset']).optional(),
 }, { description: 'ActionButtonSchema' })
@@ -301,10 +301,10 @@ const BaseNavListItemSchema = z.object({
   // Core content
   key: z.string().optional().describe('Unique index key for the item'),
   id: z.string().optional().describe('Globally unique identifier for the item'),
-  label: z.string().optional().describe('Primary text displayed for the item (e.g., "Products")'),
-  subLabel: z.string().optional().describe('Secondary text shown below label for additional context'),
-  value: z.union([z.string(), z.number()]).optional().describe('Value associated with the item'),
-  description: z.string().optional().describe('Longer description or explanation of the item'),
+  label: z.string().optional().describe('Primary text displayed for the item (e.g., "Products") [@ai]'),
+  subLabel: z.string().optional().describe('Secondary text shown below label for additional context [@ai]'),
+  value: z.union([z.string(), z.number()]).optional().describe('Value associated with the item [@ai]'),
+  description: z.string().optional().describe('Longer description or explanation of the item [@ai]'),
   info: z.string().optional().describe('Tertiary text, often used for metadata like "5 min read" or counts'),
   count: z.number().optional().describe('Numeric count or value associated with the item'),
 
@@ -366,9 +366,9 @@ const BaseNavListItemSchema = z.object({
 
 // Navigation list container
 export const NavListSchema = z.object({
-  title: z.string().optional().describe('Optional section/group title'),
-  description: z.string().optional().describe('Optional section/group description'),
-  items: z.array(z.record(z.string(), z.any())).optional().describe('Navigation items in this section'),
+  title: z.string().optional().describe('Optional section/group title [@ai]'),
+  description: z.string().optional().describe('Optional section/group description [@ai]'),
+  items: z.array(z.record(z.string(), z.any())).optional().describe('Navigation items in this section [@ai]'),
   variant: z.enum(['default', 'expanded']).optional().describe('Variant of the list'),
 }, { description: 'NavListSchema' })
 
@@ -410,7 +410,7 @@ export const SuperTitleSchema = z.object({
   text: z.string().optional().describe('Short text above main title [@ai]'),
   icon: MediaIconSchema.optional().describe('Visual indicator icon [@ai]'),
   theme: z.enum(colorThemeUser).optional().describe('Color style'),
-  href: z.string().optional().describe('Link URL'),
+  href: z.string().optional().describe('Link URL [@ai]'),
 })
 
 export type SuperTitle = z.infer<typeof SuperTitleSchema>

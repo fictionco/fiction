@@ -25,7 +25,7 @@ export class CardStructureGenerator {
   private async processTemplate(template: CardTemplate) {
     const { settings } = template
 
-    const { zodToSimpleSchema } = await import('@fiction/site/utils/schema')
+    const { zodToSimpleSchema } = await import('@fiction/site/utils/optionSchema')
 
     const site = this.site
     const factory = this.factory

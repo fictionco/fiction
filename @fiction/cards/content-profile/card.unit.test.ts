@@ -1,4 +1,4 @@
-import { refineOptions } from '@fiction/site/utils/schema'
+import { refineOptions } from '@fiction/site/utils/optionSchema'
 import { describe, expect, it } from 'vitest'
 import { zodToJsonSchema } from 'zod-to-json-schema'
 import { template } from '.'

@@ -1,5 +1,5 @@
 import { SuperTitleSchema } from '@fiction/core'
-import { refineOptions } from '@fiction/site/utils/schema'
+import { refineOptions } from '@fiction/site/utils/optionSchema'
 import { InputOption } from '@fiction/ui'
 import { describe, expect, it } from 'vitest'
 import { z } from 'zod'

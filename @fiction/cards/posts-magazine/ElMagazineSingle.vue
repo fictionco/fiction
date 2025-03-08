@@ -3,7 +3,7 @@ import type { FictionPosts, Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './index.js'
 import CardLink from '@fiction/cards/el/CardLink.vue'
-import { useService, vue } from '@fiction/core'
+import { unhead, useService, vue } from '@fiction/core'
 import { allPostsLink, postEditLink, postLink, taxonomyLink } from '@fiction/posts'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
@@ -36,6 +36,28 @@ const imageAspect = vue.computed(() => {
     return 'aspect-[2/1]'
 
   return w > h ? 'aspect-square max-h-[70dvh]' : 'aspect-[2/1]'
+})
+const title = () => post?.userConfig.value?.site?.title || post?.title.value || 'Post Not Found'
+const description = () => post?.userConfig.value?.site?.description || post?.subTitle.value || 'Post Not Found'
+const author = () => post?.authors.value?.map(a => a.fullName).join(', ')
+const postImage = () => post?.media.value?.url
+const postDate = () => post?.dateAt.value
+const keywords = () => post?.tags.value?.join(', ')
+unhead.useHead({
+  title,
+  meta: [
+    { name: `description`, content: description },
+    { name: `author`, content: author },
+    { name: `keywords`, content: keywords },
+    { name: `robots`, content: `index, follow` },
+    { name: `og:title`, content: title },
+    { name: `og:description`, content: description },
+    { name: `og:type`, content: `article` },
+    { name: `og:image`, content: postImage },
+    { name: `og:locale`, content: `en_US` },
+    { name: `article:published_time`, content: postDate },
+    { name: `article:author`, content: author },
+  ],
 })
 </script>
 

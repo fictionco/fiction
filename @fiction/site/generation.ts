@@ -34,29 +34,6 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
 
   tpl = vue.computed(() => this.card.tpl.value)
   site = this.card.site
-  // jsonSchema = vue.computed(() => {
-  //   if (!this.tpl.value?.settings?.schema)
-  //     return undefined
-
-  //   const schema = this.tpl.value.settings.schema
-  //   const jsonSchema = zodToJsonSchema(schema) as JsonSchema7ObjectType
-
-  //   return jsonSchema
-  // })
-
-  // jsonPropConfig = vue.computed(() => generateJsonPropConfig({ jsonSchema: this.jsonSchema.value, userPropConfig: this.fieldsUserConfig.value }))
-  // outputProps = vue.computed(() => generateOutputProps({ jsonSchema: this.jsonSchema.value, jsonPropConfig: this.jsonPropConfig.value }))
-
-  // outputSchema = vue.computed(() => {
-  //   const fullSchema = { ...this.jsonSchema.value }
-
-  //   if (!fullSchema)
-  //     return undefined
-
-  //   fullSchema.properties = this.outputProps.value || {}
-
-  //   return fullSchema
-  // })
 
   async getJsonPropConfig() {
     const jsonSchema = await this.getJsonSchema()

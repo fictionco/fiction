@@ -1,213 +1,182 @@
-import type { InputOption } from '@fiction/ui/index.js'
-import type { z } from 'zod'
-import type { JsonSchema7ObjectType, JsonSchema7Type } from 'zod-to-json-schema'
+import type { Card } from '@fiction/site/card.js'
+import type { Site } from '@fiction/site/site.js'
+import type { JsonSchema7AllOfType, JsonSchema7ArrayType, JsonSchema7ObjectType, JsonSchema7Type } from 'zod-to-json-schema'
+import { z } from 'zod'
+import { CardOptionsWithStandardSchema, SiteUserConfigSchema } from '../schema.js'
 
-type RefineOptionsResult = {
-  options: InputOption[]
-  unusedSchema?: Record<string, string>
-  hiddenOptions: string[]
-  dotRecord?: Record<string, string>
-}
-export async function refineOptions<T extends z.AnyZodObject>(args: {
-  options: InputOption[]
-  schema?: T
-  templateId?: string
-}): Promise<RefineOptionsResult> {
-  const { options, schema } = args
+type JsonSchemaWithDefinitions = JsonSchema7Type & { definitions?: Record<string, JsonSchema7Type>, $ref: string }
 
-  // Return early if no schema is available
-  if (!schema)
-    return { options, unusedSchema: undefined, hiddenOptions: [] }
+export function filterAiOptions(args: { jsonSchema: JsonSchemaWithDefinitions, aiOptionsOnly?: boolean, caller?: string }): JsonSchemaWithDefinitions | undefined {
+  const { jsonSchema, aiOptionsOnly = true } = args
+  if (!aiOptionsOnly)
+    return jsonSchema
 
-  const dotRecord = await zodSchemaToDotPathRecord(schema)
+  const definitions = jsonSchema.definitions || {}
 
-  const hiddenOptions: string[] = []
+  function filterSchema(node: JsonSchemaWithDefinitions, isUnderUserConfig: boolean): any {
+    if (!node || typeof node !== 'object')
+      return node
 
-  // Simplified checkRecord to handle both normal paths and wildcard paths
-  const checkRecord = (path: string) => {
-    if (dotRecord[path]) {
-      const prompt = dotRecord[path]
-      delete dotRecord[path]
-      return prompt
+    // Handle $ref by resolving and filtering the referenced schema
+    if (node.$ref) {
+      const refKey = node.$ref.split('/').pop()
+      const refSchema = refKey ? definitions[refKey] : undefined
+      return refSchema ? filterSchema(refSchema as JsonSchemaWithDefinitions, isUnderUserConfig) : node
     }
 
-    // Handle wildcard paths
-    const wildcardBase = path.replace('.*', '')
-    const matches = Object.keys(dotRecord).filter(key => key.startsWith(wildcardBase))
+    // Handle objects
+    if ((node as JsonSchema7ObjectType).type === 'object') {
+      const typedNode = node as JsonSchema7ObjectType
+      const properties = Object.entries(typedNode.properties || {}).reduce((acc, [propName, propSchema]) => {
+        const nextUnderUserConfig = propName === 'userConfig' || isUnderUserConfig
+        const filtered = filterSchema(propSchema as JsonSchemaWithDefinitions, nextUnderUserConfig)
+        if (filtered)
+          acc[propName] = filtered
+        return acc
+      }, {} as Record<string, any>)
 
-    if (matches.length > 0) {
-      matches.forEach(key => delete dotRecord[key])
-      return matches.filter(Boolean).join(', ') || true
+      // Apply filtering only under userConfig
+      if (isUnderUserConfig) {
+        const filteredProps = Object.entries(properties).reduce((acc, [name, schema]) => {
+          const hasAi = schema.description?.includes('[@ai]')
+          if (schema.type === 'object' || (schema.type === 'array' && hasAi) || (['string', 'number', 'boolean'].includes(schema.type) && hasAi)) {
+            acc[name] = schema
+          }
+          return acc
+        }, {} as Record<string, any>)
+
+        return { ...typedNode, properties: filteredProps, required: typedNode.required?.filter((r: string) => r in filteredProps) }
+      }
+      return { ...typedNode, properties }
     }
 
-    hiddenOptions.push(path)
-    return false
+    // Handle arrays
+    if ((node as JsonSchema7ArrayType).type === 'array') {
+      const typedNode = node as JsonSchema7ArrayType
+      const _items = (typedNode.items || []) as JsonSchemaWithDefinitions[]
+
+      const items = _items?.map(item => filterSchema(item, isUnderUserConfig)) || []
+      return isUnderUserConfig && !node.description?.includes('[@ai') ? null : { ...node, items }
+    }
+
+    // Handle allOf composition
+    if ((node as JsonSchema7AllOfType).allOf) {
+      const typedNode = node as JsonSchema7AllOfType
+      return { ...typedNode, allOf: typedNode.allOf.map((sub: any) => filterSchema(sub, isUnderUserConfig)).filter(Boolean) }
+    }
+
+    return node
   }
 
-  const removeDotKeyParents = (key: string, basePath: string) => {
-    const parts = key.split('.')
+  return filterSchema(jsonSchema, false)
+}
+/**
+ * Converts a card to a Zod schema, optionally filtering to AI-only options
+ */
+export async function cardToZodSchema(args: {
+  card: Card
+}): Promise<z.ZodTypeAny> {
+  const { card } = args
+  let userConfigSchema = z.record(z.unknown())
 
-    const subPath = parts.slice(0, parts.length - 1).join('.')
+  const tpl = card.tpl.value
 
-    const path = basePath ? `${basePath}.${subPath}` : subPath
-
-    if (dotRecord[path])
-      delete dotRecord[path]
-
-    if (subPath.includes('.'))
-      removeDotKeyParents(subPath, basePath)
+  // Get schema from template if available
+  if (tpl) {
+    const { schema } = await tpl.getConfig({ site: card.site }) || {}
+    if (schema)
+      userConfigSchema = schema
   }
 
-  const refineOptionRecursive = (option: InputOption, basePath = '', parent?: InputOption) => {
-    const isGroup = option.input.value === 'group'
-    const key = option.key.value
-    // Check for a refinement based on the option's key
-    const path = basePath ? `${basePath}.${key}` : key
+  const describeClausFromTemplate = [
+    `${tpl?.settings.title} template`,
+    `${tpl?.settings.description}`,
+    `(${tpl?.settings.category})`,
+  ].join(' - ')
 
-    if (!isGroup) {
-      const optionIsUtility = option.settings.isUtility || parent?.settings.isUtility
+  return z.object({
+    cardId: z.literal(card.cardId),
+    userConfig: userConfigSchema.and(CardOptionsWithStandardSchema) || z.record(z.unknown()),
+  }).describe(describeClausFromTemplate)
+}
 
-      const result = checkRecord(path)
+/**
+ * Converts a page to a Zod schema, optionally filtering to AI-only options
+ */
+export async function pageToZodSchema(args: {
+  page: Card
+}): Promise<z.ZodTypeAny> {
+  const { page } = args
 
-      if (!isGroup && !optionIsUtility && !result)
-        option.isHidden.value = true
-
-      // option.generation.value = { ...option.generation.value }
-
-      // remove empty objects that dont need inputs
-      removeDotKeyParents(key, basePath)
-    }
-
-    // If the option is a group, refine its children
-    if (option.options?.value.length > 0) {
-      option.options.value.map(_ => refineOptionRecursive(_, !isGroup ? `${path}.0` : basePath, option))
-      return option
-    }
-    else if (option.shape.value.length > 0) {
-      const newShape: string[] = []
-
-      option.shape.value.forEach((k) => {
-        const shapePath = `${path}.${k}`
-
-        if (checkRecord(shapePath))
-          newShape.push(k)
-      })
-      option.shape.value = newShape
-    }
-
-    return option
+  // Get schema from template if available
+  let userConfigSchema = z.record(z.unknown())
+  if (page.tpl.value) {
+    const { schema } = await page.tpl.value.getConfig({ site: page.site }) || {}
+    if (schema)
+      userConfigSchema = schema
   }
 
-  return {
-    options: options.map(_ => refineOptionRecursive(_)),
-    unusedSchema: dotRecord,
-    dotRecord: await zodSchemaToDotPathRecord(schema),
-    hiddenOptions,
-  }
-}
+  // Generate schemas for child cards
+  const cardSchemas = await Promise.all(
+    page.cards.value.map(card => cardToZodSchema({ card })),
+  )
 
-export function collectKeysFromOptions(inputOptions: InputOption[] | readonly InputOption[]): string[] {
-  const collectKeys = (options: InputOption[] | readonly InputOption[], basePath = ''): string[] =>
-    options.flatMap((option) => {
-      const path = basePath ? `${basePath}.${option.key.value}` : option.key.value
-      // Recursively collect keys if there are nested options
-
-      if (option.options?.value.length > 0) {
-        return option.input.value !== 'group'
-          ? [path, ...collectKeys(option.options.value, `${path}.0`)]
-          : collectKeys(option.options.value)
-      }
-      else if (option.shape.value.length > 0) {
-        return [path, ...option.shape.value.map(k => `${path}.${k}`)]
-      }
-
-      return [path]
-    })
-
-  return collectKeys(inputOptions)
-}
-
-export type SimpleSchema = {
-  [key: string]: string | SimpleSchema | SimpleSchema[]
-}
-
-function simplifySchema(schema: JsonSchema7ObjectType): SimpleSchema {
-  const val = (value: any) => [value.type, value.description].filter(Boolean).join(', ')
-  // Recursively process each property to build a simplified structure
-  function processProperties(properties: JsonSchema7Type) {
-    return Object.entries(properties).reduce((acc, [key, value]) => {
-      if (value.properties) {
-        // Handle nested object properties
-        acc[`$${key}`] = val(value)
-        acc[key] = processProperties(value.properties)
-      }
-      else if (value.items && value.items.properties) {
-        // Handle nested properties in array items
-        acc[`$${key}`] = val(value)
-        acc[key] = [processProperties(value.items.properties)]
-      }
-      else {
-        // Store the description if available; otherwise, use the type
-        acc[key] = val(value)
-      }
-      return acc
-    }, {} as SimpleSchema)
-  }
-
-  // Start processing from the top-level properties if they exist
-  return schema.properties ? processProperties(schema.properties) : {}
-}
-
-function flattenSchema(schema: SimpleSchema | SimpleSchema[], prefix: string = ''): Record<string, string> {
-  const result: Record<string, string> = {}
-
-  Object.entries(schema).forEach(([key, value]) => {
-    const fullPath = prefix ? `${prefix}.${key}` : key
-    if (typeof value === 'object' && value !== null) {
-      Object.assign(result, flattenSchema(value, fullPath))
-    }
-    else {
-      const finalPath = fullPath.replace(/^\$|(?<=\.)\$/g, '')
-
-      // // Skip hidden keys / internal
-      // if (fullPath.startsWith('_')) {
-      //   console.log('STARTS WITH _', fullPath, finalPath || 'none', 'x')
-      // }
-
-      result[finalPath] = value || 'unknown'
-    }
+  return z.object({
+    cardId: z.literal(page.cardId),
+    cards: cardSchemas.length > 0
+      ? z.tuple(cardSchemas as [z.ZodTypeAny, ...z.ZodTypeAny[]])
+      : z.tuple([]),
+    userConfig: userConfigSchema.and(CardOptionsWithStandardSchema),
   })
-
-  return result
 }
 
-type DotPathOptions = {
-  removePlainObjects?: boolean
+/**
+ * Converts a site to a Zod schema, optionally filtering to AI-only options
+ */
+export async function siteToZodSchema(args: {
+  site: Site
+}): Promise<z.ZodTypeAny> {
+  const { site } = args
+
+  const standardPages = site.pages.value.filter(page => !page.isSystem.value)
+  const pageSchemas = await Promise.all(
+    standardPages.map(page => pageToZodSchema({ page })),
+  )
+
+  return z.object({
+    siteId: z.literal(site.siteId),
+    pages: pageSchemas.length > 0
+      ? z.tuple(pageSchemas as [z.ZodTypeAny, ...z.ZodTypeAny[]])
+      : z.tuple([]),
+  })
 }
 
-export function createDotPathRecord(schema: JsonSchema7ObjectType, options: DotPathOptions = {}): Record<string, string> {
-  const { removePlainObjects = false } = options
+/**
+ * Converts a site to a JSON schema, optionally filtering to AI-only options
+ */
+export async function siteToJsonSchema(args: {
+  site: Site
+  aiOptionsOnly?: boolean
+}): Promise<JsonSchema7Type | undefined> {
+  const { site, aiOptionsOnly = true } = args
+  const { default: zodToJsonSchema } = await import('zod-to-json-schema')
 
-  const simpleSchema = simplifySchema(schema)
+  const schema = await siteToZodSchema({ site })
+  const fullJsonSchema = zodToJsonSchema(schema, {
+    $refStrategy: 'root',
+    name: 'Site',
+  }) as JsonSchemaWithDefinitions
 
-  const flatSchema = flattenSchema(simpleSchema)
-
-  if (removePlainObjects) {
-    Object.entries(flatSchema).forEach(([key, value]) => {
-      if (value === 'object')
-        delete flatSchema[key]
+  if (aiOptionsOnly) {
+    const filteredSchema = filterAiOptions({
+      jsonSchema: fullJsonSchema,
+      aiOptionsOnly,
+      caller: 'siteToJsonSchema',
     })
+
+    return filteredSchema
   }
-
-  return flatSchema
-}
-
-export async function zodToSimpleSchema<T extends z.AnyZodObject>(schema: T): Promise<SimpleSchema> {
-  const { default: zodToJsonSchema } = await import('zod-to-json-schema')
-  return simplifySchema(zodToJsonSchema(schema, { $refStrategy: 'none' }) as JsonSchema7ObjectType)
-}
-
-export async function zodSchemaToDotPathRecord<T extends z.AnyZodObject>(schema: T, options: DotPathOptions = {}): Promise<Record<string, string>> {
-  const { default: zodToJsonSchema } = await import('zod-to-json-schema')
-  return createDotPathRecord(zodToJsonSchema(schema, { $refStrategy: 'none' }) as JsonSchema7ObjectType, options)
+  else {
+    return fullJsonSchema
+  }
 }

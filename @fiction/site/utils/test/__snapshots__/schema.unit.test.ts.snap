@@ -1,0 +1,2044 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`site and page schema > should return a JSON schema for the site 1`] = `
+{
+  "additionalProperties": false,
+  "properties": {
+    "pages": {
+      "items": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "cardId": {
+              "const": "crd67cb6baab69bfdeeaa7464ba",
+              "type": "string",
+            },
+            "cards": {
+              "items": [
+                {
+                  "additionalProperties": false,
+                  "description": "Profile & Bio Card template - Create compelling personal profiles with dynamic layouts combining professional photos, bio content, and social connections. Perfect for team pages, speaker bios, or personal websites. - (marketing,content)",
+                  "properties": {
+                    "cardId": {
+                      "const": "crd67cb6baa1b253d5a9ddc0420",
+                      "type": "string",
+                    },
+                    "userConfig": {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "action": {
+                              "additionalProperties": false,
+                              "description": "List of social media links [@ai]",
+                              "properties": {
+                                "buttons": {
+                                  "description": "Interactive buttons [@ai]",
+                                  "items": {
+                                    "additionalProperties": false,
+                                    "description": "ActionButtonSchema",
+                                    "properties": {
+                                      "design": {
+                                        "description": "Button visual style [@ai]",
+                                        "enum": [
+                                          "solid",
+                                          "ghost",
+                                          "outline",
+                                          "link",
+                                        ],
+                                        "type": "string",
+                                      },
+                                      "disabled": {
+                                        "type": "boolean",
+                                      },
+                                      "format": {
+                                        "enum": [
+                                          "block",
+                                          "spread",
+                                          "default",
+                                        ],
+                                        "type": "string",
+                                      },
+                                      "hover": {
+                                        "enum": [
+                                          "none",
+                                          "basic",
+                                          "rise",
+                                          "fade",
+                                          "slide",
+                                          "pop",
+                                        ],
+                                        "type": "string",
+                                      },
+                                      "href": {
+                                        "description": "Button link URL or /path [@ai]",
+                                        "type": "string",
+                                      },
+                                      "icon": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string",
+                                          },
+                                          {
+                                            "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon",
+                                          },
+                                        ],
+                                        "description": "Button icon [@ai]",
+                                      },
+                                      "iconAfter": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string",
+                                          },
+                                          {
+                                            "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon",
+                                          },
+                                        ],
+                                      },
+                                      "label": {
+                                        "description": "Button text [@ai]",
+                                        "type": "string",
+                                      },
+                                      "loading": {
+                                        "type": "boolean",
+                                      },
+                                      "rounding": {
+                                        "enum": [
+                                          "none",
+                                          "md",
+                                          "full",
+                                        ],
+                                        "type": "string",
+                                      },
+                                      "size": {
+                                        "description": "Button size",
+                                        "enum": [
+                                          "xxs",
+                                          "xs",
+                                          "sm",
+                                          "md",
+                                          "lg",
+                                          "xl",
+                                          "2xl",
+                                        ],
+                                        "type": "string",
+                                      },
+                                      "target": {
+                                        "description": "Link target [@ai]",
+                                        "enum": [
+                                          "_blank",
+                                          "_self",
+                                        ],
+                                        "type": "string",
+                                      },
+                                      "testId": {
+                                        "type": "string",
+                                      },
+                                      "theme": {
+                                        "description": "Button color scheme [@ai]",
+                                        "enum": [
+                                          "theme",
+                                          "primary",
+                                          "default",
+                                          "overlay",
+                                          "naked",
+                                          "teal",
+                                          "cyan",
+                                          "sky",
+                                          "blue",
+                                          "indigo",
+                                          "violet",
+                                          "purple",
+                                          "fuchsia",
+                                          "pink",
+                                          "rose",
+                                          "red",
+                                          "orange",
+                                          "amber",
+                                          "yellow",
+                                          "lime",
+                                          "green",
+                                          "emerald",
+                                          "slate",
+                                          "gray",
+                                          "zinc",
+                                          "neutral",
+                                          "stone",
+                                          "black",
+                                          "white",
+                                        ],
+                                        "type": "string",
+                                      },
+                                      "type": {
+                                        "enum": [
+                                          "button",
+                                          "submit",
+                                          "reset",
+                                        ],
+                                        "type": "string",
+                                      },
+                                    },
+                                    "type": "object",
+                                  },
+                                  "type": "array",
+                                },
+                                "design": {
+                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/action/properties/buttons/items/properties/design",
+                                  "description": "Visual style",
+                                },
+                                "proof": {
+                                  "additionalProperties": false,
+                                  "description": "Trust indicators",
+                                  "properties": {
+                                    "community": {
+                                      "additionalProperties": false,
+                                      "description": "Social proof display",
+                                      "properties": {
+                                        "count": {
+                                          "description": "Community size",
+                                          "type": "number",
+                                        },
+                                        "isEnabled": {
+                                          "description": "Show social proof",
+                                          "type": "boolean",
+                                        },
+                                        "text": {
+                                          "description": "Social proof message ",
+                                          "type": "string",
+                                        },
+                                        "thumbCount": {
+                                          "description": "Avatar count to show",
+                                          "type": "number",
+                                        },
+                                      },
+                                      "type": "object",
+                                    },
+                                  },
+                                  "type": "object",
+                                },
+                                "size": {
+                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/action/properties/buttons/items/properties/size",
+                                  "description": "Component size",
+                                },
+                                "subscribe": {
+                                  "additionalProperties": false,
+                                  "description": "Email capture settings [@ai]",
+                                  "properties": {
+                                    "button": {
+                                      "additionalProperties": false,
+                                      "description": "buttons [@ai]",
+                                      "properties": {
+                                        "icon": {
+                                          "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon",
+                                          "description": "Button icon [@ai]",
+                                        },
+                                        "label": {
+                                          "description": "Button text [@ai]",
+                                          "type": "string",
+                                        },
+                                      },
+                                      "type": "object",
+                                    },
+                                    "input": {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "placeholder": {
+                                          "description": "Email input placeholder [@ai]",
+                                          "type": "string",
+                                        },
+                                      },
+                                      "type": "object",
+                                    },
+                                    "success": {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "content": {
+                                          "description": "Success message content [@ai]",
+                                          "type": "string",
+                                        },
+                                        "title": {
+                                          "description": "Success message title [@ai]",
+                                          "type": "string",
+                                        },
+                                      },
+                                      "type": "object",
+                                    },
+                                  },
+                                  "type": "object",
+                                },
+                                "theme": {
+                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/action/properties/buttons/items/properties/theme",
+                                  "description": "Color scheme",
+                                },
+                                "title": {
+                                  "description": "Header text above actions [@ai]",
+                                  "type": "string",
+                                },
+                                "variant": {
+                                  "description": "Action type format [@ai]",
+                                  "enum": [
+                                    "buttons",
+                                    "subscribe",
+                                  ],
+                                  "type": "string",
+                                },
+                              },
+                              "type": "object",
+                            },
+                            "content": {
+                              "description": "Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs [@ai]",
+                              "type": "string",
+                            },
+                            "details": {
+                              "description": "List of details with contact details, location, etc. [@ai]",
+                              "items": {
+                                "additionalProperties": false,
+                                "description": "NavListItemSchema",
+                                "properties": {
+                                  "href": {
+                                    "description": "Navigation URL - internal path or external link",
+                                    "type": "string",
+                                  },
+                                  "icon": {
+                                    "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon",
+                                    "description": "Leading icon shown before the label",
+                                  },
+                                  "label": {
+                                    "description": "Primary text displayed for the item (e.g., "Products") [@ai]",
+                                    "type": "string",
+                                  },
+                                  "value": {
+                                    "description": "Value associated with the item [@ai]",
+                                    "type": [
+                                      "string",
+                                      "number",
+                                    ],
+                                  },
+                                },
+                                "type": "object",
+                              },
+                              "type": "array",
+                            },
+                            "detailsTitle": {
+                              "description": "Title for list of details [@ai]",
+                              "type": "string",
+                            },
+                            "layout": {
+                              "description": "Media on left or right",
+                              "enum": [
+                                "left",
+                                "right",
+                              ],
+                              "type": "string",
+                            },
+                            "mediaItems": {
+                              "description": "Splash pictures in portrait format",
+                              "items": {
+                                "additionalProperties": false,
+                                "description": "NavListItemSchema",
+                                "properties": {
+                                  "media": {
+                                    "additionalProperties": false,
+                                    "description": "Media content shown with the item",
+                                    "properties": {
+                                      "alt": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/alt",
+                                      },
+                                      "aspect": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/aspect",
+                                      },
+                                      "backgroundColor": {
+                                        "type": "string",
+                                      },
+                                      "backgroundPosition": {
+                                        "enum": [
+                                          "center",
+                                          "top",
+                                          "bottom",
+                                          "left",
+                                          "right",
+                                        ],
+                                        "type": "string",
+                                      },
+                                      "backgroundRepeat": {
+                                        "enum": [
+                                          "repeat",
+                                          "no-repeat",
+                                          "repeat-x",
+                                          "repeat-y",
+                                        ],
+                                        "type": "string",
+                                      },
+                                      "backgroundSize": {
+                                        "enum": [
+                                          "cover",
+                                          "contain",
+                                          "auto",
+                                        ],
+                                        "type": "string",
+                                      },
+                                      "blurhash": {
+                                        "type": "string",
+                                      },
+                                      "caption": {
+                                        "type": "string",
+                                      },
+                                      "class": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/class",
+                                      },
+                                      "displayHeightPercent": {
+                                        "type": "number",
+                                      },
+                                      "displayWidthPercent": {
+                                        "type": "number",
+                                      },
+                                      "el": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/el",
+                                      },
+                                      "filters": {
+                                        "items": {
+                                          "additionalProperties": false,
+                                          "properties": {
+                                            "filter": {
+                                              "enum": [
+                                                "brightness",
+                                                "opacity",
+                                                "contrast",
+                                                "blur",
+                                                "grayscale",
+                                                "sepia",
+                                                "saturate",
+                                                "invert",
+                                                "hue-rotate",
+                                              ],
+                                              "type": "string",
+                                            },
+                                            "percent": {
+                                              "maximum": 100,
+                                              "minimum": 0,
+                                              "type": "number",
+                                            },
+                                            "value": {
+                                              "type": "string",
+                                            },
+                                          },
+                                          "type": "object",
+                                        },
+                                        "type": "array",
+                                      },
+                                      "format": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/format",
+                                      },
+                                      "gradient": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                          "angle": {
+                                            "maximum": 360,
+                                            "minimum": 0,
+                                            "type": "number",
+                                          },
+                                          "css": {
+                                            "type": "string",
+                                          },
+                                          "stops": {
+                                            "items": {
+                                              "additionalProperties": false,
+                                              "properties": {
+                                                "color": {
+                                                  "type": "string",
+                                                },
+                                                "opacity": {
+                                                  "maximum": 1,
+                                                  "minimum": 0,
+                                                  "type": "number",
+                                                },
+                                                "position": {
+                                                  "maximum": 100,
+                                                  "minimum": 0,
+                                                  "type": "number",
+                                                },
+                                                "scale": {
+                                                  "enum": [
+                                                    0,
+                                                    25,
+                                                    50,
+                                                    100,
+                                                    200,
+                                                    300,
+                                                    400,
+                                                    500,
+                                                    600,
+                                                    700,
+                                                    800,
+                                                    900,
+                                                    950,
+                                                    975,
+                                                    1000,
+                                                  ],
+                                                  "type": "number",
+                                                },
+                                                "theme": {
+                                                  "enum": [
+                                                    "theme",
+                                                    "primary",
+                                                    "default",
+                                                    "overlay",
+                                                    "naked",
+                                                    "teal",
+                                                    "cyan",
+                                                    "sky",
+                                                    "blue",
+                                                    "indigo",
+                                                    "violet",
+                                                    "purple",
+                                                    "fuchsia",
+                                                    "pink",
+                                                    "rose",
+                                                    "red",
+                                                    "orange",
+                                                    "amber",
+                                                    "yellow",
+                                                    "lime",
+                                                    "green",
+                                                    "emerald",
+                                                    "slate",
+                                                    "gray",
+                                                    "zinc",
+                                                    "neutral",
+                                                    "stone",
+                                                    "black",
+                                                    "white",
+                                                    "themeInverted",
+                                                    "primaryInverted",
+                                                    "defaultInverted",
+                                                    "overlayInverted",
+                                                    "nakedInverted",
+                                                    "tealInverted",
+                                                    "cyanInverted",
+                                                    "skyInverted",
+                                                    "blueInverted",
+                                                    "indigoInverted",
+                                                    "violetInverted",
+                                                    "purpleInverted",
+                                                    "fuchsiaInverted",
+                                                    "pinkInverted",
+                                                    "roseInverted",
+                                                    "redInverted",
+                                                    "orangeInverted",
+                                                    "amberInverted",
+                                                    "yellowInverted",
+                                                    "limeInverted",
+                                                    "greenInverted",
+                                                    "emeraldInverted",
+                                                    "slateInverted",
+                                                    "grayInverted",
+                                                    "zincInverted",
+                                                    "neutralInverted",
+                                                    "stoneInverted",
+                                                    "blackInverted",
+                                                    "whiteInverted",
+                                                  ],
+                                                  "type": "string",
+                                                },
+                                              },
+                                              "type": "object",
+                                            },
+                                            "type": "array",
+                                          },
+                                          "type": {
+                                            "enum": [
+                                              "linear",
+                                              "radial",
+                                              "conic",
+                                            ],
+                                            "type": "string",
+                                          },
+                                        },
+                                        "type": "object",
+                                      },
+                                      "height": {
+                                        "type": "number",
+                                      },
+                                      "html": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/html",
+                                      },
+                                      "iconId": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/iconId",
+                                      },
+                                      "mime": {
+                                        "type": "string",
+                                      },
+                                      "modify": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                          "flip": {
+                                            "enum": [
+                                              "horizontal",
+                                              "vertical",
+                                            ],
+                                            "type": "string",
+                                          },
+                                        },
+                                        "type": "object",
+                                      },
+                                      "overlay": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                          "blendMode": {
+                                            "enum": [
+                                              "normal",
+                                              "multiply",
+                                              "screen",
+                                              "overlay",
+                                              "darken",
+                                              "lighten",
+                                              "color-dodge",
+                                              "color-burn",
+                                              "hard-light",
+                                              "soft-light",
+                                              "difference",
+                                              "exclusion",
+                                              "hue",
+                                              "saturation",
+                                              "color",
+                                              "luminosity",
+                                            ],
+                                            "type": "string",
+                                          },
+                                          "color": {
+                                            "type": "string",
+                                          },
+                                          "gradient": {
+                                            "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/mediaItems/items/properties/media/properties/gradient",
+                                          },
+                                          "opacity": {
+                                            "maximum": 100,
+                                            "minimum": 0,
+                                            "type": "number",
+                                          },
+                                        },
+                                        "type": "object",
+                                      },
+                                      "props": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/props",
+                                      },
+                                      "tags": {
+                                        "items": {
+                                          "type": "string",
+                                        },
+                                        "type": "array",
+                                      },
+                                      "thumbUrl": {
+                                        "type": "string",
+                                      },
+                                      "url": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/url",
+                                      },
+                                      "videoControls": {
+                                        "additionalProperties": false,
+                                        "description": "Video playback controls",
+                                        "properties": {
+                                          "autoplay": {
+                                            "type": "boolean",
+                                          },
+                                          "controls": {
+                                            "type": "boolean",
+                                          },
+                                          "freeze": {
+                                            "additionalProperties": false,
+                                            "description": "Video freeze settings",
+                                            "properties": {
+                                              "playOnHover": {
+                                                "description": "Play on hover, freeze on blur",
+                                                "type": "boolean",
+                                              },
+                                              "time": {
+                                                "description": "Time in seconds to freeze video",
+                                                "type": "number",
+                                              },
+                                            },
+                                            "type": "object",
+                                          },
+                                          "loop": {
+                                            "type": "boolean",
+                                          },
+                                          "muted": {
+                                            "type": "boolean",
+                                          },
+                                          "playbackRate": {
+                                            "maximum": 16,
+                                            "minimum": 0.1,
+                                            "type": "number",
+                                          },
+                                          "playsinline": {
+                                            "type": "boolean",
+                                          },
+                                          "poster": {
+                                            "type": "string",
+                                          },
+                                          "preload": {
+                                            "enum": [
+                                              "none",
+                                              "metadata",
+                                              "auto",
+                                            ],
+                                            "type": "string",
+                                          },
+                                        },
+                                        "type": "object",
+                                      },
+                                      "width": {
+                                        "type": "number",
+                                      },
+                                    },
+                                    "type": "object",
+                                  },
+                                },
+                                "type": "object",
+                              },
+                              "type": "array",
+                            },
+                            "superTitle": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "href": {
+                                  "description": "Link URL [@ai]",
+                                  "type": "string",
+                                },
+                                "icon": {
+                                  "additionalProperties": false,
+                                  "description": "Visual indicator icon [@ai]",
+                                  "properties": {
+                                    "alt": {
+                                      "type": "string",
+                                    },
+                                    "aspect": {
+                                      "enum": [
+                                        "square",
+                                        "portrait",
+                                        "landscape",
+                                        "golden",
+                                        "wide",
+                                        "tall",
+                                        "cinema",
+                                        "panorama",
+                                      ],
+                                      "type": "string",
+                                    },
+                                    "class": {
+                                      "description": "tabler iconify class i-tabler-[icon-name]",
+                                      "type": "string",
+                                    },
+                                    "el": {},
+                                    "format": {
+                                      "enum": [
+                                        "url",
+                                        "image",
+                                        "video",
+                                        "iframe",
+                                        "html",
+                                        "component",
+                                        "iconId",
+                                        "iconClass",
+                                        "typography",
+                                      ],
+                                      "type": "string",
+                                    },
+                                    "html": {
+                                      "type": "string",
+                                    },
+                                    "iconId": {
+                                      "description": "iconId is common icon name (e.g. user, check, lock)",
+                                      "type": "string",
+                                    },
+                                    "props": {
+                                      "additionalProperties": {},
+                                      "type": "object",
+                                    },
+                                    "url": {
+                                      "type": "string",
+                                    },
+                                  },
+                                  "type": "object",
+                                },
+                                "text": {
+                                  "description": "Short text above main title [@ai]",
+                                  "type": "string",
+                                },
+                                "theme": {
+                                  "description": "Color style",
+                                  "enum": [
+                                    "theme",
+                                    "primary",
+                                    "default",
+                                    "overlay",
+                                    "naked",
+                                    "teal",
+                                    "cyan",
+                                    "sky",
+                                    "blue",
+                                    "indigo",
+                                    "violet",
+                                    "purple",
+                                    "fuchsia",
+                                    "pink",
+                                    "rose",
+                                    "red",
+                                    "orange",
+                                    "amber",
+                                    "yellow",
+                                    "lime",
+                                    "green",
+                                    "emerald",
+                                    "slate",
+                                    "gray",
+                                    "zinc",
+                                    "neutral",
+                                    "stone",
+                                    "black",
+                                    "white",
+                                  ],
+                                  "type": "string",
+                                },
+                              },
+                              "type": "object",
+                            },
+                            "title": {
+                              "description": "Primary headline for profile 3 to 8 words [@ai]",
+                              "type": "string",
+                            },
+                          },
+                          "type": "object",
+                        },
+                        {
+                          "properties": {
+                            "standard": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "ai": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "fields": {
+                                      "additionalProperties": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                          "isUserEnabled": {
+                                            "type": "boolean",
+                                          },
+                                          "prompt": {
+                                            "type": "string",
+                                          },
+                                        },
+                                        "type": "object",
+                                      },
+                                      "type": "object",
+                                    },
+                                    "prompt": {
+                                      "type": "string",
+                                    },
+                                  },
+                                  "type": "object",
+                                },
+                                "background": {
+                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/mediaItems/items/properties/media",
+                                  "description": "MediaBasicSchema",
+                                },
+                                "backgroundAlt": {
+                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/mediaItems/items/properties/media",
+                                  "description": "MediaBasicSchema",
+                                },
+                                "fonts": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "body": {
+                                      "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/1/properties/standard/properties/fonts/properties/title",
+                                    },
+                                    "highlight": {
+                                      "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/1/properties/standard/properties/fonts/properties/title",
+                                    },
+                                    "title": {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "family": {
+                                          "type": "string",
+                                        },
+                                        "weight": {
+                                          "enum": [
+                                            "400",
+                                            "500",
+                                            "600",
+                                            "700",
+                                            "800",
+                                          ],
+                                          "type": "string",
+                                        },
+                                      },
+                                      "type": "object",
+                                    },
+                                  },
+                                  "type": "object",
+                                },
+                                "headers": {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "layout": {
+                                      "enum": [
+                                        "left",
+                                        "right",
+                                        "center",
+                                        "justify",
+                                        "inline",
+                                      ],
+                                      "type": "string",
+                                    },
+                                    "size": {
+                                      "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/1/properties/standard/properties/widthSize",
+                                    },
+                                    "subTitle": {
+                                      "type": "string",
+                                    },
+                                    "superTitle": {
+                                      "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle",
+                                    },
+                                    "title": {
+                                      "type": "string",
+                                    },
+                                  },
+                                  "type": "object",
+                                },
+                                "hideOnPage": {
+                                  "type": "boolean",
+                                },
+                                "invertColorScheme": {
+                                  "type": "boolean",
+                                },
+                                "primaryColor": {
+                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/mediaItems/items/properties/media/properties/gradient/properties/stops/items/properties/theme",
+                                },
+                                "primaryColorAlt": {
+                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/mediaItems/items/properties/media/properties/gradient/properties/stops/items/properties/theme",
+                                },
+                                "showOnSingle": {
+                                  "type": "boolean",
+                                },
+                                "spaceSize": {
+                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/1/properties/standard/properties/widthSize",
+                                },
+                                "themeColor": {
+                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/mediaItems/items/properties/media/properties/gradient/properties/stops/items/properties/theme",
+                                },
+                                "themeColorAlt": {
+                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/mediaItems/items/properties/media/properties/gradient/properties/stops/items/properties/theme",
+                                },
+                                "widthSize": {
+                                  "enum": [
+                                    "none",
+                                    "full",
+                                    "xxs",
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                    "2xl",
+                                  ],
+                                  "type": "string",
+                                },
+                              },
+                              "type": "object",
+                            },
+                          },
+                          "type": "object",
+                        },
+                      ],
+                    },
+                  },
+                  "required": [
+                    "cardId",
+                    "userConfig",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "additionalProperties": false,
+                  "description": "Bento Grid template - Create visually striking layouts with a flexible grid system that combines images, text, and interactive elements. Perfect for showcasing features, portfolios, or content collections in an engaging masonry-style format. - (layout,content)",
+                  "properties": {
+                    "cardId": {
+                      "const": "crd67cb6baa15bd7ea9b1d96c17",
+                      "type": "string",
+                    },
+                    "userConfig": {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "animate": {
+                              "description": "Animation style for box appearance",
+                              "enum": [
+                                "expand",
+                                "swipe",
+                                "",
+                              ],
+                              "type": "string",
+                            },
+                            "gapSize": {
+                              "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/action/properties/buttons/items/properties/size",
+                              "description": "Spacing between boxes",
+                            },
+                            "items": {
+                              "description": "Collection of content boxes in grid layout [@ai]",
+                              "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "action": {
+                                    "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/action",
+                                    "description": "Add buttons or interactive elements [@ai]",
+                                  },
+                                  "bg": {
+                                    "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/mediaItems/items/properties/media",
+                                    "description": "Background image or video [@ai]",
+                                  },
+                                  "cols": {
+                                    "description": "Box width in columns (1-12)",
+                                    "maximum": 12,
+                                    "minimum": 1,
+                                    "type": "number",
+                                  },
+                                  "content": {
+                                    "description": "Supporting text that expands on your title - aim for 1-2 sentences [@ai]",
+                                    "type": "string",
+                                  },
+                                  "horizontalPosition": {
+                                    "description": "Horizontal content alignment",
+                                    "enum": [
+                                      "left",
+                                      "center",
+                                      "right",
+                                    ],
+                                    "type": "string",
+                                  },
+                                  "href": {
+                                    "description": "Make entire box clickable",
+                                    "type": "string",
+                                  },
+                                  "media": {
+                                    "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/mediaItems/items/properties/media",
+                                    "description": "Visual content to display in this box [@ai]",
+                                  },
+                                  "rows": {
+                                    "description": "Box height in rows (1-12)",
+                                    "maximum": 12,
+                                    "minimum": 1,
+                                    "type": "number",
+                                  },
+                                  "superTitle": {
+                                    "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle",
+                                    "description": "Short attention-grabbing text above title [@ai]",
+                                  },
+                                  "theme": {
+                                    "description": "Color theme for this box",
+                                    "enum": [
+                                      "theme",
+                                      "primary",
+                                      "default",
+                                      "overlay",
+                                      "naked",
+                                      "teal",
+                                      "cyan",
+                                      "sky",
+                                      "blue",
+                                      "indigo",
+                                      "violet",
+                                      "purple",
+                                      "fuchsia",
+                                      "pink",
+                                      "rose",
+                                      "red",
+                                      "orange",
+                                      "amber",
+                                      "yellow",
+                                      "lime",
+                                      "green",
+                                      "emerald",
+                                      "slate",
+                                      "gray",
+                                      "zinc",
+                                      "neutral",
+                                      "stone",
+                                      "black",
+                                      "white",
+                                    ],
+                                    "type": "string",
+                                  },
+                                  "themeMode": {
+                                    "description": "Adjust content contrast against background",
+                                    "enum": [
+                                      "light",
+                                      "dark",
+                                      "auto",
+                                    ],
+                                    "type": "string",
+                                  },
+                                  "title": {
+                                    "description": "Main headline for this content box [@ai]",
+                                    "type": "string",
+                                  },
+                                  "verticalPosition": {
+                                    "description": "Vertical content alignment",
+                                    "enum": [
+                                      "top",
+                                      "center",
+                                      "bottom",
+                                    ],
+                                    "type": "string",
+                                  },
+                                },
+                                "type": "object",
+                              },
+                              "type": "array",
+                            },
+                          },
+                          "required": [
+                            "items",
+                          ],
+                          "type": "object",
+                        },
+                        {
+                          "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/1",
+                        },
+                      ],
+                    },
+                  },
+                  "required": [
+                    "cardId",
+                    "userConfig",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "additionalProperties": false,
+                  "description": "Elegant Quotes template - Transform customer testimonials into compelling social proof that builds trust and drives conversions. Perfect for showcasing client success stories, expert endorsements, and team perspectives. - (content,marketing)",
+                  "properties": {
+                    "cardId": {
+                      "const": "crd67cb6baa6df001102e86275d",
+                      "type": "string",
+                    },
+                    "userConfig": {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "items": {
+                              "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "action": {
+                                    "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/action",
+                                  },
+                                  "author": {
+                                    "additionalProperties": false,
+                                    "description": "NavListItemSchema",
+                                    "properties": {
+                                      "href": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/details/items/properties/href",
+                                      },
+                                      "label": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/details/items/properties/label",
+                                      },
+                                      "media": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/mediaItems/items/properties/media",
+                                      },
+                                      "subLabel": {
+                                        "description": "Secondary text shown below label for additional context [@ai]",
+                                        "type": "string",
+                                      },
+                                    },
+                                    "type": "object",
+                                  },
+                                  "layout": {
+                                    "enum": [
+                                      "standard",
+                                      "compact",
+                                      "featured",
+                                    ],
+                                    "type": "string",
+                                  },
+                                  "org": {
+                                    "additionalProperties": false,
+                                    "description": "NavListItemSchema",
+                                    "properties": {
+                                      "href": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/details/items/properties/href",
+                                      },
+                                      "label": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/details/items/properties/label",
+                                      },
+                                      "media": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/mediaItems/items/properties/media",
+                                      },
+                                      "subLabel": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/2/properties/userConfig/allOf/0/properties/items/items/properties/author/properties/subLabel",
+                                      },
+                                    },
+                                    "type": "object",
+                                  },
+                                  "text": {
+                                    "type": "string",
+                                  },
+                                  "theme": {
+                                    "enum": [
+                                      "theme",
+                                      "primary",
+                                      "default",
+                                      "overlay",
+                                      "naked",
+                                      "teal",
+                                      "cyan",
+                                      "sky",
+                                      "blue",
+                                      "indigo",
+                                      "violet",
+                                      "purple",
+                                      "fuchsia",
+                                      "pink",
+                                      "rose",
+                                      "red",
+                                      "orange",
+                                      "amber",
+                                      "yellow",
+                                      "lime",
+                                      "green",
+                                      "emerald",
+                                      "slate",
+                                      "gray",
+                                      "zinc",
+                                      "neutral",
+                                      "stone",
+                                      "black",
+                                      "white",
+                                    ],
+                                    "type": "string",
+                                  },
+                                },
+                                "type": "object",
+                              },
+                              "type": "array",
+                            },
+                          },
+                          "type": "object",
+                        },
+                        {
+                          "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/1",
+                        },
+                      ],
+                    },
+                  },
+                  "required": [
+                    "cardId",
+                    "userConfig",
+                  ],
+                  "type": "object",
+                },
+              ],
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array",
+            },
+            "userConfig": {
+              "allOf": [
+                {
+                  "properties": {
+                    "fixedHeader": {
+                      "type": "boolean",
+                    },
+                  },
+                  "type": "object",
+                },
+                {
+                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/1",
+                },
+              ],
+            },
+          },
+          "required": [
+            "cardId",
+            "cards",
+            "userConfig",
+          ],
+          "type": "object",
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "cardId": {
+              "const": "crd67cb6baad79591de1bef5481",
+              "type": "string",
+            },
+            "cards": {
+              "items": [
+                {
+                  "additionalProperties": false,
+                  "description": "Magazine Posts template - Transform your blog into a visually stunning magazine with customizable layouts, featured posts, and rich media integration. Perfect for showcasing editorial content, news articles, and thought leadership pieces with style. - (posts)",
+                  "properties": {
+                    "cardId": {
+                      "const": "crd67cb6baaf1503dbc6a5071aa",
+                      "type": "string",
+                    },
+                    "userConfig": {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "index": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "featuredCount": {
+                                  "description": "Number of featured posts to display prominently",
+                                  "type": "number",
+                                },
+                                "showAuthors": {
+                                  "description": "Display author information",
+                                  "type": "boolean",
+                                },
+                                "showDates": {
+                                  "description": "Show publication dates",
+                                  "type": "boolean",
+                                },
+                                "showExcerpts": {
+                                  "description": "Show post excerpts in grid",
+                                  "type": "boolean",
+                                },
+                                "showReadTime": {
+                                  "description": "Display estimated reading time",
+                                  "type": "boolean",
+                                },
+                              },
+                              "type": "object",
+                            },
+                            "posts": {
+                              "additionalProperties": false,
+                              "description": "Blog post configuration and handling",
+                              "properties": {
+                                "entries": {
+                                  "description": "Local post entries [@ai]",
+                                  "items": {
+                                    "additionalProperties": false,
+                                    "description": "PostSchema",
+                                    "properties": {
+                                      "action": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/action",
+                                        "description": "Interactive buttons [@ai]",
+                                      },
+                                      "authors": {
+                                        "description": "Content creators",
+                                        "items": {
+                                          "additionalProperties": false,
+                                          "properties": {
+                                            "avatar": {
+                                              "additionalProperties": false,
+                                              "description": "MediaBasicSchema",
+                                              "properties": {
+                                                "alt": {
+                                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/alt",
+                                                },
+                                                "aspect": {
+                                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/aspect",
+                                                },
+                                                "el": {
+                                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/el",
+                                                },
+                                                "format": {
+                                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/format",
+                                                },
+                                                "html": {
+                                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/html",
+                                                },
+                                                "props": {
+                                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/props",
+                                                },
+                                                "url": {
+                                                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon/properties/url",
+                                                },
+                                              },
+                                              "type": "object",
+                                            },
+                                            "email": {
+                                              "type": "string",
+                                            },
+                                            "fullName": {
+                                              "type": "string",
+                                            },
+                                            "title": {
+                                              "type": "string",
+                                            },
+                                            "websiteUrl": {
+                                              "type": "string",
+                                            },
+                                          },
+                                          "type": "object",
+                                        },
+                                        "type": "array",
+                                      },
+                                      "categories": {
+                                        "description": "Content groupings [@ai]",
+                                        "items": {
+                                          "type": "string",
+                                        },
+                                        "type": "array",
+                                      },
+                                      "content": {
+                                        "description": "Main content in HTML/Markdown [@ai]",
+                                        "type": "string",
+                                      },
+                                      "dateAt": {
+                                        "description": "Publish date",
+                                        "type": "string",
+                                      },
+                                      "emphasis": {
+                                        "description": "Display prominence level",
+                                        "enum": [
+                                          "default",
+                                          "highlighted",
+                                          "muted",
+                                        ],
+                                        "type": "string",
+                                      },
+                                      "excerpt": {
+                                        "description": "Brief summary for previews [@ai]",
+                                        "type": "string",
+                                      },
+                                      "href": {
+                                        "description": "Content permalink",
+                                        "type": "string",
+                                      },
+                                      "icon": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle/properties/icon",
+                                        "description": "List view icon [@ai]",
+                                      },
+                                      "media": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/mediaItems/items/properties/media",
+                                        "description": "Featured image/video [@ai]",
+                                      },
+                                      "publishAt": {
+                                        "description": "Scheduled publish date",
+                                        "type": "string",
+                                      },
+                                      "slug": {
+                                        "description": "URL-friendly title",
+                                        "type": "string",
+                                      },
+                                      "status": {
+                                        "description": "Publication state",
+                                        "enum": [
+                                          "draft",
+                                          "scheduled",
+                                          "processing",
+                                          "failed",
+                                          "published",
+                                          "archived",
+                                          "deleted",
+                                        ],
+                                        "type": "string",
+                                      },
+                                      "subTitle": {
+                                        "description": "Supporting headline [@ai]",
+                                        "type": "string",
+                                      },
+                                      "superTitle": {
+                                        "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle",
+                                        "description": "Small header text above title [@ai]",
+                                      },
+                                      "tags": {
+                                        "description": "Topic labels [@ai]",
+                                        "items": {
+                                          "type": "string",
+                                        },
+                                        "type": "array",
+                                      },
+                                      "testId": {
+                                        "description": "Test ID for automated testing",
+                                        "type": "string",
+                                      },
+                                      "theme": {
+                                        "description": "Color theme [@ai]",
+                                        "enum": [
+                                          "theme",
+                                          "primary",
+                                          "default",
+                                          "overlay",
+                                          "naked",
+                                          "teal",
+                                          "cyan",
+                                          "sky",
+                                          "blue",
+                                          "indigo",
+                                          "violet",
+                                          "purple",
+                                          "fuchsia",
+                                          "pink",
+                                          "rose",
+                                          "red",
+                                          "orange",
+                                          "amber",
+                                          "yellow",
+                                          "lime",
+                                          "green",
+                                          "emerald",
+                                          "slate",
+                                          "gray",
+                                          "zinc",
+                                          "neutral",
+                                          "stone",
+                                          "black",
+                                          "white",
+                                        ],
+                                        "type": "string",
+                                      },
+                                      "title": {
+                                        "description": "Primary headline [@ai]",
+                                        "type": "string",
+                                      },
+                                      "userConfig": {
+                                        "additionalProperties": false,
+                                        "description": "Custom settings",
+                                        "properties": {
+                                          "isContentCompletionDisabled": {
+                                            "type": "boolean",
+                                          },
+                                          "seo": {
+                                            "additionalProperties": false,
+                                            "description": "Search engine and social media optimization settings",
+                                            "properties": {
+                                              "description": {
+                                                "description": "Meta description for search engines and social sharing",
+                                                "type": "string",
+                                              },
+                                              "title": {
+                                                "description": "Custom SEO title, defaults to post title if not specified",
+                                                "type": "string",
+                                              },
+                                            },
+                                            "type": "object",
+                                          },
+                                        },
+                                        "type": "object",
+                                      },
+                                    },
+                                    "type": "object",
+                                  },
+                                  "type": "array",
+                                },
+                                "format": {
+                                  "description": "Global or inline posts source",
+                                  "enum": [
+                                    "standard",
+                                    "local",
+                                  ],
+                                  "type": "string",
+                                },
+                                "limit": {
+                                  "description": "Max posts to show",
+                                  "type": "number",
+                                },
+                                "offset": {
+                                  "description": "Number of posts to skip",
+                                  "type": "number",
+                                },
+                                "query": {
+                                  "additionalProperties": false,
+                                  "description": "Filter and sort options [@ai]",
+                                  "properties": {
+                                    "dateRange": {
+                                      "additionalProperties": false,
+                                      "description": "Date filter range",
+                                      "properties": {
+                                        "end": {
+                                          "format": "date-time",
+                                          "type": "string",
+                                        },
+                                        "start": {
+                                          "format": "date-time",
+                                          "type": "string",
+                                        },
+                                      },
+                                      "type": "object",
+                                    },
+                                    "filters": {
+                                      "description": "OR-based filter groups [@ai]",
+                                      "items": {
+                                        "items": {
+                                          "additionalProperties": false,
+                                          "properties": {
+                                            "field": {
+                                              "type": "string",
+                                            },
+                                            "operator": {
+                                              "enum": [
+                                                "=",
+                                                "!=",
+                                                ">",
+                                                "<",
+                                                ">=",
+                                                "<=",
+                                                "like",
+                                                "not like",
+                                                "in",
+                                                "not in",
+                                              ],
+                                              "type": "string",
+                                            },
+                                            "value": {
+                                              "anyOf": [
+                                                {
+                                                  "type": "string",
+                                                },
+                                                {
+                                                  "type": "number",
+                                                },
+                                                {
+                                                  "items": {
+                                                    "type": [
+                                                      "string",
+                                                      "number",
+                                                    ],
+                                                  },
+                                                  "type": "array",
+                                                },
+                                              ],
+                                            },
+                                          },
+                                          "required": [
+                                            "field",
+                                            "value",
+                                            "operator",
+                                          ],
+                                          "type": "object",
+                                        },
+                                        "type": "array",
+                                      },
+                                      "type": "array",
+                                    },
+                                    "search": {
+                                      "description": "Search query [@ai]",
+                                      "type": "string",
+                                    },
+                                    "sortBy": {
+                                      "description": "Field to sort by",
+                                      "type": "string",
+                                    },
+                                    "sortOrder": {
+                                      "description": "Sort direction",
+                                      "enum": [
+                                        "asc",
+                                        "desc",
+                                      ],
+                                      "type": "string",
+                                    },
+                                  },
+                                  "type": "object",
+                                },
+                                "viewSlug": {
+                                  "description": "Base URL for posts",
+                                  "type": "string",
+                                },
+                              },
+                              "type": "object",
+                            },
+                          },
+                          "type": "object",
+                        },
+                        {
+                          "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/1",
+                        },
+                      ],
+                    },
+                  },
+                  "required": [
+                    "cardId",
+                    "userConfig",
+                  ],
+                  "type": "object",
+                },
+              ],
+              "maxItems": 1,
+              "minItems": 1,
+              "type": "array",
+            },
+            "userConfig": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/userConfig/allOf/0",
+                },
+                {
+                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/1",
+                },
+              ],
+            },
+          },
+          "required": [
+            "cardId",
+            "cards",
+            "userConfig",
+          ],
+          "type": "object",
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "cardId": {
+              "const": "crd67cb6baa4e0292d5851c775e",
+              "type": "string",
+            },
+            "cards": {
+              "items": [
+                {
+                  "additionalProperties": false,
+                  "description": "Hero template - Create compelling hero sections that combine headlines, imagery, and calls-to-action to engage visitors. Perfect for homepages, product launches, and landing pages. The hero should communicate your core value proposition within seconds, using persuasive headlines (5-7 words), supporting text (10-30 words), and strategic imagery that reinforces your message. Include clear calls-to-action that guide visitors toward your primary conversion goals. - (basic,marketing)",
+                  "properties": {
+                    "cardId": {
+                      "const": "crd67cb6baa4dcd6f31b5fc5a5c",
+                      "type": "string",
+                    },
+                    "userConfig": {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "action": {
+                              "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/action",
+                              "description": "Call-to-action buttons [@ai]",
+                            },
+                            "caption": {
+                              "description": "Media description [@ai]",
+                              "type": "string",
+                            },
+                            "layout": {
+                              "description": "Content alignment",
+                              "enum": [
+                                "justify",
+                                "center",
+                                "left",
+                                "right",
+                              ],
+                              "type": "string",
+                            },
+                            "media": {
+                              "$ref": "#/definitions/Site/properties/pages/items/1/properties/cards/items/0/properties/userConfig/allOf/0/properties/posts/properties/entries/items/properties/authors/items/properties/avatar",
+                              "description": "Primary visual",
+                            },
+                            "overlays": {
+                              "description": "Decorative image layers",
+                              "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "media": {
+                                    "$ref": "#/definitions/Site/properties/pages/items/1/properties/cards/items/0/properties/userConfig/allOf/0/properties/posts/properties/entries/items/properties/authors/items/properties/avatar",
+                                    "description": "Layer image [@ai]",
+                                  },
+                                  "position": {
+                                    "description": "Layer placement",
+                                    "enum": [
+                                      "top",
+                                      "bottom",
+                                      "left",
+                                      "right",
+                                      "center",
+                                      "bottomRight",
+                                      "topRight",
+                                      "bottomLeft",
+                                      "topLeft",
+                                    ],
+                                    "type": "string",
+                                  },
+                                  "widthPercent": {
+                                    "description": "Layer width %",
+                                    "type": "number",
+                                  },
+                                },
+                                "type": "object",
+                              },
+                              "type": "array",
+                            },
+                            "subTitle": {
+                              "description": "Supporting message (10-30 words) [@ai]",
+                              "type": "string",
+                            },
+                            "superTitle": {
+                              "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/superTitle",
+                              "description": "Small text above title [@ai]",
+                            },
+                            "title": {
+                              "description": "Main headline (3-13 words) [@ai]",
+                              "type": "string",
+                            },
+                          },
+                          "type": "object",
+                        },
+                        {
+                          "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/1",
+                        },
+                      ],
+                    },
+                  },
+                  "required": [
+                    "cardId",
+                    "userConfig",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "additionalProperties": false,
+                  "description": "Contact & Support template - Create professional contact pages with integrated forms and multiple contact methods.
+Features customizable layouts, notification settings, and social media integration. Perfect for
+customer support, sales inquiries, or general contact information. - (form,marketing)",
+                  "properties": {
+                    "cardId": {
+                      "const": "crd67cb6baa46d30918c7976e5f",
+                      "type": "string",
+                    },
+                    "userConfig": {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "action": {
+                              "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/action",
+                              "description": "actions and forms [@ai]",
+                            },
+                            "form": {
+                              "additionalProperties": false,
+                              "description": "Form submission settings",
+                              "properties": {
+                                "notifyEmails": {
+                                  "description": "List of emails to notify when form is submitted",
+                                  "items": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "email": {
+                                        "type": "string",
+                                      },
+                                    },
+                                    "type": "object",
+                                  },
+                                  "type": "array",
+                                },
+                                "redirectUrl": {
+                                  "description": "URL to redirect to after successful form submission",
+                                  "type": "string",
+                                },
+                                "success": {
+                                  "additionalProperties": false,
+                                  "description": "Success message to show after successful submission",
+                                  "properties": {
+                                    "subTitle": {
+                                      "description": "Content to show after successful submission",
+                                      "type": "string",
+                                    },
+                                    "title": {
+                                      "description": "Title to show after successful submission",
+                                      "type": "string",
+                                    },
+                                  },
+                                  "type": "object",
+                                },
+                              },
+                              "type": "object",
+                            },
+                            "groups": {
+                              "description": "Organized groups of contact information [@ai]",
+                              "items": {
+                                "additionalProperties": false,
+                                "description": "Group of contact methods [@ai]",
+                                "properties": {
+                                  "description": {
+                                    "description": "Optional section/group description [@ai]",
+                                    "type": "string",
+                                  },
+                                  "items": {
+                                    "items": {
+                                      "additionalProperties": false,
+                                      "description": "Contact method details [@ai]",
+                                      "properties": {
+                                        "href": {
+                                          "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/details/items/properties/href",
+                                        },
+                                        "icon": {
+                                          "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/details/items/properties/icon",
+                                        },
+                                        "label": {
+                                          "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/details/items/properties/label",
+                                        },
+                                        "value": {
+                                          "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/0/properties/details/items/properties/value",
+                                        },
+                                      },
+                                      "type": "object",
+                                    },
+                                    "type": "array",
+                                  },
+                                  "title": {
+                                    "description": "Optional section/group title [@ai]",
+                                    "type": "string",
+                                  },
+                                },
+                                "type": "object",
+                              },
+                              "type": "array",
+                            },
+                            "layout": {
+                              "description": "Layout style - form position relative to contact details",
+                              "enum": [
+                                "left",
+                                "right",
+                                "stacked",
+                              ],
+                              "type": "string",
+                            },
+                          },
+                          "type": "object",
+                        },
+                        {
+                          "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/1",
+                        },
+                      ],
+                    },
+                  },
+                  "required": [
+                    "cardId",
+                    "userConfig",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "additionalProperties": false,
+                  "description": "Interactive Map template - Add interactive maps to showcase locations, highlight regions of interest, and provide contextual geographic information. Perfect for business locations, travel itineraries, or geographic data visualization. - (advanced)",
+                  "properties": {
+                    "cardId": {
+                      "const": "crd67cb6baa415b4bbac40ce788",
+                      "type": "string",
+                    },
+                    "userConfig": {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "maps": {
+                              "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "aspectRatio": {
+                                    "enum": [
+                                      "square",
+                                      "video",
+                                      "landscape",
+                                      "portrait",
+                                      "ultrawide",
+                                      "custom",
+                                    ],
+                                    "type": "string",
+                                  },
+                                  "customRatio": {
+                                    "type": "string",
+                                  },
+                                  "lat": {
+                                    "type": "number",
+                                  },
+                                  "lng": {
+                                    "type": "number",
+                                  },
+                                  "mapStyle": {
+                                    "enum": [
+                                      "satellite",
+                                      "streets",
+                                      "outdoors",
+                                      "light",
+                                      "dark",
+                                      "satellite",
+                                      "satellite-streets",
+                                      "mode",
+                                      "navigation-night",
+                                      "navigation-day",
+                                    ],
+                                    "type": "string",
+                                  },
+                                  "markers": {
+                                    "items": {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "label": {
+                                          "type": "string",
+                                        },
+                                        "lat": {
+                                          "type": "number",
+                                        },
+                                        "lng": {
+                                          "type": "number",
+                                        },
+                                      },
+                                      "required": [
+                                        "lat",
+                                        "lng",
+                                      ],
+                                      "type": "object",
+                                    },
+                                    "type": "array",
+                                  },
+                                  "pitch": {
+                                    "type": "number",
+                                  },
+                                  "zoom": {
+                                    "type": "number",
+                                  },
+                                },
+                                "type": "object",
+                              },
+                              "type": "array",
+                            },
+                          },
+                          "type": "object",
+                        },
+                        {
+                          "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/1",
+                        },
+                      ],
+                    },
+                  },
+                  "required": [
+                    "cardId",
+                    "userConfig",
+                  ],
+                  "type": "object",
+                },
+              ],
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array",
+            },
+            "userConfig": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/userConfig/allOf/0",
+                },
+                {
+                  "$ref": "#/definitions/Site/properties/pages/items/0/properties/cards/items/0/properties/userConfig/allOf/1",
+                },
+              ],
+            },
+          },
+          "required": [
+            "cardId",
+            "cards",
+            "userConfig",
+          ],
+          "type": "object",
+        },
+      ],
+      "maxItems": 3,
+      "minItems": 3,
+      "type": "array",
+    },
+    "siteId": {
+      "const": "test-zhcbj",
+      "type": "string",
+    },
+  },
+  "required": [
+    "siteId",
+    "pages",
+  ],
+  "type": "object",
+}
+`;
