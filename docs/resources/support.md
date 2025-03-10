@@ -24,7 +24,8 @@ features:
     link: https://discord.gg/e5wNxdDW8u
 
   - icon: ⭐️
-    title: Satisfaction Guaranteed
-    details: We provide a no questions asked satisfaction guarantee to paying customers.
+    title: Email Us
+    details: Send us an email anytime. We're here to help.
+    link: mailto:hello@fiction.com
 
 ---

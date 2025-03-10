@@ -4,7 +4,7 @@ import type { Card } from '@fiction/site/card'
 import type { FictionAdmin } from '..'
 import TransactionView from '@fiction/cards/page-transaction/TransactionView.vue'
 import TransactionWrap from '@fiction/cards/page-transaction/TransactionWrap.vue'
-import { log, unhead, useService, vue } from '@fiction/core'
+import { unhead, useService, vue } from '@fiction/core'
 import { googleAuth } from '@fiction/core/plugin-user/google'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import EffectTransitionList from '@fiction/ui/effect/EffectTransitionList.vue'
@@ -15,13 +15,14 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const logger = log.contextLogger('AuthCard')
-
 export type UserConfig = { logo?: MediaObject, termsUrl?: string, privacyUrl?: string }
 
 const uc = vue.computed(() => props.card.userConfig.value)
 
 const { fictionRouter, fictionAdmin, fictionEnv, fictionUser } = useService<{ fictionAdmin: FictionAdmin }>()
+
+const termsUrl = vue.computed(() => uc.value.termsUrl || fictionEnv.meta.app?.termsUrl)
+const privacyUrl = vue.computed(() => uc.value.privacyUrl || fictionEnv.meta.app?.privacyUrl)
 
 const authItems = [
   'welcome',
@@ -758,9 +759,9 @@ vue.watch(() => itemId.value, () => {
 
               <div v-if="['welcome', 'register'].includes(itemId)" class="leading-normal text-xs px-4">
                 By continuing, you agree to the
-                <a class="underline hover:text-theme-600 dark:hover:text-theme-300" :href="uc.termsUrl" target="_blank">Terms of Service</a>
+                <a class="underline hover:text-theme-600 dark:hover:text-theme-300" :href="termsUrl" target="_blank">Terms of Service</a>
                 and
-                <a class="underline hover:text-theme-600 dark:hover:text-theme-300" :href="uc.privacyUrl" target="_blank">Privacy Policy</a>
+                <a class="underline hover:text-theme-600 dark:hover:text-theme-300" :href="privacyUrl" target="_blank">Privacy Policy</a>
               </div>
             </div>
           </template>

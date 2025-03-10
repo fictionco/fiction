@@ -33,6 +33,8 @@ export interface MetaAppDetails {
   url?: string
   domain?: string
   streetAddress?: string
+  termsUrl?: string
+  privacyUrl?: string
   siteId?: string // set dynamically
   orgId?: string // set dynamically
   userId?: string // set dynamically

@@ -153,7 +153,7 @@ export async function googleAuth(options: GoogleAuthOptions): Promise<void> {
       },
       error_callback: (error) => {
         logger.error('Google auth error_callback:', { error })
-        onComplete?.({ status: 'error', message: `Google Auth Error (${error.type})` })
+        onComplete?.({ status: 'error' })
         onFinally?.()
       },
     })

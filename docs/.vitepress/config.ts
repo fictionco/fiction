@@ -14,18 +14,32 @@ const resources = [
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  head: [['link', { rel: 'icon', href: '/favicon.png' }]],
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.png' }],
+    [
+      'link',
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    ],
+    [
+      'link',
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+    ],
+    [
+      'link',
+      { href: 'https://fonts.googleapis.com/css2?family=Poppins&display=swap', rel: 'stylesheet' },
+    ],
+  ],
   lang: 'en-US',
   title: 'Fiction Docs',
   description: 'Documentation for Fiction marketing platform and content development system',
   themeConfig: {
-    logo: '/logo.svg',
-    siteTitle: 'Fiction Docs',
+
+    logo: { light: '/logo-light.svg', dark: '/logo-dark.svg', alt: 'Fiction Icon' },
+    siteTitle: false,
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
       { text: 'User Guide', link: '/guide/introduction' },
-      { text: 'Developer Docs', link: '/developer/introduction' },
       { text: 'Resources', items: [...resources] },
       { text: 'Fiction Homepage', link: 'https://www.fiction.com', target: '_self' },
     ],

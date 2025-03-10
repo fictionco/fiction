@@ -22,10 +22,12 @@
   --vp-c-text-1: rgba(30, 30, 30);
   --vp-c-text-2: rgba(30, 30, 30, 0.78);
   --vp-c-text-3: rgba(30, 30, 30, 0.56);
+
+  --vp-nav-logo-height: 32px;
 }
 
 .dark{
-  --vp-c-brand-1: #93c5fd;
+  --vp-c-brand-1: #60a5fa;
   --vp-c-bg: #0e0f11;
   --vp-c-bg-soft: #131519;
   --vp-c-bg-alt: #0A0B0D;

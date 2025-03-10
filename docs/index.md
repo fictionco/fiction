@@ -3,29 +3,23 @@
 layout: home
 
 hero:
-  name: Fiction Docs
-  text: Your Personal Marketing Platform
-  tagline: Everything you need to market yourself online
+  name: Fiction.com
+  text: Build Your Brand
+  tagline: Build your online presence, grow your audience, and connect with ease
   actions:
     - theme: brand
-      text: User Guide
-      link: /guide
-    - theme: alt
-      text: Examples
-      link: /examples
+      text: Get Started
+      link: /guide/introduction.html
 
 features:
-  - icon: 🤖
-    title: AI Content Generation
-    details: Automate content creation and optimization using advanced AI technology.
-  - icon: 🖊️
-    title: Easy-to-use Editor
-    details: Manage your digital content effortlessly with a user-friendly interface.
-  - icon: 🏗️
-    title: Scalable Architecture
-    details: Designed to seamlessly handle projects of any size, ensuring robust performance.
-  - icon: 🔌
-    title: Plugin Ecosystem
-    details: Enhance functionality and customize your experience with a diverse range of plugins.
+  - icon: 🌐
+    title: Personal Website Builder
+    details: Create a stunning, customized website to showcase your skills, story, and brand.
+  - icon: ✉️
+    title: Newsletter Tools
+    details: Engage your audience with powerful, easy-to-use tools for email campaigns and updates.
+  - icon: 🤝
+    title: Network & Contact Hub
+    details: Grow and manage your connections effortlessly with built-in networking features.
 
 ---
