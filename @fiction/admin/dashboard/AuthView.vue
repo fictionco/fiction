@@ -575,24 +575,10 @@ vue.watch(() => itemId.value, () => {
               class="w-full"
               label="Email"
               input="InputEmail"
-              :input-props="{ autocomplete: 'email', required: true, placeholder: 'Your email address' }"
+              :input-props="{ autocomplete: 'email', required: true, placeholder: 'Your email' }"
               :model-value="fields.email"
               ui-size="lg"
               @update:model-value="fields.email = $event"
-            />
-
-            <!-- Name input for register -->
-            <ElInput
-              v-if="itemId === 'register'"
-              key="inputFullName"
-              data-test-id="input-full-name"
-              input="InputText"
-              label="Full name"
-              class="w-full"
-              :input-props="{ autocomplete: 'name', required: false, placeholder: 'Your name' }"
-              ui-size="lg"
-              :model-value="fields.fullName"
-              @update:model-value="fields.fullName = $event"
             />
 
             <!-- Password input for login and register -->
@@ -615,8 +601,9 @@ vue.watch(() => itemId.value, () => {
               data-test-id="input-new-password"
               input="InputPassword"
               label="Password"
+              sub-label="At least 8 characters"
               class="w-full"
-              :input-props="{ autocomplete: 'new-password', required: true, placeholder: 'Create a password (8+ characters)' }"
+              :input-props="{ autocomplete: 'new-password', required: true, placeholder: 'Create a password' }"
               ui-size="lg"
               :model-value="fields.password"
               @update:model-value="fields.password = $event"
@@ -631,7 +618,7 @@ vue.watch(() => itemId.value, () => {
               input="InputPassword"
               label="New password"
               class="w-full"
-              :input-props="{ autocomplete: 'new-password', required: true, placeholder: 'Create a password (8+ characters)' }"
+              :input-props="{ autocomplete: 'new-password', required: true, placeholder: 'Create a password' }"
               ui-size="lg"
             />
 

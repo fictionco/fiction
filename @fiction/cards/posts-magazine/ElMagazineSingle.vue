@@ -3,7 +3,7 @@ import type { FictionPosts, Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './index.js'
 import CardLink from '@fiction/cards/el/CardLink.vue'
-import { unhead, useService, vue } from '@fiction/core'
+import { dayjs, unhead, useService, vue } from '@fiction/core'
 import { allPostsLink, postEditLink, postLink, taxonomyLink } from '@fiction/posts'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
@@ -38,26 +38,26 @@ const imageAspect = vue.computed(() => {
 
   return w > h ? 'aspect-square max-h-[70dvh]' : 'aspect-[2/1]'
 })
-const title = () => post?.userConfig.value?.site?.title || post?.title.value || 'Post Not Found'
-const description = () => post?.userConfig.value?.site?.description || post?.subTitle.value || 'Post Not Found'
-const author = () => post?.authors.value?.map(a => a.fullName).join(', ')
+const getTitle = () => post?.userConfig.value?.site?.title || post?.title.value || 'Post Not Found'
+const getDescription = () => post?.userConfig.value?.site?.description || post?.subTitle.value || 'Post Not Found'
+const getAuthor = () => post?.authors.value?.map(a => a.fullName).join(', ')
 const postImage = () => post?.media.value?.url
 const postDate = () => post?.dateAt.value
 const keywords = () => post?.tags.value?.join(', ')
 unhead.useHead({
-  title,
+  title: getTitle,
   meta: [
-    { name: `description`, content: description },
-    { name: `author`, content: author },
+    { name: `description`, content: getDescription },
+    { name: `author`, content: getAuthor },
     { name: `keywords`, content: keywords },
     { name: `robots`, content: `index, follow` },
-    { name: `og:title`, content: title },
-    { name: `og:description`, content: description },
+    { name: `og:title`, content: getTitle },
+    { name: `og:description`, content: getDescription },
     { name: `og:type`, content: `article` },
     { name: `og:image`, content: postImage },
     { name: `og:locale`, content: `en_US` },
     { name: `article:published_time`, content: postDate },
-    { name: `article:author`, content: author },
+    { name: `article:author`, content: getAuthor },
   ],
 })
 </script>
@@ -72,38 +72,8 @@ unhead.useHead({
     </div>
     <article v-if="post">
       <div class="space-y-8  text-center max-w-screen-lg mx-auto mb-12">
-        <div class="tags space-x-4">
-          <CardButton
-            size="sm"
-            :card
-            design="link"
-            :href="allPostsLink({ card })"
-            rounding="full"
-            icon="i-tabler-arrow-left"
-          >
-            All Posts
-          </CardButton>
-          <CardButton
-            v-for="(cat, i) in post.categories.value"
-            :key="i"
-            size="sm"
-            :card
-            design="outline"
-            :text="cat"
-            :href="taxonomyLink({ card, taxonomy: 'category', term: cat })"
-          />
-          <CardButton
-            v-if="userIsAuthor"
-            size="sm"
-            :card
-            :href="postEditLink({ post })"
-            class="flex items-center"
-            design="outline"
-            icon="i-tabler-edit"
-            theme="green"
-          >
-            Edit Post
-          </CardButton>
+        <div v-if="post.publishAt.value" class="tags space-x-4">
+          {{ dayjs(post.dateAt.value || post.publishAt.value).format('MMMM D, YYYY') }}
         </div>
         <div class="space-y-4">
           <CardTextPost
@@ -118,7 +88,7 @@ unhead.useHead({
             path="subTitle"
             class="text-lg md:text-2xl xl:text-3xl dark:text-theme-400 text-pretty"
           />
-          <div class="flex justify-center">
+          <div class="flex justify-center gap-3">
             <ElAuthor v-for="(author, i) in post.authors.value" :key="i" :user="author" :date-at="post.dateAt.value" />
           </div>
         </div>

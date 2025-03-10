@@ -1,22 +1,20 @@
 <script lang="ts" setup>
 import type { ListItem, User } from '@fiction/core'
 import type { FictionTeam } from '@fiction/core/plugin-team'
-import type { Card } from '@fiction/site'
-import type { FictionPosts } from '..'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
 
-const props = defineProps({
-  modelValue: { type: Array as vue.PropType<User[]>, default: () => [] },
-  card: { type: Object as vue.PropType<Card>, required: true },
-})
+const { modelValue = [], teamLink = '' } = defineProps<{
+  modelValue?: User[]
+  teamLink?: string
+}>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: User[]): void
 }>()
 
-const service = useService<{ fictionPosts: FictionPosts, fictionTeam: FictionTeam }>()
+const service = useService<{ fictionTeam: FictionTeam }>()
 const users = vue.ref<User[]>([])
 const list = vue.computed<ListItem[]>(() => users.value.map(t => ({ value: t.userId, label: t.fullName, description: t.email })))
 const isFocused = vue.ref(false)
@@ -40,14 +38,14 @@ function addFromId(userId: string) {
   if (!user)
     return
 
-  if (props.modelValue.find(t => t.userId === user.userId))
+  if (modelValue.find(t => t.userId === user.userId))
     return
 
-  emit('update:modelValue', [...props.modelValue, user])
+  emit('update:modelValue', [...modelValue, user])
 }
 
 const renderList = vue.computed(() => {
-  const v = props.modelValue
+  const v = modelValue
   // Normalize the search text by converting to lower case and removing all whitespace
   const s = search.value?.toLowerCase().replace(/\s+/g, '')
   const li = list.value.filter(l => !v.find(t => t.userId === l.value))
@@ -63,7 +61,7 @@ const renderList = vue.computed(() => {
 })
 
 function remove(user: User) {
-  emit('update:modelValue', props.modelValue.filter(t => t.userId !== user.userId))
+  emit('update:modelValue', modelValue.filter(t => t.userId !== user.userId))
 }
 
 vue.onMounted(async () => {
@@ -93,12 +91,18 @@ vue.onMounted(async () => {
       v-model:focused="isFocused"
       :allow-search="true"
       :list="renderList"
-      @update:model-value="addFromId($event as string)"
       zero-text="No users found"
+      @update:model-value="addFromId($event as string)"
     />
-    <div class="flex justify-start gap-2">
-      <XButton class="shrink-0" size="xs" btn="default" :href="card.link('/team')">
-        Add to Team &rarr;
+    <div v-if="teamLink" class="flex justify-start gap-2">
+      <XButton
+        class="shrink-0"
+        size="xs"
+        btn="default"
+        :href="teamLink"
+        icon-after="i-tabler-arrow-up-right"
+      >
+        Add to Team
       </XButton>
     </div>
   </div>

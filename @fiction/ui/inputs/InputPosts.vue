@@ -112,12 +112,14 @@ const globalQueryOptions = [
 ]
 
 const localPostOptions = [
+  createOption({ schema, key: 'entries.0.slug', label: 'Slug', input: 'InputText', getDefaultValue: () => shortId() }),
   createOption({ schema, key: 'entries.0.title', label: 'Title', input: 'InputText', getDefaultValue: () => 'New Post' }),
   createOption({ schema, key: 'entries.0.media', label: 'Media', input: 'InputMedia', getDefaultValue: async () => (await createStockMediaHandler()).getRandomMedia() }),
   createOption({ schema, key: 'entries.0.content', label: 'Content', input: 'InputProse' }),
-  createOption({ schema, key: 'entries.0.slug', label: 'Slug', input: 'InputText', getDefaultValue: () => shortId() }),
+  createOption({ schema, key: 'entries.0.authors', label: 'Author', input: 'InputAuthors' }),
   createOption({ schema, key: 'entries.0.tags', label: 'Tags', input: 'InputTags' }),
   createOption({ schema, key: 'entries.0.categories', label: 'Categories', input: 'InputTags' }),
+
 ]
 
 const options = vue.computed(() => {
@@ -134,6 +136,7 @@ const options = vue.computed(() => {
   else {
     return [
       formatOption,
+      limitOption,
       createOption({
         key: 'entries',
         label: 'Local Posts',
@@ -144,7 +147,7 @@ const options = vue.computed(() => {
           itemLabel: args => (args?.item as PostObject)?.title ?? 'Untitled',
         },
       }),
-      limitOption,
+
     ] as InputOption[]
   }
 })

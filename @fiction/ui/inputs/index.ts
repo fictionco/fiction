@@ -16,6 +16,7 @@ export const inputs = {
   InputActionArea: { el: def(() => import('./InputActionArea.vue')), shape: ['buttons.*', 'subscribe.*', 'proof.*', 'design', 'size', 'theme', 'title', 'variant'] },
   InputControl: { el: def(() => import('./InputControl.vue')) },
   InputProse: { el: def(() => import('./InputProse.vue')) },
+  InputAuthors: { el: def(() => import('./InputAuthors.vue')) },
   InputActionList: { el: def(() => import('./InputActionList.vue')) },
   InputActions: { el: def(() => import('./InputActions.vue')), shape: ['0.testId', '0.design', '0.href', '0.icon', '0.iconAfter', '0.name', '0.size', '0.target', '0.theme', '0.rounding', '0.disabled', '0.format', '0.loading'] },
   InputTags: { el: def(() => import('./InputTags.vue')) },

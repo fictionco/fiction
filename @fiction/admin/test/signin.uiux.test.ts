@@ -1,4 +1,3 @@
-/* eslint-disable no-irregular-whitespace */
 import { isCi, shortId } from '@fiction/core'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import { emailActionSnapshot } from '@fiction/plugin-transactions/test/utils'
@@ -74,12 +73,10 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
         // Navigate to registration
         { type: 'click', selector: '[data-test-id="to-register"]', waitAfter: 1000 },
         { type: 'visible', selector: '[data-test-id="input-email"]' },
-        { type: 'visible', selector: '[data-test-id="input-full-name"]' },
         { type: 'visible', selector: '[data-test-id="input-new-password"]' },
 
         // Fill the registration form
         { type: 'fill', selector: '[data-test-id="input-email"] input[type="email"]', text: testEmail },
-        { type: 'fill', selector: '[data-test-id="input-full-name"] input', text: testName },
         { type: 'fill', selector: '[data-test-id="input-new-password"] input', text: testPassword },
 
         // Verify form values
@@ -88,7 +85,6 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
           selector: '[data-test-id="form"]',
           onValue: (v) => {
             expect(v?.email, 'Email input should match filled value').toBe(testEmail)
-            expect(v?.fullName, 'Name input should match filled value').toBe(testName)
             expect(v?.password, 'Password input should match filled value').toBe(testPassword)
           },
         },

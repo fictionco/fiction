@@ -12,13 +12,12 @@ import { createOption } from '@fiction/ui'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import InputActionList from '@fiction/ui/inputs/InputActionList.vue'
 import { t } from '../schema'
-import InputAuthors from './InputAuthors.vue'
 
-const props = defineProps({
-  tool: { type: Object as vue.PropType<EditorTool>, required: true },
-  post: { type: Object as vue.PropType<Post>, default: undefined },
-  card: { type: Object as vue.PropType<Card>, required: true },
-})
+const { tool, post, card } = defineProps<{
+  tool: EditorTool
+  post?: Post
+  card: Card
+}>()
 
 const service = useService<{ fictionPosts: FictionPosts }>()
 
@@ -39,7 +38,6 @@ const options = vue.computed<InputOption[]>(() => {
           input: 'group',
           icon: { class: 'i-tabler-highlight' },
           options: [
-
             createOption({
               schema,
               key: 'userConfig.isContentCompletionDisabled',
@@ -116,8 +114,8 @@ const options = vue.computed<InputOption[]>(() => {
               schema,
               key: 'authors',
               label: 'Author',
-              input: InputAuthors,
-              props: { },
+              input: 'InputAuthors',
+              props: { teamLink: card.link('/team') },
             }),
           ],
         }),
@@ -156,7 +154,7 @@ const options = vue.computed<InputOption[]>(() => {
 
                       if (confirmed) {
                         p.post?.delete()
-                        props.card.goto('/posts')
+                        card.goto('/posts')
                       }
                     },
                   },
@@ -173,13 +171,12 @@ const options = vue.computed<InputOption[]>(() => {
 })
 
 function updatePost(config: TablePostConfig) {
-  if (!props.post)
+  if (!post)
     return
 
   // const el = document.querySelector('#toolForm') as HTMLFormElement | null
   // const valid = el?.checkValidity()
-
-  props.post?.update(config, { caller: 'postFormEngine' })
+  post?.update(config, { caller: 'postFormEngine' })
 }
 </script>
 

@@ -13,8 +13,7 @@ env:
 
 jobs:
   build:
-    if: 'contains(github.event.head_commit.message, ''skip'') == false'
-    name: Build
+    name: Build and Deploy Docs
     runs-on: ubuntu-latest
     steps:
       - name: Get The Code
@@ -23,26 +22,36 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
         with:
-          version: 9.3.0
+          version: 10.6.2
 
       - name: Set Node Version
         uses: actions/setup-node@v3
         with:
-          node-version: 22.3.0
+          node-version: 23.9.0
           cache: pnpm
 
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-pnpm-
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install Dependencies
-        run: |
-          pnpm install
-          pnpm rebuild --recursive
+        run: pnpm i && pnpm rebuild --recursive
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Build Static Assets
         run: npm run docs:build
