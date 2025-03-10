@@ -39,8 +39,8 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
               action: {
                 buttons: [
                   {
-                    label: 'Start for Free',
-                    href: '/app/auth?_reload=1',
+                    label: 'Get Started',
+                    href: '/app/auth/register?_reload=1',
                     theme: 'primary',
                     design: 'solid',
                     iconAfter: 'i-tabler-arrow-big-right-lines',
@@ -73,7 +73,6 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   title: 'Hugo Rebora',
                   subTitle: 'Podcaster',
                   media: stock.getAssetBySlug('rebora'),
-                  href: '#',
                 },
                 {
                   title: 'Selena Gomez',
@@ -87,13 +86,11 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   title: 'Olivia Alani',
                   subTitle: 'Fashion Designer',
                   media: stock.getAssetBySlug('olivia'),
-                  href: '#',
                 },
                 {
                   title: 'Gabriel Torres',
                   subTitle: 'Coach',
                   media: stock.getAssetBySlug('abgcuk'),
-                  href: '#',
                 },
 
                 {
@@ -107,7 +104,6 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   title: 'Sarah Bands',
                   subTitle: 'Director',
                   media: stock.getAssetBySlug('bands'),
-                  href: '#',
                 },
                 {
                   title: 'Dean Stoecker',
@@ -132,22 +128,27 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
             userConfig: {
               items: [
                 {
-                  label: 'The New York Times',
-                  href: 'https://www.nytimes.com/2024/04/05/opinion/ezra-klein-podcast-nilay-patel.html',
-                  media: stock.getLocalMedia({ key: 'logoNyt' }),
+                  label: 'Harvard Business Review',
+                  href: 'https://online.hbs.edu/blog/post/personal-branding-at-work',
+                  media: stock.getLocalMedia({ key: 'logoHbr' }),
                 },
                 {
-                  label: 'The Guardian',
-                  href: 'https://www.theguardian.com/technology/2022/nov/12/when-ai-can-make-art-what-does-it-mean-for-creativity-dall-e-midjourney',
-                  media: stock.getLocalMedia({ key: 'logoGuardian' }),
+                  label: 'Forbes',
+                  href: 'https://www.forbes.com/sites/williamarruda/2025/01/02/9-personal-branding-trends-for-2025/',
+                  media: stock.getLocalMedia({ key: 'logoForbes' }),
                 },
                 {
-                  label: 'TechCrunch',
-                  href: 'https://techcrunch.com/sponsor/fluency/the-ai-revolution-using-artificial-intelligence-to-unlock-massive-time-savings/',
-                  media: stock.getLocalMedia({ key: 'logoTechcrunch' }),
+                  label: 'Inc.',
+                  href: 'https://www.inc.com/henna-pryor/personal-branding-just-became-the-future-of-marketing-and-its-more-profitable-than-you-think/90987043',
+                  media: stock.getLocalMedia({ key: 'logoInc' }),
+                },
+                {
+                  label: 'Entrepreneur',
+                  href: 'https://www.entrepreneur.com/starting-a-business/why-personal-branding-matters-more-than-ever-if-you-want-to/479359',
+                  media: stock.getLocalMedia({ key: 'logoEntrepreneur' }),
                 },
               ],
-              label: 'Read About Us In',
+              label: 'As Seen In',
             },
           }),
           await factory.fromTemplate<typeof bentoTemplate>({
@@ -177,8 +178,8 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   action: {
                     buttons: [
                       {
-                        label: 'Create Account',
-                        href: '/app?_reload=1',
+                        label: 'Build Your Brand',
+                        href: '/app/auth/register?_reload=1',
                         theme: 'overlay',
                         icon: 'i-tabler-user-circle',
                         design: 'solid',

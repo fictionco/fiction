@@ -212,7 +212,7 @@ function getDefaultConfig(): UserConfig {
           { label: 'Community access' },
         ],
         button: {
-          label: 'Start Free',
+          label: 'Get Started',
           icon: { class: 'i-tabler-rocket' },
           href: '#starter-monthly',
           hrefAnnual: '#starter-annual',
@@ -283,7 +283,7 @@ function getStartupConfig(): UserConfig {
           { label: 'Community support' },
         ],
         button: {
-          label: 'Start Free',
+          label: 'Get Started',
           icon: { class: 'i-tabler-plant-2' },
           href: '#bootstrap-monthly',
           hrefAnnual: '#bootstrap-annual',

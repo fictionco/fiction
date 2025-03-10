@@ -334,16 +334,16 @@ export async function getConfig(args: {
                 action: {
                   buttons: [
                     {
-                      label: 'Start Free',
+                      label: 'Get Started',
                       theme: 'primary',
                       icon: { iconId: 'bolt' },
-                      href: '/app?_reload=1',
+                      href: '/app/auth/register?_reload=1',
                     },
                     {
                       label: 'Talk to Sales',
                       theme: 'default',
                       icon: { iconId: 'phone' },
-                      href: '/contact',
+                      href: 'mailto:hello@fiction.com',
                     },
                   ],
                 },

@@ -67,7 +67,7 @@ import { randomRoute } from '../utils'
                         type="submit"
                         class="block w-full rounded-md bg-gradient-to-r from-slate-500 to-slate-800 py-3 px-4 font-medium text-white shadow hover:from-slate-600 hover:to-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2 focus:ring-offset-slate-900"
                       >
-                        Start free trial
+                        Get Started
                       </button>
                     </div>
                   </div>

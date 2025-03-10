@@ -182,7 +182,7 @@ export function getDemoConfigs(templateId: string): Record<string, { templateId:
           variant: 'buttons',
           buttons: [
             {
-              label: 'Start Free Trial',
+              label: 'Get Started',
               theme: 'primary',
               icon: { class: 'i-tabler-rocket' },
             },

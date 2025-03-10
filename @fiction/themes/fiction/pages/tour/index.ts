@@ -32,8 +32,8 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
               action: {
                 buttons: [
                   {
-                    label: 'I Am Ready',
-                    href: '/app/auth?_reload=1',
+                    label: 'Get Started',
+                    href: '/app/auth/register?_reload=1',
                     theme: 'primary',
                     design: 'solid',
                     iconAfter: 'i-tabler-arrow-big-right-lines',
@@ -228,7 +228,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   {
                     label: 'Start Now',
                     icon: 'i-tabler-rocket',
-                    href: '/auth?_reload=1',
+                    href: '/app/auth/register?_reload=1',
                     theme: 'primary',
                   },
                 ],

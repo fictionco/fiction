@@ -273,7 +273,7 @@ async function getDemoCards(args: { templateId: string, stock: StockMedia }): Pr
           ],
           utility: [
             {
-              label: 'Try Free',
+              label: 'Get Started',
               href: '/trial',
               variant: 'button',
               theme: 'primary',

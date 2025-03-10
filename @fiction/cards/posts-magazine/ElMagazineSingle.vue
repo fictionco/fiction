@@ -16,7 +16,7 @@ import ElAuthor from './ElAuthor.vue'
 
 const { card, loading = false, post, nextPost } = defineProps<{
   card: Card<UserConfig>
-  loading: boolean
+  loading?: boolean
   post?: Post
   nextPost?: Post
 }>()
@@ -24,7 +24,8 @@ const { card, loading = false, post, nextPost } = defineProps<{
 const service = useService<{ fictionPosts: FictionPosts }>()
 
 const userIsAuthor = vue.computed(() => {
-  return post?.settings.authors?.some(a => a.userId === service.fictionUser.activeUser.value?.userId)
+  const userId = service.fictionUser.activeUser.value?.userId
+  return post?.settings.authors?.some(a => userId && a.userId === userId)
 })
 
 const imageAspect = vue.computed(() => {
