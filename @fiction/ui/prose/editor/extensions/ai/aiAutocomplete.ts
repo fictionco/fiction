@@ -18,7 +18,6 @@ interface AutocompleteOptions {
   previousTextLength: number
   cooldownAfterHandled: number
   lastHandledTimestamp: number
-  hoverToApply: boolean
   getSuggestion: (args: {
     previousText: string
     nextText: string
@@ -39,9 +38,8 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
       applySuggestionKey: ['Tab', 'ArrowRight', 'ArrowDown'],
       suggestionDebounce: 1500,
       previousTextLength: 4000,
-      cooldownAfterHandled: 3000, // Cooldown period after suggestion is handled
+      cooldownAfterHandled: 3000, // Cooldown period after suggestion is handled (10 seconds)
       lastHandledTimestamp: 0, // Timestamp of the last suggestion handled
-      hoverToApply: true, // Enable hover to highlight suggestion
       getSupplemental: undefined,
       checkContentCompletionDisabled: () => false,
       getSuggestion: async (args: {
@@ -81,101 +79,53 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
     }
   },
 
-  // Plugin doesn't have direct access to storage in all contexts,
-  // so we'll use regular plugin functions instead
-
   addProseMirrorPlugins() {
     const options = this.options
-    let isWindowFocused = typeof document !== 'undefined' ? !document.hidden : true
-    let lastEditorFocused = true
+
+    let isWindowFocused = !document.hidden
+
+    const cleanups = [
+      onBrowserEvent('focus', () => { isWindowFocused = true }),
+      onBrowserEvent('blur', () => { isWindowFocused = false }),
+      onBrowserEvent('visibilitychange', () => { isWindowFocused = !document.hidden }),
+    ]
 
     const debouncedSuggestion = debounce(async (args: { previousText: string, nextText: string }, cb: (suggestion: string | null) => void) => {
       const { previousText, nextText } = args
       const { fictionAi } = options
+      const menuActive = this.editor.view.dom.classList.contains('slash-menu-active')
 
-      // Don't suggest if window is not focused or menu is active
-      if (!isWindowFocused || !lastEditorFocused
-        || this.editor.view.dom.classList.contains('slash-menu-active')) {
+      if (!isWindowFocused || menuActive)
         return
-      }
 
       const supplemental = options.getSupplemental?.() || {}
 
-      const suggestion = await options.getSuggestion({
-        editor: this.editor,
-        previousText,
-        nextText,
-        fictionAi,
-        supplemental,
-      })
-
+      const suggestion = await options.getSuggestion({ editor: this.editor, previousText, nextText, fictionAi, supplemental })
       if (suggestion)
         cb(suggestion)
     }, () => {
       const timeSinceLastHandled = Date.now() - options.lastHandledTimestamp
-      return timeSinceLastHandled < options.cooldownAfterHandled
-        ? options.cooldownAfterHandled
-        : options.suggestionDebounce
+      const debounceTime = timeSinceLastHandled < options.cooldownAfterHandled ? options.cooldownAfterHandled : options.suggestionDebounce
+
+      return debounceTime
     })
 
-    // Set up event listeners for window/document focus tracking
-    // Functions for suggestion handling
+    const setLastHandledTimestamp = (_args: { caller: string }) => {
+      options.lastHandledTimestamp = Date.now()
+    }
+
     const hasSuggestion = (view: any) => {
       const { state } = view
       return !!PLUGIN_KEY.getState(state)?.find().length
     }
 
     const removeSuggestion = (view: any) => {
-      if (!view)
-        return
-
       const { state } = view
-      view.dispatch(
-        state.tr
-          .setMeta(PLUGIN_KEY, { decorations: DecorationSet.empty })
-          .setMeta('addToHistory', false),
-      )
+      view.dispatch(state.tr.setMeta(PLUGIN_KEY, { decorations: DecorationSet.empty }).setMeta('addToHistory', false))
+
+      if (hasSuggestion(view))
+        setLastHandledTimestamp({ caller: 'removeSuggestion' })
     }
-
-    const applySuggestion = (view: any) => {
-      if (!view || !hasSuggestion(view))
-        return false
-
-      const suggestionEl = document.querySelector('.autocomplete-suggestion') as HTMLElement
-      if (!suggestionEl)
-        return false
-
-      options.lastHandledTimestamp = Date.now()
-
-      const suggestion = suggestionEl.textContent || ''
-      const { tr } = view.state
-      tr.insertText(suggestion)
-      tr.setMeta(PLUGIN_KEY, { decorations: DecorationSet.empty })
-      view.dispatch(tr)
-
-      return true
-    }
-
-    const cleanups = [
-      onBrowserEvent('focus', () => {
-        isWindowFocused = true
-      }),
-      onBrowserEvent('blur', () => {
-        isWindowFocused = false
-        // Clear suggestion when window loses focus
-        if (this.editor?.view)
-          removeSuggestion(this.editor.view)
-      }),
-      onBrowserEvent('visibilitychange', () => {
-        const wasVisible = isWindowFocused
-        isWindowFocused = !document.hidden
-
-        // Clear suggestion when document becomes hidden
-        if (wasVisible && document.hidden && this.editor?.view) {
-          removeSuggestion(this.editor.view)
-        }
-      }),
-    ]
 
     return [
       new Plugin({
@@ -196,34 +146,28 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
           decorations(state) {
             return PLUGIN_KEY.getState(state)
           },
-          handleDOMEvents: {
-            blur(view) {
-              lastEditorFocused = false
-              // Remove suggestion when editor loses focus
-              removeSuggestion(view)
-              return false
-            },
-            focus() {
-              lastEditorFocused = true
-              return false
-            },
-          },
           handleKeyDown(view, event) {
-            // Apply suggestion with configured keys
             if (options.applySuggestionKey.includes(event.key)) {
-              if (applySuggestion(view)) {
-                return true
+              const decorations = PLUGIN_KEY.getState(view.state)
+              if (decorations?.find().length) {
+                const suggestionEl = document.querySelector('.autocomplete-suggestion') as HTMLElement
+                if (suggestionEl) {
+                  setLastHandledTimestamp({ caller: 'handleKeyDown' })
+
+                  const suggestion = suggestionEl.textContent || ''
+                  const { tr } = view.state
+                  tr.insertText(suggestion)
+                  tr.setMeta(PLUGIN_KEY, { decorations: DecorationSet.empty })
+                  view.dispatch(tr)
+
+                  return true
+                }
               }
             }
-
-            // Dismiss suggestion with Escape
             if (event.key === 'Escape') {
-              if (hasSuggestion(view)) {
-                removeSuggestion(view)
-                return true
-              }
+              removeSuggestion(view)
+              return true
             }
-
             return false
           },
           handleClick(view) {
@@ -234,37 +178,30 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
         },
         view() {
           return {
+
             update(view, prevState) {
               const { state } = view
               const selection = state.selection
               const cursorPos = selection.$head.pos
 
-              // Remove suggestion if window is not focused
-              if (!isWindowFocused || !lastEditorFocused) {
-                removeSuggestion(view)
-                return
-              }
-
-              // Check if content completion is disabled
               if (options.checkContentCompletionDisabled?.()) {
-                removeSuggestion(view)
                 return
               }
 
               // Remove suggestion if content changed or cursor moved
-              if (prevState && (!prevState.doc.eq(state.doc) || !prevState.selection.eq(state.selection))) {
+              if ((prevState && (!prevState.doc.eq(state.doc) || !prevState.selection.eq(state.selection)))) {
                 removeSuggestion(view)
                 return
               }
 
+              // if not in a paragraph or heading, don't suggest
               // Get the current node type
               const currentNode = selection.$head.parent
               const currentNodeType = currentNode.type.name
-              const allowedNodeTypes = ['paragraph', 'list_item', 'blockquote', 'heading']
+              const allowedNodeTypes = ['paragraph', 'list_item', 'blockquote']
 
-              // Only suggest in allowed node types
               if (!allowedNodeTypes.includes(currentNodeType)) {
-                return
+                return false
               }
 
               // Only proceed if there's no current suggestion
@@ -272,7 +209,7 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
                 return
               }
 
-              // Fetch text before and after cursor for context
+              // Fetch new suggestion
               const previousText = state.doc.textBetween(
                 Math.max(0, cursorPos - options.previousTextLength),
                 cursorPos,
@@ -285,7 +222,6 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
                 '\n',
               )
 
-              // Generate suggestion
               debouncedSuggestion({ previousText, nextText }, (suggestion: string | null) => {
                 if (!suggestion)
                   return
@@ -296,42 +232,20 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
                   if (!suggestion) {
                     return span
                   }
+                  const lastChar = view.state.doc.textBetween(Math.max(0, cursorPos - 1), cursorPos)
 
-                  const lastChar = view.state.doc.textBetween(
-                    Math.max(0, cursorPos - 1),
-                    cursorPos,
-                  )
-
-                  // Add leading space if needed
-                  if (lastChar
-                    && lastChar !== ' '
-                    && lastChar !== '\n'
-                    && !suggestion.startsWith(' ')) {
+                  // Only add a leading space to the suggestion if there isn't already a space before the cursor
+                  if (lastChar && lastChar !== ' ' && lastChar !== '\n' && !suggestion.startsWith(' ')) {
                     suggestion = ` ${suggestion}`
                   }
 
                   span.textContent = suggestion
                   span.className = 'autocomplete-suggestion'
-
-                  // Add hover functionality
-                  if (options.hoverToApply) {
-                    span.classList.add('suggestion-hover-enabled')
-
-                    // Add click handler to apply suggestion
-                    span.addEventListener('click', () => {
-                      applySuggestion(view)
-                    })
-                  }
-
                   return span
                 }, { side: 1 })
 
                 const decorations = DecorationSet.create(state.doc, [decoration])
-                view.dispatch(
-                  state.tr
-                    .setMeta(PLUGIN_KEY, { decorations })
-                    .setMeta('addToHistory', false),
-                )
+                view.dispatch(state.tr.setMeta(PLUGIN_KEY, { decorations }).setMeta('addToHistory', false))
               })
             },
             destroy() {
@@ -339,6 +253,7 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
             },
           }
         },
+
       }),
     ]
   },

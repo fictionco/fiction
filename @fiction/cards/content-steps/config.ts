@@ -56,9 +56,9 @@ function getOptions() {
           label: 'Layout Style',
           input: 'InputRadioButton',
           list: [
-            { value: 'default', name: 'Grid Layout' },
-            { value: 'left', name: 'Media Left' },
-            { value: 'right', name: 'Media Right' },
+            { value: 'default', label: 'Grid Layout' },
+            { value: 'left', label: 'Media Left' },
+            { value: 'right', label: 'Media Right' },
           ],
         }),
         createOption({

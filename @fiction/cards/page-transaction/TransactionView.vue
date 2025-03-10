@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-import type { MediaObject } from '@fiction/core'
+import type { AuthPageUserConfig } from '@fiction/admin/dashboard/cardDash'
 import type { Card } from '@fiction/site/card'
 import { vue } from '@fiction/core'
 import AnimGradientBg from '@fiction/ui/anim/AnimGradientBg.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 
-export type UserConfig = { logo?: MediaObject, termsUrl?: string, privacyUrl?: string }
 const props = defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+  card: { type: Object as vue.PropType<Card<AuthPageUserConfig>>, required: true },
   quote: { type: Object as vue.PropType<{ text: string, author: string }>, default: () => ({ quote: '', author: '' }) },
 })
 const uc = vue.computed(() => props.card.userConfig.value)
@@ -18,9 +17,9 @@ const uc = vue.computed(() => props.card.userConfig.value)
     <div
       class="relative hidden w-[38.2%] overflow-hidden bg-gradient-to-br from-primary-975/30 via-primary-975/20 to-primary-975/30 text-primary-0 border-r border-primary-950 lg:block"
     >
-      <div class="relative z-20 p-8">
+      <a class="relative z-20 p-8 block" :href="uc.homeUrl">
         <XMedia :media="uc.logo" class="h-6 inline-block" />
-      </div>
+      </a>
 
       <div class="z-40 absolute bottom-16 w-full flex justify-center">
         <blockquote v-if="quote.text" class="mx-auto max-w-xs text-right text-balance">

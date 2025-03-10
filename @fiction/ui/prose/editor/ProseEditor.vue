@@ -33,7 +33,7 @@ const editor = useEditor({
     checkContentCompletionDisabled: () => isContentCompletionDisabled,
   }),
   // the margin helps with drag hover UX / focus outline prevents rings from appearing awkwardly
-  editorProps: { attributes: { class: 'ml-[-4em] mr-[-4em] pl-[4em] pr-[4em] focus:outline-none' } },
+  editorProps: { attributes: { class: 'ml-[-2em] mr-[-2em] pl-[2em] pr-[2em] focus:outline-none' } },
   onUpdate: ({ editor }) => {
     const html = editor.getHTML()
     if (html !== modelValue)

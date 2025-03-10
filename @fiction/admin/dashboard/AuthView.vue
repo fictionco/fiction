@@ -4,7 +4,7 @@ import type { Card } from '@fiction/site/card'
 import type { FictionAdmin } from '..'
 import TransactionView from '@fiction/cards/page-transaction/TransactionView.vue'
 import TransactionWrap from '@fiction/cards/page-transaction/TransactionWrap.vue'
-import { unhead, useService, vue } from '@fiction/core'
+import { isValidEmail, unhead, useService, vue } from '@fiction/core'
 import { googleAuth } from '@fiction/core/plugin-user/google'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import EffectTransitionList from '@fiction/ui/effect/EffectTransitionList.vue'
@@ -76,8 +76,8 @@ const transactionConfig = vue.computed<TransactionProps | undefined>(() => {
       status: 'success',
     },
     'request-magic-link': {
-      title: 'Email sign-in',
-      subTitle: 'We\'ll send you a secure link',
+      title: 'Email Login Link',
+      subTitle: 'We\'ll send you a link to sign in',
       icon: 'i-tabler-sparkles',
     },
     'reset-password': {
@@ -138,10 +138,9 @@ vue.onBeforeUnmount(() => {
 
 const sending = vue.ref<'google' | 'button' | ''>('')
 const formError = vue.ref('')
-const showOneTimeCode = vue.ref(false)
 
 async function updateAuthStep(id: AuthItemId) {
-  await fictionRouter.push({
+  await fictionRouter.replace({
     path: props.card.link(`/auth/${id}`),
     query: fictionRouter.query.value,
   }, { caller: 'authCard' })
@@ -364,6 +363,12 @@ async function passwordLogin() {
     return
   }
 
+  if (isValidEmail(email) === false) {
+    formError.value = 'Please enter a valid email address'
+    sending.value = ''
+    return
+  }
+
   const isRegister = itemId.value === 'register'
 
   const r = await fictionUser.requests.ManageUser.request({
@@ -383,7 +388,7 @@ async function passwordLogin() {
   else if (r?.status === 'success') {
     if (!r.user?.emailVerified) {
       // Need to verify email
-      await sendVerificationEmail(email)
+      await sendVerificationEmail({ email })
       updateAuthStep('verify-email')
     }
     else {
@@ -399,11 +404,17 @@ async function passwordLogin() {
   sending.value = ''
 }
 
-async function sendVerificationEmail(email: string) {
+async function sendVerificationEmail(args: { email: string, withNotification?: boolean }) {
+  const { email, withNotification } = args
+
   await fictionAdmin.emailActions.verifyEmailAction.requestSend({
     to: email,
     queryVars: {},
   })
+
+  if (withNotification) {
+    fictionEnv.events.emit('notify', { type: 'success', message: 'Verification email sent.', more: 'Please check your inbox.' })
+  }
 }
 
 const quotes = [
@@ -427,7 +438,7 @@ async function runGoogleLogin() {
     onComplete: async (response) => {
       if (response.status === 'success') {
         if (!response.user?.emailVerified) {
-          await sendVerificationEmail(response.user?.email || '')
+          await sendVerificationEmail({ email: response.user?.email || '' })
           updateAuthStep('verify-email')
         }
         else {
@@ -439,7 +450,7 @@ async function runGoogleLogin() {
         }
       }
       else {
-        formError.value = response.message || 'Google authentication failed'
+        formError.value = response.message || 'Google sign-in failed'
       }
     },
     onFinally: () => {
@@ -534,8 +545,9 @@ vue.watch(() => itemId.value, () => {
                 size="xs"
                 design="link"
                 theme="default"
+                :loading="sending === 'button'"
                 data-test-id="resend-code"
-                @click.prevent="sendVerificationEmail(fields.email)"
+                @click.prevent="sendVerificationEmail({ email: fields.email, withNotification: true })"
               >
                 Send again
               </XButton>
@@ -575,7 +587,7 @@ vue.watch(() => itemId.value, () => {
               class="w-full"
               label="Email"
               input="InputEmail"
-              :input-props="{ autocomplete: 'email', required: true, placeholder: 'Your email' }"
+              :input-props="{ autocomplete: 'email', required: true, placeholder: 'Enter your email' }"
               :model-value="fields.email"
               ui-size="lg"
               @update:model-value="fields.email = $event"
@@ -601,7 +613,7 @@ vue.watch(() => itemId.value, () => {
               data-test-id="input-new-password"
               input="InputPassword"
               label="Password"
-              sub-label="At least 8 characters"
+              description="Password must be at least 8 characters with at least one number and one special character"
               class="w-full"
               :input-props="{ autocomplete: 'new-password', required: true, placeholder: 'Create a password' }"
               ui-size="lg"
@@ -687,9 +699,9 @@ vue.watch(() => itemId.value, () => {
               design="solid"
               size="lg"
               :loading="sending === 'button'"
-              :icon="itemId === 'request-magic-link' ? 'i-tabler-mail' : 'i-tabler-key'"
+              :icon="itemId === 'request-magic-link' ? 'i-tabler-sparkles' : 'i-tabler-key'"
             >
-              {{ itemId === 'request-magic-link' ? 'Send sign-in link' : 'Reset password' }}
+              {{ itemId === 'request-magic-link' ? 'Send Login Link' : 'Reset Password' }}
             </XButton>
 
             <!-- Links for navigation between auth screens -->
@@ -736,11 +748,11 @@ vue.watch(() => itemId.value, () => {
                   size="sm"
                   design="link"
                   theme="default"
-                  icon="i-tabler-mail"
+                  icon="i-tabler-sparkles"
                   data-test-id="to-magic-link"
                   @click.prevent="updateAuthStep('request-magic-link')"
                 >
-                  Sign in with email
+                  Email Login Link
                 </XButton>
               </div>
 

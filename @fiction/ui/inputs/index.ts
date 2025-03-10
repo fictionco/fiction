@@ -1,4 +1,4 @@
-import type { ActionButton, ListItem, MediaObject } from '@fiction/core'
+import type { ActionButton, ListItem, MediaObject, NavListItem } from '@fiction/core'
 import type { SchemaFields } from '@fiction/core/utils/schemas'
 import type { z } from 'zod'
 import { def, FictionObject, removeUndefined, vue } from '@fiction/core'
@@ -105,7 +105,7 @@ export interface InputOptionSettings {
   disabled?: boolean | string
   props?: Record<string, unknown>
   options?: InputOption[] | ((args: { input: InputOption }) => InputOption[])
-  list?: (ListItem | string)[] | readonly (ListItem | string)[]
+  list?: (NavListItem | string)[] | readonly (NavListItem | string)[]
   schema?: z.Schema
   generation?: InputOptionGeneration
   isHidden?: boolean

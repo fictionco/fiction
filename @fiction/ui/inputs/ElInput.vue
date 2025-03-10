@@ -217,6 +217,7 @@ const componentProps = vue.computed(() => {
         :is="inputComponent"
         v-if="inputComponent"
         ref="inputEl"
+        :data-input-el="typeof input === 'string' ? input : 'custom'"
         :model-value="modelValue"
         v-bind="componentProps"
         :ui-size="uiSize"

@@ -116,9 +116,9 @@ const viewModes = vue.computed(() => {
               label: 'Select Audiences',
               input: 'InputRadioButton',
               list: [
-                { label: 'All Contacts', value: 'all', icon: 'i-tabler-users' },
-                { label: 'Filter by Tag', value: 'filtered', icon: 'i-tabler-filter' },
-                { label: 'No Email', value: 'nobody', icon: 'i-tabler-mail-off' },
+                { label: 'All Contacts', value: 'all', icon: { class: 'i-tabler-users' } },
+                { label: 'Filter by Tag', value: 'filtered', icon: { class: 'i-tabler-filter' } },
+                { label: 'No Email', value: 'nobody', icon: { class: 'i-tabler-mail-off' } },
               ],
               props: { uiSize: 'md' },
               disabled: post.value?.status.value !== 'draft',

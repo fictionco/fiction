@@ -103,6 +103,7 @@ export async function getPages(args: { factory: CardFactory, site: Site }) {
         await factory.fromTemplate<typeof authTemplate>({
           el: def(async () => import('../dashboard/AuthView.vue')),
           userConfig: {
+            homeUrl: 'https://www.fiction.com',
             logo: { format: 'html' as const, html: fictionLogo },
             standard: { spaceSize: 'none', showOnSingle: true },
           },

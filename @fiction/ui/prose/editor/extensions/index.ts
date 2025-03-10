@@ -3,7 +3,7 @@ import type { Extensions } from '@tiptap/core'
 import type { EditorSupplementary } from '../utils/editor'
 import { InputRule } from '@tiptap/core'
 import CodeBlock from '@tiptap/extension-code-block'
-import Focus from '@tiptap/extension-focus'
+// import Focus from '@tiptap/extension-focus'
 import HighlightText from '@tiptap/extension-highlight'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import ImageUrl from '@tiptap/extension-image'
@@ -57,7 +57,6 @@ export function getExtensions(args: {
     Superscript,
     Subscript,
     CodeBlock,
-    Focus,
     TextStyle,
     TextUnderline,
     ImageUrl,

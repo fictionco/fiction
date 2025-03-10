@@ -96,8 +96,8 @@ const options = [
         label: 'Layout Style',
         props: { uiSize: 'sm' },
         list: [
-          { name: 'Media on Left', value: 'left' },
-          { name: 'Media on Right', value: 'right' },
+          { label: 'Media on Left', value: 'left' },
+          { label: 'Media on Right', value: 'right' },
         ],
       }),
       createOption({
@@ -108,8 +108,8 @@ const options = [
         subLabel: 'Standard scrolling or sticky media',
         props: { uiSize: 'sm' },
         list: [
-          { name: 'Standard Scrolling', value: 'scrolling' },
-          { name: 'Sticky Media', value: 'sticky' },
+          { label: 'Standard Scrolling', value: 'scrolling' },
+          { label: 'Sticky Media', value: 'sticky' },
         ],
       }),
     ],

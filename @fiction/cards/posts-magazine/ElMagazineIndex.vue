@@ -25,6 +25,8 @@ const emit = defineEmits<{
   (e: 'update:indexMeta', value: IndexMeta): void
 }>()
 
+const uc = vue.computed(() => card.userConfig.value)
+
 const totalPages = vue.computed(() => Math.ceil((indexMeta.count || 0) / (indexMeta.limit || 10)))
 const currentPage = vue.computed(() => Math.floor((indexMeta.offset || 0) / (indexMeta.limit || 10)) + 1)
 
@@ -78,7 +80,14 @@ function changePage(newPage: number) {
               />
             </div>
             <CardTextPost :data-post-title="post.title.value" :post path="title" tag="h2" class="text-2xl md:text-3xl font-medium x-font-title text-balance max-w-[80%]" />
-            <ElAuthor v-for="(author, ii) in post.authors.value || []" :key="ii" :user="author" :date-at="post.dateAt.value" />
+            <template v-if="uc.index?.showAuthors && post.authors.value?.length">
+              <ElAuthor
+                v-for="(author, ii) in post.authors.value || []"
+                :key="ii"
+                :user="author"
+                :date-at="post.dateAt.value"
+              />
+            </template>
           </div>
           <div v-if="i === 0" class="overlay absolute w-full h-full z-0 pointer-events-none inset-0 bg-[radial-gradient(circle_at_0%_100%,rgba(0,0,0,.5)_0,rgba(0,0,0,.3)_40%,transparent_70%)]" />
         </EffectGlare>

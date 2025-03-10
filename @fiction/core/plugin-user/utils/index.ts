@@ -101,7 +101,7 @@ export async function verifyCode(args: {
     return true
 
   if (!verify || verify.code !== verificationCode)
-    throw abort(`verification code is not a match (${isProd ? 'prod' : 'dev'})`, { data: !isProd ? { verify, verificationCode, isProd } : {} })
+    throw abort(`verification code didn't match`, { data: !isProd ? { verify, verificationCode, isProd } : {} })
 
   else if (!verify.expiresAt || dayjs().isAfter(verify.expiresAt))
     throw abort(`verification code is expired`)

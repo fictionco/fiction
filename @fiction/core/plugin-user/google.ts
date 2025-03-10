@@ -131,7 +131,7 @@ export async function googleAuth(options: GoogleAuthOptions): Promise<void> {
       callback: async (response) => {
         try {
           if (!response.code) {
-            throw new Error('No authorization code received')
+            return
           }
 
           // Exchange code for tokens on backend

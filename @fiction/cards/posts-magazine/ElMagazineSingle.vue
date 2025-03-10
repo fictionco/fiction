@@ -21,6 +21,8 @@ const { card, loading = false, post, nextPost } = defineProps<{
   nextPost?: Post
 }>()
 
+const uc = vue.computed(() => card.userConfig.value)
+
 const service = useService<{ fictionPosts: FictionPosts }>()
 
 const userIsAuthor = vue.computed(() => {
@@ -88,7 +90,7 @@ unhead.useHead({
             path="subTitle"
             class="text-lg md:text-2xl xl:text-3xl dark:text-theme-400 text-pretty"
           />
-          <div class="flex justify-center gap-3">
+          <div v-if="uc.index?.showAuthors && post.authors.value?.length" class="flex justify-center gap-3">
             <ElAuthor v-for="(author, i) in post.authors.value" :key="i" :user="author" :date-at="post.dateAt.value" />
           </div>
         </div>

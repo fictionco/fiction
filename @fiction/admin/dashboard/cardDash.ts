@@ -26,7 +26,10 @@ export const panelTemplate = cardTemplate({
 
 export const AuthPageSchema = z.object({
   logo: MediaBasicSchema.optional(),
+  homeUrl: z.string().optional(),
 })
+
+export type AuthPageUserConfig = z.infer<typeof AuthPageSchema>
 
 export const authTemplate = cardTemplate({
   templateId: 'auth',
