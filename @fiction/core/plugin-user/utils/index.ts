@@ -4,7 +4,7 @@ import type { WhereUser } from '../endpoint'
 import type { VerificationCode } from '../schema'
 import bcrypt from 'bcrypt'
 import { standardTable } from '../../tbl'
-import { isValid, toLabel } from '../../utils'
+import { isValid, shortId, toLabel } from '../../utils'
 import { abort } from '../../utils/error'
 import { dayjs } from '../../utils/libraries'
 
@@ -34,6 +34,20 @@ export async function hashPassword(password?: string): Promise<string | undefine
 }
 export async function comparePassword(password: string, hashedPassword: string): Promise<boolean> {
   return bcrypt.compare(password, hashedPassword)
+}
+
+export function checkPasswordIsComplicated(password: string): boolean {
+  // At least 8 characters with at least one number and one special character or uppercase letter
+  const result = password.length >= 8 && /\d/.test(password) && /[A-Z\W]/.test(password)
+
+  if (!result)
+    throw abort('Password must be: at least 8 characters with at least one number and one special character or uppercase letter')
+
+  return result
+}
+
+export function generateSecurePassword(): string {
+  return `${shortId({ len: 8 })}A1$`
 }
 
 export async function setUserVerificationCode(params: { context: string, fictionUser: FictionUser, where: WhereUser }): Promise<User | undefined> {

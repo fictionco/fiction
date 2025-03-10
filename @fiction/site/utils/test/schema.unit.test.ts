@@ -2,7 +2,7 @@
  * @vitest-environment happy-dom
  */
 import { shortId } from '@fiction/core'
-import { describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/testUtils'
 
@@ -16,6 +16,8 @@ describe('site and page schema', async () => {
     siteMode: 'designer' as const,
   }
   const _site = await Site.create(common, { loadThemePages: true })
+
+  afterAll(() => testUtils.close())
 
   it('should return a JSON schema for the site', async () => {
     expect(true).toBe(true)

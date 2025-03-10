@@ -9,7 +9,7 @@ defineOptions({ name: 'InputGradient' })
 
 const { modelValue, uiSize = 'md' } = defineProps<{
   modelValue?: GradientSetting
-  uiSize: StandardSize
+  uiSize?: StandardSize
 }>()
 
 const emit = defineEmits<{

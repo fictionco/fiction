@@ -9,9 +9,8 @@ import type { User } from './types.js'
 import { Query } from '../query.js'
 import { standardTable as t } from '../tbl.js'
 import { getGeoFree } from '../utils/geo.js'
-import { shortId } from '../utils/id.js'
 import { abort, dayjs, getRequestIpAddress } from '../utils/index.js'
-import { comparePassword, defaultOrgName, emailExists, getCode, hashPassword, validateNewEmail, verifyCode } from './utils/index.js'
+import { checkPasswordIsComplicated, comparePassword, defaultOrgName, emailExists, generateSecurePassword, getCode, hashPassword, validateNewEmail, verifyCode } from './utils/index.js'
 
 export type UserQuerySettings = {
   fictionUser: FictionUser
@@ -262,6 +261,8 @@ export class QueryManageUser extends UserBaseQuery {
   async updatePassword(args: { where: WhereUser, password: string, code: string }, meta: EndpointMeta) {
     const { where, password, code } = args
 
+    checkPasswordIsComplicated(password)
+
     await verifyCode({
       ...where,
       verificationCode: code,
@@ -368,7 +369,11 @@ export class QueryManageUser extends UserBaseQuery {
 
     fields.email = fields.email.toLowerCase().trim()
 
-    const hashedPassword = await hashPassword(fields.password || shortId({ len: 14 }))
+    const password = fields.password || generateSecurePassword()
+
+    checkPasswordIsComplicated(password)
+
+    const hashedPassword = await hashPassword(password)
 
     const exists = await emailExists({ email: fields.email, fictionUser })
 

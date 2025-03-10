@@ -14,22 +14,26 @@ const emit = defineEmits<{
   (event: 'update:modelValue', payload: User[]): void
 }>()
 
-const service = useService<{ fictionTeam: FictionTeam }>()
+const { fictionUser, fictionTeam } = useService<{ fictionTeam: FictionTeam }>()
 const users = vue.ref<User[]>([])
 const list = vue.computed<ListItem[]>(() => users.value.map(t => ({ value: t.userId, label: t.fullName, description: t.email })))
 const isFocused = vue.ref(false)
 const search = vue.ref<string | undefined>()
 
 async function fetchList() {
-  const activeOrganizationId = service.fictionUser.activeOrgId.value
-  const orgId = activeOrganizationId
+  try {
+    const orgId = fictionUser.activeOrganization?.value
 
-  if (!orgId)
-    return []
+    if (!orgId)
+      return []
 
-  const r = await service.fictionTeam.loadMemberIndex()
+    const r = await fictionTeam.loadMemberIndex()
 
-  users.value = r as User[]
+    users.value = r as User[]
+  }
+  catch (e) {
+    console.error(e)
+  }
 }
 
 function addFromId(userId: string) {

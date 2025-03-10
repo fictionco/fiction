@@ -4,8 +4,8 @@ layout: home
 
 hero:
   name: Fiction.com
-  text: Build Your Brand
-  tagline: Build your online presence, grow your audience, and connect with ease
+  text: Put Your Story Online
+  tagline: Learn how to create a personal website, start your newsletter, and more...
   actions:
     - theme: brand
       text: Get Started
