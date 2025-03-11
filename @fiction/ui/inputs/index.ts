@@ -163,14 +163,14 @@ export class InputOption extends FictionObject<InputOptionSettings> {
       label: this.label.value,
       subLabel: this.subLabel.value,
       description: this.description.value,
-      disabled: this.settings.disabled,
+      disabled: !!this.settings.disabled,
     }
   })
 
   outputProps = vue.computed(() => {
     if (this.input.value === 'InputControl') {
       return {
-        disabled: this.settings.disabled,
+        disabled: !!this.settings.disabled,
         options: this.options.value?.map(option => option.toConfig()),
         ...this.props.value,
       }
@@ -183,7 +183,7 @@ export class InputOption extends FictionObject<InputOptionSettings> {
         optionPath: this.key.value,
         options: this.options.value,
         list: normList(this.list.value),
-        disabled: this.settings.disabled,
+        disabled: !!this.settings.disabled,
         ...this.props.value,
       }
     }
