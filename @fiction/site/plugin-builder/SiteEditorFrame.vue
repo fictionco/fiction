@@ -1,10 +1,12 @@
 <script lang="ts" setup>
+import type { NavListItem } from '@fiction/core'
 import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil'
 import type { Site } from '../site'
 import type { FramePostMessageList } from '../utils/frame'
 import { toLabel, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
+import XDropDown from '@fiction/ui/common/XDropDown.vue'
 import ElBrowserFrameDevice from '@fiction/ui/frame/ElBrowserFrameDevice.vue'
 
 const props = defineProps({
@@ -13,16 +15,20 @@ const props = defineProps({
 
 const frameRef = vue.ref<HTMLElement & { frameUtility: FrameUtility<FramePostMessageList> }>() // Reference to the child component
 
-const deviceModes = [
-  { name: 'desktop', icon: 'i-tabler-device-desktop', wrapClass: 'w-full' },
-  { name: 'mobile', icon: 'i-tabler-device-mobile', wrapClass: 'w-[60%] max-w-sm' },
-  { name: 'tablet', icon: 'i-tabler-device-ipad', wrapClass: 'w-[85%] max-w-xl' },
-  { name: 'landscape', icon: 'i-tabler-device-ipad-horizontal', wrapClass: 'w-[90%] max-w-2xl' },
-] as const
+type DeviceModeKeys = 'desktop' | 'mobile' | 'tablet' | 'landscape'
+const activeDeviceModeKey = vue.ref<DeviceMode>('desktop')
+const deviceModes: (NavListItem & { wrapClass: string, value: DeviceModeKeys })[] = [
+  { value: 'desktop', icon: { class: 'i-tabler-device-desktop' }, wrapClass: 'w-full' },
+  { value: 'mobile', icon: { class: 'i-tabler-device-mobile' }, wrapClass: 'w-[60%] max-w-sm' },
+  { value: 'tablet', icon: { class: 'i-tabler-device-ipad' }, wrapClass: 'w-[85%] max-w-xl' },
+  { value: 'landscape', icon: { class: 'i-tabler-device-ipad-horizontal' }, wrapClass: 'w-[90%] max-w-2xl' },
+]
 
-type DeviceMode = typeof deviceModes[number]['name']
-const activeDeviceMode = vue.ref<DeviceMode>('desktop')
-const deviceModeConfig = vue.computed(() => deviceModes.find(mode => mode.name === activeDeviceMode.value))
+const activeDeviceMode = vue.computed(() => deviceModes.find(mode => mode.value === activeDeviceModeKey.value) || deviceModes[0])
+
+type DeviceMode = typeof deviceModes[number]['value']
+
+const deviceModeConfig = vue.computed(() => deviceModes.find(mode => mode.value === activeDeviceModeKey.value))
 
 // Watch for changes in frameRef and assign frameUtility
 vue.watch(
@@ -60,18 +66,21 @@ function toggleEditingStyle() {
       class=" flex justify-between space-x-2 "
     >
       <div class="flex items-center gap-2">
-        <XButton
-          v-for="(mode, i) in deviceModes"
-          :key="i"
-          rounding="full"
-          respond="icon:xl"
-          :theme="activeDeviceMode === mode.name ? 'theme' : 'default'"
-          :icon="mode.icon"
-          size="xs"
-          @click.stop="activeDeviceMode = mode.name"
+
+        <XDropDown
+          mode="click"
+          :items="deviceModes"
+          v-model="activeDeviceModeKey"
         >
-          {{ toLabel(mode.name) }}
-        </XButton>
+          <XButton
+            rounding="full"
+            :icon="activeDeviceMode?.icon"
+            size="xs"
+            icon-after="i-tabler-chevron-down"
+          >
+            {{ toLabel(activeDeviceMode?.value) }}
+          </XButton>
+        </XDropDown>
       </div>
 
       <div class="flex items-center gap-2">
@@ -142,7 +151,7 @@ function toggleEditingStyle() {
     <div v-if="site" class="min-h-0 h-full relative mx-auto pb-10 flex flex-col" :class="deviceModeConfig?.wrapClass">
       <ElBrowserFrameDevice
         ref="frameRef"
-        :device-mode="activeDeviceMode"
+        :device-mode="activeDeviceModeKey"
         class="rounded-md shadow-lg border border-theme-200"
         :url="site.frame.frameUrl.value"
         frame-id="site-builder-iframe"

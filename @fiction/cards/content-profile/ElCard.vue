@@ -9,6 +9,7 @@ import EffectFitText from '@fiction/ui/effect/EffectFitText.vue'
 import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
+import XEntry from '@fiction/ui/prose/XEntry.vue'
 import CardText from '../CardText.vue'
 import CardActionArea from '../el/CardActionArea.vue'
 import NavDots from '../el/NavDots.vue'
@@ -101,13 +102,15 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
                 <CardText :card tag="span" path="title" animate="rise" />
               </EffectFitText>
 
-              <CardText
-                tag="div"
-                :card
-                class="sub-heading mt-6 prose prose-lg md:prose-2xl leading-normal dark:prose-invert prose-theme"
-                path="content"
-                animate="rise"
-              />
+              <XEntry class="text-lg sm:text-xl">
+                <CardText
+                  tag="div"
+                  :card
+                  class="sub-heading mt-6"
+                  path="content"
+                  animate="rise"
+                />
+              </XEntry>
             </div>
 
             <div class="list space-y-4 text-base xl:text-lg @container">

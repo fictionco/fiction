@@ -131,28 +131,16 @@ async function resetToPublished() {
         <template #headerLeft>
           <div>
             <CardButton
-              respond="icon:sm"
               :card
-              theme="primary"
-              design="outline"
+              size="sm"
               href="/sites"
-              icon="i-tabler-arrow-left"
-            >
-              Back
-            </CardButton>
+              icon="i-tabler-home"
+            />
           </div>
-          <div class="flex space-x-1 font-medium">
-            <CardLink
-              :card
-              class="whitespace-nowrap  dark:text-theme-300 pr-1 hover:text-primary-500 dark:hover:text-theme-0 hidden lg:flex items-center gap-1"
-              href="/"
-            >
-              <span class="i-tabler-browser-plus text-xl inline-block dark:text-theme-500" />
-              <span>Edit Site</span>
-              <span class="i-tabler-slash text-xl dark:text-theme-500" />
-            </CardLink>
-
-            <XText v-if="site" v-model="site.title.value" :is-editable="true" class="hover:bg-theme-100 hover:dark:bg-theme-700 whitespace-nowrap" />
+          <div class="flex space-x-1 font-semibold items-center">
+            <XText title="Site Title" v-if="site" v-model="site.title.value" :is-editable="true" class="hover:bg-theme-100 hover:dark:bg-theme-700 whitespace-nowrap" />
+            <span class="i-tabler-slash text-xl dark:text-theme-500" />
+            <XText title="Page Title" v-if="site.currentPage.value.slug.value" v-model="site.currentPage.value.title.value" :is-editable="false" class="whitespace-nowrap" />
           </div>
         </template>
         <template v-if="site" #headerRight>
@@ -185,8 +173,9 @@ async function resetToPublished() {
                 :card
                 theme="default"
                 target="_blank"
-                size="md"
+                size="sm"
                 icon="i-tabler-eye"
+                design="ghost"
                 icon-after="i-tabler-chevron-down"
                 data-test-id="viewSiteButton"
               >
@@ -199,12 +188,12 @@ async function resetToPublished() {
             :card
             theme="primary"
             :loading="sending === 'save'"
-            icon="i-tabler-arrow-big-up-lines"
-            size="md"
+            icon="i-tabler-upload"
+            size="sm"
             data-test-id="publishChangesButton"
             @click.prevent="save()"
           >
-            Publish Changes
+            Publish
           </CardButton>
           <CardButton
             v-else
@@ -213,11 +202,11 @@ async function resetToPublished() {
             design="outline"
             :loading="sending === 'save'"
             icon="i-tabler-check"
-            size="md"
+            size="sm"
             data-test-id="changesPublishedButton"
             @click.prevent="save()"
           >
-            Changes Published
+            Published
           </CardButton>
         </template>
         <template #default>

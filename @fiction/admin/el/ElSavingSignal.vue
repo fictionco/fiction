@@ -7,7 +7,6 @@ import XDropDown from '@fiction/ui/common/XDropDown.vue'
 const {
   isDirty,
   navItems = [],
-  changeType,
   classes = {},
 } = defineProps<{
   isDirty: boolean
@@ -16,9 +15,7 @@ const {
   classes?: { text?: string, icon?: string }
 }>()
 
-const isOpen = vue.ref(false)
-
-const savedText = vue.computed(() => changeType === 'draft' ? 'Draft Saved' : 'Changes Saved')
+const savedText = vue.computed(() => 'Saved')
 
 const statusText = vue.computed(() => isDirty ? 'Saving' : savedText.value)
 const statusColor = vue.computed(() => isDirty ? 'fill-orange-500' : 'fill-green-500')

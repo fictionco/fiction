@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { NavListItem, StandardSize } from '@fiction/core'
-import { onResetUi, resetUi, useService, vue } from '@fiction/core'
+import { normList, onResetUi, resetUi, useService, vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 import TransitionSlide from '../anim/TransitionSlide.vue'
 import XIcon from '../media/XIcon.vue'
@@ -13,13 +13,15 @@ const {
   uiSize = 'md',
   classes = {},
 } = defineProps<{
-  items: NavListItem[]
+  items?: NavListItem[]
   placement?: 'top' | 'bottom' | 'left' | 'right'
   dropdownAlignment?: 'start' | 'center' | 'end'
   mode?: 'hover' | 'click'
   uiSize?: StandardSize
   classes?: { wrapper?: string, width?: string }
 }>()
+
+const normalizedItems = vue.computed(() => normList(items))
 
 const emit = defineEmits<{
   (event: 'update:model-value', value: string): void
@@ -30,7 +32,7 @@ const isHovered = vue.ref(false)
 const dropdownRef = vue.ref<HTMLDivElement | null>(null)
 const service = useService()
 
-const visibleItems = vue.computed(() => items.filter(item => !item.isHidden))
+const visibleItems = vue.computed(() => normalizedItems.value.filter(item => !item.isHidden))
 
 function toggleClicked() {
   resetUi({ scope: 'inputs', cause: 'dropdown', trigger: 'elementClick' })
@@ -148,7 +150,7 @@ const wrapperClass = vue.computed(() => {
 
     <TransitionSlide>
       <div
-        v-if="isActive && items?.length"
+        v-if="isActive && normalizedItems?.length"
         :class="menuClasses"
         role="menu"
         aria-orientation="vertical"

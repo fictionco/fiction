@@ -300,9 +300,16 @@ export async function getConfig(args: {
                 ],
                 utility: [
                   {
+                    label: 'Sign In',
+                    href: '/app/auth?_reload=1',
+                    onAuthState: 'loggedOut',
+                    iconAfter: { class: 'i-tabler-arrow-right' },
+                  },
+                  {
                     label: 'Account',
                     href: '/app?_reload=1',
                     variant: 'avatar',
+                    onAuthState: 'loggedIn',
                     list: {
                       items: [
                         { label: 'Sign In', href: '/app/auth?_reload=1', onAuthState: 'loggedOut' },

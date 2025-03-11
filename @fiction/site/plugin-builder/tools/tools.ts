@@ -70,7 +70,7 @@ export function getTools(args: { site: Site }) {
       toolId: 'history',
       title: 'Revision History',
       icon: { class: 'i-tabler-history' },
-      isPrimary: 'bottom',
+      isPrimary: true,
       el: vue.defineAsyncComponent(async () => import('./ToolPageHistory.vue')),
     },
     {

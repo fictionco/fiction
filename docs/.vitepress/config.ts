@@ -52,26 +52,6 @@ export default defineConfig({
             { text: 'Introduction', link: '/guide/introduction' },
           ],
         },
-        {
-          text: 'Essentials',
-          items: [
-            { text: 'Editing Your Site', link: '/guide/editing' },
-          ],
-        },
-      ],
-      '/developer/': [
-        {
-          text: 'Getting Started',
-          items: [
-            { text: 'Introduction', link: '/developer/introduction' },
-          ],
-        },
-        {
-          text: 'Essentials',
-          items: [
-            { text: 'Create a Site', link: '/developer/site' },
-          ],
-        },
       ],
       '/resources/': [
         {

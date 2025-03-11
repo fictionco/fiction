@@ -67,7 +67,7 @@ const hoverClass = 'group-hover/nav-link:text-theme-500 dark:group-hover/nav-lin
         v-else-if="item.icon"
         :media="item.icon"
         :class="hoverClass"
-        class="size-[1.1em]"
+        class="size-[1.05em]"
       />
 
       <!-- Text Content -->
@@ -98,9 +98,14 @@ const hoverClass = 'group-hover/nav-link:text-theme-500 dark:group-hover/nav-lin
         v-html="item.label"
       />
 
-      <!-- External Link Indicator -->
+      <XIcon
+        v-if="item.iconAfter"
+        :media="item.iconAfter"
+        :class="hoverClass"
+        class="size-[1.05em]"
+      />
       <span
-        v-if="item.target === '_blank'"
+        v-else-if="item.target === '_blank'"
         class="block opacity-30 group-hover:translate-x-[1px] group-hover:-translate-y-[1px] transition-all"
       >
         <span class="block i-heroicons-arrow-up-right-20-solid" />

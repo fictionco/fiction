@@ -84,6 +84,8 @@ export const recommendedIcons = [
   { class: 'i-tabler-asterisk', category: 'interface' },
   { class: 'i-tabler-north-star', category: 'interface' },
   { class: 'i-tabler-world', category: 'interface' },
+  { class: 'i-tabler-login', category: 'interface' },
+  { class: 'i-tabler-logout', category: 'interface' },
 
   // Content - Text editing and content management
   { class: 'i-tabler-file', category: 'content' },
