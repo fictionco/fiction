@@ -32,7 +32,7 @@ const blendModes = [
   'saturation',
   'color',
   'luminosity',
-]
+].map(mode => ({ label: mode, value: mode }))
 
 const options: InputOption[] = [
   createOption({

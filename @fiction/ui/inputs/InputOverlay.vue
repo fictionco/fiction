@@ -32,7 +32,7 @@ const blendModes = [
   'saturation',
   'color',
   'luminosity',
-]
+].map(mode => ({ label: mode, value: mode }))
 
 async function updateValue(value: MediaObject['overlay']): Promise<void> {
   emit('update:modelValue', value)

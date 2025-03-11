@@ -641,11 +641,11 @@ const statusMap = vue.computed<NavListItem>(() => {
             :list="[{
               label: 'Publish Now',
               value: 'now',
-              icon: 'i-tabler-clock',
+              icon: { class: 'i-tabler-clock' },
             }, {
               label: 'Schedule for Later',
               value: 'schedule',
-              icon: 'i-tabler-calendar',
+              icon: { class: 'i-tabler-calendar' },
             }]"
             required
           />

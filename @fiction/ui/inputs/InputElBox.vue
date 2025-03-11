@@ -1,21 +1,23 @@
 <script lang="ts" setup>
-import type { StandardSize } from '@fiction/core'
+import type { MediaObject, StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
+import XIcon from '../media/XIcon.vue'
 
 defineOptions({ name: 'InputElBox' })
 
-const props = defineProps({
-  label: { type: [String, Number], default: '' },
-  icon: { type: String, default: '' },
-  prefix: { type: [String, Number], default: '' },
-  selected: { type: Boolean, default: false },
-  notSelected: { type: Boolean, default: false },
-  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
-})
+const { label = '', icon, selected, notSelected, uiSize = 'md', prefix = '' } = defineProps<{
+  label?: number | string
+  icon?: MediaObject
+  prefix?: string | number
+  selected?: boolean
+  notSelected?: boolean
+  uiSize?: StandardSize
+}>()
+
 const animateSelected = vue.ref()
 
 vue.watch(
-  () => props.selected,
+  () => selected,
   (v) => {
     if (v) {
       animateSelected.value = v
@@ -47,35 +49,35 @@ function getClasses(uiSize: StandardSize) {
     'sm': {
       container: 'max-w-[3em] text-sm',
       iconContainer: '',
-      icon: 'text-[1.5em]',
+      icon: 'size-[1.5em]',
       label: 'text-[1.1em]',
       labelContainer: 'text-[0.8em]',
     },
     'md': {
       container: 'max-w-[4em] text-base',
       iconContainer: '',
-      icon: 'text-[1.8em]',
+      icon: 'size-[1.8em]',
       label: 'text-[1.3em]',
       labelContainer: 'text-[0.9em]',
     },
     'lg': {
       container: 'max-w-[4.5em] text-lg',
       iconContainer: '',
-      icon: 'text-[2.1em]',
+      icon: 'size-[2.1em]',
       label: 'text-[1.5em]',
       labelContainer: 'text-[1em]',
     },
     'xl': {
       container: 'max-w-[5em] text-xl',
       iconContainer: '',
-      icon: 'text-[2.4em]',
+      icon: 'size-[2.4em]',
       label: 'text-[1.7em]',
       labelContainer: 'text-[1.1em]',
     },
     '2xl': {
       container: 'max-w-[5.5em] text-2xl',
       iconContainer: '',
-      icon: 'text-[2.7em]',
+      icon: 'size-[2.7em]',
       label: 'text-[1.9em]',
       labelContainer: 'text-[1.2em]',
     },
@@ -92,7 +94,7 @@ function getClasses(uiSize: StandardSize) {
   }
 }
 
-const cls = vue.computed(() => getClasses(props.uiSize))
+const cls = vue.computed(() => getClasses(uiSize))
 </script>
 
 <template>
@@ -109,10 +111,7 @@ const cls = vue.computed(() => getClasses(props.uiSize))
         <div
           class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         >
-          <div
-            v-if="icon"
-            :class="[cls.icon, icon]"
-          />
+          <XIcon v-if="icon" :media="icon" :class="cls.icon" />
           <div v-else :class="cls.label">
             {{ label }}
           </div>

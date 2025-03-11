@@ -103,7 +103,7 @@ vue.onMounted(async () => {
           label="Color Scheme"
           sub-label="Preview the email in dark or light mode"
           input="InputSelect"
-          :list="['dark', 'light', { name: 'User Default', value: '' }]"
+          :list="[{ value: 'dark' }, { value: 'light' }, { label: 'User Default', value: '' }]"
         />
       </div>
       <div class="border-b border-theme-200 dark:border-theme-700/70 mb-8 pb-8">

@@ -1,27 +1,22 @@
 <script lang="ts" setup>
-import type { StandardSize } from '@fiction/core'
+import type { MediaObject, StandardSize } from '@fiction/core'
 import { vue } from '@fiction/core'
 import InputElBox from './InputElBox.vue'
 
 defineOptions({ name: 'InputRating' })
 
-const props = defineProps({
-  modelValue: { type: [Number], default: undefined },
-  countStart: { type: [Number, String], default: 0 },
-  countEnd: { type: [Number, String], default: 5 },
-  icon: { type: String, default: undefined },
-  labels: {
-    type: Object as vue.PropType<{ low?: string, middle?: string, high?: string }>,
-    default: undefined,
-  },
-  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
-})
-
+const { modelValue, countStart = 0, countEnd = 5, labels, uiSize = 'md', icon } = defineProps<{
+  modelValue?: number
+  countStart?: number | string
+  countEnd?: number | string
+  labels?: { low?: string, middle?: string, high?: string }
+  uiSize?: StandardSize
+  icon?: MediaObject
+}>()
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: number | undefined): void
   (event: 'continue', payload: number | undefined): void
 }>()
-
 const attrs = vue.useAttrs()
 
 const validEl = vue.ref<HTMLInputElement>()
@@ -38,7 +33,7 @@ function selectItem(val?: number) {
 
 const parsedList = vue.computed<number[]>(() => {
   const list: number[] = []
-  for (let i = +props.countStart; i <= +props.countEnd; i++)
+  for (let i = +countStart; i <= +countEnd; i++)
     list.push(i)
 
   return list
@@ -56,7 +51,7 @@ function selectByLetter(ev: KeyboardEvent) {
 const cleanups: (() => void)[] = []
 vue.onMounted(() => {
   const uw = vue.watch(
-    () => props.modelValue,
+    () => modelValue,
     (val) => {
       const min = attrs.required === undefined ? 0 : 1
 
@@ -96,7 +91,7 @@ vue.onBeforeUnmount(() => {
         "
         :prefix="item"
         :label="item"
-        :icon="icon"
+        :icon
         :ui-size="uiSize"
         @click="selectItem(item)"
       />

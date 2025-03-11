@@ -22,7 +22,8 @@ const selectedCategory = vue.ref<IconCategory | 'all'>('all')
 // Get unique categories from recommendedIcons
 const categories = vue.computed(() => {
   const cats = new Set(recommendedIcons.map(icon => icon.category))
-  return ['all', ...Array.from(cats)] as const
+  const all = ['all', ...Array.from(cats)] as const
+  return all.map(cat => ({ label: cat, value: cat }))
 })
 
 // Filter icons based on search text and category

@@ -100,7 +100,7 @@ const typographyOptions = [
       class="my-2"
       input="InputRadioButton"
       ui-size="sm"
-      :list="['typography', 'media']"
+      :list="[{ value: 'typography' }, { value: 'media' }]"
       @update:model-value="handleLogoUpdate({ ...v, variant: $event })"
     />
     <div v-if="variant === 'media'">

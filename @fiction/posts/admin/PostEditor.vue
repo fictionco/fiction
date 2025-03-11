@@ -175,7 +175,7 @@ function triggerMediaModal() {
               </div>
             </div>
             <div class="relative max-h-[100%] grow overflow-scroll w-full min-h-0 dark:bg-theme-950/80 no-scrollbar">
-              <div class="pt-6 md:pt-16 pb-[50vh] px-6 md:px-12 max-w-[900px] mx-auto focus:outline-none space-y-6">
+              <div class="pt-6 md:pt-10 pb-[50vh] px-6 md:px-12 max-w-[900px] mx-auto focus:outline-none space-y-6">
                 <ProseEditor
                   ref="proseEditorEl"
                   :model-value="post.content.value"

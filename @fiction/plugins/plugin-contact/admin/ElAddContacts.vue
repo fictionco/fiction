@@ -233,9 +233,9 @@ async function importSubscribers() {
             v-model="importMethod"
             input="InputRadioButton"
             :list="[
-              { label: 'By Email', value: 'input', icon: 'i-tabler-mail' },
-              { label: 'Import (CSV)', value: 'csv', icon: 'i-tabler-file-type-csv' },
-              { label: 'Comma Separated', value: 'text', icon: 'i-tabler-text-scan-2' },
+              { label: 'By Email', value: 'input', icon: { class: 'i-tabler-mail' } },
+              { label: 'Import (CSV)', value: 'csv', icon: { class: 'i-tabler-file-type-csv' } },
+              { label: 'Comma Separated', value: 'text', icon: { class: 'i-tabler-text-scan-2' } },
             ]"
             default-text="Select Import Method"
             ui-size="sm"

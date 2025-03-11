@@ -1,7 +1,7 @@
 import type { ActionButton, MediaObject, NavListItem } from '@fiction/core'
 import type { SchemaFields } from '@fiction/core/utils/schemas'
 import type { z } from 'zod'
-import { FictionObject, removeUndefined, vue } from '@fiction/core'
+import { FictionObject, normList, removeUndefined, vue } from '@fiction/core'
 
 type InputEntry = { el: vue.Component, shape?: string[] }
 
@@ -180,7 +180,7 @@ export class InputOption extends FictionObject<InputOptionSettings> {
         key: this.key.value,
         optionPath: this.key.value,
         options: this.options.value,
-        list: this.list.value,
+        list: normList(this.list.value),
         disabled: this.settings.disabled,
         ...this.props.value,
       }

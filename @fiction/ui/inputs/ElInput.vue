@@ -35,7 +35,7 @@ const {
   activePath?: string
   placeholder?: string
   required?: boolean
-  list?: NavListItem[]
+  list?: (NavListItem | string)[] | readonly (NavListItem | string)[]
   rows?: number
 }>()
 
