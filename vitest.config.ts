@@ -33,11 +33,7 @@ export default defineConfig({
   root: process.cwd(),
   clearScreen: false,
   test: {
-    // browser: {
-    //   provider: 'playwright',
-    //   enabled: true,
-    //   name: 'chromium',
-    // },
+
     // added to fix a memory error 3.0.4 -> https://github.com/vitest-dev/vitest/issues/7288
     fakeTimers: {
       toFake: ['Date', 'setTimeout', 'clearTimeout'],

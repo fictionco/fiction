@@ -1,6 +1,3 @@
-/**
- * @vitest-environment happy-dom
- */
 import { shortId } from '@fiction/core'
 import { afterAll, describe, expect, it } from 'vitest'
 import { Site } from '../../site'
