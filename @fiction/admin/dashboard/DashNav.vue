@@ -86,8 +86,8 @@ const cls = {
               />
               <XIcon v-else-if="sub.icon" :media="sub.icon" :class="cls.icon" />
             </div>
-            <div class="pt-0.5">
-              <div class="font-semibold" v-html="toLabel(sub.label)" />
+            <div class="pt-0.5 min-w-0 truncate">
+              <div class="font-semibold truncate" v-html="toLabel(sub.label)" />
               <div
                 v-if="sub.subLabel"
                 class="text-xs "

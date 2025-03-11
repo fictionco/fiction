@@ -21,12 +21,14 @@ describe('user tests', async () => {
 
   afterAll(() => testUtils.fictionDb.close())
 
+  const password = `testtest123A#`
+
   it('creates user', async () => {
     const email = getTestEmail()
     const response = await testUtils?.fictionUser?.queries.ManageUser.serve(
       {
         _action: 'create',
-        fields: { email, fullName: 'test', password: 'test' },
+        fields: { email, fullName: 'test', password },
       },
       {},
     )
@@ -65,7 +67,7 @@ describe('user tests', async () => {
     if (!user.email)
       throw new Error('email required')
     const response = await testUtils?.fictionUser?.queries.ManageUser.serve(
-      { _action: 'login', where: { email: user.email }, password: 'test' },
+      { _action: 'login', where: { email: user.email }, password },
       {},
     )
 

@@ -71,7 +71,7 @@ export async function createTestUser(args: {
   const caller = `createTestUser-${args.caller || 'unknown'}`
   logger.info(`creating user - ${caller}`)
   const email = getTestEmail()
-  const password = 'test'
+  const password = 'testtest123A#'
   const fullName = faker.person.fullName()
   const orgName = faker.company.name()
 
