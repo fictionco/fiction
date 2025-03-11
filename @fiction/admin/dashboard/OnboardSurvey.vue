@@ -260,7 +260,7 @@ const stepConfig: StepConfig = {
               placeholder="Your full name"
               ui-size="lg"
               required
-              autofocus
+              :input-props="{ autofocus: true }"
             />
           </div>
           <div v-if="step.key === 'orgName'">
@@ -270,7 +270,7 @@ const stepConfig: StepConfig = {
               placeholder="Enter brand name"
               ui-size="lg"
               required
-              autofocus
+              :input-props="{ autofocus: true }"
             />
           </div>
           <div v-if="step.key === 'goal'" class="space-y-4">
@@ -290,7 +290,7 @@ const stepConfig: StepConfig = {
               v-if="form.goal === 'other'"
               v-model="form.goalOther"
               input="InputTextarea"
-              :rows="2"
+              :input-props="{ rows: 2 }"
               ui-size="lg"
               required
               placeholder="Tell us more about your goals"
@@ -313,7 +313,7 @@ const stepConfig: StepConfig = {
               v-if="form.role === 'other'"
               v-model="form.roleOther"
               input="InputTextarea"
-              :rows="2"
+              :input-props="{ rows: 2 }"
               ui-size="lg"
               placeholder="Tell us more about your situation"
               required

@@ -47,8 +47,11 @@ export function getExtensions(args: {
         if (node.type.name === 'heading') {
           return 'Enter heading...'
         }
+        else if (node.type.name === 'codeBlock') {
+          return 'Enter code...'
+        }
 
-        return 'Write your story...'
+        return 'Enter text...'
       },
     }),
 

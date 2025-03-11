@@ -138,10 +138,23 @@ const items = vue.computed<NavItem[]>(() => {
         const confirm = window.confirm('Are you sure?')
         if (!confirm)
           return
+
         const pos = props.getPos()
+        const { state, view } = props.editor
+
         if (pos != null) {
-          const transaction = props.editor.state.tr.delete(pos, pos + props.node.nodeSize)
-          props.editor.view.dispatch(transaction)
+          const nodeSize = props.node.nodeSize
+          const docSize = state.doc.content.size
+          const from = pos
+          const to = Math.min(pos + nodeSize, docSize) // Cap the end position at docSize
+
+          if (from >= 0 && from < docSize) { // Ensure start position is valid
+            const transaction = state.tr.delete(from, to)
+            view.dispatch(transaction)
+          }
+          else {
+            console.warn('Invalid start position for deletion:', { pos, nodeSize, docSize })
+          }
         }
       },
     },

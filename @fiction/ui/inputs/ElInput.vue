@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { NavListItem } from '@fiction/core'
 import type { UiElementSize } from '../utils'
 import { omit, resetUi, vue, waitFor } from '@fiction/core'
 import { inputs } from '.'
@@ -18,6 +19,9 @@ const {
   editPath,
   activePath,
   placeholder,
+  required,
+  list,
+  rows,
 } = defineProps<{
   modelValue?: any
   label?: string
@@ -30,6 +34,9 @@ const {
   editPath?: string
   activePath?: string
   placeholder?: string
+  required?: boolean
+  list?: NavListItem[]
+  rows?: number
 }>()
 
 const emit = defineEmits<{
@@ -175,6 +182,9 @@ const componentProps = vue.computed(() => {
   return {
     //   ...omit(attrs, 'class', 'data-test-id', 'data-option-path', 'model-value'),
     placeholder,
+    required,
+    list,
+    rows,
     ...inputProps,
   }
 })

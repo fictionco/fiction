@@ -101,6 +101,7 @@ const stepConfig: StepConfig = {
           :input-props="{
             'placeholder': `Enter post title`,
             'aria-label': 'Post title',
+            'required': true,
           }"
           data-test-id="start-post-title"
           ui-size="lg"
