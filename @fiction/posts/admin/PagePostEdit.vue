@@ -107,7 +107,7 @@ const viewModes = vue.computed(() => {
           schema,
           key: 'group.audienceEmail',
           input: 'group',
-          label: 'Email Audience',
+          label: 'Newsletter Audience',
           icon: { class: 'i-tabler-mail' },
           options: [
             createOption({
@@ -125,6 +125,8 @@ const viewModes = vue.computed(() => {
             }),
             createOption({
               schema,
+              label: 'Estimated Recipients',
+              subLabel: 'Based on selected options and filters',
               key: 'emailConfig.filters',
               input: InputAudienceFilter,
               props: { recipientCount },
@@ -145,9 +147,9 @@ const viewModes = vue.computed(() => {
               label: 'Website Visibility',
               input: 'InputRadioButton',
               list: [
-                { label: 'Public', value: 'public' },
-                { label: 'Private', value: 'private' },
-                { label: 'Unlisted', value: 'unlisted' },
+                { label: 'Public', value: 'public', icon: { class: 'i-tabler-globe' } },
+                { label: 'Private', value: 'private', icon: { class: 'i-tabler-lock' } },
+                { label: 'Unlisted', value: 'unlisted', icon: { class: 'i-tabler-eye-off' } },
               ],
               props: { uiSize: 'md' },
             }),
@@ -512,7 +514,7 @@ const statusMap = vue.computed<NavListItem>(() => {
           size="sm"
           :icon="statusMap.icon"
           data-test-id="post-status-badge"
-          design="outline"
+          design="ghost"
           class="hidden md:block"
           @click.stop="navigate({ key: 'review' })"
         >
@@ -525,7 +527,7 @@ const statusMap = vue.computed<NavListItem>(() => {
           size="sm"
           icon="i-tabler-mail"
           data-test-id="post-email-status-badge"
-          design="outline"
+          design="ghost"
           @click.stop="navigate({ key: 'review' })"
         >
           {{ toLabel(post?.emailStatus.value) }}
@@ -542,10 +544,10 @@ const statusMap = vue.computed<NavListItem>(() => {
           <XButton
             theme="default"
             target="_blank"
-            size="md"
+            size="sm"
             icon="i-tabler-eye"
             data-test-id="preview-post-button"
-            design="outline"
+            design="ghost"
             @click.stop="navigate({ dir: 'preview' })"
           >
             Preview

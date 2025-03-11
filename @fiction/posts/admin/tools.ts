@@ -13,15 +13,6 @@ export const tools = [
     isPrimary: 'bottom',
   },
   {
-    toolId: 'emailPreview',
-    title: 'Email Preview',
-    icon: { class: 'i-tabler-eye' },
-    location: 'primary',
-    isPrimary: true,
-    widthClasses: 'w-[400px] lg:w-[700px]',
-    el: vue.defineAsyncComponent(async () => import('./email/ToolEmailPreview.vue')),
-  },
-  {
     toolId: 'emailTest',
     title: 'Send Test Emails',
     icon: { class: 'i-tabler-mailbox' },

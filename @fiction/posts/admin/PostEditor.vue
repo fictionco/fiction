@@ -96,7 +96,7 @@ function triggerMediaModal() {
             rounding="full"
             respond="icon:xl"
             design="outline"
-            :class="activeKey === mode.value ? '' : 'opacity-80'"
+            :class="activeKey === mode.value ? '' : 'opacity-40'"
             :theme="activeKey === mode.value ? 'primary' : 'default'"
             :icon="mode.icon"
             size="xs"

@@ -3,7 +3,7 @@ import type { ColorThemeUser } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionExtend } from '.'
 import { useService, vue } from '@fiction/core'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import { getColorThemeStyles } from '@fiction/ui/utils.js'
 
 defineProps({
@@ -48,8 +48,8 @@ function getStyle(theme: ColorThemeUser) {
           </div>
 
           <div class="flex gap-2">
-            <ElButton btn="primary" icon="i-tabler-plus">Enable</ElButton>
-            <ElButton btn="default" icon="i-tabler-x">Disable</ElButton>
+            <XButton btn="primary" icon="i-tabler-plus">Enable</XButton>
+            <XButton btn="default" icon="i-tabler-x">Disable</XButton>
           </div>
         </div>
       </div>

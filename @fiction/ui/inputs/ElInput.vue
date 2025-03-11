@@ -20,6 +20,7 @@ const {
   activePath,
   placeholder,
   required,
+  disabled,
   list,
   rows,
 } = defineProps<{
@@ -34,6 +35,7 @@ const {
   editPath?: string
   activePath?: string
   placeholder?: string
+  disabled?: boolean
   required?: boolean
   list?: (NavListItem | string)[] | readonly (NavListItem | string)[]
   rows?: number
@@ -183,6 +185,7 @@ const componentProps = vue.computed(() => {
     //   ...omit(attrs, 'class', 'data-test-id', 'data-option-path', 'model-value'),
     placeholder,
     required,
+    disabled,
     list,
     rows,
     ...inputProps,
@@ -204,7 +207,7 @@ const componentProps = vue.computed(() => {
     ]"
     @click.stop="updateActivePath()"
   >
-    <div v-if="label || description" class="text-input-label-size flex justify-between mb-1.5">
+    <div v-if="label || description" class="text-input-label-size flex justify-between mb-1.5" :class="disabled ? 'opacity-50' : ''">
       <div class="text items-center" :class="cls.labelSize">
         <div
           class="flex items-center space-x-2 text-theme-700 dark:text-theme-0"

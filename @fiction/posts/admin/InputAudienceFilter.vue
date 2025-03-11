@@ -89,25 +89,25 @@ const tagGroupDisplay = vue.computed(() => {
 
 <template>
   <div class="space-y-6">
-    <div class="border-y border-theme-200 dark:border-theme-600/60 py-4 lg:py-6 flex gap-6 justify-between items-center">
+    <div class="border rounded-lg border-theme-200 dark:border-theme-600/60 p-6 lg:p-8 flex gap-6 justify-between items-center">
       <div class="text-xl font-medium text-theme-600 dark:text-theme-200 space-x-2">
         <XNumber
           tag="span"
-          :animate="true"
+          :animate="false"
           :model-value="recipientCount"
           class="mt-4 text-5xl font-bold x-font-title"
           format="number"
         />
-        <span class="text-theme-500">recipients</span>
+        <span class="text-theme-500">contacts</span>
       </div>
 
-      <div class="text-sm space-y-1 ">
-        <div class="text-theme-500">
+      <div class="text-sm space-y-1 bg-theme-100 dark:bg-theme-700/70 p-4 rounded-lg">
+        <div class="text-theme-500 dark:text-theme-400">
           {{ post.emailConfig.value.target === 'all'
             ? 'Sending to all active contacts'
-            : post.emailConfig.value.target === 'filtered' ? 'Sending to contacts with filters' : 'No will be sent' }}
+            : post.emailConfig.value.target === 'filtered' ? 'Sending to contacts with filters' : 'No email will be sent' }}
         </div>
-        <div class="font-medium" v-html="tagGroupDisplay" />
+        <div v-if="tagGroupDisplay" class="font-medium" v-html="tagGroupDisplay" />
       </div>
     </div>
 

@@ -28,7 +28,7 @@ const primaryColor = computed(() => previewMode === 'dark' ? colorList[theme]?.[
 const primaryColorAlt = computed(() => previewMode === 'dark' ? colorList[theme]?.[500] : colorList[theme]?.[500])
 const textColor = computed(() => previewMode === 'dark' ? colorList.gray[0] : colorList.gray[900])
 const textColorAlt = computed(() => previewMode === 'dark' ? colorList.gray[300] : colorList.gray[600])
-const textColorSubtle = computed(() => previewMode === 'dark' ? colorList.gray[400] : colorList.gray[500])
+const textColorSubtle = computed(() => previewMode === 'dark' ? colorList.gray[500] : colorList.gray[400])
 const hrColor = computed(() => previewMode === 'dark' ? colorList.gray[600] : colorList.gray[300])
 const bgColor = computed(() => previewMode === 'dark' ? colorList.gray[900] : colorList.gray[0])
 const panelColor = computed(() => previewMode === 'dark' ? colorList.gray[800] : colorList.gray[100])
@@ -40,7 +40,7 @@ const previewText = computed(() => preview || [title, subTitle].filter(Boolean).
 const baseStyles = {
   container: `width:100%;max-width:600px;margin:0 auto;padding:32px 16px;font-family:${fontStack};color:${textColor.value};`,
   link: `color:${textColor.value};text-decoration:none;`,
-  hr: `border:none;border-top:1px solid ${hrColor.value};margin:3em 0; width: 5em;`,
+  hr: `border:none;border-top:1px solid ${hrColor.value};margin:2em 0; width: 5em;`,
 }
 
 unhead.useHead({
@@ -289,16 +289,16 @@ unhead.useHead({
                   width: '22px',
                   height: '22px',
                   objectFit: 'cover',
-                  marginRight: '8px',
+                  marginRight: '6px',
                 }"
               >
             </td>
             <td>
               <a
                 v-if="superTitle?.text"
-                :href="superTitle.href || '#'"
+                :href="superTitle.href"
                 :style="{
-                  color: textColorAlt, textDecoration: 'none', fontWeight: 600, fontSize: `14px` }"
+                  color: textColorAlt, textDecoration: 'none', fontWeight: 500, fontSize: `14px` }"
               >{{ superTitle?.text }}</a>
             </td>
           </tr>
@@ -373,7 +373,9 @@ unhead.useHead({
 
         <!-- CompanyName Info -->
         <div :style="{ fontSize: '13px' }">
-          <div>© {{ new Date().getFullYear() }} {{ companyName || senderName }}</div>
+          <div :style="{ fontWeight: '600' }">
+            © {{ new Date().getFullYear() }} {{ companyName || senderName }}
+          </div>
           <div v-if="streetAddress" style="margin-top:4px;">
             {{ streetAddress }}
           </div>

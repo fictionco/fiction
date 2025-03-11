@@ -81,11 +81,11 @@ function triggerModal(event: MouseEvent) {
     <div
       v-else
       data-test-id="media-select-button"
-      class="trigger-button group flex items-center justify-center gap-2 p-4 rounded-lg bg-theme-100/40 dark:bg-theme-700/70 hover:bg-theme-100/70 dark:hover:bg-theme-700 cursor-pointer text-theme-500 dark:text-theme-400 hover:text-theme-600 dark:hover:text-theme-300"
+      class="trigger-button group flex items-center justify-center gap-2 p-4 rounded-lg bg-theme-100/40 dark:bg-theme-700/70 hover:bg-theme-100/70 dark:hover:bg-theme-700 cursor-pointer text-theme-400 dark:text-theme-500 hover:text-theme-600 dark:hover:text-theme-300"
       @click="triggerModal($event)"
     >
       <XIcon :media="{ class: 'i-tabler-photo' }" class="size-6" />
-      <div class="text-sm">
+      <div class="text-xs">
         {{ isBackground ? 'Edit Background' : 'Select Media' }}
       </div>
     </div>

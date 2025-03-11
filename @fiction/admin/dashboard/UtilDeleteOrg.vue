@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site/card'
 import { useService, vue } from '@fiction/core'
-import ElButton from '@fiction/ui/ElButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 
 const props = defineProps({
@@ -44,14 +44,14 @@ async function maybeDeleteOrganization(): Promise<void> {
     sub-label="Permanently delete this organization and its data."
   >
     <div class="my-2 rounded-md">
-      <ElButton
+      <XButton
         :loading="sending === 'delete'"
         btn="danger"
         size="sm"
         @click="maybeDeleteOrganization()"
       >
         Permanently Delete Organization: "{{ org?.orgName }}"
-      </ElButton>
+      </XButton>
     </div>
   </ElInput>
 </template>

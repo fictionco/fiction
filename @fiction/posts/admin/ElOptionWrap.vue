@@ -3,6 +3,7 @@ import type { SuperTitle } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { InputOption } from '@fiction/ui'
 import type { Post } from '../post'
+import { toLabel } from '@fiction/core'
 import XSuperTitle from '@fiction/ui/common/XSuperTitle.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
@@ -43,6 +44,20 @@ const { title, subTitle, superTitle, card, post, value, options = [] } = defineP
       </div>
     </div>
     <div class="relative z-10">
+      <div v-if="post.status.value !== 'draft'" class="bg-primary-100 dark:bg-primary-900/30 py-4 px-4 md:px-8 rounded-lg mb-6 text-sm space-y-1">
+        <div class="font-semibold space-x-2">
+          <span class="text-primary-700 dark:text-primary-100">Post Status:</span>
+          <span class="">{{ toLabel(post.status.value) }}</span>
+        </div>
+        <div class="text-primary-500 dark:text-primary-400 text-[.9em]">
+          <span v-if="post.status.value === 'scheduled'">
+            Email settings are unavailable. Unschedule the post to edit email details.
+          </span>
+          <span v-else>
+            Email settings are unavailable for non-draft posts. Web version changes saved.
+          </span>
+        </div>
+      </div>
       <FormEngine
         :model-value="post.toConfig()"
         :state-key="`optionWrap-${value}`"
