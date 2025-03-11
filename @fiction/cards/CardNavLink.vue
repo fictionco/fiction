@@ -54,7 +54,7 @@ const hoverClass = 'group-hover/nav-link:text-theme-500 dark:group-hover/nav-lin
     :class="!item.href ? 'cursor-default' : 'cursor-pointer'"
     :data-el-type="styles.componentType"
   >
-    <span class="inline-flex items-center space-x-1.5 relative whitespace-nowrap w-full">
+    <span class="inline-flex items-center space-x-1.5 relative w-full">
       <!-- User Avatar -->
       <ElAvatar
         v-if="item.variant === 'avatar' && service.fictionUser.activeUser.value"

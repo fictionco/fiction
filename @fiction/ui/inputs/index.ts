@@ -1,9 +1,11 @@
-import type { ActionButton, ListItem, MediaObject, NavListItem } from '@fiction/core'
+import type { ActionButton, MediaObject, NavListItem } from '@fiction/core'
 import type { SchemaFields } from '@fiction/core/utils/schemas'
 import type { z } from 'zod'
-import { def, FictionObject, removeUndefined, vue } from '@fiction/core'
+import { FictionObject, removeUndefined, vue } from '@fiction/core'
 
 type InputEntry = { el: vue.Component, shape?: string[] }
+
+const def = vue.defineAsyncComponent
 
 export const inputs = {
   InputColorTheme: { el: def(() => import('./InputColorTheme.vue')) },

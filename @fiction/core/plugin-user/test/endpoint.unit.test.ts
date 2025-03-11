@@ -157,7 +157,7 @@ describe('user endpoint tests', async () => {
       _action: 'create',
       fields: {
         email,
-        password: 'password123',
+        password: 'testtest123A#',
         orgName: 'Test Org',
       },
       isVerifyEmail: false,

@@ -34,7 +34,7 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
       </div>
       <!-- Main Work Area -->
       <div
-        class="editor-work-area flex flex-1 min-h-0"
+        class="editor-work-area flex flex-1 min-h-0 h-full"
       >
         <!-- Tools Sidebar -->
         <TransitionWidth>
@@ -115,7 +115,7 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
           <div class="flex flex-1 min-w-0 relative">
             <!-- Main Content -->
             <div
-              class="flex-1 h-full overflow-scroll bg-theme-50/50 dark:bg-theme-800/60"
+              class="flex-1 h-full overflow-scroll bg-theme-50/50 dark:bg-theme-800/60 no-scrollbar"
             >
               <div v-if="loading" class="pt-32 flex justify-center">
                 <ElSpinner class="size-12 text-theme-300 dark:text-theme-600" />

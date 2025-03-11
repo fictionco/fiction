@@ -34,7 +34,7 @@ vue.onMounted(() => {
 <template>
   <div :id="card.cardId">
     <div :class="card.classes.value.contentWidth">
-      <div class="px-6 lg:px-0 border-t border-theme-200 dark:border-theme-700/80 pt-16 mt-4 ">
+      <div class="px-0 border-t border-theme-200 dark:border-theme-700/80 pt-16 mt-4 ">
         <!-- Main grid layout -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-24">
           <!-- Brand section -->
@@ -103,7 +103,7 @@ vue.onMounted(() => {
                     href: item.href,
                     basePath: `additional.list1.${i}`,
                   }"
-                  class="animate-item text-lg x-font-title text-theme-700 hover:text-primary-500 dark:text-theme-100 dark:hover:text-primary-400 transition-colors"
+                  class="animate-item text-base lg:text-lg x-font-title text-theme-700 hover:text-primary-500 dark:text-theme-100 dark:hover:text-primary-400 transition-colors"
                   animate="fade"
                 />
               </div>
@@ -118,15 +118,15 @@ vue.onMounted(() => {
                     href: item.href,
                     basePath: `additional.list2.${i}`,
                   }"
-                  class="animate-item font-sans text-lg text-theme-300 hover:text-primary-500 dark:text-theme-600 dark:hover:text-primary-400"
+                  class="animate-item font-sans text-sm sm:text-base lg:text-lg text-theme-300 hover:text-primary-500 dark:text-theme-600 dark:hover:text-primary-400"
                   animate="fade"
                 />
               </div>
             </div>
             <div>
               <div class="text-center">
-                <a href="https://www.fiction.com" title="Powered by Fiction.com" class="text-theme-300/30 dark:text-theme-600/60 dark:hover:text-primary-400 hover:text-primary-500 transition-all">
-                  <svg class="size-12 inline-block" preserveAspectRatio="xMidYMid meet" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M34.5005 41H17.187C16.0637 41 15.0057 40.5523 14.211 39.7352L1.01935 26.2084C0.0221016 25.1882 -0.272797 23.6627 0.265224 22.3287C0.805496 20.9924 2.06388 20.1269 3.47534 20.1269H19.6407V3.55352C19.6407 2.11105 20.4827 0.820906 21.7838 0.266998C23.0647 -0.279986 24.591 0.0315868 25.5702 1.03554L38.7686 14.5671C39.5633 15.3864 40 16.4688 40 17.6182V35.364C39.9977 38.4728 37.5328 41 34.5005 41ZM17.9119 34.9024H34.0525V18.3544L25.5882 9.67651V26.2245H9.4476L17.9119 34.9024Z" fill="currentColor" /></svg>
+                <a href="https://www.fiction.com" title="Powered by Fiction.com" class="text-theme-300/30 dark:text-theme-700/50 dark:hover:text-primary-400 hover:text-primary-500 transition-all">
+                  <svg class="size-8 inline-block" preserveAspectRatio="xMidYMid meet" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M34.5005 41H17.187C16.0637 41 15.0057 40.5523 14.211 39.7352L1.01935 26.2084C0.0221016 25.1882 -0.272797 23.6627 0.265224 22.3287C0.805496 20.9924 2.06388 20.1269 3.47534 20.1269H19.6407V3.55352C19.6407 2.11105 20.4827 0.820906 21.7838 0.266998C23.0647 -0.279986 24.591 0.0315868 25.5702 1.03554L38.7686 14.5671C39.5633 15.3864 40 16.4688 40 17.6182V35.364C39.9977 38.4728 37.5328 41 34.5005 41ZM17.9119 34.9024H34.0525V18.3544L25.5882 9.67651V26.2245H9.4476L17.9119 34.9024Z" fill="currentColor" /></svg>
                 </a>
               </div>
             </div>
