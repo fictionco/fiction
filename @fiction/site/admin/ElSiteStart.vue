@@ -64,9 +64,9 @@ const stepConfig: StepConfig = {
         title: `Select Your Theme`,
         subTitle: 'This is the starting point - you can customize everything later.',
         key: 'theme',
-        class: 'max-w-screen-xl ',
+        class: 'max-w-screen-xl',
         isLoading: isLoading.value,
-        onClick: () => requestCreateSite(),
+        onClick: async () => requestCreateSite(),
         button: { label: 'Create Site' },
       },
     ]
@@ -96,6 +96,7 @@ const stepConfig: StepConfig = {
           :placeholder="step.placeholder"
           ui-size="lg"
           data-test-id="siteName"
+          required
         />
       </div>
       <div v-else-if="step.key === 'theme'">

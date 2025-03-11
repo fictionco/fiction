@@ -363,7 +363,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     setLayoutOrder({ site: this, order })
 
-    this.syncChange({ caller: 'updateLayout', withHistory: true, onlyKeys: ['pages'] })
+    this.syncChange({ caller: 'updateLayout', withHistory: true, onlyKeys: ['pages', 'sections'] })
 
     this.isAnimationDisabled.value = false
   }

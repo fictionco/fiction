@@ -11,7 +11,9 @@ const { modelValue = '', card } = defineProps<{
 
 const emit = defineEmits(['update:modelValue'])
 
-const validationInput = vue.ref<HTMLInputElement>()
+const validEl = vue.ref<HTMLInputElement>()
+
+const isValid = vue.computed(() => !!modelValue)
 
 const { fictionSites } = useService<{ fictionSites: FictionSites }>()
 
@@ -23,7 +25,7 @@ vue.onMounted(() => {
   vue.watch(
     () => modelValue,
     (val) => {
-      const el = validationInput.value
+      const el = validEl.value
       el?.setCustomValidity(!val ? 'Please select a theme' : '')
     },
     { immediate: true },
@@ -41,8 +43,8 @@ function toggleSelected(themeId: string) {
 </script>
 
 <template>
-  <div class="relative mt-6 mb-12 antialiased ">
-    <div class="grid lg:grid-cols-2 xl:grid-cols-3 gap-12" @click="emit('update:modelValue', '')">
+  <div class="relative mt-6 mb-12 antialiased " :data-is-valid="isValid ? 'yes' : 'no'">
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8" @click="emit('update:modelValue', '')">
       <div
         v-for="(theme, i) in themes"
         :key="i"
@@ -75,7 +77,7 @@ function toggleSelected(themeId: string) {
               size="sm"
               @click.stop.prevent="toggleSelected(theme.themeId)"
             >
-              {{ modelValue === theme.themeId ? 'Selected!' : 'Select Theme' }}
+              {{ modelValue === theme.themeId ? 'Selected!' : 'Select' }}
             </XButton>
             <XButton
               theme="overlay"
@@ -86,7 +88,7 @@ function toggleSelected(themeId: string) {
               icon="i-tabler-eye"
               @click.stop
             >
-              View Preview
+              Preview
             </XButton>
           </div>
         </div>
@@ -94,9 +96,8 @@ function toggleSelected(themeId: string) {
     </div>
     <!-- For validation -->
     <input
-      ref="validationInput"
-      class="pointer-events-none absolute bottom-0 left-1/2 h-0 w-0 -translate-x-1/2 p-0 opacity-0"
-      v-bind="$attrs"
+      ref="validEl"
+      class="max-w-input pointer-events-none float-left h-0 w-full p-0 opacity-0"
       type="text"
       :value="modelValue"
     >

@@ -112,9 +112,9 @@ async function changeStep(args: {
 }) {
   const { dir, step, index, needsValidation, backOnly, clearHistory } = args
 
-  const nextIndex = index ?? getStepIndex({ dir })
+  const _nextIndex = index ?? getStepIndex({ dir })
 
-  if (needsValidation && stepIndex.value < nextIndex) {
+  if (needsValidation) {
     const valid = checkValid()
 
     if (!valid)

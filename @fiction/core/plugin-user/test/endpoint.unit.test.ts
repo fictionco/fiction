@@ -25,7 +25,7 @@ describe('user endpoint tests', async () => {
       _action: 'create',
       fields: {
         email,
-        password: 'testPassword123',
+        password: 'testtest123A#',
       },
     }, { caller: 'testTokens' })
 
@@ -37,7 +37,7 @@ describe('user endpoint tests', async () => {
     const loginResponse = await fictionUser.queries.ManageUser.serve({
       _action: 'login',
       where: { email },
-      password: 'testPassword123',
+      password: 'testtest123A#',
     }, { caller: 'testTokens' })
 
     expect(loginResponse.status).toBe('success')

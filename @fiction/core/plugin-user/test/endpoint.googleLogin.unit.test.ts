@@ -89,7 +89,7 @@ describe('google auth', async () => {
   it('if google login user exists with email and no googleId, if email is verified it links the googleId to the user', async () => {
     const responseCreate = await testUtils?.fictionUser?.queries.ManageUser.serve({
       _action: 'create',
-      fields: { email: email2, fullName: 'test', password: 'test' },
+      fields: { email: email2, fullName: 'test', password: 'testtest123A#' },
     }, {})
 
     expect(responseCreate?.status).toBe('success')

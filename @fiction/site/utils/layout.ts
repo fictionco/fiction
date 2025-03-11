@@ -77,6 +77,7 @@ export function getOrderRecursive(args: { depth?: number, parentEl: Element }): 
       const r = region as HTMLElement
       return {
         type: 'region',
+        regionId: r.dataset.regionName || 'none',
         itemId: r.dataset.regionId || 'no_id',
         items: getOrderRecursive({ depth: depth + 1, parentEl: r }),
       }

@@ -78,7 +78,9 @@ export type EnvEventMap = {
   restartServers: CustomEvent<{ reason: string }> // restart services, server
   notify: CustomEvent<UserNotification>
   cleanup: CustomEvent<{ reason: string }> // clear memory, etc.
+  oneMinuteInterval: CustomEvent<{ reason: string }>
   fiveMinuteInterval: CustomEvent<{ reason: string }>
+  fifteenMinuteInterval: CustomEvent<{ reason: string }>
   hourlyInterval: CustomEvent<{ reason: string }>
   dailyInterval: CustomEvent<{ reason: string }>
   onNewOrganization: CustomEvent<{ org: Organization, userId: string, withDefaults?: boolean }>

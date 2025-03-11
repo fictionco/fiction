@@ -48,9 +48,19 @@ export class IntervalManager {
     // Configure jobs with proper typing
     const jobConfigs = [
       {
+        pattern: this.patterns.oneMin,
+        event: 'oneMinuteInterval',
+        name: '1-minute interval',
+      },
+      {
         pattern: this.patterns.fiveMin,
         event: 'fiveMinuteInterval',
         name: '5-minute interval',
+      },
+      {
+        pattern: this.patterns.fifteenMin,
+        event: 'fifteenMinuteInterval',
+        name: '15-minute interval',
       },
       {
         pattern: this.patterns.hourly,

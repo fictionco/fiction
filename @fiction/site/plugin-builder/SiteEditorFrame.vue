@@ -119,7 +119,7 @@ function toggleEditingStyle() {
             {{ site.isLightMode.value ? 'Light' : 'Dark' }} Mode Preview
           </XButton>
         </ElTooltip>
-        <ElTooltip
+        <!-- <ElTooltip
           direction="bottom"
           :content="site.editor.value.savedEditingStyle === 'quick'
             ? 'Quick Editing: Editing on by default, hold &#8984; to make site behave normally'
@@ -136,7 +136,7 @@ function toggleEditingStyle() {
           >
             {{ site.editor.value.savedEditingStyle === 'quick' ? 'Quick Edit' : 'Clean Edit' }} Mode
           </XButton>
-        </ElTooltip>
+        </ElTooltip> -->
       </div>
     </div>
     <div v-if="site" class="min-h-0 h-full relative mx-auto pb-10 flex flex-col" :class="deviceModeConfig?.wrapClass">

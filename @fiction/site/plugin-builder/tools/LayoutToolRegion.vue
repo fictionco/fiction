@@ -61,6 +61,7 @@ function getCardHandle(card: Card): Handle {
 <template>
   <div
     :key="regionId"
+    :data-region-name="regionId"
     :data-region-id="card.cardId"
   >
     <div

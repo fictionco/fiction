@@ -92,7 +92,7 @@ const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
   return [
     {
       label: 'Brand Settings',
-      href: card.link({ path: '/settings/account' }),
+      href: card.link({ path: '/settings/org' }),
       icon: 'i-tabler-building-cog',
     },
     {

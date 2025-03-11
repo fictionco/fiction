@@ -174,6 +174,7 @@ function updateActivePath() {
 const componentProps = vue.computed(() => {
   return {
     ...omit(attrs, 'class', 'data-test-id', 'data-option-path', 'model-value'),
+    placeholder,
     ...inputProps,
   }
 })
