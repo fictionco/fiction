@@ -35,7 +35,7 @@ const {
   editPath?: string
   activePath?: string
   placeholder?: string
-  disabled?: boolean
+  disabled?: boolean | string
   required?: boolean
   list?: (NavListItem | string)[] | readonly (NavListItem | string)[]
   rows?: number

@@ -163,7 +163,7 @@ export class InputOption extends FictionObject<InputOptionSettings> {
       label: this.label.value,
       subLabel: this.subLabel.value,
       description: this.description.value,
-      disabled: !!this.settings.disabled,
+      disabled: this.settings.disabled,
     }
   })
 
@@ -183,7 +183,7 @@ export class InputOption extends FictionObject<InputOptionSettings> {
         optionPath: this.key.value,
         options: this.options.value,
         list: normList(this.list.value),
-        disabled: !!this.settings.disabled,
+        disabled: this.settings.disabled,
         ...this.props.value,
       }
     }

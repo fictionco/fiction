@@ -78,8 +78,8 @@ async function paginate(dir: 'prev' | 'next') {
           </div>
         </nav>
       </div>
-      <div class="grid grid-cols-12 lg:gap-8 gap-4">
-        <div class="col-span-12">
+      <div class="flex flex-col lg:gap-8 gap-4">
+        <div class="w-full">
           <div v-if="list.length" role="list" class="space-y-5">
             <template v-if="$slots.list">
               <slot name="list" :list />
@@ -98,9 +98,6 @@ async function paginate(dir: 'prev' | 'next') {
           <div v-else-if="empty">
             <ElZeroBanner :model-value="empty" :theme />
           </div>
-        </div>
-        <div v-if="$slots.sidebar" class="col-span-12 md:col-span-6 xl:col-span-4">
-          <slot name="sidebar" />
         </div>
       </div>
 

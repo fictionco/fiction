@@ -11,50 +11,50 @@ const { item, index = -1, theme, uiSize = 'md', isActive = false } = defineProps
 const classes = vue.computed(() => {
   const sizes = {
     'xxs': {
-      padding: 'p-2 md:p-3',
-      gap: 'gap-2 md:gap-3',
+      padding: 'p-2 @[320px]/item:p-3',
+      gap: 'gap-2 @[320px]/item:gap-3',
       mediaSize: 'size-5 lg:size-6',
       titleSize: 'text-xs',
       descSize: 'text-[10px]',
     },
     'xs': {
-      padding: 'p-2 md:p-4',
-      gap: 'gap-3 md:gap-4',
+      padding: 'p-2 @[320px]/item:p-4',
+      gap: 'gap-3 @[320px]/item:gap-4',
       mediaSize: 'size-6 lg:size-8',
       titleSize: 'text-sm',
       descSize: 'text-xs',
     },
     'sm': {
-      padding: 'p-3 md:p-5',
-      gap: 'gap-3 md:gap-5',
+      padding: 'p-3 @[320px]/item:p-5',
+      gap: 'gap-3 @[320px]/item:gap-5',
       mediaSize: 'size-10 lg:size-12',
       titleSize: 'text-base',
       descSize: 'text-sm',
     },
     'md': {
-      padding: 'p-4 md:p-6',
-      gap: 'gap-4 md:gap-6',
+      padding: 'p-4 @[320px]/item:p-6',
+      gap: 'gap-4 @[320px]/item:gap-6',
       mediaSize: 'size-12 lg:size-16',
       titleSize: 'text-lg',
       descSize: 'text-md',
     },
     'lg': {
-      padding: 'p-5 md:p-7',
-      gap: 'gap-5 md:gap-7',
+      padding: 'p-5 @[320px]/item:p-7',
+      gap: 'gap-5 @[320px]/item:gap-7',
       mediaSize: 'size-12 lg:size-20',
       titleSize: 'text-xl',
       descSize: 'text-lg',
     },
     'xl': {
-      padding: 'p-6 md:p-8',
-      gap: 'gap-6 md:gap-8',
+      padding: 'p-6 @[320px]/item:p-8',
+      gap: 'gap-6 @[320px]/item:gap-8',
       mediaSize: 'size-14 lg:size-24',
       titleSize: 'text-2xl',
       descSize: 'text-xl',
     },
     '2xl': {
-      padding: 'p-8 md:p-10',
-      gap: 'gap-8 md:gap-10',
+      padding: 'p-8 @[320px]/item:p-10',
+      gap: 'gap-8 @[320px]/item:gap-10',
       mediaSize: 'size-16 lg:size-26',
       titleSize: 'text-3xl',
       descSize: 'text-2xl',
@@ -77,7 +77,7 @@ const linkProps = vue.computed(() => {
 <template>
   <div
     :data-test-id="item.testId || `index-item-${index}`"
-    class=""
+    class="@container/item"
   >
     <component
       :is="getNavComponentType(item)"
@@ -91,15 +91,15 @@ const linkProps = vue.computed(() => {
       ]"
       @click.stop="item.onClick && item.onClick({ item, event: $event })"
     >
-      <div class="flex items-center space-y-0" :class="classes.gap">
+      <div class="flex items-center space-y-0 min-w-0" :class="classes.gap">
         <ElIndexItemMedia
           :class="classes.mediaSize"
           :media="item.media"
           :icon="item.icon"
           :theme="theme"
         />
-        <div class="space-y-1">
-          <div class="font-bold leading-6" :class="classes.titleSize">
+        <div class="space-y-1 min-w-0">
+          <div class="font-bold leading-6 truncate" :class="classes.titleSize">
             {{ item.label }}
           </div>
           <div class="flex items-center gap-x-2 text-theme-500 dark:text-theme-400" :class="classes.descSize">
@@ -108,7 +108,7 @@ const linkProps = vue.computed(() => {
         </div>
       </div>
       <dl
-        class="w-full flex-none justify-between gap-x-8 sm:w-auto items-center hidden md:flex"
+        class="w-full flex-none justify-between gap-x-8 sm:w-auto items-center hidden @[500px]/item:flex"
       >
         <slot :item="item" name="item" />
 

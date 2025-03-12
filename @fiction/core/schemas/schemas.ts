@@ -12,6 +12,8 @@ export const PostStatusSchema = z.enum([
   'published', // Live content
   'archived', // No longer active
   'deleted', // Soft deleted
+  'active', // Alt to published
+  'pending', // Awaiting approval
 ])
 
 export const ProgressStatusSchema = z.enum(['pending', 'requested', 'processing', 'ready', 'error', 'cancelled', 'skipped'])

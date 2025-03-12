@@ -32,9 +32,7 @@ const emit = defineEmits<{
 }>()
 
 const panels = vue.computed(() => card.cards.value.filter(t => t.slug.value) as Card<NavCardUserConfig>[])
-
 const routeItemId = vue.computed(() => toSlug(card.site?.siteRouter.params.value.itemId as string) || panels.value[0].slug.value)
-
 const currentPanel = vue.computed(() => panels.value.find(p => toSlug(p.slug.value) === routeItemId.value) || panels.value[0])
 const parentPanel = vue.computed(() => panels.value.find(p => toSlug(p.slug.value) === currentPanel.value?.userConfig.value?.parentItemId))
 

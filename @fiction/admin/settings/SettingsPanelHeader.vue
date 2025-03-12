@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { ColorThemeUser, PostObject } from '@fiction/core'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import XButtonList from '@fiction/ui/buttons/XButtonList.vue'
 import XText from '@fiction/ui/common/XText.vue'
 import ElIndexItemMedia from '@fiction/ui/lists/ElIndexItemMedia.vue'
@@ -44,13 +45,18 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
             :is-editable="editable.includes('title')"
             @update:model-value="updateValue('title', $event)"
           />
-          <XText
-            v-if="modelValue.subTitle"
-            :model-value="modelValue.subTitle"
-            class="text-sm md:text-base font-normal text-theme-500 dark:text-theme-500"
-            :is-editable="editable.includes('subTitle')"
-            @update:model-value="updateValue('subTitle', $event)"
-          />
+          <p class="flex gap-4 items-center">
+            <XButton v-if="modelValue.status" size="sm" :theme="modelValue.theme" design="outline">
+              {{ modelValue.status }}
+            </XButton>
+            <XText
+              v-if="modelValue.subTitle"
+              :model-value="modelValue.subTitle"
+              class="text-sm md:text-base font-normal text-theme-500 dark:text-theme-400"
+              :is-editable="editable.includes('subTitle')"
+              @update:model-value="updateValue('subTitle', $event)"
+            />
+          </p>
         </div>
       </div>
       <XButtonList

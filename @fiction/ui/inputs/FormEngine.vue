@@ -20,7 +20,7 @@ const {
   stateKey = 'formEngine',
   modelValue = {},
   depth = 0,
-  inputWrapClass = '',
+  classes = {},
   inputProps = {},
   uiSize = 'md',
   buttons = [],
@@ -35,7 +35,7 @@ const {
   modelValue?: Record<string, unknown>
   depth?: number
   basePath?: string
-  inputWrapClass?: string
+  classes?: { inputWrap?: string }
   inputProps?: Record<string, unknown>
   uiSize?: UiElementSize
   buttons?: ActionButton[]
@@ -94,12 +94,12 @@ const cls = vue.computed(() => {
   const configs = {
     md: {
       groupHeader: 'py-1.5 px-2 text-xs',
-      groupPad: 'p-4',
+      groupPad: 'p-4 @[700px]:p-8',
       inputGap: 'gap-5',
     },
     lg: {
       groupHeader: 'py-2.5 px-3 text-sm',
-      groupPad: 'px-8 lg:px-10 py-8 pb-10',
+      groupPad: 'px-8 lg:px-10 @xl:p-12 py-8 pb-10',
       inputGap: 'gap-7',
     },
   }
@@ -136,7 +136,7 @@ const rootListClasses = vue.computed(() => {
 
 function getInputWrapClasses(opt: InputOption) {
   const defaultClass = format === 'control' ? '@[500px]:p-8 px-4 py-6' : opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-6' : ''
-  return twMerge([defaultClass])
+  return twMerge([defaultClass, classes.inputWrap || ''])
 }
 
 function getGroupClasses(opt: InputOption) {
@@ -179,7 +179,7 @@ function activateOption(args: { opt: InputOption, path: string }) {
 
 <template>
   <div
-    class="@container"
+    class="@container/engine"
     :class="`form-engine-${depth}`"
     :data-value="depth === 0 ? JSON.stringify(modelValue) : undefined"
     :data-form-engine-depth="depth"
@@ -219,7 +219,7 @@ function activateOption(args: { opt: InputOption, path: string }) {
                   :active-path="activePath"
                   :input-props="inputProps"
                   :options="opt.options.value || []"
-                  :input-wrap-class="inputWrapClass"
+                  :classes
                   :model-value="modelValue"
                   :depth="depth + 1"
                   :format="opt.settings.format"
@@ -240,7 +240,7 @@ function activateOption(args: { opt: InputOption, path: string }) {
         />
         <input v-else-if="opt.input.value === 'hidden'" :data-option-path="opt.key.value" type="hidden" :value="getNested({ path: getOptionPath({ opt }), data: modelValue })">
 
-        <div v-else :data-input-wrap="inputWrapClass" :class="getInputWrapClasses(opt)" :data-depth="depth" :data-option-key="opt.key.value">
+        <div v-else :class="getInputWrapClasses(opt)" :data-depth="depth" :data-option-key="opt.key.value">
           <ElInput
             v-if="opt.isHidden.value !== true"
             :ui-size="uiSize"

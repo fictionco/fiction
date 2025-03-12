@@ -5,16 +5,11 @@ import type { Card } from '@fiction/site/card'
 import { onResetUi, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import InputEmail from '@fiction/ui/inputs/InputEmail.vue'
-import InputSelect from '@fiction/ui/inputs/InputSelect.vue'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
 
 defineProps<{ card: Card }>()
 
 const { fictionUser, fictionTeam } = useService<{ fictionTeam: FictionTeam }>()
-interface Invite {
-  email: string
-  memberAccess: MemberAccess
-}
 
 const form = vue.ref({})
 
@@ -22,13 +17,16 @@ const isValid = vue.ref<boolean>(false)
 const sending = vue.ref(false)
 const sent = vue.ref(false)
 
-const defaultInvites = [
-  { email: '', memberAccess: 'admin' },
-  { email: '', memberAccess: 'admin' },
-  { email: '', memberAccess: 'admin' },
-] as const
+const emails = vue.ref<string[]>([])
 
-const invites = vue.ref<Invite[]>([...defaultInvites])
+const invites = vue.computed(() => {
+  return emails.value.map((email) => {
+    return {
+      email,
+      memberAccess: 'admin' as MemberAccess,
+    }
+  })
+})
 
 async function sendInvites(): Promise<void> {
   if (isValid.value && fictionUser.activeOrgId.value) {
@@ -42,12 +40,7 @@ async function sendInvites(): Promise<void> {
     })
 
     if (r.status === 'success') {
-      invites.value = invites.value.map((_) => {
-        return {
-          email: '',
-          memberAccess: 'admin',
-        }
-      })
+      emails.value = []
       sent.value = true
     }
 
@@ -88,14 +81,12 @@ onResetUi(() => {
       </div>
 
       <div v-else class="m-8">
-        <div class="pb-12">
+        <div>
           <h2 class="text-xl font-bold">
-            Add Team Members
+            Add Members to Workspace
           </h2>
           <p class="text-theme-500 mt-2">
-            Invite people to the "{{
-              fictionUser.activeOrganization.value?.orgName
-            }}" Workspace
+            Send invite to the "{{ fictionUser.activeOrganization.value?.orgName }}" Workspace
           </p>
         </div>
 
@@ -104,48 +95,16 @@ onResetUi(() => {
           :data="form"
           @submit="send()"
         >
-          <div class="mb-6 mt-4">
-            <h2 class="mb-2 text-base font-bold">
-              What will happen:
-            </h2>
-            <div class="font-media text-theme-500 text-sm">
-              An email will be sent with a link, and the email will be granted access to this
-              workspace.
-            </div>
-          </div>
-
           <div class="w-full">
             <div
-              class="invite-header text-theme-500 mb-2 grid grid-cols-5 gap-4 font-medium"
+              class="invite my-4 space-y-4"
             >
-              <div
-                class="col-span-3 text-xs font-bold uppercase tracking-wider"
-              >
-                Email
-              </div>
-              <div
-                class="col-span-2 text-xs font-bold uppercase tracking-wider"
-              >
-                Access
-              </div>
-            </div>
-
-            <div
-              v-for="(_item, i) in invites"
-              :key="i"
-              class="invite my-4 grid grid-cols-5 gap-4"
-            >
-              <InputEmail v-model="invites[i]!.email" class="col-span-3" ui-size="lg" />
-
-              <InputSelect
-                v-model="invites[i]!.memberAccess"
-                class="col-span-2"
+              <ElInput
+                v-model="emails"
+                label="Emails"
+                sub-label="Emails of the people you want to invite"
+                input="InputEmailMulti"
                 ui-size="lg"
-                :list="[
-                  { value: 'owner', label: 'Owner' },
-                  { value: 'admin', label: 'Admin' },
-                  { value: 'editor', label: 'Editor (Tools Only)' },
-                ]"
               />
             </div>
           </div>
