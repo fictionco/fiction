@@ -12,7 +12,7 @@ import type { template as areaTemplate } from '@fiction/cards/page-area'
 import type { template as templateFooterPersonal } from '@fiction/cards/page-footer-personal'
 import type { template as navTemplate } from '@fiction/cards/page-nav'
 
-import type { template as MagazineTemplate } from '@fiction/cards/posts-magazine'
+import type { template as MagazineTemplate } from '@fiction/cards/posts/magazine'
 import type { template as QuotesTemplate } from '@fiction/cards/proof-quotes'
 import type { template as TickerTemplate } from '@fiction/cards/typography-ticker'
 
@@ -20,7 +20,7 @@ import type { Site, ThemeConfig } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { SiteUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
-import { getDemoUserConfig } from '@fiction/cards/posts-magazine/config'
+import { getDemoUserConfig } from '@fiction/cards/posts/magazine/config'
 
 type SectionArgs = {
   factory: CardFactory

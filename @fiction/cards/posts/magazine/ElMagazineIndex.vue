@@ -9,9 +9,9 @@ import XButton from '@fiction/ui/buttons/XButton.vue'
 import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import El404 from '@fiction/ui/page/El404.vue'
-import CardButton from '../CardButton.vue'
-import CardTextPost from '../CardTextPost.vue'
-import CardLink from '../el/CardLink.vue'
+import CardButton from '../../CardButton.vue'
+import CardTextPost from '../../CardTextPost.vue'
+import CardLink from '../../el/CardLink.vue'
 import ElAuthor from './ElAuthor.vue'
 
 const { card, posts, indexMeta } = defineProps<{

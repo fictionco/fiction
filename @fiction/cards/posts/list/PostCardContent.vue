@@ -5,8 +5,8 @@ import type { Card } from '@fiction/site'
 import type { DisplayUserConfig } from './config'
 import { taxonomyLink } from '@fiction/posts'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import CardButton from '../CardButton.vue'
-import CardTextPost from '../CardTextPost.vue'
+import CardButton from '../../CardButton.vue'
+import CardTextPost from '../../CardTextPost.vue'
 
 const props = defineProps<{
   card: Card<any>

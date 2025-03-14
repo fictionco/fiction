@@ -9,8 +9,8 @@ import { loadPosts } from '@fiction/posts/utils/post'
 import EffectCarousel from '@fiction/ui/effect/EffectCarousel.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
-import CardButton from '../CardButton.vue'
-import ElMagazineSingle from '../posts-magazine/ElMagazineSingle.vue'
+import CardButton from '../../CardButton.vue'
+import ElMagazineSingle from '../magazine/ElMagazineSingle.vue'
 import PostCard from './PostCard.vue'
 
 defineOptions({ name: 'PostList' })

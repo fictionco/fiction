@@ -5,7 +5,7 @@ import type { Card } from '@fiction/site'
 import type { DisplayUserConfig } from './config'
 import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import CardLink from '../el/CardLink.vue'
+import CardLink from '../../el/CardLink.vue'
 import PostCardContent from './PostCardContent.vue'
 
 defineProps<{

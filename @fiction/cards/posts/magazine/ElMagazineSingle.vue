@@ -10,8 +10,8 @@ import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import XEntry from '@fiction/ui/prose/XEntry.vue'
-import CardButton from '../CardButton.vue'
-import CardTextPost from '../CardTextPost.vue'
+import CardButton from '../../CardButton.vue'
+import CardTextPost from '../../CardTextPost.vue'
 import ElAuthor from './ElAuthor.vue'
 
 const { card, loading = false, post, nextPost } = defineProps<{
