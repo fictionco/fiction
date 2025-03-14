@@ -11,8 +11,8 @@ const { card } = defineProps<{ card: Card }>()
     :panel-props="{ }"
     base-path="/sites"
     :header="{
-      title: 'Website Creator',
-      subTitle: 'Design and manage your digital presence with customizable websites, and landing pages.',
+      title: 'Sites',
+      subTitle: 'Customizable websites and landing pages.',
       media: { class: 'i-tabler-browser' },
       action: {},
       theme: 'green',

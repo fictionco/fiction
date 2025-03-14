@@ -423,9 +423,11 @@ async function saveAndSchedule() {
   try {
     const p = post.value
     const publishMode = p?.publishMode.value
+    const publishAt = publishMode === 'schedule' ? p?.publishAt.value : dayjs().toISOString()
     p?.update({
       status: publishMode === 'now' ? 'published' : 'scheduled',
       emailStatus: 'scheduled',
+      publishAt
     }, { caller: 'saveAndSchedule' })
     await p?.save({ caller: 'saveAndSchedule' })
     scheduleModalVis.value = false
@@ -470,9 +472,12 @@ const publishText = vue.computed(() => {
 const statusMap = vue.computed<NavListItem>(() => {
   const status = post.value?.status.value || 'draft'
 
+  const publishAt = post.value?.publishAt.value
+  const scheduledLabel = publishAt ? `Scheduled (${dayjs(publishAt).format('MMM D, YYYY [at] h:mm A')})` : 'Scheduled'
+
   const statusMap = {
     draft: { icon: { class: 'i-tabler-edit' }, theme: 'default' },
-    scheduled: { icon: { class: 'i-tabler-calendar' }, theme: 'orange', label: `Scheduled (${dayjs(post.value?.publishAt.value).format('MMM D, YYYY [at] h:mm A')})` },
+    scheduled: { icon: { class: 'i-tabler-calendar' }, theme: 'orange', label: scheduledLabel },
     published: { icon: { class: 'i-tabler-check' }, theme: 'green' },
     archived: { icon: { class: 'i-tabler-archive' }, theme: 'rose' },
   } as const

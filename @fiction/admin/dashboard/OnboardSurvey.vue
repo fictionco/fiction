@@ -65,6 +65,12 @@ async function loadInitialData() {
 // Load data on mount
 vue.onMounted(() => {
   loadInitialData()
+
+  vue.watch(() => form.value.fullName, (newName) => {
+    if (newName && !form.value.orgName) {
+      form.value.orgName = newName
+    }
+  }, { immediate: true })
 })
 
 // Save function to update both user and org records

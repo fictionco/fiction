@@ -54,7 +54,6 @@ function getActions(location: 'top' | 'zero') {
     label: 'Create New Site',
     icon: 'i-tabler-plus',
     theme: 'green',
-    size: 'sm',
     onClick: () => (showCreateModal.value = true),
   }]
   return location === 'zero' || list.value.length > 0 ? { buttons } : {}
@@ -71,7 +70,7 @@ function getActions(location: 'top' | 'zero') {
         :index-meta="{}"
         :edit-actions="[]"
         :empty="{
-          title: 'Create a Website',
+          title: 'Sites',
           subTitle: `The homebase for your online presence.`,
           action: getActions('zero'),
           media: { class: 'i-tabler-browser-plus' },
