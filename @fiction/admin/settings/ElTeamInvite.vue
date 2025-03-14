@@ -34,8 +34,7 @@ async function sendInvites(): Promise<void> {
 
     sending.value = true
 
-    const r = await fictionTeam.requests.TeamInvite.request({
-      orgId: fictionUser.activeOrgId.value,
+    const r = await fictionTeam.requests.TeamInvite.projectRequest({
       invites: actualInvites,
     })
 
@@ -65,17 +64,17 @@ onResetUi(() => {
   <div>
     <div class="max-w-2xl">
       <div v-if="sent" class="m-8">
-        <div class="py-3">
+        <div class="py-3 space-y-1">
           <h2 class="text-xl font-semibold">
-            Invite Sent!
+            Invitations Sent Successfully!
           </h2>
           <p class="text-theme-500">
-            We sent invite emails sent to the email addresses you provided.
+            Your team members will receive email invitations to join the workspace. They can accept by clicking the link in the email.
           </p>
         </div>
         <div class="mt-6">
           <XButton theme="primary" @click="sent = false">
-            Invite More &rarr;
+            Invite More People
           </XButton>
         </div>
       </div>
@@ -83,10 +82,10 @@ onResetUi(() => {
       <div v-else class="m-8">
         <div>
           <h2 class="text-xl font-bold">
-            Add Members to Workspace
+            Invite Team Members
           </h2>
           <p class="text-theme-500 mt-2">
-            Send invite to the "{{ fictionUser.activeOrganization.value?.orgName }}" Workspace
+            Add people to collaborate with you in the "{{ fictionUser.activeOrganization.value?.orgName }}" workspace
           </p>
         </div>
 
@@ -101,8 +100,8 @@ onResetUi(() => {
             >
               <ElInput
                 v-model="emails"
-                label="Emails"
-                sub-label="Emails of the people you want to invite"
+                label="Email Addresses"
+                sub-label="Enter one or more email addresses (separated by commas or new lines)"
                 input="InputEmailMulti"
                 ui-size="lg"
               />
@@ -115,8 +114,9 @@ onResetUi(() => {
               theme="primary"
               :loading="sending"
               size="lg"
+              :disabled="!emails.length"
             >
-              Send Invites &rarr;
+              {{ sending ? 'Sending Invitations...' : 'Send Invitations' }}
             </XButton>
           </div>
         </ElForm>

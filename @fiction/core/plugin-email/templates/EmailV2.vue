@@ -357,7 +357,7 @@ unhead.useHead({
       <!-- Footer -->
       <div id="themed-footer" style="margin-top:2em;">
         <!-- Footer Links -->
-        <div style="margin-bottom:32px;">
+        <div v-if="footerLinks.length" style="margin-bottom:32px;">
           <a
             v-for="(link, i) in footerLinks"
             :key="i"
@@ -371,42 +371,43 @@ unhead.useHead({
           >{{ link.label }}</a>
         </div>
 
-        <!-- CompanyName Info -->
-        <div :style="{ fontSize: '13px' }">
-          <div :style="{ fontWeight: '600' }">
-            © {{ new Date().getFullYear() }} {{ companyName || senderName }}
+        <template v-if="emailType === 'campaign'">
+          <div :style="{ fontSize: '13px' }">
+            <div :style="{ fontWeight: '600' }">
+              © {{ new Date().getFullYear() }} {{ companyName || senderName }}
+            </div>
+            <div v-if="streetAddress" style="margin-top:4px;">
+              {{ streetAddress }}
+            </div>
           </div>
-          <div v-if="streetAddress" style="margin-top:4px;">
-            {{ streetAddress }}
-          </div>
-        </div>
 
-        <!-- Legal Footer -->
-        <table id="last-line" style="width:100%;margin-top:32px;" cellpadding="0" cellspacing="0">
-          <tbody>
-            <tr>
-              <td v-if="unsubscribeUrl && emailType === 'campaign'">
-                <a :href="unsubscribeUrl">Unsubscribe</a>
-                <span>•</span>
-                <a href="mailto:admin@fiction.com">Report Abuse</a>
-              </td>
-              <td
-                v-if="poweredByFiction"
-                :style="{
-                  textAlign: emailType === 'campaign' ? 'right' : 'left',
-                }"
-              >
-                <a
-                  href="https://www.fiction.com"
-                  target="_blank"
-                  rel="noopener"
+          <!-- Legal Footer -->
+          <table id="last-line" style="width:100%;margin-top:32px;" cellpadding="0" cellspacing="0">
+            <tbody>
+              <tr>
+                <td v-if="unsubscribeUrl && emailType === 'campaign'">
+                  <a :href="unsubscribeUrl">Unsubscribe</a>
+                  <span>•</span>
+                  <a href="mailto:admin@fiction.com">Report Abuse</a>
+                </td>
+                <td
+                  v-if="poweredByFiction"
+                  :style="{
+                    textAlign: unsubscribeUrl && emailType === 'campaign' ? 'right' : 'left',
+                  }"
                 >
-                  Powered by Fiction.com
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                  <a
+                    href="https://www.fiction.com"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Powered by Fiction.com
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </template>
       </div>
     </div>
   </div>

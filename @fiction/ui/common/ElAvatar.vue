@@ -1,42 +1,30 @@
 <script lang="ts" setup>
 import type { MediaObject, User } from '@fiction/core'
-import { gravatarUrlSync, stored, vue } from '@fiction/core'
+import { gravatarUrlSync, vue } from '@fiction/core'
 import XMedia from '../media/XMedia.vue'
 import userBlank from './user-blank.png'
 
-const props = defineProps({
-  userId: { type: String, default: '' },
-  url: { type: String, default: '' },
-  email: { type: String, default: '' },
-  imageSize: { type: Number, default: 200 },
-})
-
-const user = vue.computed<User | undefined>(() => {
-  if (!props.userId)
-    return undefined
-  return stored(props.userId) ?? undefined
-})
+const { user, url = '', imageSize = 200 } = defineProps<{
+  user?: User
+  url?: string
+  imageSize?: number
+}>()
 
 const media = vue.computed<MediaObject>(() => {
-  let url: string | undefined
-  if (props.url) {
-    url = props.url
+  let mediaUrl: string | undefined
+  if (url) {
+    mediaUrl = url
   }
-  else if (user.value && user.value.avatar?.url) {
-    url = user.value.avatar.url
+  else if (user && user.avatar?.url) {
+    mediaUrl = user.avatar.url
   }
-  else if (user.value?.email || props.email) {
-    const email = user.value?.email ? user.value.email : props.email
-    const g = gravatarUrlSync(email, { size: props.imageSize })
-    url = g.url
+  else if (user?.email) {
+    const email = user?.email
+    const g = gravatarUrlSync(email, { size: imageSize })
+    mediaUrl = g.url
   }
 
-  if (url) {
-    return { format: 'url', url }
-  }
-  else {
-    return { format: 'url', url: userBlank }
-  }
+  return { format: 'url', url: mediaUrl || userBlank }
 })
 </script>
 

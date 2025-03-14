@@ -86,7 +86,7 @@ export async function getPages(args: { factory: CardFactory, site: Site }) {
             }),
             await factory.fromTemplate<typeof panelTemplate>({
               slug: 'manage-organizations',
-              title: 'Change Brand',
+              title: 'Change Workspace',
               description: 'Manage and change active organization',
               el: def(async () => import('../settings/PanelManageOrg.vue')),
               userConfig: { isNavItem: true, navIcon: 'i-tabler-refresh', navIconAlt: 'i-tabler-refresh' },

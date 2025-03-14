@@ -92,8 +92,8 @@ const transactionConfig = vue.computed<TransactionProps | undefined>(() => {
       status: 'success',
     },
     'set-new-password': {
-      title: 'Create new password',
-      subTitle: 'Choose a secure password for your account',
+      title: 'Create your password',
+      subTitle: 'Use 8+ characters with a number and special character',
       icon: 'i-tabler-key',
     },
     'password-updated': {
@@ -658,7 +658,7 @@ vue.watch(() => itemId.value, () => {
               :loading="sending === 'button'"
               icon="i-tabler-key"
             >
-              Update password
+              Set Password
             </XButton>
 
             <XButton
@@ -672,7 +672,7 @@ vue.watch(() => itemId.value, () => {
               :loading="sending === 'button'"
               icon="i-tabler-login"
             >
-              Sign in
+              Sign In
             </XButton>
 
             <XButton
@@ -686,7 +686,7 @@ vue.watch(() => itemId.value, () => {
               :loading="sending === 'button'"
               icon="i-tabler-user-plus"
             >
-              Create account
+              Create Account
             </XButton>
 
             <XButton

@@ -75,7 +75,7 @@ const themeStyle = vue.computed(() => {
             :key="i"
             class="text-base flex gap-4 items-center mt-4 not-prose"
           >
-            <ElAvatar class="size-10 rounded-full ring-2 ring-white" :email="author.email" />
+            <ElAvatar class="size-10 rounded-full ring-2 ring-white" :user="author" />
             <div class="text-left">
               <div class="font-bold text-base leading-[1.3]">
                 {{ author.fullName || author.email?.split('@')[0] }}

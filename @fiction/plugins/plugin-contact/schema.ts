@@ -2,6 +2,7 @@ import type { ColType, MediaObject, SyndicateStatus, User } from '@fiction/core'
 import { standardTable } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { z } from 'zod'
+import type {EmailStats} from './admin/utils'
 
 export const t = {
   contact: 'fiction_contact',
@@ -18,8 +19,8 @@ export type TableContactConfig = ColType<typeof contactColumns>
 export type ImportDetail = {
   importId?: string
   importedAt?: string
-  count?: number
   tags?: string[]
+  count?: number
 }
 
 export const SourceCategorySchema = z.enum(['', 'site', 'list', 'invited', 'import', 'manual', 'api', 'other'])

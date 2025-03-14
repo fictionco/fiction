@@ -4,13 +4,13 @@ import type { Card } from '@fiction/site/card'
 import type { FictionContact } from '..'
 import type { Contact, ImportDetail } from '../schema'
 import CardButton from '@fiction/cards/CardButton.vue'
-import { dayjs, log, objectId, useService, vue } from '@fiction/core'
+import { dayjs, log, objectId, omit, useService, vue } from '@fiction/core'
 import { gravatarUrlSync } from '@fiction/core/utils/url.js'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import { t } from '../schema'
-import { csvToEmailList, parseAndValidateEmails } from './utils'
+import { csvToEmailList, parseAndValidateEmails,   type EmailStats } from './utils'
 
 const { card } = defineProps<{ card: Card }>()
 
@@ -22,7 +22,7 @@ const logger = log.contextLogger('ImportFile')
 
 const service = useService<{ fictionContact: FictionContact }>()
 
-const SAMPLE_EMAIL_NO = 5
+const SAMPLE_EMAIL_NO = 10
 
 const loading = vue.ref(false)
 const draggingOver = vue.ref()
@@ -33,6 +33,7 @@ const rawTextEmailList = vue.ref<string>()
 const inputEmailList = vue.ref<string[]>()
 const tagList = vue.ref<string[]>([dayjs().format('YYYY-MM')])
 const csvEmailList = vue.ref<string[]>([])
+const emailImportListStats = vue.ref<EmailStats>()
 async function uploadFiles() {
   const files = fileList.value
 
@@ -45,7 +46,7 @@ async function uploadFiles() {
 
   try {
     loading.value = true
-    csvEmailList.value = await csvToEmailList(file)
+    emailImportListStats.value = await csvToEmailList(file)
     logger.info(`upload result`, { data: csvEmailList.value })
 
     fileList.value = undefined
@@ -71,15 +72,15 @@ async function handleDropFile(ev: Event) {
   uploadFiles()
 }
 
-const emailList = vue.computed(() => {
+const emailListStats = vue.computed<EmailStats>(() => {
   if (importMethod.value === 'input') {
-    return inputEmailList.value || []
+    return parseAndValidateEmails((inputEmailList.value || []).join(','))
   }
   else if (importMethod.value === 'text') {
     return parseAndValidateEmails(rawTextEmailList.value)
   }
   else {
-    return csvEmailList.value || []
+    return emailImportListStats.value || { emails: [] }
   }
 })
 
@@ -88,7 +89,9 @@ function prepareSubmit() {
 }
 
 const info = vue.computed(() => {
-  const sample = emailList.value.slice(0, SAMPLE_EMAIL_NO)
+  const stats = emailListStats.value
+  const emails = stats.emails || []
+  const sample = emails.slice(0, SAMPLE_EMAIL_NO)
 
   const emailItems: NavListItem[] = sample.map((email) => {
     return {
@@ -99,7 +102,7 @@ const info = vue.computed(() => {
   })
 
   return {
-    emailTotal: emailList.value.length,
+    ...stats,
     tags: tagList.value,
     emailItems,
   }
@@ -109,7 +112,7 @@ function getImportDetail(): ImportDetail {
   return {
     importId: objectId(),
     importedAt: new Date().toISOString(),
-    count: emailList.value.length,
+    count: info.value.validCount,
     tags: tagList.value,
   }
 }
@@ -118,12 +121,18 @@ async function importSubscribers() {
   loading.value = true
   try {
     const importDetail = getImportDetail()
-    const contacts = emailList.value.map(email => ({ email, tags: tagList.value, importDetail }))
+    const fullDetail = info.value || { emails: [] }
+    const contacts = fullDetail.emails.map(email => ({ email, tags: tagList.value, importDetail }))
 
     const orgId = service.fictionUser.activeOrgId.value
 
     if (!orgId) {
       logger.error(`no orgId`)
+      return
+    }
+
+    if (!contacts.length) {
+      logger.error(`no contacts`)
       return
     }
 
@@ -136,13 +145,14 @@ async function importSubscribers() {
         message: `${changedCount} Subscribers imported successfully`,
       })
 
-      logger.info(`imported subscribers`, { data: emailList.value })
+      logger.info(`imported subscribers`, { data: omit(fullDetail, 'emails') })
 
       await card.goto('/audience')
 
-      csvEmailList.value = []
       rawTextEmailList.value = ''
       inputEmailList.value = []
+      emailImportListStats.value = undefined
+
 
       service.fictionContact.cacheKey.value++
 
@@ -198,10 +208,21 @@ async function importSubscribers() {
           <div class="space-y-4 max-w-[250px]">
             <div>
               <div class="text-theme-500 font-normal text-sm">
-                Total Emails
+                Valid Emails
               </div>
               <div class="font-semibold text-lg">
-                {{ info.emailTotal }}
+                {{ info.validCount || 0 }}
+              </div>
+            </div>
+            <div v-if="info.invalidCount" >
+              <div class="text-theme-500 font-normal text-sm">
+                Invalid Emails
+              </div>
+              <div class="font-semibold text-lg">
+                {{ info.invalidCount || 0 }}
+              </div>
+              <div class="text-xs text-orange-500 dark:text-orange-400">
+                {{ Object.entries(info.invalidReasons || {}).map(_ => `${_[0]}(${_[1]})`)?.join(', ') }}
               </div>
             </div>
             <div>
@@ -218,11 +239,11 @@ async function importSubscribers() {
               </div>
             </div>
           </div>
-          <div class=" flex-grow">
+          <div class=" flex-grow max-h-[300px] overflow-y-auto">
             <ElIndexGrid list-title="Sample" :list="info.emailItems" ui-size="xs" />
 
-            <div v-if="emailList.length > SAMPLE_EMAIL_NO" class="text-theme-500 text-sm p-4 text-theme-500 text-center">
-              And {{ emailList.length - SAMPLE_EMAIL_NO }} more...
+            <div v-if="info.emails.length > SAMPLE_EMAIL_NO" class="text-theme-500 text-sm p-4 text-theme-500 text-center">
+              And {{ info.emails.length - SAMPLE_EMAIL_NO }} more...
             </div>
           </div>
         </div>
@@ -241,7 +262,7 @@ async function importSubscribers() {
             ui-size="sm"
           />
           <CardButton
-            v-if="!emailList.length"
+            v-if="!info.emails.length"
             :card
             :disabled="true"
             data-test-id="no-emails"

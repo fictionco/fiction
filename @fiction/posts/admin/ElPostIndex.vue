@@ -96,7 +96,7 @@ vue.onMounted(async () => {
             Authors
           </dt>
           <dd v-for="(member, ii) in (item as NavListItemPost).authors" :key="ii">
-            <ElAvatar class="h-6 w-6 rounded-full bg-theme-50 ring-2 ring-white" :email="member.email" />
+            <ElAvatar class="h-6 w-6 rounded-full bg-theme-50 ring-2 ring-white" :user="member" />
           </dd>
         </div>
       </template>

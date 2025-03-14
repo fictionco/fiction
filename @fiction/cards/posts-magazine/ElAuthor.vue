@@ -19,7 +19,7 @@ const displayName = vue.computed(() => {
 
 <template>
   <div class="text-base flex gap-4 items-center mt-4 not-prose" :data-value="JSON.stringify(user)">
-    <ElAvatar class="size-8 lg:size-10 rounded-full ring-2 ring-white" :email="user.email" />
+    <ElAvatar class="size-8 lg:size-10 rounded-full ring-2 ring-white" :user />
     <div class="text-left text-sm lg:text-base">
       <div class="font-semibold  ">
         {{ displayName }}

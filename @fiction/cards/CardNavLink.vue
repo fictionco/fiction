@@ -59,7 +59,7 @@ const hoverClass = 'group-hover/nav-link:text-theme-500 dark:group-hover/nav-lin
       <ElAvatar
         v-if="item.variant === 'avatar' && service.fictionUser.activeUser.value"
         class="size-[1.4em] mr-1.5 rounded-full ring-2 ring-theme-200 dark:ring-theme-0"
-        :email="service.fictionUser.activeUser?.value?.email"
+        :user="service.fictionUser.activeUser?.value"
       />
 
       <!-- Icon -->

@@ -31,7 +31,7 @@ onResetUi(() => {
         <ElAvatar
           class="size-7 rounded-full ring-2 ring-black/90 dark:ring-theme-0"
           :class="active ? 'opacity-70' : ''"
-          :email="fictionUser.activeUser.value?.email"
+          :user="fictionUser.activeUser.value"
         />
         <div
           class="text-lg i-tabler-chevron-down transition-all"

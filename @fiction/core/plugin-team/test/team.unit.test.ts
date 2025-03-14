@@ -1,9 +1,148 @@
-import type { OrganizationMember } from '@fiction/core/plugin-user/types.js'
+import type { MemberAccess, OrganizationMember } from '@fiction/core/plugin-user/types.js'
 import { createTestUtils } from '@fiction/core/test-utils/init.js'
 import { afterAll, describe, expect, it } from 'vitest'
 import { snap } from '../../test-utils/util.js'
 
-describe('org team', async () => {
+describe('team invite functionality', async () => {
+  const testUtils = createTestUtils()
+  const initialized = await testUtils.init()
+
+  afterAll(async () => {
+    await testUtils.close()
+  })
+
+  it('should send invitation to new user', async () => {
+    const { orgId } = initialized
+    const testEmail = `test-invite-${Date.now()}@example.com`
+    const memberAccess: MemberAccess = 'admin'
+
+    const response = await testUtils.fictionTeam.queries.TeamInvite.serve(
+      {
+        orgId,
+        invites: [{ email: testEmail, memberAccess }],
+      },
+      { bearer: initialized.user, server: true },
+    )
+
+    expect(response.status, 'Team invite should succeed').toBe('success')
+    expect(response.message, 'Success message should be returned').toBe('Invitations sent successfully')
+  })
+
+  it('should handle multiple invitations', async () => {
+    const { orgId } = initialized
+    const testEmails = [
+      `test-invite-multi1-${Date.now()}@example.com`,
+      `test-invite-multi2-${Date.now()}@example.com`,
+    ]
+
+    const response = await testUtils.fictionTeam.queries.TeamInvite.serve(
+      {
+        orgId,
+        invites: [
+          { email: testEmails[0], memberAccess: 'editor' },
+          { email: testEmails[1], memberAccess: 'admin' },
+        ],
+      },
+      { bearer: initialized.user, server: true },
+    )
+
+    expect(response.status, 'Multiple invites should succeed').toBe('success')
+  })
+
+  it('should add users to organization with correct access level', async () => {
+    const { orgId } = initialized
+    const testEmail = `test-invite-access-${Date.now()}@example.com`
+    const memberAccess: MemberAccess = 'admin'
+
+    // Send invitation
+    await testUtils.fictionTeam.queries.TeamInvite.serve(
+      {
+        orgId,
+        invites: [{ email: testEmail, memberAccess }],
+      },
+      { bearer: initialized.user, server: true },
+    )
+
+    // Verify membership was created with correct access level
+    const membersResponse = await testUtils.fictionTeam.queries.OrgMembers.serve(
+      {
+        _action: 'list',
+        orgId,
+        filters: [[{ field: 'email', operator: '=', value: testEmail }]],
+      },
+      { server: true },
+    )
+
+    expect(membersResponse.data?.length, 'Invited user should be in members list').toBeGreaterThan(0)
+
+    const invitedMember = membersResponse.data?.find(m => m.email === testEmail)
+    expect(invitedMember, 'Invited member should exist').toBeDefined()
+    expect(invitedMember?.memberAccess, 'Member access should match invitation').toBe(memberAccess)
+    expect(invitedMember?.memberStatus, 'New member should have pending status').toBe('pending')
+  })
+
+  it('should reject invitation with invalid org ID', async () => {
+    const invalidOrgId = 'org123456789'
+    const testEmail = `test-invite-invalid-${Date.now()}@example.com`
+
+    const response = await testUtils.fictionTeam.queries.TeamInvite.serve(
+      {
+        orgId: invalidOrgId,
+        invites: [{ email: testEmail, memberAccess: 'admin' }],
+      },
+      { bearer: initialized.user, server: true },
+    )
+
+    expect(response.status, 'Invalid org ID should fail').toBe('error')
+  })
+
+  it('should reject empty invites array', async () => {
+    const { orgId } = initialized
+
+    const response = await testUtils.fictionTeam.queries.TeamInvite.serve(
+      {
+        orgId,
+        invites: [],
+      },
+      { bearer: initialized.user, server: true },
+    )
+
+    expect(response.status, 'Empty invites should fail').toBe('error')
+    expect(response.message, 'Error message should mention invitations').toContain('No invitations')
+  })
+
+  it('should generate correct invitation URLs', async () => {
+    // Access the method directly for unit testing
+    const teamInviteQuery = testUtils.fictionTeam.queries.TeamInvite
+    const appUrl = testUtils.fictionEnv.meta.app?.url || 'https://app.example.com'
+
+    // Test for new user
+    const newUserUrl = teamInviteQuery.invitationReturnUrl({
+      code: 'test123',
+      email: 'new@example.com',
+      orgId: 'org123',
+      isNew: true,
+    })
+
+    expect(newUserUrl, 'New user URL should use set-new-password endpoint').toContain('/app/auth/set-new-password')
+    expect(newUserUrl, 'New user URL should include code').toContain('code=test123')
+    expect(newUserUrl, 'New user URL should include orgId').toContain('orgId=org123')
+
+    // Test for existing user
+    const existingUserUrl = teamInviteQuery.invitationReturnUrl({
+      code: 'test456',
+      email: 'existing@example.com',
+      orgId: 'org456',
+      isNew: false,
+    })
+
+    expect(existingUserUrl, 'Existing user URL should use auth endpoint').toContain('/app/auth')
+    expect(existingUserUrl, 'Existing user URL should not use set-new-password endpoint').not.toContain('/set-new-password')
+    expect(existingUserUrl, 'Existing user URL should include code').toContain('code=test456')
+  })
+})
+
+describe('workspace team tests', async () => {
   const testUtils = createTestUtils()
 
   const initialized = await testUtils.init()

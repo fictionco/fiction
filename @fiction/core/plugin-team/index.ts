@@ -7,9 +7,9 @@ import type { FictionUser } from '../plugin-user/index.js'
 import type { FictionPluginSettings } from '../plugin.js'
 import { FictionPlugin } from '../plugin.js'
 import { safeDirname } from '../utils/index.js'
-import { QueryOrgMembers, QuerySeekInviteFromUser, QueryTeamInvite } from './endpoint.js'
+import { QueryOrgMembers, QueryTeamInvite } from './endpoint.js'
 
-type FictionTeamSettings = {
+export type FictionTeamSettings = {
   fictionApp: FictionApp
   fictionDb: FictionDb
   fictionUser: FictionUser
@@ -22,7 +22,6 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
   queries = {
     OrgMembers: new QueryOrgMembers({ ...this.settings, fictionTeam: this }),
     TeamInvite: new QueryTeamInvite({ ...this.settings, fictionTeam: this }),
-    SeekInviteFromUser: new QuerySeekInviteFromUser({ ...this.settings, fictionTeam: this }),
   }
 
   requests = this.createRequests({
@@ -35,14 +34,6 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
     super('fictionTeam', { root: safeDirname(import.meta.url), ...settings })
   }
 
-  invitationReturnUrl(args: { code: string, email: string, orgId: string, redirect: string }): string {
-    const { email, code, orgId, redirect = '' } = args
-    const url = this.settings.fictionEnv.meta.app?.url
-    const e = encodeURIComponent(email)
-    const r = encodeURIComponent(redirect)
-    return `${url}/set-password?code=${code}&flow=invited&orgId=${orgId}&email=${e}&redirect=${r}`
-  }
-
   async loadMemberIndex() {
     const requestPromise = this.requests.OrgMembers.projectRequest({ _action: 'list' })
 
@@ -51,57 +42,9 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
     return r.data
   }
 
-  async loadMember(userId: string) {
-    const r = await this.requests.OrgMembers.projectRequest({
-      _action: 'single',
-      memberId: userId,
-    })
+  async loadMember(memberId: string) {
+    const r = await this.requests.OrgMembers.projectRequest({ _action: 'single', memberId })
 
     return r.data?.[0]
   }
-
-  // /**
-  //  * Currently unused
-  //  */
-  // async sendClientOrganizationWelcome(params: {
-  //   client: User
-  //   user: User
-  //   org: Organization
-  // }): Promise<void> {
-  //   const { client, user, org } = params
-  //   const { email, verify } = client
-  //   const { fullName: requestingName = 'A user', email: requestingEmail } = user
-
-  //   if (!email)
-  //     throw new Error('no client email')
-
-  //   const { orgName, orgId } = org
-
-  //   if (!orgId)
-  //     throw new Error('no orgId')
-
-  //   const bodyMarkdown = `Hi there!\n\n${requestingName} (${requestingEmail}) has invited you to the organization "${orgName}."`
-
-  //   if (!verify?.code)
-  //     throw abort('A verification code is required')
-
-  //   await this.settings.fictionEmail.renderAndSendEmail({
-  //     to: email,
-  //     subject: `${org.orgName || 'Organization'}: You've been invited!`,
-  //     title: 'Your Invitation',
-  //     subTitle: `To join ${org.orgName} on Fiction`,
-  //     bodyMarkdown,
-  //     actions: [{
-  //       label: 'Set Your Password',
-  //       href: this.invitationReturnUrl({
-  //         code: verify?.code,
-  //         email,
-  //         orgId,
-  //         redirect: `/org/${org.orgId}`,
-  //       }),
-  //     }],
-  //     caller: 'teamInvite',
-  //     fromOrgId: orgId,
-  //   }, { server: true })
-  // }
 }

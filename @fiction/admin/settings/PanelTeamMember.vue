@@ -193,7 +193,7 @@ const header = vue.computed(() => {
     title: member.value?.fullName || member.value?.email,
     subTitle: 'Membership Details',
     media: getAvatarUrl(member.value),
-    theme: 'green',
+    theme: member.value?.memberStatus === 'active' ? 'green' : 'orange',
     status: member.value?.memberStatus === 'active' ? 'active' : 'pending',
   } as const
 })

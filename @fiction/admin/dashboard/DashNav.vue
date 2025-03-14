@@ -25,7 +25,7 @@ async function handleClick(event: MouseEvent, item: NavListItem): Promise<void> 
 const cls = {
   active: 'font-semibold bg-primary-100/60 text-primary-700 dark:bg-primary-800/50 ring-2 ring-primary-600/50 dark:ring-primary-800 dark:text-primary-0',
   inactive: 'font-medium text-theme-700 dark:text-theme-200 dark:hover:bg-theme-700 hover:text-theme-900 border-theme-0',
-  navItemWrap: 'group nav-item flex cursor-pointer items-center py-3 px-4 gap-3 truncate rounded-full font-sans text-base focus:outline-none transition-all duration-100',
+  navItemWrap: 'group nav-item flex cursor-pointer items-center py-3 px-3 gap-3 truncate rounded-full font-sans text-base focus:outline-none transition-all duration-100',
   icon: 'size-6 shrink-0',
 }
 </script>
@@ -87,7 +87,7 @@ const cls = {
               <XIcon v-else-if="sub.icon" :media="sub.icon" :class="cls.icon" />
             </div>
             <div class="pt-0.5 min-w-0 truncate">
-              <div class="font-semibold truncate" v-html="toLabel(sub.label)" />
+              <div class="font-semibold truncate leading-[1.3]" v-html="toLabel(sub.label)" />
               <div
                 v-if="sub.subLabel"
                 class="text-xs "

@@ -1,24 +1,15 @@
-import type { FictionDb } from '../plugin-db/index.js'
-import type { FictionEmail } from '../plugin-email/index.js'
-import type { FictionEnv } from '../plugin-env/index.js'
-import type { FictionRouter } from '../plugin-router/index.js'
-import type { FictionUser, MemberAccess, OrganizationMember, User } from '../plugin-user/index.js'
-import type { EndpointResponse } from '../types/index.js'
+import type { EmailSendConfig } from '../plugin-email/index.js'
+import type { MemberAccess, OrganizationMember, User } from '../plugin-user/index.js'
+import type { ComplexDataFilter, EndpointResponse } from '../types/index.js'
 import type { EndpointMeta } from '../utils/endpoint.js'
-import type { FictionTeam } from './index.js'
+import type { FictionTeam, FictionTeamSettings } from './index.js'
 import { Query } from '../query.js'
 import { standardTable as t } from '../tbl.js'
+import { applyComplexFilters } from '../utils/db.js'
 import { abort } from '../utils/error.js'
+import { getOrgAvatar } from '../utils/url.js'
 
-export interface TeamQuerySettings {
-  fictionEnv: FictionEnv
-  fictionTeam: FictionTeam
-  fictionUser: FictionUser
-  fictionDb: FictionDb
-  fictionEmail: FictionEmail
-  fictionRouter: FictionRouter
-}
-
+export type TeamQuerySettings = FictionTeamSettings & { fictionTeam: FictionTeam }
 export abstract class TeamQuery extends Query<TeamQuerySettings> {
   db = () => this.settings.fictionDb.client()
   constructor(settings: TeamQuerySettings) {
@@ -28,7 +19,7 @@ export abstract class TeamQuery extends Query<TeamQuerySettings> {
 
 type OrgMemberParams = { orgId: string } & (
   | { _action: 'single', memberId: string }
-  | { _action: 'list', limit?: number, offset?: number }
+  | { _action: 'list', limit?: number, offset?: number, filters?: ComplexDataFilter[] }
 )
 
 export class QueryOrgMembers extends TeamQuery {
@@ -39,7 +30,7 @@ export class QueryOrgMembers extends TeamQuery {
     const { orgId, _action } = params
 
     const db = this.db()
-    const base = db
+    let query = db
       .from(t.member)
       .join(t.org, `${t.member}.org_id`, '=', `${t.org}.org_id`)
       .join(t.user, `${t.user}.user_id`, '=', `${t.member}.user_id`)
@@ -50,7 +41,7 @@ export class QueryOrgMembers extends TeamQuery {
 
     const selector = [`${t.member}.*`, `${t.user}.full_name`, `${t.user}.email`, `${t.user}.last_seen_at`]
     if (_action === 'single') {
-      const r = await base
+      const r = await query
         .clone()
         .select<OrganizationMember[]>(selector)
         .where(`${t.member}.user_id`, params.memberId)
@@ -58,73 +49,21 @@ export class QueryOrgMembers extends TeamQuery {
       data = r
     }
     else if (_action === 'list') {
-      const { limit = 50, offset = 0 } = params
-      const r = await base
+      const { limit = 50, offset = 0, filters = [] } = params
+      query = applyComplexFilters(query, filters)
+      const r = await query
         .clone()
         .select<OrganizationMember[]>(selector)
         .limit(limit)
         .offset(offset)
         .orderBy(`${t.user}.lastSeenAt`, 'desc')
 
-      const countRows = await base.clone().count<{ count: number }[]>()
+      const countRows = await query.clone().count<{ count: number }[]>()
       indexMeta = { offset, limit, count: +countRows[0].count }
       data = r
     }
 
     return { status: 'success', data, indexMeta }
-  }
-}
-
-/**
- * TODO Improve wording with AI
- */
-
-export class QuerySeekInviteFromUser extends TeamQuery {
-  async run(
-    params: {
-      email: string
-      requestingEmail: string
-      requestingName?: string
-    },
-    meta: EndpointMeta,
-  ): Promise<EndpointResponse<boolean>> {
-    if (!this.settings.fictionUser)
-      throw new Error('no user service')
-    const { email, requestingEmail, requestingName } = params
-    const { data: user } = await this.settings.fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { email } }, meta)
-
-    if (!user)
-      throw abort('request invite error')
-
-    const { fullName } = user
-
-    const contentMarkdown = `Hi ${fullName}!\n\n${
-      requestingName || 'A user'
-    } (${requestingEmail}) has requested access to one of your organizations.`
-
-    if (!this.settings.fictionEmail)
-      throw new Error('no email service')
-
-    const app = this.settings.fictionEnv.meta.app
-
-    const path = this.settings.fictionRouter?.rawPath('teamInvite')
-
-    await this.settings.fictionEmail.renderAndSendEmail({
-      to: email,
-      subject: `${requestingName || requestingEmail}: Request for Access`,
-      contentMarkdown,
-      title: 'Request for Access',
-      subTitle: 'A user has requested access to your organization.',
-      buttons: [{
-        label: 'Login and Invite',
-        href: `${app?.url}${path}`,
-      }],
-      caller: 'requestInvite',
-      fromSiteId: app?.siteId,
-      fromOrgId: app?.orgId,
-    }, { server: true })
-
-    return { status: 'success', message: 'Invite requested', more: `We sent them ${email} an email.` }
   }
 }
 
@@ -136,109 +75,149 @@ export class QueryTeamInvite extends TeamQuery {
     },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<boolean>> {
-    if (!this.settings.fictionUser)
-      throw new Error('no user service')
-    if (!this.settings.fictionEmail)
-      throw new Error('no email service')
+    const { fictionUser, fictionEmail, fictionEnv } = this.settings
 
-    const appUrl = this.settings.fictionEnv.meta.app?.url
+    if (!fictionUser || !fictionEmail)
+      throw abort('User or email service unavailable')
 
+    const appUrl = fictionEnv.meta.app?.url
     if (!appUrl)
-      throw new Error('no appUrl')
+      throw abort('Application URL not configured')
 
     const { orgId, invites } = params
-
     const { bearer } = meta
 
-    if (!invites || invites.length === 0)
-      throw abort('no invites were set')
+    if (!invites?.length)
+      throw abort('No invitations specified')
 
-    const { data: org } = await this.settings.fictionUser.queries.ManageOrganization.serve({ _action: 'retrieve', where: { orgId } }, meta)
+    // Fetch organization details
+    const { data: org } = await fictionUser.queries.ManageOrganization.serve(
+      { _action: 'retrieve', where: { orgId } },
+      meta,
+    )
 
     if (!org)
-      throw abort(`couldn't find organization`)
+      throw abort('Organization not found')
 
+    const inviterName = bearer?.fullName || 'Someone'
     const invitedById = bearer?.userId
 
-    const _promises = invites.map(async (invite) => {
-      if (!this.settings.fictionUser)
-        throw new Error('no user service')
+    // Process each invitation
+    const invitePromises = invites.map(async (invite) => {
       const { memberAccess } = invite
-      const email = invite.email.toLowerCase() // ensure lowercase
+      const email = invite.email.toLowerCase().trim()
 
-      const url = appUrl
-      const redirect = encodeURIComponent(`/org/${orgId}`)
-      let linkUrl = `${url}/login?ref=email&source=invite&redirect=${redirect}`
-      let linkText = 'Login'
-      let message = `Login to get access.`
-      // does the user already exist
-      let { data: user } = await this.settings.fictionUser.queries.ManageUser.serve(
-        { _action: 'retrieve', where: { email } },
-        { server: true, returnAuthority: ['hashedPassword'] },
+      // Use getCreate to simplify user creation/retrieval
+      const { data: user, isNew } = await fictionUser.queries.ManageUser.serve(
+        {
+          _action: 'getCreate',
+          where: { email },
+          createUserFields: {
+            invitedById,
+            email,
+            // Set the loadOrgId to the inviting org
+            loadOrgId: orgId,
+          },
+        },
+        { server: true, returnAuthority: ['verify'] },
       )
-      if (!user?.hashedPassword) {
-        const { data: newUser } = await this.settings.fictionUser.queries.ManageUser.serve(
-          { _action: 'create', fields: { invitedById, email } },
-          { server: true, returnAuthority: ['verificationCode'] },
-        )
-
-        linkUrl = this.settings.fictionTeam.invitationReturnUrl({
-          code: newUser?.verify?.code as string,
-          email,
-          orgId,
-          redirect,
-        })
-        user = newUser
-        message = `Click the link below to get access.`
-        linkText = 'Get Access'
-      }
 
       if (!user?.userId)
-        throw abort('error creating user')
+        throw abort(`Failed to create or find user for ${email}`)
 
-      await this.settings.fictionUser.queries.ManageMemberRelation.serve(
-        {
-          memberId: user.userId,
-          orgId,
-          memberAccess,
-          _action: 'create',
-          invitedById,
-        },
-        meta,
-      )
+      const code = user.verify?.code
 
-      const contentMarkdown = `Hello!\n\nGood news. ${bearer?.fullName || 'A user'} (${
-        bearer?.email || 'unknown'
-      }) has added you as an ${memberAccess} to the "${
-        org.orgName
-      }" organization.\n\n${message}`
+      // Add user to organization with specified access level
+      await fictionUser.queries.ManageMemberRelation.serve({
+        memberId: user.userId,
+        orgId,
+        memberAccess,
+        _action: 'create',
+        invitedById,
+      }, meta)
 
-      await this.settings.fictionEmail?.renderAndSendEmail({
+      if (!code) {
+        throw new Error('No code found')
+      }
+
+      // Determine appropriate access URL and label
+      const accessUrl = this.invitationReturnUrl({ code, email, orgId, isNew })
+
+      const accessLabel = isNew ? 'Accept Invitation' : 'Sign In to Access'
+
+      const subject = `${inviterName} has invited you to "${org.orgName}"`
+      const invitationText = `${inviterName} has invited you to join the **${org.orgName}** workspace on Fiction.\n\n`
+
+      // Prepare complete email configuration
+      const emailConfig: EmailSendConfig = {
         to: email,
-        subject: `${org.orgName}: You've been invited!`,
-        title: `Your Invitation`,
-        subTitle: `To join ${org.orgName} on Fiction`,
-        contentMarkdown,
+        subject,
+        title: isNew ? 'Welcome to Fiction' : 'Access Invitation',
+        subTitle: isNew ? 'Create your account and join workspace' : 'Access this workspace',
+        contentMarkdown: `${invitationText}`,
         buttons: [
-          { label: linkText, href: linkUrl, theme: 'primary' },
+          { label: accessLabel, href: accessUrl, theme: 'primary' },
         ],
         caller: 'teamInvite',
         fromOrgId: org.orgId,
-      }, { server: true })
+        superTitle: {
+          icon: getOrgAvatar(org),
+          text: org.orgName,
+          theme: 'primary',
+        },
+        companyName: 'Fiction.com',
+        footerLinks: [
+          { label: 'Visit Fiction.com', href: 'https://www.fiction.com' },
+        ],
+      }
+
+      // Send invitation email
+      await fictionEmail.renderAndSendEmail(emailConfig, { server: true })
     })
 
-    await Promise.all(_promises)
+    await Promise.all(invitePromises)
 
+    // Refresh user data if authenticated
     let user: User | undefined
     if (bearer?.userId) {
-      const r = await this.settings.fictionUser.queries.ManageUser.serve(
+      const r = await fictionUser.queries.ManageUser.serve(
         { _action: 'retrieve', where: { userId: bearer.userId } },
         meta,
       )
-
       user = r.data
     }
 
-    return { status: 'success', message: 'Invites sent', more: `New members were added.`, user }
+    return {
+      status: 'success',
+      message: 'Invitations sent successfully',
+      more: `Team members have been invited to ${org.orgName}.`,
+      user,
+    }
+  }
+
+  invitationReturnUrl(args: { code: string, email: string, orgId: string, redirect?: string, isNew?: boolean }): string {
+    const { email, code, orgId, redirect, isNew = false } = args
+    const url = this.settings.fictionEnv.meta.app?.url
+
+    if (!url) {
+      throw new Error('No app URL defined in environment meta settings')
+    }
+
+    const returnUserBase = `/app/auth`
+    const newUserBase = `/app/auth/set-new-password`
+    const pathname = isNew ? newUserBase : returnUserBase
+
+    // Build query params, only including redirect if provided
+    const queryParams = new URLSearchParams()
+    queryParams.append('code', code)
+    queryParams.append('orgId', orgId)
+    queryParams.append('email', encodeURIComponent(email))
+
+    if (redirect) {
+      queryParams.append('redirect', encodeURIComponent(redirect))
+    }
+
+    // Construct the full URL without relying on path.join which is meant for file paths
+    return `${url}${pathname}?${queryParams.toString()}`
   }
 }

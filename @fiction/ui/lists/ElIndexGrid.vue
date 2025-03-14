@@ -70,7 +70,7 @@ async function paginate(dir: 'prev' | 'next') {
               :theme="act.theme || 'default'"
               :rounding="act.rounding || 'full'"
               :icon="act.icon"
-              :size="act.size || 'sm'"
+              :size="act.size || 'md'"
               @click.stop="act.onClick ? act.onClick({ event: $event, item: act }) : null"
             >
               {{ act.label }}
