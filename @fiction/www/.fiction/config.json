@@ -133,10 +133,6 @@
       "path": "/api/fiction-team/TeamInvite"
     },
     {
-      "key": "SeekInviteFromUser",
-      "path": "/api/fiction-team/SeekInviteFromUser"
-    },
-    {
       "key": "ManageForm",
       "path": "/api/forms/ManageForm"
     },

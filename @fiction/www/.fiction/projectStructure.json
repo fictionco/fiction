@@ -57,8 +57,7 @@
         "SettingsBoard.vue": null,
         "SettingsMain.vue": null,
         "SettingsPanel.vue": null,
-        "SettingsPanelHeader.vue": null,
-        "index.ts": null
+        "SettingsPanelHeader.vue": null
       },
       "tailwind.config.ts": null,
       "test": {
@@ -792,8 +791,7 @@
         "index.ts": null,
         "test": {
           "team.unit.test.ts": null
-        },
-        "types.ts": null
+        }
       },
       "plugin-testing-app": {
         "index.html": null,
@@ -1214,7 +1212,6 @@
         "ElPostIndex.vue": null,
         "ElPostStart.vue": null,
         "InputAudienceFilter.vue": null,
-        "InputAuthors.vue": null,
         "InputPostReview.vue": null,
         "InputRevisionHistory.vue": null,
         "PagePostEdit.vue": null,
@@ -1328,6 +1325,7 @@
           "ToolCardEdit.vue": null,
           "ToolGlobalStyling.vue": null,
           "ToolPageAdd.vue": null,
+          "ToolPageAddElements.vue": null,
           "ToolPageEdit.vue": null,
           "ToolPageGlobal.vue": null,
           "ToolPageHistory.vue": null,
@@ -1383,17 +1381,6 @@
         "utils.unit.test.ts": null
       },
       "theme.ts": null,
-      "themes": {
-        "base": {
-          "config.ts": null,
-          "img": {
-            "dark-desktop.png": null,
-            "light-desktop.png": null
-          },
-          "index.ts": null,
-          "package.json": null
-        }
-      },
       "type-utils.ts": null,
       "util.ts": null,
       "utils": {
@@ -1409,6 +1396,7 @@
         "layout.ts": null,
         "list.ts": null,
         "manage.ts": null,
+        "optionSchema.ts": null,
         "page.ts": null,
         "region.ts": null,
         "schema.ts": null,
@@ -1419,6 +1407,7 @@
           "generation.unit.test.ts": null,
           "history.unit.test.ts": null,
           "layout.unit.test.ts": null,
+          "optionSchema.unit.test.ts": null,
           "page.unit.test.ts": null,
           "region.unit.test.ts": null,
           "schema.unit.test.ts": null,
@@ -1430,6 +1419,15 @@
       }
     },
     "themes": {
+      "base": {
+        "config.ts": null,
+        "img": {
+          "dark-desktop.png": null,
+          "light-desktop.png": null
+        },
+        "index.ts": null,
+        "package.json": null
+      },
       "fiction": {
         "affiliate": {
           "el": {
@@ -1592,7 +1590,6 @@
     },
     "ui": {
       "ElBadge.vue": null,
-      "ElButton.vue": null,
       "ElMenu.vue": null,
       "ElModal.vue": null,
       "ElNavMenu.vue": null,
@@ -1689,6 +1686,8 @@
         "InputActionArea.vue": null,
         "InputActionList.vue": null,
         "InputActions.vue": null,
+        "InputAuthors.vue": null,
+        "InputBanner.vue": null,
         "InputBlockIp.vue": null,
         "InputBrand.vue": null,
         "InputCheckbox.vue": null,
@@ -1920,7 +1919,8 @@
     "localSubdomain.md": null,
     "public": {
       "favicon.png": null,
-      "logo.svg": null
+      "logo-dark.svg": null,
+      "logo-light.svg": null
     },
     "resources": {
       "privacy.md": null,

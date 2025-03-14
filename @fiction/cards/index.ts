@@ -51,8 +51,8 @@ const templateGroups: TemplateGroup[] = [
     label: 'Content and Posts',
     description: 'Share your expertise and insights',
     templates: [
-      () => import('./posts-list'),
-      () => import('./posts-magazine'),
+      () => import('./posts/list'),
+      () => import('./posts/magazine'),
       () => import('./social-insta'),
       () => import('./content-steps'),
       () => import('./content-faq'),

@@ -2,7 +2,6 @@ import type { ColType, MediaObject, SyndicateStatus, User } from '@fiction/core'
 import { standardTable } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { z } from 'zod'
-import type {EmailStats} from './admin/utils'
 
 export const t = {
   contact: 'fiction_contact',

@@ -76,7 +76,7 @@ export async function getFooter(args: SectionArgs) {
           additional: {
             list1: [],
             list2: [
-              { label: '© 2024 Name' },
+              { label: '© 2024' },
             ],
           },
         },

@@ -20,7 +20,7 @@
     "metadata-scraper": "^0.2.61",
     "sql-formatter": "^15.4.11",
     "stacktrace-js": "^2.0.2",
-    "ua-parser-js": "^2.0.2"
+    "ua-parser-js": "^2.0.3"
   },
   "devDependencies": {
     "@fiction/theme-minimal": "workspace:*"

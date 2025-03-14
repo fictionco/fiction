@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { NavListItem } from '@fiction/core'
 import type { UiElementSize } from '../utils'
-import { omit, resetUi, vue, waitFor } from '@fiction/core'
+import { resetUi, vue, waitFor } from '@fiction/core'
 import { inputs } from '.'
 import { smoothScrollToView } from '../anim/scrolling'
 

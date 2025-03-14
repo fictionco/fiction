@@ -83,7 +83,6 @@ export interface CompiledServiceConfig {
     | 'OrganizationsByUserId'
     | 'PortalSession'
     | 'SaveMedia'
-    | 'SeekInviteFromUser'
     | 'StripeTrial'
     | 'SubscriptionAnalytics'
     | 'TeamInvite'

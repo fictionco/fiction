@@ -64,7 +64,7 @@ export const options = [
         input: 'InputRadioButton',
         props: { uiSize: 'sm' },
         list: [
-          { label: 'Inline', value: 'inline'  },
+          { label: 'Inline', value: 'inline' },
           { label: 'Stacked', value: 'stacked' },
         ],
       }),

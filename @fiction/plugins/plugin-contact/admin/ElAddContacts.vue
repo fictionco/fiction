@@ -3,6 +3,7 @@ import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { FictionContact } from '..'
 import type { Contact, ImportDetail } from '../schema'
+import type { EmailStats } from './utils'
 import CardButton from '@fiction/cards/CardButton.vue'
 import { dayjs, log, objectId, omit, useService, vue } from '@fiction/core'
 import { gravatarUrlSync } from '@fiction/core/utils/url.js'
@@ -10,7 +11,7 @@ import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import { t } from '../schema'
-import { csvToEmailList, parseAndValidateEmails,   type EmailStats } from './utils'
+import { csvToEmailList, parseAndValidateEmails } from './utils'
 
 const { card } = defineProps<{ card: Card }>()
 
@@ -152,7 +153,6 @@ async function importSubscribers() {
       rawTextEmailList.value = ''
       inputEmailList.value = []
       emailImportListStats.value = undefined
-
 
       service.fictionContact.cacheKey.value++
 

@@ -95,7 +95,7 @@ export async function csvToJson(file: File): Promise<any[]> {
         }
 
         const headers = parseCSVLine(headerLine).map(header =>
-          header.replace(/^["']|["']$/g, '').trim().toLowerCase()
+          header.replace(/^["']|["']$/g, '').trim().toLowerCase(),
         )
 
         const json = lines.slice(1).map((line) => {
@@ -271,7 +271,7 @@ export async function csvToEmailList(file: File): Promise<EmailStats> {
     return processEmailValidations(validatedEmails)
   }
   catch (error) {
-    console.error("Error processing CSV file:", error)
+    console.error('Error processing CSV file:', error)
     return createEmptyStats()
   }
 }
@@ -295,7 +295,7 @@ export function parseAndValidateEmails(input?: string[] | string): EmailStats {
       const normalizedEmail = normalizeEmail(email || '')
       return {
         email: normalizedEmail,
-        validation: validateEmail(normalizedEmail)
+        validation: validateEmail(normalizedEmail),
       }
     })
 

@@ -427,7 +427,7 @@ async function saveAndSchedule() {
     p?.update({
       status: publishMode === 'now' ? 'published' : 'scheduled',
       emailStatus: 'scheduled',
-      publishAt
+      publishAt,
     }, { caller: 'saveAndSchedule' })
     await p?.save({ caller: 'saveAndSchedule' })
     scheduleModalVis.value = false

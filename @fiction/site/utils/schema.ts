@@ -2,7 +2,7 @@ import type { Card } from '@fiction/site/card.js'
 import type { Site } from '@fiction/site/site.js'
 import type { JsonSchema7AllOfType, JsonSchema7ArrayType, JsonSchema7ObjectType, JsonSchema7Type } from 'zod-to-json-schema'
 import { z } from 'zod'
-import { CardOptionsWithStandardSchema, SiteUserConfigSchema } from '../schema.js'
+import { CardOptionsWithStandardSchema } from '../schema.js'
 
 type JsonSchemaWithDefinitions = JsonSchema7Type & { definitions?: Record<string, JsonSchema7Type>, $ref: string }
 

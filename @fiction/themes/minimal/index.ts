@@ -10,7 +10,7 @@ export const theme = new Theme({
   subTitle: 'Elegant simplicity that lets your content shine',
   description: 'A refined, distraction-free theme that puts your work center stage. Perfect for creatives, photographers, and professionals who want their content to make the strongest impact. Features thoughtfully crafted typography, intentional white space, and smooth transitions that guide visitors through your story.',
   icon: 'i-tabler-layout-grid',
-  colorTheme: 'blue',
+  colorTheme: 'green',
   category: ['portfolio', 'personal'],
   version: '1.0.0',
   screenshots: {

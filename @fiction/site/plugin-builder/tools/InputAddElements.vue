@@ -8,7 +8,6 @@ import screenDefaultDark from '@fiction/cards/utils/img/screen-dark.svg'
 import screenDefaultLight from '@fiction/cards/utils/img/screen-light.svg'
 import { isDarkOrLightMode, toLabel, vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
-import XButton from '@fiction/ui/buttons/XButton.vue'
 import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 

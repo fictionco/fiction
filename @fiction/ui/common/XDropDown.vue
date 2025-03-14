@@ -21,11 +21,11 @@ const {
   classes?: { wrapper?: string, width?: string }
 }>()
 
-const normalizedItems = vue.computed(() => normList(items))
-
 const emit = defineEmits<{
   (event: 'update:model-value', value: string): void
 }>()
+
+const normalizedItems = vue.computed(() => normList(items))
 
 const isClicked = vue.ref(false)
 const isHovered = vue.ref(false)
