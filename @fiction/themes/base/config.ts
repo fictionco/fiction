@@ -7,19 +7,9 @@ import type { template as areaTemplate } from '@fiction/cards/page-area'
 import type { template as templateFooterPersonal } from '@fiction/cards/page-footer-personal'
 import type { template as navTemplate } from '@fiction/cards/page-nav'
 
-import type { Site } from '@fiction/site'
-import type { CardFactory } from '@fiction/site/cardFactory'
-import type { SiteUserConfig } from '@fiction/site/schema'
-import type { StockMedia } from '@fiction/ui/stock'
+import type { ThemeConfigArgs } from '@fiction/site'
 
-type SectionArgs = {
-  factory: CardFactory
-  stock: StockMedia
-  site: Site
-  userConfig: SiteUserConfig
-}
-
-export async function getPages(args: SectionArgs) {
+export async function getPages(args: ThemeConfigArgs) {
   const { factory } = args
 
   return [
@@ -38,9 +28,9 @@ export async function getPages(args: SectionArgs) {
   ]
 }
 
-const defaultLogo = { variant: 'typography', typography: { label: 'Hello World' } } as const
+const defaultLogo = { variant: 'brandName', typography: { label: 'Hello World' } } as const
 
-export async function getHeader(args: SectionArgs) {
+export async function getHeader(args: ThemeConfigArgs) {
   const { factory } = args
 
   return await factory.fromTemplate<typeof areaTemplate>({
@@ -59,7 +49,7 @@ export async function getHeader(args: SectionArgs) {
   })
 }
 
-export async function getFooter(args: SectionArgs) {
+export async function getFooter(args: ThemeConfigArgs) {
   const { factory } = args
   return await factory.fromTemplate<typeof areaTemplate>({
     regionId: 'footer',
@@ -85,7 +75,7 @@ export async function getFooter(args: SectionArgs) {
   })
 }
 
-export async function getHidden(args: SectionArgs) {
+export async function getHidden(args: ThemeConfigArgs) {
   const { factory } = args
 
   return await factory.fromTemplate({
@@ -97,7 +87,7 @@ export async function getHidden(args: SectionArgs) {
   })
 }
 
-export async function getConfig(args: Omit<SectionArgs, 'stock'>) {
+export async function getConfig(args: Omit<ThemeConfigArgs, 'stock'>) {
   const { factory } = args
   const stock = await factory.getStockMedia()
   const a = { ...args, stock }

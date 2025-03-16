@@ -149,7 +149,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     const pgs = this.settings.pages || []
     if (loadThemePages) {
-      pgs.push(...c.pages)
+      pgs.push(...c.pages || [])
     }
 
     await this.update({ pages: pgs }, { caller: 'loadConfig', noSave: true, noSync: this.siteMode.value === 'editable' })
@@ -267,26 +267,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   saveUtil = new AutosaveUtility({
     onSave: async () => this.save({ scope: 'draft' }),
   })
-
-  // clearAutosave() {
-  //   if (this.saveTimeout) {
-  //     clearTimeout(this.saveTimeout) // Clear the timeout after saving
-  //     this.saveTimeout = null
-  //   }
-  // }
-
-  // autosave() {
-  //   if (this.siteMode.value !== 'designer') {
-  //     return
-  //   }
-
-  //   this.editor.value.isDirty = true
-  //   this.clearAutosave()
-
-  //   this.saveTimeout = setTimeout(() => {
-  //     this.save({ scope: 'draft' }).catch(console.error) // Error handling
-  //   }, 2000) // Set a new timeout for 2 seconds
-  // }
 
   toConfig(args: { onlyKeys?: (keyof TableSiteConfig)[] | readonly (keyof TableSiteConfig)[] } = {}): { siteId: string } & Partial<TableSiteConfig> {
     const { onlyKeys = [] } = args

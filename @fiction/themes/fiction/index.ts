@@ -12,7 +12,6 @@ export const theme = new Theme({
   version: '1.0.0',
   isPublic: false,
   getTemplates: () => getCardTemplates(),
-  getBaseConfig: () => ({}),
   getConfig: async (args) => {
     const { site } = args
     const { getConfig } = await import('./config')

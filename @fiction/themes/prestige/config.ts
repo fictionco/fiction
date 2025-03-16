@@ -13,16 +13,11 @@ import type { template as metricsTemplate } from '@fiction/cards/proof-metrics/i
 import type { template as quotesTemplate } from '@fiction/cards/proof-quotes/index'
 import type { template as cardOverlaySliderV1Template } from '@fiction/cards/slider-overlay/index'
 
-import type { Site, ThemeConfig } from '@fiction/site'
-import type { CardFactory } from '@fiction/site/cardFactory'
-import type { SiteUserConfig } from '@fiction/site/schema'
+import type { ThemeConfig, ThemeConfigArgs } from '@fiction/site'
 import type { StockMedia } from '@fiction/ui/stock'
 
-type SectionArgs = {
-  factory: CardFactory
+type SectionArgs = ThemeConfigArgs & {
   stock: StockMedia
-  site: Site
-  userConfig: SiteUserConfig
 }
 
 export async function getPages(args: SectionArgs) {

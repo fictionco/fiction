@@ -110,7 +110,15 @@ export async function loadSiteFromTheme(args: {
     logger.error(msg, { data: { availableThemes: availableThemes.map(t => t.themeId) } })
     throw new Error(msg)
   }
-  const site = await theme.toSite({ fictionSites, subDomain, siteId, orgId, siteRouter, siteMode, isStatic: true })
+  const site = await theme.toSite({
+    fictionSites,
+    subDomain,
+    siteId,
+    orgId,
+    siteRouter,
+    siteMode,
+    isStatic: true,
+  })
 
   return site
 }

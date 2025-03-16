@@ -1,5 +1,5 @@
 import type { FictionAdmin } from '@fiction/admin/index.js'
-import type { ColorThemeBright, CoreServices, FictionEnv, ServiceList } from '@fiction/core'
+import type { ColorThemeBright, CoreServices, FictionEnv, Organization, ServiceList } from '@fiction/core'
 import type { CardTemplate } from './card.js'
 import type { SiteUserConfig } from './schema.js'
 import type { SiteSettings } from './site.js'
@@ -12,9 +12,17 @@ type ThemeCategory = 'blog' | 'portfolio' | 'business' | 'personal' | 'ecommerce
 
 export type ThemeConfig = {
   userConfig?: SiteUserConfig
-  pages: TableCardConfig[]
-  sections: Record<string, TableCardConfig>
+  pages?: TableCardConfig[]
+  sections?: Record<string, TableCardConfig>
   onMounted?: (args: { service: CoreServices }) => (void | Promise<void>)
+  org?: Partial<Organization>
+}
+
+export type ThemeConfigArgs = {
+  site: Site
+  factory: CardFactory
+  baseConfig: ThemeConfig
+  templates: CardTemplate<any>[]
 }
 
 export type ThemeMeta = {
@@ -34,13 +42,8 @@ export type ThemeMeta = {
 export type ThemeSettings<T extends Record<string, unknown> = Record<string, unknown>> = {
 
   getTemplates?: () => Promise<CardTemplate<any>[]>
-  getBaseConfig?: () => Partial<SiteUserConfig> & T
-  getConfig: (args: {
-    site: Site
-    factory: CardFactory
-    userConfig: SiteUserConfig
-    templates: CardTemplate<any>[]
-  }) => Promise<ThemeConfig>
+  getBaseConfig?: () => Partial<ThemeConfig> & { userConfig: T }
+  getConfig: (args: ThemeConfigArgs) => Promise<ThemeConfig>
 
   templateDefaults?: {
     page?: string
@@ -69,20 +72,20 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
     const { site } = args
     await this.loadThemeTemplates()
     const factory = new CardFactory({ site, templates: this.templates, caller: 'Theme.getConfig' })
-    const baseConfig = this.settings.getBaseConfig?.() || {}
-    const userConfig = deepMerge([this.defaultConfig(), baseConfig])
+    const themeBaseConfig = this.settings.getBaseConfig?.()
+    const baseConfig = deepMerge([this.defaultConfig(), themeBaseConfig])
     const config = await this.settings.getConfig({
       site,
       factory,
-      userConfig,
+      baseConfig,
       templates: this.templates,
     })
 
-    const fullUserConfig = deepMerge([userConfig, config.userConfig])
+    const mergedConfig = deepMerge([baseConfig, config])
 
-    const pages = config.pages.map(page => ({ ...page, templateId: page.templateId || this.templateDefaults.value.page }))
+    const pages = mergedConfig.pages?.map(page => ({ ...page, templateId: page.templateId || this.templateDefaults.value.page }))
 
-    return { ...config, userConfig: fullUserConfig, pages, sections: config.sections || {} }
+    return { ...mergedConfig, pages, sections: config.sections || {} }
   }
 
   async toSite(settings: Omit<SiteSettings, 'themeId'>): Promise<Site> {
@@ -90,21 +93,22 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
     return site
   }
 
-  defaultConfig(): SiteUserConfig {
+  defaultConfig(): ThemeConfig {
     return {
-      site: {
-        fonts: {
-          mono: { family: 'DM Mono', stack: 'monospace' },
-          input: { family: 'DM Mono', stack: 'sans' },
-          title: { family: 'Poppins', stack: 'sans' },
-          sans: { family: 'Plus+Jakarta+Sans', stack: 'sans' },
-          body: { stack: 'serif' },
-          serif: { stack: 'serif' },
-          highlight: { family: 'Caveat', stack: 'sans' },
+      userConfig: {
+        site: {
+          prefersColorScheme: 'dark',
+          fonts: {
+            mono: { family: 'DM Mono', stack: 'monospace' },
+            input: { family: 'DM Mono', stack: 'sans' },
+            title: { family: 'Poppins', stack: 'sans' },
+            sans: { family: 'Plus+Jakarta+Sans', stack: 'sans' },
+            body: { stack: 'serif' },
+            serif: { stack: 'serif' },
+            highlight: { family: 'Caveat', stack: 'sans' },
+          },
         },
-        prefersColorScheme: 'dark',
       },
-
     }
   }
 }

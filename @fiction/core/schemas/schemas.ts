@@ -391,7 +391,7 @@ export type NavListItem = z.infer<typeof BaseNavListItemSchema> & {
  */
 
 export const logoSchema = z.object({
-  variant: z.enum(['media', 'typography', 'workspace']).optional(),
+  variant: z.enum(['media', 'typography', 'brandLogo', 'brandName']).optional(),
   media: MediaIconSchema.optional(),
   typography: typographySchema.optional(),
   scale: z.number().optional(),

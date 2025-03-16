@@ -16,17 +16,12 @@ import type { template as MagazineTemplate } from '@fiction/cards/posts/magazine
 import type { template as QuotesTemplate } from '@fiction/cards/proof-quotes'
 import type { template as TickerTemplate } from '@fiction/cards/typography-ticker'
 
-import type { Site, ThemeConfig } from '@fiction/site'
-import type { CardFactory } from '@fiction/site/cardFactory'
-import type { SiteUserConfig } from '@fiction/site/schema'
+import type { ThemeConfig, ThemeConfigArgs } from '@fiction/site'
 import type { StockMedia } from '@fiction/ui/stock'
 import { getDemoUserConfig } from '@fiction/cards/posts/magazine/config'
 
-type SectionArgs = {
-  factory: CardFactory
+type SectionArgs = ThemeConfigArgs & {
   stock: StockMedia
-  site: Site
-  userConfig: SiteUserConfig
 }
 
 export async function getPages(args: SectionArgs) {

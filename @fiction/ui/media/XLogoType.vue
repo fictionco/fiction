@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { LogoObject } from '@fiction/core'
+import type { LogoObject, Organization } from '@fiction/core'
 import { determineMediaFormat, vue } from '@fiction/core'
 import { googleFontsUtility } from '@fiction/core/utils/fonts'
 import { twMerge } from 'tailwind-merge'
@@ -7,14 +7,16 @@ import XIcon from './XIcon.vue'
 
 defineOptions({ name: 'XLogoType' })
 
-const { logo, classes = {}, mediaHandling = {} } = defineProps<{
-  logo: LogoObject
-  classes: { media?: string, text?: string, image?: string }
+const { logo = {}, classes = {}, mediaHandling = {}, org } = defineProps<{
+  logo?: LogoObject
+  classes?: { media?: string, text?: string, image?: string }
   alt?: string
   mediaHandling?: { height?: number, width?: number } // height or width in rem
+  org?: Organization
 }>()
 
 const variant = vue.computed(() => {
+  // Legacy behavior
   if (logo.variant) {
     return logo.variant
   }
@@ -22,7 +24,7 @@ const variant = vue.computed(() => {
     return 'media'
   }
   else {
-    return 'text'
+    return 'typography'
   }
 })
 
@@ -30,12 +32,37 @@ const containerRef = vue.ref<HTMLElement | null>(null)
 const imageRef = vue.ref<HTMLImageElement | null>(null)
 const svgRef = vue.ref<SVGElement | null>(null)
 
-const media = vue.computed(() => logo.media)
-const mediaFormat = vue.computed(() => determineMediaFormat(logo.media))
+const activeLogo = vue.computed((): LogoObject => {
+  const v = variant.value
+  if (['brandLogo', 'brandName'].includes(v || '') && !org) {
+    console.error('Organization object is required for brandLogo and brandName variants')
+  }
+
+  if (v === 'brandLogo' && org?.logo?.url) {
+    return {
+      variant: 'media',
+      media: org.logo,
+    }
+  }
+
+  if (v === 'brandName' && org) {
+    return {
+      variant: 'typography',
+      typography: {
+        label: org.orgName || 'Organization',
+      },
+    }
+  }
+
+  return logo
+})
+
+const media = vue.computed(() => activeLogo.value.media)
+const mediaFormat = vue.computed(() => determineMediaFormat(activeLogo.value.media))
 
 // Load Google Fonts for typography format
 vue.watch(
-  () => logo.typography?.font,
+  () => activeLogo.value.typography?.font,
   async (font) => {
     if (font) {
       await googleFontsUtility.loadFont(font)
@@ -46,7 +73,7 @@ vue.watch(
 
 // Typography styles based on media config
 const typographyStyle = vue.computed(() => {
-  const t = logo.typography
+  const t = activeLogo.value.typography
   if (!t)
     return {}
 
@@ -55,7 +82,7 @@ const typographyStyle = vue.computed(() => {
     fontWeight: t.weight,
     lineHeight: t.lineHeight || '1.2',
     letterSpacing: t.letterSpacing,
-    fontSize: logo.scale ? `${logo.scale}em` : 'inherit',
+    fontSize: activeLogo.value.scale ? `${activeLogo.value.scale}em` : 'inherit',
   }
 })
 
@@ -133,8 +160,8 @@ const elementStyle = vue.computed(() => {
   }
 
   // Apply scale after dimensions if present
-  if (logo.scale && logo.scale !== 1) {
-    const scale = logo.scale
+  if (activeLogo.value.scale && activeLogo.value.scale !== 1) {
+    const scale = activeLogo.value.scale
     // Scale from the base rem size if media-handling is present
     if (mediaHandling?.height) {
       styles.height = `${mediaHandling.height * scale}rem`
@@ -143,7 +170,7 @@ const elementStyle = vue.computed(() => {
       styles.width = `${mediaHandling.width * scale}rem`
     }
     // If no media-handling, scale naturally
-    if (!mediaHandling) {
+    if (!mediaHandling?.height && !mediaHandling?.width) {
       styles.transform = `scale(${scale})`
       styles.transformOrigin = 'left center'
     }
@@ -151,6 +178,7 @@ const elementStyle = vue.computed(() => {
 
   return styles
 })
+
 // ResizeObserver for container size changes
 let resizeObserver: ResizeObserver | undefined
 vue.onMounted(() => {
@@ -175,6 +203,7 @@ vue.onBeforeUnmount(() => {
 <template>
   <div
     v-if="variant === 'media'"
+    ref="containerRef"
     :data-media-format="mediaFormat || 'none'"
     :data-media-url="media?.url || 'no-url'"
     :class="mediaClass"
@@ -184,7 +213,7 @@ vue.onBeforeUnmount(() => {
       v-if="(mediaFormat === 'image' || mediaFormat === 'url') && media?.url"
       ref="imageRef"
       :src="media.url"
-      :alt="alt || media.alt || ''"
+      :alt="alt || media?.alt || (org?.orgName ? `${org.orgName} logo` : 'Logo')"
       :class="imageClass"
       :style="elementStyle"
       @load="handleImageLoad"
@@ -194,7 +223,7 @@ vue.onBeforeUnmount(() => {
     <video
       v-else-if="mediaFormat === 'video' && media?.url"
       :src="media.url"
-      :alt="alt || media.alt || ''"
+      :alt="alt || media?.alt || (org?.orgName ? `${org.orgName} logo` : 'Logo')"
       :class="imageClass"
       autoplay
       loop
@@ -240,15 +269,16 @@ vue.onBeforeUnmount(() => {
     class="x-logo-type"
     :class="classes.text"
     :data-logo-variant="variant"
-    :data-media-scale="logo?.scale"
+    :data-media-scale="activeLogo?.scale"
   >
-    <span :style="typographyStyle">{{ logo.typography?.label || 'Logo' }}</span>
+    <span :style="typographyStyle">
+      {{ activeLogo.typography?.label || (org?.orgName || 'Organization') }}
+    </span>
   </div>
 </template>
 
 <style scoped>
 .svg-wrapper :deep(svg) {
-
   height: 100%;
   max-height: 100%;
 }

@@ -1,5 +1,3 @@
-// index.ts
-import type { SiteUserConfig } from '@fiction/site/schema'
 import { getCardTemplates } from '@fiction/cards/index.js'
 import { safeDirname } from '@fiction/core'
 import { Theme } from '@fiction/site/theme.js'
@@ -23,11 +21,12 @@ export const theme = new Theme({
   getTemplates: () => getCardTemplates(),
   getBaseConfig: () => {
     return {
-      site: {
-        prefersColorScheme: 'dark',
-        primaryColor: 'rose',
+      userConfig: {
+        site: {
+          primaryColor: 'rose',
+        },
       },
-    } satisfies SiteUserConfig
+    }
   },
   getConfig: async (args) => {
     const { getConfig } = await import('./config')

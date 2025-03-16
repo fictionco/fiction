@@ -106,6 +106,7 @@ function closeMenu() {
                 :media-handling="{ height: 1.6 }"
                 class="transition-all group-hover:opacity-80 duration-200"
                 data-test-id="page-nav-logo"
+                :org="card.site?.org"
               />
             </CardLink>
           </div>
