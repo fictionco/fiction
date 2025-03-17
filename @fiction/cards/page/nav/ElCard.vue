@@ -7,8 +7,9 @@ import { useService, vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import XLogoType from '@fiction/ui/media/XLogoType.vue'
 import NavMobile from '@fiction/ui/NavMobile.vue'
-import CardLink from '../el/CardLink.vue'
-import { processNavItems } from '../utils/nav'
+import CardLink from '../../el/CardLink.vue'
+import { processNavItems } from '../../utils/nav'
+import UserMenu from './UserMenu.vue'
 import XNav from './XNav.vue'
 
 const props = defineProps<{ card: Card<UserConfig> }>()
@@ -106,7 +107,7 @@ function closeMenu() {
                 :media-handling="{ height: 1.6 }"
                 class="transition-all group-hover:opacity-80 duration-200"
                 data-test-id="page-nav-logo"
-                :org="card.site?.org"
+                :org="card.site?.org.value"
               />
             </CardLink>
           </div>
@@ -122,15 +123,16 @@ function closeMenu() {
           />
 
           <!-- Utility Navigation -->
-          <XNav
-            :nav="nav.utility"
-            :card
-            class="hidden lg:flex gap-x-6 items-center justify-end"
-            :class="layoutClass.utility"
-            item-class="py-1.5 text-base font-sans font-medium inline-flex items-center"
-            :active-item="activeItem"
-            @update:active-item="setActiveHover($event)"
-          />
+          <div class="hidden lg:flex gap-x-6 items-center justify-end" :class="layoutClass.utility">
+            <XNav
+              :nav="nav.utility"
+              :card
+              item-class="py-1.5 text-base font-sans font-medium inline-flex items-center"
+              :active-item="activeItem"
+              @update:active-item="setActiveHover($event)"
+            />
+            <UserMenu :card />
+          </div>
 
           <!-- Mobile Menu -->
           <div class="flex lg:hidden">

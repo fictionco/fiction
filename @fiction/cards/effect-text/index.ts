@@ -22,10 +22,13 @@ export const template = cardTemplate({
 
   onSiteLoad: (args) => {
     const { site } = args
-    site.shortcodes.addShortcode('text_effect', ({ content, attributes }) => {
-      const type = attributes?.type || 'squiggle'
-      const theme = attributes?.theme || 'primary'
-      return `<span data-text-effect data-effect-type="${type}" data-effect-theme="${theme}">${content}</span>`
+    site.shortcodes.addShortcode({
+      shortcode: 'text_effect',
+      handler: ({ content, attributes }) => {
+        const type = attributes?.type || 'squiggle'
+        const theme = attributes?.theme || 'primary'
+        return `<span data-text-effect data-effect-type="${type}" data-effect-theme="${theme}">${content}</span>`
+      },
     })
   },
 })

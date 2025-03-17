@@ -189,7 +189,7 @@ export class QueryManageMemberRelation extends OrgQuery {
   }
 }
 
-export type WhereOrg = { orgId: string } | { slug: string }
+export type WhereOrg = { orgId: string } | { handle: string }
 
 export type ManageOrganizationParams =
   | { _action: 'create', fields: Partial<Organization>, userId: string, withDefaults?: boolean }
@@ -314,11 +314,11 @@ export class QueryManageOrganization extends OrgQuery {
   }
 
   // Additional helper functions for validation, member management, and response preparation
-  private validatePermission(args: { orgId?: string, slug?: string }, meta: EndpointMeta) {
+  private validatePermission(args: { orgId?: string, handle?: string }, meta: EndpointMeta) {
     if (meta.server)
       return
 
-    if (meta.bearer?.orgs?.find(o => o.orgId === args.orgId || o.slug === args.slug))
+    if (meta.bearer?.orgs?.find(o => o.orgId === args.orgId || o.handle === args.handle))
       return
 
     throw abort('bearer privilege')

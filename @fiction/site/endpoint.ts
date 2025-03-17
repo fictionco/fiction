@@ -852,8 +852,9 @@ export class ManageSite extends SitesQuery {
     const siteRouter = this.settings.fictionRouterSites
 
     const theme = this.getThemeById(themeId)
+    const siteId = objectId({ prefix: 'sit' })
 
-    const site = await theme.toSite({ siteRouter, fictionSites, ...fields, userId, orgId, siteId: objectId({ prefix: 'sit' }) })
+    const site = await theme.toSite({ siteRouter, fictionSites, ...fields, userId, orgId, siteId })
 
     return site.toConfig()
   }

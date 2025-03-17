@@ -84,11 +84,11 @@ const templateGroups: TemplateGroup[] = [
     label: 'Nav & Structure',
     description: 'Essential layout components for your site foundation',
     templates: [
-      () => import('./page-wrap'),
-      () => import('./page-area'),
-      () => import('./page-nav'),
-      () => import('./page-footer-pro'),
-      () => import('./page-footer-personal'),
+      () => import('./page/wrap'),
+      () => import('./page/area'),
+      () => import('./page/nav'),
+      () => import('./page/footer-pro'),
+      () => import('./page/footer-personal'),
     ],
   },
   {
@@ -108,8 +108,8 @@ const templateGroups: TemplateGroup[] = [
       () => import('./typography-fit-text'),
       () => import('./effect-shape'),
       () => import('./effect-text'),
-      () => import('./page-404'),
-      () => import('./page-transaction'),
+      () => import('./page/error404'),
+      () => import('./page/transaction'),
     ],
   },
 ]

@@ -2,7 +2,7 @@
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './config'
 import { vue } from '@fiction/core'
-import ElEngine from '../CardEngine.vue'
+import ElEngine from '../../CardEngine.vue'
 
 defineProps<{
   card: Card<UserConfig>

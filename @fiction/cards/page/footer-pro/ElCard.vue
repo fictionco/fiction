@@ -5,9 +5,9 @@ import { vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import XLogoType from '@fiction/ui/media/XLogoType.vue'
-import CardNavLink from '../CardNavLink.vue'
-import CardText from '../CardText.vue'
-import CardActionArea from '../el/CardActionArea.vue'
+import CardNavLink from '../../CardNavLink.vue'
+import CardText from '../../CardText.vue'
+import CardActionArea from '../../el/CardActionArea.vue'
 
 defineOptions({ name: 'FooterPro' })
 
@@ -50,6 +50,7 @@ vue.onMounted(() => {
                 :media-handling="{ height: 2 }"
                 class="transition-all group-hover:opacity-80 duration-200"
                 data-test-id="footer-pro-logo"
+                :org="card.site?.org.value"
               />
 
               <CardText

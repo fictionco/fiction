@@ -15,7 +15,7 @@ export type InputOptionGeneration = {
 const shortcodes = new Shortcodes()
 type AiShortcodeAttributes = { seconds?: number, label?: string }
 // remove shortcode from description
-shortcodes.addShortcode<AiShortcodeAttributes>('ai', () => '')
+shortcodes.addShortcode<AiShortcodeAttributes>({ shortcode: 'ai', handler: () => '' })
 
 export function parseDescription(text: string): { label?: string, description: string, attributes: AiShortcodeAttributes, hasTag: boolean } {
   const result = shortcodes.parseStringSync(text)

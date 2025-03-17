@@ -1,7 +1,7 @@
 import type { TokenFields, User } from '../plugin-user'
 import jwt from 'jsonwebtoken'
 import { log } from '../plugin-log'
-import { getCookie, removeCookie, setCookie } from './cookie'
+import { getCookie, removeCookie, setCookie, setCookieNakedDomain } from './cookie'
 import { abort } from './error'
 
 const logger = log.contextLogger('JWT UTILS')
@@ -58,7 +58,7 @@ export function manageClientUserToken(args: { _action?: 'set' | 'get' | 'destroy
     removeCookie({ name: key })
   }
   else if (_action === 'set' && token) {
-    setCookie({ name: key, value: token, attributes: { expires: 14, sameSite: 'Lax' } })
+    setCookieNakedDomain({ name: key, value: token, attributes: { expires: 14, sameSite: 'Lax' } })
   }
   else {
     const cookieValue = getCookie(key)

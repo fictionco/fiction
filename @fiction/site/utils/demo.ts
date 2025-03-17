@@ -1,5 +1,5 @@
 import type { template as heroTemplate } from '@fiction/cards/content-hero/index.js'
-import type { template as cardPageWrapV1Template } from '@fiction/cards/page-wrap/index.js'
+import type { template as cardPageWrapV1Template } from '@fiction/cards/page/wrap/index.js'
 import type { CardTemplate, Site } from '@fiction/site'
 import { toKebab } from '@fiction/core/index.js'
 import { CardFactory } from '../cardFactory.js'

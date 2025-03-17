@@ -54,10 +54,10 @@ export async function createUiTestingKit<T extends MainFileSetup = MainFileSetup
     initialized = await testUtils?.initUser({ fields: userFields })
     const token = initialized?.token || ''
     const url = `http://localhost:${port}`
-    await browser.context.addCookies([{ name: 'fictionUser', value: initialized.token, url }])
+    await browser.context.addCookies([{ name: 'fictionAuthToken', value: initialized.token, url }])
     await browser.context.addCookies([{ name: 'hidePreLaunch', value: 'true', url }])
     await browser.context.addInitScript((args) => {
-      window.localStorage.setItem('fictionUser', args.token)
+      window.localStorage.setItem('fictionAuthToken', args.token)
       window.localStorage.setItem('hidePreLaunch', JSON.stringify(true))
     }, { token })
 

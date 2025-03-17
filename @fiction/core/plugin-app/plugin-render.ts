@@ -26,6 +26,7 @@ import { createRateLimiter } from './render/rateLimitingMiddleware.js'
 import { securityMiddleware } from './render/securityMiddleware.js'
 import { SSR } from './render/ssr.js'
 import { getRequestVars, IndexHtml } from './render/utils.js'
+import { sessionShareMiddleware } from './utils/sessionShare.js'
 import { getMarkdownPlugins } from './utils/vitePluginMarkdown.js'
 
 export type FictionRenderSettings = {
@@ -536,6 +537,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       await this.fictionEnv?.runHooks('expressApp', { expressApp, mode })
 
       const ssr = await this.getSSR(mode)
+
+      expressApp.get('/__session', sessionShareMiddleware())
 
       // server side rendering
       expressApp.use('*', async (req, res) => {

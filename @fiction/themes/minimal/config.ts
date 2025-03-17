@@ -7,10 +7,10 @@ import type { template as callToActionTemplate } from '@fiction/cards/convert-ct
 import type { template as textEffectsTemplate } from '@fiction/cards/effect-text'
 import type { template as MapsTemplate } from '@fiction/cards/location-maps'
 import type { template as contentModalTemplate } from '@fiction/cards/modal-media'
-import type { template as areaTemplate } from '@fiction/cards/page-area'
+import type { template as areaTemplate } from '@fiction/cards/page/area'
 
-import type { template as templateFooterPersonal } from '@fiction/cards/page-footer-personal'
-import type { template as navTemplate } from '@fiction/cards/page-nav'
+import type { template as templateFooterPersonal } from '@fiction/cards/page/footer-personal'
+import type { template as navTemplate } from '@fiction/cards/page/nav'
 
 import type { template as MagazineTemplate } from '@fiction/cards/posts/magazine'
 import type { template as QuotesTemplate } from '@fiction/cards/proof-quotes'

@@ -1,4 +1,4 @@
-import type { template as TransactionTemplate } from '@fiction/cards/page-transaction/index.js'
+import type { template as TransactionTemplate } from '@fiction/cards/page/transaction/index.js'
 import type { CardFactory } from '@fiction/site/cardFactory.js'
 import type { SiteUserConfig } from '@fiction/site/schema.js'
 import type { Site } from '@fiction/site/site.js'

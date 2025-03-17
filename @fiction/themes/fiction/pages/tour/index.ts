@@ -1,6 +1,6 @@
 import type { template as heroTemplate } from '@fiction/cards/content-hero'
 import type { template as tourTemplate } from '@fiction/cards/content-tour/index.js'
-import type { template as areaTemplate } from '@fiction/cards/page-area/index.js'
+import type { template as areaTemplate } from '@fiction/cards/page/area/index.js'
 
 import type { template as templateMetrics } from '@fiction/cards/proof-metrics/index.js'
 import type { template as templateQuotes } from '@fiction/cards/proof-quotes/index.js'

@@ -106,7 +106,7 @@ class InstagramQuery extends CardQuery {
     }
 
     const { site } = this.settings
-    const token = await this.getInstagramToken(site.org?.orgId || '')
+    const token = await this.getInstagramToken(site.org.value?.orgId || '')
     const data = await this.fetchInstagramData(token, handle, limit)
 
     return {

@@ -4,9 +4,9 @@ import type { UserConfig } from './config'
 import { vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import XLogoType from '@fiction/ui/media/XLogoType.vue'
-import CardNavLink from '../CardNavLink.vue'
-import CardText from '../CardText.vue'
-import CardLink from '../el/CardLink.vue'
+import CardNavLink from '../../CardNavLink.vue'
+import CardText from '../../CardText.vue'
+import CardLink from '../../el/CardLink.vue'
 
 defineOptions({ name: 'CardFooterPersonalV1' })
 
@@ -53,6 +53,7 @@ vue.onMounted(() => {
                 :media-handling="{ height: 3 }"
                 class="transition-all group-hover:opacity-80 duration-200"
                 data-test-id="footer-personal-nav-logo"
+                :org="card.site?.org.value"
               />
             </CardLink>
             <CardText

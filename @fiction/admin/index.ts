@@ -1,4 +1,4 @@
-import type { template as TransactionTemplate } from '@fiction/cards/page-transaction/index.js'
+import type { template as TransactionTemplate } from '@fiction/cards/page/transaction/index.js'
 import type { FictionServer } from '@fiction/core'
 import type { FictionApp } from '@fiction/core/plugin-app'
 import type { FictionEmail } from '@fiction/core/plugin-email'

@@ -86,12 +86,17 @@ export class ObjectProcessor {
 type ShortcodeAttributes = Record<string, string | number>
 export type ShortcodeMatch<T extends ShortcodeAttributes = ShortcodeAttributes> = { shortcode: string, content: string, attributes: T, fullMatch: string }
 export type ShortcodeHandler<T extends ShortcodeAttributes = ShortcodeAttributes> = (args: { content?: string, attributes?: T, fullMatch: string }) => string | Promise<string>
+export type ShortcodeLoader<T extends ShortcodeAttributes = ShortcodeAttributes> = { shortcode: string, handler: ShortcodeHandler<T> }
 
-export class Shortcodes extends FictionObject<{ fictionEnv?: FictionEnv }> {
+type ShortcodeSettings = {
+  fictionEnv?: FictionEnv
+  shortcodes?: ShortcodeLoader[]
+}
+export class Shortcodes extends FictionObject<ShortcodeSettings> {
   private shortcodes: Record<string, ShortcodeHandler> = {}
   private hasAsyncShortcodes = false
 
-  constructor(settings: { fictionEnv?: FictionEnv } = {}) {
+  constructor(settings: ShortcodeSettings = {}) {
     super('Shortcodes', settings)
     this.initializeDefaultShortcodes()
   }
@@ -103,12 +108,17 @@ export class Shortcodes extends FictionObject<{ fictionEnv?: FictionEnv }> {
   }
 
   private initializeDefaultShortcodes(): void {
-    this.addShortcode('cwd', () => this.settings.fictionEnv?.cwd || '')
-    this.addShortcode('date', () => new Date().toLocaleDateString())
-    this.addShortcode('time', () => new Date().toLocaleTimeString())
+    this.addShortcode({ shortcode: 'cwd', handler: () => this.settings.fictionEnv?.cwd || '' })
+    this.addShortcode({ shortcode: 'date', handler: () => new Date().toLocaleDateString() })
+    this.addShortcode({ shortcode: 'time', handler: () => new Date().toLocaleTimeString() })
+
+    if (this.settings.shortcodes?.length) {
+      this.settings.shortcodes.forEach(sc => this.addShortcode(sc))
+    }
   }
 
-  public addShortcode<T extends ShortcodeAttributes = ShortcodeAttributes>(shortcode: string, handler: ShortcodeHandler<T>): void {
+  public addShortcode<T extends ShortcodeAttributes = ShortcodeAttributes>(args: ShortcodeLoader<T>): void {
+    const { shortcode, handler } = args
     if (!shortcode.match(/^[\w\-@]+$/))
       throw new Error('Invalid shortcode name')
     this.shortcodes[shortcode] = handler as ShortcodeHandler

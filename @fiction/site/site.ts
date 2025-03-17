@@ -108,7 +108,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   siteId = this.settings.siteId || objectId({ prefix: 'ste' })
   isProd = vue.ref(this.settings.isProd ?? this.fictionSites.fictionEnv?.isProd.value)
   title = vue.ref(this.settings.title)
-  org = this.settings.org
+
   status = vue.ref(this.settings.status)
   subDomain = vue.ref(this.settings.subDomain || shortId({ prefix: `${this.title.value || 'site'}-`, len: 3 }))
   customDomains = vue.ref(this.settings.customDomains || [])
@@ -126,6 +126,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   userConfig = vue.ref(this.settings.userConfig || {})
   themeConfig = vue.ref<ThemeConfig>()
   fullConfig = vue.computed(() => deepMerge([this.themeConfig.value?.userConfig, this.userConfig.value]))
+
+  org = vue.computed(() => deepMerge([this.themeConfig.value?.org, this.settings.org]))
 
   static async create<U extends SiteSettings>(settings: U, options: { loadThemePages?: boolean } = {}): Promise<Site<U>> {
     const site = new Site<U>(settings)
@@ -212,7 +214,12 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   currentPage = vue.computed(() => getPageById({ pageId: this.activePageId.value, site: this }))
   sections = vue.shallowRef(setSections({ site: this, sections: this.settings.sections }))
   layout = vue.computed<Record<string, Card>>(() => ({ ...this.sections.value, main: this.currentPage.value }))
-  shortcodes = new Shortcodes({ fictionEnv: this.fictionSites.fictionEnv })
+  shortcodes = new Shortcodes({
+    fictionEnv: this.fictionSites.fictionEnv,
+    shortcodes: [
+      { shortcode: 'brand_name', handler: () => this.org.value?.orgName || '' },
+    ],
+  })
 
   availableCards = vue.computed(() => flattenCards([...this.pages.value, ...Object.values(this.sections.value)]))
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site'
 import type { FictionAdmin } from '..'
-import TransactionWrap from '@fiction/cards/page-transaction/TransactionWrap.vue'
+import TransactionWrap from '@fiction/cards/page/transaction/TransactionWrap.vue'
 import { vue } from '@fiction/core'
 
 type VerifyEmailAction = FictionAdmin['emailActions']['verifyEmailAction']

@@ -3,7 +3,7 @@ import type { User } from '@fiction/core'
 import type { QueryVars } from '@fiction/plugin-transactions'
 import type { Card } from '@fiction/site'
 import type { FictionContact } from '..'
-import TransactionWrap from '@fiction/cards/page-transaction/TransactionWrap.vue'
+import TransactionWrap from '@fiction/cards/page/transaction/TransactionWrap.vue'
 import { useService, vue } from '@fiction/core'
 
 type SpecEmailAction = FictionContact['transactions']['subscribe']

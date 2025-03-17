@@ -3,9 +3,9 @@ import type { template as captureTemplate } from '@fiction/cards/convert-capture
 import type { template as textEffectsTemplate } from '@fiction/cards/effect-text'
 
 import type { template as contentModalTemplate } from '@fiction/cards/modal-media'
-import type { template as areaTemplate } from '@fiction/cards/page-area'
-import type { template as templateFooterPersonal } from '@fiction/cards/page-footer-personal'
-import type { template as navTemplate } from '@fiction/cards/page-nav'
+import type { template as areaTemplate } from '@fiction/cards/page/area'
+import type { template as templateFooterPersonal } from '@fiction/cards/page/footer-personal'
+import type { template as navTemplate } from '@fiction/cards/page/nav'
 
 import type { ThemeConfigArgs } from '@fiction/site'
 
@@ -40,8 +40,17 @@ export async function getHeader(args: ThemeConfigArgs) {
       await factory.fromTemplate<typeof navTemplate>({
         templateId: 'cardSiteNavV1',
         userConfig: {
+          layout: 'justified',
           brand: {
             logo: defaultLogo,
+          },
+          nav: {
+            primary: [
+              { label: 'Home', href: '/' },
+              { label: 'About', href: '/about' },
+            ],
+            utility: [
+            ],
           },
         },
       }),
@@ -66,7 +75,7 @@ export async function getFooter(args: ThemeConfigArgs) {
           additional: {
             list1: [],
             list2: [
-              { label: '© 2024' },
+              { label: '© 2024 [@brand_name]' },
             ],
           },
         },

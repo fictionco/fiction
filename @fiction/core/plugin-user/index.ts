@@ -113,7 +113,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     }
   }
 
-  userTokenKey = 'fictionUser'
+  userTokenKey = 'fictionAuthToken'
   manageUserToken = (args: { _action?: 'set' | 'get' | 'destroy', token?: string } = {}) => manageClientUserToken({ key: this.userTokenKey, ...args })
 
   activeOrganizations = vue.computed<Organization[]>({
