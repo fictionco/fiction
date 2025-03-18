@@ -1,4 +1,5 @@
 import type { Request, RequestHandler, Response } from 'express'
+import { crossVar } from '.'
 import { FictionObject } from '../plugin'
 import { log } from '../plugin-log'
 import { manageClientUserToken } from './jwt'
@@ -16,6 +17,7 @@ type AuthResponse = {
   type: typeof TOKEN_MESSAGES.RESPONSE_TYPE
   token: string
   timestamp: number
+  reason: string
 }
 
 type SessionTokenSettings = {
@@ -45,6 +47,7 @@ export class SessionTokenUtil extends FictionObject<SessionTokenSettings> {
   async getAuthToken(): Promise<string | undefined> {
     if (typeof window === 'undefined')
       return undefined
+
     return this.isRootDomain() ? manageClientUserToken({ key: this.settings.tokenKey }) : this.getSharedSessionToken()
   }
 
@@ -74,7 +77,8 @@ export class SessionTokenUtil extends FictionObject<SessionTokenSettings> {
       return Promise.resolve({ reason: 'no window' })
 
     return new Promise((resolve) => {
-      const src = [this.settings.appUrl, this.settings.endpoint].join('')
+      const renderToken = crossVar.get('RENDER_TOKEN') || ''
+      const src = [this.settings.appUrl, this.settings.endpoint, `?renderToken=${encodeURIComponent(renderToken)}`].join('')
       this.iframe = Object.assign(document.createElement('iframe'), { style: { display: 'none' }, src })
 
       const cleanup = (args: { token?: string, reason: string }) => {
@@ -95,7 +99,7 @@ export class SessionTokenUtil extends FictionObject<SessionTokenSettings> {
           this.iframe?.contentWindow?.postMessage(TOKEN_MESSAGES.REQUEST, this.settings.appUrl)
         }
         else if (event.data?.type === TOKEN_MESSAGES.RESPONSE_TYPE) {
-          const { token, timestamp } = event.data as AuthResponse
+          const { token, timestamp, reason } = event.data as AuthResponse
 
           const freshness = this.tokenFreshnessMs || 10000
           if (Date.now() - timestamp > freshness) {
@@ -104,7 +108,7 @@ export class SessionTokenUtil extends FictionObject<SessionTokenSettings> {
 
           logger.info('received token', { data: { token, timestamp } })
 
-          cleanup({ token, reason: 'token received' })
+          cleanup({ token, reason })
         }
       }
 
@@ -141,6 +145,9 @@ export function createSessionSharingMiddleware(tokenKey: string): RequestHandler
     res.set({
       'Access-Control-Allow-Credentials': 'true',
       'Content-Security-Policy': 'default-src \'self\'; script-src \'unsafe-inline\'',
+      'Access-Control-Allow-Origin': req.headers.origin || '*',
+      'X-Content-Type-Options': 'nosniff',
+      'Referrer-Policy': 'no-referrer-when-downgrade',
     })
 
     const html = `
@@ -153,12 +160,12 @@ export function createSessionSharingMiddleware(tokenKey: string): RequestHandler
 
                 const token = ${JSON.stringify(authToken)};
                 window.addEventListener('message', function(event) {
-                  console.log("IFRAMEEV", event)
                   if (event.data === '${TOKEN_MESSAGES.REQUEST}') {
                     event.source.postMessage({
                       type: '${TOKEN_MESSAGES.RESPONSE_TYPE}',
                       token: token,
-                      timestamp: Date.now()
+                      timestamp: Date.now(),
+                      reason: '${authToken ? 'logged in' : 'not logged in'}',
                     }, event.origin);
                   }
                 });
