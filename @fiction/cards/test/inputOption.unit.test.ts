@@ -32,7 +32,11 @@ describe('refine options with schema', () => {
       ] }),
     ], schema })
 
-    expect(unusedSchema).toMatchInlineSnapshot(`{}`)
+    expect(unusedSchema).toMatchInlineSnapshot(`
+      {
+        "superTitle.href": "string, Link URL [@ai]",
+      }
+    `)
 
     if (!options)
       throw new Error('no options')

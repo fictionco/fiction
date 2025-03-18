@@ -10,6 +10,7 @@ import type { Endpoint } from './endpoint'
 import type { ErrorConfig } from './error'
 import bodyParser from 'body-parser'
 import compression from 'compression'
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
@@ -53,6 +54,7 @@ export function createExpressApp(opts: HelmetOptions & { noHelmet?: boolean, id:
   app.use(bodyParser.json({ limit: '10mb' }))
   app.use(bodyParser.text({ limit: '10mb' }))
   app.use(compression())
+  app.use(cookieParser())
 
   addExpressHealthCheck({ expressApp: app, basePath: '/api/health', id })
 
@@ -157,9 +159,9 @@ export class EndpointServer {
         endpoint.pathname(),
         ...pathMiddleware,
         this.endpointAuthorization, // should come after middleware, as multer, etc have to parse it first
-        async (request: express.Request, response) => {
+        async (request: express.Request, response, next) => {
           // error handling is done via "Query" class
-          const result = (await endpoint.serveRequest(request, response)) as EndpointResponse
+          const result = (await endpoint.serveRequest(request, response, next)) as EndpointResponse
 
           delete result?.internal
 

@@ -22,6 +22,20 @@ export function createUserToken(args: { user: Partial<User>, tokenSecret?: strin
 }
 
 /**
+ * This is a security mechanism to prevent session jacking.
+ * For session sharing, tokens are sent to sites for users visiting requesting domain... if hacker wants to session jack,
+ * they could get this token, but would have to get a user to visit their domain before the token expires.
+ */
+export function createRenderToken(args: { renderedAt?: string, tokenSecret?: string, expiresIn?: number }): string {
+  const { renderedAt = Date.now().toString(), tokenSecret = '', expiresIn = 60 * 3 } = args
+
+  if (!tokenSecret)
+    throw abort('tokenSecret is not available for renderToken')
+
+  return jwt.sign({ renderedAt }, tokenSecret, { expiresIn })
+}
+
+/**
  * Take a JWT token and decode into the associated user _id
  */
 export function decodeUserToken(args: { token: string, tokenSecret?: string }): TokenFields {

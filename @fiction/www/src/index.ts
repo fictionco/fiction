@@ -122,6 +122,7 @@ const fictionApp = new FictionApp({
   isLive: fictionEnv.isProd,
   fictionEnv,
   srcFolder: path.join(cwd, './src'),
+  renderTokenSecret: tokenSecret,
   fictionOrgId: fictionEnv.var('FICTION_ORG_ID'),
   fictionSiteId: fictionEnv.var('FICTION_SITE_ID'),
 })
@@ -142,6 +143,7 @@ const fictionAppSites = new FictionApp({
   port: +fictionEnv.var('GATEWAY_PORT'),
   localHostname: '*.lan.com',
   liveUrl: URLS.sites,
+  renderTokenSecret: tokenSecret,
   altHostnames: [{ prod: `theme-minimal.${fictionEnv.meta.app?.domain}`, dev: 'theme-minimal.lan.com' }],
   isLive: fictionEnv.isProd,
   srcFolder: path.join(cwd, './src'),

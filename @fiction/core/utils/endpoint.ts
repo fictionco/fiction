@@ -31,7 +31,7 @@ export interface EndpointOptions {
   useNaked?: boolean
 }
 
-type RequestHandler = (req: express.Request, res: express.Response) => Promise<EndpointResponse | void>
+type RequestHandler = (req: express.Request, res: express.Response, next: express.NextFunction) => Promise<EndpointResponse | void>
 export interface EndpointMethodOptions<T extends Query> {
   queryHandler?: T
   requestHandler?: RequestHandler
@@ -173,9 +173,9 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     return r as Awaited<ReturnType<T['run']>>
   }
 
-  public async serveRequest(request: express.Request, response: express.Response): Promise<EndpointResponse | void> {
+  public async serveRequest(request: express.Request, response: express.Response, next: express.NextFunction): Promise<EndpointResponse | void> {
     if (this.requestHandler) {
-      return this.requestHandler(request, response)
+      return this.requestHandler(request, response, next)
     }
     else if (this.queryHandler) {
       let params = request.body as Record<string, any>

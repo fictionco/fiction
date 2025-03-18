@@ -30,7 +30,7 @@ describe('minimalProfile', async () => {
         "properties": {
           "action": {
             "additionalProperties": false,
-            "description": "List of social media links",
+            "description": "List of social media links [@ai]",
             "properties": {
               "buttons": {
                 "description": "Interactive buttons [@ai]",
@@ -124,6 +124,7 @@ describe('minimalProfile', async () => {
                       "type": "string",
                     },
                     "target": {
+                      "description": "Link target [@ai]",
                       "enum": [
                         "_blank",
                         "_self",
@@ -165,6 +166,14 @@ describe('minimalProfile', async () => {
                         "stone",
                         "black",
                         "white",
+                      ],
+                      "type": "string",
+                    },
+                    "type": {
+                      "enum": [
+                        "button",
+                        "submit",
+                        "reset",
                       ],
                       "type": "string",
                     },
@@ -281,7 +290,7 @@ describe('minimalProfile', async () => {
             "type": "string",
           },
           "details": {
-            "description": "List of details with contact details, location, etc.",
+            "description": "List of details with contact details, location, etc. [@ai]",
             "items": {
               "additionalProperties": false,
               "description": "NavListItemSchema",
@@ -295,11 +304,11 @@ describe('minimalProfile', async () => {
                   "description": "Leading icon shown before the label",
                 },
                 "label": {
-                  "description": "Primary text displayed for the item (e.g., "Products")",
+                  "description": "Primary text displayed for the item (e.g., "Products") [@ai]",
                   "type": "string",
                 },
                 "value": {
-                  "description": "Value associated with the item",
+                  "description": "Value associated with the item [@ai]",
                   "type": [
                     "string",
                     "number",
@@ -323,7 +332,7 @@ describe('minimalProfile', async () => {
             "type": "string",
           },
           "mediaItems": {
-            "description": "Splash pictures in portrait format [@ai seconds=40]",
+            "description": "Splash pictures in portrait format",
             "items": {
               "additionalProperties": false,
               "description": "NavListItemSchema",
@@ -692,6 +701,10 @@ describe('minimalProfile', async () => {
           "superTitle": {
             "additionalProperties": false,
             "properties": {
+              "href": {
+                "description": "Link URL [@ai]",
+                "type": "string",
+              },
               "icon": {
                 "additionalProperties": false,
                 "description": "Visual indicator icon [@ai]",

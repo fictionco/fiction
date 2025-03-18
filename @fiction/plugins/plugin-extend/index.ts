@@ -42,9 +42,7 @@ export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> 
     ] })
   }
 
-  override async beforeSetup(args: PluginSetupArgs) {
-    await this.addPlugins(args)
-  }
+
 
   async addPlugins(args: PluginSetupArgs) {
     const { context } = args

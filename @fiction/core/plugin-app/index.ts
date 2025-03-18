@@ -23,6 +23,8 @@ vars.register(() => [
 ])
 
 export type FictionAppSettings = {
+  fictionEnv: FictionEnv
+  fictionRouter: FictionRouter
   mode?: 'production' | 'development'
   isTest?: boolean
   liveUrl?: string
@@ -30,9 +32,7 @@ export type FictionAppSettings = {
   isLive?: vue.Ref<boolean>
   altHostnames?: { dev: string, prod: string }[]
   port: number
-  fictionEnv: FictionEnv
   rootComponent?: vue.Component
-  fictionRouter: FictionRouter
   tailwindConfig?: Partial<TailwindConfig>[]
   srcFolder?: string
   mainIndexHtml?: string
@@ -40,6 +40,7 @@ export type FictionAppSettings = {
   appInstanceId?: string // to differentiate multiple apps
   fictionOrgId?: string
   fictionSiteId?: string
+  renderTokenSecret?: string
   root?: string
 } & FictionPluginSettings
 
@@ -192,11 +193,13 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     const service = serviceConfig?.service || {}
     const initialState = serviceConfig?.initialState || {}
 
+
     const { fictionEnv, fictionRouter } = this.settings
     if (serviceConfig)
       await fictionEnv.crossRunCommand({ context: 'app', serviceConfig, runVars })
 
     const entry = await this.createVueApp({ runVars, service, initialState })
+
 
     if (typeof window !== 'undefined' && !this.settings.fictionEnv.isSSR.value) {
       await this.settings.fictionEnv.runHooks('beforeAppMounted', entry)
@@ -209,6 +212,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
       initializeResetUi({ fictionRouter, fictionEnv }).catch(console.error)
 
       entry.app.mount(mountEl)
+
 
       document.documentElement.style.opacity = '1'
       document.documentElement.style.transform = 'none'

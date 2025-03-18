@@ -1,3 +1,4 @@
+import type { FictionApp } from '../plugin-app/index.js'
 import type { FictionDb } from '../plugin-db/index.js'
 import type { FictionEmail } from '../plugin-email/index.js'
 import type { FictionRouter } from '../plugin-router/index.js'
@@ -10,10 +11,11 @@ import { EnvVar, vars } from '../plugin-env/index.js'
 // likely fixed in TS 4.8
 import { FictionPlugin } from '../plugin.js'
 import { TypedEventTarget } from '../utils/eventTarget.js'
-import { crossVar, hasWindow, isActualBrowser, isNode, safeDirname, vue, waitFor } from '../utils/index.js'
+import { crossVar, Endpoint, hasWindow, isActualBrowser, isNode, safeDirname, vue, waitFor } from '../utils/index.js'
 import { createUserToken, decodeUserToken, manageClientUserToken } from '../utils/jwt.js'
 import { getAccessLevel, userCan, userCapabilities } from '../utils/priv.js'
 import * as priv from '../utils/priv.js'
+import { createSessionSharingMiddleware, SessionTokenUtil } from '../utils/session.js'
 import { QueryManageUser } from './endpoint.js'
 import { QueryManageMemberRelation, QueryManageOrganization, QueryOrganizationsByUserId } from './endpointOrg.js'
 import { GetTopValues } from './endpointTopValues.js'
@@ -36,6 +38,7 @@ export type UserPluginSettings = {
   fictionDb: FictionDb
   fictionEmail?: FictionEmail
   fictionRouter?: FictionRouter
+  fictionApp?: FictionApp
   googleClientId?: string
   googleClientSecret?: string
   tokenSecret?: string
@@ -53,6 +56,7 @@ export type UserEventMap = {
 
 export class FictionUser extends FictionPlugin<UserPluginSettings> {
   priv = priv
+  userTokenKey = 'fictionAuthToken'
   activeUser = vue.ref<User>()
   initialized?: Promise<boolean>
   fictionUserEnrich?: FictionUserEnrich
@@ -77,20 +81,23 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     fictionUser: this,
   })
 
+  sessionTokenUtil = new SessionTokenUtil({
+    appUrl: this.settings.fictionApp?.appUrl.value,
+    endpoint: '/api/session-surface',
+    tokenKey: this.userTokenKey,
+  })
+
   getToken = (user: User) => createUserToken({ user, tokenSecret: this.tokenSecret })
   decodeToken = (token: string) => decodeUserToken({ token, tokenSecret: this.tokenSecret })
 
   constructor(settings: UserPluginSettings) {
     super('user', settings)
 
-    const { fictionEnv, fictionDb, fictionRouter, fictionServer } = settings
+    const { fictionEnv, fictionDb, fictionRouter } = settings
 
     fictionDb.addTables(getAdminTables())
 
-    // add fictionUser to server as it can't be added in constructur
-    // this plugin already requires the server module
-    if (fictionServer)
-      fictionServer.fictionUser = this
+    this.serverHandling()
 
     fictionRouter?.addReplacers({ orgId: this.activeOrgId })
 
@@ -99,10 +106,30 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     if (!fictionEnv.isApp.value)
       this.fictionUserEnrich = new FictionUserEnrich({ ...settings, fictionUser: this })
 
-    this.init()
+    this.initBrowser()
   }
 
-  init() {
+  serverHandling() {
+    if (this.settings.fictionServer) {
+      // add fictionUser to server as it can't be added in constructur
+      // this plugin already requires the server module
+      this.settings.fictionServer.fictionUser = this
+
+      const sessionSharingEndpoint = new Endpoint({
+        requestHandler: async (...r) => createSessionSharingMiddleware(this.userTokenKey)(...r),
+        key: 'sessionSurfaceEndpoint',
+        basePath: '/session-surface',
+        serverUrl: this.settings.fictionServer?.serverUrl.value,
+        fictionUser: this,
+        fictionEnv: this.settings.fictionEnv,
+        useNaked: true,
+      })
+
+      this.settings.fictionServer?.addEndpoints([sessionSharingEndpoint])
+    }
+  }
+
+  initBrowser() {
     // redirect based on auth
     // only check if is browser not during prerender
     // anywhere else we don't know logged in status
@@ -113,7 +140,6 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     }
   }
 
-  userTokenKey = 'fictionAuthToken'
   manageUserToken = (args: { _action?: 'set' | 'get' | 'destroy', token?: string } = {}) => manageClientUserToken({ key: this.userTokenKey, ...args })
 
   activeOrganizations = vue.computed<Organization[]>({
@@ -318,7 +344,11 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   }
 
   requestCurrentUser = async (): Promise<User | undefined> => {
-    const token = this.manageUserToken({ _action: 'get' })
+    let token = this.manageUserToken({ _action: 'get' })
+
+    if (!token && typeof window !== 'undefined' && this.sessionTokenUtil) {
+      token = await this.sessionTokenUtil.getAuthToken()
+    }
 
     let user: User | undefined
 

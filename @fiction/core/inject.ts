@@ -11,6 +11,7 @@ export type RunVars = {
   RUN_MODE: 'prod' | 'dev' | 'test'
   RUN_ENV: 'node' | 'browser' | 'ssr'
   APP_INSTANCE: string
+  RENDER_TOKEN: string
   MOUNT_CONTEXT: Record<string, string>
   FICTION_ORG_ID: string // integrate db org with static
   FICTION_SITE_ID: string // integrate db site with static
