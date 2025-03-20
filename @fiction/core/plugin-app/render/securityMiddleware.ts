@@ -55,11 +55,13 @@ const BLOCKED_USER_AGENTS = [
 ]
 
 function hasPathTraversalAttempt(pathname: string): boolean {
+  // Ensure pathname excludes query string
+  const cleanPath = pathname.split('?')[0]
   return (
-    /%2e/i.test(pathname)
-    || /%2f/i.test(pathname)
-    || /\.\.\//.test(pathname)
-    || /\/{2,}/.test(pathname)
+    /%2e/i.test(cleanPath)
+    || /%2f/i.test(cleanPath)
+    || /\.\.\//.test(cleanPath)
+    || /\/{2,}/.test(cleanPath)
   )
 }
 

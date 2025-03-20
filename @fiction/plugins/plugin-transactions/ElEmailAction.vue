@@ -45,7 +45,7 @@ vue.onMounted(async () => {
       })
 
       if (status === 'success') {
-        fictionUser.setCurrentUser({ user: data, token, reason: 'transactionToken' })
+        await fictionUser.setCurrentUser({ user: data, token, reason: 'transactionToken' })
       }
       else {
         authError.value = message || 'Invalid token'

@@ -104,6 +104,16 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
           await fictionUser?.logout({ caller: 'watchRouteUserChanges-logout-param' })
         },
       },
+      {
+        key: '_token',
+        callback: async (args: { site: Site, value: string }) => {
+          const { value } = args
+          const fictionUser = this.fictionSites.settings.fictionUser
+          if (value) {
+            await fictionUser?.setCurrentUser({ token: value, reason: 'watchRouteUserChanges-token-param' })
+          }
+        },
+      },
     ]
     setupRouteWatcher({ site: this, queryVarHooks })
   }

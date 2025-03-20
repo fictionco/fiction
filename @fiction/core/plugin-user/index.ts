@@ -272,23 +272,28 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     return { user, org }
   }
 
-  deleteCurrentUser = (): void => {
+  deleteCurrentUser(): void {
     this.log.info(`deleted current user`)
     this.manageUserToken({ _action: 'destroy' })
     this.activeUser.value = undefined
     this.initialized = undefined
   }
 
-  setCurrentUser = (args: { user: User | undefined, token?: string, reason?: string }): void => {
-    const { user, token = '' } = args
+  async setCurrentUser(args: { user?: User, token?: string, reason?: string }): Promise<User | undefined> {
+    let { user, token = '' } = args
 
-    if (!user)
-      return this.deleteCurrentUser()
-
-    if (token)
+    if (token) {
       this.manageUserToken({ _action: 'set', token })
 
+      // new token but no user, so get user
+      if (!user) {
+        user = await this.requestCurrentUser()
+      }
+    }
+
     this.activeUser.value = user
+
+    return user
   }
 
   async logout(args: { callback?: () => void, redirect?: string, caller?: string } = {}) {
@@ -323,7 +328,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     }
   }
 
-  requestCurrentUser = async (): Promise<User | undefined> => {
+  async requestCurrentUser(): Promise<User | undefined> {
     const token = this.manageUserToken({ _action: 'get' })
 
     let user: User | undefined
@@ -338,7 +343,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       user = data
 
       if (user)
-        this.setCurrentUser({ user, reason: 'currentUser' })
+        await this.setCurrentUser({ user, reason: 'currentUser' })
     }
 
     this.events.emit('currentUser', { user })
@@ -393,7 +398,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     const newUser = await cb(this.activeUser.value)
 
     if (newUser)
-      this.setCurrentUser({ user: newUser, reason })
+      await this.setCurrentUser({ user: newUser, reason })
   }
 
   userImages() {

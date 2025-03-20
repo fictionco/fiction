@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
-import { useService } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
@@ -15,6 +15,13 @@ const { card } = defineProps<{
 }>()
 
 const { fictionUser, fictionEnv } = useService()
+
+const authUrlWithRedirect = vue.computed(() => {
+  const baseUrl = fictionEnv.isProd.value ? 'https://www.fiction.com' : 'http://localhost:4444'
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : ''
+  const urlEncodedCurrentUrl = encodeURIComponent(currentUrl)
+  return `${baseUrl}/app/auth?redirect=${urlEncodedCurrentUrl}`
+})
 
 // Function to open auth popup when user clicks "Sign In"
 function openAuthPopup() {
@@ -47,7 +54,7 @@ function openAuthPopup() {
   }
 
   // Set up message listener for auth completion
-  window.addEventListener('message', (event) => {
+  window.addEventListener('message', async (event) => {
     // Only accept messages from fiction domains
     if (!event.origin.match(/^https?:\/\/(.*\.)?fiction\.com|localhost/)) {
       return
@@ -55,7 +62,7 @@ function openAuthPopup() {
 
     if (event.data?.type === 'auth-success' && event.data?.token) {
       // Handle successful authentication
-      fictionUser.setCurrentUser({
+      await fictionUser.setCurrentUser({
         token: event.data.token,
         user: event.data.user,
         reason: 'auth-popup',
@@ -123,7 +130,7 @@ function openAuthPopup() {
       v-else
       icon-after="i-tabler-arrow-right"
       data-test-id="sign-in-button"
-      @click="openAuthPopup"
+      :href="authUrlWithRedirect"
     >
       Sign In
     </XButton>

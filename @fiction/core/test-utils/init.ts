@@ -124,7 +124,7 @@ export async function initializeTestUser(args: {
     throw new Error('no user created')
 
   if (!context || context === 'app') {
-    fictionUser.setCurrentUser({ user, token, reason: 'testUtils' })
+    await fictionUser.setCurrentUser({ user, token, reason: 'testUtils' })
 
     fictionUser.setUserInitialized()
   }

@@ -10,7 +10,7 @@ describe('active user handling', async () => {
   afterAll(() => testUtils.close())
 
   it('should set the user to initialized', async () => {
-    testUtils.fictionUser.setCurrentUser({ user: undefined })
+    await testUtils.fictionUser.setCurrentUser({ user: undefined })
     const computedVar = vue.computed(() => {
       return `id-${testUtils?.fictionUser.activeUser.value?.userId ?? ''}`
     })
@@ -18,7 +18,7 @@ describe('active user handling', async () => {
     expect(testUtils.fictionUser.activeUser.value).toBeUndefined()
     expect(computedVar.value).toBe('id-')
 
-    testUtils.fictionUser.setCurrentUser({ user: initialized?.user })
+    await testUtils.fictionUser.setCurrentUser({ user: initialized?.user })
 
     expect(testUtils.fictionUser.activeUser.value?.userId).toBe(
       initialized?.user?.userId,

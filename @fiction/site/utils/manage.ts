@@ -66,7 +66,7 @@ export async function siteGoto(args: {
 
   const routePath = typeof location === 'object' ? location.path : location
   if (typeof routePath === 'string' && routePath.includes('http')) {
-    window.open(routePath, '_blank')
+    window.location.href = routePath
     return
   }
 

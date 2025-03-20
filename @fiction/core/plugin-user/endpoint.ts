@@ -40,7 +40,7 @@ export type ManageUserParams =
   | { _action: 'getUserWithToken', token: string, code?: string }
   | { _action: 'login', where: WhereUser, password?: string, createUserFields?: Partial<User>, createOnEmpty?: boolean }
   | { _action: 'loginGoogle', credential?: string, code?: string, createUserFields?: Partial<User>, createOnEmpty?: boolean }
-  | { _action: 'loginWithCode', where: WhereUser, code: string, newPassword?: string }
+  | { _action: 'loginWithCode', where: WhereUser, code: string, newPassword?: string, keepCode?: boolean }
   | { _action: 'event', eventName: 'resetPassword', where: WhereUser }
   | { _action: 'manageOnboard', settings: OnboardSettings, orgId?: string, userId?: string }
 
@@ -109,7 +109,6 @@ export class QueryManageUser extends UserBaseQuery {
         user = r.user
         isNew = r.isNew
         sendToken = true
-        message = 'login successful'
         break
       }
       case 'loginGoogle': {
@@ -438,7 +437,7 @@ export class QueryManageUser extends UserBaseQuery {
   }
 
   private async loginWithCode(params: ManageUserParams & { _action: 'loginWithCode' }, meta: EndpointMeta): Promise<{ user?: User, isNew: boolean }> {
-    const { where, code, newPassword } = params
+    const { where, code, newPassword, keepCode = false } = params
 
     if (!where || !code) {
       throw abort('email and code required')
@@ -463,6 +462,20 @@ export class QueryManageUser extends UserBaseQuery {
     if (newPassword && code) {
       await this.updatePassword({ where, password: newPassword, code }, meta)
     }
+
+    const updateFields: {
+      [K in keyof User]: User[K] | null;
+    } = { emailVerified: true }
+
+    if (!keepCode) {
+      updateFields.verify = null
+    }
+
+    // 3. After verification, clear the verification code to prevent reuse
+    await this.db()
+      .table(t.user)
+      .update(updateFields)
+      .where(where)
 
     const finalUser = await this.getUser({ _action: 'retrieve', where }, meta)
 

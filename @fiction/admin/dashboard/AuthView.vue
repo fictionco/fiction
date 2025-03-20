@@ -141,7 +141,7 @@ const screenConfig = vue.computed(() => {
     'password-updated': {
       title: `Password updated!`,
       subTitle: 'Your new password has been set',
-      icon: 'i-tabler-check-circle',
+      icon: 'i-tabler-check',
       status: 'success',
     },
   }
@@ -392,6 +392,7 @@ async function verifyCode(callback: (response: EndpointResponse<User> & { isNew?
     _action: 'loginWithCode',
     where: { email },
     code: oneTimeCode,
+    keepCode: authState.value === 'reset-password-sent',
   })
 
   if (response.status !== 'success') {
@@ -551,7 +552,7 @@ const isCodeConfirmState = vue.computed(() => ['verify-email', 'email-link-sent'
                 data-test-id="continue-button"
                 @click.prevent="redirectToDashboard()"
               >
-                Continue to {{ orgData?.orgName || 'dashboard' }}
+                Complete
               </XButton>
               <XButton
                 v-else

@@ -382,7 +382,16 @@ unhead.useHead({
         </div>
 
         <!-- Legal Footer -->
-        <table id="last-line" style="width:100%;margin-top:32px;" cellpadding="0" cellspacing="0">
+        <table
+          id="last-line"
+          :style="{
+            width: '100%',
+            marginTop: '32px',
+            fontSize: '11px',
+          }"
+          cellpadding="0"
+          cellspacing="0"
+        >
           <tbody>
             <tr>
               <td v-if="unsubscribeUrl && emailType === 'campaign'">
