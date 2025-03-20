@@ -171,9 +171,9 @@ export class QueryTransactionalEmail extends EmailQuery {
 
     const replyTo = (senderName ? `${senderName} <${senderEmail}>` : senderEmail) || this.fromAppEmail()
 
-    const sendingDomainEmail = `noreply@${sendingDomain || 'mail.fiction.com'}`
+    const sendingDomainEmail = `no-reply@${sendingDomain || 'fiction.com'}`
 
-    const from = senderName ? `${senderName} <${sendingDomainEmail}>` : sendingDomainEmail
+    const from = replyTo.includes('fiction.com') ? replyTo : senderName ? `${senderName} <${sendingDomainEmail}>` : sendingDomainEmail
 
     if (!to)
       throw abort('missing email: to', meta)
@@ -188,9 +188,6 @@ export class QueryTransactionalEmail extends EmailQuery {
       'Message-ID': `<${messageId}@${sendingDomain || 'fiction.com'}>`,
       'X-Entity-Ref-ID': emailId || `fiction-${Date.now()}`,
 
-      // Responsible sender information
-      'X-Complaints-To': `abuse@${sendingDomain || 'fiction.com'}`,
-
       // Fiction-specific tracking
       'X-Fiction-Email-ID': emailId || '',
       'X-Fiction-User-ID': toUserId || '',
@@ -199,22 +196,19 @@ export class QueryTransactionalEmail extends EmailQuery {
       'X-Fiction-Sender-Email': senderEmail || '',
       'X-Fiction-Email-Type': emailType || 'update',
       'X-Fiction-Sender-Name': senderName || '',
-
-      // Prevent auto-responders
-      'X-Auto-Response-Suppress': 'OOF, AutoReply',
-
-      // Feedback loop identifier
-      'Feedback-ID': `${emailId}:${emailType}:fiction`,
     }
 
     if (['campaign'].includes(emailType)) {
       headers.Precedence = 'bulk'
       headers['List-ID'] = `<${emailType}-${fromOrgId || 'fiction'}@${sendingDomain || 'fiction.com'}>`
-    }
+      headers['X-Auto-Response-Suppress'] = 'All'
+      headers['X-MSMail-Priority'] = 'Normal'
+      headers['X-Complaints-To'] = `abuse@${sendingDomain || 'fiction.com'}`
 
-    if (unsubscribeUrl) {
-      headers['List-Unsubscribe'] = `<${unsubscribeUrl}>`
-      headers['List-Unsubscribe-Post'] = 'List-Unsubscribe=One-Click'
+      if (unsubscribeUrl) {
+        headers['List-Unsubscribe'] = `<${unsubscribeUrl}>`
+        headers['List-Unsubscribe-Post'] = 'List-Unsubscribe=One-Click'
+      }
     }
 
     const theEmail: NodeMailOptions = {
@@ -224,6 +218,7 @@ export class QueryTransactionalEmail extends EmailQuery {
       html,
       replyTo,
       headers,
+
     }
 
     const client = this.getClient()

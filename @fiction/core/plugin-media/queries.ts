@@ -80,7 +80,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
   }, meta: EndpointMeta): Promise<TableMediaConfig | undefined> {
     const { orgId, userId, fields, storageGroupPath } = args
 
-    const Buffer = getNodeBuffer()
+    const Buffer = await getNodeBuffer()
     const { sourceImageUrl } = fields || {}
 
     if (!sourceImageUrl)

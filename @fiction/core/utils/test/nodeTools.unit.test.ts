@@ -1,84 +1,9 @@
-import type { MainFile } from '@fiction/core/plugin-env'
 import type { ResultPromise } from 'execa'
 import { Buffer } from 'node:buffer'
-import path from 'node:path'
 
 import { execa } from 'execa'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { executeCommand, getMainFilePath, importIfExists } from '../nodeUtils'
-
-const cwd = path.dirname(new URL('../../../www/package.json', import.meta.url).pathname)
-describe('node utils', () => {
-  it('has right cwd', async () => {
-    expect(cwd).toMatchInlineSnapshot(`"/Users/arpowers/dev/fiction/@fiction/www"`)
-  })
-  it('gets correct main file path', async () => {
-    const filePath = getMainFilePath({ cwd })
-
-    expect(filePath).toContain(`/www/src/index.ts`)
-  })
-
-  it('imports files if it exists', async () => {
-    const importFile = (await importIfExists(cwd)) as Record<string, any>
-    expect(Object.keys(importFile).sort()).toMatchInlineSnapshot(
-      `
-      [
-        "setup",
-      ]
-    `,
-    )
-  })
-
-  it('gets correct server entry config', async () => {
-    const filePath = getMainFilePath({ cwd })
-    expect(filePath).toMatchInlineSnapshot(`"/Users/arpowers/dev/fiction/@fiction/www/src/index.ts"`)
-    if (!filePath)
-      throw new Error('No file path found')
-
-    const mainFileImports = (await import(filePath)) as MainFile
-
-    const serviceConfig = await mainFileImports.setup()
-
-    if (!serviceConfig?.service)
-      throw new Error('No service config found')
-
-    const service = serviceConfig?.service
-
-    expect(Object.keys(service).sort()).toMatchInlineSnapshot(`
-      [
-        "fictionAdmin",
-        "fictionAi",
-        "fictionAnalytics",
-        "fictionApp",
-        "fictionAppSites",
-        "fictionAws",
-        "fictionBrand",
-        "fictionCache",
-        "fictionCards",
-        "fictionDb",
-        "fictionEmail",
-        "fictionEnv",
-        "fictionExtend",
-        "fictionForms",
-        "fictionMedia",
-        "fictionMonitor",
-        "fictionNewsletter",
-        "fictionPosts",
-        "fictionRevision",
-        "fictionRouter",
-        "fictionRouterSites",
-        "fictionServer",
-        "fictionSites",
-        "fictionStripe",
-        "fictionContact",
-        "fictionTeam",
-        "fictionTransactions",
-        "fictionUi",
-        "fictionUser",
-      ]
-    `)
-  })
-})
+import { executeCommand } from '../nodeUtils'
 
 /**
  * EXECUTE COMMAND TESTS

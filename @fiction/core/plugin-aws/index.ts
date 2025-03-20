@@ -246,7 +246,7 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
     if (!stream)
       return ''
     const chunks: Uint8Array[] = []
-    const Buffer = getNodeBuffer()
+    const Buffer = await getNodeBuffer()
     return new Promise((resolve, reject) => {
       stream.on('data', (chunk: Uint8Array) => chunks.push(Buffer.from(chunk)))
       stream.on('error', (err: Error) => reject(err))

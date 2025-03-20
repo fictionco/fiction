@@ -309,9 +309,6 @@ export class FictionEnv<
         `${publicVars} public vars (${total} total)`,
         { data: this.getRenderedEnvVars(), disableOnRestart: true },
       )
-
-      // log memory usage on interval
-      logMemoryUsage()
     }
 
     this.verifyEnv()
@@ -435,6 +432,11 @@ export class FictionEnv<
     // set env vars added directly to config
     Object.entries(this.env).forEach(([key, value]) => {
       crossVar.set(key as keyof RunVars, value)
+    })
+
+    this.events.on('fiveMinuteInterval', () => {
+      // log memory usage on interval
+      logMemoryUsage()
     })
   }
 

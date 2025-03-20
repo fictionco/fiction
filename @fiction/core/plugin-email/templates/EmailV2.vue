@@ -68,14 +68,13 @@ unhead.useHead({
         }
 
 
-
         figure,  pre, table, .x-button-container {
-         margin-top: 2em;
-         margin-bottom: 2em;
+          margin: 2em 0;
         }
 
         p, ul, ol, dl, blockquote, pre, table {
-        font-size: 18px;
+          font-size: 18px;
+          line-height: 1.6;
         }
 
         /* Headers */
@@ -270,7 +269,7 @@ unhead.useHead({
     <div style="display: none; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; font-family: sans-serif;">
       {{ previewText }}
       <!-- Repeating characters to fill preview area -->
-      {{ "&#847; &zwnj;&nbsp;".repeat(100) }}
+      {{ "&nbsp;".repeat(50) }}
     </div>
 
     <!-- Main Container -->
@@ -373,17 +372,17 @@ unhead.useHead({
           >{{ link.label }}</a>
         </div>
 
-        <div :style="{ fontSize: '13px', color: textColorAlt }">
-          <div :style="{ fontWeight: '500' }">
+        <div :style="{ fontSize: '13px', color: textColorSubtle }">
+          <div :style="{ fontWeight: '500', color: textColorAlt }">
             © {{ new Date().getFullYear() }} {{ companyName || senderName }}
           </div>
-          <div v-if="streetAddress" :style="{ marginTop: '6px' }">
+          <div v-if="streetAddress" :style="{ marginTop: '6px', fontSize: '11px' }">
             {{ streetAddress }}
           </div>
         </div>
 
         <!-- Legal Footer -->
-        <table v-if="emailType === 'campaign'" id="last-line" style="width:100%;margin-top:32px;" cellpadding="0" cellspacing="0">
+        <table id="last-line" style="width:100%;margin-top:32px;" cellpadding="0" cellspacing="0">
           <tbody>
             <tr>
               <td v-if="unsubscribeUrl && emailType === 'campaign'">

@@ -20,7 +20,7 @@ import * as vite from 'vite'
 import { version } from '../package.json'
 import { FictionBuild } from '../plugin-build/index.js'
 import { FictionPlugin } from '../plugin.js'
-import { createExpressApp, debounce, deepMergeAll, getRequire, importIfExists, isNode, requireIfExists, safeDirname } from '../utils/index.js'
+import { createExpressApp, debounce, deepMergeAll, getRequire, importIfExists, isNode, safeDirname } from '../utils/index.js'
 import { addExpressHealthCheck } from '../utils/serverHealth.js'
 import { createRateLimiter } from './render/rateLimitingMiddleware.js'
 import { securityMiddleware } from './render/securityMiddleware.js'
@@ -122,15 +122,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       },
       ...this.fictionApp.tailwindConfig,
     ]
-
-    const userTailwindConfig = await requireIfExists(
-      path.join(this.settings.fictionEnv.cwd, 'tailwind.config.cjs'),
-    )
-
-    if (userTailwindConfig) {
-      const userConf = userTailwindConfig as Record<string, any>
-      c.push(userConf)
-    }
 
     const config = deepMergeAll<Record<string, any>>(
       c.map((_) => {

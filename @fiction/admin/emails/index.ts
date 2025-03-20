@@ -56,20 +56,20 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
       return {
         emailVars,
         subject: `${emailVars.appName}: Your code is ${emailVars.code}`,
-        title: 'Your Code',
+        title: 'Verification Code',
         subTitle: 'Use this code to verify your account',
         contentMarkdown: [
           `Verify your account with this code:`,
           `## ${emailVars.code}`,
         ].join('\n\n'),
         to: `${emailVars.email}`,
-        // buttons: [
-        //   {
-        //     label: 'Sign in now',
-        //     href: signInUrl,
-        //     theme: 'primary',
-        //   },
-        // ],
+        footerLinks: [
+          {
+            label: 'Visit Fiction.com',
+            href: 'https://www.fiction.com',
+            theme: 'primary',
+          },
+        ],
         emailType: 'alert',
       } satisfies EmailConfigResponse
     },

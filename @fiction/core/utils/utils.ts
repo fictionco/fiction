@@ -127,7 +127,7 @@ export async function base64(args: {
   const { action, str } = args
   if (typeof window === 'undefined') {
     const { getNodeBuffer } = await import('./nodeUtils.js')
-    const Buffer = getNodeBuffer()
+    const Buffer = await getNodeBuffer()
     if (action === 'encode')
       return Buffer.from(str).toString('base64')
     else
