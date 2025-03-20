@@ -424,7 +424,7 @@ export class QueryManageUser extends UserBaseQuery {
     }
 
     if (!user.hashedPassword)
-      throw abort('There was a problem with password. Try another way?')
+      throw abort('There was no password.')
 
     const isMatch = await comparePassword(password, user.hashedPassword)
 

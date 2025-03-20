@@ -23,10 +23,13 @@ function createMockSite(overrides = {}) {
       value: 'Test Site',
     },
     org: {
-      orgName: 'Test Org',
-      avatar: {
-        url: 'https://example.com/avatar.jpg',
+      value: {
+        orgName: 'Test Org',
+        avatar: {
+          url: 'https://example.com/avatar.jpg',
+        },
       },
+
     },
     fullConfig: {
       value: {
@@ -102,6 +105,8 @@ describe('getStructuredData', () => {
   it('should generate correct structured data for normal page', () => {
     const site = createMockSite()
     const result = JSON.parse(getStructuredData({ site }))
+
+    expect(result['@graph'][0].name).toBe('Test Org')
 
     expect(result).toMatchInlineSnapshot(`
       {

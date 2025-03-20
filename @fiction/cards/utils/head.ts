@@ -15,7 +15,7 @@ export function getStructuredData(args: { site?: Site }) {
     return '{}'
 
   const url = site.frame.displayUrl.value
-  const org = site.org
+  const org = site.org?.value || {}
   const config = site.fullConfig.value
   const siteConfig = config.site || {}
   const page = site.currentPage.value
@@ -30,9 +30,9 @@ export function getStructuredData(args: { site?: Site }) {
       {
         '@type': 'Person',
         '@id': `${url}/#person`,
-        'name': org.value.orgName || site.title.value,
+        'name': org.orgName || site.title.value,
         'url': url,
-        'image': siteConfig?.shareImage?.url || org.value?.avatar?.url,
+        'image': siteConfig?.shareImage?.url || org?.avatar?.url,
         'description': siteConfig?.description,
       },
 
