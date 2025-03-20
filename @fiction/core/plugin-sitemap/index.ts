@@ -43,8 +43,7 @@ export class FictionSitemap extends FictionPlugin<FictionSitemapSettings> {
       })
 
       const sitemap = await import(/* @vite-ignore */ 'sitemap')
-      const { getNodeStream } = await import('../utils/nodeUtils.js')
-      const nodeStream = getNodeStream()
+      const { default: nodeStream } = await import(/* @vite-ignore */ 'node:stream')
 
       const xslUrl = [requestUrl, 'sitemap.xsl'].join('')
       const stream = new sitemap.SitemapStream({ hostname: requestUrl.toString(), xslUrl })

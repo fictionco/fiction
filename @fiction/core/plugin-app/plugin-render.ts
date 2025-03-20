@@ -601,7 +601,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     const distFolderStatic = this.distFolderStatic
 
-    const app = createExpressApp({
+    const app = await createExpressApp({
       // in dev these cause images/scripts to fail locally
       contentSecurityPolicy: false,
       crossOriginEmbedderPolicy: false,

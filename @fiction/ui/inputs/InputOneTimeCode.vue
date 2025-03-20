@@ -42,7 +42,8 @@ const digitClasses = twMerge([
   cls.bg,
   cls.text,
   cls.border,
-  'w-12 h-12', // Fixed square size
+  'aspect-square',
+  'size-10', // Fixed square size
   'text-center',
   'font-mono',
   'tracking-widest',

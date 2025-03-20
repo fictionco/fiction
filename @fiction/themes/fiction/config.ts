@@ -262,7 +262,7 @@ export async function getConfig(args: {
       const { service: { fictionUser } } = args
       await fictionUser.userInitialized({ caller: 'fictionThemeOnMounted' })
       await googleOneTap({
-        autoSignIn: true,
+        autoSignIn: false,
         showPrompt: true,
         fictionUser,
         isDarkMode: !site.isLightMode.value,
@@ -299,25 +299,6 @@ export async function getConfig(args: {
                   { label: 'Demos', href: '/demos' },
                 ],
                 utility: [
-                  {
-                    label: 'Sign In',
-                    href: '/app/auth?_reload=1',
-                    onAuthState: 'loggedOut',
-                    iconAfter: { class: 'i-tabler-arrow-right' },
-                  },
-                  {
-                    label: 'Account',
-                    href: '/app?_reload=1',
-                    variant: 'avatar',
-                    onAuthState: 'loggedIn',
-                    list: {
-                      items: [
-                        { label: 'Sign In', href: '/app/auth?_reload=1', onAuthState: 'loggedOut' },
-                        { label: 'Dashboard', href: '/app?_reload=1', onAuthState: 'loggedIn' },
-                        { label: 'Logout', href: '/?_logout=1', onAuthState: 'loggedIn' },
-                      ],
-                    },
-                  },
                 ],
 
               },

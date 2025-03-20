@@ -155,7 +155,7 @@ export class FictionTestingApp extends FictionPlugin<FictionTestingAppSettings> 
     head = [head, this.head].join('\n')
     body = [body, this.body].join('\n')
 
-    const app = createExpressApp({
+    const app = await createExpressApp({
       // in dev these cause images/scripts to fail locally
       contentSecurityPolicy: false,
       crossOriginEmbedderPolicy: false,

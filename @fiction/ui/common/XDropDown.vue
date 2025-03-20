@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { NavListItem, StandardSize } from '@fiction/core'
+import type { Site } from '@fiction/site'
 import { normList, onResetUi, resetUi, useService, vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 import TransitionSlide from '../anim/TransitionSlide.vue'
@@ -12,6 +13,7 @@ const {
   dropdownAlignment = 'start',
   uiSize = 'md',
   classes = {},
+  site,
 } = defineProps<{
   items?: NavListItem[]
   placement?: 'top' | 'bottom' | 'left' | 'right'
@@ -19,6 +21,7 @@ const {
   mode?: 'hover' | 'click'
   uiSize?: StandardSize
   classes?: { wrapper?: string, width?: string }
+  site?: Site
 }>()
 
 const emit = defineEmits<{
@@ -54,7 +57,8 @@ async function handleItemClick(args: { item: NavListItem, event: MouseEvent }) {
       window.open(item.href, '_blank')
     }
     else {
-      await service.fictionRouter.push(item.href, { caller: 'XDropDown' })
+      const router = site?.siteRouter || service.fictionRouter
+      await router.push(item.href, { caller: 'XDropDown' })
     }
   }
   else if (item.value) {
@@ -155,14 +159,15 @@ const wrapperClass = vue.computed(() => {
         role="menu"
         aria-orientation="vertical"
       >
-        <div class="py-1 font-sans font-medium" role="none">
+        <slot name="top" />
+        <div class="py-1 font-sans font-semibold" role="none">
           <template
             v-for="(item, index) in visibleItems"
             :key="index"
           >
             <a
               :href="item.href"
-              class="flex items-center cursor-pointer transition-all w-full text-left px-3 text-theme-700 dark:text-theme-200 "
+              class="flex gap-2 items-center cursor-pointer transition-all w-full text-left px-3 text-theme-700 dark:text-theme-200 "
               :class="[
                 item.isActive ? 'bg-theme-200 dark:bg-primary-700/70 text-theme-900 dark:text-theme-100' : 'hover:bg-theme-200 dark:hover:bg-theme-600/50 hover:text-theme-900 dark:hover:text-theme-100',
                 sizeClasses.text,
@@ -171,8 +176,8 @@ const wrapperClass = vue.computed(() => {
               :data-test-id="item.testId"
               @click.prevent="handleItemClick({ item, event: $event })"
             >
-              <XIcon v-if="item.icon" :media="item.icon" />
-              <span>{{ item.label }}</span>
+              <XIcon v-if="item.icon" class="size-[1.2em]" :media="item.icon" />
+              <span class="text-[0.95em]">{{ item.label }}</span>
             </a>
           </template>
         </div>

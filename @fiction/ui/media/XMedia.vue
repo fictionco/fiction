@@ -116,7 +116,7 @@ vue.onMounted(async () => {
         }
         catch (e) {
           const error = e as Error
-          logger.error(`error loading image: ${error.message}: (${url})`, { error })
+          logger.error(`error loading image: ${error.message || 'No reported error'}: (${url})`, { error, data: media })
         }
         finally {
           loading.value = false

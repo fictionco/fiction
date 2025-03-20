@@ -125,7 +125,7 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface> exte
         text: 'Fiction',
         href: `https://www.fiction.com`,
       },
-      streetAddress: app.streetAddress || '',
+      streetAddress: app.streetAddress || '23807 Aliso Creek Rd Suite 100, Laguna Niguel, CA 92677',
       poweredByFiction: true,
       fromOrgId: app.orgId,
       fromSiteId: app.siteId,

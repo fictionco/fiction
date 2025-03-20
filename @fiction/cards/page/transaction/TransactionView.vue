@@ -56,7 +56,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
       >
         <div class="auth-form transition-all">
           <div
-            class="mx-auto w-full max-w-xs rounded-lg"
+            class="mx-auto w-full max-w-xs rounded-lg px-4"
           >
             <div class="relative">
               <slot />

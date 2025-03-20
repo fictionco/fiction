@@ -464,12 +464,6 @@ export class QueryManageUser extends UserBaseQuery {
       await this.updatePassword({ where, password: newPassword, code }, meta)
     }
 
-    // 3. After verification, clear the verification code to prevent reuse
-    await this.db()
-      .table(t.user)
-      .update({ verify: null, emailVerified: true })
-      .where(where)
-
     const finalUser = await this.getUser({ _action: 'retrieve', where }, meta)
 
     return { user: finalUser, isNew: !finalUser?.hashedPassword }

@@ -72,7 +72,7 @@ export class FictionBeacon extends FictionPlugin<FictionBeaconSettings> {
 
     const id = 'beaconServer'
 
-    const app = createExpressApp({ id })
+    const app = await createExpressApp({ id })
 
     app.use('/events', async (request, response) => {
       const r = await this.handleRequest(request)

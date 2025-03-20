@@ -3,11 +3,8 @@ import type { ExecaError, ResultPromise } from 'execa'
 import type { PackageJson } from '../types'
 import { Buffer } from 'node:buffer'
 import * as mod from 'node:module'
-import os from 'node:os'
 import path from 'node:path'
 import process from 'node:process'
-import stream from 'node:stream'
-import v8 from 'node:v8'
 import { execa } from 'execa'
 import fs from 'fs-extra'
 import { log } from '../plugin-log'
@@ -52,26 +49,13 @@ export function getNodeBuffer(): typeof Buffer {
   return Buffer
 }
 
-export function getNodeOs(): typeof os {
-  if (!isNode())
-    throw new Error('getNodeOs: not a node environment')
-
-  return os
-}
-
-export function getNodeStream(): typeof stream {
-  if (!isNode())
-    throw new Error('getNodeStream: not a node environment')
-
-  return stream
-}
-
 export function logMemoryUsage() {
   if (!isNode()) {
     return
   }
   // Repeated logging every 30 seconds
-  const interval = setInterval(() => {
+  const interval = setInterval(async () => {
+    const { default: v8 } = await import('node:v8')
     const memoryUsage = v8.getHeapStatistics()
 
     const heapSize = memoryUsage.used_heap_size

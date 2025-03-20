@@ -8,7 +8,7 @@ import type { prefersColorScheme } from './schema.js'
 import type { CardConfigPortable, PageRegion, TableSiteConfig } from './tables.js'
 import type { LayoutOrder } from './utils/layout.js'
 import type { QueryVarHook } from './utils/site.js'
-import { deepMerge, FictionObject, localRef, objectId, resetUi, Shortcodes, shortId, vue } from '@fiction/core'
+import { deepMerge, FictionObject, localRef, objectId, resetUi, Shortcodes, shortId, vue, waitFor } from '@fiction/core'
 import { TypedEventTarget } from '@fiction/core/utils/eventTarget.js'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
 import { siteEditorController } from './plugin-builder/tools/tools.js'
@@ -82,19 +82,29 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       return
     }
 
-    const queryVarHooks: QueryVarHook[] = [{
-      key: '_scheme',
-      callback: (args: { site: Site, value: string }) => {
-        const { value } = args
-        const pref = this.prefersColorScheme.value
-        if (value === 'toggle')
-          this.prefersColorScheme.value = pref === 'light' ? 'dark' : 'light'
-        else if (value)
-          this.prefersColorScheme.value = value as typeof prefersColorScheme[number]
+    const queryVarHooks: QueryVarHook[] = [
+      {
+        key: '_scheme',
+        callback: (args: { site: Site, value: string }) => {
+          const { value } = args
+          const pref = this.prefersColorScheme.value
+          if (value === 'toggle')
+            this.prefersColorScheme.value = pref === 'light' ? 'dark' : 'light'
+          else if (value)
+            this.prefersColorScheme.value = value as typeof prefersColorScheme[number]
 
-        return { reload: true }
+          return { reload: true }
+        },
       },
-    }]
+      {
+        key: '_logout',
+        callback: async () => {
+          const fictionUser = this.fictionSites.settings.fictionUser
+          await waitFor(100)
+          await fictionUser?.logout({ caller: 'watchRouteUserChanges-logout-param' })
+        },
+      },
+    ]
     setupRouteWatcher({ site: this, queryVarHooks })
   }
 

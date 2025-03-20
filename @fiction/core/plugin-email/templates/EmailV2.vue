@@ -30,6 +30,7 @@ const textColor = computed(() => previewMode === 'dark' ? colorList.gray[0] : co
 const textColorAlt = computed(() => previewMode === 'dark' ? colorList.gray[300] : colorList.gray[600])
 const textColorSubtle = computed(() => previewMode === 'dark' ? colorList.gray[500] : colorList.gray[400])
 const hrColor = computed(() => previewMode === 'dark' ? colorList.gray[600] : colorList.gray[300])
+const subtleBorderColor = computed(() => previewMode === 'dark' ? colorList.gray[700] : colorList.gray[200])
 const bgColor = computed(() => previewMode === 'dark' ? colorList.gray[900] : colorList.gray[0])
 const panelColor = computed(() => previewMode === 'dark' ? colorList.gray[800] : colorList.gray[100])
 
@@ -38,9 +39,10 @@ const previewText = computed(() => preview || [title, subTitle].filter(Boolean).
 
 // Base styles that can be reused
 const baseStyles = {
-  container: `width:100%;max-width:600px;margin:0 auto;padding:32px 16px;font-family:${fontStack};color:${textColor.value};`,
+  container: `width:100%;max-width:600px;margin:0 auto;padding:32px 0;font-family:${fontStack};color:${textColor.value};`,
   link: `color:${textColor.value};text-decoration:none;`,
   hr: `border:none;border-top:1px solid ${hrColor.value};margin:2em 0; width: 5em;`,
+  hrFooter: `border:none;border-top:1px solid ${subtleBorderColor.value};margin:3em 0 2em; width: 100%;`,
 }
 
 unhead.useHead({
@@ -352,7 +354,7 @@ unhead.useHead({
         </div>
       </div>
 
-      <hr :style="baseStyles.hr">
+      <hr :style="baseStyles.hrFooter">
 
       <!-- Footer -->
       <div id="themed-footer" style="margin-top:2em;">
@@ -371,43 +373,41 @@ unhead.useHead({
           >{{ link.label }}</a>
         </div>
 
-        <template v-if="emailType === 'campaign'">
-          <div :style="{ fontSize: '13px' }">
-            <div :style="{ fontWeight: '600' }">
-              © {{ new Date().getFullYear() }} {{ companyName || senderName }}
-            </div>
-            <div v-if="streetAddress" style="margin-top:4px;">
-              {{ streetAddress }}
-            </div>
+        <div :style="{ fontSize: '13px', color: textColorAlt }">
+          <div :style="{ fontWeight: '500' }">
+            © {{ new Date().getFullYear() }} {{ companyName || senderName }}
           </div>
+          <div v-if="streetAddress" :style="{ marginTop: '6px' }">
+            {{ streetAddress }}
+          </div>
+        </div>
 
-          <!-- Legal Footer -->
-          <table id="last-line" style="width:100%;margin-top:32px;" cellpadding="0" cellspacing="0">
-            <tbody>
-              <tr>
-                <td v-if="unsubscribeUrl && emailType === 'campaign'">
-                  <a :href="unsubscribeUrl">Unsubscribe</a>
-                  <span>•</span>
-                  <a href="mailto:admin@fiction.com">Report Abuse</a>
-                </td>
-                <td
-                  v-if="poweredByFiction"
-                  :style="{
-                    textAlign: unsubscribeUrl && emailType === 'campaign' ? 'right' : 'left',
-                  }"
+        <!-- Legal Footer -->
+        <table v-if="emailType === 'campaign'" id="last-line" style="width:100%;margin-top:32px;" cellpadding="0" cellspacing="0">
+          <tbody>
+            <tr>
+              <td v-if="unsubscribeUrl && emailType === 'campaign'">
+                <a :href="unsubscribeUrl">Unsubscribe</a>
+                <span>•</span>
+                <a href="mailto:admin@fiction.com">Report Abuse</a>
+              </td>
+              <td
+                v-if="poweredByFiction"
+                :style="{
+                  textAlign: unsubscribeUrl && emailType === 'campaign' ? 'right' : 'left',
+                }"
+              >
+                <a
+                  href="https://www.fiction.com"
+                  target="_blank"
+                  rel="noopener"
                 >
-                  <a
-                    href="https://www.fiction.com"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    Powered by Fiction.com
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </template>
+                  Powered by Fiction.com
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

@@ -1,4 +1,3 @@
-/** server-only-file */
 import type { HelmetOptions } from 'helmet'
 import type http from 'node:http'
 
@@ -8,12 +7,7 @@ import type { Query } from '../query'
 import type { EndpointResponse } from '../types'
 import type { Endpoint } from './endpoint'
 import type { ErrorConfig } from './error'
-import bodyParser from 'body-parser'
-import compression from 'compression'
-import cookieParser from 'cookie-parser'
-import cors from 'cors'
 import express from 'express'
-import helmet from 'helmet'
 import { log } from '../plugin-log'
 import { decodeUserToken } from './jwt'
 import { getAccessLevel } from './priv'
@@ -34,9 +28,15 @@ export interface EndpointServerOptions {
   url?: string
 }
 
-export function createExpressApp(opts: HelmetOptions & { noHelmet?: boolean, id: string }): express.Express {
+export async function createExpressApp(opts: HelmetOptions & { noHelmet?: boolean, id: string }): Promise<express.Express> {
   const { noHelmet, id } = opts
   const app = express()
+
+  const { default: helmet } = await import('helmet')
+  const { default: cors } = await import('cors')
+  const { default: bodyParser } = await import('body-parser')
+  const { default: compression } = await import('compression')
+  const { default: cookieParser } = await import('cookie-parser')
 
   // prevent bots looking for exposed .env files
   app.use('*.env', (req, res) => { res.status(404).end() })
@@ -126,7 +126,7 @@ export class EndpointServer {
   log = log.contextLogger(this.constructor.name)
   url: string
   server?: http.Server
-  expressApp: express.Express
+  expressApp?: express.Express
   constructor(settings: EndpointServerOptions) {
     const { port, endpoints, customServer, serverName } = settings
 
@@ -137,7 +137,14 @@ export class EndpointServer {
     this.fictionUser = settings.fictionUser
     this.fictionEnv = settings.fictionEnv
     this.url = settings.url || `http://localhost:${port}`
-    this.expressApp = createExpressApp({ noHelmet: true, id: serverName })
+  }
+
+  async getApp(): Promise<express.Express> {
+    if (!this.expressApp) {
+      this.expressApp = await createExpressApp({ noHelmet: true, id: this.serverName })
+    }
+
+    return this.expressApp
   }
 
   async runServer(): Promise<http.Server | undefined> {
@@ -152,10 +159,12 @@ export class EndpointServer {
   }
 
   async configure() {
+    const app = await this.getApp()
+
     this.endpoints.forEach((endpoint) => {
       const pathMiddleware: express.RequestHandler[] = endpoint.middleware()
 
-      this.expressApp.use(
+      app.use(
         endpoint.pathname(),
         ...pathMiddleware,
         this.endpointAuthorization, // should come after middleware, as multer, etc have to parse it first
@@ -172,9 +181,9 @@ export class EndpointServer {
     })
 
     if (this.middleware)
-      await this.middleware(this.expressApp)
+      await this.middleware(app)
 
-    this.expressApp.use('/api/ok', (req, res) => { res.status(200).send('ok').end() })
+    app.use('/api/ok', (req, res) => { res.status(200).send('ok').end() })
   }
 
   async run(args: { port?: number, isRestart?: boolean } = {}) {
@@ -184,14 +193,16 @@ export class EndpointServer {
       this.server.close()
     }
 
+    const app = await this.getApp()
+
     this.server = await new Promise(async (resolve) => {
       let s: http.Server
       if (this.customServer) {
-        s = await this.customServer(this.expressApp)
+        s = await this.customServer(app)
         s.listen(port, () => resolve(s))
       }
       else {
-        s = this.expressApp.listen(port, () => resolve(s))
+        s = app.listen(port, () => resolve(s))
       }
     })
 

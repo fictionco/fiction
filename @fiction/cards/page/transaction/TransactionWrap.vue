@@ -56,12 +56,12 @@ const ico = vue.computed(() => iconThemes[props.status as keyof typeof iconTheme
             <XText
               animate="fade"
               tag="h1"
-              class="x-font-title text-2xl font-semibold tracking-tight text-pretty"
+              class="x-font-title text-2xl font-semibold tracking-tight md:text-pretty"
               :model-value="title"
             />
             <XText
               v-if="subTitle"
-              class="mt-1 text-base font-normal x-font-title text-theme-500 dark:text-theme-300 text-pretty"
+              class="mt-1 text-base font-normal x-font-title text-theme-500 dark:text-theme-300 md:text-pretty"
               animate="fade"
               tag="h4"
               :model-value="subTitle"
@@ -70,10 +70,16 @@ const ico = vue.computed(() => iconThemes[props.status as keyof typeof iconTheme
             <slot name="links" />
           </div>
         </div>
-        <div class="pb-24 md:pb-8 relative space-y-6">
+        <div class="pb-8 relative space-y-6">
           <slot />
 
-          <InputActionList :data-test-buttons="buttons.length" class="justify-center" ui-size="md" :buttons />
+          <InputActionList
+            v-if="buttons.length"
+            :data-test-buttons="buttons.length"
+            class="justify-center"
+            ui-size="md"
+            :buttons
+          />
         </div>
       </div>
     </transition>

@@ -64,15 +64,15 @@ const layoutClass = vue.computed(() => {
   switch (layout) {
     case 'navCenter':
       return {
-        brand: 'lg:grow lg:basis-1/3',
-        primary: 'grow basis-1/3 justify-center',
-        utility: 'grow basis-1/3',
+        brand: '',
+        primary: 'grow justify-center',
+        utility: 'shrink ',
       }
     case 'logoCenter':
       return {
-        brand: 'lg:order-2 lg:justify-center lg:basis-1/3',
-        primary: 'lg:order-1 justify-start basis-1/3',
-        utility: 'lg:order-3 basis-1/3',
+        brand: 'lg:order-2 lg:justify-center lg:basis-1/3 shrink',
+        primary: 'lg:order-1 justify-start basis-1/3 grow',
+        utility: 'lg:order-3 basis-1/3 grow',
       }
     default:
       return {
@@ -115,7 +115,7 @@ function closeMenu() {
           <XNav
             :nav="nav.primary"
             :card
-            class="hidden lg:flex gap-x-8 items-center "
+            class="hidden md:flex gap-x-8 items-center "
             :class="layoutClass.primary"
             item-class="py-1.5 text-base font-sans font-medium inline-flex items-center"
             :active-item="activeItem"
@@ -123,7 +123,7 @@ function closeMenu() {
           />
 
           <!-- Utility Navigation -->
-          <div class="hidden lg:flex gap-x-6 items-center justify-end" :class="layoutClass.utility">
+          <div class="hidden md:flex gap-x-6 items-center justify-end" :class="layoutClass.utility">
             <XNav
               :nav="nav.utility"
               :card
@@ -135,7 +135,7 @@ function closeMenu() {
           </div>
 
           <!-- Mobile Menu -->
-          <div class="flex lg:hidden">
+          <div class="flex md:hidden">
             <button
               class="text-3xl z-30 relative i-tabler-menu"
               :class="mobileMenuVisible ? 'text-white' : ''"

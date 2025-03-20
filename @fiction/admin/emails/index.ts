@@ -55,12 +55,12 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
       const queryVars = emailVars.queryVars
       return {
         emailVars,
-        subject: `Your code is ${emailVars.code}`,
+        subject: `${emailVars.appName}: Your code is ${emailVars.code}`,
         title: 'Your Code',
         subTitle: 'Use this code to verify your account',
         contentMarkdown: [
           `Verify your account with this code:`,
-          `## ${emailVars.code}`
+          `## ${emailVars.code}`,
         ].join('\n\n'),
         to: `${emailVars.email}`,
         // buttons: [

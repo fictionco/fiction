@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { MediaObject, User } from '@fiction/core'
+import type { EndpointResponse, MediaObject, User } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { FictionAdmin } from '..'
 import TransactionView from '@fiction/cards/page/transaction/TransactionView.vue'
@@ -26,6 +26,9 @@ const { fictionRouter, fictionAdmin, fictionEnv, fictionUser } = useService<{ fi
 const userConfig = vue.computed(() => props.card.userConfig.value)
 const termsUrl = vue.computed(() => userConfig.value.termsUrl || fictionEnv.meta.app?.termsUrl)
 const privacyUrl = vue.computed(() => userConfig.value.privacyUrl || fictionEnv.meta.app?.privacyUrl)
+
+// Detect if running in popup
+const isPopup = vue.ref(false)
 
 // Organization data state
 const orgData = vue.ref<OrgData | null>(null)
@@ -110,7 +113,7 @@ const screenConfig = vue.computed(() => {
     },
     'email-link-sent': {
       title: `Check your inbox`,
-      subTitle: 'We sent a sign-in link to your email',
+      subTitle: 'We sent a code to your email',
       icon: 'i-tabler-mail',
       status: 'success',
     },
@@ -195,8 +198,34 @@ function getRedirectDestination(args: {
   }
 }
 
+// Post message to parent when auth completes
+function notifyParentWindow(user: User, token: string) {
+  if (typeof window === 'undefined' || !window.opener)
+    return
+
+  try {
+    window.opener.postMessage({
+      type: 'auth-success',
+      token,
+      user,
+    }, '*')
+  }
+  catch (error) {
+    console.error('Error sending postMessage to parent', error)
+  }
+}
+
+function closePopup() {
+  if (typeof window !== 'undefined' && window.opener) {
+    window.close()
+  }
+}
+
 // Lifecycle hooks
 vue.onMounted(async () => {
+  // Check if running in popup mode
+  isPopup.value = window.opener !== null && window.opener !== window
+
   // Set page title
   unhead.useHead({
     title: () => pageTitle.value,
@@ -217,6 +246,12 @@ vue.onMounted(async () => {
       await loadOrgData(orgHandle.value)
     }
   }, { immediate: true })
+
+  vue.watch(() => authState.value, () => {
+    if (['password-updated', 'verify-success'].includes(authState.value)) {
+      startRedirectCountdown()
+    }
+  })
 })
 
 vue.onBeforeUnmount(() => {
@@ -258,7 +293,7 @@ async function navigateTo(state: AuthState) {
 }
 
 // Countdown and redirect
-function startRedirectCountdown(seconds = 4) {
+function startRedirectCountdown(seconds = 3) {
   redirectCountdown.value = seconds
   clearRedirectTimer()
 
@@ -280,6 +315,12 @@ function clearRedirectTimer() {
 }
 
 async function redirectToDashboard(args?: { isNewUser?: boolean }) {
+  // For popup windows, we close the window instead of redirecting
+  if (isPopup.value && window.opener) {
+    window.close()
+    return
+  }
+
   const destination = getRedirectDestination({
     redirectUrl: redirectUrl.value,
     orgData: orgData.value,
@@ -287,6 +328,14 @@ async function redirectToDashboard(args?: { isNewUser?: boolean }) {
   })
 
   await props.card.goto(destination, { caller: 'authCard-redirect' })
+}
+
+// Handle auth success with token and user data
+function handleAuthSuccess(response: { token?: string, user?: User, isNew?: boolean }) {
+  if (isPopup.value && response.token && response.user) {
+    // Send auth data to parent window
+    notifyParentWindow(response.user, response.token)
+  }
 }
 
 // Form submission handler
@@ -299,15 +348,15 @@ async function handleFormSubmit() {
 
   try {
     const handlers: Record<AuthState, () => Promise<void>> = {
-      'welcome': sendMagicLink,
+      'welcome': () => sendOneTimeCode('email-link-sent'),
       'login-password': passwordLogin,
-      'verify-email': verifyCode,
-      'reset-password': sendPasswordResetEmail,
+      'verify-email': () => verifyCode(),
+      'reset-password': () => sendOneTimeCode('reset-password-sent'),
       'set-new-password': setNewPassword,
-      'email-link-sent': verifyCode,
+      'email-link-sent': () => verifyCode(async response => navigateTo(response.isNew ? 'set-new-password' : 'verify-success')),
       'verify-success': redirectToDashboard,
       'password-updated': redirectToDashboard,
-      'reset-password-sent': () => Promise.resolve(),
+      'reset-password-sent': () => verifyCode(() => navigateTo('set-new-password')),
     }
 
     const handler = handlers[authState.value]
@@ -332,7 +381,7 @@ async function handleFormSubmit() {
 }
 
 // Auth methods
-async function verifyCode() {
+async function verifyCode(callback: (response: EndpointResponse<User> & { isNew?: boolean }) => Promise<void> = async () => {}) {
   const { email, oneTimeCode } = fields.value
 
   if (oneTimeCode.length !== 6) {
@@ -350,12 +399,13 @@ async function verifyCode() {
     throw new Error(response.message || 'Invalid code. Please try again.')
   }
 
-  if (response.isNew) {
-    await navigateTo('set-new-password')
+  handleAuthSuccess(response)
+
+  if (callback) {
+    await callback(response)
   }
   else {
     await navigateTo('verify-success')
-    startRedirectCountdown()
   }
 }
 
@@ -381,30 +431,12 @@ async function setNewPassword() {
     throw new Error(response.message || 'Could not update password. Please try again.')
   }
 
+  handleAuthSuccess(response)
+
   await navigateTo('password-updated')
-  startRedirectCountdown()
 }
 
-async function sendPasswordResetEmail() {
-  const { email } = fields.value
-
-  if (!email) {
-    throw new Error('Please enter your email address')
-  }
-
-  const response = await fictionAdmin.emailActions.passwordReset.requestSend({
-    to: email,
-    queryVars: emailQueryVars.value,
-  })
-
-  if (response?.status !== 'success') {
-    throw new Error(response?.message || 'Could not send reset email. Please try again.')
-  }
-
-  await navigateTo('reset-password-sent')
-}
-
-async function sendMagicLink() {
+async function sendOneTimeCode(next: AuthState) {
   const { email } = fields.value
 
   if (!email) {
@@ -432,7 +464,7 @@ async function sendMagicLink() {
     throw new Error(response?.message || 'Could not send login link. Please try again.')
   }
 
-  await navigateTo('email-link-sent')
+  await navigateTo(next)
 }
 
 async function passwordLogin() {
@@ -461,31 +493,16 @@ async function passwordLogin() {
     throw new Error(response?.message || 'Login failed. Please check your credentials.')
   }
 
+  handleAuthSuccess(response)
+
   if (!response.user?.emailVerified) {
     // Need to verify email
-    await sendVerificationEmail({ email })
-    await navigateTo('verify-email')
+
+    await sendOneTimeCode('verify-email')
   }
   else {
     // Already verified, redirect
-    await redirectToDashboard({ isNewUser: response.isNew })
-  }
-}
-
-async function sendVerificationEmail(args: { email: string, withNotification?: boolean }) {
-  const { email, withNotification } = args
-
-  await fictionAdmin.emailActions.verifyEmailAction.requestSend({
-    to: email,
-    queryVars: emailQueryVars.value,
-  })
-
-  if (withNotification) {
-    fictionEnv.events.emit('notify', {
-      type: 'success',
-      message: 'Verification email sent.',
-      more: 'Please check your inbox.',
-    })
+    await navigateTo('verify-success')
   }
 }
 
@@ -498,6 +515,7 @@ const isCodeConfirmState = vue.computed(() => ['verify-email', 'email-link-sent'
       <ElForm
         class="space-y-5"
         data-test-id="form"
+        :data-step="authState"
         :data-value="JSON.stringify(fields)"
         :notify="formError"
         @submit="handleFormSubmit()"
@@ -516,10 +534,16 @@ const isCodeConfirmState = vue.computed(() => ['verify-email', 'email-link-sent'
           <template v-else-if="['verify-success', 'password-updated'].includes(authState)">
             <div class="text-center space-y-4">
               <p class="text-theme-500 dark:text-theme-400 text-sm text-pretty my-6">
-                Redirecting to {{ orgData?.orgName || 'dashboard' }} in {{ redirectCountdown }} seconds...
+                <template v-if="isPopup">
+                  Successfully authenticated! This window will close automatically.
+                </template>
+                <template v-else>
+                  Redirecting to {{ orgData?.orgName || 'dashboard' }} in {{ redirectCountdown }} seconds...
+                </template>
               </p>
 
               <XButton
+                v-if="!isPopup"
                 theme="primary"
                 design="solid"
                 size="lg"
@@ -528,6 +552,17 @@ const isCodeConfirmState = vue.computed(() => ['verify-email', 'email-link-sent'
                 @click.prevent="redirectToDashboard()"
               >
                 Continue to {{ orgData?.orgName || 'dashboard' }}
+              </XButton>
+              <XButton
+                v-else
+                theme="primary"
+                design="solid"
+                size="lg"
+                icon="i-tabler-x"
+                data-test-id="close-popup-button"
+                @click.prevent="closePopup()"
+              >
+                Close Window
               </XButton>
             </div>
           </template>

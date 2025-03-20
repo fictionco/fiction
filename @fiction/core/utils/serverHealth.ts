@@ -1,14 +1,13 @@
 import type express from 'express'
 import process from 'node:process'
 import { log } from '../plugin-log'
-import { getNodeOs } from './nodeUtils.js'
 import { getCommit, getVersion } from './vars'
 
-export function getServerHealth(args: { expressApp: express.Express, id: string }) {
+export async function getServerHealth(args: { expressApp: express.Express, id: string }) {
   const { expressApp, id = 'unknown' } = args
+  const { default: os } = await import('node:os')
   const memoryUsage = process.memoryUsage()
   const cpuUsage = process.cpuUsage()
-  const os = getNodeOs()
   const loadAverage = os.loadavg()
   const uptime = process.uptime()
 
@@ -48,8 +47,8 @@ export function addExpressHealthCheck(args: { expressApp: express.Express, baseP
     next()
   })
 
-  expressApp.use(basePath, (request, response) => {
-    const healthData = getServerHealth({ expressApp, id })
+  expressApp.use(basePath, async (request, response) => {
+    const healthData = await getServerHealth({ expressApp, id })
 
     response.status(200).send(healthData).end()
   })
