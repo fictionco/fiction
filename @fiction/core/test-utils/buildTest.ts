@@ -309,7 +309,7 @@ async function highlightElement(page: Page, selector?: string): Promise<boolean>
 }
 
 type TestPageAction = {
-  type: 'visible' | 'goto' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'value' | 'hasText' | 'notHasText' | 'hasValue' | 'notHasValue' | 'scrollTo' | 'frameInteraction' | 'callback' | 'hasAttribute'
+  type: 'visible' | 'goto' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'dataValue' | 'hasText' | 'notHasText' | 'hasValue' | 'notHasValue' | 'scrollTo' | 'frameInteraction' | 'callback' | 'hasAttribute'
   selector?: string
   text?: string
   isNot?: boolean
@@ -449,7 +449,7 @@ export async function performActions(args: {
           expect(cnt, `${action.selector} count ${cnt}`).toBe(cnt)
           break
         }
-        case 'value': {
+        case 'dataValue': {
           await waitFor(500)
           const value = await element.evaluate(el => el.dataset.value)
           const v = value ? JSON.parse(value) : {}
@@ -525,7 +525,7 @@ export async function performActions(args: {
                 expect(attributeValue, `${frameAction.selector} has attribute ${frameAction.attribute} with value ${frameAction.expectedValue} in frame`).toBe(frameAction.expectedValue)
                 break
               }
-              case 'value': {
+              case 'dataValue': {
                 await waitFor(500)
                 const value = await frameElement.evaluate(el => el.dataset.value)
                 const v = value ? JSON.parse(value) : {}

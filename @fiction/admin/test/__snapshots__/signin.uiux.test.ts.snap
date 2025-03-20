@@ -4,9 +4,9 @@ exports[`authentication flow UI > sends magic link email successfully > Magic li
 "<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  lang="en" dir="ltr"><head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test Fiction App: Your Sign-In Link</title>
+<title>Your code is [code]</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="description" content="Sign in to your account - No password needed">
+<meta name="description" content="Your Code - Use this code to verify your account">
 <meta name="color-scheme" content="light dark">
 <meta name="supported-color-schemes" content="light dark">
 <style>
@@ -157,7 +157,7 @@ exports[`authentication flow UI > sends magic link email successfully > Magic li
           font-size: 13px;
         }
         #last-line a {
-          color: #646E82;
+          color: #7A8599;
           text-decoration: none;
         }
         #last-line a:hover {
@@ -213,9 +213,8 @@ exports[`authentication flow UI > sends magic link email successfully > Magic li
 </head><body  style="margin:0;padding:0;background-color:#ffffff;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif;font-size:18px;color:#0e0f11">
 
 
-<div><!-- Preview Text Hack --><div style="display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font-family:sans-serif;">Sign in to your account - No password needed <!-- Repeating characters to fill preview area --> ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ </div><!-- Main Container --><div style="width:100%;max-width:600px;margin:0 auto;padding:32px 16px;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif;color:#0e0f11;"><!-- Super Title --><table style="margin-bottom:16px;"><tbody><tr><td><img src="https://fiction-media-dev.s3.amazonaws.com/fiction-relative-media/med67bbf278308514c8c9f01f66-fiction-icon.png?blurhash=U9EMLDD%2500%3Fb9FWBay%25M00Rj%7Eqxu_3%25Mt74n" width="22" alt="Logo" style="display:block;border-radius:5px;border:1.5px solid #ffffff;width:22px;height:22px;object-fit:cover;margin-right:8px;"></td><td><a href="https://www.fiction.com" style="color:#394151;text-decoration:none;font-weight:600;font-size:14px;">Fiction</a></td></tr></tbody></table><!-- Title Section --><div id="themed-content" class="themed-content"><h1 style="margin:0 0 8px;font-size:24px;line-height:1.33;">Sign in to your account</h1><h3 style="margin:0;font-weight:normal;font-size:24px;line-height:1.33;color:#394151;">No password needed</h3><hr style="border:none;border-top:1px solid #b3b9c5;margin:3em 0; width: 5em;"><!-- Featured Image --><!----><!-- Content --><div class="prose-content"><p>Click the button below to sign in to your Test Fiction App account.</p>
-<p>Or use this code to sign in: <strong>[code]</strong></p>
-<p>This link will expire in 24 hours.</p></div><!-- Buttons --><div style="margin:32px 0;"><!--[--><a href="http://localhost:[port]/app/auth/magic-link-sent?code=[code]&amp;email=[email]" class="x-button">Sign in now</a><!--]--></div></div><hr style="border:none;border-top:1px solid #b3b9c5;margin:3em 0; width: 5em;"><!-- Footer --><div id="themed-footer" style="margin-top:2em;"><!-- Footer Links --><div style="margin-bottom:32px;"><!--[--><!--]--></div><!-- CompanyName Info --><div style="font-size:13px;"><div>© 2025 Test Fiction App</div><!----></div><!-- Legal Footer --><table id="last-line" style="width:100%;margin-top:32px;" cellpadding="0" cellspacing="0"><tbody><tr><!----><td style="text-align:left;"><a href="https://www.fiction.com" target="_blank" rel="noopener"> Powered by Fiction.com </a></td></tr></tbody></table></div></div></div>
+<div><!-- Preview Text Hack --><div style="display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font-family:sans-serif;">Your Code - Use this code to verify your account <!-- Repeating characters to fill preview area --> ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ ͏ ‌ </div><!-- Main Container --><div style="width:100%;max-width:600px;margin:0 auto;padding:32px 16px;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif;color:#0e0f11;"><!-- Super Title --><table style="margin-bottom:16px;"><tbody><tr><td><img src="https://fiction-media-dev.s3.amazonaws.com/fiction-relative-media/med67bbf278308514c8c9f01f66-fiction-icon.png?blurhash=U9EMLDD%2500%3Fb9FWBay%25M00Rj%7Eqxu_3%25Mt74n" width="22" alt="Logo" style="display:block;border-radius:5px;border:1.5px solid #ffffff;width:22px;height:22px;object-fit:cover;margin-right:6px;"></td><td><a href="https://www.fiction.com" style="color:#394151;text-decoration:none;font-weight:500;font-size:14px;">Fiction</a></td></tr></tbody></table><!-- Title Section --><div id="themed-content" class="themed-content"><h1 style="margin:0 0 8px;font-size:24px;line-height:1.33;">Your Code</h1><h3 style="margin:0;font-weight:normal;font-size:24px;line-height:1.33;color:#394151;">Use this code to verify your account</h3><hr style="border:none;border-top:1px solid #b3b9c5;margin:2em 0; width: 5em;"><!-- Featured Image --><!----><!-- Content --><div class="prose-content"><p>Verify your account with this code:</p>
+<h2 id="[code]">[code]</h2></div><!-- Buttons --><!----></div><hr style="border:none;border-top:1px solid #b3b9c5;margin:2em 0; width: 5em;"><!-- Footer --><div id="themed-footer" style="margin-top:2em;"><!-- Footer Links --><!----><!----></div></div></div>
 
 
 </body></html>"

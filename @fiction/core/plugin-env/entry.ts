@@ -53,6 +53,9 @@ export async function compileApplication(args: ServiceSetupArgs): Promise<Servic
     return service
   }
   catch (error: unknown) {
-    log.error('compileApplication', 'plugin install error', { error })
+    log.error('compileApplication', 'plugin install error', {
+      error,
+      data: { context: args.context },
+    })
   }
 }

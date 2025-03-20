@@ -50,26 +50,26 @@ export function getEmails(args: { fictionAdmin: FictionAdmin }) {
     template: vue.defineAsyncComponent<vue.Component>(async () => import('./ActionMagicLogin.vue')),
     actionId: 'magicLogin',
     emailConfig: async (emailVars) => {
-      const signInUrl = `${emailVars.originUrl}${authBasePath}/magic-link-sent?code=${emailVars.code}&email=${emailVars.email}`
+      const signInUrl = `${emailVars.originUrl}${authBasePath}/verify-email?code=${emailVars.code}&email=${emailVars.email}`
 
+      const queryVars = emailVars.queryVars
       return {
         emailVars,
-        subject: `${emailVars.appName}: Your Sign-In Link`,
-        title: 'Sign in to your account',
-        subTitle: 'No password needed',
+        subject: `Your code is ${emailVars.code}`,
+        title: 'Your Code',
+        subTitle: 'Use this code to verify your account',
         contentMarkdown: [
-          `Click the button below to sign in to your ${emailVars.appName} account.`,
-          `Or use this code to sign in: **${emailVars.code}**`,
-          `This link will expire in 24 hours.`,
+          `Verify your account with this code:`,
+          `## ${emailVars.code}`
         ].join('\n\n'),
         to: `${emailVars.email}`,
-        buttons: [
-          {
-            label: 'Sign in now',
-            href: signInUrl,
-            theme: 'primary',
-          },
-        ],
+        // buttons: [
+        //   {
+        //     label: 'Sign in now',
+        //     href: signInUrl,
+        //     theme: 'primary',
+        //   },
+        // ],
         emailType: 'alert',
       } satisfies EmailConfigResponse
     },

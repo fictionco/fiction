@@ -66,7 +66,7 @@ export abstract class Query<T extends QueryConfig = QueryConfig> {
 
       if (permissionResult.status !== 'success') {
         const { request: _r, ..._m } = meta || {}
-        this.log.error(`Permission denied: ${permissionResult.reason} (caller: ${meta?.caller || 'unknown'})`, { data: { params, meta: _m } })
+        this.log.error(`Permission denied: ${permissionResult.reason} (caller: ${meta?.caller || 'unknown'})`, { data: { params, meta: _m, query: this.name } })
         throw abort('unauthorized', { code: 'PERMISSION_DENIED', message: 'Permission denied', reason: permissionResult.reason || 'Unknown' })
       }
 

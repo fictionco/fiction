@@ -43,12 +43,6 @@ export function setCookie({ name, value, attributes }: { name: string, value: st
   return Cookies.set(name, value, attributes)
 }
 
-// Sets a cookie for the naked domain, making it accessible across all subdomains of the current domain.
-export function setCookieNakedDomain({ name, value, attributes = {} }: { name: string, value: string, attributes?: CookieAttributes }): string | undefined {
-  const domain = getNakedDomain()
-  return setCookie({ name, value, attributes: { domain, ...attributes } })
-}
-
 // Retrieves a cookie by its name.
 export function getCookie(name: string): string | undefined {
   return Cookies.get(name)
@@ -57,6 +51,12 @@ export function getCookie(name: string): string | undefined {
 // Removes a cookie with specified attributes.
 export function removeCookie({ name, attributes }: { name: string, attributes?: CookieAttributes }): void {
   Cookies.remove(name, attributes)
+}
+
+// Sets a cookie for the naked domain, making it accessible across all subdomains of the current domain.
+export function setCookieNakedDomain({ name, value, attributes = {} }: { name: string, value: string, attributes?: CookieAttributes }): string | undefined {
+  const domain = getNakedDomain()
+  return setCookie({ name, value, attributes: { domain, ...attributes } })
 }
 
 // Removes a cookie that is accessible across all subdomains of the current domain.

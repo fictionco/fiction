@@ -171,9 +171,9 @@ export class QueryTransactionalEmail extends EmailQuery {
 
     const replyTo = (senderName ? `${senderName} <${senderEmail}>` : senderEmail) || this.fromAppEmail()
 
-    const sendingDomainEmail = `noreply@${sendingDomain || 'fiction.com'}`
+    const sendingDomainEmail = `noreply@${sendingDomain || 'mail.fiction.com'}`
 
-    const from = replyTo.includes('fiction.com') ? replyTo : senderName ? `${senderName} <${sendingDomainEmail}>` : sendingDomainEmail
+    const from = senderName ? `${senderName} <${sendingDomainEmail}>` : sendingDomainEmail
 
     if (!to)
       throw abort('missing email: to', meta)

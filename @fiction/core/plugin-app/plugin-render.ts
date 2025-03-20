@@ -21,7 +21,6 @@ import { version } from '../package.json'
 import { FictionBuild } from '../plugin-build/index.js'
 import { FictionPlugin } from '../plugin.js'
 import { createExpressApp, debounce, deepMergeAll, getRequire, importIfExists, isNode, requireIfExists, safeDirname } from '../utils/index.js'
-import { createRenderToken } from '../utils/jwt.js'
 import { addExpressHealthCheck } from '../utils/serverHealth.js'
 import { createRateLimiter } from './render/rateLimitingMiddleware.js'
 import { securityMiddleware } from './render/securityMiddleware.js'
@@ -434,15 +433,11 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   }
 
   getRunVars = (args: { request: Request, mode: 'dev' | 'prod' | 'test' }): Partial<RunVars> & Record<string, string | Record<string, string>> => {
-    // make a JWT for render, this is used for security in session sharing and similar
-    const renderToken = createRenderToken({ tokenSecret: this.settings.fictionApp.settings.renderTokenSecret })
-
     const { request, mode } = args
     const runVars = {
       ...this.settings.fictionEnv.getRenderedEnvVars(),
       RUN_MODE: mode,
       APP_INSTANCE: this.fictionApp.appInstanceId,
-      RENDER_TOKEN: renderToken,
       ...getRequestVars({ request }),
     }
 

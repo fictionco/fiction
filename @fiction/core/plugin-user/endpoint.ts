@@ -91,6 +91,7 @@ export class QueryManageUser extends UserBaseQuery {
       case 'verifyEmail':
         user = await this.verifyEmail(params, meta)
         message = 'email verified'
+        sendToken = true
         break
       case 'requestCode':
         user = await this.requestCode(params, meta)
@@ -103,11 +104,14 @@ export class QueryManageUser extends UserBaseQuery {
         message = 'login successful'
         break
       }
-      case 'loginWithCode':
-        user = await this.loginWithCode(params, meta)
+      case 'loginWithCode':{
+        const r = await this.loginWithCode(params, meta)
+        user = r.user
+        isNew = r.isNew
         sendToken = true
         message = 'login successful'
         break
+      }
       case 'loginGoogle': {
         const r = await this.loginGoogle(params, meta)
         user = r.user
@@ -369,11 +373,13 @@ export class QueryManageUser extends UserBaseQuery {
 
     fields.email = fields.email.toLowerCase().trim()
 
-    const password = fields.password || generateSecurePassword()
+    const password = fields.password
 
-    checkPasswordIsComplicated(password)
+    if (password) {
+      checkPasswordIsComplicated(password)
 
-    const hashedPassword = await hashPassword(password)
+      fields.hashedPassword = await hashPassword(password)
+    }
 
     const exists = await emailExists({ email: fields.email, fictionUser })
 
@@ -386,7 +392,7 @@ export class QueryManageUser extends UserBaseQuery {
 
     const table = t.user
     const verify = { code: getCode(), expiresAt: dayjs().add(1, 'day').toISOString(), context: 'create' }
-    const insertFields = fictionDb.prep({ type: 'internal', fields: { ...fields, hashedPassword, verify }, meta: { server: true }, table })
+    const insertFields = fictionDb.prep({ type: 'internal', fields: { ...fields, verify }, meta: { server: true }, table })
 
     const [user] = await db.insert(insertFields).into(table).returning<User[]>('*')
 
@@ -431,7 +437,7 @@ export class QueryManageUser extends UserBaseQuery {
     return { user: finalUser, isNew: false }
   }
 
-  private async loginWithCode(params: ManageUserParams & { _action: 'loginWithCode' }, meta: EndpointMeta): Promise<User | undefined> {
+  private async loginWithCode(params: ManageUserParams & { _action: 'loginWithCode' }, meta: EndpointMeta): Promise<{ user?: User, isNew: boolean }> {
     const { where, code, newPassword } = params
 
     if (!where || !code) {
@@ -464,7 +470,9 @@ export class QueryManageUser extends UserBaseQuery {
       .update({ verify: null, emailVerified: true })
       .where(where)
 
-    return await this.getUser({ _action: 'retrieve', where }, meta)
+    const finalUser = await this.getUser({ _action: 'retrieve', where }, meta)
+
+    return { user: finalUser, isNew: !finalUser?.hashedPassword }
   }
 
   private googleClient?: OAuth2Client

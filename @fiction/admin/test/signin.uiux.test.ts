@@ -65,32 +65,29 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
       caller: 'registration-flow',
       path: '/auth/welcome',
       actions: [
-        // Start by checking the welcome screen
-        { type: 'visible', selector: '[data-test-id="google-login-button"]' },
-        { type: 'visible', selector: '[data-test-id="submit-button-login"]' },
-        { type: 'visible', selector: '[data-test-id="to-register"]' },
+        { type: 'visible', selector: '[data-test-id="submit-button-welcome"]' },
+        { type: 'visible', selector: '[data-test-id="to-login-password"]' },
 
         // Navigate to registration
-        { type: 'click', selector: '[data-test-id="to-register"]', waitAfter: 1000 },
+        { type: 'click', selector: '[data-test-id="to-login-password"]', waitAfter: 1000 },
         { type: 'visible', selector: '[data-test-id="input-email"]' },
-        { type: 'visible', selector: '[data-test-id="input-new-password"]' },
+        { type: 'visible', selector: '[data-test-id="input-password"]' },
+        { type: 'click', selector: '[data-test-id="to-welcome"]', waitAfter: 1000 },
 
         // Fill the registration form
         { type: 'fill', selector: '[data-test-id="input-email"] input[type="email"]', text: testEmail },
-        { type: 'fill', selector: '[data-test-id="input-new-password"] input', text: testPassword },
 
         // Verify form values
         {
-          type: 'value',
+          type: 'dataValue',
           selector: '[data-test-id="form"]',
           onValue: (v) => {
             expect(v?.email, 'Email input should match filled value').toBe(testEmail)
-            expect(v?.password, 'Password input should match filled value').toBe(testPassword)
           },
         },
 
         // Submit registration
-        { type: 'click', selector: '[data-test-id="submit-button-register"]' },
+        { type: 'click', selector: '[data-test-id="submit-button-welcome"]' },
 
         // Verify we're taken to verification screen
         { type: 'click', selector: '[data-test-id="input-one-time-code"] [data-test-id="digit-1"]' },
@@ -104,6 +101,11 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
 
         // Submit verification code
         { type: 'click', selector: '[data-test-id="submit-button-verify"]' },
+
+        { type: 'fill', selector: '[data-test-id="input-new-password"] input', text: 'NewSecurePass456' },
+        { type: 'fill', selector: '[data-test-id="input-new-password-confirm"] input', text: 'NewSecurePass456' },
+
+        { type: 'click', selector: '[data-test-id="submit-button-set-new-password"]' },
 
         // Verify success and redirect countdown
         { type: 'visible', selector: '[data-test-id="continue-button"]' },
@@ -121,6 +123,7 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
       path: '/auth/welcome',
       actions: [
         // Navigate to password reset
+        { type: 'click', selector: '[data-test-id="to-login-password"]' },
         { type: 'click', selector: '[data-test-id="to-reset-password"]' },
         { type: 'visible', selector: '[data-test-id="input-email"]', wait: 1000 },
 
@@ -128,14 +131,11 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
         { type: 'fill', selector: '[data-test-id="input-email"] input[type="email"]', text: user.email },
 
         // Submit request
-        { type: 'click', selector: '[data-test-id="submit-button-reset"]' },
-
-        // Verify confirmation screen appears
-        { type: 'visible', selector: '[data-test-id="back-to-login"]', wait: 1000 },
+        { type: 'click', selector: '[data-test-id="submit-button-reset-password"]' },
 
         // Go back to login
-        { type: 'click', selector: '[data-test-id="back-to-login"]' },
-        { type: 'visible', selector: '[data-test-id="submit-button-login"]', wait: 1000 },
+        { type: 'click', selector: '[data-test-id="to-welcome-try-again"]' },
+        { type: 'visible', selector: '[data-test-id="submit-button-welcome"]', wait: 1000 },
       ],
     })
 
@@ -165,63 +165,10 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
         { type: 'fill', selector: '[data-test-id="input-new-password-confirm"] input', text: 'NewSecurePass456' },
 
         // Submit new password
-        { type: 'click', selector: '[data-test-id="submit-button-password-reset"]' },
+        { type: 'click', selector: '[data-test-id="submit-button-set-new-password"]' },
 
         // Verify success and redirect countdown
         { type: 'visible', selector: '[data-test-id="continue-button"]', wait: 1000 },
-      ],
-    })
-  })
-
-  it('handles magic link email sign-in flow', async () => {
-    await kit.performActions({
-      caller: 'magic-link-flow',
-      path: '/auth/welcome',
-      actions: [
-        // Navigate to magic link signin
-        { type: 'click', selector: '[data-test-id="to-magic-link"]' },
-        { type: 'visible', selector: '[data-test-id="input-email"]', wait: 1000 },
-
-        // Fill email for magic link
-        { type: 'fill', selector: '[data-test-id="input-email"] input[type="email"]', text: user.email },
-
-        // Submit request
-        { type: 'click', selector: '[data-test-id="submit-button-magic-link"]' },
-
-        // Verify confirmation screen appears
-        { type: 'visible', selector: '[data-test-id="back-to-login"]', wait: 5000 },
-      ],
-    })
-  })
-
-  it('verifies navigation between authentication screens', async () => {
-    await kit.performActions({
-      caller: 'auth-navigation',
-      path: '/auth/welcome',
-      actions: [
-        // Test welcome to register navigation
-        { type: 'click', selector: '[data-test-id="to-register"]' },
-        { type: 'visible', selector: '[data-test-id="submit-button-register"]' },
-
-        // Test register to welcome navigation
-        { type: 'click', selector: '[data-test-id="to-welcome"]' },
-        { type: 'visible', selector: '[data-test-id="submit-button-login"]' },
-
-        // Test welcome to magic link navigation
-        { type: 'click', selector: '[data-test-id="to-magic-link"]' },
-        { type: 'visible', selector: '[data-test-id="submit-button-magic-link"]' },
-
-        // Test magic link to welcome navigation
-        { type: 'click', selector: '[data-test-id="to-welcome"]' },
-        { type: 'visible', selector: '[data-test-id="submit-button-login"]' },
-
-        // Test welcome to password reset navigation
-        { type: 'click', selector: '[data-test-id="to-reset-password"]' },
-        { type: 'visible', selector: '[data-test-id="submit-button-reset"]' },
-
-        // Test password reset to welcome navigation
-        { type: 'click', selector: '[data-test-id="to-welcome"]' },
-        { type: 'visible', selector: '[data-test-id="submit-button-login"]' },
       ],
     })
   })

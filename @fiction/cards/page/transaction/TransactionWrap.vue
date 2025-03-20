@@ -46,17 +46,27 @@ const ico = vue.computed(() => iconThemes[props.status as keyof typeof iconTheme
         <div v-if="title || subTitle" :key="title" class="mb-6 md:text-center md:flex md:flex-col space-y-4  items-center justify-center">
           <div
             v-if="icon || ico.icon"
-            class="rounded-full size-12 md:size-16 inline-flex items-center justify-center border"
+            class="rounded-full size-10 md:size-12 inline-flex items-center justify-center border"
             :class="ico.class"
             :title="superTitle?.text"
           >
-            <div class="text-2xl md:text-3xl" :class="icon || ico.icon" />
+            <div class="text-xl md:text-2xl" :class="icon || ico.icon" />
           </div>
           <div>
-            <XText animate="fade" tag="h1" class="x-font-title text-2xl font-semibold tracking-tight text-balance" :model-value="title" />
-            <div class="mt-2 text-base font-normal x-font-title text-theme-500 dark:text-theme-300">
-              <XText v-if="subTitle" animate="fade" tag="h4" :model-value="subTitle" />
-            </div>
+            <XText
+              animate="fade"
+              tag="h1"
+              class="x-font-title text-2xl font-semibold tracking-tight text-pretty"
+              :model-value="title"
+            />
+            <XText
+              v-if="subTitle"
+              class="mt-1 text-base font-normal x-font-title text-theme-500 dark:text-theme-300 text-pretty"
+              animate="fade"
+              tag="h4"
+              :model-value="subTitle"
+            />
+
             <slot name="links" />
           </div>
         </div>

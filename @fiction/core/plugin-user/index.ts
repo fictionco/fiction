@@ -11,11 +11,10 @@ import { EnvVar, vars } from '../plugin-env/index.js'
 // likely fixed in TS 4.8
 import { FictionPlugin } from '../plugin.js'
 import { TypedEventTarget } from '../utils/eventTarget.js'
-import { crossVar, Endpoint, hasWindow, isActualBrowser, isNode, safeDirname, vue, waitFor } from '../utils/index.js'
+import { crossVar, hasWindow, isActualBrowser, isNode, safeDirname, vue, waitFor } from '../utils/index.js'
 import { createUserToken, decodeUserToken, manageClientUserToken } from '../utils/jwt.js'
 import { getAccessLevel, userCan, userCapabilities } from '../utils/priv.js'
 import * as priv from '../utils/priv.js'
-import { createSessionSharingMiddleware, SessionTokenUtil } from '../utils/session.js'
 import { QueryManageUser } from './endpoint.js'
 import { QueryManageMemberRelation, QueryManageOrganization, QueryOrganizationsByUserId } from './endpointOrg.js'
 import { GetTopValues } from './endpointTopValues.js'
@@ -81,12 +80,6 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     fictionUser: this,
   })
 
-  sessionTokenUtil = new SessionTokenUtil({
-    appUrl: this.settings.fictionApp?.appUrl.value,
-    endpoint: '/api/session-surface',
-    tokenKey: this.userTokenKey,
-  })
-
   getToken = (user: User) => createUserToken({ user, tokenSecret: this.tokenSecret })
   decodeToken = (token: string) => decodeUserToken({ token, tokenSecret: this.tokenSecret })
 
@@ -101,8 +94,6 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
 
     fictionRouter?.addReplacers({ orgId: this.activeOrgId })
 
-    // fictionEnv?.hooks.push({ hook: 'dbOnConnected', callback: async () => this.ensureExampleOrganization() })
-
     if (!fictionEnv.isApp.value)
       this.fictionUserEnrich = new FictionUserEnrich({ ...settings, fictionUser: this })
 
@@ -114,18 +105,6 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       // add fictionUser to server as it can't be added in constructur
       // this plugin already requires the server module
       this.settings.fictionServer.fictionUser = this
-
-      const sessionSharingEndpoint = new Endpoint({
-        requestHandler: async (...r) => createSessionSharingMiddleware(this.userTokenKey)(...r),
-        key: 'sessionSurfaceEndpoint',
-        basePath: '/session-surface',
-        serverUrl: this.settings.fictionServer?.serverUrl.value,
-        fictionUser: this,
-        fictionEnv: this.settings.fictionEnv,
-        useNaked: true,
-      })
-
-      this.settings.fictionServer?.addEndpoints([sessionSharingEndpoint])
     }
   }
 
@@ -344,11 +323,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   }
 
   requestCurrentUser = async (): Promise<User | undefined> => {
-    let token = this.manageUserToken({ _action: 'get' })
-
-    if (!token && typeof window !== 'undefined' && this.sessionTokenUtil) {
-      token = await this.sessionTokenUtil.getAuthToken()
-    }
+    const token = this.manageUserToken({ _action: 'get' })
 
     let user: User | undefined
 

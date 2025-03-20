@@ -262,7 +262,7 @@ export async function getConfig(args: {
       const { service: { fictionUser } } = args
       await fictionUser.userInitialized({ caller: 'fictionThemeOnMounted' })
       await googleOneTap({
-        autoSignIn: false,
+        autoSignIn: true,
         showPrompt: true,
         fictionUser,
         isDarkMode: !site.isLightMode.value,

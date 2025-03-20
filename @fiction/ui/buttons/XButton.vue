@@ -75,9 +75,9 @@ const iconAdjust = vue.computed(() => {
   const sz = size || 'md'
   const sizeAdjustments: Record<StandardSize, { gap: string }> = {
     'xxs': { gap: 'gap-0.5' },
-    'xs': { gap: 'gap-1' },
-    'sm': { gap: 'gap-1.5' },
-    'md': { gap: 'gap-2' },
+    'xs': { gap: 'gap-0.5' },
+    'sm': { gap: 'gap-1' },
+    'md': { gap: 'gap-1.5' },
     'lg': { gap: 'gap-2.5' },
     'xl': { gap: 'gap-3' },
     '2xl': { gap: 'gap-4' },
