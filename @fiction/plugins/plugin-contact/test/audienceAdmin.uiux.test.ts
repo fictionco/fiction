@@ -42,7 +42,7 @@ describe('admin audience-subscribe', async () => {
         { type: 'keyboard', key: `Enter` },
         { type: 'click', selector: `[data-test-id="contact-tags-modal-apply"]` },
         { type: 'click', selector: `[data-test-id="contact-save-button"]`, waitAfter: 3000 },
-        { type: 'value', selector: `[data-form-engine-depth="0"]`, onValue: (value) => {
+        { type: 'dataValue', selector: `[data-form-engine-depth="0"]`, onValue: (value) => {
           const v = value as Contact
 
           expect(v.email).toBe('testing@testing.com')

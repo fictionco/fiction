@@ -41,7 +41,7 @@ describe('settings e2e', async () => {
         { type: 'fill', selector: `[data-option-path="${pathCheck('legal.termsUrl', schema)}"] input`, text: 'https://www.test.com/url' },
         { type: 'click', selector: `[data-test-id="termsUrl-modal-apply"]` },
         { type: 'click', selector: `[data-test-id="saveButton"]`, waitAfter: 3000 },
-        { type: 'value', selector: `[data-form-engine-depth="0"]`, onValue: (value) => {
+        { type: 'dataValue', selector: `[data-form-engine-depth="0"]`, onValue: (value) => {
           const v = value as Organization
 
           expect(v.orgName).toBe('Org Name Test')
