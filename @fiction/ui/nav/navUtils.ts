@@ -1,13 +1,18 @@
 import type { FictionEnv, FictionUser } from '@fiction/core'
 
-export function getFictionNavItems(args: { fictionEnv: FictionEnv }) {
-  const { fictionEnv } = args
+export function getFictionNavItems(args: { fictionEnv: FictionEnv, fictionUser: FictionUser }) {
+  const { fictionEnv, fictionUser } = args
   const baseUrl = fictionEnv.isProd.value ? 'https://www.fiction.com' : 'http://localhost:4444'
-  return [
-    { label: 'Dashboard', href: `${baseUrl}/app`, icon: { class: 'i-tabler-tools' } },
-    { label: 'Account Settings', href: `${baseUrl}/app/settings/account`, icon: { class: 'i-tabler-user' } },
-    { label: 'Sign Out', href: '/?_logout=1', icon: { class: 'i-tabler-logout' } },
-  ]
+  const isLoggedIn = fictionUser.activeUser.value
+  return isLoggedIn
+    ? [
+        { label: 'Dashboard', href: `${baseUrl}/app`, icon: { class: 'i-tabler-tools' } },
+        { label: 'Account Settings', href: `${baseUrl}/app/settings/account`, icon: { class: 'i-tabler-user' } },
+        { label: 'Sign Out', href: '/?_logout=1', icon: { class: 'i-tabler-arrow-down-left' } },
+      ]
+    : [
+        { label: 'Sign In', href: getFictionAuthUrl({ fictionEnv }), icon: { class: 'i-tabler-arrow-up-right' } },
+      ]
 }
 
 export function getFictionAuthUrl(args: { fictionEnv: FictionEnv }) {

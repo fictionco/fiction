@@ -129,29 +129,8 @@ const layoutClass = vue.computed(() => {
                 :active-item="activeItem"
                 @update:active-item="setActiveHover($event)"
               />
-              <UserMenu :card />
+              <UserMenu :card :nav="[...nav.primary, ...nav.utility]" />
             </div>
-          </div>
-
-          <!-- Mobile Menu -->
-          <div class="flex justify-center md:hidden mt-6">
-            <XDropDown
-              :items="[...nav.primary, ...nav.utility]"
-              dropdown-alignment="center"
-              mode="click"
-              :classes="{ width: 'w-[80vw]', item: 'text-lg py-1.5 gap-2' }"
-              ui-size="lg"
-            >
-              <XButton
-                design="outline"
-                size="lg"
-                theme="primary"
-                format="block"
-                icon-after="i-tabler-menu"
-              >
-                {{ card.site?.currentPage.value.title.value || 'Menu' }}
-              </XButton>
-            </XDropDown>
           </div>
         </nav>
       </div>

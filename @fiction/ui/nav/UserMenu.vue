@@ -1,28 +1,31 @@
 <script lang="ts" setup>
+import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
+import NavMobile from './NavMobile.vue'
 import { getFictionAuthUrl, getFictionNavItems } from './navUtils'
 
 defineOptions({ name: 'UserMenu' })
 
-const { card } = defineProps<{ card: Card }>()
+const { card, nav } = defineProps<{ card: Card, nav?: NavListItem[] }>()
 const { fictionUser, fictionEnv } = useService()
 const user = vue.computed(() => fictionUser.activeUser?.value)
+const mobileMenuVisible = vue.ref(false)
 </script>
 
 <template>
-  <div class="flex items-center">
+  <div class="flex items-center relative h">
     <XDropDown
-      v-if="user"
       :site="card.site"
       dropdown-alignment="end"
       mode="click"
-      :classes="{ width: 'w-56' }"
-      :items="getFictionNavItems({ fictionEnv })"
+      class="pointer-events-none md:pointer-events-auto over:opacity-80 active:opacity-50"
+      :classes="{ width: 'w-64' }"
+      :items="getFictionNavItems({ fictionEnv, fictionUser })"
     >
       <template #top>
         <div
@@ -34,12 +37,12 @@ const user = vue.computed(() => fictionUser.activeUser?.value)
               :user="user"
             />
           </div>
-          <div class="font-sans min-w-0">
+          <div class="font-sans min-w-0 space-y-0.5">
             <div class="truncate font-bold leading-tight">
-              {{ user?.fullName || user?.email }}
+              {{ user?.fullName || user?.email || 'Sign In' }}
             </div>
             <div class="text-xs text-theme-500 dark:text-theme-400 truncate">
-              {{ user?.email }}
+              {{ user?.email || 'Connect Fiction Account' }}
             </div>
           </div>
         </div>
@@ -51,24 +54,27 @@ const user = vue.computed(() => fictionUser.activeUser?.value)
             :user="user"
           />
           <div
-            class="z-20 rounded-full ring-1 ring-white bg-theme-600 dark:bg-theme-700 text-theme-100 dark:text-theme-300 size-4 flex items-center justify-center absolute bottom-0 right-0"
+            class="flex z-20 rounded-full ring-1 ring-white bg-theme-600 dark:bg-theme-700 text-theme-100 dark:text-theme-300 size-4  items-center justify-center absolute bottom-0 right-0"
           >
             <XIcon
-              class="size-[80%] transition-all text-theme-400 dark:text-theme-200"
+              class="hidden md:block size-[80%] transition-all text-theme-400 dark:text-theme-200"
               :class="isActive ? 'rotate-180' : ''"
               :media="{ class: 'i-tabler-chevron-down' }"
+            />
+            <XIcon
+              class="md:hidden size-[80%] transition-all text-theme-400 dark:text-theme-200"
+              :class="isActive ? 'rotate-180' : ''"
+              :media="{ class: 'i-tabler-menu-2' }"
             />
           </div>
         </div>
       </template>
     </XDropDown>
-    <XButton
-      v-else
-      icon-after="i-tabler-arrow-right"
-      data-test-id="sign-in-button"
-      :href="getFictionAuthUrl({ fictionEnv })"
-    >
-      Sign In
-    </XButton>
+    <div class="absolute inset-0 md:hidden z-40" @click.stop="mobileMenuVisible = !mobileMenuVisible" />
+    <NavMobile
+      :vis="mobileMenuVisible"
+      :nav
+      @update:vis="mobileMenuVisible = $event"
+    />
   </div>
 </template>

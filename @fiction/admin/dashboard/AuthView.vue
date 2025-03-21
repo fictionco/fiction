@@ -4,7 +4,7 @@ import type { Card } from '@fiction/site/card'
 import type { FictionAdmin } from '..'
 import TransactionView from '@fiction/cards/page/transaction/TransactionView.vue'
 import TransactionWrap from '@fiction/cards/page/transaction/TransactionWrap.vue'
-import { isValidEmail, unhead, useService, vue } from '@fiction/core'
+import { isValidEmail, localRef, unhead, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import EffectTransitionList from '@fiction/ui/effect/EffectTransitionList.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
@@ -539,7 +539,7 @@ const isCodeConfirmState = vue.computed(() => ['verify-email', 'email-link-sent'
                   Successfully authenticated! This window will close automatically.
                 </template>
                 <template v-else>
-                  Redirecting to {{ orgData?.orgName || 'dashboard' }} in {{ redirectCountdown }} seconds...
+                  Redirecting in {{ redirectCountdown }} seconds...
                 </template>
               </p>
 
