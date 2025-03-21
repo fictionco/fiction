@@ -57,7 +57,7 @@ const media = vue.computed<MediaObject>(() => {
       :media="media"
     />
     <div
-      class="absolute inset-0 z-20 mix-blend-overlay dark:mix-blend-difference pointer-events-none ring-2 ring-inset ring-black dark:ring-white rounded-full"
+      class="absolute inset-0 z-10 mix-blend-overlay dark:mix-blend-difference pointer-events-none ring-2 ring-inset ring-black dark:ring-white rounded-full"
     />
   </div>
 </template>

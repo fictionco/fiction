@@ -20,7 +20,7 @@ const {
   dropdownAlignment?: 'start' | 'center' | 'end'
   mode?: 'hover' | 'click'
   uiSize?: StandardSize
-  classes?: { wrapper?: string, width?: string }
+  classes?: { wrapper?: string, width?: string, item?: string }
   site?: Site
 }>()
 
@@ -54,7 +54,7 @@ async function handleItemClick(args: { item: NavListItem, event: MouseEvent }) {
   }
   else if (item.href) {
     if (item.href.includes('http')) {
-      window.open(item.href, '_blank')
+      window.open(item.href, item.target || '_self')?.focus()
     }
     else {
       const router = site?.siteRouter || service.fictionRouter
@@ -70,12 +70,12 @@ async function handleItemClick(args: { item: NavListItem, event: MouseEvent }) {
 onResetUi(() => resetDropDown())
 
 const menuClasses = vue.computed(() => {
-  const baseClasses = `absolute z-30 bg-theme-100 dark:bg-theme-800 rounded-md shadow-lg ring-1 ring-theme-200 dark:ring-theme-600 focus:outline-none`
+  const baseClasses = `absolute z-30 bg-theme-100 dark:bg-theme-900 rounded-md shadow-lg ring-1 ring-theme-200 dark:ring-theme-600 focus:outline-none`
   const placementClasses = {
-    top: 'bottom-full mb-1.5',
-    bottom: 'top-full mt-1.5',
-    left: 'right-full mr-1.5',
-    right: 'left-full ml-1.5',
+    top: 'bottom-full mb-2',
+    bottom: 'top-full mt-2',
+    left: 'right-full mr-2',
+    right: 'left-full ml-2',
   }
   const dropdownAlignmentClasses = {
     start: 'left-0',
@@ -125,7 +125,7 @@ const sizeClasses = vue.computed(() => {
   }
 
   return {
-    text: sizeClasses[uiSize].text,
+    text: twMerge(sizeClasses[uiSize].text, classes.item),
   }
 })
 
@@ -143,7 +143,6 @@ const wrapperClass = vue.computed(() => {
     @mouseleave="setActiveHover('off')"
   >
     <div
-      class="flex"
       role="button"
       aria-haspopup="true"
       :aria-expanded="isActive"
@@ -169,7 +168,7 @@ const wrapperClass = vue.computed(() => {
               :href="item.href"
               class="flex gap-2 items-center cursor-pointer transition-all w-full text-left px-3 text-theme-700 dark:text-theme-200 "
               :class="[
-                item.isActive ? 'bg-theme-200 dark:bg-primary-700/70 text-theme-900 dark:text-theme-100' : 'hover:bg-theme-200 dark:hover:bg-theme-600/50 hover:text-theme-900 dark:hover:text-theme-100',
+                item.isActive ? 'bg-theme-200 dark:bg-theme-700 text-theme-900 dark:text-theme-100' : 'hover:bg-theme-200 dark:hover:bg-theme-600/50 hover:text-theme-900 dark:hover:text-theme-100',
                 sizeClasses.text,
               ]"
               role="menuitem"

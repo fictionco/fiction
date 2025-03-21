@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import type { NavListItem } from '@fiction/core'
-import { onResetUi, shortId, vue } from '@fiction/core'
-import { onBrowserEvent } from '@fiction/core/utils/eventBrowser'
-import { animateItemEnter, useElementVisible } from '../anim'
-import ElClose from '../common/ElClose.vue'
+import { useService, vue } from '@fiction/core'
+import XButton from '@fiction/ui/buttons/XButton.vue'
+import XIcon from '@fiction/ui/media/XIcon.vue'
+import ElAvatar from '../common/ElAvatar.vue'
 import NavMobileItem from './NavMobileItem.vue'
+import NavMobilePanel from './NavMobilePanel.vue'
+import { getFictionAuthUrl, getFictionNavItems } from './navUtils'
 
 defineOptions({
   name: 'NavMobile',
@@ -19,99 +21,86 @@ const emit = defineEmits<{
   (event: 'update:vis', payload: boolean): void
 }>()
 
-const randomId = shortId()
-const afterVisible = vue.ref(false)
-const scrolled = vue.ref(false)
+const { fictionUser, fictionEnv } = useService()
+const user = vue.computed(() => fictionUser.activeUser?.value)
+const navItems = vue.computed(() => getFictionNavItems({ fictionEnv }))
 
-onBrowserEvent('scroll', () => {
-  scrolled.value = window.pageYOffset > 50
-})
-
-function close(): void {
-  emit('update:vis', false)
-}
-
-onResetUi(() => close())
-
-function translateSiteContent(args: { mode: 'on' | 'off' }) {
-  if (typeof window === 'undefined')
-    return
-
-  const el = document.querySelector('.x-site-content') as HTMLElement | null
-
-  if (!el)
-    return
-
-  if (args.mode === 'on') {
-    el.style.transform = 'translateX(-300px)'
-    el.style.transition = 'transform .75s cubic-bezier(0.25, 1, 0.33, 1)'
-    el.style.height = '100dvh'
-    el.style.overflow = 'hidden'
-    setTimeout(() => (afterVisible.value = true), 300)
-  }
-  else {
-    afterVisible.value = false
-    el.style.transform = ''
-    el.style.height = ''
-    el.style.overflow = ''
-  }
-}
-
-vue.onBeforeUnmount(() => {
-  translateSiteContent({ mode: 'off' })
-})
-
-vue.onMounted(() => {
-  vue.watch(
-    () => vis,
-    (vis) => {
-      translateSiteContent({ mode: vis ? 'on' : 'off' })
-    },
-    { immediate: true },
-  )
-
-  useElementVisible({
-    caller: 'navMobile',
-    selector: `#${randomId}`,
-    onVisible: async () => {
-      await animateItemEnter({
-        targets: `#${randomId} .x-action-item`,
-        themeId: 'rise',
-      })
-    },
-  })
-})
+const legalItems = vue.computed(() => [
+  { label: 'About', href: 'https://www.fiction.com/about' },
+  { label: 'Privacy', href: 'https://www.fiction.com/privacy' },
+  { label: 'Terms', href: 'https://www.fiction.com/terms' },
+])
 </script>
 
 <template>
-  <teleport to=".x-site">
-    <div
-      v-if="vis"
-      class="dark z-0 fixed h-[100dvh] top-0 right-0 w-full bg-gradient-to-br from-theme-800 to-theme-950 text-theme-0"
-      @click.stop
-    >
-      <div :id="randomId" class="w-[285px] h-full float-right">
-        <ElClose class="absolute right-4 top-4 z-20" @click="close" />
-
-        <div class="pl-6 h-full py-20 flex flex-col justify-start gap-4 relative z-10 overflow-y-scroll">
-          <div v-for="(items, section) in nav" :key="section" class="flex flex-col justify-center">
-            <div
-              class="flex flex-col gap-6"
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="main-menu"
-            >
-              <NavMobileItem
-                v-for="(item, index) in items"
-                :key="index"
-                :item="item"
-                :depth="0"
-              />
+  <NavMobilePanel :vis @update:vis="emit('update:vis', $event)">
+    <div class="py-6 flex flex-col justify-start gap-8 h-full">
+      <!-- User Profile Section -->
+      <div v-if="user" class="px-4 border-b border-theme-200 dark:border-theme-700 bg-theme-900">
+        <div class="flex items-center space-x-3 pb-4 ">
+          <div>
+            <ElAvatar
+              class="size-10"
+              :user="user"
+            />
+          </div>
+          <div class="font-sans min-w-0">
+            <div class="truncate font-bold leading-tight">
+              {{ user?.fullName || user?.email }}
+            </div>
+            <div class="text-xs text-theme-500 dark:text-theme-400 truncate">
+              {{ user?.email }}
             </div>
           </div>
-          <slot name="foot" />
+        </div>
+      </div>
+
+      <!-- Sign In Button (if not logged in) -->
+      <div v-else class="px-4 py-2">
+        <XButton
+          design="solid"
+          theme="primary"
+          format="block"
+          size="lg"
+          icon-after="i-tabler-arrow-right"
+          data-test-id="mobile-sign-in-button"
+          :href="getFictionAuthUrl({ fictionEnv })"
+        >
+          Sign In
+        </XButton>
+      </div>
+
+      <!-- Fiction Navigation Items (when logged in) -->
+      <div class="px-6 flex flex-col justify-start gap-8 grow">
+        <div v-if="user" class="space-y-3">
+          <h3 class="text-sm font-medium text-theme-400 dark:text-theme-500">
+            Fiction Account
+          </h3>
+          <ul class="space-y-3">
+            <li v-for="(item, idx) in navItems" :key="idx">
+              <NavMobileItem
+                :item
+                @click="emit('update:vis', false)"
+              />
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Legal Links -->
+      <div class="px-4 py-3 border-t border-theme-100 dark:border-theme-800">
+        <div class="flex flex-wrap gap-x-4 gap-y-2 text-sm text-theme-500 dark:text-theme-400">
+          <a
+            v-for="(item, idx) in legalItems"
+            :key="idx"
+            :href="item.href"
+            class="hover:text-theme-700 dark:hover:text-theme-300"
+            @click="emit('update:vis', false)"
+          >
+            {{ item.label }}
+          </a>
         </div>
       </div>
     </div>
-  </teleport>
+  </NavMobilePanel>
 </template>

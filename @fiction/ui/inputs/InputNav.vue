@@ -10,7 +10,7 @@ defineOptions({ name: 'InputNav' })
 
 const {
   modelValue,
-  hasChildNav = true,
+  hasChildNav = false,
   site,
 } = defineProps<{
   modelValue?: NavListItem[]
@@ -33,19 +33,19 @@ const baseOptions: InputOption[] = [
   createOption({ schema, key: 'label', label: 'Label', input: 'InputText', isRequired: true }),
   createOption({ schema, key: 'href', label: 'Link', input: 'InputSiteRoute' }),
   createOption({ schema, key: 'icon', label: 'Icon', input: 'InputIcon' }),
-  createOption({
-    schema,
-    key: 'advancedNavItems',
-    label: 'Advanced Settings',
-    input: 'group',
-    isClosed: true,
-    options: [
-      createOption({ schema, key: 'description', label: 'Description', input: 'InputText', description: 'Shown in expanded menus' }),
-      createOption({ schema, key: 'variant', label: 'Style Variant', input: 'InputSelect', list: ['default', 'button', 'avatar'] }),
-      createOption({ schema, key: 'emphasis', label: 'Emphasis', input: 'InputSelect', list: ['default', 'highlighted', 'muted'] }),
-      createOption({ schema, key: 'theme', label: 'Color Theme', description: 'Used in buttons and emphasis', input: 'InputColorScheme' }),
-    ],
-  }),
+  // createOption({
+  //   schema,
+  //   key: 'advancedNavItems',
+  //   label: 'Advanced Settings',
+  //   input: 'group',
+  //   isClosed: true,
+  //   options: [
+  //     createOption({ schema, key: 'description', label: 'Description', input: 'InputText', description: 'Shown in expanded menus' }),
+  //     createOption({ schema, key: 'variant', label: 'Style Variant', input: 'InputSelect', list: ['default', 'button', 'avatar'] }),
+  //     createOption({ schema, key: 'emphasis', label: 'Emphasis', input: 'InputSelect', list: ['default', 'highlighted', 'muted'] }),
+  //     createOption({ schema, key: 'theme', label: 'Color Theme', description: 'Used in buttons and emphasis', input: 'InputColorScheme' }),
+  //   ],
+  // }),
 
 ]
 
