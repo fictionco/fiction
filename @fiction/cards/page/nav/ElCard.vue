@@ -5,11 +5,12 @@ import type { UserConfig } from './config'
 import CardNavLink from '@fiction/cards/CardNavLink.vue'
 import { useService, vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
+import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import XLogoType from '@fiction/ui/media/XLogoType.vue'
-import NavMobile from '@fiction/ui/NavMobile.vue'
+import NavMobile from '@fiction/ui/nav/NavMobile.vue'
 import CardLink from '../../el/CardLink.vue'
 import { processNavItems } from '../../utils/nav'
-import UserMenu from './UserMenu.vue'
+import UserMenu from '@fiction/ui/nav/UserMenu.vue'
 import XNav from './XNav.vue'
 
 const props = defineProps<{ card: Card<UserConfig> }>()
@@ -136,12 +137,17 @@ function closeMenu() {
 
           <!-- Mobile Menu -->
           <div class="flex md:hidden">
-            <button
-              class="text-3xl z-30 relative i-tabler-menu"
-              :class="mobileMenuVisible ? 'text-white' : ''"
-              aria-label="Toggle menu"
-              @click.stop="mobileMenuVisible = !mobileMenuVisible"
-            />
+            <div class="flex md:hidden hover:opacity-90 active:opacity-80" @click.stop="mobileMenuVisible = !mobileMenuVisible">
+              <ElAvatar
+                class="size-[1.7em] mr-1.5"
+                :user="fictionUser.activeUser?.value"
+              />
+              <button
+                class="text-3xl z-30 relative i-tabler-menu"
+                :class="mobileMenuVisible ? 'text-white' : ''"
+                aria-label="Toggle menu"
+              />
+            </div>
             <NavMobile
               :vis="mobileMenuVisible"
               :nav="{ navA: nav.primary, navB: nav.utility }"

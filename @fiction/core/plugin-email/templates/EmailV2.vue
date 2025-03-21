@@ -202,7 +202,7 @@ unhead.useHead({
         }
 
         #last-line a, #last-line span, #last-line  {
-          font-size: 13px;
+          font-size: 11px;
         }
         #last-line a {
           color: ${textColorSubtle.value};
@@ -269,7 +269,7 @@ unhead.useHead({
     <div style="display: none; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; font-family: sans-serif;">
       {{ previewText }}
       <!-- Repeating characters to fill preview area -->
-      {{ "&nbsp;".repeat(50) }}
+      {{ "&#160;".repeat(80) }}
     </div>
 
     <!-- Main Container -->

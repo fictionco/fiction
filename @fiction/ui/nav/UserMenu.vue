@@ -98,7 +98,7 @@ function openAuthPopup() {
         >
           <div>
             <ElAvatar
-              class="ring-theme-300 dark:ring-theme-0 size-7 rounded-full ring-2"
+              class="size-9"
               :user="fictionUser.activeUser?.value"
             />
           </div>
@@ -115,7 +115,7 @@ function openAuthPopup() {
       <template #default="{ isActive }">
         <div class="flex items-center">
           <ElAvatar
-            class="size-[1.7em] mr-1.5 rounded-full ring-2 ring-theme-200 dark:ring-theme-0"
+            class="size-[1.7em] mr-1.5"
             :user="fictionUser.activeUser?.value"
           />
           <XIcon

@@ -10,6 +10,7 @@ import nodeMailerHtmlToText from 'nodemailer-html-to-text'
 import { Query } from '../query.js'
 import { abort, isActualBrowser } from '../utils/index.js'
 import { isCi } from '../utils/vars.js'
+import { replaceEmailDomain } from './util.js'
 
 export type EmailQuerySettings = FictionPluginSettings & {
   fictionEmail: FictionEmail
@@ -171,39 +172,19 @@ export class QueryTransactionalEmail extends EmailQuery {
 
     const replyTo = (senderName ? `${senderName} <${senderEmail}>` : senderEmail) || this.fromAppEmail()
 
-    const sendingDomainEmail = `no-reply@${sendingDomain || 'fiction.com'}`
-
-    const from = replyTo.includes('fiction.com') ? replyTo : senderName ? `${senderName} <${sendingDomainEmail}>` : sendingDomainEmail
+    const from = replaceEmailDomain(replyTo, sendingDomain)
 
     if (!to)
       throw abort('missing email: to', meta)
 
-    const messageId = emailId || `fiction-${Date.now()}-${Math.random().toString(36).substring(2, 12)}`
-
     const headers: Record<string, string> = {
       'X-MAILER': 'Fiction',
       'X-MAILGUN-VARIABLES': JSON.stringify(emailVars),
-
-      // Improved email identification and tracking
-      'Message-ID': `<${messageId}@${sendingDomain || 'fiction.com'}>`,
-      'X-Entity-Ref-ID': emailId || `fiction-${Date.now()}`,
-
-      // Fiction-specific tracking
-      'X-Fiction-Email-ID': emailId || '',
-      'X-Fiction-User-ID': toUserId || '',
-      'X-Fiction-Org-ID': fromOrgId || '',
-      'X-Fiction-Site-ID': fromSiteId || '',
-      'X-Fiction-Sender-Email': senderEmail || '',
-      'X-Fiction-Email-Type': emailType || 'update',
-      'X-Fiction-Sender-Name': senderName || '',
     }
 
     if (['campaign'].includes(emailType)) {
       headers.Precedence = 'bulk'
-      headers['List-ID'] = `<${emailType}-${fromOrgId || 'fiction'}@${sendingDomain || 'fiction.com'}>`
       headers['X-Auto-Response-Suppress'] = 'All'
-      headers['X-MSMail-Priority'] = 'Normal'
-      headers['X-Complaints-To'] = `abuse@${sendingDomain || 'fiction.com'}`
 
       if (unsubscribeUrl) {
         headers['List-Unsubscribe'] = `<${unsubscribeUrl}>`

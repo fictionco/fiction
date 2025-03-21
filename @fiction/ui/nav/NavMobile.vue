@@ -2,8 +2,8 @@
 import type { NavListItem } from '@fiction/core'
 import { onResetUi, shortId, vue } from '@fiction/core'
 import { onBrowserEvent } from '@fiction/core/utils/eventBrowser'
-import { animateItemEnter, useElementVisible } from './anim'
-import ElClose from './common/ElClose.vue'
+import { animateItemEnter, useElementVisible } from '../anim'
+import ElClose from '../common/ElClose.vue'
 import NavMobileItem from './NavMobileItem.vue'
 
 defineOptions({
