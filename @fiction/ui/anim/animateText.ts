@@ -61,14 +61,14 @@ export function animateUnderline({
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        entries.forEach((entry, index) => {
           if (entry.isIntersecting) {
             const path = svg.querySelector('path')
             if (path) {
               const length = path.getTotalLength()
               path.style.strokeDasharray = length.toString()
               path.style.strokeDashoffset = length.toString()
-              requestAnimationFrame(() => animatePath(path, animationDuration))
+              requestAnimationFrame(() => animatePath(path, animationDuration, index))
             }
             observer.unobserve(entry.target)
           }
@@ -154,7 +154,7 @@ function getShapeAttributes(shape: UnderlineShape): { viewBox: string, d: string
   }
 }
 
-function animatePath(path: SVGPathElement, duration: number) {
+function animatePath(path: SVGPathElement, duration: number, index: number) {
   const length = path.getTotalLength()
 
   anime({
@@ -162,7 +162,7 @@ function animatePath(path: SVGPathElement, duration: number) {
     strokeDashoffset: [length, 0],
     easing: 'easeInOutCubic',
     duration,
-    delay: 700,
+    delay: 700 + index * 500, // 200ms stagger between each animation
     loop: false,
   })
 }

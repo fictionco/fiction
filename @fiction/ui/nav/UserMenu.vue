@@ -23,7 +23,7 @@ const mobileMenuVisible = vue.ref(false)
       :site="card.site"
       dropdown-alignment="end"
       mode="click"
-      class="pointer-events-none md:pointer-events-auto over:opacity-80 active:opacity-50"
+      class="pointer-events-none md:pointer-events-auto "
       :classes="{ width: 'w-64' }"
       :items="getFictionNavItems({ fictionEnv, fictionUser })"
     >
@@ -48,7 +48,7 @@ const mobileMenuVisible = vue.ref(false)
         </div>
       </template>
       <template #default="{ isActive }">
-        <div class="flex items-center relative">
+        <div class="flex items-center relative hover:opacity-80 active:opacity-50">
           <ElAvatar
             class="size-9 mr-1.5"
             :user="user"

@@ -16,7 +16,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
     title: 'Home',
     userConfig: {
       site: {
-        title: 'Fiction - Personal Marketing Platform',
+        title: 'Create Your Professional Avatar and Personal Brand',
         description: 'Transform your expertise into influence using Fiction\'s AI-powered personal branding platform. Create authentic content, grow your audience, and build authority - all guided by intelligent automation.',
       },
     },
@@ -29,12 +29,12 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
             templateId: 'cardHeroV1',
             userConfig: {
               superTitle: {
-                text: 'The #1 Personal Branding Platform',
+                text: 'The Professional Avatar System',
                 theme: 'orange',
                 icon: { class: 'i-tabler-award' },
               },
-              title: `Put Your [@text_effect type=squiggle]Personal Brand[/@text_effect] Online.`,
-              subTitle: `Use Fiction to create your personal website, start a newsletter, and build your reputation.`,
+              title: `Build Your [@text_effect type=squiggle]Professional Avatar[/@text_effect].`,
+              subTitle: `Get noticed and grow your influence with an AI-enhanced website, newsletter, and reputation.`,
 
               action: {
                 buttons: [
