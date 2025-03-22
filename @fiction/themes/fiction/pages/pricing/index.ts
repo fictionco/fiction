@@ -138,6 +138,7 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
     regionId: 'main',
     templateId: 'cardPageWrapV1',
     slug: 'pricing',
+    title: 'Pricing',
     cards: [
       await factory.fromTemplate({
         templateId: 'cardPageAreaV1',

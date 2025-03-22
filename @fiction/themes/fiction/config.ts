@@ -294,8 +294,7 @@ export async function getConfig(args: {
               },
               nav: {
                 primary: [
-                  { label: 'Professional Avatars', href: '/tour' },
-                  { label: 'Showcase', href: '/showcase' },
+                  { label: 'Why Fiction', href: '/why-professional-avatar' },
                   { label: 'Pricing', href: '/pricing' },
                 ],
                 utility: [

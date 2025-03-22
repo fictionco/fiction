@@ -13,8 +13,8 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
   return factory.fromTemplate({
     regionId: 'main',
     templateId: 'cardPageWrapV1',
-    slug: 'tour',
-    title: 'Tour',
+    slug: 'why-professional-avatar',
+    title: 'Why Fiction',
     cards: [
       await factory.fromTemplate<typeof areaTemplate>({
         templateId: 'cardPageAreaV1',
