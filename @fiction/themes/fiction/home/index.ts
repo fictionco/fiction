@@ -34,7 +34,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                 icon: { class: 'i-tabler-award' },
               },
               title: `Build Your [@text_effect type=squiggle]Professional Avatar[/@text_effect].`,
-              subTitle: `Get noticed and grow your influence with an AI-enhanced website, newsletter, and reputation.`,
+              subTitle: `Amplify your credibility with the first professional avatar platform. Launch your website, newsletter, and reputation network in minutes.`,
 
               action: {
                 buttons: [
@@ -159,10 +159,10 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   rows: 3,
                   superTitle: {
                     icon: { class: 'i-tabler-rocket' },
-                    text: 'The Personal Branding Platform',
+                    text: 'Online Personal Branding Meets AI',
                   },
                   title: 'It all begins with your story...',
-                  content: 'Unlock the next level of success with an unforgettable personal brand. Build your dream website, grow your audience, and share your vision—all in one place.',
+                  content: 'Your professional avatar is your web presence, your reputation, and your personal brand. Use Fiction to tell your story, express your expertise, and build your network.',
                   theme: 'blue',
                   themeMode: 'dark',
                   verticalPosition: 'bottom',

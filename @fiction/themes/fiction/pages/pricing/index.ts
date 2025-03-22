@@ -110,9 +110,9 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
   const topHeroCard = await factory.fromTemplate<typeof heroTemplate>({
     templateId: 'cardHeroV1',
     userConfig: {
-      superTitle: { text: 'Simple Premium Pricing', theme: 'green', icon: { class: 'i-tabler-credit-card' } },
+      superTitle: { text: 'The Price of Reputation', theme: 'green', icon: { class: 'i-tabler-credit-card' } },
       subTitle: `${annualDiscountPercent}% Discount When Paying Annually`,
-      title: `Plans & Pricing`,
+      title: `An Incredible Value or Your Money Back`,
     },
   })
 
