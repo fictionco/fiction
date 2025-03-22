@@ -29,12 +29,12 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
             templateId: 'cardHeroV1',
             userConfig: {
               superTitle: {
-                text: 'The Professional Avatar System',
+                text: 'The First Professional Avatar Platform',
                 theme: 'orange',
-                icon: { class: 'i-tabler-award' },
+                icon: { class: 'i-tabler-rosette-number-1' },
               },
-              title: `Build Your [@text_effect type=squiggle]Professional Avatar[/@text_effect].`,
-              subTitle: `Amplify your credibility with the first professional avatar platform. Launch your website, newsletter, and reputation network in minutes.`,
+              title: `Build Your Reputation with a [@text_effect type=squiggle]Professional Avatar[/@text_effect].`,
+              subTitle: `Automate your personal brand with your professional avatar. Launch your website, newsletter, and reputation network in minutes.`,
 
               action: {
                 buttons: [
@@ -74,6 +74,13 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   media: stock.getAssetBySlug('rebora'),
                 },
                 {
+                  title: 'Morgan Jones',
+                  subTitle: 'Marketing Executive',
+                  media: {
+                    url: new URL('img/morgan.jpg', import.meta.url).href,
+                  },
+                },
+                {
                   title: 'Selena Gomez',
                   subTitle: 'Musician',
                   media: {
@@ -92,13 +99,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   media: stock.getAssetBySlug('abgcuk'),
                 },
 
-                {
-                  title: 'Barack Obama',
-                  subTitle: 'Politician',
-                  media: {
-                    url: new URL('img/obama.webp', import.meta.url).href,
-                  },
-                },
+
                 {
                   title: 'Sarah Bands',
                   subTitle: 'Director',
@@ -112,12 +113,13 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   },
                 },
                 {
-                  title: 'Joe Rogan',
-                  subTitle: 'Comedian / Podcaster',
+                  title: 'Brian Pentz',
+                  subTitle: 'Investor',
                   media: {
-                    url: new URL('img/rogan.jpg', import.meta.url).href,
+                    url: new URL('img/brian.jpg', import.meta.url).href,
                   },
                 },
+
               ],
             },
           }),
