@@ -23,12 +23,14 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
             templateId: 'cardHeroV1',
             userConfig: {
               superTitle: {
-                text: 'Your Story Deserves To Be Heard',
+                text: 'Personal Branding for the AI Age',
                 theme: 'green',
                 icon: { class: 'i-tabler-arrow-up-right' },
               },
-              subTitle: `Fiction helps you to share your story authentically and build genuine connections that last. No more juggling multiple tools or feeling lost in the digital noise.`,
-              title: `Are you ready to be seen and to <span data-text-effect data-effect-type="squiggle" data-effect-theme="primary">make your impact?</span>`,
+              title: `Establish and Build Your [@text_effect type=squiggle]Reputation[/@text_effect]`,
+              subTitle: `Your professional avatar is your web presence, your reputation, and your personal brand. Fiction makes it easy to build and grow.`,
+
+
               action: {
                 buttons: [
                   {
@@ -51,64 +53,51 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   layout: 'right',
                   superTitle: {
                     icon: { iconId: 'browser' },
-                    text: 'World-Class Personal Websites',
+                    text: 'Command Attention',
                     theme: 'orange',
                   },
-                  title: 'See Your Personal Brand Come to Life',
-                  subTitle: 'Effortlessly create your online presence. Show off a high-quality website, create brilliant content to capture and grow your influence.',
-                  media: { url: new URL('img/fig-website-screen.svg', import.meta.url).href },
-                  overlays: [{ media: { url: new URL('img/fig-website-alt-1.svg', import.meta.url).href } }],
+                  title: 'A Professional Website for Your Aspirations',
+                  subTitle: `Over 80% of people research you online before meeting with you. Your professional avatar sets your first impression.`,
+                  media: { url: new URL('img/man-smiling.png', import.meta.url).href },
+                  overlays: [{ media: { url: new URL('img/website.svg', import.meta.url).href }, widthPercent: 50 }],
                   action: {},
                 },
                 {
                   layout: 'left',
                   superTitle: {
                     icon: { iconId: 'trending-up' },
-                    text: 'Audience Growth Tools',
+                    text: 'Inbound Influence',
                     theme: 'rose',
                   },
-                  title: 'Watch Your Audience Growing Daily',
-                  subTitle: 'Wake up to new engaged subscribers every morning. See how your persona resonates as you build an audience that\'s truly yours to nurture and grow.',
-                  media: { url: new URL('img/fig-subscribe-screen.svg', import.meta.url).href },
+                  title: 'Content and Email Marketing made Simple',
+                  subTitle: `The best way to connect with leaders in your field is to build your personal brand and share your expertise.`,
+                  media: { url: new URL('img/audience.png', import.meta.url).href },
                   overlays: [{ media: { url: new URL('img/fig-subscribe-alt-1.svg', import.meta.url).href } }],
                   action: {},
                 },
                 {
                   layout: 'right',
                   superTitle: {
-                    icon: { iconId: 'news' },
-                    text: 'Newsletter and Email Marketing',
-                    theme: 'sky',
+                    icon: { iconId: 'rocket' },
+                    text: 'Right Place, Right Time',
+                    theme: 'purple',
                   },
-                  title: 'Connect Deeply Through Personal Updates',
-                  subTitle: 'Experience the difference when your newsletters feel like personal letters. Notice how your audience engagement grows as you share your journey in your authentic voice.',
-                  media: { url: new URL('img/fig-email-screen.svg', import.meta.url).href },
-                  overlays: [{ media: { url: new URL('img/fig-email-alt-1.svg', import.meta.url).href } }],
+                  title: 'Build Your Reputation Network',
+                  subTitle: `Invite and connect with leaders and colleagues across Fiction's network of sites.`,
+                  media: { url: new URL('img/meeting.png', import.meta.url).href },
+                  overlays: [{ media: { url: new URL('img/fig-money-alt-1.svg', import.meta.url).href } }],
                   action: {},
                 },
                 {
                   layout: 'left',
                   superTitle: {
-                    icon: { iconId: 'rocket' },
-                    text: '10x Your Influence',
-                    theme: 'purple',
-                  },
-                  title: 'Transform Your Influence Into Income',
-                  subTitle: 'Visualize your expertise turning into memberships and opportunities. Feel the freedom as your personal brand opens doors to passive income streams.',
-                  media: { url: new URL('img/fig-money-screen.svg', import.meta.url).href },
-                  overlays: [{ media: { url: new URL('img/fig-money-alt-1.svg', import.meta.url).href } }],
-                  action: {},
-                },
-                {
-                  layout: 'right',
-                  superTitle: {
                     icon: { iconId: 'chart-bar' },
-                    text: 'Brand Automation',
+                    text: 'AI for Human Results',
                     theme: 'yellow',
                   },
-                  title: 'Your Brand Works While You Sleep',
-                  subTitle: 'Picture your personal brand working 24/7, automatically showcasing your best self. See how our AI-powered tools craft your perfect professional narrative.',
-                  media: { url: new URL('img/fig-contact-screen.svg', import.meta.url).href },
+                  title: 'AI-Enhanced Creation',
+                  subTitle: `Fiction tastefully integrates AI to enhance what makes you unique, help you stay focused, and execute on your vision.`,
+                  media: { url: new URL('img/ai.png', import.meta.url).href },
                   action: {},
                 },
               ],
@@ -120,36 +109,35 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
         templateId: 'cardPageAreaV1',
         userConfig: {},
         cards: [
-          await factory.fromTemplate<typeof templateMetrics>({
-            templateId: 'cardMetricsV1',
-            userConfig: {
-              items: [
-                {
-                  label: 'Personal Brands',
-                  description: 'Built & Thriving',
-                  value: 8000,
-                },
-                {
-                  label: 'Audience Connections',
-                  description: 'Meaningful Engagements',
-                  value: 2_020_000,
-                },
-                {
-                  label: 'Creator Success',
-                  description: 'Generated for Our Users',
-                  format: 'abbreviatedDollar',
-                  value: 12_000_000,
-                },
-              ],
-            },
-          }),
+          // await factory.fromTemplate<typeof templateMetrics>({
+          //   templateId: 'cardMetricsV1',
+          //   userConfig: {
+          //     items: [
+          //       {
+          //         label: 'Personal Brands',
+          //         description: 'Launched & Thriving',
+          //         value: 8000,
+          //       },
+          //       {
+          //         label: 'Career-Changing Connections',
+          //         description: 'Made Through Fiction',
+          //         value: 2_020_000,
+          //       },
+          //       {
+          //         label: 'Revenue Generated',
+          //         description: 'For Our Members',
+          //         format: 'abbreviatedDollar',
+          //         value: 12_000_000,
+          //       },
+          //     ],
+          //   },
+          // }),
           await factory.fromTemplate<typeof templateQuotes>({
             templateId: 'cardQuotesV1',
             userConfig: {
               items: [
-
                 {
-                  text: `The best time to build your personal brand was five years ago. The second best time is today. In the digital age, invisibility is a bigger risk than failure.`,
+                  text: `Not having a professional presence online is career suicide. In today's world, you simply don't exist without one.`,
                   author: {
                     label: 'Brené Brown',
                     media: {
@@ -163,7 +151,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   },
                 },
                 {
-                  text: `<p>Ever notice that what people find when they Google your name, shapes their decision to work with, hire, or invest in you?</p><p> Can you afford to let others tell your story?</p>`,
+                  text: `<p>Every time someone Googles your name, they're making decisions about you. Are you controlling that narrative or leaving it to chance?</p>`,
                   author: {
                     label: 'Tim Ferris',
                     media: { url: new URL('img/person-ferris.webp', import.meta.url).href },
@@ -174,7 +162,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   },
                 },
                 {
-                  text: `Every second you're not building your brand online, someone else is building theirs. And they're connecting with the audience that could have been yours.`,
+                  text: `While you hesitate to build your online presence, someone else is taking your spot, connecting with your audience, and claiming your opportunities.`,
                   author: {
                     label: 'Simon Sinek',
                     media: {

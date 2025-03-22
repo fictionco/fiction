@@ -53,7 +53,7 @@ const layout = vue.computed(() => {
   <div class="space-y-6">
     <div
       :class="textWrapClass"
-      class="space-y-3"
+      class="space-y-5 md:space-y-6"
       data-option-path="layout"
       :data-layout="layout"
     >
@@ -66,7 +66,7 @@ const layout = vue.computed(() => {
         <CardText
           tag="h1"
           :card
-          class="x-font-title font-semibold md:text-balance text-3xl md:text-4xl lg:text-5xl"
+          class="x-font-title font-semibold md:text-balance text-3xl md:text-4xl lg:text-5xl !leading-[1.1]"
           :path="pathCheck('title', schema)"
           placeholder="Title"
           animate="fade"

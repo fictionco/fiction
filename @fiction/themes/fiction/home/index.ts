@@ -39,18 +39,17 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
               action: {
                 buttons: [
                   {
-                    label: 'Get Started',
+                    label: 'Create Account',
                     href: '/app/auth/register?_reload=1',
                     theme: 'primary',
                     design: 'solid',
                     iconAfter: 'i-tabler-arrow-big-right-lines',
                   },
                   {
-                    label: 'View Tour',
+                    label: 'Why Fiction?',
                     href: '/tour',
                     theme: 'default',
                     design: 'solid',
-                    iconAfter: 'i-tabler-arrow-big-right-lines',
                   },
                 ],
               },
