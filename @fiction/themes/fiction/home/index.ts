@@ -29,12 +29,12 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
             templateId: 'cardHeroV1',
             userConfig: {
               superTitle: {
-                text: 'The First Professional Avatar Platform',
+                text: 'The New Era of Personal Branding',
                 theme: 'orange',
-                icon: { class: 'i-tabler-rosette-number-1' },
+                icon: { class: 'i-tabler-rocket' }, // Swapped for something dynamic and bold
               },
-              title: `Build Your Reputation with a [@text_effect type=squiggle]Professional Avatar[/@text_effect].`,
-              subTitle: `Automate your personal brand with your professional avatar. Launch your website, newsletter, and reputation network in minutes.`,
+              title: `Create Your Ideal [@text_effect type=squiggle]Digital Self[/@text_effect].`,
+    subTitle: `Turn your story into opportunity with Fiction's AI-powered personal branding and professional networking platform.`, // Swapped for something dynamic and bold
 
               action: {
                 buttons: [

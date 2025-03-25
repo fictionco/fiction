@@ -53,6 +53,7 @@ env:
   BUILD_TIME: ${{ github.event.repository.updated_at }}
   BUILD_NUMBER: ${{ github.run_number }}
   BUILD_BRANCH: ${{ github.ref_name }}
+  DISCORD_WEBHOOK_DEV: ${{ secrets.DISCORD_WEBHOOK_DEV }}
 
 jobs:
 
@@ -546,3 +547,17 @@ jobs:
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  notify-discord:
+    needs: [unit-tests, integration-tests, e2e-tests, deploy-app, deploy-gateway, release]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord Notification
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_DEV }}
+        with:
+          args: |
+            ${{ job.status == 'success' && '✅' || '❌' }} **${{ github.workflow }}** workflow on **${{ github.ref_name }}** (commit: `${{ github.sha }}`) completed with status: **${{ job.status }}**
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
