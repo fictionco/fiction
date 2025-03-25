@@ -42,8 +42,6 @@ export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> 
     ] })
   }
 
-
-
   async addPlugins(args: PluginSetupArgs) {
     const { context } = args
 

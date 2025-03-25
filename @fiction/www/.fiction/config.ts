@@ -127,7 +127,7 @@ export interface CompiledServiceConfig {
     fiction_org:
       | 'orgId'
       | 'ownerId'
-      | 'slug'
+      | 'handle'
       | 'orgName'
       | 'orgEmail'
       | 'description'
@@ -140,6 +140,7 @@ export interface CompiledServiceConfig {
       | 'streetAddress'
       | 'orgStatus'
       | 'createdByUserId'
+      | 'logo'
       | 'avatar'
       | 'lastSeenAt'
       | 'apiSecret'

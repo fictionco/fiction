@@ -11,7 +11,7 @@ import { EnvVar, vars } from '../plugin-env/index.js'
 // likely fixed in TS 4.8
 import { FictionPlugin } from '../plugin.js'
 import { TypedEventTarget } from '../utils/eventTarget.js'
-import { crossVar, hasWindow, isActualBrowser, isNode, safeDirname, vue, waitFor } from '../utils/index.js'
+import { crossVar, isActualBrowser, isNode, safeDirname, vue } from '../utils/index.js'
 import { createUserToken, decodeUserToken, manageClientUserToken } from '../utils/jwt.js'
 import { getAccessLevel, userCan, userCapabilities } from '../utils/priv.js'
 import * as priv from '../utils/priv.js'

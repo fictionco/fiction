@@ -1,7 +1,7 @@
 import type { TokenFields, User } from '../plugin-user'
 import jwt from 'jsonwebtoken'
 import { log } from '../plugin-log'
-import { getCookie, removeCookie, removeCookieNakedDomain, setCookieNakedDomain } from './cookie'
+import { getCookie, removeCookieNakedDomain, setCookieNakedDomain } from './cookie'
 import { abort } from './error'
 
 const logger = log.contextLogger('JWT UTILS')

@@ -2,12 +2,11 @@
 import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { useService, vue } from '@fiction/core'
-import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import NavMobile from './NavMobile.vue'
-import { getFictionAuthUrl, getFictionNavItems } from './navUtils'
+import { getFictionNavItems } from './navUtils'
 
 defineOptions({ name: 'UserMenu' })
 

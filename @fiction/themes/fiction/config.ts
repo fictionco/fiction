@@ -294,7 +294,7 @@ export async function getConfig(args: {
               },
               nav: {
                 primary: [
-                  { label: 'Why Fiction', href: '/why-professional-avatar' },
+                  { label: 'Why Fiction', href: '/tour' },
                   { label: 'Pricing', href: '/pricing' },
                 ],
                 utility: [

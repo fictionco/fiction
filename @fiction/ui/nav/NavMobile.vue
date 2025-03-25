@@ -2,7 +2,6 @@
 import type { NavListItem } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import XIcon from '@fiction/ui/media/XIcon.vue'
 import ElAvatar from '../common/ElAvatar.vue'
 import NavMobileItem from './NavMobileItem.vue'
 import NavMobilePanel from './NavMobilePanel.vue'

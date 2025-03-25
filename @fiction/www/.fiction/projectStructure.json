@@ -446,79 +446,83 @@
       },
       "notes.md": null,
       "package.json": null,
-      "page-404": {
-        "El404.vue": null,
-        "index.ts": null
-      },
-      "page-area": {
-        "ElArea.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
+      "page": {
+        "area": {
+          "ElArea.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
         },
-        "index.ts": null
-      },
-      "page-footer-personal": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
+        "error404": {
+          "El404.vue": null,
+          "index.ts": null
         },
-        "index.ts": null
-      },
-      "page-footer-pro": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
+        "footer-personal": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
         },
-        "index.ts": null
-      },
-      "page-nav": {
-        "ElCard.vue": null,
-        "XNav.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
+        "footer-pro": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
         },
-        "index.ts": null
-      },
-      "page-transaction": {
-        "CardWrapTransaction.vue": null,
-        "TransactionView.vue": null,
-        "TransactionWrap.vue": null,
-        "index.ts": null
-      },
-      "page-wrap": {
-        "CardWrap.vue": null,
-        "index.ts": null
-      },
-      "posts-list": {
-        "ElCard.vue": null,
-        "PostCard.vue": null,
-        "PostCardContent.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
+        "nav": {
+          "ElCard.vue": null,
+          "XNav.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
         },
-        "index.ts": null
-      },
-      "posts-magazine": {
-        "ElAuthor.vue": null,
-        "ElMagazine.vue": null,
-        "ElMagazineIndex.vue": null,
-        "ElMagazineSingle.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
+        "transaction": {
+          "CardWrapTransaction.vue": null,
+          "TransactionView.vue": null,
+          "TransactionWrap.vue": null,
+          "index.ts": null
         },
-        "index.ts": null
+        "wrap": {
+          "CardWrap.vue": null,
+          "index.ts": null
+        }
+      },
+      "posts": {
+        "list": {
+          "ElCard.vue": null,
+          "PostCard.vue": null,
+          "PostCardContent.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        },
+        "magazine": {
+          "ElAuthor.vue": null,
+          "ElMagazine.vue": null,
+          "ElMagazineIndex.vue": null,
+          "ElMagazineSingle.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        }
       },
       "proof-logos": {
         "ElLogos.vue": null,
@@ -1196,14 +1200,6 @@
           "utils.ts": null
         },
         "utils.ts": null
-      },
-      "plugin-unsplash": {
-        "endpoint.ts": null,
-        "index.ts": null,
-        "package.json": null,
-        "test": {
-          "unsplash.unit.test.ts": null
-        }
       }
     },
     "posts": {
@@ -1500,8 +1496,10 @@
         "home": {
           "img": {
             "andrew.jpg": null,
+            "brian.jpg": null,
             "dean2.jpg": null,
             "mercedes-bazan.webp": null,
+            "morgan.jpg": null,
             "obama.webp": null,
             "rogan.jpg": null,
             "selena.jpg": null
@@ -1528,6 +1526,8 @@
             "img": {
               "FigurePhone.vue": null,
               "ReviewRequestSms.vue": null,
+              "ai.png": null,
+              "audience.png": null,
               "fig-contact-screen.svg": null,
               "fig-email-alt-1.svg": null,
               "fig-email-screen.svg": null,
@@ -1537,13 +1537,16 @@
               "fig-subscribe-screen.svg": null,
               "fig-website-alt-1.svg": null,
               "fig-website-screen.svg": null,
+              "man-smiling.png": null,
+              "meeting.png": null,
               "person-brene.webp": null,
               "person-ferris.webp": null,
               "person-simon.jpg": null,
               "site1.jpg": null,
               "site2.webp": null,
               "site3.jpg": null,
-              "site4.mp4": null
+              "site4.mp4": null,
+              "website.svg": null
             },
             "index.ts": null
           }
@@ -1599,8 +1602,6 @@
       "ElStepNav.vue": null,
       "ElZeroBanner.vue": null,
       "ElZeroState.vue": null,
-      "NavMobile.vue": null,
-      "NavMobileItem.vue": null,
       "ThemeWrap.vue": null,
       "ValidityInput.vue": null,
       "anim": {
@@ -1786,6 +1787,13 @@
         "ElModalConfirm.vue": null,
         "SuccessModal.vue": null
       },
+      "nav": {
+        "NavMobile.vue": null,
+        "NavMobileItem.vue": null,
+        "NavMobilePanel.vue": null,
+        "UserMenu.vue": null,
+        "navUtils.ts": null
+      },
       "notify": {
         "NotifyToaster.vue": null
       },
@@ -1931,6 +1939,7 @@
     "team.md": null
   },
   "eslint.config.js": null,
+  "fiction.png": null,
   "fly": {
     "Dockerfile": null,
     "andrewpowers.www.toml": null,

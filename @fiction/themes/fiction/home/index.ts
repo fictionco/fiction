@@ -34,7 +34,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                 icon: { class: 'i-tabler-rocket' }, // Swapped for something dynamic and bold
               },
               title: `Create Your Ideal [@text_effect type=squiggle]Digital Self[/@text_effect].`,
-    subTitle: `Turn your story into opportunity with Fiction's AI-powered personal branding and professional networking platform.`, // Swapped for something dynamic and bold
+              subTitle: `Turn your story into opportunity with Fiction's AI-powered personal branding and professional networking platform.`, // Swapped for something dynamic and bold
 
               action: {
                 buttons: [
@@ -98,7 +98,6 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   subTitle: 'Coach',
                   media: stock.getAssetBySlug('abgcuk'),
                 },
-
 
                 {
                   title: 'Sarah Bands',

@@ -2,7 +2,6 @@ import type { template as heroTemplate } from '@fiction/cards/content-hero'
 import type { template as tourTemplate } from '@fiction/cards/content-tour/index.js'
 import type { template as areaTemplate } from '@fiction/cards/page/area/index.js'
 
-import type { template as templateMetrics } from '@fiction/cards/proof-metrics/index.js'
 import type { template as templateQuotes } from '@fiction/cards/proof-quotes/index.js'
 
 import type { CardFactory } from '@fiction/site/cardFactory'
@@ -13,7 +12,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
   return factory.fromTemplate({
     regionId: 'main',
     templateId: 'cardPageWrapV1',
-    slug: 'why-professional-avatar',
+    slug: 'tour',
     title: 'Why Fiction',
     cards: [
       await factory.fromTemplate<typeof areaTemplate>({
@@ -29,7 +28,6 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
               },
               title: `Establish and Build Your [@text_effect type=squiggle]Reputation[/@text_effect]`,
               subTitle: `Your professional avatar is your web presence, your reputation, and your personal brand. Fiction makes it easy to build and grow.`,
-
 
               action: {
                 buttons: [

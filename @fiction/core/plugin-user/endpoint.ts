@@ -10,7 +10,7 @@ import { Query } from '../query.js'
 import { standardTable as t } from '../tbl.js'
 import { getGeoFree } from '../utils/geo.js'
 import { abort, dayjs, getRequestIpAddress } from '../utils/index.js'
-import { checkPasswordIsComplicated, comparePassword, defaultOrgName, emailExists, generateSecurePassword, getCode, hashPassword, validateNewEmail, verifyCode } from './utils/index.js'
+import { checkPasswordIsComplicated, comparePassword, defaultOrgName, emailExists, getCode, hashPassword, validateNewEmail, verifyCode } from './utils/index.js'
 
 export type UserQuerySettings = {
   fictionUser: FictionUser
