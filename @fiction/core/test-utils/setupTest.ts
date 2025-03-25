@@ -6,7 +6,7 @@ process.env.IS_TEST = '1'
 process.env.TEST_ENV = 'unit'
 
 const LOG_INTERVAL = 5 * 60 * 1000 // 5 minutes in milliseconds
-const MAX_TEST_DURATION = 60 * 60 * 1000 // 1 hour max duration
+const MAX_TEST_DURATION = 60 * 5 * 1000 // 1 hour max duration
 
 beforeAll(async () => {
   process.env.TEST_RUN = '1'

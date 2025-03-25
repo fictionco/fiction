@@ -66,7 +66,7 @@ const layout = vue.computed(() => {
         <CardText
           tag="h1"
           :card
-          class="x-font-title font-semibold md:text-balance text-3xl md:text-4xl lg:text-5xl !leading-[1.1]"
+          class="x-font-title font-semibold md:text-balance text-3xl leading-[1.4] md:text-4xl md:leading-[1.2] lg:text-5xl lg:leading-[1.1]"
           :path="pathCheck('title', schema)"
           placeholder="Title"
           animate="fade"
