@@ -6,7 +6,7 @@ import type { EndpointMeta } from '../utils/index.js'
 
 import type { EmailSendConfig } from './util'
 import { renderSSRHead } from '@unhead/ssr'
-import { createHead } from '@unhead/vue'
+import { createHead as createHeadSSR } from '@unhead/vue/server'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { FictionPlugin } from '../plugin.js'
 import { isTest, safeDirname, vue } from '../utils/index.js'
@@ -100,7 +100,7 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
 
     const app: vue.App = vue.createSSRApp(EmailV2, emailConfig)
 
-    const meta = createHead()
+    const meta = createHeadSSR()
     app.use(meta)
 
     const htmlBody = await renderToString(app)

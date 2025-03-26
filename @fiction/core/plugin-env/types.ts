@@ -1,4 +1,3 @@
-import type { MergeHead } from '@unhead/schema'
 import type { VueHeadClient } from '@unhead/vue'
 import type { Router } from 'vue-router'
 import type { RunVars } from '../inject.js'
@@ -14,7 +13,7 @@ export type ResetUiTrigger = 'escape' | 'routeChange' | 'windowClick' | 'manualR
 export interface FictionAppEntry<T extends ServiceList = ServiceList> {
   app: vue.App
   router: Router
-  meta: VueHeadClient<MergeHead>
+  meta: VueHeadClient
   service: T
 }
 

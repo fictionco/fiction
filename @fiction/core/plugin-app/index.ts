@@ -8,7 +8,8 @@ import type { FictionBuild } from '../plugin-build'
 import type { FictionAppEntry, FictionEnv, ServiceConfig, ServiceList } from '../plugin-env'
 import type { FictionRouter } from '../plugin-router/index.js'
 import path from 'node:path'
-import { createHead } from '@unhead/vue'
+import { createHead as createHeadBrowser } from '@unhead/vue/client'
+import { createHead as createHeadSSR } from '@unhead/vue/server'
 import { FictionPlugin } from '../plugin'
 import { EnvVar, vars } from '../plugin-env'
 import { AppRoute } from '../plugin-router/index.js'
@@ -174,7 +175,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     app.use(router)
 
     await router.isReady()
-    const meta = createHead()
+    const meta = isSSR ? createHeadSSR() : createHeadBrowser()
     app.use(meta)
     return { app, router, meta, service }
   }

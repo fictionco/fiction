@@ -16,8 +16,8 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
     title: 'Home',
     userConfig: {
       site: {
-        title: 'Create Your Professional Avatar and Personal Brand',
-        description: 'Transform your expertise into influence using Fiction\'s AI-powered personal branding platform. Create authentic content, grow your audience, and build authority - all guided by intelligent automation.',
+        title: 'Create Your Ideal Digital Self',
+        description: 'Create a personal brand that displays your ideal digital self. Build an AI-enhanced personal brand and professional network with Fiction.',
       },
     },
     cards: [

@@ -70,7 +70,7 @@
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@fiction/www": "workspace:*",
-    "@google-cloud/vision": "^4.3.3",
+    "@google-cloud/vision": "^5.1.0",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vitest/browser": "^3.0.9",
     "axios": "^1.8.4",
