@@ -22,14 +22,14 @@ export function postLink(args: { card?: Card, slug?: string, viewSlug?: string }
   return card.link(`${routeBasePath}/${slug}`)
 }
 
-export function taxonomyLink(args: { card: Card, taxonomy: 'tag' | 'category', term?: string }): string {
-  const { card, taxonomy, term } = args
+export function taxonomyLink(args: { taxonomy: 'tag' | 'category', term?: string }): string {
+  const { taxonomy, term } = args
 
+  const basePath = `/${taxonomy}`
   if (!term) {
-    return card.link(`/:viewId`)
+    return basePath
   }
-
-  return card.link(`/:viewId?${taxonomy}=${term}`)
+  return `${basePath}/${term}`
 }
 
 export function allPostsLink(args: { card: Card }): string {

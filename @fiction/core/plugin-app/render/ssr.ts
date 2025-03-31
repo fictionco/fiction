@@ -103,9 +103,11 @@ export class SSR extends FictionObject<SSRSettings> {
     if (!appEntry)
       throw new Error('SSR Error: rendering failed')
 
-    const { app, meta, service } = appEntry
+    const { app, meta } = appEntry
 
-    const ctx: { modules?: string[], initialState?: Record<string, any> } = {}
+    const ctx: { modules?: string[], initialState?: Record<string, any> } = {
+      initialState: {},
+    }
     /**
      * Pass context for rendering (available useSSRContext())
      * vitejs/plugin-vue injects code in component setup() that registers the component
@@ -126,7 +128,7 @@ export class SSR extends FictionObject<SSRSettings> {
     const head = await renderSSRHead(meta)
     out = { ...out, ...head }
 
-    service.fictionEnv?.cleanup({ reason: 'ssr' })
+    // service.fictionEnv?.cleanup({ reason: 'ssr' })
 
     if (mode === 'prod')
       this.cache.set(cacheKey, out)

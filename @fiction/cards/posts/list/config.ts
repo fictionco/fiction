@@ -1,8 +1,8 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { SiteUserConfig } from '@fiction/site/schema'
 import { PostHandlingSchema, SizeSchema } from '@fiction/core'
-import { getDemoPosts } from '@fiction/posts/utils/post'
 import { createOption } from '@fiction/ui'
+import { getDemoPosts } from '@fiction/ui/posts/index'
 import z from 'zod'
 
 export const displaySchema = z.object({
@@ -183,7 +183,7 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
   const { templateId, factory } = args
   const stock = await factory.getStockMedia()
 
-  const demoPosts = await getDemoPosts({ stock })
+  const demoPosts = await getDemoPosts()
 
   // Default configuration focused on instruction
   const userConfig: UserConfig = {

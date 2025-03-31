@@ -7,9 +7,9 @@ import { postLink } from '.'
 import { managePost } from './utils'
 
 export type PostConfig = {
-  fictionPosts: FictionPosts
+  fictionPosts?: FictionPosts
   card?: Card
-  sourceMode: 'local' | 'standard'
+  sourceMode?: 'local' | 'standard'
   noAutoSave?: boolean
   localSourcePath?: string
   viewSlug?: string
@@ -42,6 +42,7 @@ export class Post extends FictionObject<PostConfig> {
 
   hasChanges = vue.ref(this.settings.hasChanges || false)
   publishAt = vue.ref(this.settings.publishAt)
+  updatedAt = vue.ref(this.settings.updatedAt)
   publishMode = vue.ref(this.settings.publishMode || 'now')
   wordCount = vue.ref(this.settings.wordCount || 0)
   scheduleMode = vue.ref<'now' | 'schedule'>('now')
@@ -77,6 +78,7 @@ export class Post extends FictionObject<PostConfig> {
       'excerpt',
       'dateAt',
       'publishAt',
+      'updatedAt',
       'publishMode',
       'hasChanges',
       'status',
@@ -109,6 +111,10 @@ export class Post extends FictionObject<PostConfig> {
   async save(args: { isAutosave?: boolean, caller: string }) {
     const { isAutosave, caller = 'unknown caller' } = args
 
+    if (!this.settings.fictionPosts) {
+      throw new Error('No fictionPosts instance found')
+    }
+
     this.saveUtil.clear()
 
     const fields = this.toConfig()
@@ -122,7 +128,13 @@ export class Post extends FictionObject<PostConfig> {
   }
 
   async delete() {
-    this.log.info('Deleting post')
+    if (!this.settings.fictionPosts) {
+      throw new Error('No fictionPosts instance found')
+    }
+    else {
+      this.log.info('Deleting post')
+    }
+
     await managePost({ fictionPosts: this.settings.fictionPosts, params: { _action: 'delete', where: { postId: this.postId } }, caller: 'deletePost' })
     this.settings.fictionPosts.cacheKey.value++
   }
@@ -149,6 +161,7 @@ export class Post extends FictionObject<PostConfig> {
       dateAt: this.dateAt.value,
       hasChanges: this.hasChanges.value,
       publishAt: this.publishAt.value,
+      updatedAt: this.updatedAt.value,
       publishMode: this.publishMode.value,
       status: this.status.value,
       emailStatus: this.emailStatus.value,

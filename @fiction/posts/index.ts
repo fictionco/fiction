@@ -2,13 +2,11 @@ import type { FictionAdmin } from '@fiction/admin'
 
 import type { template as dashTemplate, panelTemplate } from '@fiction/admin/dashboard/cardDash'
 import type { FictionAnalytics } from '@fiction/analytics'
-import type { ComplexDataFilter, FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, FictionRevision, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
+import type { FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, FictionRevision, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionContact } from '@fiction/plugin-contact'
-import type { Card, FictionSites } from '@fiction/site'
-import type { WherePost } from './endpoint'
+import type { FictionSites } from '@fiction/site'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { QueryManagePost } from './endpoint'
-import { Post } from './post'
 import { FictionPublish } from './publish'
 import { getRoutes } from './routes'
 import { tables } from './schema'
@@ -146,33 +144,5 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
         ],
       }),
     ] })
-  }
-
-  async getPost(args: { orgId: string, where: WherePost, card: Card }) {
-    const { orgId, where, card } = args
-
-    const r = await this.requests.ManagePost.request({ _action: 'get', orgId, where: { orgId, ...where } })
-
-    const postConfig = r.data?.[0]
-
-    return r.data ? new Post({ card, fictionPosts: this, sourceMode: 'standard', ...postConfig }) : undefined
-  }
-
-  async getPostIndex(args: {
-    orgId: string
-    limit?: number
-    offset?: number
-    filters?: ComplexDataFilter[]
-    card: Card
-    viewSlug?: string
-    caller: string
-  }) {
-    const { orgId, limit = 20, offset, card, caller = 'unknown', viewSlug, filters = [] } = args
-
-    const r = await this.requests.ManagePost.request({ _action: 'list', where: { orgId }, limit, offset, filters }, { caller: `getPostIndex-${caller}` })
-
-    const posts = r.data?.length ? r.data.map(p => new Post({ card, fictionPosts: this, sourceMode: 'standard', viewSlug, ...p })) : []
-
-    return { posts, indexMeta: r.indexMeta }
   }
 }

@@ -3,7 +3,7 @@ import type { FictionSites } from '@fiction/site'
 import type { CardTemplate } from '@fiction/site/card'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { Site } from '@fiction/site/site.js'
-import { def, envConfig, FictionPlugin, log, safeDirname, toKebab, toLabel } from '@fiction/core'
+import { envConfig, FictionPlugin, log, safeDirname, toKebab, toLabel, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card'
 import { generateCardStructure } from './utils/generateStructure'
 
@@ -176,19 +176,28 @@ const uiDemoTemplates = [
     icon: 'i-tabler-photo-hexagon',
     component: () => import('@fiction/ui/test/TestMediaHandling.vue'),
   },
+  {
+    templateId: 'xpost',
+    title: 'Post Component',
+    description: 'Post handling',
+    icon: 'i-tabler-photo-hexagon',
+    component: () => import('@fiction/ui/posts/PostIndexDemo.vue'),
+  },
 ]
 
 function getUiDemoCardTemplates() {
   const uiDemoTemplatesList = uiDemoTemplates.map((t) => {
+    const el = vue.defineAsyncComponent(t.component)
+
     return cardTemplate({
       ...t,
       category: ['advanced'],
-      el: def(t.component),
+      el,
       isPublic: true,
       getConfig: async (args) => {
         const demoCard = await args.factory.fromTemplate({
           templateId: args.templateId,
-          el: def(t.component),
+          el,
         })
         return {
           demoPage: {

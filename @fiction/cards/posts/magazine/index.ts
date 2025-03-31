@@ -22,11 +22,11 @@ export const template = cardTemplate({
     const { getConfig } = await import('./config')
     return getConfig({ ...args, templateId })
   },
-  getContentPaths: async ({ site, card, viewPath }) => {
+  getContentPaths: async ({ site, card }) => {
     const posts = card.userConfig.value.posts
     if (!posts)
       return []
-    return getPostPaths({ site, card, viewPath, posts })
+    return getPostPaths({ site, card, posts })
   },
   screenshot: {
     light: new URL('img/screen-light.svg', import.meta.url).href,

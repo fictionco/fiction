@@ -15,6 +15,7 @@ export type MediaItem = {
   url: string
   tags: Tag[]
   slug: string
+  alt?: string
 }
 
 type MediaCollection = MediaItem[]
@@ -83,7 +84,7 @@ export class StockMedia {
     }
 
     this.markAsUsed(selectedItem)
-    return selectedItem
+    return { alt: 'Example Image', ...selectedItem }
   }
 
   getAllMedia(args: GetMediaArgs = {}): MediaItem[] {

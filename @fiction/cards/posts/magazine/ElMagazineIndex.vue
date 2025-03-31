@@ -76,7 +76,7 @@ function changePage(newPage: number) {
                 rounding="full"
                 size="xs"
                 :text="cat"
-                :href="taxonomyLink({ card, taxonomy: 'category', term: cat })"
+                :href="taxonomyLink({ taxonomy: 'category', term: cat })"
               />
             </div>
             <CardTextPost :data-post-title="post.title.value" :post path="title" tag="h2" class="text-2xl md:text-3xl font-medium x-font-title text-balance max-w-[80%]" />
@@ -101,7 +101,7 @@ function changePage(newPage: number) {
               :card
               :text="cat"
               size="xs"
-              :href="taxonomyLink({ card, taxonomy: 'category', term: cat })"
+              :href="taxonomyLink({ taxonomy: 'category', term: cat })"
               rounding="full"
             />
           </div>

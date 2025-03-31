@@ -168,7 +168,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     fictionEnv.service.value = { ...fictionEnv.service.value, ...service, runVars }
     app.provide('service', fictionEnv.service)
 
-    // initial state in browser only, passed via #fictionInitialState
+    // initial state in browser only, passed via #__INITIAL_STATE__
     fictionEnv.initialState.value = { ...fictionEnv.initialState.value, ...initialState }
     app.provide('initialState', initialState)
 
@@ -192,7 +192,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
 
     const runVars = serviceConfig?.runVars || {}
     const service = serviceConfig?.service || {}
-    const initialState = serviceConfig?.initialState || {}
+    const initialState = serviceConfig?.__INITIAL_STATE__ || {}
 
     const { fictionEnv, fictionRouter } = this.settings
     if (serviceConfig)

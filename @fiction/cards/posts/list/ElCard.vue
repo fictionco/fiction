@@ -97,20 +97,16 @@ async function fetchPosts() {
     return
 
   loading.value = true
+  const site = card.site
   try {
     const result = await loadPosts({
       fictionPosts,
-      card,
-      postConfig: uc.value.posts || {},
-      routeSlug: routeSlug.value,
+      site,
       indexMeta: { ...indexMeta.value, limit: uc.value.posts?.limit },
-      viewSlug: uc.value.posts?.viewSlug,
     })
 
     posts.value = result.posts
     indexMeta.value = result.indexMeta
-    singlePost.value = result.singlePost
-    nextPost.value = result.nextPost
   }
   catch (error) {
     console.error('Error loading posts:', error)

@@ -102,6 +102,11 @@ export const SiteUserConfigSchema = z.object({
     prefersColorScheme: z.enum(prefersColorScheme).optional(),
     primaryColor: ColorThemeSchema.optional(),
     themeColor: ColorThemeSchema.optional(),
+    views: z.object({
+      postSingle: z.string().optional(),
+      postIndex: z.string().optional(),
+    }).optional(),
+
   }).optional(),
   standard: CardStandardSchema.optional(),
 })

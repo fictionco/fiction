@@ -14,21 +14,16 @@ import CardButton from '../../CardButton.vue'
 import CardTextPost from '../../CardTextPost.vue'
 import ElAuthor from './ElAuthor.vue'
 
-const { card, loading = false, post, nextPost } = defineProps<{
+const { card, loading = false, post, relatedPosts = [] } = defineProps<{
   card: Card<UserConfig>
   loading?: boolean
   post?: Post
-  nextPost?: Post
+  relatedPosts?: Post[]
 }>()
 
 const uc = vue.computed(() => card.userConfig.value)
 
 const service = useService<{ fictionPosts: FictionPosts }>()
-
-const userIsAuthor = vue.computed(() => {
-  const userId = service.fictionUser.activeUser.value?.userId
-  return post?.settings.authors?.some(a => userId && a.userId === userId)
-})
 
 const imageAspect = vue.computed(() => {
   const img = post?.media.value
@@ -114,30 +109,33 @@ unhead.useHead({
               size="xs"
               :card
               :text="tag"
-              :href="taxonomyLink({ card, taxonomy: 'tag', term: tag })"
+              :href="taxonomyLink({ taxonomy: 'tag', term: tag })"
             />
           </div>
         </div>
 
-        <CardLink
-          v-if="nextPost"
-          :card
-          :href="postLink({ card, slug: nextPost.slug.value })"
-          class="mt-16 next-post flex flex-col md:flex-row gap-4 md:gap-8 md:items-center justify-center   rounded-xl bg-theme-50 dark:bg-theme-700/50 hover:bg-theme-100 hover:dark:bg-theme-700 p-6 lg:p-12"
-        >
-          <div>
-            <XMedia :media="nextPost.media.value" class="size-16 rounded-full overflow-hidden" />
-          </div>
-
-          <div class="space-y-2">
-            <div v-if="nextPost" class="font-sans text-sm font-medium text-primary-500 dark:text-primary-400">
-              Next Post
+        <template v-if="relatedPosts?.length">
+          <CardLink
+            v-for="(nextPost, i) in relatedPosts"
+            :key="i"
+            :card
+            :href="postLink({ card, slug: nextPost.slug.value })"
+            class="mt-16 next-post flex flex-col md:flex-row gap-4 md:gap-8 md:items-center justify-center   rounded-xl bg-theme-50 dark:bg-theme-700/50 hover:bg-theme-100 hover:dark:bg-theme-700 p-6 lg:p-12"
+          >
+            <div>
+              <XMedia :media="nextPost.media.value" class="size-16 rounded-full overflow-hidden" />
             </div>
-            <h1 class="text-2xl font-bold x-font-title text-balance">
-              {{ nextPost.title.value }}
-            </h1>
-          </div>
-        </CardLink>
+
+            <div class="space-y-2">
+              <div v-if="nextPost" class="font-sans text-sm font-medium text-primary-500 dark:text-primary-400">
+                Next Post
+              </div>
+              <h1 class="text-2xl font-bold x-font-title text-balance">
+                {{ nextPost.title.value }}
+              </h1>
+            </div>
+          </CardLink>
+        </template>
       </div>
     </article>
     <El404 v-else title="Post Not Found" :buttons="[{ label: 'All Posts', href: card.link('/:viewId') }]" />

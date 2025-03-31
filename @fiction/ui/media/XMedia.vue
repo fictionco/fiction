@@ -305,6 +305,7 @@ async function videoHover(args: { mode: 'enter' | 'leave' }) {
           shouldHandleHover ? 'hover:opacity-90' : '',
         ]"
         :src="validMediaUrl"
+        :aria-label="media?.alt"
         :style="filterStyle"
         v-bind="videoAttrs"
         @mouseenter="videoHover({ mode: 'enter' })"
@@ -317,6 +318,7 @@ async function videoHover(args: { mode: 'enter' | 'leave' }) {
         :class="[imageClass, imageModeClass, classes.media]"
         :src="validMediaUrl"
         :style="filterStyle"
+        :alt="media?.alt"
       >
       <iframe
         v-else-if="mediaFormat === 'iframe'"

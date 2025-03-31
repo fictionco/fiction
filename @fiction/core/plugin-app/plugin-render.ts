@@ -210,6 +210,15 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     return viteConfig
   }
 
+  renderInitialState(state: Record<string, any>) {
+    if (!state || Object.keys(state).length === 0)
+      return ''
+
+    return `<script id="__INITIAL_STATE__" type="application/json">${
+      JSON.stringify(state).replace(/</g, '\\u003c')
+    }</script>`
+  }
+
   serverRenderHtml = async (params: types.RenderConfig): Promise<string> => {
     const { template, runVars = {}, ssr } = params
 
@@ -229,7 +238,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     const debuggingInfo = `<!--${JSON.stringify({ renderedPathname: pathname, mode })}-->`
 
-    const initialStateElement = `<script id="fictionInitialState" type="application/json">${JSON.stringify(initialState)}</script>`
+    const initialStateElement = this.renderInitialState(initialState)
 
     const bodyCloseTags = [bodyTags, debuggingInfo, initialStateElement].join(`\n`)
 

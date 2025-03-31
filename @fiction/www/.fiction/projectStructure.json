@@ -521,7 +521,8 @@
             "screen-dark.svg": null,
             "screen-light.svg": null
           },
-          "index.ts": null
+          "index.ts": null,
+          "ssrUtil.ts": null
         }
       },
       "proof-logos": {
@@ -1800,6 +1801,12 @@
       "package.json": null,
       "page": {
         "El404.vue": null
+      },
+      "posts": {
+        "PostIndex.vue": null,
+        "PostIndexDemo.vue": null,
+        "PostItem.vue": null,
+        "index.ts": null
       },
       "prose": {
         "XEntry.vue": null,

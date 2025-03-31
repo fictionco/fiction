@@ -24,9 +24,9 @@ function setupGlobalRunVars<T extends keyof RunVars = keyof RunVars>() {
 
     const runVarsJSON = document.querySelector('#fictionRun')?.textContent
     const runVarsParsed = runVarsJSON ? JSON.parse(runVarsJSON) as Record<string, RunVars[T]> : {}
-
-    const initialStateJSON = document.querySelector('#fictionInitialState')?.textContent
-    window.initialState = initialStateJSON ? JSON.parse(initialStateJSON) : {}
+    const stateElement = document.getElementById('__INITIAL_STATE__')
+    const initialStateJSON = stateElement?.textContent
+    window.__INITIAL_STATE__ = initialStateJSON ? JSON.parse(initialStateJSON) : {}
 
     Object.entries(runVarsParsed).forEach(([key, value]) => {
       window.process.env[key] = typeof value === 'string' ? value : 'not_string'
@@ -53,7 +53,7 @@ async function getServiceConfig(args: { runVars: Partial<RunVars>, initialState?
 
   await compileApplication({ context: 'app', serviceConfig, runVars })
   serviceConfig.runVars = runVars
-  serviceConfig.initialState = initialState
+  serviceConfig.__INITIAL_STATE__ = initialState
 
   return serviceConfig
 }
@@ -83,7 +83,7 @@ async function runAppEntry(args: {
 
 async function runEntryBrowser() {
   const runVars = window.fictionRunVars || {}
-  const initialState = window.initialState || {}
+  const initialState = window.__INITIAL_STATE__ || {}
   const serviceConfig = await getServiceConfig({ runVars, initialState })
   runAppEntry({ serviceConfig }).catch(e => console.error('Error running app entry:', e))
 }

@@ -5,6 +5,45 @@ import { log, vue } from '@fiction/core'
 import { Card } from '../card.js'
 
 const logger = log.contextLogger('sitePageUtils')
+
+export function ensureStandardPages(args: { site: Site, pages: Card[] }): Card[] {
+  const { site, pages } = args
+  const templateId = site?.theme.value?.templateDefaults.value.page || 'cardPageWrapV1'
+  const standardPages: Card[] = []
+
+  // Check if we already have the standard pages
+  const hasSinglePage = pages.some(p => p.slug.value === '_p')
+  const hasArchivePage = pages.some(p => p.slug.value === '_archive')
+
+  // Add single post page if missing
+  if (!hasSinglePage) {
+    standardPages.push(new Card({
+      site,
+      regionId: 'main',
+      templateId,
+      slug: '_p',
+      title: 'Post Single',
+      isSystem: true,
+      cards: [{ templateId: 'cardPostsMagazineV1', userConfig: { isSingle: true } }],
+    }))
+  }
+
+  // Add archive page if missing
+  if (!hasArchivePage) {
+    standardPages.push(new Card({
+      site,
+      regionId: 'main',
+      templateId,
+      slug: '_archive',
+      title: 'Post Archive',
+      isSystem: true,
+      cards: [{ templateId: 'cardPostsMagazineV1', userConfig: { isArchive: true } }],
+    }))
+  }
+
+  return [...pages, ...standardPages]
+}
+
 export async function setPages(args: { pages?: CardConfigPortable[], site?: Site }) {
   const { pages = [], site } = args
   const fictionEnv = site?.fictionSites.settings.fictionEnv
@@ -31,33 +70,32 @@ export function updatePages(args: { site: Site, pages: (CardConfigPortable | und
   })
 }
 
+// Enhance getViewMap to handle dynamic routes
 export function getViewMap(args: { pages: Card[] }) {
   const { pages } = args
   const cardMap: Record<string, string> = {}
 
   pages.forEach((card) => {
-    // Use the provided slug or generate one from the title.
     const slug = card.slug.value
-
     if (!slug)
       return
 
-    cardMap[slug] = card.cardId // Map the slug or title-slug to cardId
+    cardMap[slug] = card.cardId
 
-    // Check for isHome and is404 directly on the card.
     if (card.isHome.value)
       cardMap._home = card.cardId
-
     if (card.is404.value)
       cardMap._404 = card.cardId
-
-    // use simple underscore for itemId on home page /_/:itemId
-    cardMap._ = cardMap._home
   })
 
-  // Ensure we have a 404 page
+  // Set up dynamic routes for posts
+  const singleCard = pages.find(p => p.slug.value === '_p')
+  if (singleCard) {
+    cardMap.p = singleCard.cardId
+  }
+
+  // Ensure 404 page exists
   if (!cardMap._404) {
-    // Find first 404 page or create fallback ID
     const fallback404 = pages.find(p => p.is404.value)?.cardId || '_special404'
     cardMap._404 = fallback404
   }

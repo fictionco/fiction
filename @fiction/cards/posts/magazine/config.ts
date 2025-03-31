@@ -2,8 +2,8 @@ import type { CardFactory } from '@fiction/site/cardFactory'
 import type { SiteUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
 import { PostHandlingSchema } from '@fiction/core'
-import { getDemoPosts } from '@fiction/posts/utils/post'
 import { createOption } from '@fiction/ui'
+import { getDemoPosts } from '@fiction/ui/posts/index'
 import { z } from 'zod'
 
 // Schema definition
@@ -86,13 +86,14 @@ const options = [
 
 ]
 
-export function getDefaultUserConfig(args: { stock: StockMedia }): UserConfig {
+export async function getDefaultUserConfig(args: { stock: StockMedia }): Promise<UserConfig> {
   const { stock } = args
+  const entries = await getDemoPosts({ stock, limit: 12 })
   return {
     posts: {
       format: 'standard',
       limit: 12,
-      entries: getDemoPosts({ stock, limit: 3 }),
+      entries,
     },
   }
 }
@@ -101,7 +102,7 @@ export function getDefaultUserConfig(args: { stock: StockMedia }): UserConfig {
 export async function getDemoUserConfig(args: { factory: CardFactory, stock: StockMedia }): Promise<UserConfig> {
   const { stock } = args
 
-  const demoPosts = await getDemoPosts({ stock })
+  const demoPosts = await getDemoPosts()
 
   return {
     index: {
@@ -121,8 +122,10 @@ export async function getDemoUserConfig(args: { factory: CardFactory, stock: Sto
 }
 
 // Demo card configurations
-export function getDemoCards(args: { templateId: string, demoUserConfig: UserConfig, stock: StockMedia }): { templateId: string, userConfig: UserConfig }[] {
-  const { templateId, demoUserConfig, stock } = args
+export async function getDemoCards(args: { templateId: string, demoUserConfig: UserConfig, stock: StockMedia }): Promise<{ templateId: string, userConfig: UserConfig }[]> {
+  const { templateId, demoUserConfig } = args
+
+  const entries = await getDemoPosts({ limit: 1 })
 
   return [
     {
@@ -181,7 +184,7 @@ export function getDemoCards(args: { templateId: string, demoUserConfig: UserCon
         ...demoUserConfig,
         posts: {
           ...demoUserConfig.posts,
-          entries: getDemoPosts({ stock, limit: 1 }),
+          entries,
         },
       },
     },
@@ -197,9 +200,9 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
   return {
     options,
     schema,
-    userConfig: getDefaultUserConfig({ ...args, stock }),
+    userConfig: await getDefaultUserConfig({ ...args, stock }),
     demoPage: {
-      cards: getDemoCards({ templateId, demoUserConfig, stock }),
+      cards: await getDemoCards({ templateId, demoUserConfig, stock }),
     },
   }
 }
