@@ -80,7 +80,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     const { fictionAdmin } = this.settings
     const w = Object.values(this.widgets)
     fictionAdmin.widgetRegister.value.push(...w)
-    fictionAdmin.addToWidgetArea('homeSecondary', w.map(widget => ({ key: widget.key })))
+    fictionAdmin.addToWidgetArea('homeMain', w.map(widget => ({ key: widget.key })))
 
     fictionAdmin.addAdminPages({ key: 'posts', loader: async ({ factory }) => [
 

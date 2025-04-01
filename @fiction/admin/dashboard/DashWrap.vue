@@ -165,7 +165,7 @@ vue.onMounted(async () => {
             class="work-area relative block min-h-0 w-full overflow-hidden md:flex md:h-full md:overflow-visible"
           >
             <div
-              class="md:static md:flex h-dvh w-[60%] md:w-[calc(12rem+4vw)] shrink-0 md:opacity-100 will-change-auto transition-all  duration-300 bg-theme-0 dark:bg-theme-900 border-theme-300/50 dark:border-theme-700 fixed top-0 z-30 justify-end border-r"
+              class="md:static md:flex h-dvh w-[60%] md:w-[calc(12rem+3vw)] shrink-0 md:opacity-100 will-change-auto transition-all  duration-300 bg-theme-0 dark:bg-theme-900 border-theme-300/50 dark:border-theme-700 fixed top-0 z-30 justify-end border-r"
               :class="showMobileNav ? 'left-0 opacity-100' : '-left-full opacity-0'"
             >
               <DashNav :icon="card.userConfig.value.homeIcon" :nav="primaryNav" :nav-bottom="bottomNav" :card />
@@ -180,7 +180,7 @@ vue.onMounted(async () => {
             >
               <DashBar
                 v-model:show-mobile-nav="showMobileNav"
-                class="border-theme-300/70 dark:border-theme-700 border-b"
+                class="border-theme-300/70 dark:border-theme-700 border-b md:hidden"
                 :account-menu="accountMenu"
                 :customer="fictionStripe?.activeCustomer.value"
                 :card

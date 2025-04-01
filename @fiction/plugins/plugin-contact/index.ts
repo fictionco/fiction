@@ -65,7 +65,6 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
 
     fictionAdmin.widgetRegister.value.push(...Object.values(this.widgets))
 
-    fictionAdmin.addToWidgetArea('homeSecondary', [])
     fictionAdmin.addToWidgetArea('subscriberIndex', [{ key: 'subscribers' }, { key: 'unsubscribes' }, { key: 'cleaned' }])
 
     fictionAdmin.addAdminPages({
@@ -83,8 +82,8 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
         await factory.fromTemplate<typeof dashTemplate>({
           templateId: 'dash',
           slug: 'audience',
-          title: 'Contacts',
-          description: 'Manage your contacts and audience',
+          title: 'Audience',
+          description: 'Your subscribers, followers, and contacts',
           userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus', priority: 50 },
           cards: [
             await factory.fromTemplate({

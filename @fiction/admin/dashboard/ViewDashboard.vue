@@ -13,14 +13,7 @@ const _x = 1
 </script>
 
 <template>
-  <div class="">
-    <div class="md:grid grid-cols-12 lg:divide-x lg:divide-theme-300/50 lg:dark:divide-theme-600/50 lg:h-[calc(100dvh-61px)]">
-      <div class="col-span-12 lg:col-span-8 h-full overflow-scroll">
-        <WidgetArea location="homeMain" :card />
-      </div>
-      <div class="col-span-12 lg:col-span-4 h-full overflow-scroll">
-        <WidgetArea location="homeSecondary" :card />
-      </div>
-    </div>
+  <div class="max-w-[920px] mx-auto py-12">
+    <WidgetArea location="homeMain" :card />
   </div>
 </template>

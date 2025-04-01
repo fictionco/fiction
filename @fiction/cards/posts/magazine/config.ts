@@ -88,7 +88,7 @@ const options = [
 
 export async function getDefaultUserConfig(args: { stock: StockMedia }): Promise<UserConfig> {
   const { stock } = args
-  const entries = await getDemoPosts({ stock, limit: 12 })
+  const entries = await getDemoPosts({ limit: 12 })
   return {
     posts: {
       format: 'standard',

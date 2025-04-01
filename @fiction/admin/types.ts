@@ -1,3 +1,3 @@
 export type NavCardUserConfig = { isNavItem?: boolean, navIcon?: string, navIconAlt?: string, parentItemId?: string }
 
-export type WidgetLocation = 'homeMain' | 'homeSecondary' | string
+export type WidgetLocation = 'homeMain' | string

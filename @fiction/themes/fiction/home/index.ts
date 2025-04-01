@@ -29,12 +29,12 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
             templateId: 'cardHeroV1',
             userConfig: {
               superTitle: {
-                text: 'The Website Platform for Leaders',
+                text: 'Put Your Ideal Digital Self Online',
                 theme: 'orange',
-                icon: { class: 'i-tabler-rocket' }, // Swapped for something dynamic and bold
+                icon: { class: 'i-tabler-rocket' },
               },
-              title: `Create Your Ideal [@text_effect type=squiggle]Digital Presence[/@text_effect].`,
-              subTitle: `Turn your story into authority with Fiction's AI-enhanced personal website and newsletter platform.`, // Swapped for something dynamic and bold
+              title: `Create a Professional [@text_effect type=squiggle]Personal Website[/@text_effect].`,
+              subTitle: `Create your AI avatar and build your personal website in minutes.`,
 
               action: {
                 buttons: [

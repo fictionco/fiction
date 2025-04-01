@@ -95,7 +95,6 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
   admin() {
     const widgets = getWidgets(this.settings)
     this.settings.fictionAdmin.widgetRegister.value.push(...Object.values(widgets))
-    this.settings.fictionAdmin.addToWidgetArea('homeSecondary', [])
     this.settings.fictionAdmin.addToWidgetArea('sitesIndex', [{ key: 'sitesWelcome' }, { key: 'siteVisitors' }])
 
     this.settings.fictionAdmin.addAdminPages({ key: 'sites', loader: async ({ factory }) => [

@@ -52,8 +52,7 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
 
     this.widgetRegister.value.push(...Object.values(widgets))
 
-    this.addToWidgetArea('homeMain', [{ key: 'overviewWidget', priority: 40 }])
-    this.addToWidgetArea('homeSecondary', [{ key: 'onboardWelcome', priority: 40 }])
+    this.addToWidgetArea('homeMain', [{ key: 'overviewWidget', priority: 40 }, { key: 'onboardWelcome', priority: 40 }])
 
     this.addAdminPages({
       key: 'onboardSurvey',

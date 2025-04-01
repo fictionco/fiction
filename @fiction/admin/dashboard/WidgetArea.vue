@@ -38,16 +38,14 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div>
-    <div class="divide-y divide-theme-200/50 dark:divide-theme-600/50">
-      <component
-        :is="widget.settings.el"
-        v-for="(widget, i) in widgets"
-        :key="i"
-        :card
-        :widget
-        class="col-span-12 min-w-0"
-      />
-    </div>
+  <div class="flex flex-col gap-4 md:gap-6">
+    <component
+      :is="widget.settings.el"
+      v-for="(widget, i) in widgets"
+      :key="i"
+      :card
+      :widget
+      class="col-span-12 min-w-0"
+    />
   </div>
 </template>
