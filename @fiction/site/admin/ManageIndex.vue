@@ -7,11 +7,15 @@ import type { SiteListItem } from '../utils/list.js'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 import { dayjs, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import XLink from '@fiction/ui/common/XLink.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import { getSiteIndexItemList } from '../utils/list.js'
 import { manageSiteIndex } from '../utils/manage.js'
+import ElSitePreviewFrame from './ElSitePreviewFrame.vue'
 import ElSiteStart from './ElSiteStart.vue'
+
+defineOptions({
+  name: 'ManageIndex',
+})
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -113,29 +117,8 @@ function getActions(location: 'top' | 'zero') {
                   <span>{{ dayjs(item.dateAt).format('MMM DD, YY [at] h:mm A') }}</span>
                 </div>
               </div>
-              <XLink
-                :href="item.href"
-                class="relative w-full aspect-[16/9] overflow-hidden bg-theme-50 dark:bg-theme-950 border-b border-theme-200 dark:border-theme-700"
-              >
-                <iframe
-                  v-if="item.stagingUrl"
-                  :src="item.stagingUrl"
-                  class="absolute inset-0  w-[200%] h-[200%] transform scale-50 origin-top-left pointer-events-none"
-                  loading="lazy"
-                  title="Site preview"
-                />
-                <div v-else class="flex items-center justify-center h-full text-theme-400 dark:text-theme-500">
-                  <span class="i-tabler-photo text-5xl" />
-                </div>
 
-                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-
-                <div class="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  <div class="flex items-center justify-center w-8 h-8 rounded-full bg-green-800/90 text-green-0 hover:bg-green-700 shadow-sm transition-colors">
-                    <span class="i-tabler-edit text-lg" />
-                  </div>
-                </div>
-              </XLink>
+              <ElSitePreviewFrame :item class="aspect-[16/9]  border-b border-theme-200 dark:border-theme-700" />
             </div>
           </div>
         </template>

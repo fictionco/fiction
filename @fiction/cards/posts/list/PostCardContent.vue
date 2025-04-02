@@ -27,7 +27,7 @@ const props = defineProps<{
         design="outline"
         size="xs"
         :text="cat"
-        :href="taxonomyLink({ card: props.card, taxonomy: 'category', term: cat })"
+        :href="taxonomyLink({ taxonomy: 'category', term: cat })"
       />
     </div>
 

@@ -5,8 +5,8 @@ import { vue } from '@fiction/core'
 export function getWidgets(_service: FictionAdminSettings) {
   const onboardWelcome = new Widget({
     key: 'onboardWelcome',
-    title: 'Welcome to Fiction',
-    el: vue.defineAsyncComponent<vue.Component>(async () => import('./WidgetVideo.vue')),
+    title: 'Set yourself up for success',
+    el: vue.defineAsyncComponent<vue.Component>(async () => import('./WidgetOnboard.vue')),
   })
 
   const overviewWidget = new Widget({

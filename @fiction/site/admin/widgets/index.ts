@@ -1,14 +1,13 @@
-import type { FictionSiteBuilderSettings } from '../index.js'
 import { AnalyticsWidget } from '@fiction/admin/dashboard/widget'
 import { vue } from '@fiction/core'
 
-export function getWidgets(_service: FictionSiteBuilderSettings) {
+export function getWidgets() {
   const sites = new AnalyticsWidget({
     key: 'sites',
-    title: 'Sites',
-    description: 'Your websites and their status',
+    title: 'Website',
     el: vue.defineAsyncComponent<vue.Component>(async () => import('./WidgetSites.vue')),
     layoutHandling: 'chart',
+    priority: 15,
   })
 
   return { sites }

@@ -31,7 +31,7 @@ const cls = {
 </script>
 
 <template>
-  <div class="flex h-full min-w-0 grow flex-col justify-between">
+  <div class="flex h-full min-w-0 grow flex-col justify-between ">
     <div class="space-y-1 font-sans">
       <div class="flex items-center justify-start space-x-3 px-3 py-2">
         <div class=" ">

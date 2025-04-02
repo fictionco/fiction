@@ -13,69 +13,49 @@ const props = defineProps({
 })
 
 const widgetTitle = vue.computed(() => props.widget?.settings.title)
-const widgetDescription = vue.computed(() => props.widget?.settings.description)
 </script>
 
 <template>
   <div
-    class="drop-target relative @container border border-theme-200 dark:border-theme-700/90 rounded-lg shadow-sm bg-white dark:bg-theme-800/50 overflow-hidden"
+    class="drop-target relative @container/widget border border-theme-200 dark:border-theme-700/90 rounded-lg shadow-sm bg-white dark:bg-theme-800/50 overflow-hidden"
     :draggable="editable"
   >
-    <div class="flex flex-col transition-all p-4 @sm:p-6 @xl:p-7">
+    <div class="flex flex-col transition-all ">
       <div
         v-if="widgetTitle"
-        class="text-theme-600 dark:text-theme-50 flex items-center justify-between mb-3"
+        class="text-theme-600 dark:text-theme-50 flex items-center justify-between p-3 @sm/widget:px-5 py-4 border-b border-theme-200 dark:border-theme-700/90"
         :class="editable ? 'cursor-move ' : ''"
       >
         <div class="relative flex items-center">
           <div class="font-semibold text-base">
             {{ widgetTitle }}
           </div>
-
-          <div v-if="widgetDescription" class="description group relative ml-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="text-theme-300 h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <div
-              class="pointer-events-none absolute top-0 left-full z-10 w-40 rounded-md bg-white text-theme-700 p-3 text-xs opacity-0 shadow-md ring-1 ring-black/5 group-hover:opacity-100"
-            >
-              {{ widgetDescription }}
-            </div>
-          </div>
         </div>
         <div>
-          <XButtonList class="flex gap-2 items-center" :buttons ui-size="sm" />
+          <slot v-if="$slots.action" name="action" />
+          <XButtonList v-else class="flex gap-2 items-center" :buttons ui-size="sm" />
         </div>
       </div>
 
-      <div
-        v-if="!widget || loading || widget?.loading.value"
-        class="flex justify-center p-8"
-      >
-        <div class="text-theme-300 h-6 w-6">
-          <ElSpinner />
-        </div>
-      </div>
-      <div v-else-if="widget?.errorMessage.value" class="flex justify-center p-8">
+      <div class="p-3 @sm/widget:px-5 py-4">
         <div
-          class="text-theme-500 pt-12 pb-8 text-center text-xs font-semibold uppercase tracking-wide text-opacity-40"
+          v-if="!widget || loading || widget?.loading.value"
+          class="flex justify-center p-8"
         >
-          {{ widget.errorMessage ? `Data Error: ${widget.errorMessage.value}` : "No Data" }}
+          <div class="text-theme-300 h-6 w-6">
+            <ElSpinner />
+          </div>
         </div>
-      </div>
-      <div v-else class="no-scrollbar min-h-0 grow overflow-scroll">
-        <slot />
+        <div v-else-if="widget?.errorMessage.value" class="flex justify-center p-8">
+          <div
+            class="text-theme-500 pt-12 pb-8 text-center text-xs font-semibold uppercase tracking-wide text-opacity-40"
+          >
+            {{ widget.errorMessage ? `Data Error: ${widget.errorMessage.value}` : "No Data" }}
+          </div>
+        </div>
+        <div v-else class="no-scrollbar min-h-0 grow overflow-scroll relative">
+          <slot />
+        </div>
       </div>
     </div>
   </div>

@@ -9,7 +9,7 @@ import type { TableSiteConfig } from './tables.js'
 import { initializeClientTag } from '@fiction/analytics/tag/entry.js'
 import { crossVar, FictionPlugin, getAnonymousId, isNode, safeDirname, vue } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
-import { getWidgets } from './admin/widgets.js'
+import { getWidgets } from './admin/widgets/index.js'
 import { CardQueryHandler } from './cardQuery.js'
 import { ManageDomain } from './endpoint-domains.js'
 import { ManagePage, ManageSite, ManageSites } from './endpoint.js'
@@ -93,15 +93,15 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
   }
 
   admin() {
-    const widgets = getWidgets(this.settings)
-    this.settings.fictionAdmin.widgetRegister.value.push(...Object.values(widgets))
-    this.settings.fictionAdmin.addToWidgetArea('sitesIndex', [{ key: 'sitesWelcome' }, { key: 'siteVisitors' }])
+    // const widgets = getWidgets()
+    // this.settings.fictionAdmin.widgetRegister.value.push(...Object.values(widgets))
+    // this.settings.fictionAdmin.addToWidgetArea('sitesIndex', [{ key: 'sitesWelcome' }, { key: 'siteVisitors' }])
 
     this.settings.fictionAdmin.addAdminPages({ key: 'sites', loader: async ({ factory }) => [
       await factory.fromTemplate<typeof dashTemplate>({
         templateId: 'dash',
         slug: 'sites',
-        title: 'Sites',
+        title: 'Website',
         cards: [
           await factory.fromTemplate<typeof panelTemplate>({
             el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')),
@@ -118,6 +118,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
                 },
               }),
             ],
+
           }),
         ],
         userConfig: {

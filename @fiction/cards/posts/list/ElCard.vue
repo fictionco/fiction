@@ -1,16 +1,18 @@
 <script lang="ts" setup>
 import type { IndexMeta } from '@fiction/core'
-import type { FictionPosts, Post } from '@fiction/posts'
+import type { FictionPosts, TablePostConfig } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import type { DisplayUserConfig, UserConfig } from './config'
 import NavDots from '@fiction/cards/el/NavDots.vue'
 import { useService, vue } from '@fiction/core'
+import { Post } from '@fiction/posts'
 import { loadPosts } from '@fiction/posts/utils/post'
 import EffectCarousel from '@fiction/ui/effect/EffectCarousel.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import CardButton from '../../CardButton.vue'
 import ElMagazineSingle from '../magazine/ElMagazineSingle.vue'
+import { useSSRData } from '../magazine/ssrUtil'
 import PostCard from './PostCard.vue'
 
 defineOptions({ name: 'PostList' })
@@ -24,7 +26,6 @@ const { fictionPosts } = useService<{ fictionPosts: FictionPosts }>()
 // State
 const activeItem = vue.ref(0)
 const loading = vue.ref(false)
-const posts = vue.shallowRef<Post[]>([])
 const indexMeta = vue.ref<IndexMeta>({ offset: 0, limit: 12, count: 0 })
 const singlePost = vue.shallowRef<Post>()
 const nextPost = vue.shallowRef<Post>()
@@ -89,32 +90,35 @@ const dimensions = vue.computed(() => {
   }
 })
 
-const postConfigs = vue.computed(() => posts.value.map(_ => _.toConfig()))
-
-// Methods
+// Define function to fetch posts
 async function fetchPosts() {
-  if (!fictionPosts)
-    return
-
-  loading.value = true
   const site = card.site
-  try {
-    const result = await loadPosts({
-      fictionPosts,
-      site,
-      indexMeta: { ...indexMeta.value, limit: uc.value.posts?.limit },
-    })
 
-    posts.value = result.posts
-    indexMeta.value = result.indexMeta
-  }
-  catch (error) {
-    console.error('Error loading posts:', error)
-  }
-  finally {
-    loading.value = false
-  }
+  const result = await loadPosts({
+    fictionPosts,
+    site,
+    indexMeta: { ...indexMeta.value, limit: uc.value.posts?.limit },
+  })
+
+  // Update indexMeta with values from result
+  indexMeta.value = result.indexMeta
+
+  return result
 }
+
+// Generate a unique cache key based on relevant props
+const cacheKey = vue.computed(() => `posts-${routeSlug.value}`)
+
+// Use the SSR data hook
+const { data: postsData, loading: postsLoading } = useSSRData({ key: cacheKey, fetchData: fetchPosts })
+
+// Extract data for templates
+const posts = vue.computed(() => {
+  const postData = postsData.value?.posts || []
+  return postData.map((p: TablePostConfig) => new Post({ fictionPosts, ...p }))
+})
+
+const postConfigs = vue.computed(() => posts.value.map(_ => _.toConfig()))
 
 function changePage(newPage: number) {
   if (newPage < 1 || newPage > pagination.value.totalPages)
@@ -140,7 +144,7 @@ vue.onServerPrefetch(() => fetchPosts())
 <template>
   <div :class="card.classes.value.contentWidth">
     <!-- Loading State -->
-    <div v-if="loading" class="flex justify-center py-12">
+    <div v-if="postsLoading" class="flex justify-center py-12">
       <ElSpinner class="h-8 w-8 text-theme-500" />
     </div>
 
@@ -148,7 +152,7 @@ vue.onServerPrefetch(() => fetchPosts())
       v-else-if="routeSlug"
       :key="routeSlug"
       :card="card"
-      :loading="loading"
+      :loading="postsLoading"
       :post="singlePost"
       :next-post="nextPost"
     />

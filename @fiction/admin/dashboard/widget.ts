@@ -19,6 +19,7 @@ export type WidgetConfig = {
   description?: string
   layoutHandling?: keyof typeof layoutModes
   location?: 'primary' | 'secondary'
+  priority?: number
 }
 
 export class Widget<T extends WidgetConfig = WidgetConfig> extends FictionObject<T> {
