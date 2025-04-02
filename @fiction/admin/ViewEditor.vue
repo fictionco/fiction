@@ -16,6 +16,10 @@ const { controller, toolProps, loading = false, card } = defineProps<{
 
 const primaryTool = vue.computed(() => controller.activeTool.primary.value)
 const contextTool = vue.computed(() => controller.activeTool.context.value)
+
+const hasIconNav = vue.computed(() => {
+  return controller.tools?.filter(_ => _.isPrimary && _.isPrimary !== 'bottom').length
+})
 </script>
 
 <template>
@@ -40,10 +44,14 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
         <TransitionWidth>
           <div
             v-show="!controller.hideToolDrawers.value"
-            class="no-scrollbar flex-none w-[60px] relative hidden md:block"
+            class="no-scrollbar flex-none  relative hidden md:block"
+            :class="hasIconNav ? 'w-[60px]' : 'w-0'"
             @click.stop="resetUi({ scope: 'inputs', cause: 'clickEditorTools', trigger: 'elementClick' })"
           >
-            <div class="flex flex-col justify-between py-6 z-40 relative h-full bg-theme-0 dark:bg-theme-900 border-r border-theme-200 dark:border-theme-700">
+            <div
+              v-if="hasIconNav"
+              class="flex flex-col justify-between py-6 z-40 relative h-full bg-theme-0 dark:bg-theme-900 border-r border-theme-200 dark:border-theme-600/60"
+            >
               <div class="space-y-1">
                 <div
                   v-for="(tool, i) in controller.tools?.filter(_ => _.isPrimary && _.isPrimary !== 'bottom') || []"
@@ -115,7 +123,7 @@ const contextTool = vue.computed(() => controller.activeTool.context.value)
           <div class="flex flex-1 min-w-0 relative">
             <!-- Main Content -->
             <div
-              class="flex-1 h-full overflow-scroll bg-theme-50/50 dark:bg-theme-800/60 no-scrollbar"
+              class="flex-1 h-full overflow-scroll no-scrollbar"
             >
               <div v-if="loading" class="pt-32 flex justify-center">
                 <ElSpinner class="size-12 text-theme-300 dark:text-theme-600" />

@@ -1,5 +1,5 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
-import type { SiteUserConfig } from '@fiction/site/schema'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
 import { ActionAreaSchema, MediaDisplaySchema, SuperTitleSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
@@ -19,7 +19,7 @@ export const schema = z.object({
   autoSlide: z.boolean().optional().describe('Enable automatic slide transitions every 12 seconds'),
 })
 
-export type UserConfig = z.infer<typeof schema> & SiteUserConfig
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 export type CinemaItem = z.infer<typeof CinemaItemSchema>
 
 // Input options configuration

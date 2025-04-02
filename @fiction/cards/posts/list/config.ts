@@ -1,5 +1,5 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
-import type { SiteUserConfig } from '@fiction/site/schema'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import { PostHandlingSchema, SizeSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { getDemoPosts } from '@fiction/ui/posts/index'
@@ -21,7 +21,7 @@ export const schema = z.object({
   posts: PostHandlingSchema.optional().describe('Posts configuration'),
 })
 
-export type UserConfig = z.infer<typeof schema> & SiteUserConfig
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 export type DisplayUserConfig = z.infer<typeof displaySchema>
 
 const options = [

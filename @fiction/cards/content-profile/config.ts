@@ -1,6 +1,6 @@
 import type { MediaObject } from '@fiction/core'
 import type { CardFactory } from '@fiction/site/cardFactory'
-import type { SiteUserConfig } from '@fiction/site/schema'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
 import { ActionAreaSchema, NavListItemSchema, SuperTitleSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
@@ -131,7 +131,7 @@ const options = [
 ]
 
 // Default content with instructional copy
-async function getUserConfig(args: { factory: CardFactory, stock: StockMedia }): Promise<UserConfig & SiteUserConfig> {
+async function getUserConfig(args: { factory: CardFactory, stock: StockMedia }): Promise<UserConfig & StandardUserConfig> {
   const { stock } = args
 
   return {

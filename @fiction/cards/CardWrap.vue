@@ -169,8 +169,8 @@ function handleEditDropdownClick(item: { value: 'delete' | 'edit' | 'add' }) {
       :class="card.tpl.value?.settings.isContainer ? 'left-0' : 'right-0'"
       @click.stop="editDropdownVisible = !editDropdownVisible"
     >
-      <div :class="card.tpl.value?.settings.icon" />
       <div>{{ card.tpl.value?.settings.title }}</div>
+      <div class="i-tabler-chevron-down" />
       <div
         v-if="editDropdownVisible"
         class="dd absolute top-full w-full bg-blue-500 dark:bg-blue-600/60"

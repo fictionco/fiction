@@ -1,11 +1,11 @@
 <script lang="ts" setup generic="T extends MsgUnknown">
 import type { MediaObject } from '@fiction/core/index.js'
 import type { MsgUnknown } from './elBrowserFrameUtil.js'
-import { dayjs, shortId, vue } from '@fiction/core/index.js'
-import XButton from '../buttons/XButton.vue'
-import ElTooltip from '../common/ElTooltip.vue'
+import { shortId, vue } from '@fiction/core/index.js'
 import ElSpinner from '../loaders/ElSpinner.vue'
-import { FrameNavigator, FrameUtility } from './elBrowserFrameUtil.js'
+import BarBrowser from './BarBrowser.vue'
+import BarEmail from './BarEmail.vue'
+import { FrameUtility } from './elBrowserFrameUtil.js'
 
 type EmailSettings = {
   senderName?: string
@@ -16,13 +16,12 @@ type EmailSettings = {
   dateAt?: string
 }
 
-const { deviceMode = 'desktop', frameId, url, displayUrl, browserBar, formatMode = 'browser', emailBar } = defineProps<{
+const { deviceMode = 'desktop', frameId, url, displayUrl, formatMode = 'browser', emailBar } = defineProps<{
   deviceMode?: 'desktop' | 'tablet' | 'mobile' | 'landscape'
   frameId: string
   url?: string
   displayUrl?: string
   formatMode?: 'email' | 'browser'
-  browserBar?: boolean
   emailBar?: EmailSettings
 }>()
 
@@ -140,95 +139,18 @@ vue.onMounted(async () => {
 
   emit('frameUtility', frameUtility.value)
 })
-
-const navigator = new FrameNavigator({
-  updateCallback: async path => emit('update:url', path),
-  urlOrPath: vue.computed(() => url || '/'),
-  displayUrl: vue.computed(() => displayUrl || ''),
-})
 </script>
 
 <template>
   <div class="@container/frame bg-theme-0 dark:bg-theme-800 @container border border-theme-200 dark:border-theme-500/50 overflow-hidden flex flex-col">
-    <!-- Add before the iframe -->
-    <div v-if="formatMode === 'email' && emailBar" class="p-4 @[700px]/frame:p-6 space-y-6 border-b border-theme-200 dark:border-theme-600">
-      <div class="flex flex-col">
-        <span class="@[700px]/frame:text-xl text-lg">{{ emailBar.subject }}</span>
-        <span v-if="emailBar.preview" class="text-sm lg:text-base text-theme-500 truncate">{{ emailBar.preview }}</span>
-      </div>
-      <div class="flex items-center gap-3 ">
-        <img
-          v-if="emailBar.avatar?.url"
-          :src="emailBar.avatar.url"
-          class="size-8 rounded-full"
-          :alt="emailBar.senderName"
-        >
-        <div class="flex-1 min-w-0">
-          <div class="flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2">
-              <span class="font-medium truncate">{{ emailBar.senderName || 'No Sender' }}</span>
-              <span class="text-theme-500 truncate">&lt;{{ emailBar.senderEmail || 'no-reply@fiction.com'}}&gt;</span>
-            </div>
-          </div>
-        </div>
-        <div v-if="emailBar.dateAt">
-          {{ dayjs(emailBar.dateAt).format('MMM D, YYYY h:mm A') }}
-        </div>
-      </div>
-    </div>
-    <div v-else-if="browserBar" class="flex items-center justify-between px-2 py-2 border-b border-theme-200 dark:border-theme-600">
-      <div class="w-full items-center justify-center lg:flex lg:space-x-2">
-        <div class="space-x-1 hidden lg:flex" :data-nav-index="navigator.currentIndex">
-          <button
-            class="dark:bg-theme-600/60  size-6 text-base  items-center justify-center rounded-md flex"
-            :class="!navigator.canGoBack() ? 'cursor-not-allowed opacity-20' : 'cursor-pointer hover:opacity-70'"
-            :disabled="!navigator.canGoBack()"
-            @click="navigator.navigateFrame('backward')"
-          >
-            <div class="i-tabler-arrow-left" />
-          </button>
-          <button
-            class="dark:bg-theme-600/60  size-6 text-base  items-center justify-center rounded-md flex"
-            :class="!navigator.canGoForward() ? 'cursor-not-allowed opacity-20' : 'cursor-pointer hover:opacity-70'"
-            :disabled="!navigator.canGoForward()"
-            @click="navigator.navigateFrame('forward')"
-          >
-            <div class="i-tabler-arrow-right" />
-          </button>
-        </div>
-        <label for="urlBar" class="relative flex grow rounded-md shadow-sm gap-0.5 group border border-theme-200 dark:bg-theme-700 dark:border-theme-600 focus-within:border-theme-200 overflow-hidden">
-          <ElTooltip
-            :timeout="0"
-            :max-width="350"
-            direction="bottom"
-            :content="`Base URL: ${navigator.displayUrlObject.value.origin}`"
-            class="group/url bg-theme-0 dark:bg-theme-600/40   text-theme-300 dark:text-theme-400  inline-flex select-none items-center rounded-l-md pl-2 pr-2 font-medium text-xs"
-          >
-            <span class="i-tabler-link text-lg" />
-          </ElTooltip>
-          <input
-            id="urlBar"
-            v-model="navigator.typedPath.value"
-            type="text"
-            class="block focus:border-0 text-theme-500 dark:text-theme-0 dark:bg-theme-700 border-0 w-full min-w-0 flex-1 rounded-none rounded-r-md text-xs font-mono focus:outline-none focus:ring-0 p-1.5"
-            @keyup.enter="navigator.setNewPath({ fullPath: navigator.typedPath.value })"
-          >
-        </label>
-      </div>
-      <div class="ml-4 hidden shrink-0 md:block">
-        <XButton
-          :data-set-path="navigator.setPath.value"
-          :data-typed-path="navigator.typedPath.value"
-          :theme="navigator.typedPath.value !== navigator.setPath.value ? 'emerald' : 'default'"
-          size="sm"
-          rounding="full"
-          @click="navigator.setNewPath({ fullPath: navigator.typedPath.value })"
-        >
-          Go &rarr;
-        </XButton>
-      </div>
-      <slot name="browserBar" />
-    </div>
+    <template v-if="$slots.bar">
+      <slot name="bar" />
+    </template>
+    <template v-else>
+      <BarEmail v-if="formatMode === 'email'" :email-bar="emailBar" />
+      <BarBrowser v-else :url :display-url="displayUrl" @update:url="emit('update:url', $event)" />
+    </template>
+
     <div
       :id="`${frameId}-wrap`"
       class="relative max-h-[100%] overflow-scroll w-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"

@@ -1,5 +1,5 @@
 import type { CardConfigPortable, PageRegion, Site, TableCardConfig } from './index.js'
-import type { SiteUserConfig } from './schema.js'
+import type { StandardUserConfig } from './schema.js'
 import type { ComponentConstructor } from './type-utils.js'
 import { FictionObject } from '@fiction/core'
 import { createStockMediaHandler } from '@fiction/ui/stock'
@@ -29,7 +29,7 @@ type ExtractTemplateInfo<T extends CardTemplate> = {
   userConfig: T extends CardTemplate<infer S> ? S['userConfig'] : never
 }
 
-export class CardFactory<U extends readonly CardTemplate<any>[] = readonly CardTemplate<{ userConfig: SiteUserConfig }>[]> extends FictionObject<CardFactorySettings<U>> {
+export class CardFactory<U extends readonly CardTemplate<any>[] = readonly CardTemplate<{ userConfig: StandardUserConfig }>[]> extends FictionObject<CardFactorySettings<U>> {
   templates: U
   caller: string
 
@@ -53,8 +53,8 @@ export class CardFactory<U extends readonly CardTemplate<any>[] = readonly CardT
     el?: ComponentConstructor
 
     // Config
-    userConfig?: ExtractTemplateInfo<TTemplate>['userConfig'] & SiteUserConfig
-    baseConfig?: ExtractTemplateInfo<TTemplate>['userConfig'] & SiteUserConfig
+    userConfig?: ExtractTemplateInfo<TTemplate>['userConfig'] & StandardUserConfig
+    baseConfig?: ExtractTemplateInfo<TTemplate>['userConfig'] & StandardUserConfig
     effects?: CardConfigPortable[]
     // Base card properties
   } & BaseCardConfig,

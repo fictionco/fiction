@@ -86,13 +86,15 @@ if (import.meta.env.SSR) {
 }
 
 const page = vue.computed(() => site.value?.currentPage.value)
+const pageConfig = vue.computed(() => page.value?.fullConfig.value || {})
+const siteConfig = vue.computed(() => site.value?.fullConfig.value || {})
 
 function getTitleTag() {
-  const seoConfig = page.value?.userConfig.value.site
+  const seoConfig = page.value?.userConfig.value.standard
   if (seoConfig?.title)
     return seoConfig.title
 
-  const titleTemplate = site.value?.fullConfig.value?.site?.titleTemplate || '{{pageTitle}}'
+  const titleTemplate = siteConfig.value.titleTemplate || '{{pageTitle}}'
   const siteTitle = site.value?.title?.value || ''
   const pageTitle = page.value?.title?.value || toLabel(page.value?.slug?.value) || ''
 
@@ -103,11 +105,11 @@ const iconUrls = vue.computed(() => getHeadIconConfig({ site: site.value }))
 
 const colors = vue.computed(() => {
   const config = site.value?.fullConfig.value || {}
-  const siteUserConfig = config.site || {}
+  const siteStandardConfig = siteConfig.value.standard || {}
   const cardUserConfig = config.standard || {}
 
-  const primaryColor = cardUserConfig.primaryColor || siteUserConfig.primaryColor || 'blue'
-  const themeColor = cardUserConfig.themeColor || siteUserConfig.themeColor || 'gray'
+  const primaryColor = cardUserConfig.primaryColor || siteStandardConfig.primaryColor || 'blue'
+  const themeColor = cardUserConfig.themeColor || siteStandardConfig.themeColor || 'gray'
 
   return {
     primary: getColorScheme(primaryColor),
@@ -117,8 +119,6 @@ const colors = vue.computed(() => {
   }
 })
 
-const pageConfig = vue.computed(() => page.value?.fullConfig.value || {})
-
 unhead.useHead({
   htmlAttrs: { lang: 'en', dir: 'ltr' },
   title: () => getTitleTag(),
@@ -126,8 +126,8 @@ unhead.useHead({
     { charset: 'UTF-8' },
     { name: 'generator', content: 'Fiction.com' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-    { name: 'description', content: () => pageConfig.value.site?.description || page.value?.description.value || '' },
-    { name: 'robots', content: () => pageConfig.value.site?.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
+    { name: 'description', content: () => pageConfig.value.standard?.description || page.value?.description.value || '' },
+    { name: 'robots', content: () => siteConfig.value?.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
     { name: 'theme-color', content: () => colors.value.themeHex[900] },
     // Social media tags
     { name: 'twitter:card', content: 'summary_large_image' },
@@ -136,8 +136,8 @@ unhead.useHead({
     { property: 'og:title', content: getTitleTag },
     { property: 'og:url', content: () => site.value?.frame.displayUrl.value },
     { property: 'og:site_name', content: () => site.value?.title.value || '' },
-    { property: 'og:locale', content: () => pageConfig.value.site?.locale || 'en_US' },
-    { property: 'og:image', content: () => pageConfig.value.site?.shareImage?.url || iconUrls.value.ogImageUrl },
+    { property: 'og:locale', content: () => siteConfig.value?.locale || 'en_US' },
+    { property: 'og:image', content: () => siteConfig.value?.shareImage?.url || iconUrls.value.ogImageUrl },
     { property: 'og:image:width', content: '1200' },
     { property: 'og:image:height', content: '630' },
   ],

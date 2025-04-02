@@ -35,8 +35,8 @@ const imageAspect = vue.computed(() => {
 
   return w > h ? 'aspect-square max-h-[70dvh]' : 'aspect-[2/1]'
 })
-const getTitle = () => post?.userConfig.value?.site?.title || post?.title.value || 'Post Not Found'
-const getDescription = () => post?.userConfig.value?.site?.description || post?.subTitle.value || 'Post Not Found'
+const getTitle = () => post?.userConfig.value?.standard?.title || post?.title.value || 'Post Not Found'
+const getDescription = () => post?.userConfig.value?.standard?.description || post?.subTitle.value || 'Post Not Found'
 const getAuthor = () => post?.authors.value?.map(a => a.fullName).join(', ')
 const postImage = () => post?.media.value?.url
 const postDate = () => post?.dateAt.value

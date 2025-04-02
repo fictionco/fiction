@@ -3,7 +3,7 @@ import type { InputOption } from '@fiction/ui'
 import type { CardQuerySettings } from './cardQuery.js'
 import type { CardClassification } from './classification.js'
 import type { SiteContentPath } from './load.js'
-import type { CardOptionsWithStandard, SiteUserConfig } from './schema.js'
+import type { CardOptionsWithStandard, StandardUserConfig } from './schema.js'
 import type { Site } from './site.js'
 import type { CardConfigPortable, TableCardConfig } from './tables.js'
 import type { ComponentConstructor } from './type-utils.js'
@@ -53,7 +53,7 @@ export type CardTemplateSurfaceDefault<T extends string = string> = Partial<{
 
 // Use defaults
 type CardTemplateSurface<T> = MergeTypes<T, CardTemplateSurfaceDefault>
-type CardTemplateUserConfigAll<T extends CardTemplateSurfaceDefault> = SiteUserConfig & T['userConfig']
+type CardTemplateUserConfigAll<T extends CardTemplateSurfaceDefault> = StandardUserConfig & T['userConfig']
 
 type ConfigArgs = { site?: Site, factory: CardFactory, templateId: string }
 
@@ -190,9 +190,9 @@ export type CardSettings<T extends Record<string, unknown> = Record<string, unkn
   el?: ComponentConstructor
   templates?: CardTemplate[] | readonly CardTemplate[]
   onSync?: (card: Card) => void
-  editorConfig?: T & SiteUserConfig
+  editorConfig?: T & StandardUserConfig
 }
-export type CardBaseConfig = CardOptionsWithStandard & SiteUserConfig & Record<string, unknown>
+export type CardBaseConfig = CardOptionsWithStandard & StandardUserConfig & Record<string, unknown>
 
 export type CardSurface = {
   requests: {
@@ -233,9 +233,9 @@ export class Card<
     const rawConfig = deepMerge([
       this.site?.fullConfig.value,
       this.tpl.value?.getBaseConfig(this.settings) || {},
-      this.userConfig.value as SiteUserConfig & T,
+      this.userConfig.value as StandardUserConfig & T,
       this.editorConfig.value,
-    ]) as SiteUserConfig & T
+    ]) as StandardUserConfig & T
 
     return this.site ? this.site?.shortcodes.parseObjectSync(rawConfig) as T : rawConfig
   })

@@ -57,12 +57,11 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   siteMode = vue.ref(this.settings.siteMode || 'standard')
   editToggle = vue.ref(false)
   isEditable = vue.computed(() => {
-    const toggled = this.fictionSites.fictionEnv?.heldKeys.value.meta
     const isEditContext = ['editable', 'designer'].includes(this.siteMode.value) || false
     const editingStyle = this.editor.value.savedEditingStyle || 'normal'
 
-    const isQuickEdit = editingStyle === 'quick' && !toggled
-    const isCleanEdit = editingStyle === 'clean' && toggled
+    const isQuickEdit = editingStyle === 'quick'
+    const isCleanEdit = editingStyle === 'clean'
 
     return isEditContext && (isQuickEdit || isCleanEdit)
   })
@@ -188,7 +187,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   userFonts = vue.ref<Record<string, FontFamily>>({})
   siteFonts = activeSiteFont(this)
-  configPrefersColorScheme = vue.computed(() => this.fullConfig.value.site?.prefersColorScheme || 'auto')
+  configPrefersColorScheme = vue.computed(() => this.fullConfig.value.standard?.prefersColorScheme || 'auto')
   userPrefersColorScheme = localRef<typeof prefersColorScheme[number]>({ key: `fictionPrefersColorScheme`, def: '', lifecycle: 'session' })
   prefersColorScheme = vue.computed<typeof prefersColorScheme[number]>({
     get: () => {

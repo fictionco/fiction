@@ -64,7 +64,7 @@ export class AdminEditorController<T extends CardSurface = CardSurface> extends 
     context: vue.computed(() => this.settings.tools.find(t => t.toolId === (this.activeToolId.context.value ? this.activeToolId.context.value : this.defaultTool.context.value))),
   }
 
-  isUsingTool(args: { toolId?: string, locations?: ('primary' | 'context')[] } = {}) {
+  isUsingTool(args: { toolId?: Surface<T>['toolIds'], locations?: ('primary' | 'context')[] } = {}) {
     const { toolId, locations = ['primary', 'context'] } = args
     return locations.some(l => this.activeToolId[l].value === toolId)
   }

@@ -1,5 +1,5 @@
 import type { NavList, NavListItem } from '@fiction/core'
-import type { SiteUserConfig } from '@fiction/site/schema'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import { ActionAreaSchema, NavListItemSchema, NavListSchema } from '@fiction/core'
 import { FormUserConfigSchema } from '@fiction/forms'
 import { createOption } from '@fiction/ui'
@@ -28,7 +28,7 @@ export const schema = z.object({
   form: FormUserConfigSchema.optional().describe('Form submission settings'),
 })
 
-export type UserConfig = z.infer<typeof schema> & SiteUserConfig
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 export function getOptions() {
   return [

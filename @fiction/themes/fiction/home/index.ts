@@ -15,7 +15,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
     slug: '_home',
     title: 'Home',
     userConfig: {
-      site: {
+      standard: {
         title: 'Create Your Ideal Digital Self',
         description: 'Create a personal brand that displays your ideal digital self. Build an AI-enhanced personal brand and professional network with Fiction.',
       },
@@ -29,12 +29,12 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
             templateId: 'cardHeroV1',
             userConfig: {
               superTitle: {
-                text: 'Put Your Ideal Digital Self Online',
+                text: 'The First AI Personal Branding Agency',
                 theme: 'orange',
                 icon: { class: 'i-tabler-rocket' },
               },
-              title: `Create a Professional [@text_effect type=squiggle]Personal Website[/@text_effect].`,
-              subTitle: `Create your AI avatar and build your personal website in minutes.`,
+              title: `Become the [@text_effect type=squiggle]Authority[/@text_effect] in your industry.`,
+              subTitle: `Fiction helps leaders become influencers. Start crafting your online persona and building your audience today.`,
 
               action: {
                 buttons: [

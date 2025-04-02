@@ -21,7 +21,7 @@ export async function createDemoPage(args: { site: Site, template: CardTemplate<
   const pg = await factory.fromTemplate<typeof cardPageWrapV1Template>({
     slug,
     templateId: 'cardPageWrapV1',
-    baseConfig: { site: { title: `${title} - Web Element Demo` } },
+    baseConfig: { standard: { title: `${title} - Web Element Demo` } },
     userConfig: {
       // fixedHeader: true,
     },

@@ -1,5 +1,5 @@
 import type { CardFactory } from '@fiction/site/cardFactory.js'
-import type { SiteUserConfig } from '@fiction/site/schema'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
 import { PostSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
@@ -18,7 +18,7 @@ export const schema = z.object({
   items: z.array(SlideSchema).optional().describe('Slides for slider with media, title, and subtitle [@ai seconds=12]'),
 })
 
-export type UserConfig = z.infer<typeof schema> & SiteUserConfig
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 type SlideUserConfig = z.infer<typeof SlideSchema>
 
 export const options = [

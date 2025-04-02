@@ -1,6 +1,6 @@
 import type { template as TransactionTemplate } from '@fiction/cards/page/transaction/index.js'
 import type { CardFactory } from '@fiction/site/cardFactory.js'
-import type { SiteUserConfig } from '@fiction/site/schema.js'
+import type { SiteGlobalUserConfig, StandardUserConfig } from '@fiction/site/schema.js'
 import type { Site } from '@fiction/site/site.js'
 import type { authTemplate, template as dashTemplate, panelTemplate } from '../dashboard/cardDash.js'
 import type { FictionAdmin } from '../index.js'
@@ -131,21 +131,19 @@ export const theme = new Theme({
       pages,
       sections: {},
       userConfig: {
-        site: {
-          shareImage: { url: shareImage, format: 'image' },
-          favicon: { url: favicon, format: 'image' },
-          icon: { url: icon, format: 'image' },
+        shareImage: { url: shareImage, format: 'image' },
+        favicon: { url: favicon, format: 'image' },
+        icon: { url: icon, format: 'image' },
+        standard: {
           fonts: {
             body: { family: 'Inter', stack: 'sans' },
             sans: { family: 'Inter', stack: 'sans' },
           },
           buttons: { design: 'solid', rounding: 'full', hover: 'fade' },
-        },
-        standard: {
           widthSize: 'sm',
           spaceSize: 'none',
         },
-      } satisfies SiteUserConfig,
+      } satisfies SiteGlobalUserConfig,
 
     }
   },

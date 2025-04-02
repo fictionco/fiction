@@ -33,14 +33,14 @@ function createMockSite(overrides = {}) {
     },
     fullConfig: {
       value: {
-        site: {
+        shareImage: {
+          url: 'https://example.com/share.jpg',
+        },
+        locale: 'en-US',
+        googleTagManagerId: 'GTM-12345',
+        standard: {
           primaryColor: 'blue',
-          shareImage: {
-            url: 'https://example.com/share.jpg',
-          },
           description: 'Test description',
-          locale: 'en-US',
-          gtmContainerId: 'GTM-12345',
         },
       } satisfies Site['fullConfig']['value'],
     },

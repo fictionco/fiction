@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
 import { pathCheck, vue } from '@fiction/core'
-import { SiteUserConfigSchema as schema } from '@fiction/site/schema'
+import { StandardUserConfigSchema as schema } from '@fiction/site/schema'
 import CardText from '../CardText.vue'
 
 import SuperTitle from './SuperTitle.vue'

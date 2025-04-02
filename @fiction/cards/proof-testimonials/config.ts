@@ -1,5 +1,5 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
-import type { SiteUserConfig } from '@fiction/site/schema'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
 import { NavListItemSchema, PostSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
@@ -146,7 +146,7 @@ const options = [
 
 ]
 
-async function getUserConfig(args: { stock: StockMedia }): Promise<UserConfig & SiteUserConfig> {
+async function getUserConfig(args: { stock: StockMedia }): Promise<UserConfig & StandardUserConfig> {
   const { stock } = args
   return {
     layout: 'slider', // Start with most engaging layout

@@ -6,7 +6,7 @@ export const templateId = 'cardProfileV1'
 export const template = cardTemplate({
   templateId,
   category: ['marketing', 'content'],
-  title: 'Profile & Bio Card',
+  title: 'Profile',
   description: 'Create compelling personal profiles with dynamic layouts combining professional photos, bio content, and social connections. Perfect for team pages, speaker bios, or personal websites.',
   subTitle: 'Transform your personal brand into an engaging visual story',
   icon: 'i-tabler-user-circle',

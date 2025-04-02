@@ -137,12 +137,8 @@ async function resetToPublished() {
             />
           </div>
           <div class="flex space-x-1 font-semibold items-center">
-            <XText title="Site Title" v-if="site" v-model="site.title.value" :is-editable="true" class="hover:bg-theme-100 hover:dark:bg-theme-700 whitespace-nowrap" />
-            <span class="i-tabler-slash text-xl dark:text-theme-500" />
-            <XText title="Page Title" v-if="site.currentPage.value.slug.value" v-model="site.currentPage.value.title.value" :is-editable="false" class="whitespace-nowrap" />
+            <XText v-if="site" v-model="site.title.value" title="Site Title" :is-editable="true" class="hover:bg-theme-100 hover:dark:bg-theme-700 whitespace-nowrap" />
           </div>
-        </template>
-        <template v-if="site" #headerRight>
           <ElSavingSignal
             :is-dirty="site?.saveUtil.isDirty.value"
             :nav-items="[{
@@ -153,7 +149,8 @@ async function resetToPublished() {
             data-test-id="draft-control-dropdown"
             :classes="{ text: 'hidden md:inline' }"
           />
-
+        </template>
+        <template v-if="site" #headerRight>
           <div class="flex gap-2 items-center">
             <XDropDown
               mode="click"

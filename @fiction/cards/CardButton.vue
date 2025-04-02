@@ -16,7 +16,7 @@ const { card, href, theme, design, size, rounding, hover } = defineProps<{
 
 const attrs = vue.useAttrs()
 
-const siteStyling = vue.computed(() => card.site?.fullConfig.value?.site?.buttons)
+const siteStyling = vue.computed(() => card.site?.fullConfig.value?.standard?.buttons)
 const buttonProps = vue.computed(() => {
   return {
     ...attrs,

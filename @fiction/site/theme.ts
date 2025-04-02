@@ -1,7 +1,7 @@
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { ColorThemeBright, CoreServices, FictionEnv, Organization, ServiceList } from '@fiction/core'
 import type { CardTemplate } from './card.js'
-import type { SiteUserConfig } from './schema.js'
+import type { SiteGlobalUserConfig } from './schema.js'
 import type { SiteSettings } from './site.js'
 import type { TableCardConfig } from './tables.js'
 import { deepMerge, FictionObject, toLabel, vue } from '@fiction/core'
@@ -11,7 +11,7 @@ import { Site } from './site.js'
 type ThemeCategory = 'blog' | 'portfolio' | 'business' | 'personal' | 'ecommerce' | 'landing' | 'internal'
 
 export type ThemeConfig = {
-  userConfig?: SiteUserConfig
+  userConfig?: SiteGlobalUserConfig
   pages?: TableCardConfig[]
   sections?: Record<string, TableCardConfig>
   onMounted?: (args: { service: CoreServices }) => (void | Promise<void>)
@@ -96,7 +96,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
   defaultConfig(): ThemeConfig {
     return {
       userConfig: {
-        site: {
+        standard: {
           prefersColorScheme: 'dark',
           fonts: {
             mono: { family: 'DM Mono', stack: 'monospace' },

@@ -93,6 +93,7 @@ export const fontFamilySchema = z.object({
   stack: z.enum(['monospace', 'sans', 'serif']).optional(),
   variants: z.array(z.string()).optional(),
   source: z.enum(['google', 'system']).optional(),
+  weight: FontWeightsSchema.optional(),
 })
 
 export type FontFamily = z.infer<typeof fontFamilySchema>

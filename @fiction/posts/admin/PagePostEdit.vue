@@ -299,7 +299,7 @@ const viewModes = vue.computed(() => {
           options: [
             createOption({
               schema,
-              key: 'userConfig.site.title',
+              key: 'userConfig.standard.title',
               label: 'SEO Title',
               description: 'The title that will be displayed in search results.',
               placeholder: 'Enter Title',
@@ -307,7 +307,7 @@ const viewModes = vue.computed(() => {
             }),
             createOption({
               schema,
-              key: 'userConfig.site.description',
+              key: 'userConfig.standard.description',
               label: 'SEO Description',
               description: 'The description that will be displayed in search results.',
               placeholder: 'Enter Description',

@@ -1,9 +1,9 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
-import type { SiteUserConfig } from '@fiction/site/schema'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import { deepMerge } from '@fiction/core'
 import { z } from 'zod'
 
-export type UserConfig = SiteUserConfig
+export type UserConfig = StandardUserConfig
 
 // Demo helper to create content cards
 function getDemoContent(type: string) {
@@ -24,7 +24,7 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
   const stock = await factory.getStockMedia()
 
   // Enhanced demo configurations
-  const demoConfigs: Record<string, SiteUserConfig> = {
+  const demoConfigs: Record<string, StandardUserConfig> = {
     // Clean modern look
     modern: {
       standard: {

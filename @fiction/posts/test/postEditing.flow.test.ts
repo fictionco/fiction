@@ -40,8 +40,8 @@ describe('postEditing', async () => {
         { type: 'click', selector: '[data-test-id="next-button-top"]' },
         { type: 'hasValue', selector: `[data-test-id="web-panel"] [data-option-path="${pathCheck('slug', schema)}"] input`, text: 'test-post' },
 
-        { type: 'fill', selector: `[data-option-path="${pathCheck('userConfig.site.title', schema)}"] input`, text: 'Custom SEO Title' },
-        { type: 'fill', selector: `[data-option-path="${pathCheck('userConfig.site.description', schema)}"] input`, text: 'Custom SEO Description' },
+        { type: 'fill', selector: `[data-option-path="${pathCheck('userConfig.standard.title', schema)}"] input`, text: 'Custom SEO Title' },
+        { type: 'fill', selector: `[data-option-path="${pathCheck('userConfig.standard.description', schema)}"] input`, text: 'Custom SEO Description' },
 
         { type: 'click', selector: '[data-test-id="next-button-bottom"]' },
         { type: 'click', selector: '[data-test-id="schedule-button-bottom"]' },

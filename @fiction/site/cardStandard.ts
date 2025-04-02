@@ -2,7 +2,7 @@ import type { Card } from './card'
 import { colorTheme, colorThemeBright, HeaderLayoutSchema, SizeSchema, SizeSchemaComplete } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import InputAi from './ai/InputAi.vue'
-import { SiteUserConfigSchema as schema } from './schema'
+import { StandardUserConfigSchema as schema } from './schema'
 
 export function standardCardOptions(args: { card: Card }) {
   const { card } = args

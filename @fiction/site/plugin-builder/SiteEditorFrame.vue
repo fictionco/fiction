@@ -7,7 +7,10 @@ import { toLabel, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
+import XText from '@fiction/ui/common/XText.vue'
 import ElBrowserFrameDevice from '@fiction/ui/frame/ElBrowserFrameDevice.vue'
+import XIcon from '@fiction/ui/media/XIcon.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, default: undefined },
@@ -57,20 +60,23 @@ function toggleEditingStyle() {
 
   props.site.syncChange({ noSave: true, caller: 'updateEditingStyle' })
 }
+
+const currentPage = vue.computed(() => props.site?.currentPage.value)
+const currentPageStandard = vue.computed(() => currentPage.value?.userConfig.value.standard)
+const isHome = vue.computed(() => { return currentPage.value?.slug.value === '_home' || currentPage.value?.slug.value === '' })
 </script>
 
 <template>
-  <div class="space-y-4 p-4">
+  <div class="space-y-4 p-4 lg:p-6">
     <div
       v-if="site"
       class=" flex justify-between space-x-2 "
     >
       <div class="flex items-center gap-2">
-
         <XDropDown
+          v-model="activeDeviceModeKey"
           mode="click"
           :items="deviceModes"
-          v-model="activeDeviceModeKey"
         >
           <XButton
             rounding="full"
@@ -82,7 +88,6 @@ function toggleEditingStyle() {
           </XButton>
         </XDropDown>
       </div>
-
       <div class="flex items-center gap-2">
         <ElTooltip
           direction="bottom"
@@ -95,9 +100,7 @@ function toggleEditingStyle() {
             :disabled="!site.history.canUndo.value"
             respond="icon:xl"
             @click="site.history.undo()"
-          >
-            Undo
-          </XButton>
+          />
         </ElTooltip>
         <ElTooltip
           direction="bottom"
@@ -110,10 +113,9 @@ function toggleEditingStyle() {
             :disabled="!site.history.canRedo.value"
             respond="icon:xl"
             @click="site.history.redo()"
-          >
-            Redo
-          </XButton>
+          />
         </ElTooltip>
+
         <ElTooltip
           direction="bottom"
           content="For previewing, to change the behavior see global styling options"
@@ -159,7 +161,44 @@ function toggleEditingStyle() {
         :browser-bar="true"
         @update:url="site?.frame.updateFrameUrl($event)"
         @message="site?.frame.processFrameMessage({ scope: 'parent', msg: $event as FramePostMessageList })"
-      />
+      >
+        <template #bar>
+          <div class="flex items-center px-3 py-2 gap-3 border-b border-theme-200 dark:border-theme-600  bg-gradient-to-b dark:from-theme-700/50 dark:to-theme-700/50">
+            <div class="flex items-center gap-2 text-xs ">
+              <div class="flex items-center justify-center">
+                <XMedia v-if="site.userConfig.value?.favicon" :media="site.userConfig.value?.favicon" />
+                <XIcon class="size-5 text-theme-400 dark:text-theme-500" :media="{ class: 'i-tabler-file' }" />
+              </div>
+              <div class="font-semibold">
+                {{ currentPageStandard?.title || currentPage?.title.value }}
+              </div>
+              <div>{{ currentPageStandard?.description || currentPage?.description.value }}</div>
+            </div>
+            <div class=" justify-between text-xs ">
+              <div class="bg-theme-600/30 rounded-md flex items-center justify-between gap-2 py-1 px-3 font-mono">
+                <div class="flex items-center gap-1">
+                  <span class="i-tabler-slash text-lg dark:text-theme-500" />
+                  <XText
+                    v-if="currentPage?.slug.value && currentPage?.slug.value !== '_home'"
+                    :model-value="currentPage?.slug.value"
+                    title="Page Slug"
+                    :is-editable="false"
+                    class="whitespace-nowrap"
+                  />
+                  <div v-if="isHome" class="text-[10px] text-theme-400 dark:text-theme-400">
+                    (Home Page)
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="grow flex justify-end">
+              <XButton size="sm" design="ghost" icon="i-tabler-settings">
+                Edit Page Settings
+              </XButton>
+            </div>
+          </div>
+        </template>
+      </ElBrowserFrameDevice>
     </div>
   </div>
 </template>

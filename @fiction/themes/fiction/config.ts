@@ -9,7 +9,7 @@ import type { template as navTemplate } from '@fiction/cards/page/nav/index.js'
 import type { NavItem } from '@fiction/core'
 import type { Site, ThemeConfig } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
-import type { SiteUserConfig } from '@fiction/site/schema.js'
+import type { SiteGlobalUserConfig, StandardUserConfig } from '@fiction/site/schema.js'
 import { getCardDemoListing, getDemoPages } from '@fiction/cards'
 import { dayjs } from '@fiction/core'
 
@@ -242,18 +242,16 @@ export async function getConfig(args: {
     ...demoPages,
   ])
 
-  const userConfig: SiteUserConfig = {
-    site: {
-      shareImage: { url: shareImage, format: 'image' },
-      favicon: { url: favicon, format: 'image' },
-      icon: { url: icon, format: 'image' },
-      titleTemplate: `{{pageTitle}} - Fiction`,
-      gtmContainerId: `GTM-5LQBZDJ`,
+  const userConfig: SiteGlobalUserConfig = {
+    shareImage: { url: shareImage, format: 'image' },
+    favicon: { url: favicon, format: 'image' },
+    icon: { url: icon, format: 'image' },
+    titleTemplate: `{{pageTitle}} - Fiction`,
+    googleTagManagerId: `GTM-5LQBZDJ`,
+    standard: {
       buttons: { design: 'ghost', rounding: 'full', hover: 'pop' },
     },
   }
-
-  const webElementDemoItems = await getCardDemoListing()
 
   return {
     userConfig,

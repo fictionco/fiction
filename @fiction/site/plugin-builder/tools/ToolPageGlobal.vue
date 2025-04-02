@@ -34,15 +34,13 @@ const options: InputOption[] = [
         schema,
         key: 'title',
         label: 'Site Title',
-        subLabel: 'For Reference Only',
         input: 'InputText',
         isRequired: true,
       }),
       createOption({
         schema,
-        key: 'userConfig.site.titleTemplate',
+        key: 'userConfig.titleTemplate',
         label: 'Page Title Format',
-        subLabel: 'Template for browser tab titles',
         description: 'Customize how page titles appear in browser tabs and search results. Use {{pageTitle}} for the current page name and {{siteTitle}} for your site name.',
         input: 'InputText',
         placeholder: '{{pageTitle}} - {{siteTitle}}',
@@ -59,17 +57,15 @@ const options: InputOption[] = [
     options: [
       createOption({
         schema,
-        key: 'userConfig.site.favicon',
+        key: 'userConfig.favicon',
         label: 'Favicon',
-        subLabel: 'Small icon shown in browser tabs',
         description: 'Upload a square image (at least 32x32px) that represents your site in browser tabs and bookmarks',
         input: 'InputMediaUpload',
       }),
       createOption({
         schema,
-        key: 'userConfig.site.shareImage',
+        key: 'userConfig.shareImage',
         label: 'Sharing Image',
-        subLabel: 'Appears when your site is shared on social media',
         description: 'Upload an image (1200x630px recommended) to appear when your site is shared on social platforms like Facebook, Twitter, or LinkedIn',
         input: 'InputMediaUpload',
       }),
@@ -85,17 +81,15 @@ const options: InputOption[] = [
     options: [
       createOption({
         schema,
-        key: 'userConfig.site.timezone',
+        key: 'userConfig.timezone',
         label: 'Time Zone',
-        subLabel: 'Used for scheduling and date displays',
         description: 'Sets how dates and times are displayed across your site based on your location',
         input: 'InputTimezone',
       }),
       createOption({
         schema,
-        key: 'userConfig.site.locale',
+        key: 'userConfig.locale',
         label: 'Language Code',
-        subLabel: 'e.g., "en" for English',
         description: 'Two-letter code that tells browsers and search engines what language your site uses (e.g., "en" for English, "es" for Spanish)',
         input: 'InputText',
         placeholder: 'en',
@@ -114,12 +108,11 @@ const options: InputOption[] = [
 
       createOption({
         schema,
-        key: 'userConfig.site.gtmContainerId',
-        label: 'Google Tag Manager ID',
-        subLabel: 'For analytics and tracking (optional)',
-        description: 'Enter your GTM container ID to enable analytics, tracking, and other marketing tools. Format: GTM-XXXXXXX',
+        key: 'userConfig.googleAnalyticsId',
+        label: 'Google Analytics ID',
+        description: 'Enter your Google Analytics Measurement ID to enable website analytics. Format: G-XXXXXXXXXX',
         input: 'InputText',
-        placeholder: 'GTM-XXXXXXX',
+        placeholder: 'G-XXXXXXXXXX',
       }),
     ],
   }),
@@ -131,7 +124,6 @@ const options: InputOption[] = [
       createOption({
         key: 'userConfig.customCode.gtmContainerId',
         label: 'Delete Site',
-        subLabel: 'Permanently delete this site',
         input: 'InputActionList',
         props: {
           buttons: [

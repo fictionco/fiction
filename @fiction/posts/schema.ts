@@ -1,6 +1,6 @@
 import type { ColType, ComplexDataFilter, User } from '@fiction/core'
 import type { TableSiteConfig } from '@fiction/site'
-import type { SiteUserConfig } from '@fiction/site/schema'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import { ColorThemeUserSchema, createTableSchema, EmailSenderSchema, MediaDisplaySchema, PostStatusSchema, standardTable, toSlug } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { t as siteTables } from '@fiction/site/tables'
@@ -26,7 +26,7 @@ export type TablePostConfig = Partial<ColType<typeof postCols>> & {
 
 export type PostUserConfig = {
   isContentCompletionDisabled?: boolean
-} & SiteUserConfig
+} & StandardUserConfig
 
 export type PostDraft = Partial<{ draftId: string, title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string }>
 

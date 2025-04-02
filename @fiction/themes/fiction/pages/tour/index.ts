@@ -26,8 +26,8 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                 theme: 'green',
                 icon: { class: 'i-tabler-arrow-up-right' },
               },
-              title: `Establish and Build Your [@text_effect type=squiggle]Reputation[/@text_effect]`,
-              subTitle: `Your professional avatar is your web presence, your reputation, and your personal brand. Fiction makes it easy to build and grow.`,
+              title: `The Most Reliable Way to Improve Your [@text_effect type=squiggle]Results[/@text_effect]`,
+              subTitle: `Building your personal brand is the most effective way to drive new opportunities, raise investment, attract talent and grow your business.`,
 
               action: {
                 buttons: [

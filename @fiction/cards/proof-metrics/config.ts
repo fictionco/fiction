@@ -1,4 +1,4 @@
-import type { SiteUserConfig } from '@fiction/site/schema'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import { NavListItemSchema, numberFormats } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -21,7 +21,7 @@ export const schema = z.object({
   items: z.array(MetricSchema).optional(),
 })
 
-export type UserConfig = z.infer<typeof schema> & SiteUserConfig
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 const options = [
   createOption({

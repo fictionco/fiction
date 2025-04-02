@@ -1,4 +1,4 @@
-import type { SiteUserConfig } from '@fiction/site/schema'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import { fontFamilySchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -13,7 +13,7 @@ export const schema = z.object({
   weight: z.enum(['inherit', 'normal', 'medium', 'semibold', 'bold']).optional().describe('Font weight'),
 })
 
-export type UserConfig = z.infer<typeof schema> & SiteUserConfig
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 const options = [
   createOption({

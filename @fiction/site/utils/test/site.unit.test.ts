@@ -219,12 +219,12 @@ describe('updateSite / updatePages', async () => {
       caller: 'testUpdateSite',
       site,
       newConfig: { title: 'New Title', userConfig: {
-        site: { locale: 'es' },
+        locale: 'es',
       } satisfies Site['userConfig']['value'], subDomain: 'newSub', customDomains: [{ hostname: 'new.com' }] },
     })
 
     expect(site.title.value).toBe('New Title')
-    expect(site.userConfig.value.site?.locale).toBe('es')
+    expect(site.userConfig.value?.locale).toBe('es')
     expect(site.subDomain.value).toBe('newSub')
     expect(site.customDomains.value[0].hostname).toBe('new.com')
   })

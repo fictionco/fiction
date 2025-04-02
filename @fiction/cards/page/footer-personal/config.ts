@@ -1,4 +1,4 @@
-import type { SiteUserConfig } from '@fiction/site/schema'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import { brandSchema, NavListItemSchema, NavListSchema } from '@fiction/core/schemas/schemas'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -12,7 +12,7 @@ export const schema = z.object({
   }).optional(),
 })
 
-export type UserConfig = z.infer<typeof schema> & SiteUserConfig
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 export function getOptions() {
   return [

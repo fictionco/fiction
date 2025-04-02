@@ -30,15 +30,27 @@ const baseFontsSchema = z.object({
 // .catchall(). This method allows the schema to accept any additional properties of the specified type.
 const fontsSchema = baseFontsSchema.catchall(fontFamilySchema)
 
+const ButtonTypeSchema = z.object({
+  rounding: ButtonRoundingSchema.optional(),
+  design: ButtonDesignSchema.optional(),
+  hover: ButtonHoverSchema.optional(),
+})
+
 // Main schema
 export const CardStandardSchema = z.object({
 
+  title: z.string().optional(),
+  description: z.string().optional(),
+  fonts: fontsSchema.optional(),
+  buttons: ButtonTypeSchema.optional(),
+  prefersColorScheme: z.enum(prefersColorScheme).optional(),
   background: MediaDisplaySchema.optional(),
-  backgroundAlt: MediaDisplaySchema.optional(),
   themeColor: ColorThemeSchema.optional(),
-  themeColorAlt: ColorThemeSchema.optional(),
   primaryColor: ColorThemeSchema.optional(),
+  backgroundAlt: MediaDisplaySchema.optional(),
+  themeColorAlt: ColorThemeSchema.optional(),
   primaryColorAlt: ColorThemeSchema.optional(),
+
   invertColorScheme: z.boolean().optional(),
 
   widthSize: SizeSchemaComplete.optional(),
@@ -46,12 +58,6 @@ export const CardStandardSchema = z.object({
 
   hideOnPage: z.boolean().optional(),
   showOnSingle: z.boolean().optional(),
-
-  fonts: z.object({
-    title: fontStyleSchema.optional(),
-    body: fontStyleSchema.optional(),
-    highlight: fontStyleSchema.optional(),
-  }).optional(),
 
   headers: z.object({
     layout: HeaderLayoutSchema.optional(),
@@ -78,40 +84,26 @@ export type CardStandardOptions = z.infer<typeof CardStandardSchema>
 
 export type CardOptionsWithStandard = z.infer<typeof CardOptionsWithStandardSchema>
 
-const ButtonTypeSchema = z.object({
-  rounding: ButtonRoundingSchema.optional(),
-  design: ButtonDesignSchema.optional(),
-  hover: ButtonHoverSchema.optional(),
-})
-
-export const SiteUserConfigSchema = z.object({
-  site: z.object({
-    title: z.string().optional(),
-    description: z.string().optional(),
-    robotsTxt: z.string().optional(),
-    locale: z.string().optional(),
-    titleTemplate: z.string().optional(),
-    timezone: z.string().optional(),
-    favicon: MediaDisplaySchema.optional(),
-    icon: MediaDisplaySchema.optional(),
-    shareImage: MediaDisplaySchema.optional(),
-    logo: logoSchema.optional(),
-    gtmContainerId: z.string().optional(),
-    fonts: fontsSchema.optional(),
-    buttons: ButtonTypeSchema.optional(),
-    prefersColorScheme: z.enum(prefersColorScheme).optional(),
-    primaryColor: ColorThemeSchema.optional(),
-    themeColor: ColorThemeSchema.optional(),
-    views: z.object({
-      postSingle: z.string().optional(),
-      postIndex: z.string().optional(),
-    }).optional(),
-
-  }).optional(),
+const siteGlobalConfigSchema = z.object({
+  googleAnalyticsId: z.string().optional(),
+  googleTagManagerId: z.string().optional(),
+  favicon: MediaDisplaySchema.optional(),
+  icon: MediaDisplaySchema.optional(),
+  shareImage: MediaDisplaySchema.optional(),
+  titleTemplate: z.string().optional(),
+  robotsTxt: z.string().optional(),
+  locale: z.string().optional(),
+  timezone: z.string().optional(),
+  logo: logoSchema.optional(),
   standard: CardStandardSchema.optional(),
 })
 
-export type SiteUserConfig = z.infer<typeof SiteUserConfigSchema>
+export const StandardUserConfigSchema = z.object({
+  standard: CardStandardSchema.optional(),
+})
+
+export type SiteGlobalUserConfig = z.infer<typeof siteGlobalConfigSchema>
+export type StandardUserConfig = z.infer<typeof StandardUserConfigSchema>
 
 export const SiteSchema = z.object({
   siteId: z.string(),
@@ -122,7 +114,7 @@ export const SiteSchema = z.object({
   subDomain: z.string().optional(),
   customDomains: z.array(z.any()).optional(),
   status: z.enum(['pending', 'active', 'inactive']).optional().default('pending'),
-  userConfig: SiteUserConfigSchema.optional(),
+  userConfig: siteGlobalConfigSchema.optional(),
   userPrivate: z.record(z.unknown()).optional(),
   editor: z.record(z.unknown()).optional(),
   sections: z.record(z.unknown()).optional(),

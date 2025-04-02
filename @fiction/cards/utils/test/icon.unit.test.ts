@@ -9,11 +9,9 @@ describe('icon Utils', () => {
     title: { value: 'Test Site' },
     fullConfig: {
       value: {
-        site: {
-          favicon: { url: 'custom-favicon.png' },
-          icon: { url: 'custom-icon.png' },
-          shareImage: { url: 'custom-share.png' },
-        },
+        favicon: { url: 'custom-favicon.png' },
+        icon: { url: 'custom-icon.png' },
+        shareImage: { url: 'custom-share.png' },
 
       } satisfies Site['fullConfig']['value'],
     },
@@ -82,7 +80,7 @@ describe('icon Utils', () => {
         const siteMock = {
           title: { value: 'Test Site' },
           fullConfig: {
-            value: { site: { favicon: { url: `icon.${ext}` } } } satisfies Site['fullConfig']['value'],
+            value: { favicon: { url: `icon.${ext}` } } satisfies Site['fullConfig']['value'],
           },
         } as Site
 

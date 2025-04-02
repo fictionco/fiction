@@ -646,7 +646,7 @@ export async function getConfig(args: Omit<SectionArgs, 'stock'>): Promise<Theme
     sections: { header, footer, hidden },
     pages,
     userConfig: {
-      site: {
+      standard: {
         prefersColorScheme: 'dark',
         primaryColor: 'indigo',
       },

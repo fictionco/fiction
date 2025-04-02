@@ -625,7 +625,7 @@ describe('manageSite query', async () => {
 
         expect(response.status).toBe('success')
         expect(response.data?.title).toBe('Draft Site Title')
-        expect(response.data?.userConfig.site?.description).toBe('Draft description')
+        expect(response.data?.userConfig.standard?.description).toBe('Draft description')
         expect(response.data?.draft).toBeUndefined() // Draft content should be merged but draft field removed
       })
     })

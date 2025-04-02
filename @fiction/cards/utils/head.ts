@@ -4,7 +4,7 @@ import { getColorScheme } from '@fiction/core'
 export function getSiteBrandColors(args: { site?: Site }) {
   const { site } = args
 
-  const clr = site?.fullConfig.value?.site?.primaryColor || 'blue'
+  const clr = site?.fullConfig.value?.standard?.primaryColor || 'blue'
 
   return getColorScheme(clr, { outputFormat: 'hex' })
 }
@@ -17,7 +17,7 @@ export function getStructuredData(args: { site?: Site }) {
   const url = site.frame.displayUrl.value
   const org = site.org?.value || {}
   const config = site.fullConfig.value
-  const siteConfig = config.site || {}
+  const siteConfig = config || {}
   const page = site.currentPage.value
   let slug = page?.slug.value || ''
 
@@ -33,7 +33,7 @@ export function getStructuredData(args: { site?: Site }) {
         'name': org.orgName || site.title.value,
         'url': url,
         'image': siteConfig?.shareImage?.url || org?.avatar?.url,
-        'description': siteConfig?.description,
+        'description': siteConfig?.standard?.description,
       },
 
       // Current WebPage
@@ -42,7 +42,7 @@ export function getStructuredData(args: { site?: Site }) {
         '@id': `${url}${slug}#webpage`,
         'url': `${url}${slug || ''}`,
         'name': page?.title.value,
-        'description': page?.description.value || siteConfig?.description,
+        'description': page?.description.value || siteConfig?.standard?.description,
         'mainEntity': { '@id': `${url}/#person` },
         'inLanguage': siteConfig?.locale || 'en-US',
       },
@@ -55,7 +55,7 @@ export function getStructuredData(args: { site?: Site }) {
 export function getHeadScripts(args: { site?: Site, noscript?: boolean }) {
   const { site, noscript = false } = args
 
-  const gtmContainerId = site?.fullConfig.value?.site?.gtmContainerId
+  const gtmContainerId = site?.fullConfig.value?.googleTagManagerId
 
   if (noscript) {
     return gtmContainerId
