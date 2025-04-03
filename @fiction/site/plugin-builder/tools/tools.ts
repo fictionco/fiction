@@ -11,7 +11,6 @@ export function getTools(args: { site: Site }) {
       toolId: 'addSections',
       title: 'Add New Sections',
       icon: { class: 'i-tabler-circle-plus' },
-      widthClasses: 'w-[500px]',
       el: vue.defineAsyncComponent(async () => import('./ToolPageAddElements.vue')),
 
     },
@@ -25,7 +24,6 @@ export function getTools(args: { site: Site }) {
       toolId: 'editPage',
       title: 'Edit Page Details',
       icon: { class: 'i-tabler-file-description' },
-      widthClasses: 'w-[430px]',
       el: vue.defineAsyncComponent(async () => import('./ToolPageEdit.vue')),
     },
     {
@@ -44,7 +42,6 @@ export function getTools(args: { site: Site }) {
       toolId: 'global',
       title: 'Global Site Settings',
       icon: { class: 'i-tabler-settings' },
-      widthClasses: 'w-[500px]',
       isPrimary: true,
       el: vue.defineAsyncComponent(async () => import('./ToolPageGlobal.vue')),
     },
@@ -58,7 +55,6 @@ export function getTools(args: { site: Site }) {
       toolId: 'publish',
       title: 'Domain Settings',
       icon: { class: 'i-tabler-world-upload' },
-      widthClasses: 'w-[600px]',
       el: vue.defineAsyncComponent(async () => import('./ToolPagePublish.vue')),
     },
     {

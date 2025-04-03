@@ -78,7 +78,7 @@ const ico = vue.computed(() => iconThemes[props.status as keyof typeof iconTheme
             :data-test-buttons="buttons.length"
             class="justify-center"
             ui-size="md"
-            :buttons
+            :buttons="() => buttons"
           />
         </div>
       </div>

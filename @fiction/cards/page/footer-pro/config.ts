@@ -25,8 +25,8 @@ export type UserConfig = z.infer<typeof schema>
 function getDefaultConfig(): UserConfig {
   return {
     brand: {
-      logo: { variant: 'typography', typography: { label: 'Add Your Brand' } },
-      tagline: 'Add your brand tagline here',
+      logo: { variant: 'typography', typography: { label: 'Name' } },
+      tagline: 'Add your tagline here',
       action: {
         buttons: [],
       },

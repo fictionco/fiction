@@ -148,7 +148,7 @@ const detailOptions = [
     subLabel: 'Remove or resend invite',
     input: 'InputActionList',
     props: {
-      buttons: [
+      buttons: () => [
         {
           label: 'Resend Invite',
           onClick: () => resendInvite(),

@@ -18,7 +18,6 @@ export const tools = [
     icon: { class: 'i-tabler-mailbox' },
     location: 'primary',
     isPrimary: true,
-    widthClasses: 'w-[400px] lg:w-[500px]',
     el: vue.defineAsyncComponent(async () => import('./email/ToolEmailTest.vue')),
   },
   {

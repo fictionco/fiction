@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-import type { ActionButton, vue } from '@fiction/core'
+import type { ActionButton } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 
 defineOptions({ name: 'InputActionList' })
 
-const props = defineProps({
-  buttons: { type: Array as vue.PropType<ActionButton[]>, default: () => [] },
-  uiSize: { type: String as vue.PropType<ActionButton['size']>, default: 'sm' },
-})
+const props = defineProps<{
+  buttons?: () => ActionButton[]
+  uiSize?: ActionButton['size']
+}>()
+
+const { buttons = () => [], uiSize = 'md' } = props
 
 function gapSize() {
   switch (props.uiSize) {
@@ -30,7 +32,7 @@ function gapSize() {
 <template>
   <div class="flex items-center flex-wrap py-2" :class="gapSize()">
     <XButton
-      v-for="(btn, i) in buttons"
+      v-for="(btn, i) in buttons()"
       :key="i"
       :design="btn.design || 'solid'"
       :theme="btn.theme || 'default'"

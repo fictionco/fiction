@@ -1,4 +1,5 @@
 import type { ActionButton, ClickHandler, colorTheme, MediaObject } from '@fiction/core'
+import type { InputOption } from '@fiction/ui'
 import { FictionObject, vue } from '@fiction/core'
 
 export type Handle = {
@@ -27,7 +28,8 @@ export type EditorTool<T extends string = string, U extends Record<string, any> 
   isDefault?: boolean
   location?: 'primary' | 'context'
   props?: (args: U) => vue.ComputedRef<Record<string, unknown>>
-  widthClasses?: string
+  modalClass?: string
+  option?: InputOption
 }
 
 type AdminEditorControllerSettings = {

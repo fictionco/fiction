@@ -288,7 +288,7 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
   const options: InputOption[] = [
     createOption({ key: 'email', label: 'New Email Address', input: 'InputEmail', placeholder: 'New Email Address' }),
     createOption({ key: 'code', label: 'One Time Code', input: 'InputOneTimeCode', placeholder: '••••••', isHidden: !codeSent.value }),
-    createOption({ key: 'actions', input: 'InputActionList', props: { actions, defaultSize: 'md' } }),
+    createOption({ key: 'actions', input: 'InputActionList', props: { buttons: () => actions, uiSize: 'md' } }),
   ]
 
   return [createOption({ key: 'accountEmailGroup', label: 'Change Email Address', input: 'group', options })]

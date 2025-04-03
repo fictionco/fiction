@@ -125,7 +125,7 @@ async function resetToPublished() {
       </div>
     </div>
 
-    <template v-else-if="site">
+    <template v-else>
       <ViewEditor :tool-props="{ site }" :controller="site?.editorController" :card>
         <template #headerLeft>
           <div>
@@ -206,7 +206,7 @@ async function resetToPublished() {
           </CardButton>
         </template>
         <template #default>
-          <El404 v-if="!site && !loading" heading="Site Not Found" sub-heading="No site was found here." />
+          <El404 v-if="!site && !loading" title="Site Not Found" sub-title="No site was found here." :buttons="[{ href: card.link('/sites'), label: 'View Sites' }]" />
           <SiteEditorFrame v-else class="h-full" :site="site" />
         </template>
       </ViewEditor>

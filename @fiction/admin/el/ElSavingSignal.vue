@@ -9,7 +9,7 @@ const {
   navItems = [],
   classes = {},
 } = defineProps<{
-  isDirty: boolean
+  isDirty?: boolean
   navItems?: NavListItem[]
   changeType?: 'draft' | 'publish'
   classes?: { text?: string, icon?: string }

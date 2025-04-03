@@ -36,7 +36,7 @@ const options = vue.computed<InputOption[]>(() => {
           subLabel: 'Permanently delete this site',
           input: 'InputActionList',
           props: {
-            buttons: [
+            buttons: () => [
               {
                 label: 'Permanently Delete Site...',
                 design: 'outline' as const,

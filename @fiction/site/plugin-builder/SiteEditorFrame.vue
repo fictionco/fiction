@@ -52,15 +52,6 @@ function toggleDarkLightMode() {
   props.site.syncChange({ caller: 'updateDarkLightMode' })
 }
 
-function toggleEditingStyle() {
-  if (!props.site)
-    return
-  const v = props.site.editor.value.savedEditingStyle === 'quick' ? 'clean' : 'quick'
-  props.site.editor.value.savedEditingStyle = v
-
-  props.site.syncChange({ noSave: true, caller: 'updateEditingStyle' })
-}
-
 const currentPage = vue.computed(() => props.site?.currentPage.value)
 const currentPageStandard = vue.computed(() => currentPage.value?.userConfig.value.standard)
 const isHome = vue.computed(() => { return currentPage.value?.slug.value === '_home' || currentPage.value?.slug.value === '' })
@@ -130,24 +121,6 @@ const isHome = vue.computed(() => { return currentPage.value?.slug.value === '_h
             {{ site.isLightMode.value ? 'Light' : 'Dark' }} Mode Preview
           </XButton>
         </ElTooltip>
-        <!-- <ElTooltip
-          direction="bottom"
-          :content="site.editor.value.savedEditingStyle === 'quick'
-            ? 'Quick Editing: Editing on by default, hold &#8984; to make site behave normally'
-            : 'Clean Editing: Site has normal behavior by default, hold &#8984; to activate editing'"
-        >
-          <XButton
-            rounding="full"
-            size="xs"
-            respond="icon:xl"
-            icon="i-tabler-drag-drop"
-            :theme="site.editor.value.savedEditingStyle === 'quick' ? 'green' : 'primary'"
-            design="outline"
-            @click="toggleEditingStyle()"
-          >
-            {{ site.editor.value.savedEditingStyle === 'quick' ? 'Quick Edit' : 'Clean Edit' }} Mode
-          </XButton>
-        </ElTooltip> -->
       </div>
     </div>
     <div v-if="site" class="min-h-0 h-full relative mx-auto pb-10 flex flex-col" :class="deviceModeConfig?.wrapClass">
@@ -170,18 +143,16 @@ const isHome = vue.computed(() => { return currentPage.value?.slug.value === '_h
                 <XIcon class="size-5 text-theme-400 dark:text-theme-500" :media="{ class: 'i-tabler-file' }" />
               </div>
               <div class="font-semibold">
-                {{ currentPageStandard?.title || currentPage?.title.value }}
+                {{ currentPageStandard?.title || currentPage?.title.value || 'Untitled Page' }}
               </div>
               <div>{{ currentPageStandard?.description || currentPage?.description.value }}</div>
             </div>
             <div class=" justify-between text-xs ">
               <div class="bg-theme-600/30 rounded-md flex items-center justify-between gap-2 py-1 px-3 font-mono">
                 <div class="flex items-center gap-1">
-                  <span class="i-tabler-slash text-lg dark:text-theme-500" />
                   <XText
-                    v-if="currentPage?.slug.value && currentPage?.slug.value !== '_home'"
-                    :model-value="currentPage?.slug.value"
-                    title="Page Slug"
+                    :model-value="site.frame.displayUrl.value"
+                    title="Current Path"
                     :is-editable="false"
                     class="whitespace-nowrap"
                   />
