@@ -3,7 +3,7 @@ import type { Site } from '../../site'
 import { AdminEditorController } from '@fiction/admin'
 import { vue } from '@fiction/core'
 
-export type ToolKeys = 'pages' | 'addPage' | 'editPage' | 'addSections' | 'editLayout' | 'siteSettings' | 'global' | 'publish' | 'editCard' | 'styling' | 'history'
+export type ToolKeys = 'pages' | 'pageAdd' | 'pageEdit' | 'sectionsAdd' | 'sectionsLayout' | 'siteSettings' | 'cardEdit'
 
 export function getTools(args: { site: Site }) {
   return [
@@ -15,40 +15,47 @@ export function getTools(args: { site: Site }) {
       isPrimary: true,
     },
     {
-      toolId: 'editPage',
-      title: 'Sections',
-      icon: { class: 'i-tabler-section' },
-      el: vue.defineAsyncComponent(async () => import('./ToolPageLayout.vue')),
-      isPrimary: true,
-      design: 'drawer',
+      toolId: 'pageEdit',
+      title: 'Edit Page',
+      icon: { class: 'i-tabler-file' },
+      design: 'modal',
+      el: vue.defineAsyncComponent(async () => import('./ToolPageEdit.vue')),
     },
     {
-      toolId: 'addSections',
-      title: 'Add New',
-      icon: { class: 'i-tabler-plus' },
-      el: vue.defineAsyncComponent(async () => import('./ToolPageAddElements.vue')),
-      isPrimary: true,
-      design: 'drawer',
-    },
-    {
-      toolId: 'addPage',
+      toolId: 'pageAdd',
       title: 'Add Page',
       icon: { class: 'i-tabler-file-plus' },
       el: vue.defineAsyncComponent(async () => import('./ToolPageAdd.vue')),
     },
+    {
+      toolId: 'sectionsLayout',
+      title: 'Sections',
+      icon: { class: 'i-tabler-section' },
+      el: vue.defineAsyncComponent(async () => import('./ToolSectionsLayout.vue')),
+      isPrimary: true,
+      design: 'drawer',
+    },
+    {
+      toolId: 'sectionsAdd',
+      title: 'Add New',
+      icon: { class: 'i-tabler-plus' },
+      el: vue.defineAsyncComponent(async () => import('./ToolSectionsAdd.vue')),
+      isPrimary: true,
+      design: 'drawer',
+    },
 
     {
-      toolId: 'global',
+      toolId: 'siteSettings',
       title: 'Settings',
       icon: { class: 'i-tabler-settings' },
-      el: vue.defineAsyncComponent(async () => import('./ToolPageGlobal.vue')),
+      el: vue.defineAsyncComponent(async () => import('./ToolSettings.vue')),
       isPrimary: true,
       design: 'modal',
     },
 
     {
-      toolId: 'editCard',
-      title: 'Element Editor',
+      toolId: 'cardEdit',
+      title: 'Edit Section',
       icon: { class: 'i-tabler-edit-circle' },
       location: 'context',
       isDefault: true,

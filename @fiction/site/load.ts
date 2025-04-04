@@ -140,7 +140,7 @@ export async function loadSiteFromCard(args: { cardId: string, siteRouter: Ficti
   const demo = await createDemoPage({ site, template })
   const factory = new CardFactory({ templates, site, caller: 'siteFromCard' })
 
-  const page = await factory.fromTemplate({ ...demo, slug: '_home' })
+  const page = await factory.fromTemplate({ ...demo, slug: '_home', isHome: true })
 
   await site.update({ pages: [page] }, { caller: 'loadSiteFromCard', noSave: true })
 
@@ -325,7 +325,7 @@ export async function getSiteContentPaths(site: Site): Promise<SiteContentPath[]
   const pagePathPromises = site.pages.value
     .filter(page => page.slug.value && page.slug.value !== '_404' && !page.slug.value.startsWith('__'))
     .map(async (page) => {
-      const pagePath = page.slug.value === '_home' ? '/' : `/${page.slug.value}`
+      const pagePath = page.isHome.value ? '/' : `/${page.slug.value}`
       const viewPath = pagePath === '/' ? '/_' : pagePath
 
       const cardPathPromises = page.cards.value

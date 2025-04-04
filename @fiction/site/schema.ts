@@ -8,13 +8,14 @@ import {
   HeaderLayoutSchema,
   logoSchema,
   MediaDisplaySchema,
+  NavListItemSchema,
+  NavListSchema,
   SizeSchemaComplete,
   SuperTitleSchema,
 } from '@fiction/core'
 import { z } from 'zod'
 
 export type SizeBasic = z.infer<typeof SizeSchemaComplete>
-
 export const prefersColorScheme = ['light', 'dark', 'auto', ''] as const
 
 const baseFontsSchema = z.object({
@@ -26,7 +27,6 @@ const baseFontsSchema = z.object({
   input: fontFamilySchema.optional(),
   highlight: fontFamilySchema.optional(),
 })
-
 // .catchall(). This method allows the schema to accept any additional properties of the specified type.
 const fontsSchema = baseFontsSchema.catchall(fontFamilySchema)
 
@@ -36,9 +36,21 @@ const ButtonTypeSchema = z.object({
   hover: ButtonHoverSchema.optional(),
 })
 
+// Navigation schema
+const NavigationItemSchema = NavListItemSchema.extend({
+  cardId: z.string().optional(), // Reference to the card/page ID for ordering
+})
+
+const NavigationSchema = z.object({
+  primary: z.array(NavigationItemSchema).optional(),
+  secondary: z.array(NavigationItemSchema).optional(),
+  footer: z.array(NavListSchema).optional(),
+  mobile: z.array(NavigationItemSchema).optional(),
+  utility: z.array(NavigationItemSchema).optional(),
+})
+
 // Main schema
 export const CardStandardSchema = z.object({
-
   title: z.string().optional(),
   description: z.string().optional(),
   fonts: fontsSchema.optional(),
@@ -50,15 +62,11 @@ export const CardStandardSchema = z.object({
   backgroundAlt: MediaDisplaySchema.optional(),
   themeColorAlt: ColorThemeSchema.optional(),
   primaryColorAlt: ColorThemeSchema.optional(),
-
   invertColorScheme: z.boolean().optional(),
-
   widthSize: SizeSchemaComplete.optional(),
   spaceSize: SizeSchemaComplete.optional(),
-
   hideOnPage: z.boolean().optional(),
   showOnSingle: z.boolean().optional(),
-
   headers: z.object({
     layout: HeaderLayoutSchema.optional(),
     size: SizeSchemaComplete.optional(),
@@ -66,7 +74,6 @@ export const CardStandardSchema = z.object({
     title: z.string().optional(),
     subTitle: z.string().optional(),
   }).optional(),
-
   ai: z.object({
     prompt: z.string().optional(),
     fields: z.record(z.object({
@@ -81,7 +88,6 @@ export const CardOptionsWithStandardSchema = z.object({
 })
 
 export type CardStandardOptions = z.infer<typeof CardStandardSchema>
-
 export type CardOptionsWithStandard = z.infer<typeof CardOptionsWithStandardSchema>
 
 const siteGlobalConfigSchema = z.object({
@@ -96,6 +102,7 @@ const siteGlobalConfigSchema = z.object({
   timezone: z.string().optional(),
   logo: logoSchema.optional(),
   standard: CardStandardSchema.optional(),
+  navigation: NavigationSchema.optional(), // Added navigation schema
 })
 
 export const StandardUserConfigSchema = z.object({
@@ -120,3 +127,22 @@ export const SiteSchema = z.object({
   sections: z.record(z.unknown()).optional(),
   draft: z.record(z.unknown()).optional(),
 }).strict()
+
+export const PageSchema = z.object({
+  cardId: z.string(),
+  siteId: z.string(),
+  userId: z.string().optional(),
+  orgId: z.string().optional(),
+  regionId: z.string().optional(),
+  layoutId: z.string().optional(),
+  templateId: z.string().optional(),
+  slug: z.string().optional(),
+  title: z.string().optional(),
+  description: z.string().optional(),
+  cards: z.array(z.any()).optional(),
+  userConfig: StandardUserConfigSchema.optional(),
+}).strict()
+
+// Export navigation types
+export type NavigationItem = z.infer<typeof NavigationItemSchema>
+export type Navigation = z.infer<typeof NavigationSchema>

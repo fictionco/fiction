@@ -14,7 +14,8 @@ export async function getPages(args: ThemeConfigArgs) {
 
   return [
     await factory.fromTemplate({
-      slug: '_home',
+      slug: 'home',
+      isHome: true,
       cards: [
         await factory.fromTemplate<typeof templateHero>({
           templateId: 'cardHeroV1',

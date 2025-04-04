@@ -21,7 +21,7 @@ const { site, controller } = defineProps<{
 const loading = vue.ref(false)
 const options = vue.computed<InputOption[]>(() => {
   const optionGroups = getPageOptions({ site })
-  return [optionGroups.essentials]
+  return [optionGroups.basic]
 })
 
 const page = vue.ref<CardConfigPortable>({ title: '', slug: '', cards: [{ templateId: 'cardHeroV1' }] })

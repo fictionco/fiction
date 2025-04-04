@@ -26,7 +26,8 @@ export async function getPages(args: SectionArgs) {
   return [
     // Home page
     await factory.fromTemplate({
-      slug: '_home',
+      slug: 'welcome',
+      isHome: true,
       cards: [
         await factory.fromTemplate<typeof cardOverlaySliderV1Template>({
           templateId: 'cardOverlaySliderV1',

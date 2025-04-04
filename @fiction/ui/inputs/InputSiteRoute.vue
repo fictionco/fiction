@@ -116,7 +116,7 @@ function handlePageSelect(path?: string) {
     return
 
   if (path === '_new') {
-    props.site?.editorActivateTool({ toolId: 'addPage' })
+    props.site?.editorActivateTool({ toolId: 'pageAdd' })
     return
   }
 

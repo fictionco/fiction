@@ -55,7 +55,8 @@ const nav = vue.computed<NavListItem[]>(() => {
   return panels.value
     .filter(p => p.userConfig.value?.isNavItem)
     .map((p) => {
-      const slug = p.slug.value === '_home' ? '' : p.slug.value
+      const isHome = p.isHome.value
+      const slug = isHome ? '' : p.slug.value
       const cfg = p.userConfig.value || {}
       const itemId = currentItemId.value || ''
       const isActive = slug === itemId || slug === currentPanel.value?.userConfig.value?.parentItemId

@@ -215,7 +215,6 @@ export class Card<
   site = this.settings.site
   cardId = this.settings.cardId || objectId({ prefix: 'crd' })
   isHome = vue.ref(this.settings.isHome)
-  is404 = vue.ref(this.settings.is404)
   isSystem = vue.ref(this.settings.isSystem)
   parentId = this.settings.parentId
   depth = vue.ref(this.settings.depth || 0)
@@ -246,7 +245,6 @@ export class Card<
   })
 
   cards = vue.shallowRef((this.settings.cards || []).map(c => this.initSubCard({ cardConfig: c })))
-  effects = vue.shallowRef((this.settings.effects || []).map(c => this.initSubCard({ cardConfig: c })))
 
   tpl = vue.computed(() => {
     const templates = [
@@ -384,7 +382,6 @@ export class Card<
     const { site: __, ...rest } = this.settings
 
     const cards = this.cards.value.filter(_ => !_.isSystem.value).map(c => c.toConfig())
-    const effects = this.effects.value.filter(_ => !_.isSystem.value).map(c => c.toConfig())
 
     return {
       ...rest,
@@ -392,15 +389,13 @@ export class Card<
       layoutId: this.layoutId.value,
       templateId: this.templateId.value,
       cardId: this.cardId,
-      isHome: !!this.isHome.value,
-      is404: !!this.is404.value,
       title: this.title.value,
       description: this.description.value,
       slug: this.slug.value,
       userConfig: this.userConfig.value as T,
       cards,
-      effects,
       scope: this.settings.scope,
+      isHome: !!this.isHome.value,
     }
   }
 

@@ -33,8 +33,9 @@ export async function getPages(args: SectionArgs) {
 
   return [
     await factory.fromTemplate({
-      slug: '_home',
+      slug: 'home',
       title: 'Home',
+      isHome: true,
       cards: [
         await factory.fromTemplate<typeof ProfileTemplate>({ templateId: 'cardProfileV1' }),
         await factory.fromTemplate<typeof BentoTemplate>({ templateId: 'cardBentoV1' }),

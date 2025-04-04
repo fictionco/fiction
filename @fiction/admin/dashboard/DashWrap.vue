@@ -50,9 +50,10 @@ const primaryNav = vue.computed<NavListItem[]>(() => {
 
   const r = navCards?.map((item) => {
     const currentViewId = site.siteRouter.params.value.viewId
-    const slug = item.slug.value === '_home' ? '' : item.slug.value
+    const isHome = item.slug.value === '_home' || item.isHome.value || item.slug.value === ''
+    const slug = isHome ? '' : item.slug.value
     const itemUc = item.userConfig.value as UserConfig
-    const isActive = slug === currentViewId || slug === uc.value.parentNavItemSlug || (!currentViewId && (!slug || slug === '_home'))
+    const isActive = slug === currentViewId || slug === uc.value.parentNavItemSlug || (!currentViewId && (isHome))
     const iconClass = isActive && itemUc.navIconAlt ? itemUc.navIconAlt : itemUc.navIcon
     const icon = { class: iconClass }
     return {

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { NavListItem } from '@fiction/core'
 import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil'
+import type { Card } from '../card'
 import type { Site } from '../site'
 import type { FramePostMessageList } from '../utils/frame'
 import { toLabel, vue } from '@fiction/core'
@@ -8,10 +9,9 @@ import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
 import XText from '@fiction/ui/common/XText.vue'
-import EffectTransitionList from '@fiction/ui/effect/EffectTransitionList.vue'
+import EffectDraggableSort from '@fiction/ui/effect/EffectDraggableSort.vue'
 import ElBrowserFrameDevice from '@fiction/ui/frame/ElBrowserFrameDevice.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
-import XMedia from '@fiction/ui/media/XMedia.vue'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, default: undefined },
@@ -72,12 +72,7 @@ const sitePages = vue.computed(() => {
   const filteredPages = props.site.pages.value
     .filter(page => !page.slug.value?.startsWith('__'))
     .sort((a, b) => {
-      // Put home page first
-      if (a.isHome.value)
-        return -1
-      if (b.isHome.value)
-        return 1
-      return 0
+      return a.isHome.value ? -1 : b.isHome.value ? 1 : 0
     })
     .slice(0, maxGridPages)
 
@@ -112,12 +107,10 @@ function isActivePage(cardId: string) {
 }
 
 // Helper method to get appropriate badge for special pages
-function getPageBadge(page: any) {
-  if (page.isHome.value)
+function getPageBadge(page: Card) {
+  if (page.slug.value === '_home' || page.slug.value === '')
     return { label: 'Home', class: 'bg-emerald-500' }
-  if (page.is404.value)
-    return { label: '404', class: 'bg-amber-500' }
-  if (page.slug.value === '_p')
+  if (page.slug.value === '_post')
     return { label: 'Post', class: 'bg-blue-500' }
   if (page.slug.value === '_archive')
     return { label: 'Archive', class: 'bg-purple-500' }
@@ -127,6 +120,63 @@ function getPageBadge(page: any) {
 const currentPage = vue.computed(() => props.site?.currentPage.value)
 const currentPageStandard = vue.computed(() => currentPage.value?.userConfig.value.standard)
 const isHome = vue.computed(() => currentPage.value?.slug.value === '_home' || currentPage.value?.slug.value === '')
+
+// Function to handle page order updates
+function handlePageOrderUpdate(ids: string[]) {
+  if (!props.site || !ids.length)
+    return
+
+  // Update the order in site navigation structure
+  const orderedPages = ids.map(id =>
+    props.site!.pages.value.find(page => page.cardId === id),
+  ).filter(Boolean)
+
+  // Apply the ordering to navigation
+  if (props.site.userConfig && orderedPages.length) {
+    // Get current navigation from site config or initialize if not exists
+    const navConfig = props.site.userConfig.value.navigation || {}
+
+    // Preserve existing items that aren't pages (like external links or sections)
+    // and filter out pages that will be reordered
+    const existingPrimaryNav = (navConfig.primary || []).filter(item =>
+      !item.cardId || !ids.includes(item.cardId),
+    )
+
+    // Create updated nav items based on the new order
+    const updatedPageNavItems = orderedPages.map(page => ({
+      label: page?.title.value || toLabel(page?.slug.value || ''),
+      href: page?.slug.value === '_home' ? '/' : `/${page?.slug.value}`,
+      cardId: page?.cardId,
+      // Add any other necessary navigation properties
+      icon: undefined,
+      iconAfter: undefined,
+      target: '_self' as const,
+      variant: 'default' as const,
+    }))
+
+    // Combine existing items with new ordered page items
+    const updatedPrimaryNav = [...updatedPageNavItems, ...existingPrimaryNav]
+
+    // Update the navigation in site config
+    props.site.userConfig.value = {
+      ...props.site.userConfig.value,
+      navigation: {
+        ...navConfig,
+        primary: updatedPrimaryNav,
+      },
+    }
+
+    // Sync changes
+    props.site.syncChange({ caller: 'updatePageOrder' })
+
+    // Show success notification
+    props.site.fictionSites.fictionEnv.events.emit('notify', {
+      type: 'success',
+      message: 'Page order updated',
+      more: 'Navigation updated with the new page order',
+    })
+  }
+}
 </script>
 
 <template>
@@ -136,7 +186,7 @@ const isHome = vue.computed(() => currentPage.value?.slug.value === '_home' || c
         All Pages
       </div>
       <div class="font-mono text-sm text-theme-500 dark:text-theme-400 flex items-center gap-1">
-        Click to Edit
+        Drag to reorder • Click to Edit
       </div>
     </div>
     <div
@@ -164,9 +214,9 @@ const isHome = vue.computed(() => currentPage.value?.slug.value === '_home' || c
           size="xs"
           design="ghost"
           icon="i-tabler-pencil"
-          @click.stop="site.editorActivateTool({ toolId: 'editPage' })"
+          @click.stop="site.editorActivateTool({ toolId: 'pageEdit' })"
         >
-          Edit
+          Edit Page Settings
         </XButton>
       </div>
       <div class="flex items-center gap-3">
@@ -229,15 +279,20 @@ const isHome = vue.computed(() => currentPage.value?.slug.value === '_home' || c
       </div>
     </div>
 
-    <!-- Page grid view -->
-    <div
+    <!-- Page grid view with drag and drop -->
+    <EffectDraggableSort
       v-if="site && showPageGrid"
+      item-selector=".draggable-page"
+      :disabled="false"
+      :allow-horizontal="true"
       class="@container grid gap-4 lg:gap-6 grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3 @4xl:grid-cols-4 mb-4 relative"
+      @update:sorted="handlePageOrderUpdate"
     >
       <div
         v-for="page in sitePages"
         :key="page.cardId"
-        class="h-80 relative group transition-all duration-300 ease-out bg-white dark:bg-theme-800 rounded-lg shadow-md overflow-hidden cursor-pointer ring-1 ring-theme-200 dark:ring-theme-600/60 hover:ring-theme-400 dark:hover:ring-theme-500"
+        :data-drag-id="page.cardId"
+        class="z-20 draggable-page h-80 relative group transition-all duration-300 ease-out bg-white dark:bg-theme-800 rounded-lg shadow-md overflow-hidden cursor-pointer ring-1 ring-theme-200 dark:ring-theme-600/60 hover:ring-theme-400 dark:hover:ring-theme-500"
         :class="{ 'ring-2 ring-theme-500 dark:ring-theme-400': isActivePage(page.cardId) }"
         @click="selectPage(page.cardId)"
       >
@@ -245,14 +300,14 @@ const isHome = vue.computed(() => currentPage.value?.slug.value === '_home' || c
         <div class="relative size-full overflow-hidden bg-theme-100 dark:bg-theme-900">
           <iframe
             :src="site.frame.framePageUrl(page.slug.value)"
-            class=" transform scale-[0.25] origin-top-left"
+            class="transform scale-[0.25] origin-top-left"
             style="width: 400%; height: 400%"
             frameborder="0"
             loading="lazy"
           />
 
           <!-- Overlay to avoid iframe interactions -->
-          <div class="absolute inset-0 bg-transparent  z-10" />
+          <div class="absolute inset-0 bg-transparent z-10" />
 
           <!-- Badge for special pages -->
           <div
@@ -265,11 +320,15 @@ const isHome = vue.computed(() => currentPage.value?.slug.value === '_home' || c
         </div>
 
         <!-- Page info overlay -->
-        <div class="absolute bottom-0 left-0 right-0 p-3 bg-white/90 dark:bg-theme-800/90 backdrop-blur-sm z-20">
+        <div class="absolute bottom-0 left-0 right-0 p-3 bg-white/90 dark:bg-theme-800/90 backdrop-blur-sm z-10">
           <div class="flex items-center justify-between">
-            <h3 class="font-medium text-sm truncate">
-              {{ page.title.value || toLabel(page.slug.value) }}
-            </h3>
+            <div class="gap-1 flex items-center">
+              <XIcon class="size-[1.2em] text-theme-400 dark:text-theme-500 rounded backdrop-blur-sm cursor-grab" :media="{ class: 'i-tabler-grip-vertical' }" />
+
+              <h3 class="font-medium text-sm truncate grow text-left">
+                {{ page.title.value || toLabel(page.slug.value) }}
+              </h3>
+            </div>
             <span class="text-xs text-theme-500 dark:text-theme-400">
               {{ page.slug.value === '_home' ? '/' : `/${page.slug.value}` }}
             </span>
@@ -281,7 +340,7 @@ const isHome = vue.computed(() => currentPage.value?.slug.value === '_home' || c
       <div
         v-if="sitePages.length < maxGridPages"
         class="h-80 flex items-center justify-center border-2 border-dashed border-theme-300 dark:border-theme-700 rounded-lg hover:border-theme-500 dark:hover:border-theme-500 transition-all"
-        @click.stop="site.editorActivateTool({ toolId: 'addPage' });"
+        @click.stop="site.editorActivateTool({ toolId: 'pageAdd' });"
       >
         <div class="text-center px-4 py-2">
           <XIcon class="size-12 mx-auto mb-2 text-theme-400 dark:text-theme-600" :media="{ class: 'i-tabler-plus' }" />
@@ -290,7 +349,7 @@ const isHome = vue.computed(() => currentPage.value?.slug.value === '_home' || c
           </p>
         </div>
       </div>
-    </div>
+    </EffectDraggableSort>
 
     <!-- Main editor view -->
     <div

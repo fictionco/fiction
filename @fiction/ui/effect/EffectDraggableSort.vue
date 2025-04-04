@@ -2,6 +2,10 @@
 import { vue, waitFor } from '@fiction/core'
 import EffectTransitionList from './EffectTransitionList.vue'
 
+defineOptions({
+  name: 'EffectDraggableSort',
+})
+
 const {
   itemSelector = '[data-drag-id]',
   dragHandle,
@@ -40,8 +44,9 @@ function update() {
 vue.onMounted(async () => {
   await waitFor(200)
 
-  if (!wrapperEl.value)
+  if (!wrapperEl.value || disabled)
     return
+
   const { Plugins, Sortable } = await import('@shopify/draggable')
   const sortable = new Sortable(wrapperEl.value, {
     draggable: itemSelector,
@@ -55,20 +60,10 @@ vue.onMounted(async () => {
       easingFunction: 'ease-in-out',
       horizontal: allowHorizontal,
     },
-    plugins: [Plugins.SwapAnimation], // Or [SwapAnimation]
+    plugins: [Plugins.SwapAnimation],
   })
 
-  // --- Draggable events --- //
-  sortable.on('drag:start', (_evt) => {
-  })
-
-  sortable.on('sortable:sort', (_evt) => {
-  })
-
-  sortable.on('sortable:sorted', (_evt) => {
-  })
-
-  sortable.on('sortable:stop', (_evt) => {
+  sortable.on('sortable:stop', () => {
     setTimeout(() => update(), 50)
   })
 })

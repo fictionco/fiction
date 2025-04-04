@@ -166,6 +166,7 @@ describe('getStructuredData', () => {
           title: { value: 'Home' },
           description: { value: 'Home description' },
           slug: { value: '_home' },
+          isHome: true,
         },
       },
     })

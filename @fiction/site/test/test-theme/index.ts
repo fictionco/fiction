@@ -75,9 +75,9 @@ export const theme = new Theme({
       },
       pages: [
         await factory.fromTemplate({
-          slug: '_home',
-          title: 'Default Page',
+          slug: 'welcome',
           isHome: true,
+          title: 'Default Page',
           cards: [
             mediaGridCard,
             { templateId: 'cardHeroV1' },

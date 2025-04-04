@@ -21,7 +21,7 @@ export function getStructuredData(args: { site?: Site }) {
   const page = site.currentPage.value
   let slug = page?.slug.value || ''
 
-  slug = slug === '_home' ? '' : slug
+  slug = page.isHome.value ? '' : slug
 
   const structuredData = {
     '@context': 'https://schema.org',

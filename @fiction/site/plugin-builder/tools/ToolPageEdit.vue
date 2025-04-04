@@ -20,7 +20,7 @@ const options = getPageOptions({ site })
   <TabbedOptions
     v-model="site.editPageConfig.value"
     title="Current Page Settings"
-    :options="[options.essentials, options.add, options.layout]"
+    :options="[options.basic, options.seo]"
     :input-props="{ site, tool }"
   />
 </template>

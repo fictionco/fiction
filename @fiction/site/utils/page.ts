@@ -24,7 +24,8 @@ export function ensureStandardPages(args: { site: Site, pages: Card[] }): Card[]
       slug: '_p',
       title: 'Post Single',
       isSystem: true,
-      cards: [{ templateId: 'cardPostsMagazineV1', userConfig: { isSingle: true } }],
+      isSingle: true,
+      cards: [{ templateId: 'cardPostsMagazineV1' }],
     }))
   }
 
@@ -37,7 +38,8 @@ export function ensureStandardPages(args: { site: Site, pages: Card[] }): Card[]
       slug: '_archive',
       title: 'Post Archive',
       isSystem: true,
-      cards: [{ templateId: 'cardPostsMagazineV1', userConfig: { isArchive: true } }],
+      isArchive: true,
+      cards: [{ templateId: 'cardPostsMagazineV1' }],
     }))
   }
 
@@ -81,22 +83,30 @@ export function getViewMap(args: { pages: Card[] }) {
       return
 
     cardMap[slug] = card.cardId
+
+    if (card.isHome.value) {
+      cardMap._ = card.cardId
+    }
   })
 
-  if (cardMap._home) {
-    cardMap._ = cardMap._home
+  // make sure we have a home page
+  if (!cardMap._) {
+    cardMap._ = pages.find(p => p.slug.value)?.cardId || '_special404'
   }
 
   // Set up dynamic routes for posts
-  const singleCard = pages.find(p => p.slug.value === '_p')
+  const singleCard = pages.find(p => p.settings.isSingle)
   if (singleCard) {
     cardMap.p = singleCard.cardId
+  }
+  const archiveCard = pages.find(p => p.settings.isArchive)
+  if (archiveCard) {
+    cardMap.a = archiveCard.cardId
   }
 
   // Ensure 404 page exists
   if (!cardMap._404) {
-    const fallback404 = pages.find(p => p.is404.value)?.cardId || '_special404'
-    cardMap._404 = fallback404
+    cardMap._404 = '_special404'
   }
 
   return cardMap
@@ -106,23 +116,27 @@ export function activePageId(args: { site: Site }) {
   const { site } = args
   return vue.computed({
     get() {
-      const viewId = (site.siteRouter.current.value.params.viewId || '_home') as string
+      const viewId = site.siteRouter.current.value.params.viewId as string | undefined
+
+      const v = viewId || '_'
+
       const viewMap = site.viewMap.value
 
+      const cardId404 = viewMap._404 || '_special404'
       // Break recursion if _404 appears
-      if (viewId.includes('_404') || viewId.includes('not-found'))
-        return viewMap._404 || '_special404'
+      if (v?.includes('_404') || v?.includes('not-found'))
+        return cardId404
 
-      return viewMap[viewId] || viewMap._404 || '_special404'
+      return viewMap[v] || cardId404
     },
     async set(cardId: string) {
-      const currentViewId = site.siteRouter.current.value.params.viewId || '_home'
+      const currentViewId = site.siteRouter.current.value.params.viewId || '_'
       let viewId = Object.entries(site.viewMap.value).find(([_k, v]) => v === cardId)?.[0]
 
       if (viewId === currentViewId)
         return // Prevent re-push if already on the correct viewId
 
-      if (viewId === '_home')
+      if (viewId === '_')
         viewId = ''
       else if (viewId === '_404' || !viewId)
         viewId = 'not-found'
@@ -147,7 +161,6 @@ export function getPageById(args: { pageId: string, site: Site }) {
       cardId: '_special404',
       title: 'Not Found',
       templateId: 'cardPageWrapV1',
-      is404: true,
       cards: [{ templateId: 'card404ErrorV1', userConfig: { heading: 'Nothing here' } }],
     })
   }

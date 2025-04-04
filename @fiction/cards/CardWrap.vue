@@ -151,15 +151,6 @@ function handleEditDropdownClick(item: { value: 'delete' | 'edit' | 'add' }) {
             <StandardHeader v-if="standardUc?.headers?.title" :card />
           </div>
           <slot />
-
-          <component
-            :is="effectCard.tpl.value?.settings?.el"
-            v-for="(effectCard, ii) in card.effects.value"
-            :key="ii"
-            data-effect-card="true"
-            :data-card-id="effectCard.cardId"
-            :card="effectCard"
-          />
         </div>
       </div>
     </div>

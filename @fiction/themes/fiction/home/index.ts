@@ -12,8 +12,9 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
   return factory.fromTemplate<typeof wrapTemplate>({
     regionId: 'main',
     templateId: 'cardPageWrapV1',
-    slug: '_home',
+    slug: 'home',
     title: 'Home',
+    isHome: true,
     userConfig: {
       standard: {
         title: 'Create Your Ideal Digital Self',

@@ -54,7 +54,7 @@ async function load() {
     site.value.frame.init({ caller: 'SiteEditor' })
 
     site.value.events.on('setActiveCard', () => {
-      site.value?.editorActivateTool({ toolId: 'editCard' })
+      site.value?.editorActivateTool({ toolId: 'cardEdit' })
     })
 
     fictionEnv.events.on('resetUi', (event) => {
@@ -172,7 +172,7 @@ async function resetToPublished() {
                 :card
                 theme="default"
                 target="_blank"
-                size="sm"
+                size="md"
                 icon="i-tabler-eye"
                 design="ghost"
                 icon-after="i-tabler-chevron-down"
@@ -188,7 +188,7 @@ async function resetToPublished() {
             theme="primary"
             :loading="sending === 'save'"
             icon="i-tabler-upload"
-            size="sm"
+            size="md"
             data-test-id="publishChangesButton"
             @click.prevent="save()"
           >
@@ -201,7 +201,7 @@ async function resetToPublished() {
             design="outline"
             :loading="sending === 'save'"
             icon="i-tabler-check"
-            size="sm"
+            size="md"
             data-test-id="changesPublishedButton"
             @click.prevent="save()"
           >

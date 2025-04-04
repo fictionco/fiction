@@ -226,6 +226,7 @@ vue.onUnmounted(() => {
 
       <!-- Content Area -->
       <div class="flex-1 flex flex-col">
+        {{ currentValue }}
         <!-- Tool Content Area -->
         <div ref="optionsContainer" class="flex-1 bg-theme-50/50 dark:bg-theme-800/50 max-h-[500px] overflow-auto">
           <div>

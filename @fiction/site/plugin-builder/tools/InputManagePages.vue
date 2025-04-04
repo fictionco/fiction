@@ -24,7 +24,7 @@ function useEditPage(args: { cardId?: string } = {}) {
 
   props.site.editor.value.selectedPageId = cardId || ''
 
-  props.controller.useTool({ toolId: cardId ? 'editPage' : 'addPage' })
+  props.controller.useTool({ toolId: cardId ? 'pageEdit' : 'pageAdd' })
 }
 
 const buttons: ActionButton[] = [
