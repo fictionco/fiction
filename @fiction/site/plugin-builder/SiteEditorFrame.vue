@@ -5,6 +5,7 @@ import type { Card } from '../card'
 import type { Site } from '../site'
 import type { FramePostMessageList } from '../utils/frame'
 import { toLabel, vue } from '@fiction/core'
+import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
@@ -108,7 +109,7 @@ function isActivePage(cardId: string) {
 
 // Helper method to get appropriate badge for special pages
 function getPageBadge(page: Card) {
-  if (page.slug.value === '_home' || page.slug.value === '')
+  if (page.isHome.value)
     return { label: 'Home', class: 'bg-emerald-500' }
   if (page.slug.value === '_post')
     return { label: 'Post', class: 'bg-blue-500' }
@@ -119,7 +120,7 @@ function getPageBadge(page: Card) {
 
 const currentPage = vue.computed(() => props.site?.currentPage.value)
 const currentPageStandard = vue.computed(() => currentPage.value?.userConfig.value.standard)
-const isHome = vue.computed(() => currentPage.value?.slug.value === '_home' || currentPage.value?.slug.value === '')
+const isHome = vue.computed(() => currentPage.value?.isHome.value)
 
 // Function to handle page order updates
 function handlePageOrderUpdate(ids: string[]) {
@@ -280,17 +281,18 @@ function handlePageOrderUpdate(ids: string[]) {
     </div>
 
     <!-- Page grid view with drag and drop -->
+
     <EffectDraggableSort
-      v-if="site && showPageGrid"
+      v-show="site && showPageGrid"
       item-selector=".draggable-page"
       :disabled="false"
       :allow-horizontal="true"
-      class="@container grid gap-4 lg:gap-6 grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3 @4xl:grid-cols-4 mb-4 relative"
+      class="@container draggable-page-container grid gap-4 lg:gap-6 grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3 @4xl:grid-cols-4 mb-4 relative"
       @update:sorted="handlePageOrderUpdate"
     >
       <div
         v-for="page in sitePages"
-        :key="page.cardId"
+        :key="`${page.cardId}-${page.slug.value}-${page.isHome.value ? 'home' : ''}`"
         :data-drag-id="page.cardId"
         class="z-20 draggable-page h-80 relative group transition-all duration-300 ease-out bg-white dark:bg-theme-800 rounded-lg shadow-md overflow-hidden cursor-pointer ring-1 ring-theme-200 dark:ring-theme-600/60 hover:ring-theme-400 dark:hover:ring-theme-500"
         :class="{ 'ring-2 ring-theme-500 dark:ring-theme-400': isActivePage(page.cardId) }"
@@ -299,7 +301,7 @@ function handlePageOrderUpdate(ids: string[]) {
         <!-- Page preview iframe -->
         <div class="relative size-full overflow-hidden bg-theme-100 dark:bg-theme-900">
           <iframe
-            :src="site.frame.framePageUrl(page.slug.value)"
+            :src="site.frame.framePageUrl(!page.isHome.value ? page.slug.value : '')"
             class="transform scale-[0.25] origin-top-left"
             style="width: 400%; height: 400%"
             frameborder="0"
@@ -308,29 +310,28 @@ function handlePageOrderUpdate(ids: string[]) {
 
           <!-- Overlay to avoid iframe interactions -->
           <div class="absolute inset-0 bg-transparent z-10" />
-
-          <!-- Badge for special pages -->
-          <div
-            v-if="getPageBadge(page)"
-            class="absolute top-2 right-2 text-xs font-semibold text-white px-2 py-0.5 rounded"
-            :class="getPageBadge(page)?.class"
-          >
-            {{ getPageBadge(page)?.label }}
-          </div>
         </div>
 
         <!-- Page info overlay -->
-        <div class="absolute bottom-0 left-0 right-0 p-3 bg-white/90 dark:bg-theme-800/90 backdrop-blur-sm z-10">
-          <div class="flex items-center justify-between">
-            <div class="gap-1 flex items-center">
-              <XIcon class="size-[1.2em] text-theme-400 dark:text-theme-500 rounded backdrop-blur-sm cursor-grab" :media="{ class: 'i-tabler-grip-vertical' }" />
-
+        <div class="absolute bottom-0 left-0 right-0 px-2 py-3 bg-white/90 dark:bg-theme-800/90 backdrop-blur-sm z-10">
+          <div class="flex items-center gap-1">
+            <XIcon class="size-[1.2em] -ml-0.5 text-theme-400 dark:text-theme-500 rounded backdrop-blur-sm cursor-grab" :media="{ class: 'i-tabler-grip-vertical' }" />
+            <div class="gap-1 flex items-center flex-wrap">
               <h3 class="font-medium text-sm truncate grow text-left">
                 {{ page.title.value || toLabel(page.slug.value) }}
               </h3>
+              <!-- Badge for special pages -->
+              <XButton
+                v-if="getPageBadge(page)"
+                theme="primary"
+                design="outline"
+                size="xs"
+              >
+                {{ getPageBadge(page)?.label }}
+              </XButton>
             </div>
-            <span class="text-xs text-theme-500 dark:text-theme-400">
-              {{ page.slug.value === '_home' ? '/' : `/${page.slug.value}` }}
+            <span class="text-xs text-theme-500 dark:text-theme-400 grow text-right">
+              {{ page.isHome.value ? '/' : `/${page.slug.value}` }}
             </span>
           </div>
         </div>
@@ -339,7 +340,7 @@ function handlePageOrderUpdate(ids: string[]) {
       <!-- Add new page button -->
       <div
         v-if="sitePages.length < maxGridPages"
-        class="h-80 flex items-center justify-center border-2 border-dashed border-theme-300 dark:border-theme-700 rounded-lg hover:border-theme-500 dark:hover:border-theme-500 transition-all"
+        class="h-80 cursor-pointer flex items-center justify-center border-2 border-dashed border-theme-300 dark:border-theme-700 rounded-lg hover:border-theme-500 dark:hover:border-theme-500 transition-all"
         @click.stop="site.editorActivateTool({ toolId: 'pageAdd' });"
       >
         <div class="text-center px-4 py-2">
@@ -354,10 +355,10 @@ function handlePageOrderUpdate(ids: string[]) {
     <!-- Main editor view -->
     <div
       v-if="site"
-      class="min-h-0 h-full relative mx-auto pb-10 flex flex-col transition-all duration-300"
+      class="min-h-0 relative mx-auto pb-10 flex flex-col transition-all duration-300"
       :class="[
         deviceModeConfig?.wrapClass,
-        { 'opacity-0 h-0 overflow-hidden': showPageGrid },
+        showPageGrid ? 'opacity-0 h-0 overflow-hidden' : 'h-full',
       ]"
     >
       <ElBrowserFrameDevice

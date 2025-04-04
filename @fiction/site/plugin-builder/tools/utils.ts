@@ -1,10 +1,9 @@
-import type { Site } from '@fiction/site'
-import { colorThemeUser, vue } from '@fiction/core'
+import type { CardConfigPortable, Site } from '@fiction/site'
+import { colorThemeUser, toLabel, vue } from '@fiction/core'
 import { PageSchema, SiteSchema } from '@fiction/site/schema'
 import { createOption } from '@fiction/ui'
 import { t } from '../../tables'
 import { activeSiteHostname } from '../../utils/site'
-import InputSpecialSlugs from './InputSpecialSlugs.vue'
 
 export function getSiteOptions(args: { site: Site }) {
   const { site } = args
@@ -303,9 +302,8 @@ export function getSiteOptions(args: { site: Site }) {
   }
 }
 
-export function getPageOptions(args: { site: Site }) {
-  const { site } = args
-
+export function getPageOptions(args: { site: Site, page?: CardConfigPortable, temp?: CardConfigPortable }) {
+  const { site, page, temp } = args
   return {
     basic: createOption({
       schema: PageSchema,
@@ -320,7 +318,7 @@ export function getPageOptions(args: { site: Site }) {
           key: 'title',
           label: 'Page Title',
           input: 'InputText',
-          placeholder: 'Enter Title',
+          placeholder: toLabel(temp?.slug || page?.slug) || 'Enter Title',
           isRequired: true,
         }),
 
@@ -333,7 +331,7 @@ export function getPageOptions(args: { site: Site }) {
           placeholder: 'page-slug',
           isRequired: true,
           props: {
-            beforeInput: activeSiteHostname(site).value,
+            beforeInput: `example.com/`,
             table: t.pages,
             columns: [
               { name: 'slug', allowReserved: true },
@@ -343,10 +341,14 @@ export function getPageOptions(args: { site: Site }) {
         }),
         createOption({
           schema: PageSchema,
-          key: 'slug',
-          label: 'Special Handling',
-          input: InputSpecialSlugs,
-          props: { site },
+          key: 'isHome',
+          label: 'Set as Home Page',
+          subLabel: 'If active, this page will be the default landing page for your site',
+          input: 'InputToggle',
+          props: {
+            onlyOn: page?.isHome,
+            textOn: 'Set as Home Page',
+          },
         }),
 
       ],

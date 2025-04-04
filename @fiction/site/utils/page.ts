@@ -82,10 +82,11 @@ export function getViewMap(args: { pages: Card[] }) {
     if (!slug)
       return
 
-    cardMap[slug] = card.cardId
-
     if (card.isHome.value) {
       cardMap._ = card.cardId
+    }
+    else {
+      cardMap[slug] = card.cardId
     }
   })
 

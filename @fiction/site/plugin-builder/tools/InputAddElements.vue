@@ -97,7 +97,7 @@ const regionOptions = vue.computed<NavListItem[]>(() => {
   return options
 })
 
-const selectedRegion = vue.ref<PageRegion>('main')
+const selectedRegion = vue.ref<PageRegion>('main_top')
 
 // Watch for changes in selected region
 vue.watch(selectedRegion, (newRegion) => {

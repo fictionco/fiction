@@ -5,13 +5,22 @@ import { twMerge } from 'tailwind-merge'
 
 defineOptions({ name: 'InputToggle' })
 
-const props = defineProps({
-  modelValue: { type: [Boolean, String], default: false },
-  textOff: { type: String, default: '' },
-  textOn: { type: String, default: '' },
-  disabled: { type: Boolean, default: false },
-  uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
-})
+const { uiSize = 'md', modelValue = false, disabled = false, onlyOn = false, onlyOff = false } = defineProps<{
+  /** Current state of the toggle */
+  modelValue?: boolean | string
+  /** Text to display when toggle is off */
+  textOff?: string
+  /** Text to display when toggle is on */
+  textOn?: string
+  /** Whether the toggle is disabled */
+  disabled?: boolean
+  /** Size of the toggle */
+  uiSize?: StandardSize
+  /** When true, toggle can only be turned on, not off again */
+  onlyOn?: boolean
+  /** When true, toggle can only be turned off, not on again */
+  onlyOff?: boolean
+}>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: boolean): void
@@ -19,8 +28,21 @@ const emit = defineEmits<{
 
 const attrs = vue.useAttrs()
 
+const val = vue.computed<boolean>(() => {
+  const mv = modelValue
+  if (typeof mv === 'string') {
+    if (mv === 'on' || mv === 'true')
+      return true
+    else return false
+  }
+  else { return mv }
+})
+
 function em(v: boolean): void {
-  if (props.disabled)
+  if (disabled)
+    return
+  // Prevent toggling if one-way restrictions apply
+  if ((onlyOn && val.value === true) || (onlyOff && val.value === false))
     return
   emit('update:modelValue', v)
 }
@@ -30,15 +52,8 @@ function handleEmit(target: EventTarget | null): void {
   em(el.checked)
 }
 
-const val = vue.computed<boolean>(() => {
-  const mv = props.modelValue
-  if (typeof mv === 'string') {
-    if (mv === 'on' || mv === 'true')
-      return true
-    else return false
-  }
-  else { return mv }
-})
+// Determine if this toggle is locked in its current state
+const isLocked = vue.computed(() => (onlyOn && val.value) || (onlyOff && !val.value))
 
 function getClasses(uiSize: StandardSize) {
   const baseClasses = {
@@ -50,7 +65,7 @@ function getClasses(uiSize: StandardSize) {
     span: 'inline-block rounded-full transition duration-200 ease-in-out ease-[cubic-bezier(0.25,1,0.33,1)]',
     spanOn: 'bg-primary-0 ring-primary-600',
     spanOff: 'bg-theme-0 ring-theme-300',
-    text: 'text-theme-500 hover:opacity-70 ml-2 cursor-pointer font-sans  ',
+    text: 'text-theme-500 dark:text-theme-400 hover:opacity-70 ml-2 cursor-pointer',
   }
 
   const sizeClasses = {
@@ -76,13 +91,13 @@ function getClasses(uiSize: StandardSize) {
   }
 }
 
-const cls = vue.computed(() => getClasses(props.uiSize))
+const cls = vue.computed(() => getClasses(uiSize))
 </script>
 
 <template>
   <label
-    :class="[cls.label, disabled ? 'opacity-50' : '']"
-    :title="disabled ? 'Disabled' : ''"
+    :class="[cls.label, disabled || isLocked ? 'opacity-50' : '']"
+    :title="disabled ? 'Disabled' : (isLocked ? 'This toggle cannot be changed' : '')"
   >
     <input
       :class="cls.input"
@@ -90,12 +105,13 @@ const cls = vue.computed(() => getClasses(props.uiSize))
       type="checkbox"
       :value="val"
       :checked="val"
+      :disabled="disabled || isLocked"
       @input="handleEmit($event.target)"
     >
     <button
       type="button"
-      aria-pressed="false"
-      :class="[cls.button, val === true ? cls.buttonOn : cls.buttonOff]"
+      :aria-pressed="val ? 'true' : 'false'"
+      :class="[cls.button, val === true ? cls.buttonOn : cls.buttonOff, isLocked ? 'cursor-default' : '']"
       @click.stop="em(!val)"
     >
       <span class="sr-only">{{ val ? "on" : "off" }}</span>
@@ -111,9 +127,9 @@ const cls = vue.computed(() => getClasses(props.uiSize))
       />
     </button>
     <span
-      v-if="textOn || textOff"
+      v-if="textOn || textOff || isLocked"
       id="toggleLabel"
-      class="font-sans select-none"
+      class="font-mono select-none"
       :class="cls.text"
     >
       <span v-if="val">{{ textOn }}</span>

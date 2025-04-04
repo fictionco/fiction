@@ -231,6 +231,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   viewMap = vue.computed(() => getViewMap({ pages: this.pages.value }))
   activePageId = activePageId({ site: this })
   currentPage = vue.computed(() => getPageById({ pageId: this.activePageId.value, site: this }))
+  homePageId = vue.computed(() => this.pages.value.find(p => p.isHome.value)?.cardId || this.pages.value[0]?.cardId)
+
   sections = vue.shallowRef(setSections({ site: this, sections: this.settings.sections }))
   layout = vue.computed<Record<string, Card>>(() => ({ ...this.sections.value, main: this.currentPage.value }))
   shortcodes = new Shortcodes({
@@ -374,19 +376,14 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     this.isAnimationDisabled.value = false
   }
 
-  editPageConfig = vue.computed({
-    get: () => this.pages.value.find(r => r.cardId === (this.editor.value.selectedPageId || this.activePageId.value))?.toConfig() || {},
-    set: v => updatePages({ site: this, pages: [v] }),
-  })
+  // async setEditPageAsHome() {
+  //   updatePages({ site: this, pages: this.pages.value.map(p => ({ ...p.toConfig(), isHome: false, slug: p.slug.value === '_home' ? 'old-home' : p.slug.value })) })
+  //   this.editPageConfig.value = { ...this.editPageConfig.value, isHome: true, slug: '_home' }
 
-  async setEditPageAsHome() {
-    updatePages({ site: this, pages: this.pages.value.map(p => ({ ...p.toConfig(), isHome: false, slug: p.slug.value === '_home' ? 'old-home' : p.slug.value })) })
-    this.editPageConfig.value = { ...this.editPageConfig.value, isHome: true, slug: '_home' }
+  //   await this.save()
 
-    await this.save()
-
-    this.activePageId.value = this.editPageConfig.value.cardId || ''
-  }
+  //   this.activePageId.value = this.editPageConfig.value.cardId || ''
+  // }
 
   removeCard(args: { cardId: string }) {
     return removeCard({

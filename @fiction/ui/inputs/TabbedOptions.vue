@@ -30,9 +30,10 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: Record<string, any>): void
-  (event: 'update:vis', payload: boolean): void
+  (event: 'update:tempValue', payload: Record<string, any>): void
   (event: 'apply'): void
   (event: 'cancel'): void
+  (event: 'done'): void
 }>()
 
 // Model setup
@@ -148,16 +149,17 @@ function scrollToOption(optionKey: string) {
 function applyChanges() {
   emit('update:modelValue', currentValue.value)
   emit('apply')
-  emit('update:vis', false)
+  emit('done')
 }
 
 function cancel() {
   emit('cancel')
-  emit('update:vis', false)
+  emit('done')
 }
 
 function updateValue(update: Record<string, any>) {
   currentValue.value = { ...update }
+  emit('update:tempValue', currentValue.value)
 }
 
 // Filtered options based on active option (when not showing all)
@@ -226,7 +228,7 @@ vue.onUnmounted(() => {
 
       <!-- Content Area -->
       <div class="flex-1 flex flex-col">
-        {{ currentValue }}
+        {{ currentValue.slug }}
         <!-- Tool Content Area -->
         <div ref="optionsContainer" class="flex-1 bg-theme-50/50 dark:bg-theme-800/50 max-h-[500px] overflow-auto">
           <div>

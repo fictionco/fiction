@@ -309,21 +309,36 @@ export class Card<
     const { caller, noHistory = false } = opts
 
     this.log.info(`update:${caller}`, { noHistory, data: cardConfig })
-    if (!cardConfig)
+
+    if (!cardConfig || !this.site) {
+      this.log.error('update: no site or cardConfig')
       return
-    const availableKeys = ['title', 'slug', 'userConfig', 'editorConfig', 'templateId', 'isHome', 'is404']
+    }
+
+    const availableKeys = ['title', 'slug', 'userConfig', 'editorConfig', 'templateId', 'isHome']
+    const newHomePage = cardConfig.isHome && this.site.homePageId.value !== this.cardId
     const entries = Object.entries(cardConfig).filter(([key]) => availableKeys.includes(key))
     entries.forEach(([key, value]) => {
-      if (value !== undefined && vue.isRef(this[key as keyof this]))
-        (this[key as keyof this] as vue.Ref).value = value
+      if (key === 'isHome' && newHomePage) {
+        this.site?.pages.value.forEach(pg => pg.isHome.value = false)
+        this.isHome.value = true
+      }
+      else {
+        if (value !== undefined && vue.isRef(this[key as keyof this]))
+          (this[key as keyof this] as vue.Ref).value = value
 
-      this.settings = { ...this.settings, [key as keyof T]: value }
+        this.settings = { ...this.settings, [key as keyof T]: value }
+      }
     })
 
     if (cardConfig.cards)
       this.cards.value = cardConfig.cards.map(c => this.initSubCard({ cardConfig: c }))
 
     this.syncCard({ caller: `updateCard:${this.templateId.value}-${caller}`, cardConfig, noHistory })
+
+    if (newHomePage) {
+      this.site.currentPath.value = '/'
+    }
   }
 
   updateUserConfig(args: { path: string, value: unknown }) {

@@ -22,7 +22,7 @@ const { site, tool } = props
     :icon="tool.icon"
   >
     <ElForm class="p-4">
-      <InputAddElements v-model="site.editPageConfig.value" :site :tool />
+      <InputAddElements :site :tool />
     </ElForm>
   </ElTool>
 </template>

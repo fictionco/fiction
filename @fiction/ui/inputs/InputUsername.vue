@@ -125,7 +125,7 @@ const cls = vue.computed(() => inputClasses({ uiSize: props.uiSize }))
 <template>
   <div :class="[cls.textSize]">
     <div class="flex items-center space-x-2" :class="[cls.base, cls.border, cls.focus, cls.padX, cls.bg]" tabindex="-1">
-      <div v-if="beforeInput" class="text-theme-400 dark:text-theme-600" :class="cls.padY">
+      <div v-if="beforeInput" class="text-theme-400 dark:text-theme-600 whitespace-nowrap" :class="cls.padY">
         {{ beforeInput }}
       </div>
       <input

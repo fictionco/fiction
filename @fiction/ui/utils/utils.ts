@@ -42,7 +42,7 @@ export function getButtonClasses(args: {
 
   const paddingConfig: Record<StandardSize, { x: string, y: string }> = {
     'xxs': { x: 'px-2', y: 'py-0.5' },
-    'xs': { x: 'px-2', y: 'py-1' },
+    'xs': { x: 'px-2', y: 'py-0.5' },
     'sm': { x: 'px-2.5', y: 'py-1' },
     'md': { x: 'px-3', y: 'py-1.5' },
     'lg': { x: 'px-4', y: 'py-2' },

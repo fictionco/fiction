@@ -141,6 +141,7 @@ export const PageSchema = z.object({
   description: z.string().optional(),
   cards: z.array(z.any()).optional(),
   userConfig: StandardUserConfigSchema.optional(),
+  isHome: z.boolean().optional(),
 }).strict()
 
 // Export navigation types
