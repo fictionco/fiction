@@ -56,10 +56,10 @@ const classes = vue.computed(() => {
 vue.onMounted(() => {
   vue.watch(() => activeKey, (v) => {
     if (v === 'compose') {
-      postEditController.hideToolDrawers.value = false
+      postEditController.hideToolDrawers.value = ''
     }
     else {
-      postEditController.hideToolDrawers.value = true
+      postEditController.hideToolDrawers.value = 'both'
     }
   }, { immediate: true })
 })
@@ -120,7 +120,7 @@ function triggerMediaModal() {
               respond="icon:xl"
               design="outline"
               :theme="postEditController.hideToolDrawers.value ? 'default' : 'default'"
-              @click.prevent="postEditController.hideToolDrawers.value = !postEditController.hideToolDrawers.value"
+              @click.prevent="postEditController.hideToolDrawers.value = postEditController.hideToolDrawers.value ? '' : 'both'"
             >
               {{ postEditController.hideToolDrawers.value ? 'Show Settings' : 'Focus Mode' }}
             </XButton>

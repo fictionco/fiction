@@ -94,8 +94,8 @@ const cls = vue.computed(() => {
   const configs = {
     md: {
       groupHeader: 'py-1.5 px-2 text-xs',
-      groupPad: 'p-4 @[700px]:p-8',
-      inputGap: 'gap-5',
+      groupPad: 'p-4 @[500px]:p-8 @[700px]:p-10',
+      inputGap: 'gap-5 @sm:gap-7 @xl:gap-10',
     },
     lg: {
       groupHeader: 'py-2.5 px-3 text-sm',

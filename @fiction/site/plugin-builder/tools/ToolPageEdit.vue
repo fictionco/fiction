@@ -1,12 +1,8 @@
 <script lang="ts" setup>
 import type { AdminEditorController, EditorTool } from '@fiction/admin'
-import type { InputOption } from '@fiction/ui'
 import type { Site } from '../../site'
 import type { ToolKeys } from './tools.js'
-import ElTool from '@fiction/admin/tools/ElTool.vue'
-import { vue } from '@fiction/core'
-import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
+import TabbedOptions from '@fiction/ui/inputs/TabbedOptions.vue'
 import { getPageOptions } from './utils'
 
 const props = defineProps<{
@@ -17,30 +13,14 @@ const props = defineProps<{
 
 const { site, tool } = props
 
-const options = vue.computed<InputOption[]>(() => {
-  const optionGroups = getPageOptions({ site })
-  return [
-    optionGroups.essentials,
-    optionGroups.special,
-    optionGroups.seo,
-  ]
-})
+const options = getPageOptions({ site })
 </script>
 
 <template>
-  <ElTool
-    :tool
-    :title="tool.title"
-    :icon="tool.icon"
-  >
-    <ElForm class="p-2">
-      <FormEngine
-        v-model="site.editPageConfig.value"
-        state-key="pageEdit"
-        :options
-        :input-props="{ site, tool }"
-        :depth="1"
-      />
-    </ElForm>
-  </ElTool>
+  <TabbedOptions
+    v-model="site.editPageConfig.value"
+    title="Current Page Settings"
+    :options="[options.essentials, options.add, options.layout]"
+    :input-props="{ site, tool }"
+  />
 </template>

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { EditorTool } from '@fiction/admin'
-import type { ListItem } from '@fiction/core'
+import type { ListItem, NavListItem } from '@fiction/core'
 import type { CardTemplate } from '../../card'
 import type { Site } from '../../site'
 import type { PageRegion } from '../../tables'
@@ -8,7 +8,7 @@ import screenDefaultDark from '@fiction/cards/utils/img/screen-dark.svg'
 import screenDefaultLight from '@fiction/cards/utils/img/screen-light.svg'
 import { isDarkOrLightMode, toLabel, vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
-import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
+import InputRadioButton from '@fiction/ui/inputs/InputRadioButton.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 
 import XMedia from '@fiction/ui/media/XMedia.vue'
@@ -79,20 +79,20 @@ const filteredTemplates = vue.computed(() => {
 })
 
 // Region selection
-const regionOptions = vue.computed<ListItem[]>(() => {
-  const sections = props.site.sections.value || {}
-  const options: ListItem[] = [
-    { label: 'Page Top', value: 'main_top' },
-    { label: 'Page Bottom', value: 'main' },
+const regionOptions = vue.computed<NavListItem[]>(() => {
+  const options: NavListItem[] = [
+    { label: 'Top', value: 'main_top' },
+    { label: 'Bottom', value: 'main' },
   ]
 
   // Add sections
-  Object.entries(sections).forEach(([key, value]) => {
-    options.push({
-      label: `${toLabel(key)}`,
-      value: key,
-    })
-  })
+  // const sections = props.site.sections.value || {}
+  // Object.entries(sections).forEach(([key, value]) => {
+  //   options.push({
+  //     label: `${toLabel(key)}`,
+  //     value: key,
+  //   })
+  // })
 
   return options
 })
@@ -167,7 +167,7 @@ vue.watch(addElementsVisible, (visible) => {
             <div class="text-[10px] text-theme-500 mb-1 font-medium font-sans">
               Add To...
             </div>
-            <InputSelectCustom
+            <InputRadioButton
               v-model="selectedRegion"
               :list="regionOptions"
               placeholder="Region"

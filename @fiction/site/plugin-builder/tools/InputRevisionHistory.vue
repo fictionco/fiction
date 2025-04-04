@@ -9,12 +9,15 @@ const { site } = defineProps<{
 }>()
 
 async function handleRestore(revisionId: string) {
-  return await site.fictionSites.requests.ManageSite.projectRequest({
+  const r = await site.fictionSites.requests.ManageSite.projectRequest({
     _action: 'restoreFromRevision',
     where: { siteId: site.siteId },
     revisionId,
     caller: 'revisionRestorer',
   })
+  site.editorActivateTool({ toolId: '' })
+
+  return r
 }
 </script>
 

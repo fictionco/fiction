@@ -81,12 +81,11 @@ export function getViewMap(args: { pages: Card[] }) {
       return
 
     cardMap[slug] = card.cardId
-
-    if (card.isHome.value)
-      cardMap._home = card.cardId
-    if (card.is404.value)
-      cardMap._404 = card.cardId
   })
+
+  if (cardMap._home) {
+    cardMap._ = cardMap._home
+  }
 
   // Set up dynamic routes for posts
   const singleCard = pages.find(p => p.slug.value === '_p')
@@ -103,12 +102,12 @@ export function getViewMap(args: { pages: Card[] }) {
   return cardMap
 }
 
-export function activePageId(args: { siteRouter: FictionRouter, viewMapRef: vue.Ref<Record<string, string>> }) {
-  const { siteRouter, viewMapRef } = args
+export function activePageId(args: { site: Site }) {
+  const { site } = args
   return vue.computed({
     get() {
-      const viewId = (siteRouter.current.value.params.viewId || '_home') as string
-      const viewMap = viewMapRef.value
+      const viewId = (site.siteRouter.current.value.params.viewId || '_home') as string
+      const viewMap = site.viewMap.value
 
       // Break recursion if _404 appears
       if (viewId.includes('_404') || viewId.includes('not-found'))
@@ -117,9 +116,8 @@ export function activePageId(args: { siteRouter: FictionRouter, viewMapRef: vue.
       return viewMap[viewId] || viewMap._404 || '_special404'
     },
     async set(cardId: string) {
-      const { siteRouter } = args
-      const currentViewId = siteRouter.current.value.params.viewId || '_home'
-      let viewId = Object.entries(viewMapRef.value).find(([_k, v]) => v === cardId)?.[0]
+      const currentViewId = site.siteRouter.current.value.params.viewId || '_home'
+      let viewId = Object.entries(site.viewMap.value).find(([_k, v]) => v === cardId)?.[0]
 
       if (viewId === currentViewId)
         return // Prevent re-push if already on the correct viewId
@@ -129,7 +127,7 @@ export function activePageId(args: { siteRouter: FictionRouter, viewMapRef: vue.
       else if (viewId === '_404' || !viewId)
         viewId = 'not-found'
 
-      await siteRouter.push(`/${viewId}`, { caller: 'activePageId' })
+      await site.siteRouter.push(`/${viewId}`, { caller: 'activePageId' })
     },
   })
 }

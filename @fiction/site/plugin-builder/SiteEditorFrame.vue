@@ -8,6 +8,7 @@ import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
 import XText from '@fiction/ui/common/XText.vue'
+import EffectTransitionList from '@fiction/ui/effect/EffectTransitionList.vue'
 import ElBrowserFrameDevice from '@fiction/ui/frame/ElBrowserFrameDevice.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
@@ -52,18 +53,150 @@ function toggleDarkLightMode() {
   props.site.syncChange({ caller: 'updateDarkLightMode' })
 }
 
+// Page grid view state
+const showPageGrid = vue.computed({
+  get: () => props.site?.editorController.isUsingTool({ toolId: 'pages' }) || false,
+  set: (value) => {
+    props.site?.editorController.useTool({ toolId: value ? 'pages' : '' })
+  },
+})
+const maxGridPages = 12 // Limit to prevent performance issues
+
+// Computed array of all site pages, limited to maxGridPages
+// Filter out system pages that start with __ and prioritize home page
+const sitePages = vue.computed(() => {
+  if (!props.site)
+    return []
+
+  // Filter pages and sort to put home page first
+  const filteredPages = props.site.pages.value
+    .filter(page => !page.slug.value?.startsWith('__'))
+    .sort((a, b) => {
+      // Put home page first
+      if (a.isHome.value)
+        return -1
+      if (b.isHome.value)
+        return 1
+      return 0
+    })
+    .slice(0, maxGridPages)
+
+  return filteredPages
+})
+
+// Method to select and navigate to a page
+async function selectPage(cardId: string) {
+  if (!props.site || !cardId)
+    return
+
+  // Close grid view
+  showPageGrid.value = false
+
+  if (cardId)
+    props.site.activePageId.value = cardId
+
+  props.site.editor.value.selectedPageId = cardId || ''
+
+  // Reset device mode to desktop
+  activeDeviceModeKey.value = 'desktop'
+
+  // Reset selected card
+  if (props.site.editor.value.selectedCardId) {
+    props.site.editor.value.selectedCardId = ''
+  }
+}
+
+// Method to check if page is current active page
+function isActivePage(cardId: string) {
+  return props.site?.activePageId.value === cardId
+}
+
+// Helper method to get appropriate badge for special pages
+function getPageBadge(page: any) {
+  if (page.isHome.value)
+    return { label: 'Home', class: 'bg-emerald-500' }
+  if (page.is404.value)
+    return { label: '404', class: 'bg-amber-500' }
+  if (page.slug.value === '_p')
+    return { label: 'Post', class: 'bg-blue-500' }
+  if (page.slug.value === '_archive')
+    return { label: 'Archive', class: 'bg-purple-500' }
+  return null
+}
+
 const currentPage = vue.computed(() => props.site?.currentPage.value)
 const currentPageStandard = vue.computed(() => currentPage.value?.userConfig.value.standard)
-const isHome = vue.computed(() => { return currentPage.value?.slug.value === '_home' || currentPage.value?.slug.value === '' })
+const isHome = vue.computed(() => currentPage.value?.slug.value === '_home' || currentPage.value?.slug.value === '')
 </script>
 
 <template>
-  <div class="space-y-4 p-4 lg:p-6">
+  <div class="space-y-4 p-4 lg:p-6 @container bg-theme-800">
+    <div v-if="showPageGrid" class="flex gap-2 items-baseline">
+      <div class="font-semibold">
+        All Pages
+      </div>
+      <div class="font-mono text-sm text-theme-500 dark:text-theme-400 flex items-center gap-1">
+        Click to Edit
+      </div>
+    </div>
     <div
-      v-if="site"
-      class=" flex justify-between space-x-2 "
+      v-else-if="site"
+      class="flex justify-between space-x-2"
     >
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
+          <div class="font-semibold">
+            {{ currentPageStandard?.title || currentPage?.title.value || toLabel(currentPage?.slug.value) || 'Untitled' }}
+          </div>
+          <div class="font-mono text-sm text-theme-500 dark:text-theme-400 flex items-center gap-1">
+            <XText
+              :model-value="site.currentPath.value"
+              title="Current Path"
+              :is-editable="false"
+              class="whitespace-nowrap "
+            />
+            <div v-if="isHome" class="text-xs ">
+              (Home Page)
+            </div>
+          </div>
+        </div>
+        <XButton
+          size="xs"
+          design="ghost"
+          icon="i-tabler-pencil"
+          @click.stop="site.editorActivateTool({ toolId: 'editPage' })"
+        >
+          Edit
+        </XButton>
+      </div>
+      <div class="flex items-center gap-3">
+        <ElTooltip
+          direction="bottom"
+          content="Undo the last change"
+        >
+          <XButton
+            rounding="full"
+            icon="i-tabler-arrow-back"
+            size="xs"
+            :disabled="!site.history?.canUndo.value"
+            respond="icon:xl"
+            @click="site.history?.undo()"
+          />
+        </ElTooltip>
+        <ElTooltip
+          direction="bottom"
+          content="Redo the last undo"
+        >
+          <XButton
+            rounding="full"
+            icon="i-tabler-arrow-forward"
+            size="xs"
+            :disabled="!site.history?.canRedo.value"
+            respond="icon:xl"
+            @click="site.history?.redo()"
+          />
+        </ElTooltip>
+
         <XDropDown
           v-model="activeDeviceModeKey"
           mode="click"
@@ -78,34 +211,6 @@ const isHome = vue.computed(() => { return currentPage.value?.slug.value === '_h
             {{ toLabel(activeDeviceMode?.value) }}
           </XButton>
         </XDropDown>
-      </div>
-      <div class="flex items-center gap-2">
-        <ElTooltip
-          direction="bottom"
-          content="Undo the last change"
-        >
-          <XButton
-            rounding="full"
-            icon="i-tabler-arrow-back"
-            size="xs"
-            :disabled="!site.history.canUndo.value"
-            respond="icon:xl"
-            @click="site.history.undo()"
-          />
-        </ElTooltip>
-        <ElTooltip
-          direction="bottom"
-          content="Redo the last undo"
-        >
-          <XButton
-            rounding="full"
-            icon="i-tabler-arrow-forward"
-            size="xs"
-            :disabled="!site.history.canRedo.value"
-            respond="icon:xl"
-            @click="site.history.redo()"
-          />
-        </ElTooltip>
 
         <ElTooltip
           direction="bottom"
@@ -123,53 +228,90 @@ const isHome = vue.computed(() => { return currentPage.value?.slug.value === '_h
         </ElTooltip>
       </div>
     </div>
-    <div v-if="site" class="min-h-0 h-full relative mx-auto pb-10 flex flex-col" :class="deviceModeConfig?.wrapClass">
+
+    <!-- Page grid view -->
+    <div
+      v-if="site && showPageGrid"
+      class="@container grid gap-4 lg:gap-6 grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3 @4xl:grid-cols-4 mb-4 relative"
+    >
+      <div
+        v-for="page in sitePages"
+        :key="page.cardId"
+        class="h-80 relative group transition-all duration-300 ease-out bg-white dark:bg-theme-800 rounded-lg shadow-md overflow-hidden cursor-pointer ring-1 ring-theme-200 dark:ring-theme-600/60 hover:ring-theme-400 dark:hover:ring-theme-500"
+        :class="{ 'ring-2 ring-theme-500 dark:ring-theme-400': isActivePage(page.cardId) }"
+        @click="selectPage(page.cardId)"
+      >
+        <!-- Page preview iframe -->
+        <div class="relative size-full overflow-hidden bg-theme-100 dark:bg-theme-900">
+          <iframe
+            :src="site.frame.framePageUrl(page.slug.value)"
+            class=" transform scale-[0.25] origin-top-left"
+            style="width: 400%; height: 400%"
+            frameborder="0"
+            loading="lazy"
+          />
+
+          <!-- Overlay to avoid iframe interactions -->
+          <div class="absolute inset-0 bg-transparent  z-10" />
+
+          <!-- Badge for special pages -->
+          <div
+            v-if="getPageBadge(page)"
+            class="absolute top-2 right-2 text-xs font-semibold text-white px-2 py-0.5 rounded"
+            :class="getPageBadge(page)?.class"
+          >
+            {{ getPageBadge(page)?.label }}
+          </div>
+        </div>
+
+        <!-- Page info overlay -->
+        <div class="absolute bottom-0 left-0 right-0 p-3 bg-white/90 dark:bg-theme-800/90 backdrop-blur-sm z-20">
+          <div class="flex items-center justify-between">
+            <h3 class="font-medium text-sm truncate">
+              {{ page.title.value || toLabel(page.slug.value) }}
+            </h3>
+            <span class="text-xs text-theme-500 dark:text-theme-400">
+              {{ page.slug.value === '_home' ? '/' : `/${page.slug.value}` }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add new page button -->
+      <div
+        v-if="sitePages.length < maxGridPages"
+        class="h-80 flex items-center justify-center border-2 border-dashed border-theme-300 dark:border-theme-700 rounded-lg hover:border-theme-500 dark:hover:border-theme-500 transition-all"
+        @click.stop="site.editorActivateTool({ toolId: 'addPage' });"
+      >
+        <div class="text-center px-4 py-2">
+          <XIcon class="size-12 mx-auto mb-2 text-theme-400 dark:text-theme-600" :media="{ class: 'i-tabler-plus' }" />
+          <p class="text-sm font-medium text-theme-700 dark:text-theme-300">
+            Add New Page
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main editor view -->
+    <div
+      v-if="site"
+      class="min-h-0 h-full relative mx-auto pb-10 flex flex-col transition-all duration-300"
+      :class="[
+        deviceModeConfig?.wrapClass,
+        { 'opacity-0 h-0 overflow-hidden': showPageGrid },
+      ]"
+    >
       <ElBrowserFrameDevice
         ref="frameRef"
         :device-mode="activeDeviceModeKey"
-        class="rounded-md shadow-lg border border-theme-200"
+        class="rounded-md shadow-lg border border-theme-200 dark:border-theme-600"
         :url="site.frame.frameUrl.value"
         frame-id="site-builder-iframe"
         :display-url="site.frame.displayUrl.value"
-        :browser-bar="true"
+        :browser-bar="false"
         @update:url="site?.frame.updateFrameUrl($event)"
         @message="site?.frame.processFrameMessage({ scope: 'parent', msg: $event as FramePostMessageList })"
-      >
-        <template #bar>
-          <div class="flex items-center px-3 py-2 gap-3 border-b border-theme-200 dark:border-theme-600  bg-gradient-to-b dark:from-theme-700/50 dark:to-theme-700/50">
-            <div class="flex items-center gap-2 text-xs ">
-              <div class="flex items-center justify-center">
-                <XMedia v-if="site.userConfig.value?.favicon" :media="site.userConfig.value?.favicon" />
-                <XIcon class="size-5 text-theme-400 dark:text-theme-500" :media="{ class: 'i-tabler-file' }" />
-              </div>
-              <div class="font-semibold">
-                {{ currentPageStandard?.title || currentPage?.title.value || 'Untitled Page' }}
-              </div>
-              <div>{{ currentPageStandard?.description || currentPage?.description.value }}</div>
-            </div>
-            <div class=" justify-between text-xs ">
-              <div class="bg-theme-600/30 rounded-md flex items-center justify-between gap-2 py-1 px-3 font-mono">
-                <div class="flex items-center gap-1">
-                  <XText
-                    :model-value="site.frame.displayUrl.value"
-                    title="Current Path"
-                    :is-editable="false"
-                    class="whitespace-nowrap"
-                  />
-                  <div v-if="isHome" class="text-[10px] text-theme-400 dark:text-theme-400">
-                    (Home Page)
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="grow flex justify-end">
-              <XButton size="sm" design="ghost" icon="i-tabler-settings">
-                Edit Page Settings
-              </XButton>
-            </div>
-          </div>
-        </template>
-      </ElBrowserFrameDevice>
+      />
     </div>
   </div>
 </template>

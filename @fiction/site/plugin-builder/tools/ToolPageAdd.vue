@@ -53,7 +53,7 @@ async function save() {
   })
   loading.value = false
 
-  controller.useTool({ toolId: 'managePages' })
+  controller.useTool({ toolId: 'pages' })
 }
 </script>
 

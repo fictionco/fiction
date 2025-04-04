@@ -9,7 +9,7 @@ export const template = cardTemplate({
   templateId,
   category: ['media'],
   icon: 'i-tabler-library-photo',
-  title: 'Photo Gallery',
+  title: 'Masonry Gallery',
   colorTheme: 'emerald',
   subTitle: 'Create stunning masonry layouts that showcase your visual content in an engaging, responsive grid',
   description: `Transform your images and videos into an immersive visual story with our dynamic masonry gallery.

@@ -27,6 +27,7 @@ export type EditorTool<T extends string = string, U extends Record<string, any> 
   isPrimary?: boolean | 'top' | 'bottom' | 'secondary'
   isDefault?: boolean
   location?: 'primary' | 'context'
+  design?: 'modal' | 'drawer'
   props?: (args: U) => vue.ComputedRef<Record<string, unknown>>
   modalClass?: string
   option?: InputOption
@@ -53,7 +54,7 @@ export class AdminEditorController<T extends CardSurface = CardSurface> extends 
     super('AdminEditorController', settings)
   }
 
-  hideToolDrawers = vue.ref(false)
+  hideToolDrawers = vue.ref<'both' | 'right' | 'left' | ''>('')
 
   activeToolId = { primary: vue.ref<string>(), context: vue.ref<string>() }
 

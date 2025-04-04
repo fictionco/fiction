@@ -8,6 +8,7 @@ import { vue } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
+import InputManageLayout from './InputManageLayout.vue'
 
 const props = defineProps<{
   site: Site
@@ -42,23 +43,9 @@ const options = vue.computed<InputOption[]>(() => {
     :tool
     :title="tool.title"
     :icon="tool.icon"
-    :buttons="[
-      {
-        label: 'Add New Sections',
-        icon: { class: 'i-tabler-plus' },
-        size: 'xs',
-        onClick: () => props.controller.useTool({ toolId: 'addSections' }),
-      },
-    ]"
   >
-    <ElForm class="p-2">
-      <FormEngine
-        v-model="site.editPageConfig.value"
-        state-key="pageEdit"
-        :options
-        :input-props="{ site, tool }"
-        :depth="1"
-      />
+    <ElForm class="p-4">
+      <InputManageLayout v-model="site.editPageConfig.value" :site :tool />
     </ElForm>
   </ElTool>
 </template>

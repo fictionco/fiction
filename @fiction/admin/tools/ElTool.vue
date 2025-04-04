@@ -15,14 +15,14 @@ const { buttons = [], title = '', icon } = defineProps<{
 </script>
 
 <template>
-  <div class="tool pb-24 pt-1" >
+  <div class="tool pb-24 pt-1">
     <div v-if="title" class="header p-2 flex justify-between items-center">
       <div
         class="flex items-center"
       >
         <div
           v-if="icon"
-          class="icon mr-2 shrink-0 flex  items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/50"
+          class="icon mr-2 shrink-0 flex  items-center justify-center rounded-full "
         >
           <XIcon :media="icon" class="size-[1em]" />
         </div>

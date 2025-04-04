@@ -16,13 +16,14 @@ type EmailSettings = {
   dateAt?: string
 }
 
-const { deviceMode = 'desktop', frameId, url, displayUrl, formatMode = 'browser', emailBar } = defineProps<{
+const { deviceMode = 'desktop', frameId, url, displayUrl, formatMode = 'browser', emailBar, showBrowserBar = false } = defineProps<{
   deviceMode?: 'desktop' | 'tablet' | 'mobile' | 'landscape'
   frameId: string
   url?: string
   displayUrl?: string
   formatMode?: 'email' | 'browser'
   emailBar?: EmailSettings
+  showBrowserBar?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -148,7 +149,7 @@ vue.onMounted(async () => {
     </template>
     <template v-else>
       <BarEmail v-if="formatMode === 'email'" :email-bar="emailBar" />
-      <BarBrowser v-else :url :display-url="displayUrl" @update:url="emit('update:url', $event)" />
+      <BarBrowser v-else-if="showBrowserBar" :url :display-url="displayUrl" @update:url="emit('update:url', $event)" />
     </template>
 
     <div

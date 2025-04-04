@@ -45,6 +45,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   // so we only update this when the frame URL actually needs to change (not when the route changes from URL click in frame)
   framePath = vue.ref('')
   frameUrl = vue.computed(() => `${this.previewPath.value}${this.framePath.value}`)
+  framePageUrl = (slug?: string) => `${this.previewPath.value}/${slug}`
 
   setUtil(util: FrameUtility<FramePostMessageList>) {
     this.util = util

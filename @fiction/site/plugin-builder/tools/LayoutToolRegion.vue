@@ -65,22 +65,20 @@ function getCardHandle(card: Card): Handle {
     :data-region-id="card.cardId"
   >
     <div
-      class="relative mb-1.5 flex justify-between items-center"
-      :class="[scope === 'global' ? 'text-theme-500/70 dark:text-theme-400/70' : 'text-primary-500 dark:text-primary-500']"
+      class="relative mb-1.5 flex justify-between items-center text-primary-500 dark:text-primary-500 text-theme-500/70 dark:text-theme-400/70"
     >
-      <div class="z-10 pr-3 text-xs flex gap-1 items-center font-medium whitespace-nowrap">
-        {{ toLabel(regionId) }} Region
+      <div class="z-10 pr-3 text-xs flex gap-1 items-center font-mono whitespace-nowrap">
+        {{ toLabel(regionId) }}
       </div>
       <div
         class="inset-0 flex items-center w-full"
         aria-hidden="true"
       >
         <div
-          class="w-full border-t border-dashed "
-          :class="[scope === 'global' ? 'border-theme-100/70 dark:border-theme-700' : 'border-primary-100/70 dark:border-primary-700']"
+          class="w-full border-t border-dashed border-theme-100/70 dark:border-theme-700"
         />
       </div>
-      <div class="z-10 pl-3 text-xs flex gap-1 items-center   font-medium whitespace-nowrap">
+      <div class="z-10 pl-3 text-xs flex gap-1 items-center font-mono whitespace-nowrap">
         {{ scope === 'global' ? 'All Pages' : 'Current Page' }}
       </div>
     </div>

@@ -14,6 +14,7 @@ const { itemId, onRestore } = defineProps<{
 const { fictionRevision, fictionEnv } = useService<{ fictionRevision: FictionRevision }>()
 
 const isLoading = vue.ref(true)
+const isSending = vue.ref('')
 const revisions = vue.ref<any[]>([])
 const showConfirm = vue.ref(false)
 const selectedRevision = vue.ref<any>(null)
@@ -44,6 +45,7 @@ async function restore() {
   }
 
   try {
+    isSending.value = selectedRevision.value.revisionId
     const r = await onRestore(selectedRevision.value.revisionId)
     showConfirm.value = false
 
@@ -57,6 +59,9 @@ async function restore() {
   }
   catch {
     fictionEnv.events.emit('notify', { type: 'error', message: 'There was an error restoring' })
+  }
+  finally {
+    isSending.value = ''
   }
 }
 
@@ -106,6 +111,7 @@ vue.onMounted(loadRevisions)
             theme="orange"
             design="outline"
             icon="i-tabler-restore"
+            :loading="isSending === rev.revisionId"
             @click="(selectedRevision = rev, showConfirm = true)"
           >
             Restore

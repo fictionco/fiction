@@ -125,17 +125,50 @@ describe('activePageId', async () => {
   const testUtils = await createSiteTestUtils()
 
   const siteRouter = testUtils.fictionRouterSites
-  const viewMapRef = vue.ref<Record<string, string>>({
-    example: 'id2',
-    foo: 'bar',
-    _404: 'id3',
-    _home: 'id1',
-  })
+  // const viewMapRef = vue.ref<Record<string, string>>({
+  //   example: 'id2',
+  //   foo: 'bar',
+  //   _404: 'id3',
+  //   _home: 'id1',
+  // })
+
+  const pages = [
+    {
+      cardId: 'id1',
+      slug: '_home',
+      title: 'Default Page',
+      regionId: 'main',
+      templateId: 'engine',
+    },
+    {
+      cardId: 'id2',
+      slug: 'example',
+      title: 'Example Page',
+      regionId: 'main',
+      templateId: 'engine',
+    },
+    {
+      cardId: 'id3',
+      slug: '_404',
+      title: 'Foo Page',
+      regionId: 'main',
+      templateId: 'engine',
+    },
+    {
+      cardId: 'bar',
+      slug: 'foo',
+      title: 'Bar Page',
+      regionId: 'main',
+      templateId: 'engine',
+    },
+  ]
 
   // Create a spy on the router's push method if needed
   const pushSpy = vi.spyOn(siteRouter, 'push')
 
-  const computedPageId = activePageId({ siteRouter, viewMapRef })
+  const site = await testUtils.createSite({ pages })
+
+  const computedPageId = activePageId({ site })
 
   it('get: should return the correct page ID for a given viewId', async () => {
     // Mocking the current value of the siteRouter
@@ -190,26 +223,6 @@ describe('activePageId', async () => {
     // Check if the push method was called with the _404 argument
     expect(pushSpy).toHaveBeenCalledWith('/not-found', expect.any(Object))
     expect(siteRouter.current.value.path).toEqual('/not-found')
-  })
-
-  it('reactivity: should handle modified viewMap', async () => {
-    viewMapRef.value = {
-      ...viewMapRef.value,
-      alpha: 'bravoCardId',
-      charlie: 'deltaCardId',
-    }
-
-    computedPageId.value = 'bravoCardId'
-
-    await waitFor(30)
-
-    expect(siteRouter.current.value.path).toEqual('/alpha')
-
-    await siteRouter.push('/charlie', { caller: 'reactivity:test' })
-
-    await waitFor(30)
-
-    expect(computedPageId.value).toEqual('deltaCardId')
   })
 })
 

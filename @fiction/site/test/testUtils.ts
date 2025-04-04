@@ -1,5 +1,5 @@
 import type { TestUtils } from '@fiction/core/test-utils/init'
-import type { Theme } from '../index.js'
+import type { CardConfigPortable, Theme } from '../index.js'
 import { FictionAdmin } from '@fiction/admin'
 import { FictionAnalytics } from '@fiction/analytics/index.js'
 import FSite from '@fiction/cards/CardSite.vue'
@@ -33,7 +33,7 @@ export type SiteTestUtils = TestUtils & {
   fictionAnalytics: FictionAnalytics
   runApp: (args: { context: 'app' | 'node', isProd?: boolean }) => Promise<void>
   close: () => Promise<void>
-  createSite: (args?: { themeId?: string }) => Promise<Site>
+  createSite: (args?: { themeId?: string, pages?: CardConfigPortable[] }) => Promise<Site>
 }
 
 export async function createSiteTestUtils(args: {
@@ -99,12 +99,12 @@ export async function createSiteTestUtils(args: {
 
   out.fictionEnv.log.info(`Site Test Utils Created (${context})`)
 
-  out.createSite = async (args: { themeId?: string } = {}) => {
-    const { themeId = 'test' } = args
+  out.createSite = async (args: { themeId?: string, pages?: CardConfigPortable[] } = {}) => {
+    const { themeId = 'test', pages = [] } = args
     const service = out as SiteTestUtils
     const siteRouter = service.fictionRouterSites
     const fictionSites = service.fictionSites
-    return Site.create({ siteRouter, fictionSites, themeId, isProd: false, siteId: `test-${shortId()}` })
+    return Site.create({ siteRouter, fictionSites, themeId, isProd: false, siteId: `test-${shortId()}`, pages })
   }
 
   const runOnStart = async (args: { context: 'app' | 'node', isProd?: boolean }) => {

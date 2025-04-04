@@ -27,7 +27,7 @@ const hasIconNav = vue.computed(() => {
   <div>
     <div class="flex flex-col h-[100dvh]">
       <!-- Header Bar -->
-      <div class="flex-none border-b border-theme-200 dark:border-theme-700 bg-theme-0 dark:bg-theme-950">
+      <div class="flex-none border-b border-theme-200 dark:border-theme-600/60 bg-theme-0 dark:bg-theme-950">
         <div class="flex py-2 items-center justify-between px-4">
           <div class="items-center flex text-sm lg:text-base gap-4">
             <slot name="headerLeft" />
@@ -44,14 +44,14 @@ const hasIconNav = vue.computed(() => {
         <!-- Tools Sidebar -->
         <TransitionWidth>
           <div
-            v-show="!controller?.hideToolDrawers.value"
+            v-show="controller?.hideToolDrawers.value !== 'both' && controller?.hideToolDrawers.value !== 'left'"
             class="no-scrollbar flex-none  relative hidden md:block"
-            :class="hasIconNav ? 'w-[60px]' : 'w-0'"
+            :class="hasIconNav ? 'w-[70px]' : 'w-0'"
             @click.stop="resetUi({ scope: 'inputs', cause: 'clickEditorTools', trigger: 'elementClick' })"
           >
             <div
               v-if="hasIconNav"
-              class="flex flex-col justify-between py-6 z-40 relative h-full bg-theme-0 dark:bg-theme-900 border-r border-theme-200 dark:border-theme-600/60"
+              class="flex flex-col justify-between items-center py-3 z-40 relative h-full border-r border-theme-200 dark:border-theme-600/60"
             >
               <div class="space-y-1">
                 <div
@@ -62,7 +62,7 @@ const hasIconNav = vue.computed(() => {
                   <ElTooltip :content="toLabel(tool.title || tool.toolId)">
                     <div
                       :data-test-id="`tool-button-${tool.toolId}`"
-                      class=" space-x-2 cursor-pointer p-2 justify-end size-[40px] rounded-lg transition-all"
+                      class="group flex flex-col cursor-pointer py-2 px-1 items-center justify-center w-[60px] rounded-lg transition-all"
                       :title="toLabel(tool.title || tool.toolId)"
                       :class="controller?.isUsingTool({ toolId: tool.toolId })
                         ? 'bg-primary-500 dark:bg-primary-600/60 ring-1 dark:ring-primary-500 ring-primary-600 text-white'
@@ -70,6 +70,12 @@ const hasIconNav = vue.computed(() => {
                       @click="controller?.useTool({ toolId: tool.toolId })"
                     >
                       <XIcon class="size-6" :media="tool.icon" />
+                      <span
+                        class="text-[10px] truncate min-w-0 w-full text-center select-none "
+                        :class="controller?.isUsingTool({ toolId: tool.toolId })
+                          ? 'text-white'
+                          : 'text-theme-500 dark:text-theme-400 group-hover:text-white'"
+                      >{{ tool.title }}</span>
                     </div>
                   </ElTooltip>
                 </div>
@@ -83,7 +89,7 @@ const hasIconNav = vue.computed(() => {
                   <ElTooltip :content="toLabel(tool.title || tool.toolId)">
                     <div
                       :data-test-id="`tool-button-${tool.toolId}`"
-                      class=" space-x-2 cursor-pointer p-2 justify-end size-[40px] rounded-lg transition-all"
+                      class="flex flex-col cursor-pointer p-2 justify-end size-[50px] rounded-lg transition-all"
                       :title="toLabel(tool.title || tool.toolId)"
                       :class="controller?.isUsingTool({ toolId: tool.toolId })
                         ? 'bg-primary-500 dark:bg-primary-600/60 ring-1 dark:ring-primary-500 ring-primary-600 text-white'
@@ -91,6 +97,12 @@ const hasIconNav = vue.computed(() => {
                       @click="controller?.useTool({ toolId: tool.toolId })"
                     >
                       <XIcon class="size-6" :media="tool.icon" />
+                      <span
+                        class="text-[10px] truncate min-w-0 w-full text-center select-none"
+                        :class="controller?.isUsingTool({ toolId: tool.toolId })
+                          ? 'text-white'
+                          : 'text-theme-500 dark:text-theme-400 group-hover:text-white'"
+                      >{{ tool.title }}</span>
                     </div>
                   </ElTooltip>
                 </div>
@@ -98,7 +110,7 @@ const hasIconNav = vue.computed(() => {
             </div>
 
             <ElModal
-              :vis="!!primaryTool"
+              :vis="!!primaryTool?.el && primaryTool?.design !== 'drawer'"
               :modal-class="primaryTool?.modalClass || 'max-w-screen-md'"
               @update:vis="controller?.useTool({ toolId: '' })"
             >
@@ -112,7 +124,7 @@ const hasIconNav = vue.computed(() => {
                 />
               </div>
             </ElModal>
-            <!-- <transition
+            <transition
               mode="out-in"
               enter-active-class="ease-out duration-200"
               enter-from-class="transform -translate-x-10 opacity-0"
@@ -122,17 +134,17 @@ const hasIconNav = vue.computed(() => {
               leave-to-class="transform -translate-x-10 opacity-0"
             >
               <div
-                v-if="primaryTool"
+                v-if="primaryTool?.el && primaryTool.design === 'drawer'"
                 :key="primaryTool.toolId"
-                class="max-w-[70vw] absolute left-full h-full bg-theme-0 dark:bg-theme-900 top-0 z-30 border-r shadow-[10px_0_18px_-15px_rgba(0,0,0,0.6)] border-theme-300/70 dark:border-theme-600 overflow-scroll no-scrollbar "
-                :class="primaryTool.widthClasses || 'w-[360px]'"
+                class="max-w-[70vw] absolute left-full h-full bg-theme-0 dark:bg-theme-900 top-0 z-30 border-r shadow-[10px_0_18px_15px_rgba(0,0,0,0.6)] border-theme-300/70 dark:border-theme-600 overflow-scroll no-scrollbar "
+                :class="primaryTool.modalClass || 'w-[420px]'"
               >
                 <component
                   :is="primaryTool.el"
                   v-bind="{ card, controller, ...toolProps, tool: primaryTool, ...primaryTool.props?.(toolProps).value }"
                 />
               </div>
-            </transition> -->
+            </transition>
           </div>
         </TransitionWidth>
         <!-- Content Area -->
@@ -153,8 +165,8 @@ const hasIconNav = vue.computed(() => {
             <!-- Context Drawer -->
             <TransitionWidth>
               <div
-                v-show="!controller?.hideToolDrawers.value && contextTool"
-                class="hidden md:block flex-none w-[300px] lg:w-[370px] xl:w-[400px] 2xl:w-[420px] bg-theme-0 dark:bg-theme-900 border-l border-theme-200 dark:border-theme-700 overflow-y-scroll overflow-x-clip scroll-container no-scrollbar"
+                v-show="controller?.hideToolDrawers.value !== 'both' && controller?.hideToolDrawers.value !== 'right' && contextTool"
+                class="hidden md:block flex-none w-[300px] lg:w-[370px] xl:w-[400px] 2xl:w-[420px] border-l border-theme-200 dark:border-theme-600/60 overflow-y-scroll overflow-x-clip scroll-container no-scrollbar"
               >
                 <transition
                   mode="out-in"

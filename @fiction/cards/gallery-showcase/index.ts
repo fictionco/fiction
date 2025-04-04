@@ -6,7 +6,7 @@ export const templateId = 'cardShowcaseGalleryV1'
 export const template = cardTemplate({
   templateId,
   category: ['portfolio', 'content'],
-  title: 'Media Showcase',
+  title: 'Showcase',
   description: 'Create an immersive gallery experience with a responsive grid layout and elegant popup viewer. Perfect for portfolios, product catalogs, case studies, or any visual storytelling needs.',
   subTitle: 'Transform your visual content into an engaging story that captures attention and drives interaction',
   icon: 'i-tabler-photo-up',

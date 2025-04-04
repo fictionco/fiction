@@ -13,6 +13,7 @@ const props = defineProps<{
   // Options configuration
   options: InputOption[]
   modelValue: Record<string, any>
+  inputProps?: Record<string, any>
 
   // Display options
   title?: string
@@ -187,7 +188,7 @@ vue.onUnmounted(() => {
 <template>
   <div :data-test-id="testId" class="bg-white text-theme-900 dark:bg-theme-900 dark:text-theme-100 rounded-lg overflow-hidden">
     <!-- Header -->
-    <div class="p-4 border-b border-theme-200 dark:border-theme-700">
+    <div class="p-4 border-b border-theme-200 dark:border-theme-600/60">
       <div class="flex items-center justify-between">
         <h2 class="font-medium">
           {{ title || 'Options' }}
@@ -203,7 +204,7 @@ vue.onUnmounted(() => {
     <!-- Main Content Area -->
     <div class="flex min-h-[350px]">
       <!-- Left Sidebar - Source Selection -->
-      <div class="w-48 border-r border-theme-200 dark:border-theme-700 flex-shrink-0 bg-theme-50 dark:bg-theme-800">
+      <div class="w-48 border-r border-theme-200 dark:border-theme-600/60 flex-shrink-0 bg-theme-50 dark:bg-theme-700/70">
         <nav class="p-3">
           <button
             v-for="opt in options"
@@ -212,7 +213,7 @@ vue.onUnmounted(() => {
             class="w-full px-2 py-2 rounded-lg text-left mb-1 flex items-center gap-2 transition-colors text-sm font-medium whitespace-nowrap truncate"
             :class="[
               activeOptionId === opt.key.value
-                ? 'bg-theme-600 dark:bg-theme-700/50 text-white ring-1 ring-theme-500/30'
+                ? 'bg-theme-600 dark:bg-theme-600/50 text-white ring-1 ring-theme-500/60'
                 : 'hover:bg-theme-100 dark:hover:bg-theme-700 text-theme-700 dark:text-theme-200',
             ]"
             @click="scrollToOption(opt.key.value)"
@@ -226,14 +227,15 @@ vue.onUnmounted(() => {
       <!-- Content Area -->
       <div class="flex-1 flex flex-col">
         <!-- Tool Content Area -->
-        <div ref="optionsContainer" class="flex-1 p-4 bg-theme-50/50 dark:bg-theme-800/50 max-h-[500px] overflow-auto">
+        <div ref="optionsContainer" class="flex-1 bg-theme-50/50 dark:bg-theme-800/50 max-h-[500px] overflow-auto">
           <div>
             <FormEngine
               state-key="optionsEngine"
-              :depth="1"
               :model-value="currentValue"
               ui-size="md"
               :options="filteredOptions"
+              :disable-group-hide="true"
+              :input-props="inputProps"
               @update:model-value="updateValue($event)"
             />
           </div>
@@ -242,7 +244,7 @@ vue.onUnmounted(() => {
     </div>
 
     <!-- Footer -->
-    <div class="p-4 border-t border-theme-200 dark:border-theme-700 flex justify-between bg-theme-50 dark:bg-theme-800">
+    <div class="p-4 border-t border-theme-200 dark:border-theme-600/60 flex justify-between bg-theme-50 dark:bg-theme-800">
       <slot name="footer-left">
         <XButton
           theme="default"

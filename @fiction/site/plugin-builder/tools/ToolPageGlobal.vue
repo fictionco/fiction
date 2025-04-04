@@ -1,15 +1,9 @@
 <script lang="ts" setup>
 import type { AdminEditorController, EditorTool } from '@fiction/admin'
-import type { Card, FictionSites } from '@fiction/site'
-import type { InputOption } from '@fiction/ui'
+import type { Card } from '@fiction/site'
 import type { Site } from '../../site'
 import type { ToolKeys } from './tools'
-import ElTool from '@fiction/admin/tools/ElTool.vue'
-import { useService, vue } from '@fiction/core'
-import { SiteSchema as schema } from '@fiction/site/schema'
-import { createOption } from '@fiction/ui'
-import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
+import { vue } from '@fiction/core'
 import TabbedOptions from '@fiction/ui/inputs/TabbedOptions.vue'
 import { updateSite } from '../../utils/site'
 import { getSiteOptions } from './utils'
@@ -32,5 +26,10 @@ const options = getSiteOptions(props)
 </script>
 
 <template>
-  <TabbedOptions v-model="v" :options="[options.global]" />
+  <TabbedOptions
+    v-model="v"
+    title="Global Site Settings"
+    :options="[options.global, options.styling, options.publish, options.history]"
+    :input-props="{ site: props.site, tool: props.tool }"
+  />
 </template>

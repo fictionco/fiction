@@ -131,27 +131,30 @@ async function resetToPublished() {
           <div>
             <CardButton
               :card
-              size="sm"
-              href="/sites"
-              icon="i-tabler-home"
+              size="md"
+              href="/"
+              icon="i-tabler-arrow-left"
+              design="link"
             />
           </div>
           <div class="flex space-x-1 font-semibold items-center">
+            <span>Site Editor</span>
+            <span class="i-tabler-slash text-xl dark:text-theme-500" />
             <XText v-if="site" v-model="site.title.value" title="Site Title" :is-editable="true" class="hover:bg-theme-100 hover:dark:bg-theme-700 whitespace-nowrap" />
           </div>
-          <ElSavingSignal
-            :is-dirty="site?.saveUtil.isDirty.value"
-            :nav-items="[{
-              label: 'Reset to Published',
-              onClick: () => resetToPublished(),
-              testId: 'reset-to-published',
-            }]"
-            data-test-id="draft-control-dropdown"
-            :classes="{ text: 'hidden md:inline' }"
-          />
         </template>
         <template v-if="site" #headerRight>
           <div class="flex gap-2 items-center">
+            <ElSavingSignal
+              :is-dirty="site?.saveUtil.isDirty.value"
+              :nav-items="[{
+                label: 'Reset to Published',
+                onClick: () => resetToPublished(),
+                testId: 'reset-to-published',
+              }]"
+              data-test-id="draft-control-dropdown"
+              :classes="{ text: 'hidden md:inline' }"
+            />
             <XDropDown
               mode="click"
               :items="[

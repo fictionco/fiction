@@ -19,16 +19,16 @@ const sections = vue.computed(() => {
 <template>
   <div class="list relative">
     <DraggableLayout class="relative rounded-md space-y-4" :site="site" @update:model-value="site.updateLayout({ order: $event })">
-      <LayoutToolRegion v-if="site.sections.value.header" scope="global" region-id="header" :card="site.sections.value.header" :site="site" />
+      <!-- <LayoutToolRegion v-if="site.sections.value.header" scope="global" region-id="header" :card="site.sections.value.header" :site="site" /> -->
       <LayoutToolRegion scope="page" region-id="main" :card="site.currentPage.value" :site="site" />
-      <LayoutToolRegion
+      <!-- <LayoutToolRegion
         v-for="(card, regionId) in sections"
         :key="regionId"
         :region-id="String(regionId)"
         :card
         :site
         scope="global"
-      />
+      /> -->
     </DraggableLayout>
   </div>
 </template>

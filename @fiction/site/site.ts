@@ -229,7 +229,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   currentItemId = vue.computed(() => this.siteRouter.params.value.itemId as string | undefined)
   currentViewId = vue.computed(() => (this.siteRouter.params.value.viewId || '_home') as string)
   viewMap = vue.computed(() => getViewMap({ pages: this.pages.value }))
-  activePageId = activePageId({ siteRouter: this.siteRouter, viewMapRef: this.viewMap })
+  activePageId = activePageId({ site: this})
   currentPage = vue.computed(() => getPageById({ pageId: this.activePageId.value, site: this }))
   sections = vue.shallowRef(setSections({ site: this, sections: this.settings.sections }))
   layout = vue.computed<Record<string, Card>>(() => ({ ...this.sections.value, main: this.currentPage.value }))
