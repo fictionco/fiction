@@ -11,7 +11,7 @@ defineOptions({ name: 'CardButtons' })
 
 const { card, buttons = [], uiSize = 'md', animate = 'none', theme = 'default', design } = defineProps<{
   card: Card
-  buttons: ActionButton[]
+  buttons?: ActionButton[]
   uiSize?: UiElementSize
   animate?: 'fade' | 'slide' | 'pop' | 'rise' | 'none'
   isOverlay?: boolean

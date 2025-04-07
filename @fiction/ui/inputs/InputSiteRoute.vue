@@ -127,9 +127,9 @@ function handlePageSelect(path?: string) {
 
 // Mode toggle buttons
 const modes = [
-  { label: 'Path / URL', value: 'url' as const },
-  { label: 'Select Page', value: 'page' as const },
-  { label: 'Media Modal', value: 'media' as const },
+  { label: 'URL', value: 'url' as const },
+  { label: 'Page', value: 'page' as const },
+  { label: 'Modal', value: 'media' as const },
 ]
 
 async function navigateToLink(url: string) {
@@ -165,7 +165,7 @@ async function navigateToLink(url: string) {
           size="sm"
           theme="default"
           rounding="full"
-          design="outline"
+          design="link"
           icon-after="i-tabler-chevron-down"
           title="URL Input Mode"
           @click.prevent

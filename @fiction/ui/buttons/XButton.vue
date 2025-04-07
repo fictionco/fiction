@@ -69,7 +69,12 @@ const cls = vue.computed(() => {
   }
 })
 const slots = vue.useSlots()
-const hasContent = vue.computed(() => !!slots?.default?.()?.[0]?.children?.length)
+const hasContent = vue.computed(() => {
+  const slot = slots?.default?.()?.[0]?.children
+  return typeof slot === 'string'
+    ? !!slot.length
+    : Array.isArray(slot) && slot.some(c => c && typeof c === 'object' && 'children' in c && !!c.children?.length)
+})
 
 const iconAdjust = vue.computed(() => {
   const sz = size || 'md'
@@ -173,9 +178,14 @@ const textClass = vue.computed(() => {
       :class="[loading ? 'translate-y-[-150%] opacity-0' : '', wrapClass, format === 'spread' ? '' : 'justify-center']"
     >
       <div class="flex items-center min-w-0" :class="iconAdjust.gap" :data-has-content="hasContent">
-        <XIcon v-if="icon" :media="icon" class="text-[1.2em] shrink-0" :class="[cls.iconClasses]" />
-        <div v-if="hasContent" class="txt truncate min-w-0" :class="textClass"><slot /></div>
-        <XIcon v-if="iconAfter" :media="iconAfter" class="text-[1.2em] shrink-0" :class="[cls.iconClasses]" />
+        <template v-if="icon || iconAfter || hasContent">
+          <XIcon v-if="icon" :media="icon" class="text-[1.2em] shrink-0" :class="[cls.iconClasses]" />
+          <div v-if="hasContent" class="txt truncate min-w-0" :class="textClass"><slot /></div>
+          <XIcon v-if="iconAfter" :media="iconAfter" class="text-[1.2em] shrink-0" :class="[cls.iconClasses]" />
+        </template>
+        <template v-else>
+          Button
+        </template>
       </div>
     </span>
   </component>

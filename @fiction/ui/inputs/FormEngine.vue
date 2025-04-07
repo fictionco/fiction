@@ -94,12 +94,12 @@ const cls = vue.computed(() => {
   const configs = {
     md: {
       groupHeader: 'py-1.5 px-2 text-xs',
-      groupPad: 'p-4 @[500px]:p-8 @[700px]:p-10',
+      groupPad: 'p-4 @[500px]:p-8 @[700px]:p-10 pr-0',
       inputGap: 'gap-5 @sm:gap-7 @xl:gap-10',
     },
     lg: {
       groupHeader: 'py-2.5 px-3 text-sm',
-      groupPad: 'px-8 lg:px-10 @xl:p-12 py-8 pb-10',
+      groupPad: 'px-8 lg:px-10 @xl:p-12 py-8 pb-10  pr-0',
       inputGap: 'gap-7',
     },
   }
@@ -113,12 +113,12 @@ function getGroupHeaderClasses(opt: InputOption) {
   const out = [cls.value.groupHeader]
 
   if (isHidden) {
-    out.push('bg-theme-50 dark:bg-theme-700 text-theme-600 dark:text-theme-100 border-primary-200 dark:border-theme-600')
+    out.push(' text-theme-600 dark:text-theme-100 border-primary-200 dark:border-theme-600')
   }
   else {
     out.push('border-theme-300/50 dark:border-theme-500/30 text-theme-500 dark:text-theme-100 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700')
     if (depth > 0) {
-      out.push('dark:bg-theme-700/60')
+      out.push('')
     }
     else {
       out.push('border-b')
@@ -140,7 +140,7 @@ function getInputWrapClasses(opt: InputOption) {
 }
 
 function getGroupClasses(opt: InputOption) {
-  return opt.settings.format === 'control' ? '' : cls.value.groupPad
+  return opt.settings.format === 'control' ? '' : [cls.value.groupPad, '']
 }
 
 function getOptionPath(args: { opt: InputOption, index?: number, mode?: 'base' | 'edit' }): string {
@@ -190,8 +190,8 @@ function activateOption(args: { opt: InputOption, path: string }) {
         <div
           v-if="opt.input.value === 'group'"
           :class="[
-            depth > 0 ? 'border rounded-md ' : '',
-            hide(opt) ? 'overflow-hidden border-theme-300 dark:border-theme-600' : 'border-theme-200 dark:border-theme-600/80',
+            depth > 0 ? '' : 'pr-4',
+            hide(opt) ? 'overflow-hidden' : '',
           ]"
           :data-option-key="opt.key.value"
           :data-option-depth="depth"
@@ -205,8 +205,8 @@ function activateOption(args: { opt: InputOption, path: string }) {
             <div class="flex items-center gap-2">
               <XIcon v-if="opt.settings.icon" class="size-[1.2em]" :media="opt.settings.icon" />
               <div class="font-semibold" v-html="opt.label.value" />
+              <div v-if="opt.key.value && !disableGroupHide" class="text-[1.2em] i-tabler-chevron-up transition-all" :class="hide(opt) ? 'rotate-180' : ''" />
             </div>
-            <div v-if="opt.key.value && !disableGroupHide" class="text-lg i-tabler-chevron-up transition-all" :class="hide(opt) ? 'rotate-180' : ''" />
           </div>
           <TransitionSlide>
             <div v-show="!hide(opt)">

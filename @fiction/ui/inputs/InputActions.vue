@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { Site } from '@fiction/site'
 import type { InputOption } from './index.js'
 import type { BasicItem } from './InputList.vue'
 import { ActionButtonSchema as schema } from '@fiction/core'
@@ -7,7 +8,7 @@ import InputList from './InputList.vue'
 
 defineOptions({ name: 'InputActions' })
 
-const { modelValue = [] } = defineProps<{ modelValue?: BasicItem[] }>()
+const { modelValue = [], site } = defineProps<{ modelValue?: BasicItem[], site?: Site }>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: BasicItem[]): void
@@ -29,16 +30,17 @@ const buttonOptions: InputOption[] = [
   }),
   createOption({
     key: 'styleGroup',
-    label: 'Button Style',
+    label: 'Advanced',
     input: 'group',
     isClosed: true,
+    icon: { class: 'i-tabler-settings' },
     schema,
     options: [
       createOption({
         key: 'design',
         label: 'Design Style',
         input: 'InputRadioButton',
-        props: { uiSize: 'sm' },
+        props: { uiSize: 'xs' },
         list: [
           { label: 'Solid', value: 'solid' },
           { label: 'Outline', value: 'outline' },
@@ -54,12 +56,6 @@ const buttonOptions: InputOption[] = [
         schema,
       }),
       createOption({
-        key: 'size',
-        label: 'Size',
-        input: 'InputStandardSize',
-        schema,
-      }),
-      createOption({
         key: 'icon',
         label: 'Icon (Left)',
         input: 'InputIcon',
@@ -69,17 +65,6 @@ const buttonOptions: InputOption[] = [
         key: 'iconAfter',
         label: 'Icon (Right)',
         input: 'InputIcon',
-        schema,
-      }),
-      createOption({
-        key: 'target',
-        label: 'Link Target',
-        input: 'InputRadioButton',
-        props: { uiSize: 'sm' },
-        list: [
-          { label: 'Same Window', value: '_self' },
-          { label: 'New Window', value: '_blank' },
-        ],
         schema,
       }),
     ],
@@ -105,6 +90,8 @@ function getItemLabel(args: { item?: BasicItem, index?: number } = {}) {
       :options="buttonOptions"
       :model-value="modelValue"
       :item-label="(args) => getItemLabel(args)"
+      item-name="Button"
+      :site
       @update:model-value="updateModelValue($event)"
     />
   </div>

@@ -20,9 +20,7 @@ const list = vue.computed(() => {
     return colorThemeBright
 
   return [
-    { format: 'title', name: 'Special Handling' },
     ...onlyUserColorTheme,
-    { format: 'title', name: 'Color Themes' },
     ...colorTheme,
   ]
 })

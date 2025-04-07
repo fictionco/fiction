@@ -16,7 +16,7 @@ const { buttons = [], title = '', icon } = defineProps<{
 
 <template>
   <div class="tool pb-24 pt-1">
-    <div v-if="title" class="header p-2 flex justify-between items-center">
+    <div v-if="title" class="header p-2 hidden justify-between items-center">
       <div
         class="flex items-center"
       >

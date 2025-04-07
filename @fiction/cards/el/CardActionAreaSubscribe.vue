@@ -11,7 +11,7 @@ import ConfirmModal from './CardActionAreaConfirmModal.vue'
 const { card, subscribe = {}, size = 'lg', enableConfirmModal = true, classes, theme = 'primary' } = defineProps<{
   card: Card
   animate?: boolean
-  subscribe: ActionSubscribe
+  subscribe?: ActionSubscribe
   size?: StandardSize
   theme?: ColorThemeUser
   enableConfirmModal?: boolean
@@ -101,9 +101,8 @@ async function createSubscription() {
         :size="size"
         hover="pop"
         class="shrink-0 w-full sm:w-auto"
-        icon-after="i-tabler-arrow-big-right"
       >
-        {{ subscribe.button?.label || 'Connect' }}
+        {{ subscribe.button?.label || 'Subscribe' }}
       </XButton>
     </ElForm>
     <ConfirmModal

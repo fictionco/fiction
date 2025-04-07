@@ -263,6 +263,14 @@ const listItems = vue.computed<NavListItem[]>(() => [
 function clearFormatting() {
   editor.chain().clearNodes().unsetAllMarks().run()
 }
+
+const dropdownProps = vue.computed(() => {
+  return {
+    mode: 'click',
+    placement: 'bottom',
+    classes: { item: 'text-sm' },
+  } as const
+})
 </script>
 
 <template>
@@ -283,7 +291,7 @@ function clearFormatting() {
       </div>
 
       <!-- More Text Formatting -->
-      <XDropDown :items="textFormatItemsSecondary" mode="hover" placement="bottom">
+      <XDropDown :items="textFormatItemsSecondary" v-bind="dropdownProps">
         <template #default="{ isActive }">
           <XButton
             size="xs"
@@ -297,7 +305,7 @@ function clearFormatting() {
       </XDropDown>
 
       <!-- Text Alignment -->
-      <XDropDown :items="alignmentItems" mode="hover" placement="bottom">
+      <XDropDown :items="alignmentItems" v-bind="dropdownProps">
         <template #default="{ isActive }">
           <XButton
             size="xs"
@@ -313,7 +321,7 @@ function clearFormatting() {
       </XDropDown>
 
       <!-- Heading Styles -->
-      <XDropDown :items="headingItems" mode="hover" placement="bottom">
+      <XDropDown :items="headingItems" v-bind="dropdownProps">
         <template #default="{ isActive }">
           <XButton
             size="xs"
@@ -329,7 +337,7 @@ function clearFormatting() {
       </XDropDown>
 
       <!-- Lists -->
-      <XDropDown :items="listItems" mode="hover" placement="bottom">
+      <XDropDown :items="listItems" v-bind="dropdownProps">
         <template #default="{ isActive }">
           <XButton
             size="xs"

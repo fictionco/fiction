@@ -1,5 +1,5 @@
+import type { InputOption } from '@fiction/ui'
 import type { Card } from '../card'
-import { InputOption } from '@fiction/ui'
 import { standardCardOptions } from '../cardStandard'
 
 export async function getCardOptionConfig(args: { card?: Card }) {
@@ -10,12 +10,7 @@ export async function getCardOptionConfig(args: { card?: Card }) {
 
   const tpl = card?.tpl.value
   const config = await tpl?.getConfig?.({ site })
-  const out = []
-  if (config?.options) {
-    out.push(new InputOption({ key: 'specific', label: 'Element Options', input: 'group', options: config?.options }))
-  }
-
-  out.push(standardCardOptions({ card }))
+  const out = config?.options || []
 
   return out as InputOption[]
 }

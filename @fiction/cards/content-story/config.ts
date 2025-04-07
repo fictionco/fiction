@@ -32,7 +32,7 @@ const options = [
     schema,
     key: 'sectionsGroup',
     input: 'group',
-    label: 'Story Sections',
+    label: 'Content',
     icon: { class: 'i-tabler-book' },
     options: [
       createOption({
@@ -74,9 +74,9 @@ const options = [
           }),
           createOption({
             schema,
-            key: 'items.0.action',
-            label: 'Action Area',
-            input: 'InputActionArea',
+            key: 'items.0.action.buttons',
+            label: 'Buttons',
+            input: 'InputActions',
           }),
         ],
       }),

@@ -195,26 +195,26 @@ function activateItem(args: { index: number, path: string }) {
     <div
       v-for="(item, i) in keyedModelValue"
       :key="i"
-      class="rounded-md border border-theme-300 dark:border-theme-600 mb-2 shadow-sm bg-theme-0 dark:bg-theme-800/20 cursor-pointer text-theme-700 dark:text-theme-100"
+      class="rounded-md mb-2 shadow-sm bg-theme-0 dark:bg-theme-800/20 cursor-pointer text-theme-700 dark:text-theme-100 focus:outline-none"
       :data-drag-id="item._key"
       :data-drag-depth="randomId"
       :data-handle-index="i"
     >
       <div
-        class="px-1 py-1 bg-theme-50/50 dark:bg-theme-600/50 hover:bg-theme-50 text-xs font-mono font-medium flex justify-between items-center"
-        :class="openItem === i ? 'rounded-t-md border-b border-theme-200 dark:border-theme-600' : 'rounded-md'"
+        class="p-2 bg-theme-50/50 dark:bg-theme-600/20 hover:bg-theme-50 text-xs font-mono font-medium flex justify-between items-center"
+        :class="openItem === i ? '' : 'rounded-md'"
         :data-drag-handle="randomId"
         data-test-id="handle"
         @click="toggleItem(i)"
       >
         <div class="flex gap-1 items-center cursor-move min-w-0">
           <div class="text-lg text-theme-300 dark:text-theme-500 i-tabler-grip-vertical" />
-          <div class="text-theme-500 dark:text-theme-50 truncate w-full min-w-0">
+          <div class="text-theme-500 dark:text-theme-50 truncate min-w-0">
             {{ getItemLabel(item, i) }}
           </div>
+          <div class="text-[1.2em] text-theme-300 i-tabler-chevron-down transition-all" :class="openItem === i ? 'rotate-180' : ''" />
         </div>
         <div class="flex gap-1 items-center">
-          <div class="text-lg text-theme-300 i-tabler-chevron-down transition-all" :class="openItem === i ? 'rotate-180' : ''" />
           <div class="text-[1.2em] text-theme-300 i-tabler-x transition-all opacity-70 hover:opacity-100" @click.stop="removeItem(item)" />
         </div>
       </div>
@@ -237,13 +237,13 @@ function activateItem(args: { index: number, path: string }) {
       </TransitionSlide>
     </div>
 
-    <div class="actions mt-3">
+    <div class="actions mt-3 text-center">
       <XButton
-        rounding="full"
-        theme="primary"
+        theme="default"
         size="xs"
         data-test="add"
         icon="i-tabler-plus"
+        rounding="md"
         @click.prevent="addItem()"
       >
         Add {{ itemName }}

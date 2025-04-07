@@ -8,7 +8,7 @@ export function standardCardOptions(args: { card: Card }) {
   const { card } = args
   return createOption({ key: 'standard', label: 'Standard Options', input: 'group', options: [
     createOption({
-      key: 'contentGen',
+      key: 'group.ai',
       icon: { class: 'i-tabler-sparkles' },
       isClosed: true,
       label: 'AI Content Generation',
@@ -64,7 +64,7 @@ export function standardCardOptions(args: { card: Card }) {
       ],
     }),
     createOption({
-      key: 'standardBackground',
+      key: 'group.bg',
       icon: { class: 'i-tabler-background' },
       isClosed: true,
       label: 'Color / Background',
@@ -134,7 +134,7 @@ export function standardCardOptions(args: { card: Card }) {
       ],
     }),
     createOption({
-      key: 'standardHandling',
+      key: 'group.handling',
       icon: { class: 'i-tabler-status-change' },
       isClosed: true,
       label: 'Page Handling',

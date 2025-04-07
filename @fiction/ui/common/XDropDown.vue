@@ -70,7 +70,8 @@ async function handleItemClick(args: { item: NavListItem, event: MouseEvent }) {
 onResetUi(() => resetDropDown())
 
 const menuClasses = vue.computed(() => {
-  const baseClasses = `absolute z-30 bg-theme-100 dark:bg-theme-900 rounded-md shadow-lg ring-1 ring-theme-200 dark:ring-theme-600 focus:outline-none`
+  const baseClasses = `absolute z-30 bg-theme-100 dark:bg-theme-900 rounded-md ring-1 ring-theme-200 dark:ring-theme-600 focus:outline-none`
+  const shadowClasses = 'shadow-[0_2px_8px_0_rgba(0,0,0,0.1)] dark:shadow-[0_2px_18px_0_rgba(0,0,0,1)]'
   const placementClasses = {
     top: 'bottom-full mb-2',
     bottom: 'top-full mt-2',
@@ -83,7 +84,7 @@ const menuClasses = vue.computed(() => {
     end: 'right-0',
   }
   const widthClass = classes.width ? classes.width : 'w-48'
-  return [widthClass, baseClasses, placementClasses[placement], dropdownAlignmentClasses[dropdownAlignment]].join(' ')
+  return [widthClass, baseClasses, shadowClasses, placementClasses[placement], dropdownAlignmentClasses[dropdownAlignment]].join(' ')
 })
 
 defineExpose({ isClicked, isHovered, toggleClicked })
@@ -159,16 +160,16 @@ const wrapperClass = vue.computed(() => {
         aria-orientation="vertical"
       >
         <slot name="top" />
-        <div class="py-1 font-sans font-semibold" role="none">
+        <div class="p-1 font-sans font-normal space-y-0.5" role="none">
           <template
             v-for="(item, index) in visibleItems"
             :key="index"
           >
             <a
               :href="item.href"
-              class="flex gap-2 items-center cursor-pointer transition-all w-full text-left px-3 text-theme-700 dark:text-theme-200 "
+              class="flex gap-2 items-center cursor-pointer transition-all w-full text-left px-3 text-theme-700 dark:text-theme-200 rounded-lg"
               :class="[
-                item.isActive ? 'bg-theme-200 dark:bg-theme-700 text-theme-900 dark:text-theme-100' : 'hover:bg-theme-200 dark:hover:bg-theme-600/50 hover:text-theme-900 dark:hover:text-theme-100',
+                item.isActive ? 'bg-theme-200 dark:bg-theme-600/50 text-theme-900 dark:text-theme-100' : 'hover:bg-theme-200 dark:hover:bg-theme-600/50 hover:text-theme-900 dark:hover:text-theme-100',
                 sizeClasses.text,
               ]"
               role="menuitem"

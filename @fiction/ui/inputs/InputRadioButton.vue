@@ -46,6 +46,7 @@ function update(value?: string | number): void {
     class="inline-flex rounded-lg shadow-sm isolate flex-wrap "
     role="radiogroup"
     :class="sizeClasses.wrap"
+    :data-ui-size="uiSize"
   >
     <XButton
       v-for="(item) in parsedList"

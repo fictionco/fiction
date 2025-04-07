@@ -41,7 +41,7 @@ const editingStoryText = vue.ref(false)
               tag="div"
               :card
               :path="pathCheck(`items.${i}.content`, schema)"
-              class="prose dark:prose-invert prose-sm md:prose-md lg:prose-xl text-xl sm:text-3xl lg:text-4xl xl:text-5xl !leading-[1.4]"
+              class="font-serif  text-xl sm:text-3xl lg:text-4xl xl:text-5xl !leading-relaxed"
               @editing="editingStoryText = $event"
             />
           </EffectScrollReveal>
