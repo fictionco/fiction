@@ -21,8 +21,6 @@ export function standardCardOptions(args: { card: Card }) {
         options: [
           createOption({ key: 'standard.background', label: 'Background', input: 'InputMedia', props: { isBackground: true }, schema }),
           createOption({ key: 'standard.primaryColor', label: 'Primary Color', input: 'InputSelectCustom', list: colorThemeBright, schema }),
-          createOption({ key: 'standard.themeColor', label: 'Theme Color', input: 'InputSelectCustom', list: colorTheme, schema }),
-
         ],
       }),
       // createOption({

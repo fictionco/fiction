@@ -86,7 +86,7 @@ function updateValue(update: Record<string, any>) {
 </script>
 
 <template>
-  <div :data-test-id="testId" class="bg-white text-theme-900 dark:bg-theme-900 dark:text-theme-100 rounded-lg overflow-hidden">
+  <div :data-test-id="testId" class="bg-white text-theme-900 dark:bg-theme-900 dark:text-theme-100 rounded-lg overflow-hidden h-full flex flex-col">
     <!-- Header -->
     <div class="p-4 border-b border-theme-200 dark:border-theme-600/60">
       <div class="flex items-center justify-between">
@@ -99,10 +99,10 @@ function updateValue(update: Record<string, any>) {
     </div>
 
     <!-- Preview slot - Optional -->
-    <div class="">
+    <div class="grow min-h-0 overflow-scroll no-scrollbar">
       <slot name="preview" />
 
-      <div ref="optionsContainer" class="flex-1 bg-theme-50/50 dark:bg-theme-800/50 w-full">
+      <div ref="optionsContainer" class="flex-1 w-full max-w-screen-sm mx-auto">
         <div>
           <FormEngine
             state-key="optionsEngine"
@@ -111,7 +111,7 @@ function updateValue(update: Record<string, any>) {
             :options="options"
             :disable-group-hide="true"
             :input-props="inputProps"
-            :classes="{ tabWrap: 'max-h-[300px] h-[60vh] overflow-auto no-scrollbar' }"
+
             @update:model-value="updateValue($event)"
           />
         </div>

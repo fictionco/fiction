@@ -111,18 +111,16 @@ const hasIconNav = vue.computed(() => {
 
             <ElModal
               :vis="!!primaryTool?.el && primaryTool?.design !== 'drawer'"
-              :modal-class="primaryTool?.modalClass || 'max-w-screen-md'"
+              :modal-class="primaryTool?.modalClass || 'h-[90vh] w-full'"
+              transition-mode="slideUp"
               @update:vis="controller?.useTool({ toolId: '' })"
             >
-              <div
+              <component
+                :is="primaryTool.el"
                 v-if="primaryTool"
                 :key="primaryTool.toolId"
-              >
-                <component
-                  :is="primaryTool.el"
-                  v-bind="{ card, controller, ...toolProps, tool: primaryTool, ...primaryTool.props?.(toolProps).value }"
-                />
-              </div>
+                v-bind="{ card, controller, ...toolProps, tool: primaryTool, ...primaryTool.props?.(toolProps).value }"
+              />
             </ElModal>
             <transition
               mode="out-in"

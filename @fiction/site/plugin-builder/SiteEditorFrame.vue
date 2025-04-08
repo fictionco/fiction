@@ -181,7 +181,7 @@ function handlePageOrderUpdate(ids: string[]) {
 </script>
 
 <template>
-  <div class="space-y-4 p-4 lg:p-6 @container bg-theme-800">
+  <div class="space-y-4 p-4 xl:p-6 @container bg-theme-800">
     <div v-if="showPageGrid" class="flex gap-2 items-baseline">
       <div class="font-semibold">
         All Pages

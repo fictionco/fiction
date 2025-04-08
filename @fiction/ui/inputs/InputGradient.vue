@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { GradientPoint, GradientSetting, StandardSize } from '@fiction/core'
+import type { colorStandard, GradientPoint, GradientSetting, StandardSize } from '@fiction/core'
 import { getGradientCss, shortId, vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import EffectDraggableSort from '../effect/EffectDraggableSort.vue'
@@ -70,8 +70,8 @@ async function addColor() {
   const newStop: KeyedItem = {
     ...getDefaultStop(),
     position: newPosition,
-    color: '#808080',
-    opacity: 0.2,
+    color: '#000000',
+    opacity: 0.05,
     _key: shortId(),
   }
   const newValue = {
@@ -127,7 +127,7 @@ const colorPickerClasses = [
 </script>
 
 <template>
-  <div class="max-w-input border border-theme-300/70 dark:border-theme-600 rounded-md p-3 space-y-3">
+  <div class="max-w-input bg-theme-50 dark:bg-theme-800 rounded-lg p-3 space-y-3">
     <!-- Preview Bar -->
     <div
       class="hover:opacity-80 bar bg-theme-50 text-white text-center text-[10px] font-sans flex items-center justify-center dark:bg-theme-800 grow rounded-lg border-2 border-theme-300 dark:border-theme-600"

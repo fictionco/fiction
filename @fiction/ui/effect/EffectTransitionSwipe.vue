@@ -1,4 +1,5 @@
 <script setup lang="ts">
+defineOptions({ name: 'EffectTransitionSwipe' })
 const {
   dir = 'left',
 } = defineProps<{
@@ -26,22 +27,22 @@ const {
 
 // Initial states
 .left-enter-from {
-  transform: translateX(100%);
+  transform: translateX(200%);
 }
 .left-leave-from {
   transform: translateX(0);
 }
 .left-leave-to {
-  transform: translateX(-100%);
+  transform: translateX(-200%);
 }
 
 .right-enter-from {
-  transform: translateX(-100%);
+  transform: translateX(-200%);
 }
 .right-leave-from {
   transform: translateX(0);
 }
 .right-leave-to {
-  transform: translateX(100%);
+  transform: translateX(200%);
 }
 </style>

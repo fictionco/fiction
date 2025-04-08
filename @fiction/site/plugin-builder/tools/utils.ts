@@ -40,30 +40,11 @@ export function getSiteOptions(args: { site: Site }) {
 
         createOption({
           schema: SiteSchema,
-          key: 'siteGlobal',
-          label: 'Advanced',
-          input: 'group',
-          icon: { class: 'i-tabler-rocket' },
-          isClosed: true,
-          options: [
-            createOption({
-              schema: SiteSchema,
-              key: 'userConfig.titleTemplate',
-              label: 'Page Title Format',
-              description: 'Customize how page titles appear in browser tabs and search results. Use {{pageTitle}} for the current page name and {{siteTitle}} for your site name.',
-              input: 'InputText',
-              placeholder: '{{pageTitle}} - {{siteTitle}}',
-            }),
-
-            createOption({
-              schema: SiteSchema,
-              key: 'userConfig.googleAnalyticsId',
-              label: 'Google Analytics ID',
-              description: 'Enter your Google Analytics Measurement ID to enable website analytics. Format: G-XXXXXXXXXX',
-              input: 'InputText',
-              placeholder: 'G-XXXXXXXXXX',
-            }),
-          ],
+          key: 'userConfig.googleAnalyticsId',
+          label: 'Google Analytics ID',
+          description: 'Enter your Google Analytics Measurement ID to enable website analytics. Format: G-XXXXXXXXXX',
+          input: 'InputText',
+          placeholder: 'G-XXXXXXXXXX',
         }),
 
         // createOption({
@@ -104,7 +85,7 @@ export function getSiteOptions(args: { site: Site }) {
     styling: createOption({
       schema: SiteSchema,
       key: 'site.styling',
-      label: 'Color',
+      label: 'Style',
       input: 'group',
       icon: { class: 'i-tabler-palette' },
       options: [
@@ -120,96 +101,20 @@ export function getSiteOptions(args: { site: Site }) {
 
         createOption({
           schema: SiteSchema,
-          key: 'userConfig.standard.prefersColorScheme',
-          label: 'Dark / Light Mode',
-          subLabel: 'Control how your site appears to visitors',
-          input: 'InputRadioButton',
-          props: { uiSize: 'sm' },
-          list: [
-            { value: 'light', label: 'Always Light' },
-            { value: 'auto', label: 'Auto' },
-            { value: 'dark', label: 'Always Dark' },
-          ],
-          placeholder: 'Select theme behavior',
+          key: 'userConfig.standard.fonts.title',
+          label: 'Headings',
+          subLabel: 'Used for page titles and major headings',
+          input: 'InputFont',
+          props: { noPreview: true },
         }),
-
-      ],
-    }),
-    fonts: createOption({
-      schema: SiteSchema,
-      key: 'globalFonts',
-      label: 'Typography',
-      icon: { class: 'i-tabler-text-size' },
-      input: 'group',
-      options: [
         createOption({
           schema: SiteSchema,
-          key: 'group.fonts.main',
-          label: 'Primary Fonts',
-          icon: { class: 'i-tabler-text-increase' },
-          input: 'group',
-          options: [
-            createOption({
-              schema: SiteSchema,
-              key: 'userConfig.standard.fonts.title',
-              label: 'Headings',
-              subLabel: 'Used for page titles and major headings',
-              input: 'InputFont',
-              props: { noPreview: true },
-            }),
-            createOption({
-              schema: SiteSchema,
-              key: 'userConfig.standard.fonts.body',
-              label: 'Main Text',
-              subLabel: 'Used for paragraphs and general content',
-              input: 'InputFont',
-              props: { noPreview: true },
-            }),
-          ],
+          key: 'userConfig.standard.fonts.body',
+          label: 'Main Text',
+          subLabel: 'Used for paragraphs and general content',
+          input: 'InputFont',
+          props: { noPreview: true },
         }),
-
-        createOption({
-          schema: SiteSchema,
-          key: 'groupl.fonts.accent',
-          label: 'Accent Fonts',
-          icon: { class: 'i-tabler-text-decrease' },
-          input: 'group',
-          options: [
-            createOption({
-              schema: SiteSchema,
-              key: 'userConfig.standard.fonts.highlight',
-              label: 'Accent Text',
-              subLabel: 'Used for emphasis and special text',
-              input: 'InputFont',
-              props: { noPreview: true },
-            }),
-            createOption({
-              schema: SiteSchema,
-              key: 'userConfig.standard.fonts.sans',
-              label: 'Sans-Serif',
-              subLabel: 'Modern, clean style for UI elements',
-              input: 'InputFont',
-              props: { noPreview: true },
-            }),
-            createOption({
-              schema: SiteSchema,
-              key: 'userConfig.standard.fonts.serif',
-              label: 'Serif',
-              subLabel: 'Traditional style for formal content',
-              input: 'InputFont',
-              props: { noPreview: true },
-            }),
-            createOption({
-              schema: SiteSchema,
-              key: 'userConfig.standard.fonts.mono',
-              label: 'Monospace',
-              subLabel: 'Fixed-width font for code and technical content',
-              input: 'InputFont',
-              props: { noPreview: true },
-            }),
-          ],
-        }),
-
       ],
     }),
     publish: createOption({
@@ -222,9 +127,9 @@ export function getSiteOptions(args: { site: Site }) {
         createOption({
           schema: SiteSchema,
           key: 'group.subDomain',
-          label: 'Fiction Subdomain',
+          label: 'Domain',
           input: 'group',
-          icon: { class: 'i-tabler-world-bolt' },
+          icon: { class: 'i-tabler-world-www' },
           options: [
             createOption({
               schema: SiteSchema,
@@ -240,15 +145,6 @@ export function getSiteOptions(args: { site: Site }) {
                 uiSize: 'md',
               },
             }),
-          ],
-        }),
-        createOption({
-          schema: SiteSchema,
-          key: 'group.subDomain',
-          label: 'Custom Domain',
-          input: 'group',
-          icon: { class: 'i-tabler-world-www' },
-          options: [
             createOption({
               schema: SiteSchema,
               key: 'customDomains',
@@ -263,16 +159,9 @@ export function getSiteOptions(args: { site: Site }) {
                 uiSize: 'md',
               },
             }),
-          ],
-        }),
-        createOption({
-          key: 'group.instructions',
-          label: 'Domain Setup Instructions',
-          input: 'group',
-          icon: { class: 'i-tabler-world-question' },
-          options: [
             createOption({
               key: 'domainSetupInstructions',
+              label: 'Setup Instructions',
               input: vue.defineAsyncComponent(() => import('./CustomDomainInstructions.vue')),
               props: {
                 destination: activeSiteHostname(site, { isProd: true }).value,
@@ -280,6 +169,7 @@ export function getSiteOptions(args: { site: Site }) {
             }),
           ],
         }),
+
       ],
     }),
     history: createOption({

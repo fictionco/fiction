@@ -125,8 +125,7 @@ function applyChanges(value: MediaObject) {
 <template>
   <ElModal
     :vis
-    class="max-w-4xl"
-    modal-class="max-w-screen-md"
+    modal-class="h-[90vh] w-full xl:w-[80vw]"
     :has-close="false"
     @update:vis="emit('update:vis', $event)"
   >
@@ -160,7 +159,7 @@ function applyChanges(value: MediaObject) {
         </div>
       </template>
       <template #preview>
-        <div class="p-4 border-b border-theme-200 dark:border-theme-700 h-64">
+        <div class="p-4 border-b border-theme-200 dark:border-theme-700 h-[200px] bg-theme-50 dark:bg-theme-800">
           <div class="relative h-full">
             <div class="w-full h-full flex items-center justify-center text-center" :data-m="JSON.stringify(currentSelection)">
               <template v-if="currentSelection.format || currentSelection.gradient?.stops?.length || currentSelection.backgroundColor">

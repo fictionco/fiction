@@ -34,7 +34,7 @@ async function handleCopy(): Promise<void> {
 </script>
 
 <template>
-  <div class="custom-domains text-sm">
+  <div class="custom-domains text-sm p-6 rounded-md bg-theme-50 dark:bg-theme-800">
     <ol class="list-decimal list-outside ml-4 space-y-3 leading-[1.6]">
       <li>Sign in to your domain provider's website (like GoDaddy, Namecheap, or Google Domains)</li>
       <li>Find the DNS settings or DNS management section</li>
