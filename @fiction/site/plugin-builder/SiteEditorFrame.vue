@@ -252,6 +252,7 @@ function handlePageOrderUpdate(ids: string[]) {
           v-model="activeDeviceModeKey"
           mode="click"
           :items="deviceModes"
+          dropdown-alignment="end"
         >
           <XButton
             rounding="full"
@@ -262,21 +263,6 @@ function handlePageOrderUpdate(ids: string[]) {
             {{ toLabel(activeDeviceMode?.value) }}
           </XButton>
         </XDropDown>
-
-        <ElTooltip
-          direction="bottom"
-          content="For previewing, to change the behavior see global styling options"
-        >
-          <XButton
-            rounding="full"
-            :icon="site.isLightMode.value ? 'i-tabler-sun' : 'i-tabler-moon'"
-            size="xs"
-            respond="icon:xl"
-            @click="toggleDarkLightMode()"
-          >
-            {{ site.isLightMode.value ? 'Light' : 'Dark' }} Mode Preview
-          </XButton>
-        </ElTooltip>
       </div>
     </div>
 

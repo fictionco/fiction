@@ -45,28 +45,11 @@ export function standardCardOptions(args: { card: Card }) {
         label: 'Headers',
         input: 'group',
         options: [
-          createOption({
-            input: 'group',
-            key: 'headersGroup',
-            label: 'Content',
-            icon: { class: 'i-tabler-align-left' },
-            options: [
-              createOption({ key: 'standard.headers.title', label: 'Title', input: 'InputText', schema }),
-              createOption({ key: 'standard.headers.subTitle', label: 'Sub Title', input: 'InputText', schema }),
-              createOption({ key: 'standard.headers.superTitle', input: 'InputSuperTitle', schema, isClosed: true }),
-
-            ],
-          }),
-          createOption({
-            input: 'group',
-            key: 'headersStyleGroup',
-            label: 'Design',
-            icon: { class: 'i-tabler-layout' },
-            options: [
-              createOption({ key: 'standard.headers.layout', label: 'Alignment', input: 'InputSelectCustom', list: HeaderLayoutSchema.options, schema }),
-              createOption({ key: 'standard.headers.size', label: 'Size', input: 'InputSelectCustom', list: SizeSchema.options, schema }),
-            ],
-          }),
+          createOption({ key: 'standard.headers.title', label: 'Title', input: 'InputText', schema }),
+          createOption({ key: 'standard.headers.subTitle', label: 'Sub Title', input: 'InputText', schema }),
+          createOption({ key: 'standard.headers.superTitle', input: 'InputSuperTitle', schema, isClosed: true }),
+          createOption({ key: 'standard.headers.layout', label: 'Alignment', input: 'InputSelectCustom', list: HeaderLayoutSchema.options, schema }),
+          createOption({ key: 'standard.headers.size', label: 'Size', input: 'InputSelectCustom', list: SizeSchema.options, schema }),
 
         ],
       }),

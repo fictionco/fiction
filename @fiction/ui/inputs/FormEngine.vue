@@ -283,7 +283,7 @@ function handleTabChange(index: number) {
 
       <!-- Group content -->
       <div class="relative" :class="classes.tabWrap">
-        <EffectTransitionSwipe :dir="activeTabIndex > lastTabIndex ? 'left' : 'right'">
+        <TransitionGroup name="fade" mode="out-in">
           <template v-for="(opt, i) in groupOptions" :key="i">
             <div
               v-if="useTabsForGroups ? i === activeTabIndex : true"
@@ -354,7 +354,7 @@ function handleTabChange(index: number) {
               </div>
             </div>
           </template>
-        </EffectTransitionSwipe>
+        </TransitionGroup>
       </div>
     </div>
 

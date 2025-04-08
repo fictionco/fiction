@@ -39,9 +39,9 @@ export type UserConfig = z.infer<typeof schema>
 const options: InputOption[] = [
   createOption({
     key: 'group.items',
-    label: 'Bento Items',
+    label: 'Content',
     input: 'group',
-    icon: { class: 'i-tabler-layout-grid' },
+    icon: { class: 'i-tabler-align-left' },
     options: [
       createOption({
         key: 'items',
@@ -109,9 +109,9 @@ const options: InputOption[] = [
 
   createOption({
     key: 'group.settings',
-    label: 'Settings',
+    label: 'Design',
     input: 'group',
-    icon: { class: 'i-tabler-settings' },
+    icon: { class: 'i-tabler-layout' },
     options: [
       createOption({
         key: 'gapSize',
