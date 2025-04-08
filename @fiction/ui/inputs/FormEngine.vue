@@ -265,7 +265,7 @@ function handleTabChange(index: number) {
     <!-- Group options with tabbed interface -->
     <div v-if="groupOptions.length > 0">
       <!-- Tabs for groups when enabled -->
-      <div v-if="useTabsForGroups" class="border-b border-theme-200 dark:border-theme-600/60 sticky top-0 z-10 pt-2 bg-theme-0 dark:bg-theme-900">
+      <div v-if="useTabsForGroups" class="overflow-x-auto no-scrollbar border-b border-theme-200 dark:border-theme-600/60 sticky top-0 z-10 pt-2 bg-theme-0 dark:bg-theme-900">
         <div class="flex px-1">
           <button
             v-for="(opt, i) in groupOptions"

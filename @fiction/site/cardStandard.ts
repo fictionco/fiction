@@ -13,10 +13,10 @@ export function standardCardOptions(args: { card: Card }) {
     input: 'group',
     options: [
       createOption({
-        key: 'group.bg',
+        key: 'group.styling',
         icon: { class: 'i-tabler-background' },
         isClosed: true,
-        label: 'Background',
+        label: 'Styling',
         input: 'group',
         options: [
           createOption({ key: 'standard.background', label: 'Background', input: 'InputMedia', props: { isBackground: true }, schema }),

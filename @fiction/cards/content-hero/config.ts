@@ -37,6 +37,7 @@ export function getOptions(): InputOption[] {
     createOption({
       key: 'content',
       label: 'Content',
+      icon: { class: 'i-tabler-align-left' },
       input: 'group',
       options: [
         createOption({
@@ -54,55 +55,23 @@ export function getOptions(): InputOption[] {
         }),
         createOption({
           key: 'superTitle',
-          label: 'Super Title',
           input: 'InputSuperTitle',
           isClosed: true,
           schema,
         }),
-      ],
-    }),
-    createOption({
-      key: 'style',
-      label: 'Layout + Style',
-      input: 'group',
-      options: [
         createOption({
-          key: 'layout',
-          label: 'Layout Style',
-          input: 'InputRadioButton',
-          props: { uiSize: 'sm' },
-          list: [{ value: 'center' }, { value: 'left' }, { value: 'right' }, { value: 'justify' }],
+          key: 'action.buttons',
+          label: 'Buttons',
+          input: 'InputActions',
           schema,
         }),
-      ],
-    }),
-    createOption({
-      key: 'media',
-      label: 'Media',
-      input: 'group',
-      options: [
         createOption({
           key: 'media',
           label: 'Media',
           input: 'InputMedia',
           schema,
         }),
-        createOption({
-          key: 'media.aspect',
-          label: 'Media Aspect',
-          input: 'InputRadioButton',
-          list: [
-            { label: 'Square', value: 'aspect:square' },
-            { label: 'Portrait', value: 'aspect:portrait' },
-            { label: 'Landscape', value: 'aspect:landscape' },
-          ],
-        }),
-        createOption({
-          key: 'caption',
-          label: 'Image Caption',
-          input: 'InputText',
-          schema,
-        }),
+
         createOption({
           key: 'group.overlays',
           label: 'Image Overlays',
@@ -115,6 +84,7 @@ export function getOptions(): InputOption[] {
               input: 'InputList',
               schema,
               key: 'overlays',
+              props: { itemName: 'Overlay' },
               options: [
                 createOption({
                   key: 'overlays.0.media',
@@ -152,16 +122,33 @@ export function getOptions(): InputOption[] {
       ],
     }),
     createOption({
-      key: 'actionGroup',
-      label: 'Actions and Links',
+      key: 'style',
       input: 'group',
-      schema,
+      label: 'Design',
+      icon: { class: 'i-tabler-layout' },
       options: [
         createOption({
-          key: 'action',
-          label: 'Action Area',
-          input: 'InputActionArea',
+          key: 'layout',
+          label: 'Layout Style',
+          input: 'InputRadioButton',
+          props: { uiSize: 'sm' },
+          list: [
+            { value: 'center' },
+            { value: 'left' },
+            { value: 'right' },
+            { value: 'justify' },
+          ],
           schema,
+        }),
+        createOption({
+          key: 'media.aspect',
+          label: 'Media Aspect',
+          input: 'InputRadioButton',
+          list: [
+            { label: 'Square', value: 'aspect:square' },
+            { label: 'Portrait', value: 'aspect:portrait' },
+            { label: 'Landscape', value: 'aspect:landscape' },
+          ],
         }),
       ],
     }),
