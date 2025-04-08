@@ -90,7 +90,7 @@ export function getButtonClasses(args: {
     thick: `border-2 ${themeClasses.border || ''}`,
   }
 
-  const borderClass = theme === 'naked' ? '' : borderClassList[border]
+  const borderClass = borderClassList[border]
 
   const { x, y } = paddingConfig[size]
 

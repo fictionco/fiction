@@ -7,12 +7,6 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, {
   icon?: string
   input?: string
 }>> = {
-  naked: {
-    solid: { },
-    ghost: { },
-    outline: { },
-    link: { },
-  },
   default: {
     solid: {
       base: 'bg-theme-0 dark:bg-theme-700/40 text-theme-600 dark:text-theme-50',
@@ -767,7 +761,6 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, {
 export const inputTheme: Record<Partial<ColorThemeUser>, {
   input: string
 }> = {
-  naked: { input: '' },
   default: { input: `bg-white dark:bg-theme-800/50
             ring-theme-200 dark:ring-theme-600/70
             focus:ring-theme-600 focus:bg-white
