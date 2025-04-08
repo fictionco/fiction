@@ -29,7 +29,7 @@ const { title = '', sub = '', icon, buttons = [], mode = 'mast' } = defineProps<
         :class="mode === 'hero' ? 'mb-0' : 'mb-2'"
       />
     </div>
-    <div>
+    <div class="space-y-2">
       <div class="font-bold">
         {{ title }}
       </div>

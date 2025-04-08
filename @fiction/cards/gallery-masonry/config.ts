@@ -39,8 +39,105 @@ export type UserConfig = z.infer<typeof schema>
 const options = [
   createOption({
     schema,
+    key: 'content',
+    label: 'Content',
+    icon: { class: 'i-tabler-align-left' },
+    input: 'group',
+    options: [
+      createOption({
+        schema,
+        input: 'InputList',
+        key: 'items',
+        label: 'Gallery Items',
+        props: {
+          itemName: 'Image',
+          itemLabel: args => (args?.item as MediaItem)?.title ?? 'Untitled',
+        },
+        options: [
+          createOption({
+            key: 'group.content',
+            label: 'Content',
+            input: 'group',
+            icon: { class: 'i-tabler-highlight' },
+            options: [
+              createOption({
+                schema,
+                key: 'items.0.title',
+                label: 'Title',
+                input: 'InputText',
+                props: { placeholder: 'Give your image a meaningful title' },
+              }),
+              createOption({
+                schema,
+                key: 'items.0.content',
+                label: 'Description',
+                input: 'InputTextarea',
+                props: { placeholder: 'Tell the story behind this image' },
+              }),
+              createOption({
+                schema,
+                key: 'items.0.media',
+                label: 'Media',
+                input: 'InputMedia',
+                props: { aspectRatio: 'dynamic' },
+              }),
+              createOption({
+                schema,
+                key: 'items.0.href',
+                label: 'Link / URL',
+                input: 'InputSiteRoute',
+                props: { placeholder: 'Add a link to more details or related content' },
+              }),
+            ],
+          }),
+          createOption({
+            key: 'group.design',
+            label: 'Design',
+            input: 'group',
+            icon: { class: 'i-tabler-palette' },
+            options: [
+              createOption({
+                schema,
+                key: 'items.0.cols',
+                label: 'Width',
+                input: 'InputRadioButton',
+                props: { uiSize: 'sm' },
+                list: ['1', '2', '3', '4'],
+              }),
+              createOption({
+                schema,
+                key: 'items.0.rows',
+                label: 'Height',
+                input: 'InputRadioButton',
+                props: { uiSize: 'sm' },
+                list: ['1', '2', '3', '4'],
+              }),
+              createOption({
+                schema,
+                key: 'items.0.theme',
+                label: 'Color Theme',
+                input: 'InputSelect',
+                list: colorThemeUser,
+              }),
+              createOption({
+                schema,
+                key: 'items.0.showText',
+                label: 'Show Text Overlay',
+                input: 'InputToggle',
+              }),
+            ],
+          }),
+
+        ],
+      }),
+    ],
+  }),
+
+  createOption({
+    schema,
     key: 'layout',
-    label: 'Layout Settings',
+    label: 'Layout',
+    icon: { class: 'i-tabler-layout-2' },
     input: 'group',
     options: [
       createOption({
@@ -82,14 +179,6 @@ const options = [
         input: 'InputSelect',
         props: { list: ['fade', 'slide', 'none'] },
       }),
-    ],
-  }),
-  createOption({
-    schema,
-    key: 'lightbox',
-    label: 'Lightbox Settings',
-    input: 'group',
-    options: [
       createOption({
         schema,
         key: 'lightbox.enabled',
@@ -102,92 +191,6 @@ const options = [
         label: 'Show Image Details',
         input: 'InputToggle',
       }),
-    ],
-  }),
-  createOption({
-    schema,
-    input: 'InputList',
-    key: 'items',
-    label: 'Gallery Items',
-    props: {
-      itemName: 'Image',
-      itemLabel: args => (args?.item as MediaItem)?.title ?? 'Untitled',
-    },
-    options: [
-      createOption({
-        key: 'group.content',
-        label: 'Content',
-        input: 'group',
-        icon: { class: 'i-tabler-highlight' },
-        options: [
-          createOption({
-            schema,
-            key: 'items.0.title',
-            label: 'Title',
-            input: 'InputText',
-            props: { placeholder: 'Give your image a meaningful title' },
-          }),
-          createOption({
-            schema,
-            key: 'items.0.content',
-            label: 'Description',
-            input: 'InputTextarea',
-            props: { placeholder: 'Tell the story behind this image' },
-          }),
-          createOption({
-            schema,
-            key: 'items.0.media',
-            label: 'Media',
-            input: 'InputMedia',
-            props: { aspectRatio: 'dynamic' },
-          }),
-          createOption({
-            schema,
-            key: 'items.0.href',
-            label: 'Link / URL',
-            input: 'InputSiteRoute',
-            props: { placeholder: 'Add a link to more details or related content' },
-          }),
-        ],
-      }),
-      createOption({
-        key: 'group.design',
-        label: 'Design',
-        input: 'group',
-        icon: { class: 'i-tabler-palette' },
-        options: [
-          createOption({
-            schema,
-            key: 'items.0.cols',
-            label: 'Width',
-            input: 'InputRadioButton',
-            props: { uiSize: 'sm' },
-            list: ['1', '2', '3', '4'],
-          }),
-          createOption({
-            schema,
-            key: 'items.0.rows',
-            label: 'Height',
-            input: 'InputRadioButton',
-            props: { uiSize: 'sm' },
-            list: ['1', '2', '3', '4'],
-          }),
-          createOption({
-            schema,
-            key: 'items.0.theme',
-            label: 'Color Theme',
-            input: 'InputSelect',
-            list: colorThemeUser,
-          }),
-          createOption({
-            schema,
-            key: 'items.0.showText',
-            label: 'Show Text Overlay',
-            input: 'InputToggle',
-          }),
-        ],
-      }),
-
     ],
   }),
 ]

@@ -15,7 +15,7 @@ const emit = defineEmits<{
 
 const options = vue.computed(() => {
   const o = [
-    createOption({ key: 'text', label: 'Text', input: 'InputText', schema }),
+    createOption({ key: 'text', label: 'Text', input: 'InputText', schema, placeholder: 'Enter text' }),
     createOption({ key: 'icon', label: 'Icon', input: 'InputIcon', schema }),
     createOption({ key: 'theme', label: 'Theme', input: 'InputColorTheme', schema }),
     createOption({ key: 'href', label: 'Link', input: 'InputSiteRoute', schema }),
@@ -24,9 +24,9 @@ const options = vue.computed(() => {
   return [
     createOption({
       key: 'superTitleGroup',
-      label: 'Super Title',
+      label: 'Context Title',
       input: 'group',
-      icon: { class: 'i-tabler-arrow-badge-up' },
+      icon: { class: 'i-tabler-heading' },
       isClosed: true,
       options: o,
     }),

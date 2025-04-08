@@ -70,12 +70,22 @@ const cls = vue.computed(() => {
 })
 const slots = vue.useSlots()
 const hasContent = vue.computed(() => {
-  const slot = slots?.default?.()?.[0]?.children
-  return typeof slot === 'string'
-    ? !!slot.length
-    : Array.isArray(slot) && slot.some(c => c && typeof c === 'object' && 'children' in c && !!c.children?.length)
+  const slot = slots?.default?.()?.[0]
+  if (!slot)
+    return false
+  if (Array.isArray(slot)) {
+    return slot.some(c =>
+      c && (
+        (typeof c === 'string' && !!c.trim())
+        || (typeof c === 'object' && (
+          ('children' in c && !!String(c.children).trim())
+          || (c.type !== undefined && c.type !== null)
+        ))
+      ),
+    )
+  }
+  return !!slot
 })
-
 const iconAdjust = vue.computed(() => {
   const sz = size || 'md'
   const sizeAdjustments: Record<StandardSize, { gap: string }> = {

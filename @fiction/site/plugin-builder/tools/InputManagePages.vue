@@ -22,7 +22,7 @@ function useEditPage(args: { cardId?: string } = {}) {
   if (cardId)
     props.site.activePageId.value = cardId
 
-  props.site.editor.value.selectedPageId = cardId || ''
+  props.site.editor.value.savedSelectedPageId = cardId || ''
 
   props.controller.useTool({ toolId: cardId ? 'pageEdit' : 'pageAdd' })
 }

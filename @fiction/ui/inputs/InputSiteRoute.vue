@@ -3,8 +3,7 @@ import type { StandardSize } from '@fiction/core'
 import type { Site } from '@fiction/site'
 import { toLabel, vue } from '@fiction/core'
 import { siteGoto } from '@fiction/site/utils/manage'
-import XButton from '@fiction/ui/buttons/XButton.vue'
-import XDropDown from '../common/XDropDown.vue'
+import XButton from '../buttons/XButton.vue'
 import InputSelectCustom from './InputSelectCustom.vue'
 import InputUrl from './InputUrl.vue'
 
@@ -22,38 +21,40 @@ const emit = defineEmits<{
   (e: 'navigate', path: string): void
 }>()
 
+const injectedSite = vue.inject('site') as Site | undefined
+const site = props.site || injectedSite
+
 type RouteMode = 'url' | 'page' | 'media'
 
-const mode = vue.ref<RouteMode>('url')
+const isEditing = vue.ref(false)
+const mode = vue.ref<RouteMode>('page')
 const urlValue = vue.ref(props.modelValue || '')
 const mediaValue = vue.ref('')
 
 // Format URL for display
 const displayUrl = vue.computed(() => {
-  const url = urlValue.value
+  const url = urlValue.value.trim()
   if (!url)
     return ''
+  if (url === '/')
+    return '/'
 
-  // If URL has a _modal parameter, replace just the URL value within it
+  // If URL has a _modal parameter, extract just the modal URL
   const mediaModalMatch = url.match(/(\?_modal=)([^&]+)/)
   if (mediaModalMatch) {
-    const [fullMatch, modalPrefix] = mediaModalMatch
-    return url.replace(fullMatch, `${modalPrefix}(URL)`)
+    return `Media popup: ${decodeURIComponent(mediaModalMatch[2])}`
   }
 
   // For non-modal URLs, remove common prefixes and trailing slashes
   return url.replace(/(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '')
 })
 
-const afterIcon = vue.computed(() => {
-  const isExternal = urlValue.value && urlValue.value.includes('http') && displayUrl.value
-  const isPopup = urlValue.value && urlValue.value.includes('?_modal=')
+const isExternalLink = vue.computed(() => {
+  return urlValue.value && urlValue.value.includes('http')
+})
 
-  if (isExternal)
-    return 'i-tabler-external-link'
-  if (isPopup)
-    return 'i-tabler-window'
-  return undefined
+const isPopupLink = vue.computed(() => {
+  return urlValue.value && urlValue.value.includes('?_modal=')
 })
 
 // Sync URL value with model
@@ -61,16 +62,20 @@ vue.watch(() => props.modelValue, (val) => {
   urlValue.value = val || ''
 })
 
+vue.watch(() => mode.value, () => {
+  isEditing.value = true
+})
+
 // Available pages in site
 const pages = vue.computed(() => {
-  if (!props.site)
+  if (!site)
     return []
 
-  const pagelist = props.site.pages.value
+  const pagelist = site.pages.value
     .filter(p => !p.isSystem.value)
     .map(p => ({
       label: p.title.value || toLabel(p.slug.value),
-      value: `/${p.slug.value === '_home' ? '' : p.slug.value}`,
+      value: `/${p.isHome.value ? '' : p.slug.value}`,
     }))
 
   return [
@@ -116,106 +121,145 @@ function handlePageSelect(path?: string) {
     return
 
   if (path === '_new') {
-    props.site?.editorActivateTool({ toolId: 'pageAdd' })
+    site?.editorActivateTool({ toolId: 'pageAdd' })
     return
   }
 
   urlValue.value = path
   emit('update:modelValue', path)
-  mode.value = 'url'
 }
 
-// Mode toggle buttons
+// Toggle editing mode
+function toggleEditing() {
+  mode.value = 'page'
+  isEditing.value = !isEditing.value
+}
+
+async function navigateToLink() {
+  if (!urlValue.value)
+    return
+
+  emit('navigate', urlValue.value)
+  await siteGoto({ site, location: urlValue.value, options: { caller: 'InputSiteRoute' } })
+}
+
+// Available modes
 const modes = [
-  { label: 'URL', value: 'url' as const },
   { label: 'Page', value: 'page' as const },
-  { label: 'Modal', value: 'media' as const },
+  { label: 'URL', value: 'url' as const },
+
+  { label: 'Media', value: 'media' as const },
 ]
 
-async function navigateToLink(url: string) {
-  await siteGoto({ site: props.site, location: url, options: { caller: 'InputSiteRoute' } })
+function setMode(newMode: RouteMode) {
+  mode.value = newMode
 }
 </script>
 
 <template>
-  <div class="space-y-3">
-    <!-- URL Preview -->
-    <div class="flex justify-between items-center gap-3">
+  <div class="space-y-2 w-full" :data-site-id="site?.siteId || 'not-set'">
+    <!-- URL Preview (when not editing) -->
+    <div v-if="!isEditing && urlValue" class="flex items-center gap-2">
       <XButton
-        class="min-w-0"
         size="sm"
-        theme="default"
-        rounding="full"
+        icon-after="i-tabler-pencil"
+        rounding="md"
         design="ghost"
-        icon="i-tabler-link"
-        :icon-after="afterIcon"
-        :title="urlValue"
-        @click.prevent.stop="navigateToLink(urlValue)"
+        @click="toggleEditing"
       >
         {{ displayUrl }}
       </XButton>
-      <XDropDown
-        :items="modes"
-        dropdown-alignment="end"
-        mode="click"
-        :classes="{ wrapper: 'shrink-0' }"
-        @update:model-value="mode = ($event as RouteMode)"
-      >
-        <XButton
-          size="sm"
-          theme="default"
-          rounding="full"
-          design="link"
-          icon-after="i-tabler-chevron-down"
-          title="URL Input Mode"
-          @click.prevent
-        >
-          {{ modes.find(m => m.value === mode)?.label }}
-        </XButton>
-      </XDropDown>
+
+      <XButton
+        v-if="urlValue"
+        size="sm"
+        rounding="md"
+        aria-label="Visit this link"
+        design="link"
+        icon="i-tabler-link"
+        class="cursor-pointer"
+        @click="navigateToLink"
+      />
     </div>
 
-    <!-- Mode toggles -->
-    <div class="flex gap-1.5">
-      <template v-if="mode === 'page'">
+    <XButton v-else-if="!isEditing" size="xs" @click="toggleEditing">
+      Click to add a link
+    </XButton>
+
+    <!-- Editing interface -->
+    <div v-if="isEditing" class="space-y-3">
+      <!-- Mode selector -->
+      <div class="flex gap-1">
+        <span
+          v-for="item in modes"
+          :key="item.value"
+          class="px-3 py-1 cursor-pointer text-xs rounded-md font-mono select-none"
+          :class="[
+            mode === item.value
+              ? 'bg-primary-100 dark:bg-primary-900 border-primary-300 dark:border-primary-600 text-primary-900 dark:text-primary-100'
+              : 'border-theme-200 dark:border-theme-700 text-theme-600 dark:text-theme-400 hover:bg-theme-50 dark:hover:bg-theme-700 dark:hover:text-theme-100',
+          ]"
+          @click="setMode(item.value)"
+        >
+          {{ item.label }}
+        </span>
+      </div>
+
+      <!-- Input based on selected mode -->
+      <div>
+        <!-- URL input -->
+        <InputUrl
+          v-if="mode === 'url'"
+          v-model="urlValue"
+          :placeholder="placeholder || 'Enter a URL or path...'"
+          class="w-full"
+          :ui-size="props.uiSize"
+          @update:model-value="handleUrlChange"
+        />
+
+        <!-- Page selector -->
         <InputSelectCustom
-          class="flex-1"
+          v-else-if="mode === 'page'"
+          class="w-full"
           :model-value="urlValue"
           :list="pages"
           placeholder="Select a page..."
           :ui-size="props.uiSize"
           @update:model-value="handlePageSelect($event as string)"
         />
-      </template>
 
-      <div v-else-if="mode === 'media'" class="flex gap-2">
-        <InputUrl
-          v-model="mediaValue"
-          placeholder="https://www.youtube.com/watch?v=[id]"
-          class="flex-1"
-          :ui-size="props.uiSize"
-        />
+        <!-- Media popup input -->
+        <div v-else-if="mode === 'media'" class="flex gap-2">
+          <InputUrl
+            v-model="mediaValue"
+            placeholder="Enter media URL (YouTube, Vimeo, etc.)"
+            class="flex-1"
+            :ui-size="props.uiSize"
+          />
+          <XButton
+            theme="primary"
+            size="sm"
+            rounding="md"
+            icon="i-tabler-plus"
+            @click="handleMediaAdd"
+          >
+            Set URL
+          </XButton>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="flex justify-end">
         <XButton
           size="sm"
           theme="primary"
-          rounding="md"
-          icon="i-tabler-plus"
-          @click="handleMediaAdd"
+          design="outline"
+          icon="i-tabler-check"
+          @click="toggleEditing"
         >
-          Add
+          Done Editing
         </XButton>
       </div>
-      <template v-else>
-        <InputUrl
-          v-model="urlValue"
-          :placeholder="placeholder || '/example'"
-          class="flex-1"
-          :ui-size="props.uiSize"
-          @update:model-value="handleUrlChange"
-        />
-      </template>
     </div>
-
-    <!-- Input based on mode -->
   </div>
 </template>

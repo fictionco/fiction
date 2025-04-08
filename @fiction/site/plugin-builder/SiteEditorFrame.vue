@@ -91,7 +91,7 @@ async function selectPage(cardId: string) {
   if (cardId)
     props.site.activePageId.value = cardId
 
-  props.site.editor.value.selectedPageId = cardId || ''
+  props.site.editor.value.savedSelectedPageId = cardId || ''
 
   // Reset device mode to desktop
   activeDeviceModeKey.value = 'desktop'

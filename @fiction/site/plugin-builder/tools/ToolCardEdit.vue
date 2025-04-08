@@ -21,6 +21,8 @@ const tool = { toolId: 'settings', icon: { class: 'i-tabler-settings' }, title: 
 
 const options = vue.shallowRef<InputOption[]>([])
 
+vue.provide('site', props.site)
+
 vue.watch(() => props.site?.activeCard.value, async () => {
   options.value = await getCardOptionConfig({ card: props.site?.activeCard.value }) || []
 })
@@ -52,7 +54,7 @@ function setActiveCardConfig(config: Partial<TableCardConfig>) {
         v-if="!site.editor.value.selectedCardId"
         class="m-4"
         title="Make A Selection"
-        sub="Element settings appear here"
+        sub="Settings appear here"
         :icon="{ class: 'i-tabler-click' }"
       />
       <ElToolBanner
@@ -72,6 +74,8 @@ function setActiveCardConfig(config: Partial<TableCardConfig>) {
           :input-props="{ site }"
           base-path="userConfig"
           :active-path="site.editor.value.editPath"
+          :site
+          aligned="right"
           @update:model-value="setActiveCardConfig($event)"
           @update:active-path="props.site?.setEditPath({ path: $event, caller: 'toolCardEdit' })"
         />

@@ -74,14 +74,6 @@ vue.onMounted(loadRevisions)
       <h3 class="text-base font-medium">
         Revisions
       </h3>
-      <XButton
-        size="sm"
-        :loading="isLoading"
-        icon="i-tabler-refresh"
-        @click.stop="loadRevisions()"
-      >
-        Refresh Checkpoints
-      </XButton>
     </div>
 
     <div v-if="isLoading" class="flex justify-center py-8">

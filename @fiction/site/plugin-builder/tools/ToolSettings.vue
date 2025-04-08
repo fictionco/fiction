@@ -28,8 +28,8 @@ const options = getSiteOptions(props)
 <template>
   <TabbedOptions
     v-model="v"
-    title="Global Site Settings"
-    :options="[options.global, options.styling, options.publish, options.history]"
+    title="Site Settings"
+    :options="[options.global, options.publish, options.styling, options.fonts, options.history]"
     :input-props="{ site: props.site, tool: props.tool }"
   />
 </template>

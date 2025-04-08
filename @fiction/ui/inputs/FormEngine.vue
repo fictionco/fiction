@@ -1,11 +1,13 @@
 <script lang="ts" setup>
 import type { ActionButton } from '@fiction/core'
+import type { Site } from '@fiction/site'
 import type { UiElementSize } from '../utils'
 import type { InputOption } from './index.js'
 import { getNested, setNested, vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 import TransitionSlide from '../anim/TransitionSlide.vue'
 import XButtonList from '../buttons/XButtonList.vue'
+import EffectTransitionSwipe from '../effect/EffectTransitionSwipe.vue'
 import XIcon from '../media/XIcon.vue'
 import ElInput from './ElInput.vue'
 import ElToolSep from './ElToolSep.vue'
@@ -26,6 +28,7 @@ const {
   buttons = [],
   disableGroupHide = false,
   format = 'input',
+  aligned = 'center',
 } = defineProps<{
   stateKey?: string
   options: InputOption[]
@@ -35,12 +38,13 @@ const {
   modelValue?: Record<string, unknown>
   depth?: number
   basePath?: string
-  classes?: { inputWrap?: string }
+  classes?: { inputWrap?: string, tabWrap?: string }
   inputProps?: Record<string, unknown>
   uiSize?: UiElementSize
   buttons?: ActionButton[]
   disableGroupHide?: boolean
   format?: 'control' | 'input'
+  aligned?: 'left' | 'right' | 'center'
 }>()
 
 const emit = defineEmits<{
@@ -50,6 +54,23 @@ const emit = defineEmits<{
   (event: 'keydown', payload: KeyboardEvent): void
   (event: 'activate', payload: string): void
 }>()
+
+// Groups at the current depth
+const groupOptions = vue.computed(() =>
+  options.filter(opt => opt.input.value === 'group' && !opt.settings.isHidden),
+)
+
+// Non-group elements at the current depth
+const standardOptions = vue.computed(() =>
+  options.filter(opt => opt.input.value !== 'group' && !opt.settings.isHidden),
+)
+
+// Use tabs only when multiple groups exist at the same depth
+const useTabsForGroups = vue.computed(() => groupOptions.value.length > 1)
+
+// Active tab tracking
+const activeTabIndex = vue.ref(0)
+const lastTabIndex = vue.ref(-1)
 
 // Create a function to recursively get all group options and their isClosed status
 function getGroupClosedStatus(options: InputOption[]): Record<string, boolean> {
@@ -70,7 +91,7 @@ function hide(opt: InputOption, change?: 'toggle' | 'show' | 'hide') {
   const key = opt.key.value || opt.label.value
 
   if (disableGroupHide || !key)
-    return
+    return false
 
   if (change) {
     let val: boolean
@@ -94,17 +115,21 @@ const cls = vue.computed(() => {
   const configs = {
     md: {
       groupHeader: 'py-1.5 px-2 text-xs',
-      groupPad: 'p-4 @[500px]:p-8 @[700px]:p-10 pr-0',
+      groupPad: 'p-4 pr-2 @[500px]:px-8 @[500px]:pr-3 @[700px]:px-10 @[700px]:pr-5',
       inputGap: 'gap-5 @sm:gap-7 @xl:gap-10',
+      tab: 'py-2 px-4 text-xs font-normal',
     },
     lg: {
       groupHeader: 'py-2.5 px-3 text-sm',
-      groupPad: 'px-8 lg:px-10 @xl:p-12 py-8 pb-10  pr-0',
+      groupPad: 'px-8 lg:px-10 @xl:px-12 py-8 pb-10',
       inputGap: 'gap-7',
+      tab: 'py-3 px-4 text-sm font-normal',
     },
   }
 
-  return configs[uiSize as 'md' | 'lg']
+  const out = configs[uiSize as 'md' | 'lg']
+
+  return out
 })
 
 function getGroupHeaderClasses(opt: InputOption) {
@@ -126,6 +151,15 @@ function getGroupHeaderClasses(opt: InputOption) {
   }
 
   return out.join(' ')
+}
+
+function getTabClasses(index: number) {
+  const base = cls.value.tab
+  const active = activeTabIndex.value === index
+    ? 'text-theme-600 dark:text-theme-0 border-b-2 border-theme-500 dark:border-theme-0 bg-theme-50 dark:bg-theme-700/50'
+    : 'text-theme-600 dark:text-theme-400 hover:text-theme-500 dark:hover:text-theme-200 border-b-2 border-transparent'
+
+  return `rounded-t ${base} ${active}`
 }
 
 const rootListClasses = vue.computed(() => {
@@ -175,65 +209,26 @@ function activateOption(args: { opt: InputOption, path: string }) {
   }
   emit('activate', path)
 }
+
+function handleTabChange(index: number) {
+  lastTabIndex.value = activeTabIndex.value
+  activeTabIndex.value = index
+}
 </script>
 
 <template>
   <div
-    class="@container/engine"
-    :class="`form-engine-${depth}`"
+    class="@container/engine flex flex-col"
+    :class="[`form-engine-${depth}`, cls.inputGap]"
     :data-value="depth === 0 ? JSON.stringify(modelValue) : undefined"
     :data-form-engine-depth="depth"
     :data-options-len="options.length"
   >
-    <div :class="rootListClasses">
-      <template v-for="(opt, i) in options.filter(_ => !_.settings.isHidden)" :key="i">
-        <div
-          v-if="opt.input.value === 'group'"
-          :class="[
-            depth > 0 ? '' : 'pr-4',
-            hide(opt) ? 'overflow-hidden' : '',
-          ]"
-          :data-option-key="opt.key.value"
-          :data-option-depth="depth"
-        >
-          <div
-            v-if="opt.label.value"
-            class=" select-none flex justify-between cursor-pointer items-center hover:opacity-90 rounded-t-md overflow-hidden"
-            :class="getGroupHeaderClasses(opt)"
-            @click="hide(opt, 'toggle')"
-          >
-            <div class="flex items-center gap-2">
-              <XIcon v-if="opt.settings.icon" class="size-[1.2em]" :media="opt.settings.icon" />
-              <div class="font-semibold" v-html="opt.label.value" />
-              <div v-if="opt.key.value && !disableGroupHide" class="text-[1.2em] i-tabler-chevron-up transition-all" :class="hide(opt) ? 'rotate-180' : ''" />
-            </div>
-          </div>
-          <TransitionSlide>
-            <div v-show="!hide(opt)">
-              <div :class="getGroupClasses(opt)">
-                <FormEngine
-                  :state-key="stateKey"
-                  :ui-size="uiSize"
-                  :base-path="basePath"
-                  :edit-path="editPath"
-                  :active-path="activePath"
-                  :input-props="inputProps"
-                  :options="opt.options.value || []"
-                  :classes
-                  :model-value="modelValue"
-                  :depth="depth + 1"
-                  :format="opt.settings.format"
-                  @update:model-value="emit('update:modelValue', $event)"
-                  @update:active-path="emit('update:activePath', $event)"
-                  @activate="activateOption({ opt, path: $event })"
-                />
-              </div>
-            </div>
-          </TransitionSlide>
-        </div>
-
+    <!-- Standard non-group options -->
+    <div v-if="standardOptions.length > 0" :class="rootListClasses">
+      <template v-for="(opt, i) in standardOptions" :key="i">
         <ElToolSep
-          v-else-if="opt.input.value === 'title'"
+          v-if="opt.input.value === 'title'"
           :text="opt.label.value"
           class="mb-1"
           :class="i === 0 ? 'mt-0' : 'mt-1'"
@@ -266,6 +261,103 @@ function activateOption(args: { opt: InputOption, path: string }) {
         </div>
       </template>
     </div>
-    <XButtonList :buttons class="mt-4 flex items-center justify-center" />
+
+    <!-- Group options with tabbed interface -->
+    <div v-if="groupOptions.length > 0">
+      <!-- Tabs for groups when enabled -->
+      <div v-if="useTabsForGroups" class="border-b border-theme-200 dark:border-theme-600/60 sticky top-0 z-10 pt-2 bg-theme-0 dark:bg-theme-900">
+        <div class="flex px-1">
+          <button
+            v-for="(opt, i) in groupOptions"
+            :key="i"
+            :class="getTabClasses(i)"
+            @click="handleTabChange(i)"
+          >
+            <div class="flex items-center gap-2">
+              <XIcon v-if="opt.settings.icon" class="size-[1.1em]" :media="opt.settings.icon" />
+              <span class=" whitespace-nowrap" v-html="opt.label.value" />
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Group content -->
+      <div class="relative" :class="classes.tabWrap">
+        <EffectTransitionSwipe :dir="activeTabIndex > lastTabIndex ? 'left' : 'right'">
+          <template v-for="(opt, i) in groupOptions" :key="i">
+            <div
+              v-if="useTabsForGroups ? i === activeTabIndex : true"
+
+              :class="[
+                depth > 0 ? '' : '',
+                hide(opt) && !useTabsForGroups ? 'overflow-hidden' : '',
+              ]"
+              :data-option-key="opt.key.value"
+              :data-option-depth="depth"
+            >
+              <!-- Group header (only for non-tabbed version) -->
+              <div
+                v-if="!useTabsForGroups && opt.label.value"
+                class="select-none flex justify-between cursor-pointer items-center hover:opacity-90 rounded-t-md overflow-hidden"
+                :class="getGroupHeaderClasses(opt)"
+                @click="hide(opt, 'toggle')"
+              >
+                <div class="flex items-center gap-2">
+                  <XIcon v-if="opt.settings.icon" class="size-[1.2em]" :media="opt.settings.icon" />
+                  <div class="font-semibold" v-html="opt.label.value" />
+                  <div v-if="opt.key.value && !disableGroupHide" class="text-[1.2em] i-tabler-chevron-up transition-all" :class="hide(opt) ? 'rotate-180' : ''" />
+                </div>
+              </div>
+
+              <!-- Group content with transition (only for non-tabbed version) -->
+              <TransitionSlide v-if="!useTabsForGroups">
+                <div v-show="!hide(opt)">
+                  <div :class="getGroupClasses(opt)">
+                    <FormEngine
+                      :state-key="stateKey"
+                      :ui-size="uiSize"
+                      :base-path="basePath"
+                      :edit-path="editPath"
+                      :active-path="activePath"
+                      :input-props="inputProps"
+                      :options="opt.options.value || []"
+                      :classes="classes"
+                      :model-value="modelValue"
+                      :depth="depth + 1"
+                      :format="opt.settings.format"
+                      @update:model-value="emit('update:modelValue', $event)"
+                      @update:active-path="emit('update:activePath', $event)"
+                      @activate="activateOption({ opt, path: $event })"
+                    />
+                  </div>
+                </div>
+              </TransitionSlide>
+
+              <!-- Group content without transition (for tabbed version) -->
+              <div v-if="useTabsForGroups" :class="getGroupClasses(opt)" class="pt-6">
+                <FormEngine
+                  :state-key="stateKey"
+                  :ui-size="uiSize"
+                  :base-path="basePath"
+                  :edit-path="editPath"
+                  :active-path="activePath"
+                  :input-props="inputProps"
+                  :options="opt.options.value || []"
+                  :classes="classes"
+                  :model-value="modelValue"
+                  :depth="depth + 1"
+                  :format="opt.settings.format"
+                  @update:model-value="emit('update:modelValue', $event)"
+                  @update:active-path="emit('update:activePath', $event)"
+                  @activate="activateOption({ opt, path: $event })"
+                />
+              </div>
+            </div>
+          </template>
+        </EffectTransitionSwipe>
+      </div>
+    </div>
+
+    <XButtonList :buttons="buttons" class="mt-4 flex items-center justify-center" />
   </div>
 </template>

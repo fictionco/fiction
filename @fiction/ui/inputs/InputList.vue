@@ -195,7 +195,7 @@ function activateItem(args: { index: number, path: string }) {
     <div
       v-for="(item, i) in keyedModelValue"
       :key="i"
-      class="rounded-md mb-2 shadow-sm bg-theme-0 dark:bg-theme-800/20 cursor-pointer text-theme-700 dark:text-theme-100 focus:outline-none"
+      class="rounded-md mb-2 shadow-sm bg-theme-0 dark:bg-theme-700/20 cursor-pointer text-theme-700 dark:text-theme-100 focus:outline-none"
       :data-drag-id="item._key"
       :data-drag-depth="randomId"
       :data-handle-index="i"
@@ -237,17 +237,18 @@ function activateItem(args: { index: number, path: string }) {
       </TransitionSlide>
     </div>
 
-    <div class="actions mt-3 text-center">
+    <div class="actions mt-3 text-center flex items-center justify-center gap-3">
+      <div class="border-b h-0 border-theme-200 dark:border-theme-600/50 border-dashed grow" />
       <XButton
         theme="default"
         size="xs"
         data-test="add"
         icon="i-tabler-plus"
-        rounding="md"
         @click.prevent="addItem()"
       >
         Add {{ itemName }}
       </XButton>
+      <div class="border-b h-0 border-theme-200 dark:border-theme-600/50 border-dashed grow" />
     </div>
   </div>
 </template>

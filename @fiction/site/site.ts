@@ -23,7 +23,7 @@ import '@vue/shared' // for non-portable types (?)
 
 export type EditorState = {
   selectedCardId: string
-  selectedPageId: string
+  savedSelectedPageId: string
   editPath: string
   tempPage: CardConfigPortable
   tempSite: Record<string, any>
@@ -251,7 +251,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   editor: vue.Ref<EditorState> = vue.ref({
     selectedCardId: '',
-    selectedPageId: '',
+    savedSelectedPageId: '',
     selectedRegionId: 'main',
     editPath: '',
     savedCardOrder: {},

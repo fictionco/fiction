@@ -33,7 +33,7 @@ const options = [
     key: 'sectionsGroup',
     input: 'group',
     label: 'Content',
-    icon: { class: 'i-tabler-book' },
+    icon: { class: 'i-tabler-align-left' },
     options: [
       createOption({
         schema,
@@ -86,8 +86,8 @@ const options = [
     schema,
     key: 'settingsGroup',
     input: 'group',
-    label: 'Settings',
-    icon: { class: 'i-tabler-settings' },
+    label: 'Design',
+    icon: { class: 'i-tabler-layout' },
     options: [
       createOption({
         schema,
@@ -96,8 +96,8 @@ const options = [
         label: 'Layout Style',
         props: { uiSize: 'sm' },
         list: [
-          { label: 'Media on Left', value: 'left' },
-          { label: 'Media on Right', value: 'right' },
+          { label: 'Media on Left', value: 'left', icon: { class: 'i-tabler-layout-sidebar' } },
+          { label: 'Media on Right', value: 'right', icon: { class: 'i-tabler-layout-sidebar-right' } },
         ],
       }),
       createOption({
@@ -108,8 +108,8 @@ const options = [
         subLabel: 'Standard scrolling or sticky media',
         props: { uiSize: 'sm' },
         list: [
-          { label: 'Standard Scrolling', value: 'scrolling' },
-          { label: 'Sticky Media', value: 'sticky' },
+          { label: 'Standard Scrolling', value: 'scrolling', icon: { class: 'i-tabler-caret-up-down' } },
+          { label: 'Sticky Media', value: 'sticky', icon: { class: 'i-tabler-box-align-top' } },
         ],
       }),
     ],

@@ -33,7 +33,7 @@ const sizeMap = vue.computed(() => {
     'xxs': { button: 'xxs', preview: 'size-5' },
     'xs': { button: 'xs', preview: 'size-6' },
     'sm': { button: 'xs', preview: 'size-8' },
-    'md': { button: 'sm', preview: 'size-10' },
+    'md': { button: 'xs', preview: 'size-10' },
     'lg': { button: 'md', preview: 'size-12' },
     'xl': { button: 'lg', preview: 'size-14' },
     '2xl': { button: 'xl', preview: 'size-16' },
@@ -54,7 +54,7 @@ const sizeMap = vue.computed(() => {
         <XIcon :media="v" :class="sizeMap.preview" />
       </div>
       <div
-        class="absolute text-xs font-sans inset-0 flex items-center justify-center bg-theme-900 bg-opacity-50 transition-opacity opacity-0 group-hover:opacity-100"
+        class="cursor-pointer absolute text-xs font-sans inset-0 flex items-center justify-center bg-theme-900 bg-opacity-50 transition-opacity opacity-0 group-hover:opacity-100"
       >
         <span class="text-theme-100 font-medium flex gap-1 items-center">
           <div class="i-tabler-rotate text-lg" />
@@ -66,6 +66,7 @@ const sizeMap = vue.computed(() => {
       v-else
       rounding="full"
       theme="primary"
+      design="outline"
       icon="i-tabler-icons"
       :size="sizeMap.button"
       @click.stop.prevent="openIconSelector"
