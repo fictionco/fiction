@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
 import type { SiteListItem } from '../utils/list'
 import XLink from '@fiction/ui/common/XLink.vue'
 

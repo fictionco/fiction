@@ -9,7 +9,6 @@ import ElClose from '@fiction/ui/common/ElClose.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import DashBar from './DashBar.vue'
-import DashDarkModeToggle from './DashDarkModeToggle.vue'
 import DashNav from './DashNav.vue'
 
 export type UserConfig = {
@@ -100,11 +99,6 @@ const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
       label: 'Account Settings',
       href: card.link({ path: '/settings/account' }),
       icon: 'i-tabler-user-cog',
-    },
-    {
-      label: 'Dark/Light Mode',
-      icon: card.site?.isLightMode ? 'i-tabler-sun' : 'i-tabler-moon-stars',
-      figure: { el: DashDarkModeToggle },
     },
     {
       label: 'Sign Out',

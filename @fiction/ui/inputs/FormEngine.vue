@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import type { ActionButton } from '@fiction/core'
-import type { Site } from '@fiction/site'
 import type { UiElementSize } from '../utils'
 import type { InputOption } from './index.js'
 import { getNested, setNested, vue } from '@fiction/core'
 import { twMerge } from 'tailwind-merge'
 import TransitionSlide from '../anim/TransitionSlide.vue'
 import XButtonList from '../buttons/XButtonList.vue'
-import EffectTransitionSwipe from '../effect/EffectTransitionSwipe.vue'
 import XIcon from '../media/XIcon.vue'
 import ElInput from './ElInput.vue'
 import ElToolSep from './ElToolSep.vue'

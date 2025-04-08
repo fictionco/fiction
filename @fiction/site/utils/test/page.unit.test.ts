@@ -1,4 +1,4 @@
-import { shortId, vue, waitFor } from '@fiction/core'
+import { shortId, waitFor } from '@fiction/core'
 import { describe, expect, it, vi } from 'vitest'
 import { Card } from '../../card'
 import { Site } from '../../site'

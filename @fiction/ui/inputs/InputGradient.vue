@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { colorStandard, GradientPoint, GradientSetting, StandardSize } from '@fiction/core'
+import type { GradientPoint, GradientSetting, StandardSize } from '@fiction/core'
 import { getGradientCss, shortId, vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import EffectDraggableSort from '../effect/EffectDraggableSort.vue'

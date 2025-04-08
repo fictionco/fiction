@@ -1,13 +1,13 @@
 {
   "dependencies": {
-    "@ai-sdk/vue": "^1.2.4",
+    "@ai-sdk/vue": "^1.2.7",
     "@fiction/admin": "workspace:*",
     "@fiction/cards": "workspace:*",
     "@fiction/core": "workspace:*",
     "@fiction/plugin-ai": "workspace:*",
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",
-    "cron": "^4.1.3"
+    "cron": "^4.1.4"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "MIT",

@@ -15,28 +15,15 @@ const loaded = vue.ref(false)
 const config = vue.computed(() => props.card.config.value || {})
 const siteUc = vue.computed(() => props.card.site?.fullConfig.value || {})
 const standardUc = vue.computed(() => config.value.standard)
-const isReversed = vue.computed(() => standardUc.value?.invertColorScheme)
-const isLightMode = vue.computed(() => {
-  const siteLightMode = props.card.site?.isLightMode.value
-  return (siteLightMode && !isReversed.value) || (!siteLightMode && isReversed.value)
-})
 
 const colorScheme = vue.computed(() => {
   const siteStandard = siteUc.value?.standard || {}
   const cardStandard = standardUc.value || {}
 
-  const siteBackground = siteStandard?.[isLightMode.value ? 'backgroundAlt' : 'background'] ?? siteStandard?.background
-  const sitePrimaryColor = siteStandard?.[isLightMode.value ? 'primaryColorAlt' : 'primaryColor'] ?? siteStandard?.primaryColor
-  const siteThemeColor = siteStandard?.[isLightMode.value ? 'themeColorAlt' : 'themeColor'] ?? siteStandard?.themeColor
-
-  const cardBackground = cardStandard?.[isLightMode.value ? 'backgroundAlt' : 'background'] ?? cardStandard?.background
-  const cardPrimaryColor = cardStandard?.[isLightMode.value ? 'primaryColorAlt' : 'primaryColor'] ?? cardStandard?.primaryColor
-  const cardThemeColor = cardStandard?.[isLightMode.value ? 'themeColorAlt' : 'themeColor'] ?? cardStandard?.themeColor
-
   return {
-    background: cardBackground || siteBackground,
-    primary: cardPrimaryColor || sitePrimaryColor,
-    theme: cardThemeColor || siteThemeColor,
+    background: cardStandard?.background || siteStandard?.background,
+    primary: cardStandard?.primaryColor || siteStandard?.primaryColor,
+    theme: cardStandard?.themeColor || siteStandard?.themeColor,
   }
 })
 
@@ -91,12 +78,6 @@ vue.watch(() => standardUc.value?.fonts, (fontStyle) => {
   }
 }, { immediate: true })
 
-const autoSetDark = vue.computed(() => {
-  const baseBg = standardUc.value?.background
-  const lightBg = standardUc.value?.backgroundAlt
-  return baseBg && !lightBg
-})
-
 const editDropdownVisible = vue.ref(false)
 
 const editDropdownItems = vue.computed(() => {
@@ -121,12 +102,10 @@ function handleEditDropdownClick(item: { value: 'delete' | 'edit' | 'add' }) {
   <div
     ref="cardWrap"
     :key="card.cardId"
-    class="relative card-wrap "
+    class="relative card-wrap dark"
     :style="containerStyle"
     :class="[
       card.classes.value.verticalSpacing,
-      isReversed ? (isLightMode ? 'light' : 'dark') : '',
-      autoSetDark ? 'dark' : '',
       loaded ? 'loaded' : '',
       card.depth.value <= 1 ? `overflow-x-clip` : '',
     ]"

@@ -5,7 +5,6 @@ import type { Card } from '../card'
 import type { Site } from '../site'
 import type { FramePostMessageList } from '../utils/frame'
 import { toLabel, vue } from '@fiction/core'
-import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
@@ -44,15 +43,6 @@ vue.watch(
   },
   { immediate: true },
 )
-
-function toggleDarkLightMode() {
-  if (!props.site)
-    return
-  const v = !props.site.isLightMode.value
-  props.site.isLightMode.value = v
-
-  props.site.syncChange({ caller: 'updateDarkLightMode' })
-}
 
 // Page grid view state
 const showPageGrid = vue.computed({

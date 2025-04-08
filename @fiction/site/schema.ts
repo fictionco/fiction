@@ -4,7 +4,6 @@ import {
   ButtonRoundingSchema,
   ColorThemeSchema,
   fontFamilySchema,
-  fontStyleSchema,
   HeaderLayoutSchema,
   logoSchema,
   MediaDisplaySchema,

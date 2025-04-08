@@ -1,6 +1,6 @@
 import type { template as TransactionTemplate } from '@fiction/cards/page/transaction/index.js'
 import type { CardFactory } from '@fiction/site/cardFactory.js'
-import type { SiteGlobalUserConfig, StandardUserConfig } from '@fiction/site/schema.js'
+import type { SiteGlobalUserConfig } from '@fiction/site/schema.js'
 import type { Site } from '@fiction/site/site.js'
 import type { authTemplate, template as dashTemplate, panelTemplate } from '../dashboard/cardDash.js'
 import type { FictionAdmin } from '../index.js'

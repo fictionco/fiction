@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2025-03-31T20:20:50.379Z",
+  "generatedAt": "2025-04-08T20:05:21.043Z",
   "templates": [
     {
       "templateId": "cardHeroV1",
@@ -18,7 +18,7 @@
     },
     {
       "templateId": "cardProfileV1",
-      "title": "Profile & Bio Card",
+      "title": "Profile",
       "description": "Create compelling personal profiles with dynamic layouts combining professional photos, bio content, and social connections. Perfect for team pages, speaker bios, or personal websites.",
       "subTitle": "Transform your personal brand into an engaging visual story",
       "category": [
@@ -156,7 +156,7 @@
     },
     {
       "templateId": "cardShowcaseGalleryV1",
-      "title": "Media Showcase",
+      "title": "Showcase",
       "description": "Create an immersive gallery experience with a responsive grid layout and elegant popup viewer. Perfect for portfolios, product catalogs, case studies, or any visual storytelling needs.",
       "subTitle": "Transform your visual content into an engaging story that captures attention and drives interaction",
       "category": [
@@ -264,7 +264,7 @@
     },
     {
       "templateId": "cardPhotoGalleryV1",
-      "title": "Photo Gallery",
+      "title": "Masonry Gallery",
       "description": "Transform your images and videos into an immersive visual story with our dynamic masonry gallery.\nPerfect for portfolios, product showcases, or photo collections. Features automatic layout optimization,\nhover effects, lightbox viewing, and customizable grid arrangements.",
       "subTitle": "Create stunning masonry layouts that showcase your visual content in an engaging, responsive grid",
       "category": [

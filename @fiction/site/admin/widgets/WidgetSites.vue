@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { ActionButton } from '@fiction/core'
 import type { Card } from '../..'
 import type { FictionSites } from '../../index.js'
 import type { Site } from '../../site.js'

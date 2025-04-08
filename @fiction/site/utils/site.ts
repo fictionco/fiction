@@ -189,7 +189,6 @@ export async function saveSite(args: {
 
   await updateSite({ site, newConfig: r.data || {}, caller: 'saveSite', noSave: true })
 
-  site.editor.value.isDirty = false
   site.saveUtil.clear()
 
   return r.data

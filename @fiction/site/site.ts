@@ -4,11 +4,10 @@ import type { FictionSites, ThemeConfig } from './index.js'
 
 import type { SiteMode } from './load.js'
 import type { ToolKeys } from './plugin-builder/tools/tools.js'
-import type { prefersColorScheme } from './schema.js'
 import type { CardConfigPortable, PageRegion, TableSiteConfig } from './tables.js'
 import type { LayoutOrder } from './utils/layout.js'
 import type { QueryVarHook } from './utils/site.js'
-import { deepMerge, FictionObject, localRef, objectId, resetUi, Shortcodes, shortId, vue, waitFor } from '@fiction/core'
+import { deepMerge, FictionObject, objectId, resetUi, Shortcodes, shortId, vue, waitFor } from '@fiction/core'
 import { TypedEventTarget } from '@fiction/core/utils/eventTarget.js'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
 import { siteEditorController } from './plugin-builder/tools/tools.js'
@@ -16,7 +15,7 @@ import { activeSiteFont } from './utils/fonts.js'
 import { SiteFrameTools } from './utils/frame.js'
 import { SiteHistory } from './utils/history.js'
 import { flattenCards, setLayoutOrder } from './utils/layout.js'
-import { activePageId, getPageById, getViewMap, updatePages } from './utils/page.js'
+import { activePageId, getPageById, getViewMap } from './utils/page.js'
 import { addNewCard, removeCard } from './utils/region.js'
 import { saveSite, scrollActiveCardIntoView, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
 import '@vue/shared' // for non-portable types (?)
@@ -25,14 +24,8 @@ export type EditorState = {
   selectedCardId: string
   savedSelectedPageId: string
   editPath: string
-  tempPage: CardConfigPortable
-  tempSite: Record<string, any>
   selectedRegionId: PageRegion | undefined
-  savedCardOrder: Record<string, string[]>
-  savedEditingStyle: 'clean' | 'quick'
   savedNeedsPublish: boolean
-  isDirty: boolean
-  savedPrefersColorScheme: 'light' | 'dark' | '' | 'auto'
 }
 
 export type SiteSettings = {
@@ -57,13 +50,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   siteMode = vue.ref(this.settings.siteMode || 'standard')
   editToggle = vue.ref(false)
   isEditable = vue.computed(() => {
-    const isEditContext = ['editable', 'designer'].includes(this.siteMode.value) || false
-    const editingStyle = this.editor.value.savedEditingStyle || 'normal'
-
-    const isQuickEdit = editingStyle === 'quick'
-    const isCleanEdit = editingStyle === 'clean'
-
-    return isEditContext && (isQuickEdit || isCleanEdit)
+    return ['editable', 'designer'].includes(this.siteMode.value) || false
   })
 
   isDesigner = vue.computed(() => ['designer', 'coding'].includes(this.siteMode.value) || false)
@@ -82,19 +69,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     }
 
     const queryVarHooks: QueryVarHook[] = [
-      {
-        key: '_scheme',
-        callback: (args: { site: Site, value: string }) => {
-          const { value } = args
-          const pref = this.prefersColorScheme.value
-          if (value === 'toggle')
-            this.prefersColorScheme.value = pref === 'light' ? 'dark' : 'light'
-          else if (value)
-            this.prefersColorScheme.value = value as typeof prefersColorScheme[number]
-
-          return { reload: true }
-        },
-      },
       {
         key: '_logout',
         callback: async () => {
@@ -187,54 +161,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   userFonts = vue.ref<Record<string, FontFamily>>({})
   siteFonts = activeSiteFont(this)
-  configPrefersColorScheme = vue.computed(() => this.fullConfig.value.standard?.prefersColorScheme || 'auto')
-  userPrefersColorScheme = localRef<typeof prefersColorScheme[number]>({ key: `fictionPrefersColorScheme`, def: '', lifecycle: 'session' })
-  prefersColorScheme = vue.computed<typeof prefersColorScheme[number]>({
-    get: () => {
-      if (this.siteMode.value === 'standard') {
-        return this.userPrefersColorScheme.value || this.configPrefersColorScheme.value
-      }
-      else {
-        return this.editor.value.savedPrefersColorScheme || this.configPrefersColorScheme.value
-      }
-    },
-    set: (v) => {
-      if (this.siteMode.value === 'standard')
-        this.userPrefersColorScheme.value = v
-      else
-        this.editor.value.savedPrefersColorScheme = v
-    },
-  })
-
-  isLightMode = vue.computed({
-    get: () => {
-      const scheme = this.prefersColorScheme.value
-
-      // If scheme is auto or empty, use system preference
-      if (scheme === 'auto' || !scheme) {
-        const isClient = typeof window !== 'undefined'
-        return isClient ? window.matchMedia('(prefers-color-scheme: light)').matches : true
-      }
-
-      return scheme === 'light'
-    },
-    set: (v) => {
-      this.prefersColorScheme.value = v ? 'light' : 'dark'
-    },
-  })
-
-  pages = vue.shallowRef([] as Card[])
-
   primaryCustomDomain = vue.computed(() => this.customDomains.value?.find(d => d.isPrimary)?.hostname ?? this.customDomains.value?.[0]?.hostname)
-  currentItemId = vue.computed(() => this.siteRouter.params.value.itemId as string | undefined)
-  currentViewId = vue.computed(() => (this.siteRouter.params.value.viewId || '_home') as string)
-  viewMap = vue.computed(() => getViewMap({ pages: this.pages.value }))
-  activePageId = activePageId({ site: this })
-  currentPage = vue.computed(() => getPageById({ pageId: this.activePageId.value, site: this }))
-  homePageId = vue.computed(() => this.pages.value.find(p => p.isHome.value)?.cardId || this.pages.value[0]?.cardId)
-
-  sections = vue.shallowRef(setSections({ site: this, sections: this.settings.sections }))
-  layout = vue.computed<Record<string, Card>>(() => ({ ...this.sections.value, main: this.currentPage.value }))
   shortcodes = new Shortcodes({
     fictionEnv: this.fictionSites.fictionEnv,
     shortcodes: [
@@ -242,25 +169,28 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     ],
   })
 
+  pages = vue.shallowRef([] as Card[])
   availableCards = vue.computed(() => flattenCards([...this.pages.value, ...Object.values(this.sections.value)]))
-
   currentPath = vue.computed({
     get: () => this.siteRouter.current.value.path,
     set: async v => this.siteRouter.push(v, { caller: 'currentPath' }),
   })
+
+  currentItemId = vue.computed(() => this.siteRouter.params.value.itemId as string | undefined)
+  currentViewId = vue.computed(() => (this.siteRouter.params.value.viewId || '_') as string)
+  viewMap = vue.computed(() => getViewMap({ pages: this.pages.value }))
+  activePageId = activePageId({ site: this })
+  currentPage = vue.computed(() => getPageById({ pageId: this.activePageId.value, site: this }))
+  homePageId = vue.computed(() => this.pages.value.find(p => p.isHome.value)?.cardId || this.pages.value[0]?.cardId)
+  sections = vue.shallowRef(setSections({ site: this, sections: this.settings.sections }))
+  layout = vue.computed<Record<string, Card>>(() => ({ ...this.sections.value, main: this.currentPage.value }))
 
   editor: vue.Ref<EditorState> = vue.ref({
     selectedCardId: '',
     savedSelectedPageId: '',
     selectedRegionId: 'main',
     editPath: '',
-    savedCardOrder: {},
-    savedEditingStyle: 'quick',
-    savedPrefersColorScheme: '',
     savedNeedsPublish: false,
-    tempPage: {},
-    tempSite: {},
-    isDirty: false,
     ...this.settings.editor,
   })
 

@@ -131,37 +131,6 @@ describe('siteLink / siteGoto', async () => {
   })
 })
 
-describe('query var', async () => {
-  const testUtils = await createSiteTestUtils()
-  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
-
-  it('changes scheme', async () => {
-    const site = await Site.create({ ...common, themeId: 'test', siteId: `test-${shortId()}` })
-
-    await site.siteRouter.push({ query: { _scheme: 'dark' } }, { caller: 'test' })
-
-    await waitFor(50)
-
-    expect(site.isLightMode.value).toBe(false)
-
-    await site.siteRouter.push({ query: { _scheme: 'light' } }, { caller: 'test' })
-
-    await waitFor(50)
-
-    expect(site.isLightMode.value).toBe(true)
-  })
-
-  it('defaults to correct mode based on config', async () => {
-    const site = await Site.create({ ...common, themeId: 'test', siteId: `test-${shortId()}`, userConfig: { styling: { isLightMode: true } } })
-
-    expect(site.isLightMode.value).toBe(true)
-
-    site.isLightMode.value = false
-
-    expect(site.isLightMode.value).toBe(false)
-  })
-})
-
 describe('saveSite', async () => {
   const testUtils = await createSiteTestUtils()
   await testUtils.init()

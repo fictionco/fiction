@@ -84,8 +84,8 @@
       "util.ts": null,
       "widgets": {
         "SuperChart.vue": null,
+        "WidgetOnboard.vue": null,
         "WidgetOverview.vue": null,
-        "WidgetVideo.vue": null,
         "utils.ts": null,
         "widgets.ts": null
       }
@@ -1272,12 +1272,17 @@
     },
     "site": {
       "admin": {
+        "ElSitePreviewFrame.vue": null,
         "ElSiteStart.vue": null,
         "ElThemeSelect.vue": null,
         "ManageAnalytics.vue": null,
         "ManageIndex.vue": null,
         "ViewManage.vue": null,
-        "widgets.ts": null
+        "widgets": {
+          "WidgetSites.vue": null,
+          "WidgetTest.vue": null,
+          "index.ts": null
+        }
       },
       "ai": {
         "AiSettings.vue": null,
@@ -1315,27 +1320,22 @@
           "InputManageLayout.vue": null,
           "InputManagePages.vue": null,
           "InputRevisionHistory.vue": null,
-          "InputSpecialSlugs.vue": null,
           "LayoutDraggable.vue": null,
           "LayoutToolRegion.vue": null,
-          "PageToolMaster.vue": null,
           "ToolCardEdit.vue": null,
-          "ToolGlobalStyling.vue": null,
           "ToolPageAdd.vue": null,
-          "ToolPageAddElements.vue": null,
           "ToolPageEdit.vue": null,
-          "ToolPageGlobal.vue": null,
-          "ToolPageHistory.vue": null,
-          "ToolPageLayout.vue": null,
-          "ToolPagePublish.vue": null,
-          "ToolPageSettings.vue": null,
+          "ToolSectionsAdd.vue": null,
+          "ToolSectionsLayout.vue": null,
+          "ToolSettings.vue": null,
+          "__InputSpecialSlugs.vue": null,
+          "__PageToolMaster.vue": null,
+          "__ToolGlobalStyling.vue": null,
+          "__ToolPageHistory.vue": null,
+          "__ToolPagePublish.vue": null,
+          "__ToolPageSettings.vue": null,
           "tools.ts": null,
           "utils.ts": null
-        },
-        "widgets": {
-          "WidgetSites.vue": null,
-          "WidgetTest.vue": null,
-          "index.ts": null
         }
       },
       "routes.ts": null,
@@ -1659,11 +1659,14 @@
         "EffectScrollReveal.vue": null,
         "EffectShootingStar.vue": null,
         "EffectTransitionList.vue": null,
+        "EffectTransitionSwipe.vue": null,
         "XShape.vue": null,
         "utilFitText.ts": null
       },
       "entry.less": null,
       "frame": {
+        "BarBrowser.vue": null,
+        "BarEmail.vue": null,
         "ElBrowserFrameDevice.vue": null,
         "elBrowserFrameUtil.ts": null,
         "test": {
@@ -1749,6 +1752,8 @@
         "LibraryIcon.vue": null,
         "LibraryMediaGallery.vue": null,
         "LibraryModal.vue": null,
+        "LibraryModalOld.vue": null,
+        "TabbedOptions.vue": null,
         "index.ts": null,
         "test": {
           "InputArray.unit.test.ts": null,
@@ -1908,6 +1913,7 @@
     }
   },
   "CHANGELOG.md": null,
+  "CLAUDE.md": null,
   "README.md": null,
   "docker": {
     "clickhouse": {

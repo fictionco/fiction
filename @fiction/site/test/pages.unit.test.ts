@@ -39,7 +39,7 @@ describe('site plugin tests', async () => {
       ]
     `)
 
-    expect(site?.currentViewId.value).toMatchInlineSnapshot(`"foo"`)
+    expect(site?.siteRouter.params.value.viewId).toMatchInlineSnapshot(`"foo"`)
     expect(site?.activePageId.value).toBe('_special404')
     expect(site?.currentPage.value?.title.value).toBe('Not Found')
 

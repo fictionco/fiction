@@ -9,8 +9,8 @@ import type { template as navTemplate } from '@fiction/cards/page/nav/index.js'
 import type { NavItem } from '@fiction/core'
 import type { Site, ThemeConfig } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
-import type { SiteGlobalUserConfig, StandardUserConfig } from '@fiction/site/schema.js'
-import { getCardDemoListing, getDemoPages } from '@fiction/cards'
+import type { SiteGlobalUserConfig } from '@fiction/site/schema.js'
+import { getDemoPages } from '@fiction/cards'
 import { dayjs } from '@fiction/core'
 
 import { googleOneTap } from '@fiction/core/plugin-user/google.js'
@@ -263,7 +263,7 @@ export async function getConfig(args: {
         autoSignIn: false,
         showPrompt: true,
         fictionUser,
-        isDarkMode: !site.isLightMode.value,
+        isDarkMode: true,
         callback: async (r) => {
           if (r.isNew) {
             await site.siteRouter.push('/app?_reload=1&_isNewUser=1', { caller: 'googleOneTap' })

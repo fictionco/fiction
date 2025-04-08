@@ -3,12 +3,12 @@ import type { ActionButton, ColorThemeUser, IndexItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionPosts, Post } from '..'
 import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
+import { dayjs, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import XButtonList from '@fiction/ui/buttons/XButtonList.vue'
 import XLink from '@fiction/ui/common/XLink.vue'
-import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import ElIndexItemMedia from '@fiction/ui/lists/ElIndexItemMedia.vue'
-import { dayjs, useService, vue } from '@fiction/core'
+import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import { managePostIndex } from '..'
 
 type SubscriberWidget = FictionPosts['widgets']['recentPosts']
@@ -55,7 +55,8 @@ const buttons: ActionButton[] = [
 ]
 
 function formatDate(dateIso?: string): string {
-  if (!dateIso) return ''
+  if (!dateIso)
+    return ''
   return dayjs(dateIso).fromNow()
 }
 
@@ -71,12 +72,12 @@ function getPostTypeTheme(type: string): ColorThemeUser {
   }
 }
 
-const list = vue.computed<(IndexItem & {meta: {type: string, typeTheme: ColorThemeUser, views: number, likes: number}})[]>(() => {
+const list = vue.computed<(IndexItem & { meta: { type: string, typeTheme: ColorThemeUser, views: number, likes: number } })[]>(() => {
   return posts.value.map((post) => {
     const postType = getPostType(post)
     return {
       media: post.media.value,
-      icon: {class: 'i-tabler-pencil'},
+      icon: { class: 'i-tabler-pencil' },
       label: post.title.value || 'Untitled',
       description: post.excerpt.value || post.subTitle.value,
       href: props.card.link(`/edit-post?postId=${post.postId}`),
@@ -86,7 +87,7 @@ const list = vue.computed<(IndexItem & {meta: {type: string, typeTheme: ColorThe
         typeTheme: getPostTypeTheme(postType),
         views: Math.floor(Math.random() * 200),
         likes: Math.floor(Math.random() * 30),
-      }
+      },
     }
   })
 })
@@ -164,7 +165,7 @@ const list = vue.computed<(IndexItem & {meta: {type: string, typeTheme: ColorThe
               class="@[32rem]/posts:hidden inline-flex px-1.5 py-0.5 rounded-sm text-xs"
               :class="{
                 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400': item.meta.type === 'Newsletter',
-                'bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-400': item.meta.type === 'Article'
+                'bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-400': item.meta.type === 'Article',
               }"
             >
               {{ item.meta.type }}

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { InputOption } from '.'
-import { vue, waitFor } from '@fiction/core'
+import { vue } from '@fiction/core'
 import XButton from '../buttons/XButton.vue'
 import FormEngine from './FormEngine.vue'
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { EditorTool } from '@fiction/admin'
-import type { ListItem, NavListItem } from '@fiction/core'
+import type { NavListItem } from '@fiction/core'
 import type { CardTemplate } from '../../card'
 import type { Site } from '../../site'
 import type { PageRegion } from '../../tables'

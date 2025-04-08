@@ -183,7 +183,7 @@ async function resetToPublished() {
             </XDropDown>
           </div>
           <CardButton
-            v-if="site.editor.value.savedNeedsPublish || site.editor.value.isDirty"
+            v-if="site.editor.value.savedNeedsPublish"
             :card
             theme="primary"
             :loading="sending === 'save'"

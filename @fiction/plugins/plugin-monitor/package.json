@@ -7,9 +7,9 @@
   "main": "index.ts",
   "dependencies": {
     "@fiction/core": "workspace:*",
-    "@sentry/browser": "^9.10.1",
-    "@sentry/node": "^9.10.1",
-    "@sentry/vue": "^9.10.1",
+    "@sentry/browser": "^9.12.0",
+    "@sentry/node": "^9.12.0",
+    "@sentry/vue": "^9.12.0",
     "@slack/webhook": "^7.0.5",
     "highlight.run": "^9.15.0"
   },
