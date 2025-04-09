@@ -1,13 +1,12 @@
 import type { FictionRouter, FontFamily } from '@fiction/core'
 import type { Card, CardTemplate } from './card.js'
 import type { FictionSites, ThemeConfig } from './index.js'
-
 import type { SiteMode } from './load.js'
 import type { ToolKeys } from './plugin-builder/tools/tools.js'
-import type { CardConfigPortable, PageRegion, TableSiteConfig } from './tables.js'
+import type { PageRegion, TableSiteConfig } from './tables.js'
 import type { LayoutOrder } from './utils/layout.js'
 import type { QueryVarHook } from './utils/site.js'
-import { deepMerge, FictionObject, objectId, resetUi, Shortcodes, shortId, vue, waitFor } from '@fiction/core'
+import { deepMerge, FictionObject, localRef, objectId, resetUi, Shortcodes, shortId, vue, waitFor } from '@fiction/core'
 import { TypedEventTarget } from '@fiction/core/utils/eventTarget.js'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
 import { siteEditorController } from './plugin-builder/tools/tools.js'
@@ -15,14 +14,14 @@ import { activeSiteFont } from './utils/fonts.js'
 import { SiteFrameTools } from './utils/frame.js'
 import { SiteHistory } from './utils/history.js'
 import { flattenCards, setLayoutOrder } from './utils/layout.js'
-import { activePageId, getPageById, getViewMap } from './utils/page.js'
+import { activePageIdByRoute, getPageById, getViewMap } from './utils/page.js'
 import { addNewCard, removeCard } from './utils/region.js'
 import { saveSite, scrollActiveCardIntoView, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
 import '@vue/shared' // for non-portable types (?)
 
 export type EditorState = {
   selectedCardId: string
-  savedSelectedPageId: string
+  selectedPageId: string
   editPath: string
   selectedRegionId: PageRegion | undefined
   savedNeedsPublish: boolean
@@ -89,6 +88,11 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       },
     ]
     setupRouteWatcher({ site: this, queryVarHooks })
+
+    // show all pages on load of designer
+    if (this.siteMode.value === 'designer') {
+      this.editorController.useTool({ toolId: 'pages' })
+    }
   }
 
   editorController = siteEditorController({ site: this })
@@ -124,38 +128,37 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   static async create<U extends SiteSettings>(settings: U, options: { loadThemePages?: boolean } = {}): Promise<Site<U>> {
     const site = new Site<U>(settings)
+    await site.loadTheme()
     await site.loadConfig(options)
 
     return site
   }
 
+  async loadTheme() {
+    const theme = this.fictionSites.themes.value.find(t => t.themeId === this.themeId.value)
+    if (!theme) {
+      throw new Error(`Theme with ID ${this.themeId.value} not found`)
+    }
+    await theme.loadThemeTemplates({ site: this })
+    this.themeConfig.value = await theme.getThemeConfig({ site: this })
+
+  }
+
   async loadConfig(options: { loadThemePages?: boolean } = {}) {
     const { loadThemePages = false } = options
-    const theme = this.theme.value
-
-    if (!theme)
-      throw new Error(`Theme with ID ${this.themeId.value} not found`)
-
-    await theme.loadThemeTemplates()
-
-    const c = await theme.getThemeConfig({ site: this })
-
-    this.themeConfig.value = c
 
     const pgs = this.settings.pages || []
     if (loadThemePages) {
-      pgs.push(...c.pages || [])
+      pgs.push(...(this.themeConfig.value?.pages || []))
     }
 
     await this.update({ pages: pgs }, { caller: 'loadConfig', noSave: true, noSync: this.siteMode.value === 'editable' })
 
-    this.sections.value = setSections({ site: this, themeSections: c.sections })
+    this.sections.value = setSections({ site: this, themeSections: this.themeConfig.value?.sections })
 
-    // register shortcodes etc
     this.theme.value?.templates.forEach(t => t.settings.onSiteLoad?.({ site: this }))
 
     this.history.init()
-
     return this
   }
 
@@ -179,19 +182,32 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   currentItemId = vue.computed(() => this.siteRouter.params.value.itemId as string | undefined)
   currentViewId = vue.computed(() => (this.siteRouter.params.value.viewId || '_') as string)
   viewMap = vue.computed(() => getViewMap({ pages: this.pages.value }))
-  activePageId = activePageId({ site: this })
+  activePageId = activePageIdByRoute({ site: this })
+  editingPageId = vue.computed({
+    get: () => this.editor.value.selectedPageId,
+    set: (v) => {
+      this.editor.value.selectedPageId = v
+      if (v) {
+        this.activePageId.value = v
+      }
+    },
+  })
+
   currentPage = vue.computed(() => getPageById({ pageId: this.activePageId.value, site: this }))
   homePageId = vue.computed(() => this.pages.value.find(p => p.isHome.value)?.cardId || this.pages.value[0]?.cardId)
   sections = vue.shallowRef(setSections({ site: this, sections: this.settings.sections }))
   layout = vue.computed<Record<string, Card>>(() => ({ ...this.sections.value, main: this.currentPage.value }))
 
-  editor: vue.Ref<EditorState> = vue.ref({
-    selectedCardId: '',
-    savedSelectedPageId: '',
-    selectedRegionId: 'main',
-    editPath: '',
-    savedNeedsPublish: false,
-    ...this.settings.editor,
+  editor = localRef<EditorState>({
+    key: `site-editor-${this.siteId}`,
+    def: {
+      selectedCardId: '',
+      selectedPageId: '',
+      selectedRegionId: 'main',
+      editPath: '',
+      savedNeedsPublish: false,
+    },
+    merge: () => this.settings.editor,
   })
 
   setEditPath(args: { path: string, caller: string }) {

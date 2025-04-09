@@ -1,10 +1,10 @@
 import type { FictionAdmin } from '@fiction/admin'
 
-import type { template as dashTemplate, panelTemplate } from '@fiction/admin/dashboard/cardDash'
+import type {  dashTemplate  } from '@fiction/admin/dashboard/templates'
 import type { FictionAnalytics } from '@fiction/analytics'
 import type { FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, FictionRevision, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionContact } from '@fiction/plugin-contact'
-import type { FictionSites } from '@fiction/site'
+import { cardTemplate, type FictionSites } from '@fiction/site'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { QueryManagePost } from './endpoint'
 import { FictionPublish } from './publish'
@@ -82,67 +82,66 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     fictionAdmin.widgetRegister.value.push(...w)
     fictionAdmin.addToWidgetArea('homeMain', w.map(widget => ({ key: widget.key })))
 
-    fictionAdmin.addAdminPages({ key: 'posts', loader: async ({ factory }) => [
+    fictionAdmin.addFeature({
+      key: 'posts',
+      getTemplates: async () => {
+        return [
+          cardTemplate({templateId: 'tplManagePost', el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue'))}),
+          cardTemplate({templateId: 'tplManagePostEdit', el: vue.defineAsyncComponent(() => import('./admin/PagePostEdit.vue'))}),
+          cardTemplate({templateId: 'tplManagePostPreview', el: vue.defineAsyncComponent(() => import('./admin/ViewPreview.vue'))}),
+        ]
+      },
+      getPages: async ({ factory }) => [
 
-      await factory.fromTemplate<typeof dashTemplate>({
-        templateId: 'dash',
-        slug: 'posts',
-        title: 'Posts',
-        description: 'Create, manage, and schedule your content',
-        cards: [
-          await factory.fromTemplate({
-            el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')),
-            cards: [
-              await factory.fromTemplate<typeof panelTemplate>({
-                slug: 'posts',
-                title: 'Posts',
-                description: 'Manage your articles, updates, and announcements',
-                el: vue.defineAsyncComponent(async () => import('./admin/PagePostIndex.vue')),
-                userConfig: { isNavItem: true, navIcon: 'i-tabler-file-description', navIconAlt: 'i-tabler-file-spark' },
-              }),
-            ],
-          }),
-        ],
-        userConfig: { isNavItem: true, navIcon: 'i-tabler-file-description', navIconAlt: 'i-tabler-file-spark' },
-      }),
-      await factory.fromTemplate<typeof dashTemplate>({
-        regionId: 'main',
-        templateId: 'dash',
-        slug: 'edit-post',
-        title: 'Post Editor',
-        description: 'Create and edit your content with our full-featured editor',
-        cards: [
-          await factory.fromTemplate<typeof panelTemplate>({
-            el: vue.defineAsyncComponent(async () => import('./admin/PagePostEdit.vue')),
-            userConfig: { standard: { spaceSize: 'none' }, isNavItem: false },
-          }),
-        ],
-        userConfig: { layoutFormat: 'full' },
-      }),
-      await factory.fromTemplate<typeof dashTemplate>({
-        templateId: 'dash',
-        userConfig: { layoutFormat: 'full' },
-        slug: 'preview-post-browser',
-        title: 'Post Preview (Browser)',
-        cards: [
-          await factory.fromTemplate({
-            el: vue.defineAsyncComponent(async () => import('./admin/ViewPreview.vue')),
-            userConfig: { standard: { spaceSize: 'none' } },
-          }),
-        ],
-      }),
-      await factory.fromTemplate<typeof dashTemplate>({
-        templateId: 'dash',
-        userConfig: { layoutFormat: 'full' },
-        slug: 'preview-post-email',
-        title: 'Post Preview (Email)',
-        cards: [
-          await factory.fromTemplate({
-            el: vue.defineAsyncComponent(async () => import('./admin/ViewPreview.vue')),
-            userConfig: { standard: { spaceSize: 'none' } },
-          }),
-        ],
-      }),
-    ] })
+        await factory.fromTemplate<typeof dashTemplate>({
+          templateId: 'dash',
+          slug: 'posts',
+          title: 'Posts',
+          description: 'Create, manage, and schedule your content',
+          cards: [
+            await factory.fromTemplate({ templateId: 'tplManagePost' }),
+          ],
+          userConfig: { isNavItem: true, navIcon: 'i-tabler-file-description', navIconAlt: 'i-tabler-file-spark' },
+        }),
+        await factory.fromTemplate<typeof dashTemplate>({
+          regionId: 'main',
+          templateId: 'dash',
+          slug: 'edit-post',
+          title: 'Post Editor',
+          description: 'Create and edit your content with our full-featured editor',
+          cards: [
+            await factory.fromTemplate({
+              templateId: 'tplManagePostEdit',
+              userConfig: { standard: { spaceSize: 'none' }},
+            }),
+          ],
+          userConfig: { layoutFormat: 'full' },
+        }),
+        await factory.fromTemplate<typeof dashTemplate>({
+          templateId: 'dash',
+          userConfig: { layoutFormat: 'full' },
+          slug: 'preview-post-browser',
+          title: 'Post Preview (Browser)',
+          cards: [
+            await factory.fromTemplate({
+              templateId: 'tplManagePostPreview',
+              userConfig: { standard: { spaceSize: 'none' } },
+            }),
+          ],
+        }),
+        await factory.fromTemplate<typeof dashTemplate>({
+          templateId: 'dash',
+          userConfig: { layoutFormat: 'full' },
+          slug: 'preview-post-email',
+          title: 'Post Preview (Email)',
+          cards: [
+            await factory.fromTemplate({
+              templateId: 'tplManagePostPreview',
+              userConfig: { standard: { spaceSize: 'none' } },
+            }),
+          ],
+        }),
+      ],
+    })
   }
 }

@@ -1,20 +1,32 @@
 <script lang="ts" setup>
-import type { Card } from '@fiction/site'
+import type { NavCardUserConfig } from '@fiction/admin'
 import SettingsBoard from '@fiction/admin/settings/SettingsBoard.vue'
 import { vue } from '@fiction/core'
+import { Card } from '@fiction/site'
 
 const { card } = defineProps<{ card: Card }>()
 const loading = vue.ref(false)
+
+const panels = [
+  new Card<NavCardUserConfig>({
+    slug: 'posts',
+    title: 'Posts',
+    description: 'Manage your articles, updates, and announcements',
+    el: vue.defineAsyncComponent(async () => import('./PagePostIndex.vue')),
+    userConfig: { isNavItem: true, navIcon: 'i-tabler-file-description', navIconAlt: 'i-tabler-file-spark' },
+  }),
+]
+
 </script>
 
 <template>
   <SettingsBoard
     :loading
     :card
-    :panel-props="{ }"
+    :panels
     :header="{
-      title: 'Content Management',
-      subTitle: 'Create and manage your content library. Write, schedule, and publish.',
+      title: 'Posts',
+      subTitle: 'Publish and manage content.',
       media: { class: `i-tabler-stack` },
       action: {},
     }"

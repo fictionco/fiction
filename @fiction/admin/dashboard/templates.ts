@@ -1,4 +1,4 @@
-import { MediaBasicSchema } from '@fiction/core'
+import { MediaBasicSchema, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import FictionLogo from '@fiction/ui/brand/FictionLogo.vue'
 import { z } from 'zod'
@@ -32,12 +32,18 @@ export const AuthPageSchema = z.object({
 export type AuthPageUserConfig = z.infer<typeof AuthPageSchema>
 
 export const authTemplate = cardTemplate({
-  templateId: 'auth',
-  el: DashWrap,
+  templateId: 'authPage',
+  el: vue.defineAsyncComponent(() => import('../dashboard/AuthView.vue')),
   getConfig: async () => ({ schema: AuthPageSchema }),
 })
 
-export const template = cardTemplate({
+export const settingsTemplate = cardTemplate({
+  templateId: 'settingsPage',
+  el: vue.defineAsyncComponent(() => import('../settings/SettingsMain.vue')),
+  getConfig: async () => ({ schema: AuthPageSchema }),
+})
+
+export const dashTemplate = cardTemplate({
   templateId: 'dash',
   el: DashWrap,
   isPageCard: true,

@@ -1,4 +1,4 @@
-import type { template as dashTemplate, panelTemplate } from '@fiction/admin/dashboard/cardDash.js'
+import type { dashTemplate, panelTemplate } from '@fiction/admin/dashboard/templates.js'
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { FictionAnalytics } from '@fiction/analytics/index.js'
 import type { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRevision, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
@@ -9,6 +9,7 @@ import type { TableSiteConfig } from './tables.js'
 import { initializeClientTag } from '@fiction/analytics/tag/entry.js'
 import { crossVar, FictionPlugin, getAnonymousId, isNode, safeDirname, vue } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
+import { cardTemplate } from './card.js'
 import { CardQueryHandler } from './cardQuery.js'
 import { ManageDomain } from './endpoint-domains.js'
 import { ManagePage, ManageSite, ManageSites } from './endpoint.js'
@@ -96,60 +97,45 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     // this.settings.fictionAdmin.widgetRegister.value.push(...Object.values(widgets))
     // this.settings.fictionAdmin.addToWidgetArea('sitesIndex', [{ key: 'sitesWelcome' }, { key: 'siteVisitors' }])
 
-    this.settings.fictionAdmin.addAdminPages({ key: 'sites', loader: async ({ factory }) => [
-      await factory.fromTemplate<typeof dashTemplate>({
-        templateId: 'dash',
-        slug: 'sites',
-        title: 'Website',
-        cards: [
-          await factory.fromTemplate<typeof panelTemplate>({
-            el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')),
-            cards: [
-              await factory.fromTemplate<typeof panelTemplate>({
-                slug: 'list',
-                title: 'Sites',
-                description: 'View and manage all your sites and landing pages',
-                el: vue.defineAsyncComponent(async () => import('./admin/ManageIndex.vue')),
-                userConfig: {
-                  isNavItem: true,
-                  navIcon: 'i-tabler-browser',
-                  navIconAlt: 'i-tabler-browser-plus',
-                },
-              }),
-            ],
-
-          }),
-        ],
-        userConfig: {
-          isNavItem: true,
-          navIcon: 'i-tabler-browser',
-          navIconAlt: 'i-tabler-browser-plus',
-        },
-      }),
-      await factory.fromTemplate<typeof dashTemplate>({
-        regionId: 'main',
-        templateId: 'dash',
-        slug: 'edit-site',
-        title: 'Website Editor',
-        description: 'Customize and configure your website settings',
-        cards: [
-          await factory.fromTemplate<typeof panelTemplate>({
-            el: vue.defineAsyncComponent(async () => import('./plugin-builder/SiteEditor.vue')),
-            userConfig: {
-              isNavItem: false,
-              standard: {
-                spaceSize: 'none' as const,
-              },
-            },
-          }),
-        ],
-        userConfig: {
-          isNavItem: false,
-          layoutFormat: 'full',
-          navIcon: 'i-tabler-home-plus',
-        },
-      }),
-    ] })
+    this.settings.fictionAdmin.addFeature({
+      key: 'sites',
+      getTemplates: async () => [
+        cardTemplate({ templateId: 'tplManageSite', el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) }),
+        cardTemplate({ templateId: 'tplSiteEditor', el: vue.defineAsyncComponent(() => import('./plugin-builder/SiteEditor.vue')) }),
+      ],
+      getPages: async ({ factory }) => [
+        await factory.fromTemplate<typeof dashTemplate>({
+          templateId: 'dash',
+          slug: 'sites',
+          title: 'Website',
+          cards: [
+            await factory.fromTemplate({ templateId: 'tplManageSite' }),
+          ],
+          userConfig: {
+            isNavItem: true,
+            navIcon: 'i-tabler-browser',
+            navIconAlt: 'i-tabler-browser-plus',
+          },
+        }),
+        await factory.fromTemplate<typeof dashTemplate>({
+          templateId: 'dash',
+          slug: 'edit-site',
+          title: 'Website Editor',
+          description: 'Customize and configure your website settings',
+          cards: [
+            await factory.fromTemplate({
+              templateId: 'tplSiteEditor',
+              userConfig: { standard: { spaceSize: 'none' as const } },
+            }),
+          ],
+          userConfig: {
+            isNavItem: false,
+            layoutFormat: 'full',
+            navIcon: 'i-tabler-home-plus',
+          },
+        }),
+      ],
+    })
   }
 
   addSitemaps() {

@@ -18,7 +18,7 @@ export type SiteMode = 'designer' | 'editable' | 'standard' | 'coding'
 export type WhereSite = { siteId?: string, subDomain?: string, hostname?: string, themeId?: string, internal?: string, cardId?: string }
   & ({ siteId: string } | { subDomain: string } | { hostname: string } | { themeId: string } | { internal: string } | { cardId: string })
 
-type MountContext = { siteMode?: SiteMode, fictionOrgId?: string, fictionSiteId?: string, contextHash?: string } & WhereSite
+type MountContext = { siteMode?: SiteMode, fictionOrgId?: string, fictionSiteId?: string, contextCacheKey?: string } & WhereSite
 type RequestManageSiteParams = ManageSiteParams & { siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode, orgId?: string, siteId?: string }
 
 export async function requestManageSite(args: RequestManageSiteParams) {
@@ -69,6 +69,7 @@ export async function requestManageSite(args: RequestManageSiteParams) {
 
 export async function loadSiteById(args: { where: WhereSite, siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode, caller?: string }): Promise<Site | undefined> {
   const { where, siteRouter, fictionSites, siteMode, caller = 'loadSiteById' } = args
+
   const { site } = await requestManageSite({
     where,
     _action: 'retrieve',
@@ -304,7 +305,9 @@ export function getMountContext(args: {
     throw new Error(errorMessage)
   }
 
-  return { siteMode, fictionOrgId, fictionSiteId, ...selector } as MountContext
+  const contextCacheKey = Object.entries(selector).filter(o => o[1]).map(([key, value]) => `${key}:${value}`).join('-')
+
+  return { siteMode, fictionOrgId, fictionSiteId, contextCacheKey, ...selector } as MountContext
 }
 
 function formatPath(basePath: string, path: string): string {

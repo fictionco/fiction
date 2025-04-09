@@ -41,7 +41,7 @@ export type ThemeMeta = {
 
 export type ThemeSettings<T extends Record<string, unknown> = Record<string, unknown>> = {
 
-  getTemplates?: () => Promise<CardTemplate<any>[]>
+  getTemplates?: (args: { site: Site }) => Promise<CardTemplate<any>[]>
   getBaseConfig?: () => Partial<ThemeConfig> & { userConfig: T }
   getConfig: (args: ThemeConfigArgs) => Promise<ThemeConfig>
 
@@ -63,14 +63,14 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
     super('Theme', settings)
   }
 
-  async loadThemeTemplates() {
+  async loadThemeTemplates(args: { site: Site }) {
     if (!this.templates.length)
-      this.templates = await this.settings.getTemplates?.() || []
+      this.templates = await this.settings.getTemplates?.(args) || []
   }
 
   async getThemeConfig(args: { site: Site }) {
     const { site } = args
-    await this.loadThemeTemplates()
+    await this.loadThemeTemplates(args)
     const factory = new CardFactory({ site, templates: this.templates, caller: 'Theme.getConfig' })
     const themeBaseConfig = this.settings.getBaseConfig?.()
     const baseConfig = deepMerge([this.defaultConfig(), themeBaseConfig])

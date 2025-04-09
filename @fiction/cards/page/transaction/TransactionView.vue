@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { AuthPageUserConfig } from '@fiction/admin/dashboard/cardDash'
+import type { AuthPageUserConfig } from '@fiction/admin/dashboard/templates'
 import type { Card } from '@fiction/site/card'
 import { vue } from '@fiction/core'
 import AnimGradientBg from '@fiction/ui/anim/AnimGradientBg.vue'

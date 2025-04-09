@@ -31,6 +31,7 @@ export type EditorTool<T extends string = string, U extends Record<string, any> 
   props?: (args: U) => vue.ComputedRef<Record<string, unknown>>
   modalClass?: string
   option?: InputOption
+  onClick?: (args: { tool: EditorTool }) => void
 }
 
 type AdminEditorControllerSettings = {
@@ -74,8 +75,15 @@ export class AdminEditorController<T extends CardSurface = CardSurface> extends 
 
   useTool(args: { toolId: Surface<T>['toolIds'] | '' }) {
     const { toolId } = args
-    const t = this.settings.tools.find(t => t.toolId === toolId)
-    const location = t?.location || 'primary'
+
+    const tool = this.settings.tools.find(t => t.toolId === toolId)
+
+    if (tool?.onClick) {
+      tool.onClick({ tool })
+      return
+    }
+
+    const location = tool?.location || 'primary'
     const existingTool = this.activeToolId[location].value
     if (existingTool === toolId) {
       this.activeToolId[location].value = ''

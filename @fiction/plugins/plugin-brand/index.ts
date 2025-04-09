@@ -1,5 +1,5 @@
 import type { FictionAdmin } from '@fiction/admin'
-import type { template as dashTemplate, panelTemplate } from '@fiction/admin/dashboard/cardDash'
+import type { dashTemplate, panelTemplate } from '@fiction/admin/dashboard/templates'
 
 import type { FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
@@ -35,7 +35,7 @@ export class FictionBrand extends FictionPlugin<FictionBrandSettings> {
   admin() {
     const { fictionAdmin } = this.settings
 
-    fictionAdmin.addAdminPages({ key: 'send', loader: async ({ factory }) => [
+    fictionAdmin.addFeature({ key: 'send', getPages: async ({ factory }) => [
 
       await factory.fromTemplate<typeof dashTemplate>({
         templateId: 'dash',

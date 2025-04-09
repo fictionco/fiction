@@ -1,5 +1,5 @@
 import type { FictionAdmin } from '@fiction/admin'
-import type { template as dashTemplate, panelTemplate } from '@fiction/admin/dashboard/cardDash'
+import type { dashTemplate, panelTemplate } from '@fiction/admin/dashboard/templates'
 import type { FictionPluginSettings, PluginSetupArgs } from '@fiction/core/plugin'
 import type { FictionUser } from '@fiction/core/plugin-user'
 import type { ExtensionLoader, ExtensionManifest } from './utils'
@@ -21,7 +21,7 @@ export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> 
 
   admin() {
     const { fictionAdmin } = this.settings
-    fictionAdmin.addAdminPages({ key: 'plugins', loader: async ({ factory }) => [
+    fictionAdmin.addFeature({ key: 'plugins', getPages: async ({ factory }) => [
       await factory.fromTemplate<typeof dashTemplate>({
         regionId: 'main',
         templateId: 'dash',

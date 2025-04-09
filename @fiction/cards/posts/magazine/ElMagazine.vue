@@ -4,13 +4,13 @@ import type { FictionPosts, TablePostConfig } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './config'
 import { useService, vue } from '@fiction/core'
+import { useSSRData } from '@fiction/core/utils/ssr'
 import { Post } from '@fiction/posts'
 import { loadPosts } from '@fiction/posts/utils/post'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import ElMagazineIndex from './ElMagazineIndex.vue'
 import ElMagazineSingle from './ElMagazineSingle.vue'
-import { useSSRData } from './ssrUtil'
 
 const { card } = defineProps<{ card: Card<UserConfig> }>()
 const { fictionPosts } = useService<{ fictionPosts: FictionPosts }>()

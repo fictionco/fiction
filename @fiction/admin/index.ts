@@ -9,13 +9,14 @@ import type { FictionPluginSettings } from '@fiction/core/plugin.js'
 import type { FictionStripe } from '@fiction/plugin-stripe/index.js'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
 import type { CardFactory } from '@fiction/site/cardFactory.js'
-import type { Card, TableCardConfig } from '@fiction/site/index.js'
-import type { template as dashTemplate, panelTemplate } from './dashboard/cardDash.js'
+import type { Card, CardTemplate, TableCardConfig } from '@fiction/site/index.js'
+import type { dashTemplate, panelTemplate } from './dashboard/templates.js'
 import type { Widget } from './dashboard/widget.js'
 import type { WidgetLocation } from './types.js'
 import { envConfig } from '@fiction/core'
 import { FictionPlugin } from '@fiction/core/plugin.js'
 import { safeDirname, vue } from '@fiction/core/utils'
+import { cardTemplate } from '@fiction/site/index.js'
 import { createWidgetEndpoints } from './dashboard/util.js'
 import { getEmails } from './emails/index.js'
 import { getWidgets } from './widgets/widgets'
@@ -37,6 +38,8 @@ export type FictionAdminSettings = {
 
 type PageLoader = (args: { factory: CardFactory }) => (Promise<TableCardConfig[]> | TableCardConfig[])
 
+type AdminFeature = { key: string, getPages?: PageLoader, getTemplates?: () => Promise<CardTemplate<any>[]> }
+
 export type WidgetFactoryEntry = { key: string, priority?: number }
 
 export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
@@ -56,23 +59,6 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
       { key: 'overviewWidget', priority: 40 },
       { key: 'onboardWelcome', priority: 10 },
     ])
-
-    this.addAdminPages({
-      key: 'onboardSurvey',
-      loader: async ({ factory }) => [
-        await factory.fromTemplate<typeof TransactionTemplate>({
-          templateId: 'cardTransactionViewV1',
-          slug: 'onboard',
-          title: 'Onboard Survey',
-          cards: [
-            await factory.fromTemplate({
-              el: vue.defineAsyncComponent(() => import('./dashboard/OnboardSurvey.vue')),
-            }),
-          ],
-        }),
-
-      ],
-    })
   }
 
   emailActions = getEmails({ fictionAdmin: this })
@@ -84,47 +70,75 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
     this.widgetMapRaw.value[widgetArea]?.push(...widgetKeys)
   }
 
-  adminPageLoaders = vue.shallowRef<PageLoader[]>([async ({ factory }) => [
-    await factory.fromTemplate<typeof dashTemplate>({
-      templateId: 'dash',
-      slug: '_home',
-      isHome: true,
-      title: 'Home',
-      cards: [
-        await factory.fromTemplate<typeof panelTemplate>({
-          el: vue.defineAsyncComponent(async () => import('./dashboard/ViewDashboard.vue')),
+  features = vue.shallowRef<AdminFeature[]>([
+    {
+      key: 'settings',
+      getPages: async ({ factory }) => [
+        await factory.fromTemplate<typeof dashTemplate>({
+          templateId: 'dash',
+          slug: 'settings',
+          title: `Settings`,
+          userConfig: { navIcon: 'i-tabler-settings', navIconAlt: 'i-tabler-settings-filled' },
+          cards: [
+            await factory.fromTemplate({ templateId: 'tplSettingsPage' }),
+          ],
+        }),
+        await factory.fromTemplate<typeof TransactionTemplate>({
+          templateId: 'cardTransactionViewV1',
+          slug: 'onboard',
+          title: 'Onboard Survey',
+          cards: [
+            await factory.fromTemplate({ templateId: 'tplOnboardSurvey' }),
+          ],
+        }),
+        await factory.fromTemplate<typeof dashTemplate>({
+          templateId: 'dash',
+          slug: 'welcome',
+          isHome: true,
+          title: 'Home',
+          cards: [
+            await factory.fromTemplate({ templateId: 'tplDashboardWelcome' }),
+          ],
+          userConfig: { isNavItem: true, navIcon: 'i-heroicons-home', navIconAlt: 'i-heroicons-home-20-solid', priority: 0 },
         }),
       ],
-      userConfig: { isNavItem: true, navIcon: 'i-heroicons-home', navIconAlt: 'i-heroicons-home-20-solid', priority: 0 },
-    }),
-  ]])
+      getTemplates: async () => {
+        return [
+          cardTemplate({
+            templateId: 'tplSettingsPage',
+            el: vue.defineAsyncComponent(() => import('./settings/SettingsMain.vue')),
+          }),
+          cardTemplate({
+            templateId: 'tplOnboardSurvey',
+            el: vue.defineAsyncComponent(() => import('./dashboard/OnboardSurvey.vue')),
+          }),
+          cardTemplate({
+            templateId: 'tplDashboardWelcome',
+            el: vue.defineAsyncComponent(() => import('./dashboard/ViewDashboard.vue')),
+          }),
+        ]
+      },
+    },
+  ])
 
   async getAdminPages(args: { factory: CardFactory }): Promise<TableCardConfig[]> {
     const { factory } = args
-    const pages = await Promise.all(this.adminPageLoaders.value.map(async loader => loader({ factory })))
+    const pages = await Promise.all(this.features.value.map(async _ => _.getPages?.({ factory })))
 
-    return pages.flat()
+    return pages.flat().filter(Boolean) as TableCardConfig[]
   }
 
-  addAdminPages(args: { key: string, loader: PageLoader }) {
-    const { loader } = args
-    this.adminPageLoaders.value.push(loader)
+  async getAdminTemplates(): Promise<CardTemplate[]> {
+    const templates = await Promise.all(this.features.value.map(async _ => _.getTemplates?.()))
+    return templates.flat().filter(Boolean) as CardTemplate[]
+  }
+
+  addFeature(args: AdminFeature) {
+    this.features.value.push(args)
   }
 
   override async setup() {
     this.widgetRequests = createWidgetEndpoints({ fictionAdmin: this })
-  }
-
-  hooks() {
-    const fictionUser = this.settings.fictionUser
-
-    fictionUser.events.on('newUser', async (_event) => {
-      // const { user, params } = event.detail
-
-      // if (params.isVerifyEmail) {
-      //   await this.emailActions.verifyEmailAction.serveSend({ recipient: user, queryVars: { code: user.verify?.code || '', email: user.email || '' } }, { server: true })
-      // }
-    })
   }
 
   async onClientMounted(args: { card: Card }) {

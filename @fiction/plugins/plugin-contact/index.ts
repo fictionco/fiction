@@ -1,9 +1,10 @@
 import type { FictionAdmin } from '@fiction/admin'
-import type { template as dashTemplate, panelTemplate } from '@fiction/admin/dashboard/cardDash'
+import type { dashTemplate } from '@fiction/admin/dashboard/templates'
 import type { FictionAnalytics } from '@fiction/analytics'
 import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
+import { cardTemplate } from '@fiction/site'
 import { getWidgets } from './admin/widgets'
 import { getEmails } from './email'
 import { ManageContactQuery, SubscriptionAnalytics } from './endpoint'
@@ -67,16 +68,15 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
 
     fictionAdmin.addToWidgetArea('subscriberIndex', [{ key: 'subscribers' }, { key: 'unsubscribes' }, { key: 'cleaned' }])
 
-    fictionAdmin.addAdminPages({
+    fictionAdmin.addFeature({
       key: 'audience',
-      loader: async ({ factory }) => [
-
+      getPages: async ({ factory }) => [
         await factory.fromTemplate<typeof dashTemplate>({
           templateId: 'dash',
           slug: 'subscriber-view',
           title: 'Connection Profile',
           description: 'View and manage individual contact details',
-          cards: [await factory.fromTemplate({ el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')) })],
+          cards: [await factory.fromTemplate({ templateId: 'tplContactSingle' })],
           userConfig: { navIcon: 'i-tabler-user', parentNavItemSlug: 'audience' },
         }),
         await factory.fromTemplate<typeof dashTemplate>({
@@ -85,27 +85,17 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
           title: 'Audience',
           description: 'Your subscribers, followers, and contacts',
           userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus', priority: 50 },
-          cards: [
-            await factory.fromTemplate({
-              el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')),
-              cards: [
-                await factory.fromTemplate<typeof panelTemplate>({
-                  slug: 'subscribers',
-                  title: 'Contact List',
-                  description: 'View, filter, and manage your complete list',
-                  el: vue.defineAsyncComponent(async () => import('./admin/ViewIndex.vue')),
-                  userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus' },
-                }),
-                await factory.fromTemplate<typeof panelTemplate>({
-                  slug: 'view',
-                  title: 'Contact Details',
-                  description: 'View individual subscriber information and history',
-                  el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')),
-                  userConfig: { navIcon: 'i-tabler-user', parentItemId: 'subscribers' },
-                }),
-              ],
-            }),
-          ],
+          cards: [await factory.fromTemplate({ templateId: 'tplContactManage' })],
+        }),
+      ],
+      getTemplates: async () => [
+        cardTemplate({
+          templateId: 'tplContactSingle',
+          el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')),
+        }),
+        cardTemplate({
+          templateId: 'tplContactManage',
+          el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')),
         }),
       ],
     })

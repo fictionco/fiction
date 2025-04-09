@@ -1,15 +1,20 @@
-import type { Ref } from 'vue'
-import { ref, watch } from 'vue'
+import { vue } from './libraries'
+import { deepMerge } from './obj'
 
 // Global cache to store refs by key
-const refCache: Record<string, ReturnType<typeof ref>> = {}
+const refCache: Record<string, ReturnType<typeof vue.ref>> = {}
 
-export function localRef<T>(opts: { key: string, def: T, lifecycle?: 'session' | 'local' | 'disable' }): Ref<T> {
-  const { key, def, lifecycle = 'local' } = opts
+export function localRef<T>(opts: {
+  key: string
+  def: T
+  lifecycle?: 'session' | 'local' | 'disable'
+  merge?: () => Partial<T> | undefined
+}): vue.Ref<T> {
+  const { key, def, lifecycle = 'local', merge } = opts
 
   // Return the existing ref if one is already created with the same key
   if (refCache[key])
-    return refCache[key] as Ref<T>
+    return refCache[key] as vue.Ref<T>
 
   const storage = typeof localStorage !== 'undefined' && lifecycle !== 'disable' ? (lifecycle === 'session' ? sessionStorage : localStorage) : null
 
@@ -17,18 +22,25 @@ export function localRef<T>(opts: { key: string, def: T, lifecycle?: 'session' |
   let initialValue: T
   const storedValue = storage?.getItem(key)
   try {
-    initialValue = storedValue ? JSON.parse(storedValue) : def
+    let parsedValue = storedValue ? JSON.parse(storedValue) : def
+
+    // Apply merge function if provided and parsedValue is a plain object
+    if (merge && parsedValue && typeof parsedValue === 'object' && !Array.isArray(parsedValue)) {
+      parsedValue = deepMerge([parsedValue, merge()])
+    }
+
+    initialValue = parsedValue
   }
   catch (error) {
     console.error(`Error parsing JSON from storage: ${(error as Error).message}`)
     initialValue = def // Use default value if JSON parsing fails
   }
 
-  const refItem = ref<T>(initialValue)
+  const refItem = vue.ref<T>(initialValue)
   refCache[key] = refItem // Store the ref in cache
 
   if (typeof window !== 'undefined') {
-    watch(() => refItem.value, (newValue) => {
+    vue.watch(() => refItem.value, (newValue) => {
       if (newValue === undefined) {
         storage?.removeItem(key)
         delete refCache[key]
@@ -39,5 +51,5 @@ export function localRef<T>(opts: { key: string, def: T, lifecycle?: 'session' |
     }, { immediate: true, deep: true })
   }
 
-  return refItem as Ref<T>
+  return refItem as vue.Ref<T>
 }

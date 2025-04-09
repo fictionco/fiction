@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { Card } from '../../card'
 import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/testUtils'
-import { activePageId, getPageById, getPageWordCount, getViewMap } from '../page'
+import { activePageIdByRoute, getPageById, getPageWordCount, getViewMap } from '../page'
 
 describe('getPageWordCount', () => {
   it('should count words in page userConfig', async () => {
@@ -168,7 +168,7 @@ describe('activePageId', async () => {
 
   const site = await testUtils.createSite({ pages })
 
-  const computedPageId = activePageId({ site })
+  const computedPageId = activePageIdByRoute({ site })
 
   it('get: should return the correct page ID for a given viewId', async () => {
     // Mocking the current value of the siteRouter

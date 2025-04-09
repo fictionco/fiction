@@ -53,7 +53,10 @@ export async function setPages(args: { pages?: CardConfigPortable[], site?: Site
 
   const templateId = site?.theme.value?.templateDefaults.value.page || 'cardPageWrapV1'
 
-  const pageCards = pg.map(p => new Card({ site, regionId: 'main', templateId, ...p })) || []
+  const pageCards = pg.map((p) => {
+    const c = new Card({ site, regionId: 'main', templateId, ...p })
+    return c
+  }) || []
 
   return pageCards
 }
@@ -112,36 +115,36 @@ export function getViewMap(args: { pages: Card[] }) {
   return cardMap
 }
 
-export function activePageId(args: { site: Site }) {
+export function activePageIdByRoute(args: { site: Site }) {
   const { site } = args
   return vue.computed({
     get() {
-      const viewId = site.siteRouter.current.value.params.viewId as string | undefined
-
-      const v = viewId || '_'
-
+      // Otherwise follow normal site navigation rules
+      const viewId = site.currentViewId.value
       const viewMap = site.viewMap.value
-
       const cardId404 = viewMap._404 || '_special404'
-      // Break recursion if _404 appears
-      if (v?.includes('_404') || v?.includes('not-found'))
+
+      if (viewId?.includes('_404') || viewId?.includes('not-found'))
         return cardId404
 
-      return viewMap[v] || cardId404
+      return viewMap[viewId] || cardId404
     },
     async set(cardId: string) {
-      const currentViewId = site.siteRouter.current.value.params.viewId || '_'
-      let viewId = Object.entries(site.viewMap.value).find(([_k, v]) => v === cardId)?.[0]
+      const pg = site.pages.value.find(_ => _.cardId === cardId)
 
-      if (viewId === currentViewId)
+      if (!pg) {
+        logger.error('Page not found', { cardId })
+        return
+      }
+
+      const viewId = !pg.isHome.value && pg.slug.value ? pg.slug.value : '_'
+
+      if (viewId === site.currentViewId.value)
         return // Prevent re-push if already on the correct viewId
 
-      if (viewId === '_')
-        viewId = ''
-      else if (viewId === '_404' || !viewId)
-        viewId = 'not-found'
+      const location = viewId === '_' ? '/' : `/${viewId}`
 
-      await site.siteRouter.push(`/${viewId}`, { caller: 'activePageId' })
+      await site.siteRouter.push(location, { caller: 'activePageId' })
     },
   })
 }

@@ -394,7 +394,7 @@ export class Card<
   }
 
   toConfig(): CardConfigPortable<T> {
-    const { site: __, ...rest } = this.settings
+    const { site: __, inlineTemplate, el, templates, ...rest } = this.settings
 
     const cards = this.cards.value.filter(_ => !_.isSystem.value).map(c => c.toConfig())
 

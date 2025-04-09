@@ -5,9 +5,9 @@ import { vue } from '@fiction/core'
  */
 export interface TransformOptions<T, S = any> {
   /** Prepare data before serialization (server-side) */
-  prepare?: (data: T) => S
+  prepare?: (data: T) => S | Promise<S>
   /** Unpack data after deserialization (client-side) */
-  unpack?: (data: S) => T
+  unpack?: (data: S) => T | Promise<T>
 }
 
 /**
@@ -48,7 +48,7 @@ export function useSSRData<T = any, S = any>(options: {
   const previousKey = vue.ref(keyRef.value)
 
   // Check for server-rendered data
-  const getInitialData = (): T | undefined => {
+  const getInitialData = async (): Promise<T | undefined> => {
     let initialData: any = undefined
     const currentKey = keyRef.value
 
@@ -60,10 +60,10 @@ export function useSSRData<T = any, S = any>(options: {
     else if (ssrContext && ssrContext.value?.[currentKey]) {
       initialData = ssrContext.value[currentKey]
     }
-
     // Apply unpack transform if available and we have data
-    if (initialData !== undefined && transform?.unpack) {
-      return transform.unpack(initialData)
+    if (initialData !== undefined && !!transform?.unpack) {
+      const unpacked = await transform.unpack(initialData)
+      return unpacked
     }
 
     return initialData !== undefined ? initialData : initialValue
@@ -85,7 +85,7 @@ export function useSSRData<T = any, S = any>(options: {
 
     // Check for existing server-rendered data first time
     if (!hasInitialized.value) {
-      const initialData = getInitialData()
+      const initialData = await getInitialData()
       if (initialData !== undefined) {
         data.value = initialData
         hasInitialized.value = true
@@ -137,7 +137,9 @@ export function useSSRData<T = any, S = any>(options: {
 
           // Apply prepare transform if available
           if (transform?.prepare && data.value !== undefined) {
-            ctx.initialState[currentKey] = transform.prepare(data.value)
+            const prepped = await transform.prepare(data.value)
+
+            ctx.initialState[currentKey] = prepped
           }
           else {
             ctx.initialState[currentKey] = data.value
@@ -147,12 +149,14 @@ export function useSSRData<T = any, S = any>(options: {
     })
   }
   else {
-    vue.watch(keyRef, (newKey, oldKey) => {
-      if (newKey !== oldKey) {
-        const force = hasInitialized.value
-        load(force)
-      }
-    }, { immediate: true })
+    vue.onMounted(() => {
+      vue.watch(keyRef, (newKey, oldKey) => {
+        if (newKey !== oldKey) {
+          const force = hasInitialized.value
+          load(force)
+        }
+      }, { immediate: true })
+    })
   }
 
   return {

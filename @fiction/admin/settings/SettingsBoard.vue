@@ -11,6 +11,7 @@ import ElHeader from './ElHeader.vue'
 
 const {
   card,
+  panels = [],
   basePath,
   panelProps = {},
   panelEvents = {},
@@ -19,6 +20,7 @@ const {
   theme,
 } = defineProps<{
   card: Card
+  panels?: Card<NavCardUserConfig>[]
   basePath?: string
   panelProps?: Record<string, any>
   panelEvents?: Record<string, (...args: any[]) => void>
@@ -31,10 +33,10 @@ const emit = defineEmits<{
   (event: 'update:header', payload: PostObject): void
 }>()
 
-const panels = vue.computed(() => card.cards.value.filter(t => t.slug.value) as Card<NavCardUserConfig>[])
-const routeItemId = vue.computed(() => toSlug(card.site?.siteRouter.params.value.itemId as string) || panels.value[0].slug.value)
-const currentPanel = vue.computed(() => panels.value.find(p => toSlug(p.slug.value) === routeItemId.value) || panels.value[0])
-const parentPanel = vue.computed(() => panels.value.find(p => toSlug(p.slug.value) === currentPanel.value?.userConfig.value?.parentItemId))
+const optionPanels = vue.computed(() => panels)
+const routeItemId = vue.computed(() => toSlug(card.site?.siteRouter.params.value.itemId as string) || optionPanels.value[0].slug.value)
+const currentPanel = vue.computed(() => optionPanels.value.find(p => toSlug(p.slug.value) === routeItemId.value) || optionPanels.value[0])
+const parentPanel = vue.computed(() => optionPanels.value.find(p => toSlug(p.slug.value) === currentPanel.value?.userConfig.value?.parentItemId))
 
 const currentPanelKey = vue.computed(() => {
   const itemId = card.site?.siteRouter.query.value.itemId as string | undefined
@@ -52,7 +54,7 @@ const currentItemId = vue.computed(() => {
 const nav = vue.computed<NavListItem[]>(() => {
   const query = card.site?.siteRouter.current.value?.fullPath.split('?')[1] || ''
 
-  return panels.value
+  return optionPanels.value
     .filter(p => p.userConfig.value?.isNavItem)
     .map((p) => {
       const isHome = p.isHome.value

@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import type { FictionAnalytics } from '@fiction/analytics'
 import type { FictionRouter } from '@fiction/core'
-import type { FictionSites, Site } from '@fiction/site'
+import type { FictionSites, TableSiteConfig } from '@fiction/site'
 import type { FramePostMessageList } from '@fiction/site/utils/frame'
 import { getColorScheme, log, simpleHandlebarsParser, toLabel, unhead, useService, vue } from '@fiction/core'
+import { useSSRData } from '@fiction/core/utils/ssr'
+import { Site } from '@fiction/site'
 import { getMountContext, loadSite } from '@fiction/site/load'
 import { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
@@ -29,61 +31,67 @@ const service = useService<{
 
 const { fictionSites, fictionRouter, runVars, fictionRouterSites, fictionUser, fictionEnv } = service
 
-const loading = vue.ref(false)
-const site = vue.shallowRef<Site>()
-const fonts = vue.computed(() => site.value?.siteFonts.value)
+const siteRouter = props.siteRouter || fictionRouterSites || fictionRouter
+
 let cleanups: (() => any)[] = []
 
-async function onSiteMounted() {
-  if (typeof window === 'undefined' || !site.value)
-    return
-
-  await site.value?.themeConfig.value?.onMounted?.({ service })
-}
+const mountContext = vue.computed(() => {
+  const { orgId = props.orgId, siteId = props.siteId, themeId = props.themeId } = fictionRouter.params.value as Record<string, string>
+  return getMountContext({ queryVars: { themeId }, runVars, siteId, orgId })
+})
 
 async function load() {
-  loading.value = true
-
   const currentUrl = typeof window !== 'undefined' ? window.location.href : `ssr:${runVars?.PATHNAME}`
 
-  const { orgId = props.orgId, siteId = props.siteId, themeId = props.themeId } = fictionRouter.params.value as Record<string, string>
-
   try {
-    const mountContext = getMountContext({ queryVars: { themeId }, runVars, siteId, orgId })
-    const siteRouter = props.siteRouter || fictionRouterSites || fictionRouter
-
-    site.value = await loadSite({
+    const s = await loadSite({
       siteRouter,
       fictionSites,
-      mountContext,
+      mountContext: mountContext.value,
       caller: `CardSite-loadSite(${props.themeId || 'no-theme-id'}):${currentUrl}:HEADERS${runVars?.ALL_HEADERS}`,
     })
 
-    await onSiteMounted()
-
-    return site.value
+    return s
   }
   catch (error) {
     logger.error(`Error loading site ${(error as Error).message}`, { error })
   }
-  finally {
-    loading.value = false
-  }
 }
 
-if (import.meta.env.SSR) {
-  const ctx = vue.useSSRContext()
-  if (ctx && !ctx.initialState) {
-    ctx.initialState = {}
-  }
+// if (import.meta.env.SSR) {
+//   const ctx = vue.useSSRContext()
+//   if (ctx && !ctx.initialState) {
+//     ctx.initialState = {}
+//   }
 
-  vue.onServerPrefetch(async () => {
-    await load()
+//   vue.onServerPrefetch(async () => {
+//     await load()
 
-    if (ctx)
-      ctx.initialState.siteConfig = site.value?.toConfig()
-  })
-}
+//     if (ctx)
+//       ctx.initialState.siteConfig = site.value?.toConfig()
+//   })
+// }
+
+// Use the SSR data hook
+const { data: site, loading } = useSSRData({
+  key: vue.computed(() => `site-${mountContext.value.contextCacheKey}`),
+  fetchData: load,
+  transform: {
+    prepare: (site) => {
+      return site?.toConfig() as TableSiteConfig | undefined
+    },
+    unpack: async (siteConfig) => {
+      if (siteConfig) {
+        const { siteMode } = mountContext.value
+        const s = await Site.create({ ...siteConfig, fictionSites, siteRouter, siteMode })
+
+        return s
+      }
+    },
+  },
+})
+
+const fonts = vue.computed(() => site.value?.siteFonts.value)
 
 const page = vue.computed(() => site.value?.currentPage.value)
 const pageConfig = vue.computed(() => page.value?.fullConfig.value || {})
@@ -266,7 +274,7 @@ vue.onMounted(async () => {
         class="x-engine"
       >
         <div v-if="loading" class="text-theme-200 dark:text-theme-700 flex justify-center pt-32">
-          <ElSpinner class="size-8" />
+          <ElSpinner class="size-4" />
         </div>
 
         <template v-else-if="site">
