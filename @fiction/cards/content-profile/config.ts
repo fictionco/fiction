@@ -39,7 +39,7 @@ const options = [
     key: 'contentGroup',
     input: 'group',
     label: 'Content',
-    icon: { class: 'i-tabler-highlight' },
+    icon: { class: 'i-tabler-align-left' },
     options: [
       createOption({
         schema,
@@ -54,7 +54,28 @@ const options = [
       }),
       createOption({ schema, key: 'title', input: 'InputText', label: 'Title' }),
       createOption({ schema, key: 'content', input: 'InputProse', label: 'Description' }),
-      createOption({ schema, key: 'superTitle', input: 'InputSuperTitle' }),
+      createOption({
+        schema,
+        key: 'superTitle',
+        input: 'InputSuperTitle',
+        label: 'Context Title',
+      }),
+      createOption({
+        schema,
+        key: 'mediaGroup',
+        input: 'group',
+        label: 'Buttons',
+        icon: { class: 'i-tabler-click' },
+        options: [
+          createOption({
+            schema,
+            key: 'action.buttons',
+            label: 'Profile Media',
+            input: 'InputActions',
+          }),
+        ],
+      }),
+
       createOption({
         schema,
         key: 'detailsGroup',
@@ -88,8 +109,8 @@ const options = [
     schema,
     key: 'settingsGroup',
     input: 'group',
-    label: 'Settings',
-    icon: { class: 'i-tabler-settings' },
+    label: 'Design',
+    icon: { class: 'i-tabler-layout' },
     options: [
       createOption({
         schema,
@@ -101,21 +122,6 @@ const options = [
           { label: 'Media on Left', value: 'left' },
           { label: 'Media on Right', value: 'right' },
         ],
-      }),
-    ],
-  }),
-  createOption({
-    schema,
-    key: 'mediaGroup',
-    input: 'group',
-    label: 'Action Area',
-    icon: { class: 'i-tabler-click' },
-    options: [
-      createOption({
-        schema,
-        key: 'action',
-        label: 'Profile Media',
-        input: 'InputActionArea',
       }),
     ],
   }),
@@ -140,14 +146,10 @@ async function getUserConfig(args: { factory: CardFactory, stock: StockMedia }):
     details: [
       { label: 'Location', value: 'Your City, Country', icon: { iconId: 'map' } },
       { label: 'Email', value: 'hello@yourdomain.com', href: 'mailto:hello@example.com', icon: { iconId: 'mail' } },
-      { label: 'Availability', value: 'Open to Opportunities', icon: { iconId: 'calendar' } },
-      { label: 'Phone', value: '(555) 123-4567', href: 'tel:+15551234567', icon: { iconId: 'phone' } },
     ],
     action: {
       buttons: [
-        { label: 'Connect on LinkedIn', href: '#', icon: { iconId: 'brand-linkedin' } },
-        { label: 'Follow on X', href: '#', icon: { iconId: 'brand-x' } },
-        { label: 'View Portfolio', href: '#', icon: { iconId: 'external-link' } },
+        { label: 'Message on X', href: '#', icon: { iconId: 'brand-x' } },
       ],
     },
   }
