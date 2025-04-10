@@ -1,35 +1,22 @@
-import type { template as bentoTemplate } from '@fiction/cards/content-bento/index'
-import type { template as featuresTemplate } from '@fiction/cards/content-features/index'
-import type { template as heroTemplate } from '@fiction/cards/content-hero/index'
-import type { template as storyTemplate } from '@fiction/cards/content-story/index'
-import type { template as timelineTemplate } from '@fiction/cards/content-timeline/index'
-import type { template as CtaTemplate } from '@fiction/cards/convert-cta/index'
-import type { template as galleryTemplate } from '@fiction/cards/gallery-masonry/index'
-import type { template as parallaxScollTemplate } from '@fiction/cards/gallery-parallax-scroll'
-import type { template as templateFooterPro } from '@fiction/cards/page/footer-pro/index'
-import type { template as cardSiteNavV1Template } from '@fiction/cards/page/nav/index'
-import type { template as postListTemplate } from '@fiction/cards/posts/list'
-import type { template as metricsTemplate } from '@fiction/cards/proof-metrics/index'
-import type { template as quotesTemplate } from '@fiction/cards/proof-quotes/index'
-import type { template as cardOverlaySliderV1Template } from '@fiction/cards/slider-overlay/index'
-
 import type { ThemeConfig, ThemeConfigArgs } from '@fiction/site'
+
 import type { StockMedia } from '@fiction/ui/stock'
+import { cardConfig } from '@fiction/cards/index.js'
 
 type SectionArgs = ThemeConfigArgs & {
   stock: StockMedia
 }
 
 export async function getPages(args: SectionArgs) {
-  const { factory, stock } = args
+  const { stock } = args
 
   return [
     // Home page
-    await factory.fromTemplate({
+    cardConfig({
       slug: 'welcome',
       isHome: true,
       cards: [
-        await factory.fromTemplate<typeof cardOverlaySliderV1Template>({
+        cardConfig({
           templateId: 'cardOverlaySliderV1',
           userConfig: {
             autoSlide: true,
@@ -55,7 +42,7 @@ export async function getPages(args: SectionArgs) {
             ],
           },
         }),
-        await factory.fromTemplate<typeof featuresTemplate>({
+        cardConfig({
           templateId: 'cardFeaturesV1',
           userConfig: {
             standard: {
@@ -93,28 +80,32 @@ export async function getPages(args: SectionArgs) {
             },
           },
         }),
-        await factory.fromTemplate<typeof heroTemplate>({
+        cardConfig({
           templateId: 'cardHeroV1',
           userConfig: {
-            layout: 'left',
-            title: 'Your Professional Title',
-            subTitle: 'This brief professional bio should be approximately 15-25 words. Focus on expertise, location, and scope of service.',
-            superTitle: {
-              text: 'Brand Tagline',
-              icon: { iconId: 'star' },
-              theme: 'primary',
-            },
-            media: stock.getRandomByTags(['woman']),
-            action: {
-              buttons: [
-                { label: 'Primary CTA', href: '/work', theme: 'primary' },
-                { label: 'Secondary CTA', href: '/contact' },
-              ],
-            },
+            items: [
+              {
+                layout: 'left',
+                title: 'Your Professional Title',
+                subTitle: 'This brief professional bio should be approximately 15-25 words. Focus on expertise, location, and scope of service.',
+                superTitle: {
+                  text: 'Brand Tagline',
+                  icon: { iconId: 'star' },
+                  theme: 'primary',
+                },
+                media: stock.getRandomByTags(['woman']),
+                action: {
+                  buttons: [
+                    { label: 'Primary CTA', href: '/work', theme: 'primary' },
+                    { label: 'Secondary CTA', href: '/contact' },
+                  ],
+                },
+              },
+            ],
           },
         }),
 
-        await factory.fromTemplate<typeof metricsTemplate>({
+        cardConfig({
           templateId: 'cardMetricsV1',
           userConfig: {
             standard: {
@@ -130,7 +121,7 @@ export async function getPages(args: SectionArgs) {
             ],
           },
         }),
-        await factory.fromTemplate<typeof parallaxScollTemplate>({
+        cardConfig({
           templateId: 'CardParallaxScrollV1',
           userConfig: {
             standard: {
@@ -178,7 +169,7 @@ export async function getPages(args: SectionArgs) {
             ],
           },
         }),
-        await factory.fromTemplate<typeof postListTemplate>({
+        cardConfig({
           templateId: 'cardPostsListV1',
           userConfig: {
             standard: {
@@ -198,29 +189,33 @@ export async function getPages(args: SectionArgs) {
     }),
 
     // Work/Projects page
-    await factory.fromTemplate({
+    cardConfig({
       slug: 'work',
       cards: [
-        await factory.fromTemplate<typeof heroTemplate>({
+        cardConfig({
           templateId: 'cardHeroV1',
           userConfig: {
-            title: 'Portfolio',
-            subTitle: 'A curated collection of projects demonstrating your expertise and approach across different contexts',
-            superTitle: {
-              text: 'Selected Works',
-              icon: { iconId: 'briefcase' },
-              theme: 'primary',
-            },
-            media: stock.getRandomByTags(['aspect:wide']),
-            action: {
-              buttons: [
-                { label: 'View Projects', href: '#featured', theme: 'primary' },
-                { label: 'Client Work', href: '#consulting' },
-              ],
-            },
+            items: [
+              {
+                title: 'Portfolio',
+                subTitle: 'A curated collection of projects demonstrating your expertise and approach across different contexts',
+                superTitle: {
+                  text: 'Selected Works',
+                  icon: { iconId: 'briefcase' },
+                  theme: 'primary',
+                },
+                media: stock.getRandomByTags(['aspect:wide']),
+                action: {
+                  buttons: [
+                    { label: 'View Projects', href: '#featured', theme: 'primary' },
+                    { label: 'Client Work', href: '#consulting' },
+                  ],
+                },
+              },
+            ],
           },
         }),
-        await factory.fromTemplate<typeof bentoTemplate>({
+        cardConfig({
           templateId: 'cardBentoV1',
           userConfig: {
             items: [
@@ -282,7 +277,7 @@ export async function getPages(args: SectionArgs) {
             ],
           },
         }),
-        await factory.fromTemplate<typeof galleryTemplate>({
+        cardConfig({
           templateId: 'cardPhotoGalleryV1',
           userConfig: {
             standard: {
@@ -351,10 +346,10 @@ export async function getPages(args: SectionArgs) {
     }),
 
     // About/Background page
-    await factory.fromTemplate({
+    cardConfig({
       slug: 'about',
       cards: [
-        await factory.fromTemplate<typeof storyTemplate>({
+        cardConfig({
           templateId: 'cardStoryV1',
           userConfig: {
             standard: {
@@ -382,7 +377,7 @@ export async function getPages(args: SectionArgs) {
             ],
           },
         }), // Career journey
-        await factory.fromTemplate<typeof timelineTemplate>({
+        cardConfig({
           templateId: 'cardTimelineV1',
           userConfig: {
             standard: {
@@ -425,7 +420,7 @@ export async function getPages(args: SectionArgs) {
             ],
           },
         }), // Experience timeline
-        await factory.fromTemplate<typeof quotesTemplate>({
+        cardConfig({
           templateId: 'cardQuotesV1',
           userConfig: {
             standard: {
@@ -466,169 +461,23 @@ export async function getPages(args: SectionArgs) {
     }),
 
     // Blog/Insights page
-    await factory.fromTemplate({
+    cardConfig({
       slug: 'blog',
       cards: [
-        await factory.fromTemplate({ templateId: 'cardPostsMagazineV1' }),
+        cardConfig({ templateId: 'cardPostsMagazineV1' }),
       ],
     }),
 
     // Contact page
-    await factory.fromTemplate({
+    cardConfig({
       slug: 'contact',
       cards: [
-        await factory.fromTemplate({ templateId: 'cardHeroV1' }),
-        await factory.fromTemplate({ templateId: 'cardContactV1' }),
-        await factory.fromTemplate({ templateId: 'cardMapsV1' }),
+        cardConfig({ templateId: 'cardHeroV1' }),
+        cardConfig({ templateId: 'cardContactV1' }),
+        cardConfig({ templateId: 'cardMapsV1' }),
       ],
     }),
   ]
-}
-
-// Header navigation
-export async function getHeader(args: SectionArgs) {
-  const { factory } = args
-
-  return await factory.fromTemplate({
-    regionId: 'header',
-    templateId: 'cardPageAreaV1',
-    cards: [
-      await factory.fromTemplate<typeof cardSiteNavV1Template>({
-        templateId: 'cardSiteNavV1',
-        userConfig: {
-          brand: {
-            logo: {
-              variant: 'typography',
-              typography: {
-                label: 'Brand Name',
-                font: { family: 'DM Serif Display' },
-              },
-              scale: 1.1,
-            },
-          },
-          nav: {
-            primary: [
-              { label: 'Portfolio', href: '/work' },
-              { label: 'About', href: '/about' },
-            ],
-            utility: [
-              {
-                label: 'Social',
-                list: {
-                  items: [
-                    { label: 'Instagram', href: '#', icon: { class: 'i-tabler-brand-instagram' } },
-                    { label: 'LinkedIn', href: '#', icon: { class: 'i-tabler-brand-linkedin' } },
-                  ],
-                },
-              },
-              {
-                label: 'Contact',
-                href: '/contact',
-                variant: 'button',
-                theme: 'primary',
-                design: 'outline',
-              },
-            ],
-          },
-        },
-      }),
-    ],
-  })
-}
-
-// Footer
-export async function getFooter(args: SectionArgs) {
-  const { factory } = args
-
-  return await factory.fromTemplate({
-    regionId: 'footer',
-    templateId: 'cardPageAreaV1',
-    cards: [
-      await factory.fromTemplate<typeof CtaTemplate>({
-        templateId: 'cardCtaV1',
-        userConfig: {
-          title: 'Ready to Start Your Project?',
-          subTitle: 'Take the first step toward achieving your goals',
-          action: {
-            buttons: [
-              { label: 'Get in Touch', href: '/contact', theme: 'primary' },
-              { label: 'View Services', href: '/services' },
-            ],
-          },
-        },
-      }),
-      await factory.fromTemplate<typeof templateFooterPro>({
-        templateId: 'cardFooterProV1',
-        userConfig: {
-          brand: {
-            logo: {
-              variant: 'typography',
-              typography: {
-                label: 'Brand Name',
-                font: { family: 'DM Serif Display' },
-              },
-              scale: 1.3,
-            },
-            tagline: 'Your Tagline Here',
-          },
-          menus: [
-            {
-              title: 'Services',
-              items: [
-                { label: 'Service One', href: '/services/one', icon: { iconId: 'building' } },
-                { label: 'Service Two', href: '/services/two', icon: { iconId: 'settings' } },
-                { label: 'Service Three', href: '/services/three', icon: { iconId: 'bulb' } },
-              ],
-            },
-            {
-              title: 'Resources',
-              items: [
-                { label: 'Resource One', href: '/resources/one', icon: { iconId: 'file' } },
-                { label: 'Resource Two', href: '/resources/two', icon: { iconId: 'calendar' } },
-                { label: 'Resource Three', href: '/resources/three', icon: { iconId: 'news' } },
-              ],
-            },
-          ],
-          badges: {
-            buttons: [
-              { label: 'Industry Certification One', href: '/credentials', theme: 'primary', design: 'ghost', icon: { iconId: 'certificate' } },
-              { label: 'Professional Association', href: '/about', theme: 'blue', design: 'ghost', icon: { iconId: 'award' } },
-            ],
-          },
-          additional: {
-            links: [
-              { label: 'Privacy Policy', href: '/privacy' },
-              { label: 'Terms of Service', href: '/terms' },
-            ],
-            social: [
-              {
-                label: 'Instagram',
-                media: { iconId: 'brand-instagram' },
-                href: '#',
-              },
-              {
-                label: 'LinkedIn',
-                media: { iconId: 'brand-linkedin' },
-                href: '#',
-              },
-            ],
-          },
-        },
-      }),
-    ],
-  })
-}
-
-// Hidden section for modals etc
-export async function getHidden(args: SectionArgs) {
-  const { factory } = args
-
-  return await factory.fromTemplate({
-    cards: [
-      await factory.fromTemplate({ templateId: 'cardModalMediaV1' }),
-      await factory.fromTemplate({ templateId: 'cardCaptureV1' }),
-    ],
-  })
 }
 
 export async function getConfig(args: Omit<SectionArgs, 'stock'>): Promise<ThemeConfig> {
@@ -636,21 +485,10 @@ export async function getConfig(args: Omit<SectionArgs, 'stock'>): Promise<Theme
   const stock = await factory.getStockMedia()
   const a = { ...args, stock }
 
-  const [pages, header, footer, hidden] = await Promise.all([
-    getPages(a),
-    getHeader(a),
-    getFooter(a),
-    getHidden(a),
-  ])
+  const [pages] = await Promise.all([getPages(a)])
 
   return {
-    sections: { header, footer, hidden },
     pages,
-    userConfig: {
-      standard: {
-        prefersColorScheme: 'dark',
-        primaryColor: 'indigo',
-      },
-    },
+    userConfig: { },
   }
 }

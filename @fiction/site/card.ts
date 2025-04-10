@@ -65,7 +65,7 @@ export type ConfigResponse<S extends CardTemplateSurfaceDefault = CardTemplateSu
   demoPage?: CardConfigPortable
 }
 
-interface CardTemplateSettings<
+export interface CardTemplateSettings<
   S extends CardTemplateSurfaceDefault = CardTemplateSurfaceDefault,
 > {
   root?: string
@@ -117,13 +117,7 @@ export class CardTemplate<
       return this.settings.getConfig(a)
     }
     else {
-      return {
-        // schema: this.settings.schema,
-        // options: this.settings.options,
-        // userConfig: await this.settings.getUserConfig?.(a) || {},
-        // effects: await this.settings.getEffects?.(a) || [],
-        // demoPage: await this.settings.demoPage?.(a),
-      }
+      return { }
     }
   }
 

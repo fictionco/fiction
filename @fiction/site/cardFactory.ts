@@ -55,7 +55,7 @@ export class CardFactory<U extends readonly CardTemplate<any>[] = readonly CardT
     // Config
     userConfig?: ExtractTemplateInfo<TTemplate>['userConfig'] & StandardUserConfig
     baseConfig?: ExtractTemplateInfo<TTemplate>['userConfig'] & StandardUserConfig
-    effects?: CardConfigPortable[]
+
     // Base card properties
   } & BaseCardConfig,
   ): Promise<TableCardConfig> {

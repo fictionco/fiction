@@ -1,11 +1,9 @@
-import type { template as faqTemplate } from '@fiction/cards/content-faq'
-import type { template as heroTemplate } from '@fiction/cards/content-hero'
-import type { template as pricingTemplate } from '@fiction/cards/convert-pricing'
 import type { FictionStripe } from '@fiction/plugin-stripe/index.js'
 
 import type { Site } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
 
+import { cardConfig } from '@fiction/cards/index'
 import { getCheckoutUrl } from '@fiction/plugin-stripe/utils.js'
 
 async function purchaseUrl(args: { priceLookupKey: string, site: Site }) {
@@ -33,7 +31,7 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
 
   const annualDiscountPercent = 30
 
-  const pricingCard = await factory.fromTemplate<typeof pricingTemplate>({
+  const pricingCard = cardConfig({
     templateId: 'cardPricingV1',
     userConfig: {
       hasAnnual: true,
@@ -107,16 +105,20 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
     },
   })
 
-  const topHeroCard = await factory.fromTemplate<typeof heroTemplate>({
+  const topHeroCard = cardConfig({
     templateId: 'cardHeroV1',
     userConfig: {
-      superTitle: { text: 'The Price of Reputation', theme: 'green', icon: { class: 'i-tabler-credit-card' } },
-      subTitle: `${annualDiscountPercent}% Discount When Paying Annually`,
-      title: `An Incredible Value or Your Money Back`,
+      items: [
+        {
+          superTitle: { text: 'The Price of Reputation', theme: 'green', icon: { class: 'i-tabler-credit-card' } },
+          subTitle: `${annualDiscountPercent}% Discount When Paying Annually`,
+          title: `An Incredible Value or Your Money Back`,
+        },
+      ],
     },
   })
 
-  const valueCard = await factory.fromTemplate<typeof faqTemplate>({
+  const valueCard = cardConfig({
     templateId: 'cardFaqV1',
     userConfig: {
       standard: { headers: { title: 'Frequently Asked Questions', subTitle: 'Get answers to common questions about Fiction' } },
@@ -140,7 +142,7 @@ export async function getPricingPage(args: { factory: CardFactory, site: Site })
     slug: 'pricing',
     title: 'Pricing',
     cards: [
-      await factory.fromTemplate({
+      cardConfig({
         templateId: 'cardPageAreaV1',
         cards: [
           topHeroCard,

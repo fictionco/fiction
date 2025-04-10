@@ -131,28 +131,31 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   org = vue.computed(() => deepMerge([this.themeConfig.value?.org, this.settings.org]))
 
-  static async create<U extends SiteSettings>(settings: U, options: { loadThemePages?: boolean } = {}): Promise<Site<U>> {
+  static async create<U extends SiteSettings>(settings: U, options: { isNewSite?: boolean } = {}): Promise<Site<U>> {
     const site = new Site<U>(settings)
-    await site.loadTheme()
+
     await site.loadConfig(options)
 
     return site
   }
 
-  async loadTheme() {
+  async loadTheme(args: { isNewSite?: boolean } = {}) {
+    const { isNewSite = false } = args
     const theme = this.fictionSites.themes.value.find(t => t.themeId === this.themeId.value)
     if (!theme) {
       throw new Error(`Theme with ID ${this.themeId.value} not found`)
     }
-    await theme.loadThemeTemplates({ site: this })
-    this.themeConfig.value = await theme.getThemeConfig({ site: this })
+
+    this.themeConfig.value = await theme.getThemeConfig({ site: this, isNewSite })
   }
 
-  async loadConfig(options: { loadThemePages?: boolean } = {}) {
-    const { loadThemePages = false } = options
+  async loadConfig(args: { isNewSite?: boolean } = {}) {
+    const { isNewSite = false } = args
+
+    await this.loadTheme()
 
     const pgs = this.settings.pages || []
-    if (loadThemePages) {
+    if (isNewSite) {
       pgs.push(...(this.themeConfig.value?.pages || []))
     }
 

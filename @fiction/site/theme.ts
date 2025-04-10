@@ -4,6 +4,7 @@ import type { CardTemplate } from './card.js'
 import type { SiteGlobalUserConfig } from './schema.js'
 import type { SiteSettings } from './site.js'
 import type { TableCardConfig } from './tables.js'
+import { cardConfig } from '@fiction/cards/index.js'
 import { deepMerge, FictionObject, toLabel, vue } from '@fiction/core'
 import { CardFactory } from './cardFactory.js'
 import { Site } from './site.js'
@@ -23,6 +24,7 @@ export type ThemeConfigArgs = {
   factory: CardFactory
   baseConfig: ThemeConfig
   templates: CardTemplate<any>[]
+  isNewSite?: boolean
 }
 
 export type ThemeMeta = {
@@ -68,33 +70,58 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
       this.templates = await this.settings.getTemplates?.(args) || []
   }
 
-  async getThemeConfig(args: { site: Site }) {
-    const { site } = args
+  async getThemeConfig(args: { site: Site, isNewSite?: boolean }) {
+    const { site, isNewSite } = args
     await this.loadThemeTemplates(args)
     const factory = new CardFactory({ site, templates: this.templates, caller: 'Theme.getConfig' })
     const themeBaseConfig = this.settings.getBaseConfig?.()
-    const baseConfig = deepMerge([this.defaultConfig(), themeBaseConfig])
+    const defaultConfig = await this.defaultConfig()
+    const baseConfig = deepMerge([defaultConfig, themeBaseConfig])
     const config = await this.settings.getConfig({
       site,
       factory,
       baseConfig,
       templates: this.templates,
+      isNewSite,
     })
 
     const mergedConfig = deepMerge([baseConfig, config])
 
     const pages = mergedConfig.pages?.map(page => ({ ...page, templateId: page.templateId || this.templateDefaults.value.page }))
 
-    return { ...mergedConfig, pages, sections: config.sections || {} }
+    return {
+      ...mergedConfig,
+      pages,
+      sections: config.sections || {},
+    }
   }
 
   async toSite(settings: Omit<SiteSettings, 'themeId'>): Promise<Site> {
-    const site = await Site.create({ themeId: this.themeId, pages: [], sections: {}, ...settings }, { loadThemePages: true })
+    const site = await Site.create({ themeId: this.themeId, pages: [], sections: {}, ...settings }, { isNewSite: true })
     return site
   }
 
-  defaultConfig(): ThemeConfig {
+  async defaultConfig(): Promise<Promise<Promise<Promise<ThemeConfig>>>> {
     return {
+      sections: {
+        header: cardConfig({
+          cards: [
+            cardConfig({ templateId: 'cardSiteNavV1' }),
+          ],
+        }),
+        footer: cardConfig({
+          cards: [
+            cardConfig({ templateId: 'cardFooterProV1' }),
+          ],
+        }),
+        hidden: cardConfig({
+          cards: [
+            cardConfig({ templateId: 'cardModalMediaV1' }),
+            cardConfig({ templateId: 'cardTextEffectV1' }),
+            cardConfig({ templateId: 'cardCaptureV1' }),
+          ],
+        }),
+      },
       userConfig: {
         standard: {
           prefersColorScheme: 'dark',

@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
-import type { OverlayConfig, UserConfig } from './config.js'
+import type { HeroConfig, OverlayConfig } from './config.js'
 import { vue } from '@fiction/core'
 import EffectParallax from '@fiction/ui/effect/EffectParallax.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import CardHeader from '../el/CardHeader.vue'
+import CardHeader from '../../el/CardHeader.vue'
 
-const props = defineProps({
-  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
-})
+const { card } = defineProps<{
+  card: Card<HeroConfig>
+}>()
 
-const uc = vue.computed(() => props.card.userConfig.value || {})
+const uc = vue.computed(() => card.userConfig.value || {})
 const layout = vue.computed(() => uc.value.layout || 'center')
 
 // Layout classes based on user config

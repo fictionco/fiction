@@ -1,12 +1,7 @@
-import type { template as heroTemplate } from '@fiction/cards/content-hero'
-import type { template as tourTemplate } from '@fiction/cards/content-tour/index.js'
-import type { template as areaTemplate } from '@fiction/cards/page/area/index.js'
-
-import type { template as templateQuotes } from '@fiction/cards/proof-quotes/index.js'
-
 import type { CardFactory } from '@fiction/site/cardFactory'
-import type { StockMedia } from '@fiction/ui/stock/index.js'
 
+import type { StockMedia } from '@fiction/ui/stock/index.js'
+import { cardConfig } from '@fiction/cards'
 import ImageAi from './img/ai.png'
 import ImageAudience from './img/audience.png'
 import ImageFigMoney from './img/fig-money-alt-1.svg'
@@ -16,43 +11,44 @@ import ImageMeeting from './img/meeting.png'
 import ImageWebsite from './img/website.svg'
 
 export async function getTourPage(args: { factory: CardFactory, stock: StockMedia }) {
-  const { factory } = args
-  return factory.fromTemplate({
+  return cardConfig({
     regionId: 'main',
     templateId: 'cardPageWrapV1',
     slug: 'tour',
     title: 'Why Fiction',
     cards: [
-      await factory.fromTemplate<typeof areaTemplate>({
+      cardConfig({
         templateId: 'cardPageAreaV1',
         cards: [
-          await factory.fromTemplate<typeof heroTemplate>({
+          cardConfig({
             templateId: 'cardHeroV1',
             userConfig: {
-              superTitle: {
-                text: 'Personal Branding for the AI Age',
-                theme: 'green',
-                icon: { class: 'i-tabler-arrow-up-right' },
-              },
-              title: `The Most Reliable Way to Improve Your [@text_effect type=squiggle]Results[/@text_effect]`,
-              subTitle: `The most effective way to drive new opportunities, and grow your business.`,
+              items: [{
+                superTitle: {
+                  text: 'Personal Branding for the AI Age',
+                  theme: 'green',
+                  icon: { class: 'i-tabler-arrow-up-right' },
+                },
+                title: `The Most Reliable Way to Improve Your [@text_effect type=squiggle]Results[/@text_effect]`,
+                subTitle: `The most effective way to drive new opportunities, and grow your business.`,
 
-              action: {
-                buttons: [
-                  {
-                    label: 'Get Started',
-                    href: '/app/auth/register?_reload=1',
-                    theme: 'primary',
-                    design: 'solid',
-                    iconAfter: 'i-tabler-arrow-big-right-lines',
-                  },
-                ],
-              },
+                action: {
+                  buttons: [
+                    {
+                      label: 'Get Started',
+                      href: '/app/auth/register?_reload=1',
+                      theme: 'primary',
+                      design: 'solid',
+                      iconAfter: 'i-tabler-arrow-big-right-lines',
+                    },
+                  ],
+                },
+              }],
             },
           }),
 
-          await factory.fromTemplate<typeof tourTemplate>({
-            templateId: 'cardTourV1',
+          cardConfig({
+            templateId: 'cardHeroV1',
             userConfig: {
               items: [
                 {
@@ -111,11 +107,11 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
           }),
         ],
       }),
-      await factory.fromTemplate({
+      cardConfig({
         templateId: 'cardPageAreaV1',
         userConfig: {},
         cards: [
-          // await factory.fromTemplate<typeof templateMetrics>({
+          // await cardConfig<typeof templateMetrics>({
           //   templateId: 'cardMetricsV1',
           //   userConfig: {
           //     items: [
@@ -138,7 +134,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
           //     ],
           //   },
           // }),
-          await factory.fromTemplate<typeof templateQuotes>({
+          cardConfig({
             templateId: 'cardQuotesV1',
             userConfig: {
               items: [
@@ -186,7 +182,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
           }),
         ],
       }),
-      await factory.fromTemplate({
+      cardConfig({
         templateId: 'cardPageAreaV1',
         userConfig: {
           standard: {
@@ -204,29 +200,30 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
           },
         },
         cards: [
-          await factory.fromTemplate<typeof heroTemplate>({
+          cardConfig({
             templateId: 'cardHeroV1',
             userConfig: {
-              standard: {
-                spaceSize: 'lg',
-              },
-              superTitle: {
-                icon: { iconId: 'rocket' },
-                text: 'Feeling frustrated? The solution is here.',
-                theme: 'orange',
-              },
-              title: `Your Story Is [@text_effect type=squiggle]Worth Telling[/@text_effect]`,
-              subTitle: `Lots of people struggle to build a personal brand! Fiction simplifies the process, give it a try and see the difference.`,
-              action: {
-                buttons: [
-                  {
-                    label: 'Start Now',
-                    icon: 'i-tabler-rocket',
-                    href: '/app/auth/register?_reload=1',
-                    theme: 'primary',
+              items: [
+                {
+                  superTitle: {
+                    icon: { iconId: 'rocket' },
+                    text: 'Feeling frustrated? The solution is here.',
+                    theme: 'orange',
                   },
-                ],
-              },
+                  title: `Your Story Is [@text_effect type=squiggle]Worth Telling[/@text_effect]`,
+                  subTitle: `Lots of people struggle to build a personal brand! Fiction simplifies the process, give it a try and see the difference.`,
+                  action: {
+                    buttons: [
+                      {
+                        label: 'Start Now',
+                        icon: 'i-tabler-rocket',
+                        href: '/app/auth/register?_reload=1',
+                        theme: 'primary',
+                      },
+                    ],
+                  },
+                },
+              ],
             },
           }),
         ],

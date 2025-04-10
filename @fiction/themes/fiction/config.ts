@@ -1,11 +1,10 @@
-import type { template as faqTemplate } from '@fiction/cards/content-faq'
-import type { template as heroTemplate } from '@fiction/cards/content-hero'
-import type { template as cardTextEffectV1 } from '@fiction/cards/effect-text/index.js'
-import type { template as mapsTemplate, MapUserConfig } from '@fiction/cards/location-maps/index.js'
-import type { template as cardModalMediaV1 } from '@fiction/cards/modal-media/index.js'
-import type { template as areaTemplate } from '@fiction/cards/page/area/index.js'
-import type { template as footerProTemplate } from '@fiction/cards/page/footer-pro/index.js'
-import type { template as navTemplate } from '@fiction/cards/page/nav/index.js'
+import type { template as footerProTemplate } from '@fiction/cards/pro/footer-pro/index.js'
+import type { template as areaTemplate } from '@fiction/cards/standard/area/index.js'
+import type { template as cardModalMediaV1 } from '@fiction/cards/standard/mediaModal/index.js'
+import type { template as navTemplate } from '@fiction/cards/standard/nav/index.js'
+import type { template as faqTemplate } from '@fiction/cards/user/faq'
+import type { template as heroTemplate } from '@fiction/cards/user/hero'
+import type { template as mapsTemplate, MapUserConfig } from '@fiction/cards/user/maps/index.js'
 import type { NavItem } from '@fiction/core'
 import type { Site, ThemeConfig } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
@@ -18,6 +17,7 @@ import favicon from '@fiction/ui/brand/favicon.svg'
 
 import icon from '@fiction/ui/brand/icon.png'
 import shareImage from '@fiction/ui/brand/shareImage.png'
+import { factory } from 'typescript'
 import * as affiliate from './affiliate/index.js'
 import { getDemosPage } from './demos/index.js'
 import * as developer from './developer/index.js'
@@ -272,12 +272,7 @@ export async function getConfig(args: {
       })
     },
     sections: {
-      hidden: await factory.fromTemplate({
-        cards: [
-          await factory.fromTemplate<typeof cardModalMediaV1>({ templateId: 'cardModalMediaV1', userConfig: { } }),
-          await factory.fromTemplate<typeof cardTextEffectV1>({ templateId: 'cardTextEffectV1', userConfig: { } }),
-        ],
-      }),
+
       header: await factory.fromTemplate({
         cards: [
           await factory.fromTemplate<typeof navTemplate>({
@@ -319,13 +314,13 @@ export async function getConfig(args: {
                 action: {
                   buttons: [
                     {
-                      label: 'Get Started',
+                      label: 'Start',
                       theme: 'primary',
                       icon: { iconId: 'bolt' },
                       href: '/app/auth/register?_reload=1',
                     },
                     {
-                      label: 'Talk to Sales',
+                      label: 'Contact',
                       theme: 'default',
                       icon: { iconId: 'phone' },
                       href: 'mailto:hello@fiction.com',

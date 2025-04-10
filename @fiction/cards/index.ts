@@ -1,10 +1,11 @@
 import type { FictionEnv, FictionPluginSettings, FictionRouter, NavListItem } from '@fiction/core'
-import type { FictionSites } from '@fiction/site'
-import type { CardTemplate } from '@fiction/site/card'
+import type { CardConfigPortable, FictionSites } from '@fiction/site'
+import type { CardSettings, CardTemplate, CardTemplateSettings } from '@fiction/site/card'
 import type { CardFactory } from '@fiction/site/cardFactory'
+import type { CardOptionsWithStandard, StandardUserConfig } from '@fiction/site/schema'
 import type { Site } from '@fiction/site/site.js'
 import { envConfig, FictionPlugin, log, safeDirname, toKebab, toLabel, vue } from '@fiction/core'
-import { cardTemplate } from '@fiction/site/card'
+import { Card, cardTemplate } from '@fiction/site/card'
 import { generateCardStructure } from './utils/generateStructure'
 
 const logger = log.contextLogger('cardLoading')
@@ -21,30 +22,29 @@ type TemplateGroup = {
   templates: (() => Promise<{ template: CardTemplate<any> }>)[]
 }
 
-const templateGroups: TemplateGroup[] = [
+const templateGroups = [
 
   {
     label: 'Marketing Essentials',
     description: 'Showcase your identity and value proposition',
     templates: [
-      () => import('./content-hero'), // -> hero-banner
-      () => import('./content-profile'), // -> about-profile
-      () => import('./content-story'), // -> brand-story
-      () => import('./content-features'), // -> value-features
-      () => import('./slider-statement'), // -> brand-statement
-      () => import('./content-bento'), // -> feature-grid
-      () => import('./content-people'), // -> team-showcase
+      () => import('./user/hero'),
+      () => import('./user/profile'),
+      () => import('./user/story'),
+      () => import('./user/features'),
+      () => import('./user/bento'),
+      () => import('./user/people'),
     ],
   },
   {
     label: 'Social Proof',
     description: 'Build credibility with testimonials and achievements',
     templates: [
-      () => import('./proof-testimonials'), // -> client-testimonials
-      () => import('./proof-quotes'), // -> quote-showcase
-      () => import('./proof-metrics'), // -> success-metrics
-      () => import('./proof-logos'), // -> partner-logos
-      () => import('./gallery-showcase'), // -> client-showcase
+      () => import('./user/testimonials'),
+      () => import('./user/quotes'),
+      () => import('./user/metrics'),
+      () => import('./user/logos'),
+      () => import('./user/showcase'),
     ],
   },
   {
@@ -53,73 +53,99 @@ const templateGroups: TemplateGroup[] = [
     templates: [
       () => import('./posts/list'),
       () => import('./posts/magazine'),
-      () => import('./social-insta'),
-      () => import('./content-steps'),
-      () => import('./content-faq'),
-      () => import('./content-timeline'),
+      () => import('./user/steps'),
+      () => import('./user/faq'),
+      () => import('./user/timeline'),
     ],
   },
   {
     label: 'Media Gallery',
     description: 'Showcase your work through rich media',
     templates: [
-      () => import('./slider-cinema/index'),
-      () => import('./gallery-masonry'),
-      () => import('./modal-media'),
-      () => import('./content-tour'),
+      () => import('./user/masonryGallery'),
+      () => import('./standard/mediaModal'),
     ],
   },
   {
     label: 'Conversion',
     description: 'Turn visitors into connections',
     templates: [
-      () => import('./convert-cta'),
-      () => import('./convert-capture'),
-      () => import('./convert-contact'),
-      () => import('./convert-pricing'),
-      () => import('./location-maps'),
+      () => import('./standard/capture'),
+      () => import('./user/contact'),
+      () => import('./pro/pricing'),
+      () => import('./user/maps'),
     ],
   },
   {
     label: 'Nav & Structure',
     description: 'Essential layout components for your site foundation',
     templates: [
-      () => import('./page/wrap'),
-      () => import('./page/area'),
-      () => import('./page/nav'),
-      () => import('./page/footer-pro'),
-      () => import('./page/footer-personal'),
+      () => import('./standard/wrap'),
+      () => import('./standard/area'),
+      () => import('./standard/nav'),
+      () => import('./user/faq'),
+      () => import('./pro/footer-pro'),
     ],
   },
   {
     label: 'Sliders & Carousels',
     description: 'Add dynamic flair to your content',
     templates: [
-      () => import('./media-marquee'),
-      () => import('./slider-overlay'),
-      () => import('./typography-ticker'),
-      () => import('./gallery-parallax-scroll'),
+      () => import('./user/marquee'),
+      () => import('./user/overlaySlider'),
+      () => import('./user/ticker'),
+      () => import('./user/parallaxScroll'),
     ],
   },
   {
     label: 'Effects & Utility',
     description: 'Essential functional components',
     templates: [
-      () => import('./typography-fit-text'),
-      () => import('./effect-shape'),
-      () => import('./effect-text'),
-      () => import('./page/error404'),
-      () => import('./page/transaction'),
+      () => import('./user/fitText'),
+      () => import('./standard/textEffects'),
+      () => import('./standard/error404'),
+      () => import('./standard/transaction'),
     ],
   },
-]
+] as const satisfies TemplateGroup[]
+
+type TemplateImportFn = typeof templateGroups[number]['templates'][number]
+type TemplatePromise = ReturnType<TemplateImportFn>
+type TemplateResult = Awaited<TemplatePromise>
+type AllTemplates = TemplateResult['template']
+
+// Create a mapped type that associates templateId with its specific userConfig
+type TemplateConfigMap = {
+  [T in AllTemplates as T['settings']['templateId']]: T['settings'] extends CardTemplateSettings<infer S>
+    ? S extends { userConfig: infer U }
+      ? U
+      : Record<string, unknown>
+    : Record<string, unknown>
+}
+
+// Utility type to infer userConfig based on templateId
+type InferUserConfig<T extends keyof TemplateConfigMap> = T extends string
+  ? TemplateConfigMap[T] & CardOptionsWithStandard
+  : Record<string, unknown>
+
+export function cardConfig<T extends keyof TemplateConfigMap>(args: {
+  templateId?: T
+  userConfig?: InferUserConfig<T>
+} & Omit<CardSettings, 'templateId' | 'userConfig'>): CardConfigPortable<InferUserConfig<T> & StandardUserConfig> {
+  const { templateId, userConfig, ...settings } = args
+  return new Card({
+    templateId: templateId as string | undefined,
+    userConfig: userConfig as any, // Type assertion still needed but better typed
+    ...settings,
+  }).toConfig()
+}
 
 // Type utilities for template configuration
 type TemplateModule = { template: CardTemplate<any> }
 
 async function getTemplateModules(): Promise<TemplateModule[]> {
   // Flatten the nested template structure for parallel loading
-  const templateEntries = templateGroups.flatMap(category => category.templates)
+  const templateEntries = (templateGroups as TemplateGroup[]).flatMap(category => category.templates)
 
   // Load all templates in parallel with error handling
   const results = await Promise.allSettled(

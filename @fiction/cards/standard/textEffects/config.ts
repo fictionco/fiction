@@ -1,6 +1,5 @@
-import type { template as featuresTemplate } from '@fiction/cards/content-features'
-import type { template as heroTemplate } from '@fiction/cards/content-hero'
-import type { template as callToActionTemplate } from '@fiction/cards/convert-cta'
+import type { template as featuresTemplate } from '@fiction/cards/user/features'
+import type { template as heroTemplate } from '@fiction/cards/user/hero'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import { z } from 'zod'
 
@@ -61,26 +60,7 @@ export async function getConfig(_args: { factory: CardFactory, templateId: strin
             },
           },
         }),
-        await factory.fromTemplate<typeof callToActionTemplate>({
-          templateId: 'cardCtaV1',
-          userConfig: {
-            title: 'Ready to [@text_effect type=circle theme=primary]Transform[/@text_effect] Your Content?',
-            subTitle: 'Start adding [@text_effect type=line theme=emerald]eye-catching effects[/@text_effect] to your text with simple shortcodes.',
-            action: {
-              buttons: [
-                {
-                  label: 'Get Started',
-                  theme: 'primary',
-                  design: 'solid',
-                },
-                {
-                  label: 'Learn More',
-                  design: 'ghost',
-                },
-              ],
-            },
-          },
-        }),
+
       ],
     },
   }

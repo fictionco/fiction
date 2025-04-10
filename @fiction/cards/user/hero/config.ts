@@ -1,5 +1,5 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
-import type { InputOption } from '@fiction/ui'
+import type { StockMedia } from '@fiction/ui/stock'
 import { ActionAreaSchema, MediaBasicSchema, SuperTitleSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -10,7 +10,7 @@ const LayerMediaScheme = z.object({
   widthPercent: z.number().optional().describe('Layer width %'),
 })
 
-export const schema = z.object({
+export const HeroSchema = z.object({
   layout: z.enum(['justify', 'center', 'left', 'right']).optional().describe('Content alignment'),
   title: z.string().optional().describe('Main headline (3-13 words) [@ai]'),
   subTitle: z.string().optional().describe('Supporting message (10-30 words) [@ai]'),
@@ -20,19 +20,16 @@ export const schema = z.object({
   action: ActionAreaSchema.optional().describe('Call-to-action buttons [@ai]'),
   overlays: z.array(LayerMediaScheme).optional().describe('Decorative image layers'),
 })
+
+export type HeroConfig = z.infer<typeof HeroSchema>
+
+export const schema = z.object({
+  items: z.array(HeroSchema).describe('Your story chapters - each a unique visual narrative'),
+})
+
 type UserConfig = z.infer<typeof schema>
 
-// Default configuration showcasing best practices
-const defaultContent: UserConfig = {
-  title: 'Enter Your Title',
-  subTitle: 'Write a sentence or two that adds context to your headline',
-  action: {
-    buttons: [],
-  },
-}
-
-// Structured input options for the design interface
-export function getOptions(): InputOption[] {
+export function getHeroOptions() {
   return [
     createOption({
       key: 'content',
@@ -44,32 +41,32 @@ export function getOptions(): InputOption[] {
           key: 'title',
           label: 'Title',
           input: 'InputText',
-          schema,
+          schema: HeroSchema,
         }),
         createOption({
           key: 'subTitle',
           label: 'Sub Title',
           input: 'InputTextarea',
           props: { rows: 3 },
-          schema,
+          schema: HeroSchema,
         }),
         createOption({
           key: 'superTitle',
           input: 'InputSuperTitle',
           isClosed: true,
-          schema,
+          schema: HeroSchema,
         }),
         createOption({
           key: 'action.buttons',
           label: 'Buttons',
           input: 'InputActions',
-          schema,
+          schema: HeroSchema,
         }),
         createOption({
           key: 'media',
           label: 'Media',
           input: 'InputMedia',
-          schema,
+          schema: HeroSchema,
         }),
 
         createOption({
@@ -77,12 +74,12 @@ export function getOptions(): InputOption[] {
           label: 'Image Overlays',
           icon: { class: 'i-tabler-layers-subtract' },
           input: 'group',
-          schema,
+          schema: HeroSchema,
           isClosed: true,
           options: [
             createOption({
               input: 'InputList',
-              schema,
+              schema: HeroSchema,
               key: 'overlays',
               props: { itemName: 'Overlay' },
               options: [
@@ -90,7 +87,7 @@ export function getOptions(): InputOption[] {
                   key: 'overlays.0.media',
                   label: 'Overlay Image',
                   input: 'InputMedia',
-                  schema,
+                  schema: HeroSchema,
                 }),
                 createOption({
                   key: 'overlays.0.position',
@@ -105,14 +102,14 @@ export function getOptions(): InputOption[] {
                     { label: 'Bottom Right', value: 'bottomRight' },
                     { label: 'Center', value: 'center' },
                   ],
-                  schema,
+                  schema: HeroSchema,
                 }),
                 createOption({
                   key: 'overlays.0.widthPercent',
                   label: 'Width %',
                   input: 'InputRange',
                   props: { min: 0, max: 100, step: 5, startValue: 30 },
-                  schema,
+                  schema: HeroSchema,
                 }),
               ],
             }),
@@ -138,9 +135,10 @@ export function getOptions(): InputOption[] {
             { value: 'right' },
             { value: 'justify' },
           ],
-          schema,
+          schema: HeroSchema,
         }),
         createOption({
+          schema: HeroSchema,
           key: 'media.aspect',
           label: 'Media Aspect',
           input: 'InputRadioButton',
@@ -156,82 +154,126 @@ export function getOptions(): InputOption[] {
   ]
 }
 
-// Demo configurations showing various use cases
-async function getDemoPage(args: { templateId: string, factory: CardFactory }) {
-  const { templateId, factory } = args
-  const stock = await factory.getStockMedia()
-  const splash = (aspect: 'aspect:square' | 'aspect:portrait' = 'aspect:square') => stock.getRandomByTags(['object', aspect])
+const options = [
+  createOption({
+    input: 'group',
+    key: 'group.items',
+    label: 'Hero Items',
+    icon: { class: 'i-tabler-list' },
+    options: [
+      createOption({
+        key: 'items',
+        input: 'InputList',
+        props: {
+          itemName: 'Hero',
+          itemLabel: args => (args?.item as HeroConfig)?.title ?? 'Untitled',
+        },
+        options: getHeroOptions(),
+      }),
+    ],
+  }),
+]
 
-  const cards: { templateId: string, userConfig: UserConfig }[] = [
-    // Product Launch Hero
-    {
-      templateId,
-      userConfig: {
+// Structured input options for the design interface
+
+async function getDemoContent(args: { templateId: string, stock: StockMedia }) {
+  const { stock, templateId } = args
+
+  const userConfig = {
+    items: [
+      {
         layout: 'right',
-        title: 'Revolutionize Your Workspace',
-        subTitle: 'Experience the future of productivity with our AI-powered platform. Automate tasks, collaborate seamlessly, and achieve more in less time.',
-        superTitle: { text: 'New Release', icon: { class: 'i-tabler-sparkles' }, theme: 'blue' },
-
-        media: splash('aspect:portrait'),
+        title: 'Witness Your Vision Take Flight',
+        subTitle: 'Watch as your ideas transform into stunning reality. Our intuitive platform empowers creators to build remarkable experiences with confidence.',
+        superTitle: {
+          text: 'Begin Your Journey',
+          icon: { class: 'i-tabler-rocket' },
+          theme: 'blue',
+        },
+        media: stock.getRandomByTags(['aspect:landscape']),
+        overlays: [
+          { media: stock.getRandomByTags(['object']), position: 'bottomLeft', widthPercent: 25 },
+          { media: stock.getRandomByTags(['abstract']), position: 'topRight', widthPercent: 25 },
+        ],
         action: {
           buttons: [
-            { label: 'Start Free Trial', theme: 'primary', design: 'solid', size: 'xl' },
-            { label: 'Watch Demo', theme: 'default', design: 'ghost', size: 'xl' },
+            { label: 'Start Creating', theme: 'primary', design: 'solid' },
+            { label: 'See Examples', theme: 'default', design: 'ghost' },
           ],
         },
       },
-    },
-    // Service Showcase Hero
-    {
-      templateId,
-      userConfig: {
+      {
         layout: 'left',
-        title: 'Craft Your Perfect Digital Presence',
-        subTitle: 'From stunning websites to powerful marketing tools, we provide everything you need to grow your online business and connect with your audience.',
-        superTitle: { text: 'Professional Services', icon: { class: 'i-tabler-brush' }, theme: 'purple' },
-        media: splash('aspect:portrait'),
+        title: 'Craft Stories That Captivate',
+        subTitle: 'Feel the difference as you shape narratives that resonate. Our tools help you create emotional connections that turn visitors into devoted followers.',
+        superTitle: {
+          text: 'Master Storytelling',
+          icon: { class: 'i-tabler-brush' },
+          theme: 'purple',
+        },
+        media: stock.getRandomByTags(['object', 'aspect:landscape']),
+        overlays: [
+          { media: stock.getRandomByTags(['object']), position: 'bottomRight', widthPercent: 30 },
+        ],
         action: {
           buttons: [
-            { label: 'Explore Services', theme: 'primary', design: 'solid', size: 'xl' },
-            { label: 'View Portfolio', theme: 'default', design: 'ghost', size: 'xl' },
+            { label: 'Explore Tools', theme: 'primary', design: 'solid' },
+            { label: 'View Gallery', theme: 'default', design: 'ghost' },
           ],
         },
       },
-    },
-    // Event Promotion Hero
-    {
-      templateId,
-      userConfig: {
+      {
         layout: 'center',
-        title: 'Join the Future of Tech',
-        subTitle: 'Be part of the largest virtual tech conference of 2024. Connect with industry leaders, discover emerging trends, and shape the future of technology.',
-        superTitle: { text: 'Virtual Summit 2024', icon: { class: 'i-tabler-calendar-event' }, theme: 'indigo' },
-        media: splash(),
+        title: 'Unleash Your Creative Power',
+        subTitle: 'Experience the freedom to experiment boldly. Our platform gives you the confidence to push boundaries and create unforgettable digital experiences.',
+        superTitle: {
+          text: 'Limitless Creativity',
+          icon: { class: 'i-tabler-sparkles' },
+          theme: 'indigo',
+        },
+        media: stock.getRandomByTags(['abstract', 'aspect:landscape']),
+        overlays: [
+          { media: stock.getRandomByTags(['object']), position: 'bottomLeft', widthPercent: 25 },
+          { media: stock.getRandomByTags(['object']), position: 'topRight', widthPercent: 25 },
+        ],
         action: {
           buttons: [
-            { label: 'Register Now', theme: 'primary', design: 'solid', size: 'xl' },
-            { label: 'View Schedule', theme: 'default', design: 'ghost', size: 'xl' },
+            { label: 'Get Started Now', theme: 'primary', design: 'solid', icon: { iconId: 'rocket' } },
+            { label: 'Watch Demo', theme: 'default', design: 'ghost' },
           ],
         },
       },
-    },
-    {
-      templateId,
-      userConfig: defaultContent,
-    },
-  ]
+    ],
+  }
 
   return {
-    cards,
+    templateId,
+    userConfig,
+  }
+}
+
+function getDefaultContent(): UserConfig {
+  return {
+    items: [
+      {
+        title: 'Hello',
+        subTitle: 'This is a sample subtitle',
+        action: {
+          buttons: [],
+        },
+      },
+    ],
   }
 }
 
 export async function getConfig(args: { templateId: string, factory: CardFactory }) {
+  const stock = await args.factory.getStockMedia()
+  const demoPage = await getDemoContent({ ...args, stock })
   return {
     schema,
-    options: getOptions(),
-    userConfig: defaultContent,
-    demoPage: await getDemoPage(args),
+    options,
+    userConfig: getDefaultContent(),
+    demoPage,
   }
 }
 

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { UserConfig } from '.'
-import type { UserConfig as HeroUserConfig } from '../content-hero/config'
+import type { HeroConfig } from './config'
 import { vue } from '@fiction/core'
 import { Card } from '@fiction/site'
-import ElHero from '../content-hero/ElHero.vue'
+import ElHero from './ElHero.vue'
 
 const { card } = defineProps<{
   card: Card<UserConfig>
@@ -11,7 +11,7 @@ const { card } = defineProps<{
 
 const uc = vue.computed(() => card.userConfig.value || {})
 
-function createHeroCard(item: HeroUserConfig, index: number) {
+function createHeroCard(item: HeroConfig, index: number) {
   return new Card({
     cardId: card.cardId,
     templateId: 'cardHeroV1',
