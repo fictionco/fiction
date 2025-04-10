@@ -36,7 +36,7 @@ const textWrapClass = vue.computed(() => {
     out.push('text-left')
 
   else if (layout === 'right')
-    out.push('text-right')
+    out.push('text-left')
 
   else
     out.push('mx-auto text-left md:text-center')

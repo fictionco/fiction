@@ -7,6 +7,14 @@ import type { template as templateQuotes } from '@fiction/cards/proof-quotes/ind
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StockMedia } from '@fiction/ui/stock/index.js'
 
+import ImageAi from './img/ai.png'
+import ImageAudience from './img/audience.png'
+import ImageFigMoney from './img/fig-money-alt-1.svg'
+import ImageSubscribe from './img/fig-subscribe-alt-1.svg'
+import ImageManSmiling from './img/man-smiling.png'
+import ImageMeeting from './img/meeting.png'
+import ImageWebsite from './img/website.svg'
+
 export async function getTourPage(args: { factory: CardFactory, stock: StockMedia }) {
   const { factory } = args
   return factory.fromTemplate({
@@ -27,7 +35,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                 icon: { class: 'i-tabler-arrow-up-right' },
               },
               title: `The Most Reliable Way to Improve Your [@text_effect type=squiggle]Results[/@text_effect]`,
-              subTitle: `Building your personal brand is the most effective way to drive new opportunities, raise investment, attract talent and grow your business.`,
+              subTitle: `The most effective way to drive new opportunities, and grow your business.`,
 
               action: {
                 buttons: [
@@ -56,8 +64,8 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   },
                   title: 'A Professional Website for Your Aspirations',
                   subTitle: `Over 80% of people research you online before meeting with you. Your professional avatar sets your first impression.`,
-                  media: { url: new URL('img/man-smiling.png', import.meta.url).href },
-                  overlays: [{ media: { url: new URL('img/website.svg', import.meta.url).href }, widthPercent: 50 }],
+                  media: { url: ImageManSmiling },
+                  overlays: [{ media: { url: ImageWebsite }, widthPercent: 50 }],
                   action: {},
                 },
                 {
@@ -69,8 +77,8 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   },
                   title: 'Content and Email Marketing made Simple',
                   subTitle: `The best way to connect with leaders in your field is to build your personal brand and share your expertise.`,
-                  media: { url: new URL('img/audience.png', import.meta.url).href },
-                  overlays: [{ media: { url: new URL('img/fig-subscribe-alt-1.svg', import.meta.url).href } }],
+                  media: { url: ImageAudience },
+                  overlays: [{ media: { url: ImageSubscribe } }],
                   action: {},
                 },
                 {
@@ -82,8 +90,8 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   },
                   title: 'Build Your Reputation Network',
                   subTitle: `Invite and connect with leaders and colleagues across Fiction's network of sites.`,
-                  media: { url: new URL('img/meeting.png', import.meta.url).href },
-                  overlays: [{ media: { url: new URL('img/fig-money-alt-1.svg', import.meta.url).href } }],
+                  media: { url: ImageMeeting },
+                  overlays: [{ media: { url: ImageFigMoney } }],
                   action: {},
                 },
                 {
@@ -95,7 +103,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   },
                   title: 'AI-Enhanced Creation',
                   subTitle: `Fiction tastefully integrates AI to enhance what makes you unique, help you stay focused, and execute on your vision.`,
-                  media: { url: new URL('img/ai.png', import.meta.url).href },
+                  media: { url: ImageAi },
                   action: {},
                 },
               ],

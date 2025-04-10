@@ -4,6 +4,7 @@ import type { CardOptionsWithStandard } from '@fiction/site/schema'
 import { getColorScheme, vue } from '@fiction/core'
 import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 import XMedia from '@fiction/ui/media/XMedia.vue'
+import CardToolDropdown from './CardToolDropdown.vue'
 import StandardHeader from './el/StandardHeader.vue'
 
 const props = defineProps({
@@ -77,25 +78,6 @@ vue.watch(() => standardUc.value?.fonts, (fontStyle) => {
     site.userFonts.value = { ...site.userFonts.value, ...addFonts }
   }
 }, { immediate: true })
-
-const editDropdownVisible = vue.ref(false)
-
-const editDropdownItems = vue.computed(() => {
-  const items = [
-    { value: 'edit', icon: 'icon-edit' },
-    { label: 'Add/Move', value: 'add', icon: 'icon-plus' },
-    { value: 'delete', icon: 'icon-delete' },
-  ] as const
-
-  return items
-})
-
-function handleEditDropdownClick(item: { value: 'delete' | 'edit' | 'add' }) {
-  const action = item.value
-  const card = props.card
-  editDropdownVisible.value = false
-  card?.site?.setActiveCard({ cardId: card.cardId, action })
-}
 </script>
 
 <template>
@@ -116,7 +98,6 @@ function handleEditDropdownClick(item: { value: 'delete' | 'edit' | 'add' }) {
     :data-primary-scheme="colorScheme?.primary"
     :data-theme-scheme="colorScheme?.theme"
     :data-space-size="card.fullConfig.value?.standard?.spaceSize"
-    @mouseleave="editDropdownVisible = false"
   >
     <div class="w-full relative text-theme-950 dark:text-theme-50 x-font-body ">
       <div>
@@ -133,28 +114,12 @@ function handleEditDropdownClick(item: { value: 'delete' | 'edit' | 'add' }) {
         </div>
       </div>
     </div>
-    <div
+    <CardToolDropdown
       v-if="props.card?.site?.isEditable.value"
-      class="z-40 opacity-0 group-hover/engine:opacity-100 transition-all bg-blue-500 dark:bg-blue-600/60 dark:hover:bg-blue-600/80 hover:z-20 cursor-pointer py-[1px] px-1.5 text-blue-100 font-sans text-[10px] absolute top-0 flex gap-0.5 items-center justify-center "
-      :class="card.tpl.value?.settings.isContainer ? 'left-0' : 'right-0'"
-      @click.stop="editDropdownVisible = !editDropdownVisible"
-    >
-      <div>{{ card.tpl.value?.settings.title }}</div>
-      <div class="i-tabler-chevron-down" />
-      <div
-        v-if="editDropdownVisible"
-        class="dd absolute top-full w-full bg-blue-500 dark:bg-blue-600/60"
-      >
-        <div
-          v-for="(item, i) in editDropdownItems"
-          :key="i"
-          class="py-1 px-1.5 hover:bg-blue-600 dark:hover:bg-blue-700 capitalize cursor-pointer"
-          @click.stop="handleEditDropdownClick(item)"
-        >
-          {{ item.value }}
-        </div>
-      </div>
-    </div>
+      :card="props.card"
+      class="absolute top-3 opacity-40 group-hover/engine:opacity-100"
+      :class="card.tpl.value?.settings.isContainer ? 'left-3' : 'right-3'"
+    />
     <XMedia
       v-if="colorScheme?.background"
       class="object-cover w-full h-full absolute inset-0 pointer-events-none -z-10"

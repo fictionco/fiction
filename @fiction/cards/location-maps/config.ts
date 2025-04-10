@@ -67,112 +67,30 @@ export function getOptions() {
   return [
     createOption({
       schema,
-      input: 'InputList',
-      label: 'Maps',
-      key: 'maps',
-      props: {
-        itemName: 'Map',
-        itemLabel: args => `Map ${(args?.item as MapUserConfig)?.mapStyle || (args.index ? args.index + 1 : '')}`,
-      },
+      input: 'group',
+      label: 'Content',
+      icon: { class: 'i-tabler-map' },
+      key: 'group.maps',
       options: [
         createOption({
-          input: 'group',
-          key: 'locationGroup',
-          label: 'Location',
-          icon: { class: 'i-tabler-map-pin' },
+          schema,
+          input: 'InputList',
+          label: 'Maps',
+          key: 'maps',
+          props: {
+            itemName: 'Map',
+            itemLabel: args => `Map ${(args?.item as MapUserConfig)?.mapStyle || (args.index ? args.index + 1 : '')}`,
+          },
           options: [
             createOption({
-              schema,
-              key: 'maps.0.lat',
-              label: 'Latitude',
-              input: 'InputNumber',
-              props: {
-                step: 0.000001,
-                precision: 6,
-              },
-            }),
-            createOption({
-              schema,
-              key: 'maps.0.lng',
-              label: 'Longitude',
-              input: 'InputNumber',
-              props: {
-                step: 0.000001,
-                precision: 6,
-              },
-            }),
-          ],
-        }),
-
-        createOption({
-          input: 'group',
-          key: 'settingsGroup',
-          label: 'Settings',
-          icon: { class: 'i-tabler-settings' },
-          options: [
-            createOption({
-              schema,
-              key: 'maps.0.zoom',
-              label: 'Zoom Level',
-              input: 'InputRange',
-              props: { min: 1, max: 20 },
-            }),
-            createOption({
-              schema,
-              key: 'maps.0.pitch',
-              label: 'Tilt Angle',
-              input: 'InputRange',
-              props: { min: 0, max: 85 },
-            }),
-            createOption({
-              schema,
-              key: 'maps.0.mapStyle',
-              label: 'Map Style',
-              input: 'InputSelect',
-              list: mapStyles.map(style => ({
-                label: style.charAt(0).toUpperCase() + style.slice(1).replace(/-/g, ' '),
-                value: style,
-              })),
-            }),
-            createOption({
-              schema,
-              key: 'maps.0.aspectRatio',
-              label: 'Aspect Ratio',
-              input: 'InputSelect',
-              list: aspectRatios.map(ratio => ({
-                label: ratio.charAt(0).toUpperCase() + ratio.slice(1),
-                value: ratio,
-              })),
-            }),
-            createOption({
-              schema,
-              key: 'maps.0.customRatio',
-              label: 'Custom Aspect Ratio',
-              input: 'InputText',
-              props: { placeholder: '16:9' },
-            }),
-          ],
-        }),
-
-        createOption({
-          input: 'group',
-          key: 'markersGroup',
-          label: 'Markers',
-          icon: { class: 'i-tabler-map-pin' },
-          options: [
-            createOption({
-              schema,
-              input: 'InputList',
-              label: 'Markers',
-              key: 'maps.0.markers',
-              props: {
-                itemName: 'Location Pin',
-                itemLabel: args => (args?.item as MarkerConfig)?.label ?? 'Location Pin',
-              },
+              input: 'group',
+              key: 'locationGroup',
+              label: 'Location',
+              icon: { class: 'i-tabler-map-pin' },
               options: [
                 createOption({
                   schema,
-                  key: 'maps.0.markers.0.lat',
+                  key: 'maps.0.lat',
                   label: 'Latitude',
                   input: 'InputNumber',
                   props: {
@@ -182,7 +100,7 @@ export function getOptions() {
                 }),
                 createOption({
                   schema,
-                  key: 'maps.0.markers.0.lng',
+                  key: 'maps.0.lng',
                   label: 'Longitude',
                   input: 'InputNumber',
                   props: {
@@ -190,22 +108,114 @@ export function getOptions() {
                     precision: 6,
                   },
                 }),
+              ],
+            }),
+
+            createOption({
+              input: 'group',
+              key: 'settingsGroup',
+              label: 'Settings',
+              icon: { class: 'i-tabler-settings' },
+              options: [
                 createOption({
                   schema,
-                  key: 'maps.0.markers.0.label',
-                  label: 'Tooltip Label',
+                  key: 'maps.0.zoom',
+                  label: 'Zoom Level',
+                  input: 'InputRange',
+                  props: { min: 1, max: 20 },
+                }),
+                createOption({
+                  schema,
+                  key: 'maps.0.pitch',
+                  label: 'Tilt Angle',
+                  input: 'InputRange',
+                  props: { min: 0, max: 85 },
+                }),
+                createOption({
+                  schema,
+                  key: 'maps.0.mapStyle',
+                  label: 'Map Style',
+                  input: 'InputSelect',
+                  list: mapStyles.map(style => ({
+                    label: style.charAt(0).toUpperCase() + style.slice(1).replace(/-/g, ' '),
+                    value: style,
+                  })),
+                }),
+                createOption({
+                  schema,
+                  key: 'maps.0.aspectRatio',
+                  label: 'Aspect Ratio',
+                  input: 'InputSelect',
+                  list: aspectRatios.map(ratio => ({
+                    label: ratio.charAt(0).toUpperCase() + ratio.slice(1),
+                    value: ratio,
+                  })),
+                }),
+                createOption({
+                  schema,
+                  key: 'maps.0.customRatio',
+                  label: 'Custom Aspect Ratio',
                   input: 'InputText',
-                  props: {
-                    placeholder: 'Location description',
-                  },
+                  props: { placeholder: '16:9' },
                 }),
               ],
             }),
+
+            createOption({
+              input: 'group',
+              key: 'markersGroup',
+              label: 'Markers',
+              icon: { class: 'i-tabler-map-pin' },
+              options: [
+                createOption({
+                  schema,
+                  input: 'InputList',
+                  label: 'Markers',
+                  key: 'maps.0.markers',
+                  props: {
+                    itemName: 'Location Pin',
+                    itemLabel: args => (args?.item as MarkerConfig)?.label ?? 'Location Pin',
+                  },
+                  options: [
+                    createOption({
+                      schema,
+                      key: 'maps.0.markers.0.lat',
+                      label: 'Latitude',
+                      input: 'InputNumber',
+                      props: {
+                        step: 0.000001,
+                        precision: 6,
+                      },
+                    }),
+                    createOption({
+                      schema,
+                      key: 'maps.0.markers.0.lng',
+                      label: 'Longitude',
+                      input: 'InputNumber',
+                      props: {
+                        step: 0.000001,
+                        precision: 6,
+                      },
+                    }),
+                    createOption({
+                      schema,
+                      key: 'maps.0.markers.0.label',
+                      label: 'Tooltip Label',
+                      input: 'InputText',
+                      props: {
+                        placeholder: 'Location description',
+                      },
+                    }),
+                  ],
+                }),
+              ],
+            }),
+
           ],
         }),
-
       ],
     }),
+
   ]
 }
 
