@@ -2,7 +2,7 @@
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './config.js'
 import { vue } from '@fiction/core'
-import CardText from '../CardText.vue'
+import CardText from '../../CardText.vue'
 import StandardTeam from './StandardTeam.vue'
 
 const props = defineProps({

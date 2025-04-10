@@ -2,7 +2,7 @@
 import type { Card } from '@fiction/site'
 import type { FictionTransactions } from '.'
 import type { EmailAction, EmailVars } from './action'
-import TransactionWrap from '@fiction/cards/page/transaction/TransactionWrap.vue'
+import TransactionWrap from '@fiction/cards/standard/transaction/TransactionWrap.vue'
 import { toCamel, useService, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'

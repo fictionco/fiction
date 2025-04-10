@@ -5,8 +5,8 @@ import { vue } from '@fiction/core'
 import { pathCheck } from '@fiction/core/utils/schemas.js'
 import EffectCarousel from '@fiction/ui/effect/EffectCarousel.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import CardText from '../CardText.vue'
-import NavDots from '../el/NavDots.vue'
+import CardText from '../../CardText.vue'
+import NavDots from '../../el/NavDots.vue'
 
 import { schema } from './config'
 

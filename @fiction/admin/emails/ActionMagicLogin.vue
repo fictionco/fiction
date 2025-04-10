@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site'
 import type { FictionAdmin } from '..'
-import TransactionWrap from '@fiction/cards/page/transaction/TransactionWrap.vue'
+import TransactionWrap from '@fiction/cards/standard/transaction/TransactionWrap.vue'
 import { useService, vue } from '@fiction/core'
 
 defineOptions({ name: 'ActionMagicLogin' })

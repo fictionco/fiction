@@ -3,7 +3,7 @@ import type { Card } from '@fiction/site'
 import type { UserConfig } from './index.js'
 import { pathCheck, vue } from '@fiction/core'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import CardText from '../CardText.vue'
+import CardText from '../../CardText.vue'
 
 import { schema } from './config'
 

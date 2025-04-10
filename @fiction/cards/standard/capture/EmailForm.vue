@@ -3,8 +3,8 @@ import type { Card } from '@fiction/site'
 import type { UserConfig } from './config'
 import { vue } from '@fiction/core'
 import XLogo from '@fiction/ui/media/XLogo.vue'
-import CardText from '../CardText.vue'
-import CardActionArea from '../el/CardActionArea.vue'
+import CardText from '../../CardText.vue'
+import CardActionArea from '../../el/CardActionArea.vue'
 
 const { card, animate = false } = defineProps<{
   card: Card<UserConfig>

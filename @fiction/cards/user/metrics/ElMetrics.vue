@@ -3,7 +3,7 @@ import type { Card } from '@fiction/site'
 import type { UserConfig } from './config.js'
 import { pathCheck, vue } from '@fiction/core'
 import XNumber from '@fiction/ui/common/XNumber.vue'
-import CardText from '../CardText.vue'
+import CardText from '../../CardText.vue'
 import { schema } from './config.js'
 
 const props = defineProps({

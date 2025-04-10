@@ -20,7 +20,7 @@ describe('siteHistory', async () => {
   let history: SiteHistory
 
   beforeEach(async () => {
-    site = await Site.create(common, { loadThemePages: true })
+    site = await Site.create(common, { isNewSite: true })
     history = new SiteHistory(site)
     history.init()
   })

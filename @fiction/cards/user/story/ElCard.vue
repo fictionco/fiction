@@ -4,8 +4,8 @@ import type { UserConfig } from '.'
 import { pathCheck, vue } from '@fiction/core'
 import EffectScrollReveal from '@fiction/ui/effect/EffectScrollReveal.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import CardText from '../CardText.vue'
-import CardActionArea from '../el/CardActionArea.vue'
+import CardText from '../../CardText.vue'
+import CardActionArea from '../../el/CardActionArea.vue'
 import { schema } from './config'
 
 const { card } = defineProps<{

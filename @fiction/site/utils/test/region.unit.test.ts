@@ -85,7 +85,7 @@ describe('addNewCard', async () => {
   })
 
   it('should add a new card to a region if addToCardId is not provided', async () => {
-    const site = await Site.create({ ...common, isProd: false, themeId: 'test', siteId: `test-${shortId()}` }, { loadThemePages: true })
+    const site = await Site.create({ ...common, isProd: false, themeId: 'test', siteId: `test-${shortId()}` }, { isNewSite: true })
 
     expect(site.viewMap.value.example).toBeTruthy()
     expect(site.viewMap.value._home).toBeTruthy()

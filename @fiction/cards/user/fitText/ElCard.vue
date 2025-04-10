@@ -4,7 +4,7 @@ import type { UserConfig } from './config'
 import { vue } from '@fiction/core'
 import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 import EffectFitText from '@fiction/ui/effect/EffectFitText.vue'
-import CardText from '../CardText.vue'
+import CardText from '../../CardText.vue'
 
 const props = defineProps<{
   card: Card<UserConfig>

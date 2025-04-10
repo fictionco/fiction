@@ -1,10 +1,6 @@
-import type { template as bentoTemplate } from '@fiction/cards/content-bento/index.js'
-import type { template as heroTemplate } from '@fiction/cards/content-hero/index.js'
-import type { template as marqueeTemplate } from '@fiction/cards/media-marquee/index.js'
-import type { template as wrapTemplate } from '@fiction/cards/page/wrap/index.js'
-import type { template as logosTemplate } from '@fiction/cards/proof-logos/index'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StockMedia } from '@fiction/ui/stock/index.js'
+import { cardConfig } from '@fiction/cards/index.js'
 import ImageAndrew from './img/andrew.jpg'
 import ImageBrian from './img/brian.jpg'
 import ImageDean from './img/dean2.jpg'
@@ -12,9 +8,9 @@ import ImageMorgan from './img/morgan.jpg'
 import ImageSelena from './img/selena.jpg'
 
 export async function getHomePage(args: { factory: CardFactory, stock: StockMedia }) {
-  const { factory, stock } = args
+  const { stock } = args
 
-  return factory.fromTemplate<typeof wrapTemplate>({
+  return cardConfig({
     regionId: 'main',
     templateId: 'cardPageWrapV1',
     slug: 'home',
@@ -27,41 +23,45 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
       },
     },
     cards: [
-      await factory.fromTemplate({
+      cardConfig({
         templateId: 'cardPageAreaV1',
         userConfig: { },
         cards: [
-          await factory.fromTemplate<typeof heroTemplate>({
+          cardConfig({
             templateId: 'cardHeroV1',
             userConfig: {
-              superTitle: {
-                text: 'The First AI Personal Branding Agency',
-                theme: 'orange',
-                icon: { class: 'i-tabler-rocket' },
-              },
-              title: `Become the [@text_effect type=squiggle]Authority[/@text_effect] in your industry.`,
-              subTitle: `Fiction helps leaders become influencers. Start crafting your online persona and building your audience today.`,
+              items: [
+                {
+                  superTitle: {
+                    text: 'The First AI Personal Branding Agency',
+                    theme: 'orange',
+                    icon: { class: 'i-tabler-rocket' },
+                  },
+                  title: `Become the [@text_effect type=squiggle]Authority[/@text_effect] in your industry.`,
+                  subTitle: `Fiction helps leaders become influencers. Start crafting your online persona and building your audience today.`,
 
-              action: {
-                buttons: [
-                  {
-                    label: 'Create Account',
-                    href: '/app/auth/register?_reload=1',
-                    theme: 'primary',
-                    design: 'solid',
-                    iconAfter: 'i-tabler-arrow-big-right-lines',
+                  action: {
+                    buttons: [
+                      {
+                        label: 'Create Account',
+                        href: '/app/auth/register?_reload=1',
+                        theme: 'primary',
+                        design: 'solid',
+                        iconAfter: 'i-tabler-arrow-big-right-lines',
+                      },
+                      {
+                        label: 'Why Fiction?',
+                        href: '/tour',
+                        theme: 'default',
+                        design: 'solid',
+                      },
+                    ],
                   },
-                  {
-                    label: 'Why Fiction?',
-                    href: '/tour',
-                    theme: 'default',
-                    design: 'solid',
-                  },
-                ],
-              },
+                },
+              ],
             },
           }),
-          await factory.fromTemplate<typeof marqueeTemplate>({
+          cardConfig({
             templateId: 'cardMarqueeV1',
             userConfig: {
               items: [
@@ -129,7 +129,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
             },
           }),
 
-          await factory.fromTemplate<typeof logosTemplate>({
+          cardConfig({
             templateId: 'cardLogosV1',
             userConfig: {
               items: [
@@ -157,7 +157,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
               label: 'As Seen In',
             },
           }),
-          await factory.fromTemplate<typeof bentoTemplate>({
+          cardConfig({
             templateId: 'cardBentoV1',
             userConfig: {
               items: [

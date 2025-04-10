@@ -124,7 +124,6 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
       },
       userConfig: {
         standard: {
-          prefersColorScheme: 'dark',
           fonts: {
             mono: { family: 'DM Mono', stack: 'monospace' },
             input: { family: 'DM Mono', stack: 'sans' },

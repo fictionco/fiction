@@ -10,7 +10,7 @@ import ElClose from '@fiction/ui/common/ElClose.vue'
 import EffectGlare from '@fiction/ui/effect/EffectGlare.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import CardText from '../CardText.vue'
+import CardText from '../../CardText.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },

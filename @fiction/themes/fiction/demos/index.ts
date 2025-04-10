@@ -1,7 +1,7 @@
 // pages/demos/index.ts
-import type { template as heroTemplate } from '@fiction/cards/content-hero'
 import type { Site } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
+import { cardConfig } from '@fiction/cards'
 import { vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card'
 
@@ -27,19 +27,22 @@ export const demosGridTemplate = cardTemplate({
 export async function getDemosPage(args: { site: Site, factory: CardFactory }) {
   const { factory } = args
 
-  // Create the hero section
-  const heroCard = await factory.fromTemplate<typeof heroTemplate>({
+  const heroCard = cardConfig({
     templateId: 'cardHeroV1',
     userConfig: {
-      superTitle: {
-        icon: { iconId: 'components' },
-        theme: 'primary',
-        text: 'Component Library',
-      },
-      title: 'Interactive Component Demos',
-      subTitle: 'Professional designed elements for personal brand sites',
-      layout: 'center',
-      action: { buttons: [] },
+      items: [
+        {
+          superTitle: {
+            icon: { iconId: 'components' },
+            theme: 'primary',
+            text: 'Component Library',
+          },
+          title: 'Interactive Component Demos',
+          subTitle: 'Professional designed elements for personal brand sites',
+          layout: 'center',
+          action: { buttons: [] },
+        },
+      ],
     },
   })
 

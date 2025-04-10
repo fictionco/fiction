@@ -1,11 +1,9 @@
-import type { template as heroTemplate } from '@fiction/cards/content-hero/index.js'
-import type { template as cardPageWrapV1Template } from '@fiction/cards/page/wrap/index.js'
 import type { CardTemplate, Site } from '@fiction/site'
+import { cardConfig } from '@fiction/cards/index.js'
 import { toKebab } from '@fiction/core/index.js'
-import { CardFactory } from '../cardFactory.js'
 
 export async function createDemoPage(args: { site: Site, template: CardTemplate<any> }) {
-  const { template, site } = args
+  const { template } = args
   const { templateId, title, category, colorTheme, subTitle, description, icon } = template.settings
 
   const config = await template.getConfig(args)
@@ -14,29 +12,28 @@ export async function createDemoPage(args: { site: Site, template: CardTemplate<
   const slug = card.slug || `demo-${toKebab(templateId)}`
   const cards = card.cards || []
 
-  const templates = await site.theme.value.templates
-
-  const factory = new CardFactory({ templates, site, caller: 'createDemoPage' })
-
-  const pg = await factory.fromTemplate<typeof cardPageWrapV1Template>({
+  const pg = cardConfig({
     slug,
     templateId: 'cardPageWrapV1',
-    baseConfig: { standard: { title: `${title} - Web Element Demo` } },
     userConfig: {
-      // fixedHeader: true,
+      standard: { title: `${title} - Web Element Demo` },
     },
     cards: [
-      await factory.fromTemplate<typeof heroTemplate>({
+      cardConfig ({
         templateId: 'cardHeroV1',
         userConfig: {
-          superTitle: {
-            text: category?.join(', ').toUpperCase(),
-            icon: typeof icon === 'string' ? { class: icon } : icon,
-            theme: colorTheme,
-          },
-          title,
-          subTitle: subTitle || description?.slice(0, 100),
-          action: { buttons: [] },
+          items: [
+            {
+              superTitle: {
+                text: category?.join(', ').toUpperCase(),
+                icon: typeof icon === 'string' ? { class: icon } : icon,
+                theme: colorTheme,
+              },
+              title,
+              subTitle: subTitle || description?.slice(0, 100),
+              action: { buttons: [] },
+            },
+          ],
         },
       }),
       ...cards,

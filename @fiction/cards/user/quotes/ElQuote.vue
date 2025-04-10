@@ -4,8 +4,8 @@ import type { Quote, UserConfig } from './config'
 import { pathCheck, vue } from '@fiction/core'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import CardText from '../CardText.vue'
-import NavDots from '../el/NavDots.vue'
+import CardText from '../../CardText.vue'
+import NavDots from '../../el/NavDots.vue'
 import { schema } from './config'
 
 const props = defineProps({

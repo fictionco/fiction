@@ -1,15 +1,9 @@
-import type { template as footerProTemplate } from '@fiction/cards/pro/footer-pro/index.js'
-import type { template as areaTemplate } from '@fiction/cards/standard/area/index.js'
-import type { template as cardModalMediaV1 } from '@fiction/cards/standard/mediaModal/index.js'
-import type { template as navTemplate } from '@fiction/cards/standard/nav/index.js'
-import type { template as faqTemplate } from '@fiction/cards/user/faq'
-import type { template as heroTemplate } from '@fiction/cards/user/hero'
-import type { template as mapsTemplate, MapUserConfig } from '@fiction/cards/user/maps/index.js'
+import type { MapUserConfig } from '@fiction/cards/user/maps/index.js'
 import type { NavItem } from '@fiction/core'
 import type { Site, ThemeConfig } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { SiteGlobalUserConfig } from '@fiction/site/schema.js'
-import { getDemoPages } from '@fiction/cards'
+import { cardConfig, getDemoPages } from '@fiction/cards'
 import { dayjs } from '@fiction/core'
 
 import { googleOneTap } from '@fiction/core/plugin-user/google.js'
@@ -17,7 +11,6 @@ import favicon from '@fiction/ui/brand/favicon.svg'
 
 import icon from '@fiction/ui/brand/icon.png'
 import shareImage from '@fiction/ui/brand/shareImage.png'
-import { factory } from 'typescript'
 import * as affiliate from './affiliate/index.js'
 import { getDemosPage } from './demos/index.js'
 import * as developer from './developer/index.js'
@@ -33,73 +26,85 @@ const social: NavItem[] = [
 
 export async function getAboutPage(args: { site: Site, factory: CardFactory }) {
   const { factory } = args
-  const topHeroCard = await factory.fromTemplate<typeof heroTemplate>({
+  const topHeroCard = cardConfig({
     templateId: 'cardHeroV1',
     userConfig: {
-      superTitle: {
-        icon: { class: 'i-tabler-home' },
-        theme: 'primary',
-        text: 'About Fiction',
-      },
-      title: `Built for Storytellers`,
-      subTitle: `Fiction helps experts and leaders tell their story. Born in California.`,
-
-      media: {
-        format: 'url',
-        url: new URL('img/about/fiction-office.webp', import.meta.url).href,
-      },
-      layout: 'justify',
-      action: { buttons: [
+      items: [
         {
-          label: 'Join The Community',
-          href: '/app/auth?_reload=1',
-          theme: 'primary',
-          icon: 'i-tabler-users',
+          superTitle: {
+            icon: { class: 'i-tabler-home' },
+            theme: 'primary',
+            text: 'About Fiction',
+          },
+          title: `Built for Storytellers`,
+          subTitle: `Fiction helps experts and leaders tell their story. Born in California.`,
+
+          media: {
+            format: 'url',
+            url: new URL('img/about/fiction-office.webp', import.meta.url).href,
+          },
+          layout: 'justify',
+          action: { buttons: [
+            {
+              label: 'Join The Community',
+              href: '/app/auth?_reload=1',
+              theme: 'primary',
+              icon: 'i-tabler-users',
+            },
+          ] },
         },
-      ] },
+      ],
     },
   })
 
-  const missionHeroCard = await factory.fromTemplate<typeof heroTemplate>({
+  const missionHeroCard = cardConfig({
     templateId: 'cardHeroV1',
     userConfig: {
-      superTitle: {
-        icon: { class: 'i-tabler-trending-up' },
-        text: 'The Vision',
-        theme: 'orange',
-      },
-      title: `Own Your Influence`,
-      subTitle: `Stop relying on social media algorithms to reach your audience. Fiction gives you the tools to build a personal brand that lasts.`,
+      items: [
+        {
+          superTitle: {
+            icon: { class: 'i-tabler-trending-up' },
+            text: 'The Vision',
+            theme: 'orange',
+          },
+          title: `Own Your Influence`,
+          subTitle: `Stop relying on social media algorithms to reach your audience. Fiction gives you the tools to build a personal brand that lasts.`,
 
-      media: {
-        format: 'url' as const,
-        url: new URL('img/about/pro.webp', import.meta.url).href,
-      },
-      layout: 'left',
-      action: { buttons: [] },
+          media: {
+            format: 'url' as const,
+            url: new URL('img/about/pro.webp', import.meta.url).href,
+          },
+          layout: 'left',
+          action: { buttons: [] },
+        },
+      ],
     },
   })
 
-  const missionHeroCard2 = await factory.fromTemplate<typeof heroTemplate>({
+  const missionHeroCard2 = cardConfig({
     templateId: 'cardHeroV1',
     userConfig: {
-      superTitle: {
-        icon: { class: 'i-tabler-users' },
-        text: 'Excellence',
-        theme: 'green',
-      },
-      title: `Simple Tools, Powerful Results`,
-      subTitle: `Professional tools shouldn't require an engineering degree. Fiction combines powerful features with refined simplicity.`,
-      media: {
-        format: 'url',
-        url: new URL('img/about/girl-computer.webp', import.meta.url).href,
-      },
-      layout: 'right',
-      action: { buttons: [] },
+      items: [
+        {
+          superTitle: {
+            icon: { class: 'i-tabler-users' },
+            text: 'Excellence',
+            theme: 'green',
+          },
+          title: `Simple Tools, Powerful Results`,
+          subTitle: `Professional tools shouldn't require an engineering degree. Fiction combines powerful features with refined simplicity.`,
+          media: {
+            format: 'url',
+            url: new URL('img/about/girl-computer.webp', import.meta.url).href,
+          },
+          layout: 'right',
+          action: { buttons: [] },
+        },
+      ],
     },
   })
 
-  // const teamCard = await factory.fromTemplate<typeof peopleTemplate>({
+  // const teamCard = cardConfig({
   //   templateId: 'cardPeopleV1',
   //   userConfig: {
   //     subTitle: `Innovation in Personal Branding`,
@@ -143,14 +148,14 @@ export async function getAboutPage(args: { site: Site, factory: CardFactory }) {
     mapStyle: 'outdoors' as const,
   }
 
-  const mapCard = await factory.fromTemplate<typeof mapsTemplate>({
+  const mapCard = cardConfig({
     templateId: 'cardMapsV1',
     userConfig: {
       maps: [mapIrvine, mapSaltLake],
     },
   })
 
-  const valueCard = await factory.fromTemplate<typeof faqTemplate>({
+  const valueCard = cardConfig({
     templateId: 'cardFaqV1',
     userConfig: {
       layout: 'visible',
@@ -203,7 +208,7 @@ export async function getAboutPage(args: { site: Site, factory: CardFactory }) {
     templateId: 'cardPageWrapV1',
     slug: 'about',
     cards: [
-      await factory.fromTemplate<typeof areaTemplate>({
+      cardConfig({
         templateId: 'cardPageAreaV1',
         cards: [
           topHeroCard,
@@ -273,9 +278,9 @@ export async function getConfig(args: {
     },
     sections: {
 
-      header: await factory.fromTemplate({
+      header: cardConfig({
         cards: [
-          await factory.fromTemplate<typeof navTemplate>({
+          cardConfig({
             templateId: 'cardSiteNavV1',
             userConfig: {
               layout: 'navCenter',
@@ -299,9 +304,9 @@ export async function getConfig(args: {
           }),
         ],
       }),
-      footer: await factory.fromTemplate({
+      footer: cardConfig({
         cards: [
-          await factory.fromTemplate<typeof footerProTemplate>({
+          cardConfig({
             templateId: 'cardFooterProV1',
             userConfig: {
               brand: {

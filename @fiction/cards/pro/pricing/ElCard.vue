@@ -4,9 +4,9 @@ import type { PricingPlan, UserConfig } from './config'
 import { formatNumber, vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import XIcon from '@fiction/ui/media/XIcon.vue'
-import CardButton from '../CardButton.vue'
-import CardText from '../CardText.vue'
-import CardButtons from '../el/CardButtons.vue'
+import CardButton from '../../CardButton.vue'
+import CardText from '../../CardText.vue'
+import CardButtons from '../../el/CardButtons.vue'
 
 const props = defineProps<{
   card: Card<UserConfig>

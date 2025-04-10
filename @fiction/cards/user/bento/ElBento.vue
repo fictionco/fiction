@@ -4,9 +4,9 @@ import type { UserConfig } from './config'
 import { pathCheck, vue } from '@fiction/core'
 import ClipPathAnim from '@fiction/ui/anim/AnimClipPath.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import CardText from '../CardText.vue'
-import CardActionArea from '../el/CardActionArea.vue'
-import SuperTitle from '../el/SuperTitle.vue'
+import CardText from '../../CardText.vue'
+import CardActionArea from '../../el/CardActionArea.vue'
+import SuperTitle from '../../el/SuperTitle.vue'
 import { schema } from './config'
 import {
   getContentStyles,

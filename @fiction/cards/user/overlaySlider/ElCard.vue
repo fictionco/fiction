@@ -5,8 +5,8 @@ import { pathCheck, vue } from '@fiction/core'
 
 import EffectFitText from '@fiction/ui/effect/EffectFitText.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import CardText from '../CardText.vue'
-import NavDots from '../el/NavDots.vue'
+import CardText from '../../CardText.vue'
+import NavDots from '../../el/NavDots.vue'
 import { schema } from './config'
 
 type Slide = { title?: string, subTitle?: string, media?: any, textBlend?: string }

@@ -6,8 +6,8 @@ import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import AnimItemPop from '@fiction/ui/anim/AnimItemPop.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import CardText from '../CardText.vue'
-import CardActionArea from '../el/CardActionArea.vue'
+import CardText from '../../CardText.vue'
+import CardActionArea from '../../el/CardActionArea.vue'
 import { schema } from './config'
 
 defineOptions({ name: 'TimelineCard' })

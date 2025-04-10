@@ -31,7 +31,6 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
         background: { backgroundColor: '#1a1a1a' },
         themeColor: 'gray',
         primaryColor: 'purple',
-        backgroundAlt: { backgroundColor: '#ffffff' },
         fonts: {
           title: { family: 'Plus+Jakarta+Sans', weight: '600' },
           body: { family: 'Inter' },
@@ -105,8 +104,6 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
       standard: {
         background: { backgroundColor: '#0a0a0a' },
         themeColor: 'gray',
-        backgroundAlt: { backgroundColor: '#fafafa' },
-        themeColorAlt: 'gray',
         fonts: {
           title: { family: 'DM+Sans', weight: '500' },
           body: { family: 'DM+Sans' },
@@ -140,7 +137,6 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
         background: { backgroundColor: '#ffffff' },
         themeColor: 'gray',
         primaryColor: 'slate',
-        invertColorScheme: true,
         fonts: {
           title: { family: 'Satoshi', weight: '500' },
           body: { family: 'Satoshi' },

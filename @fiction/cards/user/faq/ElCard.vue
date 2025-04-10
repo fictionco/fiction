@@ -5,8 +5,8 @@ import { pathCheck, vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import CardText from '../CardText.vue'
-import CardActionArea from '../el/CardActionArea.vue'
+import CardText from '../../CardText.vue'
+import CardActionArea from '../../el/CardActionArea.vue'
 import { schema } from './config.js'
 
 const props = defineProps({

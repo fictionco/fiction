@@ -5,8 +5,8 @@ import { vue } from '@fiction/core'
 import CardForm from '@fiction/forms/deck/CardForm.vue'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import XIcon from '@fiction/ui/media/XIcon.vue'
-import CardText from '../CardText.vue'
-import CardActionArea from '../el/CardActionArea.vue'
+import CardText from '../../CardText.vue'
+import CardActionArea from '../../el/CardActionArea.vue'
 
 const { card } = defineProps<{
   card: Card<UserConfig>

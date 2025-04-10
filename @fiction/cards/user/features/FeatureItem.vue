@@ -5,7 +5,7 @@ import CardText from '@fiction/cards/CardText.vue'
 import { pathCheck, vue } from '@fiction/core'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import { getColorThemeStyles } from '@fiction/ui/utils'
-import CardActionArea from '../el/CardActionArea.vue'
+import CardActionArea from '../../el/CardActionArea.vue'
 import { schema } from './config'
 
 const props = defineProps({

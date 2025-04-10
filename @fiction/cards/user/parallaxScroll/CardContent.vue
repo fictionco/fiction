@@ -2,8 +2,8 @@
 import type { Card } from '@fiction/site'
 import type { UserConfig } from '.'
 import { pathCheck, vue } from '@fiction/core'
-import CardText from '../CardText.vue'
-import CardActionArea from '../el/CardActionArea.vue'
+import CardText from '../../CardText.vue'
+import CardActionArea from '../../el/CardActionArea.vue'
 import { schema } from './config'
 
 const props = defineProps({

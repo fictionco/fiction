@@ -109,14 +109,28 @@ const templateGroups = [
   },
 ] as const satisfies TemplateGroup[]
 
+// Base template types
 type TemplateImportFn = typeof templateGroups[number]['templates'][number]
 type TemplatePromise = ReturnType<TemplateImportFn>
 type TemplateResult = Awaited<TemplatePromise>
-type AllTemplates = TemplateResult['template']
+type BaseTemplates = TemplateResult['template']
 
-// Create a mapped type that associates templateId with its specific userConfig
-type TemplateConfigMap = {
-  [T in AllTemplates as T['settings']['templateId']]: T['settings'] extends CardTemplateSettings<infer S>
+// Create a mapped type for base templates
+type BaseTemplateConfigMap = {
+  [T in BaseTemplates as T['settings']['templateId']]: T['settings'] extends CardTemplateSettings<infer S>
+    ? S extends { userConfig: infer U }
+      ? U
+      : Record<string, unknown>
+    : Record<string, unknown>
+}
+
+// Combine base and extended templates
+type TemplateConfigMap<
+  ExtendedTemplates extends CardTemplate<any>[] = [],
+> = {
+  [K in keyof BaseTemplateConfigMap]: BaseTemplateConfigMap[K]
+} & {
+  [T in ExtendedTemplates[number] as T['settings']['templateId']]: T['settings'] extends CardTemplateSettings<infer S>
     ? S extends { userConfig: infer U }
       ? U
       : Record<string, unknown>
@@ -124,22 +138,26 @@ type TemplateConfigMap = {
 }
 
 // Utility type to infer userConfig based on templateId
-type InferUserConfig<T extends keyof TemplateConfigMap> = T extends string
-  ? TemplateConfigMap[T] & CardOptionsWithStandard
-  : Record<string, unknown>
+type InferUserConfig<
+  T extends keyof TemplateConfigMap<ExtendedTemplates>,
+  ExtendedTemplates extends CardTemplate<any>[] = [],
+> = T extends string ? TemplateConfigMap<ExtendedTemplates>[T] : Record<string, unknown>
 
-export function cardConfig<T extends keyof TemplateConfigMap>(args: {
+// Updated cardConfig function
+export function cardConfig<
+  ExtendedTemplates extends CardTemplate<any>[] = [],
+  T extends keyof TemplateConfigMap<ExtendedTemplates> = keyof TemplateConfigMap<ExtendedTemplates>,
+>(args: {
   templateId?: T
-  userConfig?: InferUserConfig<T>
-} & Omit<CardSettings, 'templateId' | 'userConfig'>): CardConfigPortable<InferUserConfig<T> & StandardUserConfig> {
+  userConfig?: InferUserConfig<T, ExtendedTemplates>
+} & Omit<CardSettings, 'templateId' | 'userConfig'>): CardConfigPortable<InferUserConfig<T, ExtendedTemplates> & StandardUserConfig> {
   const { templateId, userConfig, ...settings } = args
   return new Card({
     templateId: templateId as string | undefined,
-    userConfig: userConfig as any, // Type assertion still needed but better typed
+    userConfig: userConfig as any, // Type assertion needed due to complexity
     ...settings,
   }).toConfig()
 }
-
 // Type utilities for template configuration
 type TemplateModule = { template: CardTemplate<any> }
 

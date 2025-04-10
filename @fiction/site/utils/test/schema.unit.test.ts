@@ -12,7 +12,7 @@ describe('site and page schema', async () => {
     siteId: `test-${shortId()}`,
     siteMode: 'designer' as const,
   }
-  const _site = await Site.create(common, { loadThemePages: true })
+  const _site = await Site.create(common, { isNewSite: true })
 
   afterAll(() => testUtils.close())
 

@@ -4,7 +4,7 @@ import type { UserConfig } from './index.js'
 import { pathCheck, vue } from '@fiction/core'
 import MasonryEffect from '@fiction/ui/effect/EffectMasonry.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import CardText from '../CardText.vue'
+import CardText from '../../CardText.vue'
 
 import { schema } from './config'
 
