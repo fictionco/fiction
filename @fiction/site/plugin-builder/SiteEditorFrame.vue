@@ -263,7 +263,7 @@ function handlePageOrderUpdate(ids: string[]) {
       item-selector=".draggable-page"
       :disabled="false"
       :allow-horizontal="true"
-      class="@container draggable-page-container grid gap-4 lg:gap-6 grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3 @4xl:grid-cols-4 mb-4 relative"
+      class="@container draggable-page-container grid gap-4 lg:gap-6 grid-cols-1 @md:grid-cols-2 @2xl:grid-cols-3 @4xl:grid-cols-4 mb-4 relative"
       @update:sorted="handlePageOrderUpdate"
     >
       <div
@@ -277,7 +277,7 @@ function handlePageOrderUpdate(ids: string[]) {
         <!-- Page preview iframe -->
         <div class="relative size-full overflow-hidden bg-theme-100 dark:bg-theme-900">
           <iframe
-            :src="site.frame.framePageUrl(!page.isHome.value ? page.slug.value : '')"
+            :src="site.frame.framePageUrl({ slug: !page.isHome.value ? page.slug.value : '', siteMode: 'standard' })"
             class="transform scale-[0.25] origin-top-left"
             style="width: 400%; height: 400%"
             frameborder="0"

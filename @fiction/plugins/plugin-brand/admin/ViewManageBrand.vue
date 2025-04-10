@@ -8,6 +8,7 @@ const { card } = defineProps<{ card: Card }>()
 <template>
   <SettingsBoard
     :card
+    :panel-props="{ card }"
     :header="{
       title: 'Your Brand + AI',
       subTitle: 'Create a brand guide to help AI create and manage your presence effectively',

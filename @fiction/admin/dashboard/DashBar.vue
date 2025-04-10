@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { NavItem } from '@fiction/core'
+import type { MediaObject, NavItem } from '@fiction/core'
 import type { CustomerData } from '@fiction/plugin-stripe/utils'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './DashWrap.vue'
@@ -10,11 +10,12 @@ import XMenuButton from '@fiction/ui/common/XMenuButton.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import DashBarMenu from './DashBarMenu.vue'
 
-const { accountMenu = [], card, customer, showMobileNav } = defineProps<{
+const { accountMenu = [], card, customer, showMobileNav, icon } = defineProps<{
   accountMenu: NavItem[]
   card: Card<UserConfig>
   customer?: CustomerData
   showMobileNav: boolean
+  icon: MediaObject
 }>()
 
 const emit = defineEmits<{
@@ -40,7 +41,7 @@ const uc = vue.computed(() => card.userConfig.value)
         </div>
         <div class="flex items-center px-3 py-2">
           <CardLink :card href="/" class="active:opacity-80 md:hidden">
-            <XMedia class="h-[21px]" :media="uc.homeIcon" />
+            <XMedia class="h-[21px]" :media="icon" />
           </CardLink>
           <div class="hidden dark:text-theme-0 text-theme-700 md:flex gap-2 items-center">
             <div v-if="uc.navIcon || uc.navIconAlt" :class="uc.navIconAlt || uc.navIcon" class="text-xl" />

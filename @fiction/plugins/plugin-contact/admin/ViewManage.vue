@@ -28,6 +28,7 @@ const panels = [
   <SettingsBoard
     :card
     :panels
+    :panel-props="{ card }"
     :header="{
       media: { class: `i-tabler-users` },
       title: 'Audience',

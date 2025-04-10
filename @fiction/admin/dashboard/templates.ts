@@ -48,7 +48,6 @@ export const dashTemplate = cardTemplate({
   el: DashWrap,
   isPageCard: true,
   getBaseConfig: () => ({
-    homeIcon: { format: 'component' as const, el: FictionLogo },
     authRedirect: '/auth',
     standard: { spaceSize: 'none' },
   }),

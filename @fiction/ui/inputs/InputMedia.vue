@@ -72,7 +72,7 @@ function triggerModal(event: MouseEvent) {
       <div
         class="absolute text-xs font-sans inset-0 flex items-center justify-center bg-theme-900 bg-opacity-50 transition-opacity opacity-0 group-hover:opacity-100"
       >
-        <span class="text-theme-100 font-medium flex gap-1 items-center">
+        <span class="text-theme-0 font-medium flex gap-1 items-center">
           <div class="i-tabler-rotate text-lg" />
           <div>Change Media</div>
         </span>
@@ -81,7 +81,7 @@ function triggerModal(event: MouseEvent) {
     <div
       v-else
       data-test-id="media-select-button"
-      class="trigger-button group flex items-center justify-center gap-2 p-4 rounded-lg bg-theme-100/40 dark:bg-theme-700/70 hover:bg-theme-100/70 dark:hover:bg-theme-700 cursor-pointer text-theme-400 dark:text-theme-500 hover:text-theme-600 dark:hover:text-theme-300"
+      class="trigger-button group flex items-center justify-center gap-2 p-4 rounded-lg bg-theme-100/40 dark:bg-theme-700/70 hover:bg-theme-100/70 dark:hover:bg-theme-700 cursor-pointer text-theme-600 dark:text-theme-600 hover:text-theme-500 dark:hover:text-theme-300"
       @click="triggerModal($event)"
     >
       <XIcon :media="{ class: 'i-tabler-photo' }" class="size-6" />

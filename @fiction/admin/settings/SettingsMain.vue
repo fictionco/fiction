@@ -65,6 +65,7 @@ const panels = [
   <SettingsBoard
     :card
     :panels
+    :panel-props="{ card }"
     base-path="/settings"
     :header="{
       media: { class: 'i-tabler-settings' },

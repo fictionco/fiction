@@ -121,7 +121,7 @@ const parentPanelProps = vue.computed(() => {
 </script>
 
 <template>
-  <div class="lg:flex lg:h-[calc(100dvh-61px)] overflow-x-clip">
+  <div class="lg:flex lg:h-[calc(100dvh)] overflow-x-clip">
     <div v-if="loading" class="p-12 flex justify-center items-center w-full text-theme-400 dark:text-theme-700 h-full">
       <ElSpinner class="size-8" />
     </div>

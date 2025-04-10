@@ -1,6 +1,7 @@
 import type { ResetUiScope, ResetUiTrigger } from '@fiction/core'
 import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil.js'
 import type { Site } from '../index.js'
+import type { SiteMode } from '../load.js'
 import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
 import { FictionObject, getUrlPath, resetUi, vue } from '@fiction/core'
 import { activeSiteDisplayUrl, updateSite } from './site.js'
@@ -45,7 +46,10 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   // so we only update this when the frame URL actually needs to change (not when the route changes from URL click in frame)
   framePath = vue.ref('')
   frameUrl = vue.computed(() => `${this.previewPath.value}${this.framePath.value}`)
-  framePageUrl = (slug?: string) => `${this.previewPath.value}/${slug}`
+  framePageUrl = (args: { slug?: string, siteMode?: SiteMode }) => {
+    const { slug, siteMode } = args
+    return `${this.previewPath.value}/${slug}?_siteMode=${siteMode}`
+  }
 
   setUtil(util: FrameUtility<FramePostMessageList>) {
     this.util = util

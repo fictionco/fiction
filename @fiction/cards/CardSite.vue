@@ -37,7 +37,9 @@ let cleanups: (() => any)[] = []
 
 const mountContext = vue.computed(() => {
   const { orgId = props.orgId, siteId = props.siteId, themeId = props.themeId } = fictionRouter.params.value as Record<string, string>
-  return getMountContext({ queryVars: { themeId }, runVars, siteId, orgId })
+  const out = getMountContext({ queryVars: { themeId }, runVars, siteId, orgId })
+
+  return out
 })
 
 async function load() {
@@ -57,20 +59,6 @@ async function load() {
     logger.error(`Error loading site ${(error as Error).message}`, { error })
   }
 }
-
-// if (import.meta.env.SSR) {
-//   const ctx = vue.useSSRContext()
-//   if (ctx && !ctx.initialState) {
-//     ctx.initialState = {}
-//   }
-
-//   vue.onServerPrefetch(async () => {
-//     await load()
-
-//     if (ctx)
-//       ctx.initialState.siteConfig = site.value?.toConfig()
-//   })
-// }
 
 // Use the SSR data hook
 const { data: site, loading } = useSSRData({
@@ -176,44 +164,35 @@ unhead.useHead({
   noscript: () => getHeadScripts({ site: site.value, noscript: true }),
 })
 
+vue.watch(
+  () => site?.value,
+  () => {
+    if (typeof window === 'undefined' || !site?.value)
+      return
+
+    if (site.value && site.value.siteMode.value === 'editable') {
+      const util = new FrameUtility<FramePostMessageList>({
+        relation: 'child',
+        onMessage: (msg) => {
+          if (!site.value)
+            throw new Error('FrameUtility: Site not found')
+
+          site.value.frame.processFrameMessage({ msg: msg as FramePostMessageList, scope: 'child' })
+        },
+      })
+      util.init()
+      site.value.frame.setUtil(util)
+    }
+
+    fictionSites.trackWebsiteEvents({ site: site.value })
+  },
+  { immediate: true },
+)
+
 vue.onMounted(async () => {
   unhead.useHead({
     bodyAttrs: { class: () => 'dark' },
   })
-
-  if (!site.value)
-    await load()
-
-  fictionSites.trackWebsiteEvents({ site: site.value })
-
-  if (site.value && site.value.siteMode.value === 'editable') {
-    const util = new FrameUtility<FramePostMessageList>({
-      relation: 'child',
-      onMessage: (msg) => {
-        if (!site.value)
-          throw new Error('FrameUtility: Site not found')
-
-        site.value.frame.processFrameMessage({ msg: msg as FramePostMessageList, scope: 'child' })
-      },
-    })
-
-    // initialize frame message handling
-    util.init()
-
-    const sw = vue.watch(
-      () => site?.value,
-      () => {
-        if (site.value)
-          site.value.frame.setUtil(util)
-      },
-      { immediate: true },
-    )
-
-    // initialize resetUi and path watchers
-    site?.value.frame.init({ caller: 'FSite' })
-
-    cleanups.push(sw)
-  }
 })
 
 fictionEnv.events.on('cleanup', () => {

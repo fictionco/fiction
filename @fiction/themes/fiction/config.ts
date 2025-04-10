@@ -287,7 +287,7 @@ export async function getConfig(args: {
               brand: {
                 logo: {
                   variant: 'media',
-                  media: stock.getLocalMedia({ key: 'fictionLogoComponent' }),
+                  media: stock.getLocalMedia({ key: 'fictionLogo' }),
                 },
               },
               nav: {

@@ -281,78 +281,76 @@ function handleTabChange(index: number) {
 
       <!-- Group content -->
       <div class="relative" :class="classes.tabWrap">
-        <TransitionGroup name="fade" mode="out-in">
-          <template v-for="(opt, i) in groupOptions" :key="i">
+        <template v-for="(opt, i) in groupOptions" :key="i">
+          <div
+            v-if="useTabsForGroups ? i === activeTabIndex : true"
+
+            :class="[
+              depth > 0 ? '' : '',
+              hide(opt) && !useTabsForGroups ? 'overflow-hidden' : '',
+            ]"
+            :data-option-key="opt.key.value"
+            :data-option-depth="depth"
+          >
+            <!-- Group header (only for non-tabbed version) -->
             <div
-              v-if="useTabsForGroups ? i === activeTabIndex : true"
-
-              :class="[
-                depth > 0 ? '' : '',
-                hide(opt) && !useTabsForGroups ? 'overflow-hidden' : '',
-              ]"
-              :data-option-key="opt.key.value"
-              :data-option-depth="depth"
+              v-if="!useTabsForGroups && opt.label.value"
+              class="select-none flex justify-between cursor-pointer items-center hover:opacity-90 rounded-t-md overflow-hidden"
+              :class="getGroupHeaderClasses(opt)"
+              @click="hide(opt, 'toggle')"
             >
-              <!-- Group header (only for non-tabbed version) -->
-              <div
-                v-if="!useTabsForGroups && opt.label.value"
-                class="select-none flex justify-between cursor-pointer items-center hover:opacity-90 rounded-t-md overflow-hidden"
-                :class="getGroupHeaderClasses(opt)"
-                @click="hide(opt, 'toggle')"
-              >
-                <div class="flex items-center gap-2">
-                  <XIcon v-if="opt.settings.icon" class="size-[1.2em]" :media="opt.settings.icon" />
-                  <div class="font-semibold" v-html="opt.label.value" />
-                  <div v-if="opt.key.value && !disableGroupHide" class="text-[1.2em] i-tabler-chevron-up transition-all" :class="hide(opt) ? 'rotate-180' : ''" />
-                </div>
-              </div>
-
-              <!-- Group content with transition (only for non-tabbed version) -->
-              <TransitionSlide v-if="!useTabsForGroups">
-                <div v-show="!hide(opt)">
-                  <div :class="getGroupClasses(opt)">
-                    <FormEngine
-                      :state-key="stateKey"
-                      :ui-size="uiSize"
-                      :base-path="basePath"
-                      :edit-path="editPath"
-                      :active-path="activePath"
-                      :input-props="inputProps"
-                      :options="opt.options.value || []"
-                      :classes="classes"
-                      :model-value="modelValue"
-                      :depth="depth + 1"
-                      :format="opt.settings.format"
-                      @update:model-value="emit('update:modelValue', $event)"
-                      @update:active-path="emit('update:activePath', $event)"
-                      @activate="activateOption({ opt, path: $event })"
-                    />
-                  </div>
-                </div>
-              </TransitionSlide>
-
-              <!-- Group content without transition (for tabbed version) -->
-              <div v-if="useTabsForGroups" :class="getGroupClasses(opt)" class="pt-6">
-                <FormEngine
-                  :state-key="stateKey"
-                  :ui-size="uiSize"
-                  :base-path="basePath"
-                  :edit-path="editPath"
-                  :active-path="activePath"
-                  :input-props="inputProps"
-                  :options="opt.options.value || []"
-                  :classes="classes"
-                  :model-value="modelValue"
-                  :depth="depth + 1"
-                  :format="opt.settings.format"
-                  @update:model-value="emit('update:modelValue', $event)"
-                  @update:active-path="emit('update:activePath', $event)"
-                  @activate="activateOption({ opt, path: $event })"
-                />
+              <div class="flex items-center gap-2">
+                <XIcon v-if="opt.settings.icon" class="size-[1.2em]" :media="opt.settings.icon" />
+                <div class="font-semibold" v-html="opt.label.value" />
+                <div v-if="opt.key.value && !disableGroupHide" class="text-[1.2em] i-tabler-chevron-up transition-all" :class="hide(opt) ? 'rotate-180' : ''" />
               </div>
             </div>
-          </template>
-        </TransitionGroup>
+
+            <!-- Group content with transition (only for non-tabbed version) -->
+            <TransitionSlide v-if="!useTabsForGroups">
+              <div v-show="!hide(opt)">
+                <div :class="getGroupClasses(opt)">
+                  <FormEngine
+                    :state-key="stateKey"
+                    :ui-size="uiSize"
+                    :base-path="basePath"
+                    :edit-path="editPath"
+                    :active-path="activePath"
+                    :input-props="inputProps"
+                    :options="opt.options.value || []"
+                    :classes="classes"
+                    :model-value="modelValue"
+                    :depth="depth + 1"
+                    :format="opt.settings.format"
+                    @update:model-value="emit('update:modelValue', $event)"
+                    @update:active-path="emit('update:activePath', $event)"
+                    @activate="activateOption({ opt, path: $event })"
+                  />
+                </div>
+              </div>
+            </TransitionSlide>
+
+            <!-- Group content without transition (for tabbed version) -->
+            <div v-if="useTabsForGroups" :class="getGroupClasses(opt)" class="pt-6">
+              <FormEngine
+                :state-key="stateKey"
+                :ui-size="uiSize"
+                :base-path="basePath"
+                :edit-path="editPath"
+                :active-path="activePath"
+                :input-props="inputProps"
+                :options="opt.options.value || []"
+                :classes="classes"
+                :model-value="modelValue"
+                :depth="depth + 1"
+                :format="opt.settings.format"
+                @update:model-value="emit('update:modelValue', $event)"
+                @update:active-path="emit('update:activePath', $event)"
+                @activate="activateOption({ opt, path: $event })"
+              />
+            </div>
+          </div>
+        </template>
       </div>
     </div>
 

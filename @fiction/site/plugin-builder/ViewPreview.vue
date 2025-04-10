@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { FictionApp, FictionAppEntry, FictionRouter } from '@fiction/core'
 import type { FictionSites } from '..'
+import type { SiteMode } from '../load'
 import { log, unhead, useService, vue } from '@fiction/core'
 import { getMountContext } from '../load'
 
@@ -38,9 +39,10 @@ async function mountApp() {
     // Set base for router links
     service.fictionRouterSites.routeBasePath = base.value
 
+    const siteMode = (service.fictionRouter.query.value?._siteMode || 'editable') as SiteMode
     const { selectorType, selectorId } = (service.fictionRouter.params.value || {}) as Record<string, string>
 
-    const mountContext = getMountContext({ selectorType, selectorId, siteMode: 'editable' })
+    const mountContext = getMountContext({ selectorType, selectorId, siteMode })
 
     const serviceConfig = { fictionEnv: service.fictionEnv, service: s, runVars: { ...runVars, MOUNT_CONTEXT: mountContext } }
 

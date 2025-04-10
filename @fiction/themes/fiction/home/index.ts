@@ -5,6 +5,11 @@ import type { template as wrapTemplate } from '@fiction/cards/page/wrap/index.js
 import type { template as logosTemplate } from '@fiction/cards/proof-logos/index'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StockMedia } from '@fiction/ui/stock/index.js'
+import ImageAndrew from './img/andrew.jpg'
+import ImageBrian from './img/brian.jpg'
+import ImageDean from './img/dean2.jpg'
+import ImageMorgan from './img/morgan.jpg'
+import ImageSelena from './img/selena.jpg'
 
 export async function getHomePage(args: { factory: CardFactory, stock: StockMedia }) {
   const { factory, stock } = args
@@ -64,7 +69,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   title: 'Andrew Powers',
                   subTitle: 'Serial Entrepreneur',
                   media: {
-                    url: `${new URL('img/andrew.jpg', import.meta.url).href}?blurhash=UbD%2Be.f%2B9an%24~UbIE2aeskaeV%40W%3BM%7BaeoLbb`,
+                    url: ImageAndrew,
                   },
                   href: 'https://www.andrewpowers.com',
                 },
@@ -78,14 +83,14 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   title: 'Morgan Jones',
                   subTitle: 'Marketing Executive',
                   media: {
-                    url: new URL('img/morgan.jpg', import.meta.url).href,
+                    url: ImageMorgan,
                   },
                 },
                 {
                   title: 'Selena Gomez',
                   subTitle: 'Musician',
                   media: {
-                    url: new URL('img/selena.jpg', import.meta.url).href,
+                    url: ImageSelena,
                   },
                 },
 
@@ -109,14 +114,14 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   title: 'Dean Stoecker',
                   subTitle: 'Founder, Alteryx',
                   media: {
-                    url: new URL('img/dean2.jpg', import.meta.url).href,
+                    url: ImageDean,
                   },
                 },
                 {
                   title: 'Brian Pentz',
                   subTitle: 'Investor',
                   media: {
-                    url: new URL('img/brian.jpg', import.meta.url).href,
+                    url: ImageBrian,
                   },
                 },
 

@@ -26,6 +26,7 @@ const panels = [
     :card
     :panels="panels"
     base-path="/sites"
+    :panel-props="{ card }"
     :header="{
       title: 'Sites',
       subTitle: 'Customizable websites and landing pages.',

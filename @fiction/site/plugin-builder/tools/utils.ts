@@ -28,14 +28,14 @@ export function getSiteOptions(args: { site: Site }) {
           key: 'userConfig.favicon',
           label: 'Favicon',
           description: 'Upload a square image (at least 32x32px) that represents your site in browser tabs and bookmarks',
-          input: 'InputMediaUpload',
+          input: 'InputMedia',
         }),
         createOption({
           schema: SiteSchema,
           key: 'userConfig.shareImage',
           label: 'Social Card Image',
           description: 'Upload an image (1200x630px recommended) to appear when your site is shared on social platforms like Facebook, Twitter, or LinkedIn',
-          input: 'InputMediaUpload',
+          input: 'InputMedia',
         }),
 
         createOption({

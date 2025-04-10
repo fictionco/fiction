@@ -16,7 +16,6 @@ const panels = [
     userConfig: { isNavItem: true, navIcon: 'i-tabler-file-description', navIconAlt: 'i-tabler-file-spark' },
   }),
 ]
-
 </script>
 
 <template>
@@ -24,6 +23,7 @@ const panels = [
     :loading
     :card
     :panels
+    :panel-props="{ card }"
     :header="{
       title: 'Posts',
       subTitle: 'Publish and manage content.',

@@ -133,7 +133,7 @@ export function activePageIdByRoute(args: { site: Site }) {
       const pg = site.pages.value.find(_ => _.cardId === cardId)
 
       if (!pg) {
-        logger.error('Page not found', { cardId })
+        logger.error('activePageIdByRoute: Page not found', { cardId })
         return
       }
 

@@ -131,7 +131,7 @@ export default {
       >
         <div
           v-if="vis"
-          class="fixed inset-0 bg-theme-800/65 active:bg-theme-800/80 cursor-pointer dark:bg-slate-500/40 backdrop-blur-sm transition-opacity"
+          class="fixed inset-0 bg-theme-800/65 active:bg-theme-800/80 cursor-pointer dark:bg-theme-600/90 backdrop-blur-sm transition-opacity"
           @click="close({ reason: 'escape' })"
         />
       </transition>
@@ -150,7 +150,7 @@ export default {
               @click.stop="resetUi({ scope: 'inputs', cause: `modalClick`, trigger: 'elementClick' })"
             >
               <div v-if="hasClose" class="absolute top-0 right-0">
-                <ElClose @click.stop="close({ reason: 'escape' })" data-test-id="close-modal" />
+                <ElClose data-test-id="close-modal" @click.stop="close({ reason: 'escape' })" />
               </div>
               <slot />
             </div>

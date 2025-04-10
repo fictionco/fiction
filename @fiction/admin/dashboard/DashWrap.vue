@@ -5,6 +5,7 @@ import type { Card } from '@fiction/site/card'
 import type { FictionAdmin } from '..'
 import ElEngine from '@fiction/cards/CardEngine.vue'
 import { getAccessLevel, onResetUi, sortPriority, useService, vue } from '@fiction/core'
+import FictionLogo from '@fiction/ui/brand/FictionLogo.vue'
 import ElClose from '@fiction/ui/common/ElClose.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
@@ -124,6 +125,8 @@ vue.onMounted(async () => {
     loading.value = false
   }
 })
+
+const icon = { format: 'component', el: FictionLogo } as MediaObject
 </script>
 
 <template>
@@ -163,7 +166,7 @@ vue.onMounted(async () => {
               class="md:static md:flex h-dvh w-[60%] md:w-[calc(16rem+3vw)] shrink-0 md:opacity-100 will-change-auto transition-all  duration-300 border-theme-300/50 dark:border-theme-700/70 fixed top-0 z-30 justify-end border-r"
               :class="showMobileNav ? 'left-0 opacity-100' : '-left-full opacity-0'"
             >
-              <DashNav class="md:pl-12 md:pr-6" :icon="card.userConfig.value.homeIcon" :nav="primaryNav" :nav-bottom="bottomNav" :card />
+              <DashNav class="md:pl-12 md:pr-6" :icon :nav="primaryNav" :nav-bottom="bottomNav" :card />
               <ElClose v-if="showMobileNav" class="absolute -right-16 top-4" @click="showMobileNav = false" />
             </div>
             <Transition name="backdrop">
@@ -180,6 +183,7 @@ vue.onMounted(async () => {
                 :customer="fictionStripe?.activeCustomer.value"
                 :card
                 :site
+                :icon
               />
               <div
                 class="mx-auto bg-theme-0 dark:bg-theme-950 grow overflow-scroll w-full"
