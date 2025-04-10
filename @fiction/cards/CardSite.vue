@@ -61,7 +61,7 @@ async function load() {
 }
 
 // Use the SSR data hook
-const { data: site, loading } = useSSRData({
+const { data: site, loading, hasInitialized } = useSSRData({
   key: vue.computed(() => `site-${mountContext.value.contextCacheKey}`),
   fetchData: load,
   transform: {
@@ -252,7 +252,7 @@ vue.onMounted(async () => {
       <div
         class="x-engine"
       >
-        <div v-if="loading" class="text-theme-200 dark:text-theme-700 flex justify-center pt-32">
+        <div v-if="loading || !hasInitialized" class="text-theme-200 dark:text-theme-700 flex justify-center pt-32">
           <ElSpinner class="size-4" />
         </div>
 

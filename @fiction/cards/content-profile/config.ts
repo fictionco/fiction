@@ -24,7 +24,6 @@ export const schema = z.object({
   superTitle: SuperTitleSchema.optional(),
   layout: z.enum(['left', 'right']).optional().describe('Media on left or right'),
   mediaItems: z.array(mediaSchema).optional().describe('Splash pictures in portrait format'),
-  detailsTitle: z.string().optional().describe('Title for list of details [@ai]'),
   details: z.array(detailSchema).optional().describe('List of details with contact details, location, etc. [@ai]'),
   action: ActionAreaSchema.optional().describe('List of social media links [@ai]'),
 })
@@ -66,6 +65,7 @@ const options = [
         input: 'group',
         label: 'Buttons',
         icon: { class: 'i-tabler-click' },
+        isClosed: true,
         options: [
           createOption({
             schema,
@@ -83,7 +83,6 @@ const options = [
         label: 'Details',
         icon: { class: 'i-tabler-list-details' },
         options: [
-          createOption({ schema, key: 'detailsTitle', input: 'InputText', label: 'Details Section Title' }),
           createOption({
             schema,
             key: 'details',
@@ -142,7 +141,7 @@ async function getUserConfig(args: { factory: CardFactory, stock: StockMedia }):
       { media: stock.getRandomByTags(['aspect:portrait']) },
       { media: stock.getRandomByTags(['aspect:portrait']) },
     ],
-    detailsTitle: 'Let\'s Connect',
+
     details: [
       { label: 'Location', value: 'Your City, Country', icon: { iconId: 'map' } },
       { label: 'Email', value: 'hello@yourdomain.com', href: 'mailto:hello@example.com', icon: { iconId: 'mail' } },
@@ -169,7 +168,6 @@ async function getDemoUserConfig(args: { factory: CardFactory, stock: StockMedia
       mediaItems: [
         { media: stock.getRandomByTags(['person']) },
       ],
-      detailsTitle: 'Executive Contact',
       details: [
         { label: 'Office', value: 'Global HQ, New York', icon: { iconId: 'building' } },
         { label: 'Assistant', value: 'executive.office@company.com', href: 'mailto:example@company.com', icon: { iconId: 'mail' } },
@@ -193,7 +191,6 @@ async function getDemoUserConfig(args: { factory: CardFactory, stock: StockMedia
         { media: stock.getRandomByTags(['person']) },
         { media: stock.getRandomByTags(['object']) },
       ],
-      detailsTitle: 'Studio Details',
       details: [
         { label: 'Studio', value: 'Brooklyn Design District', icon: { iconId: 'palette' } },
         { label: 'Portfolio', value: 'View Latest Work', href: '#', icon: { iconId: 'photo' } },
@@ -220,7 +217,6 @@ async function getDemoUserConfig(args: { factory: CardFactory, stock: StockMedia
       mediaItems: [
         { media: stock.getRandomByTags(['person']) },
       ],
-      detailsTitle: 'Tech Connect',
       details: [
         { label: 'Specialties', value: 'AI & Machine Learning', icon: { iconId: 'code' } },
         { label: 'GitHub', value: '@techleader', href: '#', icon: { iconId: 'brand-github' } },

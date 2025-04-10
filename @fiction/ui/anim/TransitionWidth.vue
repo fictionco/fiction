@@ -59,8 +59,8 @@ function leave(el: HTMLElement) {
 }
 
 function afterTransition(el: HTMLElement) {
-  // Clean up
-  const propertiesToReset = ['maxWidth', 'overflow']
+  // Clean up ALL transition-related properties
+  const propertiesToReset = ['maxWidth', 'width', 'overflow']
   propertiesToReset.forEach(prop => el.style[prop as any] = '')
 
   // Clear cache when done

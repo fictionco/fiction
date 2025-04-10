@@ -162,6 +162,7 @@ export function useSSRData<T = any, S = any>(options: {
   return {
     data,
     loading,
+    hasInitialized,
     error,
     /** Refresh data regardless of current state */
     refresh: () => load(true),

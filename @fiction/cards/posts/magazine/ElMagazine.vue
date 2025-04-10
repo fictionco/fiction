@@ -45,7 +45,7 @@ async function fetchPosts() {
 const cacheKey = vue.computed(() => `posts-${viewId.value}-${itemId.value}-${uc.value.posts?.format}-${indexMeta.value.offset}-${indexMeta.value.limit}`)
 
 // Use the SSR data hook
-const { data: postsData, loading: postsLoading } = useSSRData({ key: cacheKey, fetchData: fetchPosts })
+const { data: postsData, loading, hasInitialized } = useSSRData({ key: cacheKey, fetchData: fetchPosts })
 
 // Extract data for templates
 const posts = vue.computed(() => {
@@ -71,7 +71,7 @@ const posts = vue.computed(() => {
       leave-to-class="opacity-0 -translate-y-10"
       mode="out-in"
     >
-      <div v-if="postsLoading" class="flex justify-center py-12 h-[80vh]">
+      <div v-if="!hasInitialized" class="flex justify-center py-12 h-[80vh]">
         <ElSpinner class="size-8 text-theme-500" />
       </div>
 
@@ -82,7 +82,7 @@ const posts = vue.computed(() => {
           :card
           :post="posts[0]"
           :related-posts="posts.slice(1, 4)"
-          :loading="postsLoading"
+          :loading="loading"
         />
         <El404
           v-else
@@ -103,7 +103,7 @@ const posts = vue.computed(() => {
           :card
           :posts
           :index-meta="indexMeta"
-          :loading="postsLoading"
+          :loading="loading"
           @update:index-meta="indexMeta = $event"
         />
 

@@ -91,16 +91,13 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
                 :super-title="uc.superTitle"
                 size="lg"
               />
-              <EffectFitText
+              <CardText
+                :card
                 tag="h1"
-                :content="uc.title || ''"
-                class="heading text-4xl font-semibold md:text-4xl lg:text-5xl x-font-title lg:leading-[1.1] "
-                :lines="2"
-                :min-size="40"
-                :max-size="80"
-              >
-                <CardText :card tag="span" path="title" animate="rise" />
-              </EffectFitText>
+                path="title"
+                animate="rise"
+                class="heading font-semibold text-3xl lg:text-4xl x-font-title lg:leading-[1.3] lg:text-pretty"
+              />
 
               <XEntry class="text-lg sm:text-xl">
                 <CardText
@@ -114,13 +111,6 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
             </div>
 
             <div class="list space-y-4 text-base xl:text-lg @container">
-              <CardText
-                tag="h3"
-                :card
-                class="sub-heading text-theme-300 dark:text-theme-500 x-font-title font-medium opacity-80"
-                path="detailsTitle"
-              />
-
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 ">
                 <a
                   v-for="(item, i) in uc.details"

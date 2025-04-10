@@ -67,7 +67,7 @@ const standardOptions = vue.computed(() =>
 const useTabsForGroups = vue.computed(() => groupOptions.value.length)
 
 // Active tab tracking
-const activeTabIndex = vue.ref(0)
+const activeTabIndex = vue.ref(groupOptions.value[0]?.isClosed.value ? -1 : 0)
 const lastTabIndex = vue.ref(-1)
 
 // Create a function to recursively get all group options and their isClosed status
@@ -283,8 +283,7 @@ function handleTabChange(index: number) {
       <div class="relative" :class="classes.tabWrap">
         <template v-for="(opt, i) in groupOptions" :key="i">
           <div
-            v-if="useTabsForGroups ? i === activeTabIndex : true"
-
+            v-if="useTabsForGroups ? i === activeTabIndex || activeTabIndex === -1 : true"
             :class="[
               depth > 0 ? '' : '',
               hide(opt) && !useTabsForGroups ? 'overflow-hidden' : '',
@@ -331,7 +330,7 @@ function handleTabChange(index: number) {
             </TransitionSlide>
 
             <!-- Group content without transition (for tabbed version) -->
-            <div v-if="useTabsForGroups" :class="getGroupClasses(opt)" class="pt-6">
+            <div v-if="useTabsForGroups && i === activeTabIndex" :class="getGroupClasses(opt)" class="pt-6">
               <FormEngine
                 :state-key="stateKey"
                 :ui-size="uiSize"
