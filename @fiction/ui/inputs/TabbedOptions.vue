@@ -102,9 +102,10 @@ function updateValue(update: Record<string, any>) {
     <div class="grow min-h-0 overflow-scroll no-scrollbar">
       <slot name="preview" />
 
-      <div ref="optionsContainer" class="flex-1 w-full max-w-screen-sm mx-auto">
+      <div class="flex-1 w-full max-w-screen-sm mx-auto">
         <div>
           <FormEngine
+            class="my-4"
             state-key="optionsEngine"
             :model-value="currentValue"
             ui-size="md"

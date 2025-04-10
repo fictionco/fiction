@@ -48,10 +48,12 @@ vue.watch(
 const showPageGrid = vue.computed({
   get: () => props.site?.editorController.isUsingTool({ toolId: 'pages' }) || false,
   set: (value) => {
-    props.site?.editorController.useTool({ toolId: value ? 'pages' : '' })
+    const toolId = value ? 'pages' : ''
+    props.site?.editorController.useTool({ toolId })
   },
 })
-const maxGridPages = 12 // Limit to prevent performance issues
+
+const maxGridPages = 16 // Limit to prevent performance issues
 
 // Computed array of all site pages, limited to maxGridPages
 // Filter out system pages that start with __ and prioritize home page
@@ -277,7 +279,7 @@ function handlePageOrderUpdate(ids: string[]) {
         <!-- Page preview iframe -->
         <div class="relative size-full overflow-hidden bg-theme-100 dark:bg-theme-900">
           <iframe
-            :src="site.frame.framePageUrl({ slug: !page.isHome.value ? page.slug.value : '', siteMode: 'standard' })"
+            :src="site.frame.framePageUrl({ slug: !page.isHome.value ? page.slug.value : '', siteMode: 'designer' })"
             class="transform scale-[0.25] origin-top-left"
             style="width: 400%; height: 400%"
             frameborder="0"

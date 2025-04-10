@@ -16,36 +16,15 @@ const { buttons = [], title = '', icon } = defineProps<{
 
 <template>
   <div class="tool pb-24 pt-1">
-    <div v-if="title" class="header p-2 hidden justify-between items-center">
+    <div v-if="title" class="header p-2 flex justify-center items-center">
       <div
-        class="flex items-center"
+        v-if="icon"
+        class="icon mr-2 shrink-0 flex  items-center justify-center rounded-full "
       >
-        <div
-          v-if="icon"
-          class="icon mr-2 shrink-0 flex  items-center justify-center rounded-full "
-        >
-          <XIcon :media="icon" class="size-[1em]" />
-        </div>
-        <div class="title text-sm font-semibold">
-          {{ title }}
-        </div>
+        <XIcon :media="icon" class="size-[1em]" />
       </div>
-      <div class="buttons flex gap-2 flex-end items-center">
-        <XButton
-          v-for="button in buttons"
-          :key="button.label"
-          :label="button.label"
-          :theme="button.theme || 'primary'"
-          :design="button.design || 'outline'"
-          :icon="button.icon"
-          :disabled="button.disabled"
-          :loading="button.loading"
-          :size="button.size || 'xs'"
-          :href="button.href"
-          @click="button.onClick"
-        >
-          {{ button.label }}
-        </XButton>
+      <div class="title text-sm font-medium">
+        {{ title }}
       </div>
     </div>
 

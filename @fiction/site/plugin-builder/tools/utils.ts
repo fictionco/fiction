@@ -187,8 +187,55 @@ export function getSiteOptions(args: { site: Site }) {
   }
 }
 
-export function getPageOptions(args: { site: Site, page?: CardConfigPortable, temp?: CardConfigPortable }) {
-  const { site, page, temp } = args
+export function getPageOptions(args: { site: Site, page?: CardConfigPortable, temp?: CardConfigPortable, includeHomeOption?: boolean }) {
+  const { site, page, temp, includeHomeOption } = args
+
+  const basicOptions = [
+    createOption({
+      schema: PageSchema,
+      testId: 'add-page-title',
+      key: 'title',
+      label: 'Page Title',
+      input: 'InputText',
+      placeholder: toLabel(temp?.slug || page?.slug) || 'Enter Title',
+      isRequired: true,
+    }),
+
+    createOption({
+      schema: PageSchema,
+      testId: 'add-page-slug',
+      key: 'slug',
+      label: 'Slug',
+      input: 'InputUsername',
+      placeholder: 'page-slug',
+      isRequired: true,
+      props: {
+        beforeInput: `example.com/`,
+        table: t.pages,
+        columns: [
+          { name: 'slug', allowReserved: true },
+          { name: 'siteId', value: site.siteId },
+        ],
+      },
+    }),
+  ]
+
+  if (includeHomeOption) {
+    basicOptions.push(
+      createOption({
+        schema: PageSchema,
+        key: 'isHome',
+        label: 'Set as Home Page',
+        subLabel: 'If active, this page will be the default landing page for your site',
+        input: 'InputToggle',
+        props: {
+          onlyOn: page?.isHome,
+          textOn: 'Set as Home Page',
+        },
+      }),
+    )
+  }
+
   return {
     basic: createOption({
       schema: PageSchema,
@@ -196,47 +243,7 @@ export function getPageOptions(args: { site: Site, page?: CardConfigPortable, te
       label: 'Settings',
       input: 'group',
       icon: { class: 'i-tabler-file-plus' },
-      options: [
-        createOption({
-          schema: PageSchema,
-          testId: 'add-page-title',
-          key: 'title',
-          label: 'Page Title',
-          input: 'InputText',
-          placeholder: toLabel(temp?.slug || page?.slug) || 'Enter Title',
-          isRequired: true,
-        }),
-
-        createOption({
-          schema: PageSchema,
-          testId: 'add-page-slug',
-          key: 'slug',
-          label: 'Slug',
-          input: 'InputUsername',
-          placeholder: 'page-slug',
-          isRequired: true,
-          props: {
-            beforeInput: `example.com/`,
-            table: t.pages,
-            columns: [
-              { name: 'slug', allowReserved: true },
-              { name: 'siteId', value: site.siteId },
-            ],
-          },
-        }),
-        createOption({
-          schema: PageSchema,
-          key: 'isHome',
-          label: 'Set as Home Page',
-          subLabel: 'If active, this page will be the default landing page for your site',
-          input: 'InputToggle',
-          props: {
-            onlyOn: page?.isHome,
-            textOn: 'Set as Home Page',
-          },
-        }),
-
-      ],
+      options: basicOptions,
     }),
 
     seo: createOption({

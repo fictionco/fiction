@@ -113,6 +113,7 @@ const hasIconNav = vue.computed(() => {
               :vis="!!primaryTool?.el && primaryTool?.design !== 'drawer'"
               :modal-class="primaryTool?.modalClass || 'h-[80vh] w-full max-w-screen-md'"
               transition-mode="slideUp"
+              :has-close="true"
               @update:vis="controller?.useTool({ toolId: '' })"
             >
               <component

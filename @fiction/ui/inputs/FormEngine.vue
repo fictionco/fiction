@@ -64,7 +64,7 @@ const standardOptions = vue.computed(() =>
 )
 
 // Use tabs only when multiple groups exist at the same depth
-const useTabsForGroups = vue.computed(() => groupOptions.value.length > 1)
+const useTabsForGroups = vue.computed(() => groupOptions.value.length)
 
 // Active tab tracking
 const activeTabIndex = vue.ref(0)

@@ -34,6 +34,8 @@ export type EditorTool<T extends string = string, U extends Record<string, any> 
   onClick?: (args: { tool: EditorTool }) => void
 }
 
+type ToolDrawHide = 'both' | 'right' | 'left' | ''
+
 type AdminEditorControllerSettings = {
   tools: readonly EditorTool<any, any>[]
 }
@@ -55,7 +57,7 @@ export class AdminEditorController<T extends CardSurface = CardSurface> extends 
     super('AdminEditorController', settings)
   }
 
-  hideToolDrawers = vue.ref<'both' | 'right' | 'left' | ''>('')
+  hideToolDrawers = vue.ref<ToolDrawHide>('')
 
   activeToolId = { primary: vue.ref<string>(), context: vue.ref<string>() }
 

@@ -24,7 +24,7 @@ const pageConfig = vue.computed({
 const tempValue = vue.ref<Record<string, any>>({})
 
 const options = vue.computed(() => {
-  return getPageOptions({ site, page: pageConfig.value, temp: tempValue.value })
+  return getPageOptions({ site, page: pageConfig.value, temp: tempValue.value, includeHomeOption: true })
 })
 </script>
 

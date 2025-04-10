@@ -92,6 +92,11 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     // show all pages on load of designer
     if (this.siteMode.value === 'designer') {
       this.editorController.useTool({ toolId: 'pages' })
+
+      vue.watch(() => [this.editorController.activeTool.primary.value], (c) => {
+        const [tool] = c
+        this.editorController.hideToolDrawers.value = tool ? 'right' : ''
+      }, { immediate: true })
     }
   }
 
@@ -141,7 +146,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     }
     await theme.loadThemeTemplates({ site: this })
     this.themeConfig.value = await theme.getThemeConfig({ site: this })
-
   }
 
   async loadConfig(options: { loadThemePages?: boolean } = {}) {

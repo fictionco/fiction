@@ -18,7 +18,7 @@ const { site, tool } = props
 <template>
   <ElTool
     :tool
-    title="Add Sections"
+    :title="tool.title"
     :icon="tool.icon"
   >
     <ElForm class="p-4">

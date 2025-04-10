@@ -187,7 +187,7 @@ vue.watch(addElementsVisible, (visible) => {
               {{ toLabel(i) }}
             </div>
             <div class="space-y-2">
-              <div class="grid grid-cols-3 gap-4">
+              <div class="grid grid-cols-3 gap-6">
                 <div
                   v-for="(item, ii) in tplGroup"
                   :key="ii"
@@ -202,7 +202,7 @@ vue.watch(addElementsVisible, (visible) => {
                     class="w-full aspect-[5/3] rounded-md border border-theme-300/70 dark:border-theme-600 overflow-hidden shadow-md group-hover:ring-1 group-hover:ring-theme-400 dark:group-hover:ring-theme-400 transition-all"
                   />
                   <div
-                    class="p-1 text-[10px] tracking-tight line-clamp-2 truncate w-full text-center text-theme-400 dark:text-theme-200 font-mono font-medium"
+                    class="p-1 text-[9px] tracking-tight line-clamp-2 truncate w-full text-center text-theme-400 dark:text-theme-200 font-mono font-normal"
                   >
                     {{ item.settings.title }}
                   </div>
