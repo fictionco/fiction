@@ -209,6 +209,7 @@ export class Card<
   site = this.settings.site
   cardId = this.settings.cardId || objectId({ prefix: 'crd' })
   isHome = vue.ref(this.settings.isHome)
+  inNav = vue.ref(this.settings.inNav)
   isSystem = vue.ref(this.settings.isSystem)
   parentId = this.settings.parentId
   depth = vue.ref(this.settings.depth || 0)
@@ -309,7 +310,7 @@ export class Card<
       return
     }
 
-    const availableKeys = ['title', 'slug', 'userConfig', 'editorConfig', 'templateId', 'isHome']
+    const availableKeys = ['title', 'slug', 'userConfig', 'editorConfig', 'templateId', 'isHome', 'inNav']
     const newHomePage = cardConfig.isHome && this.site.homePageId.value !== this.cardId
     const entries = Object.entries(cardConfig).filter(([key]) => availableKeys.includes(key))
     entries.forEach(([key, value]) => {
@@ -405,6 +406,7 @@ export class Card<
       cards,
       scope: this.settings.scope,
       isHome: !!this.isHome.value,
+      inNav: !!this.inNav.value,
     }
   }
 

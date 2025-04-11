@@ -5,7 +5,7 @@ export function processNavItems<T extends NavListItem = NavListItem>(args: {
   fictionUser: FictionUser
   fictionRouter?: FictionRouter
   items: T[]
-  basePathPrefix: string
+  basePathPrefix?: string
 }): T[] {
   const { items, basePathPrefix, fictionUser, fictionRouter } = args
   const loggedIn = fictionUser.activeUser.value !== undefined
@@ -16,7 +16,7 @@ export function processNavItems<T extends NavListItem = NavListItem>(args: {
     const isHidden = !!((item.onAuthState === 'loggedIn' && !loggedIn) || (item.onAuthState === 'loggedOut' && loggedIn))
     const isActive = item.href === currentPath
 
-    const indexBasePath = `${basePathPrefix}.${index}`
+    const basePath = basePathPrefix ? `${basePathPrefix}.${index}` : undefined
 
     if (isHidden)
       return undefined
@@ -25,7 +25,7 @@ export function processNavItems<T extends NavListItem = NavListItem>(args: {
       ...item,
       isActive,
       isHidden,
-      basePath: indexBasePath,
+      basePath,
       id: shortId(), // Used to track which has dropdown open
       list: {
         ...item.list,
@@ -34,7 +34,7 @@ export function processNavItems<T extends NavListItem = NavListItem>(args: {
               fictionUser,
               fictionRouter,
               items: item.list.items,
-              basePathPrefix: `${indexBasePath}.list.items`,
+              basePathPrefix: `${basePath}.list.items`,
             })
           : undefined,
       },

@@ -20,7 +20,10 @@ export const template = cardTemplate({
 
   // Base configuration before user customization
   getBaseConfig: () => ({
-    standard: { spaceSize: 'xs' },
+    standard: {
+      spaceSize: 'xs',
+      widthSize: 'full',
+    },
   }),
 
   // Config implementation loaded asynchronously

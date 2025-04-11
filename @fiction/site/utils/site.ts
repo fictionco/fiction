@@ -90,7 +90,7 @@ export function setSections(args: { site: Site, sections?: Record<string, CardCo
     [existingSections, sections, themeSections, pageTemplateSections].flatMap(Object.keys),
   )]
 
-  return allSectionIds.reduce((acc, sectionId) => {
+  const out = allSectionIds.reduce((acc, sectionId) => {
     // scope is set by the original source of the section
     const scope = pageTemplateSections[sectionId] ? 'template' : 'site'
 
@@ -99,6 +99,8 @@ export function setSections(args: { site: Site, sections?: Record<string, CardCo
     acc[sectionId] = new Card({ ...config, regionId: sectionId, site, scope })
     return acc
   }, {} as Record<string, Card>)
+
+  return out
 }
 
 export async function localSiteConfig(args: { siteId: string, fields?: Partial<TableSiteConfig> }) {

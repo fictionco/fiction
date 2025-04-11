@@ -290,15 +290,6 @@ export async function getConfig(args: {
                   media: stock.getLocalMedia({ key: 'fictionLogo' }),
                 },
               },
-              nav: {
-                primary: [
-                  { label: 'Why Fiction', href: '/tour' },
-                  { label: 'Pricing', href: '/pricing' },
-                ],
-                utility: [
-                ],
-
-              },
 
             },
           }),

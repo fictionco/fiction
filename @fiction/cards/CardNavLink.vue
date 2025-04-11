@@ -3,6 +3,7 @@ import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
+import XText from '@fiction/ui/common/XText.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import CardButton from './CardButton.vue'
 import CardText from './CardText.vue'
@@ -12,14 +13,14 @@ defineOptions({
   name: 'CardNavLink',
 })
 
-const props = defineProps({
-  item: { type: Object as vue.PropType<NavListItem>, required: true },
-  depth: { type: Number, default: -1 },
-  card: { type: Object as vue.PropType<Card>, required: true },
-  path: { type: String, default: undefined },
-  hoverEffect: { type: String as vue.PropType<'underline'>, default: undefined },
-  animate: { type: String as vue.PropType<'rise' | 'fade'>, default: undefined },
-})
+const { item, depth = -1, card, path, hoverEffect, animate } = defineProps<{
+  item: NavListItem
+  depth?: number
+  card: Card
+  path?: string
+  hoverEffect?: 'underline'
+  animate?: 'rise' | 'fade'
+}>()
 
 // type NavLinkItem = {
 //   itemStyle?: 'button' | 'user' | 'default'
@@ -30,16 +31,24 @@ const props = defineProps({
 const service = useService()
 
 const styles = vue.computed(() => {
-  const item = props.item
   const isButton = item.variant === 'button'
   const componentType = isButton ? CardButton : CardLink
-  const hoverEffect = isButton ? undefined : props.hoverEffect
   const theme = item.theme || 'default'
 
   return { componentType, hoverEffect, theme }
 })
 
 const hoverClass = 'group-hover/nav-link:text-theme-500 dark:group-hover/nav-link:text-theme-200 transition-colors duration-300'
+
+const textClasses = vue.computed(() => {
+  return [
+    hoverClass,
+    hoverEffect === 'underline' && (card.link(item.href) || item.onClick)
+      ? 'nav-link-underline'
+      : '',
+    item.isActive ? 'is-active' : '',
+  ]
+})
 </script>
 
 <template>
@@ -77,13 +86,7 @@ const hoverClass = 'group-hover/nav-link:text-theme-500 dark:group-hover/nav-lin
         :path="`${item.basePath}.label`"
         tag="span"
         class="block relative"
-        :class="[
-          hoverClass,
-          styles.hoverEffect === 'underline' && (card.link(item.href) || item.onClick)
-            ? 'nav-link-underline'
-            : '',
-          item.isActive ? 'is-active' : '',
-        ]"
+        :class="textClasses"
         :animate
       />
       <span
@@ -92,10 +95,13 @@ const hoverClass = 'group-hover/nav-link:text-theme-500 dark:group-hover/nav-lin
       >
         <slot />
       </span>
-      <span
+      <XText
         v-else
+        tag="span"
         class="block"
-        v-html="item.label"
+        :model-value="item.label"
+        :animate
+        :class="textClasses"
       />
 
       <XIcon

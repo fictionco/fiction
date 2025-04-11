@@ -60,7 +60,7 @@ export function getContentWidthClass(args: { size: SizeWithNone, padSize?: SizeW
   let padClass = ''
   if (padSize === true) {
     // If padSize is true, use the same size as the content width
-    padClass = padClasses.md
+    padClass = padClasses[size]
   }
   else if (padSize && padSize !== 'none') {
     // If padSize is specified and not 'none', use that size

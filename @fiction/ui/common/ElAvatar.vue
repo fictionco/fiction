@@ -51,13 +51,13 @@ const media = vue.computed<MediaObject>(() => {
 </script>
 
 <template>
-  <div class="relative rounded-full overflow-hidden dark:bg-theme-800 bg-theme-100 text-theme-500 dark:text-theme-400">
+  <div class="relative rounded-full overflow-hidden dark:bg-theme-800 bg-theme-100 text-theme-500 dark:text-theme-400 select-none">
     <XMedia
       class="absolute inset-0 overflow-hidden"
       :media="media"
     />
     <div
-      class="absolute inset-0 z-10 mix-blend-overlay dark:mix-blend-difference pointer-events-none ring-2 ring-inset ring-black dark:ring-theme-400 rounded-full"
+      class="absolute inset-0 z-10 pointer-events-none ring-2 ring-inset ring-white rounded-full"
     />
   </div>
 </template>

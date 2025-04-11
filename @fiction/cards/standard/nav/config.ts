@@ -36,26 +36,7 @@ function getOptions() {
         }),
       ],
     }),
-    createOption({
-      key: 'layoutGroup',
-      label: 'Layout',
-      input: 'group',
-      schema,
-      icon: { class: 'i-tabler-layout' },
-      options: [
-        createOption({
-          key: 'layout',
-          input: 'InputRadioButton',
-          props: { uiSize: 'sm' },
-          schema,
-          list: [
-            { label: 'Center Nav', value: 'navCenter', description: 'Navigation centered with logo on side' },
-            { label: 'Center Logo', value: 'logoCenter', description: 'Logo centered with split navigation' },
-            { label: 'Justified', value: 'justified', description: 'Fully justified spacing' },
-          ],
-        }),
-      ],
-    }),
+
     createOption({
       key: 'navGroup',
       label: 'Navigation',
@@ -66,12 +47,6 @@ function getOptions() {
         createOption({
           key: 'nav.primary',
           label: 'Main Navigation',
-          input: 'InputNav',
-          schema,
-        }),
-        createOption({
-          key: 'nav.utility',
-          label: 'Utility Navigation',
           input: 'InputNav',
           schema,
         }),
