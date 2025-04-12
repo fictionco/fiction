@@ -1,4 +1,3 @@
-import type { MapUserConfig } from '@fiction/cards/user/maps/index.js'
 import type { NavItem } from '@fiction/core'
 import type { Site, ThemeConfig } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
@@ -15,6 +14,7 @@ import * as affiliate from './affiliate/index.js'
 import { getDemosPage } from './demos/index.js'
 import * as developer from './developer/index.js'
 import * as homePage from './home/index.js'
+import { getAboutPage } from './pages/about/index.js'
 import { getPricingPage } from './pages/pricing/index.js'
 import { getTourPage } from './pages/tour/index.js'
 
@@ -23,205 +23,6 @@ const social: NavItem[] = [
   { key: 'github', href: 'https://github.com/fictionco', target: '_blank', label: 'Github', media: { iconId: `brand-github` } },
   { key: 'x', href: 'https://www.x.com/fictionplatform', target: '_blank', label: 'X', media: { iconId: `brand-x` } },
 ]
-
-export async function getAboutPage(args: { site: Site, factory: CardFactory }) {
-  const { factory } = args
-  const topHeroCard = cardConfig({
-    templateId: 'cardHeroV1',
-    userConfig: {
-      items: [
-        {
-          superTitle: {
-            icon: { class: 'i-tabler-home' },
-            theme: 'primary',
-            text: 'About Fiction',
-          },
-          title: `Built for Storytellers`,
-          subTitle: `Fiction helps experts and leaders tell their story. Born in California.`,
-
-          media: {
-            format: 'url',
-            url: new URL('img/about/fiction-office.webp', import.meta.url).href,
-          },
-          layout: 'justify',
-          action: { buttons: [
-            {
-              label: 'Join The Community',
-              href: '/app/auth?_reload=1',
-              theme: 'primary',
-              icon: 'i-tabler-users',
-            },
-          ] },
-        },
-      ],
-    },
-  })
-
-  const missionHeroCard = cardConfig({
-    templateId: 'cardHeroV1',
-    userConfig: {
-      items: [
-        {
-          superTitle: {
-            icon: { class: 'i-tabler-trending-up' },
-            text: 'The Vision',
-            theme: 'orange',
-          },
-          title: `Own Your Influence`,
-          subTitle: `Stop relying on social media algorithms to reach your audience. Fiction gives you the tools to build a personal brand that lasts.`,
-
-          media: {
-            format: 'url' as const,
-            url: new URL('img/about/pro.webp', import.meta.url).href,
-          },
-          layout: 'left',
-          action: { buttons: [] },
-        },
-      ],
-    },
-  })
-
-  const missionHeroCard2 = cardConfig({
-    templateId: 'cardHeroV1',
-    userConfig: {
-      items: [
-        {
-          superTitle: {
-            icon: { class: 'i-tabler-users' },
-            text: 'Excellence',
-            theme: 'green',
-          },
-          title: `Simple Tools, Powerful Results`,
-          subTitle: `Professional tools shouldn't require an engineering degree. Fiction combines powerful features with refined simplicity.`,
-          media: {
-            format: 'url',
-            url: new URL('img/about/girl-computer.webp', import.meta.url).href,
-          },
-          layout: 'right',
-          action: { buttons: [] },
-        },
-      ],
-    },
-  })
-
-  // const teamCard = cardConfig({
-  //   templateId: 'cardPeopleV1',
-  //   userConfig: {
-  //     subTitle: `Innovation in Personal Branding`,
-  //     title: `Execs`,
-  //     items: [{
-  //       title: 'Andrew Powers',
-  //       subTitle: 'Founder',
-  //       content: 'Andrew has spent his career at the intersection of design and influence. After growing his web-tools company, PageLines, to 70,000 customers, he saw a need: people need an easier way to own their online presence.',
-  //       media: {
-  //         format: 'url',
-  //         url: new URL('img/about/ap.webp', import.meta.url).href,
-  //       },
-  //       action: {
-  //         buttons: [{
-  //           label: 'LinkedIn',
-  //           theme: 'cyan',
-  //           icon: { class: 'i-tabler-brand-linkedin' },
-  //           href: 'https://www.linkedin.com/in/arpowers',
-  //         }],
-  //       },
-  //     }],
-  //     layout: 'mediabox',
-  //   },
-  // })
-
-  const mapIrvine: MapUserConfig = {
-    lat: 33.5427,
-    lng: -117.7854,
-    zoom: 15,
-    pitch: 60,
-    markers: [{ lat: 33.5427, lng: -117.7854, label: 'Orange County, CA' }],
-    mapStyle: 'satellite' as const,
-  }
-
-  const mapSaltLake: MapUserConfig = {
-    lat: 40.7608,
-    lng: -111.8910,
-    zoom: 8,
-    pitch: 80,
-    markers: [{ lat: 40.7608, lng: -111.8910, label: 'Salt Lake City, UT' }],
-    mapStyle: 'outdoors' as const,
-  }
-
-  const mapCard = cardConfig({
-    templateId: 'cardMapsV1',
-    userConfig: {
-      maps: [mapIrvine, mapSaltLake],
-    },
-  })
-
-  const valueCard = cardConfig({
-    templateId: 'cardFaqV1',
-    userConfig: {
-      layout: 'visible',
-      standard: {
-        headers: {
-          title: 'Core Values',
-          subTitle: 'The principles that guide Fiction',
-        },
-      },
-      items: [
-        {
-          title: 'Purpose-Driven Focus',
-          content: `Creating extraordinary value means understanding specific needs. Fiction helps you connect with the people who resonate most with your message.`,
-          icon: { iconId: 'target' },
-        },
-        {
-          title: `Refined Excellence`,
-          content: `Quality elevates everyone. We craft tools that exceed expectations, because building influence demands the best.`,
-          icon: { class: 'i-tabler-sparkles' },
-        },
-        {
-          title: `Beautiful Simplicity`,
-          content: `In a complex world, clarity stands out. Fiction strips away the unnecessary, letting you focus on what matters - connecting with your audience.`,
-          icon: { iconId: 'sparkles' },
-        },
-        {
-          title: `Forward Motion`,
-          content: `Progress requires momentum. We constantly refine and evolve our platform to keep our users ahead of the curve.`,
-          icon: { iconId: 'rocket' },
-        },
-      ],
-      support: {
-        text: 'Ready to elevate your influence?',
-        action: {
-          buttons: [
-            {
-              label: 'Get Started',
-              href: '/tour',
-              theme: 'primary',
-              icon: 'i-tabler-arrow-right',
-            },
-          ],
-        },
-      },
-    },
-  })
-
-  return factory.fromTemplate({
-    regionId: 'main',
-    templateId: 'cardPageWrapV1',
-    slug: 'about',
-    cards: [
-      cardConfig({
-        templateId: 'cardPageAreaV1',
-        cards: [
-          topHeroCard,
-          missionHeroCard,
-          missionHeroCard2,
-          mapCard,
-          valueCard,
-        ],
-      }),
-
-    ],
-  })
-}
 
 export async function getConfig(args: {
   site: Site
@@ -240,7 +41,7 @@ export async function getConfig(args: {
     getTourPage(pageArgs),
     homePage.getHomePage(pageArgs),
     getPricingPage(pageArgs),
-    getAboutPage(pageArgs),
+    getAboutPage(),
     getDemosPage(pageArgs),
     developer.page({ ...args, factory }),
     affiliate.page({ ...args, factory }),

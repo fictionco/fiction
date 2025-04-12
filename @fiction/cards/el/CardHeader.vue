@@ -66,7 +66,7 @@ const layout = vue.computed(() => {
         <CardText
           tag="h1"
           :card
-          class="x-font-title font-semibold md:text-balance text-3xl leading-[1.4] md:text-4xl md:leading-[1.2] lg:text-5xl lg:leading-[1.1]"
+          class="x-font-title font-semibold md:text-balance text-3xl leading-[1.4] md:text-4xl md:leading-[1.2] lg:text-5xl lg:leading-[1.2]"
           :path="pathCheck('title', schema)"
           placeholder="Title"
           animate="fade"
@@ -76,7 +76,7 @@ const layout = vue.computed(() => {
         <CardText
           tag="h3"
           :card
-          class="text-lg md:text-xl lg:text-2xl md:text-balance text-theme-800 dark:text-theme-200"
+          class="text-lg md:text-xl lg:text-2xl md:text-balance text-theme-800 dark:text-theme-200 !leading-relaxed"
           :class="layout === 'justify' ? 'lg:text-right' : ''"
           :path="pathCheck('subTitle', schema)"
           placeholder="Sub Title"

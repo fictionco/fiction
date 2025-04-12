@@ -134,7 +134,7 @@ const textClasses = vue.computed(() => {
     bottom: -0.2em;
     left: 0;
     right: 0;
-    height: 2px;
+    height: 1.5px;
     border-radius: 5px;
     background-color: currentColor;
     transform: scaleX(0);
@@ -146,14 +146,14 @@ const textClasses = vue.computed(() => {
   &:hover::after {
     transform: scaleX(1) scaleY(1.2);
     transform-origin: left center;
-    height: 2px;
+    height: 1.5px;
   }
 
   // Exit: animate out to left
   &:not(:hover)::after {
     transform: scaleX(0) scaleY(0);
     transform-origin: right center;
-    height: 2px;
+    height: 1.5px;
   }
 
   // Active state

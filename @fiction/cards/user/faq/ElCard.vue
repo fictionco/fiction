@@ -5,6 +5,7 @@ import { pathCheck, vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
+import XEntry from '@fiction/ui/prose/XEntry.vue'
 import CardText from '../../CardText.vue'
 import CardActionArea from '../../el/CardActionArea.vue'
 import { schema } from './config.js'
@@ -43,7 +44,7 @@ function isItemOpen(index: number) {
 <template>
   <div :class="card.classes.value.contentWidth" :data-layout-mode="layout">
     <!-- FAQ Items List -->
-    <div class="max-w-screen-lg mx-auto space-y-4">
+    <div class="max-w-screen-md mx-auto space-y-4">
       <div
         v-for="(item, i) in uc.items"
         :key="i"
@@ -67,7 +68,7 @@ function isItemOpen(index: number) {
               <CardText
                 :card
                 :path="pathCheck(`items.${i}.title`, schema)"
-                class="x-font-title text-xl lg:text-2xl font-semibold text-theme-900 dark:text-theme-100 transition-colors"
+                class="x-font-title text-xl lg:text-3xl font-semibold text-theme-900 dark:text-theme-100 transition-colors"
                 :class="[
                   isItemOpen(i) && 'text-primary-600 dark:text-primary-400',
                 ]"
@@ -91,7 +92,7 @@ function isItemOpen(index: number) {
             <TransitionSlide>
               <div v-show="isItemOpen(i)" class="relative">
                 <div
-                  class="space-y-4 py-2"
+                  class="space-y-4 pt-4"
                 >
                   <!-- Media if present -->
                   <XMedia
@@ -100,12 +101,13 @@ function isItemOpen(index: number) {
                     class="rounded-lg overflow-hidden bg-theme-100 dark:bg-theme-800 aspect-video w-96 my-6"
                   />
 
-                  <!-- Content -->
-                  <CardText
-                    :card
-                    :path="pathCheck(`items.${i}.content`, schema)"
-                    class="prose prose-theme dark:prose-invert prose prose-lg md:prose-2xl "
-                  />
+                  <XEntry>
+                    <CardText
+                      :card
+                      :path="pathCheck(`items.${i}.content`, schema)"
+                      class="text-lg sm:text-xl lg:text-2xl !leading-relaxed"
+                    />
+                  </XEntry>
                 </div>
               </div>
             </TransitionSlide>

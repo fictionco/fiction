@@ -68,14 +68,14 @@ const layoutClass = vue.computed(() => {
             </div>
 
             <div
-              class="hidden md:flex gap-x-8 items-center grow-0"
+              class="hidden md:flex gap-x-4 items-center grow-0 pt-1"
             >
               <CardNavLink
                 v-for="(item, i) in nav.primary"
                 :key="i"
                 :card
                 :item
-                class="py-1.5 text-base font-sans font-medium inline-flex items-center"
+                class="py-1 px-3 text-sm font-sans font-medium inline-flex items-center rounded-lg"
                 :depth="0"
                 hover-effect="underline"
               />

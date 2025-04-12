@@ -1,6 +1,9 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StockMedia } from '@fiction/ui/stock/index.js'
 import { cardConfig } from '@fiction/cards/index.js'
+import ImageAbstract2 from './img/abstract1.webp'
+import ImageAbstract from './img/abstract2.webp'
+import ImageAbstract3 from './img/abstract3.webp'
 import ImageAndrew from './img/andrew.jpg'
 import ImageBrian from './img/brian.jpg'
 import ImageDean from './img/dean2.jpg'
@@ -38,7 +41,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                     icon: { class: 'i-tabler-rocket' },
                   },
                   title: `Become the [@text_effect type=squiggle]Authority[/@text_effect] in your industry.`,
-                  subTitle: `Fiction helps leaders become influencers. Start crafting your online persona and building your audience today.`,
+                  subTitle: `Fiction helps leaders become influencers. Start crafting your online persona and building your reputation.`,
 
                   action: {
                     buttons: [
@@ -169,7 +172,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                     text: 'Online Personal Branding Meets AI',
                   },
                   title: 'It all begins with your story...',
-                  content: 'Your professional avatar is your web presence, your reputation, and your personal brand. Use Fiction to tell your story, express your expertise, and build your network.',
+                  content: 'Your web presence, your reputation, and your personal brand. Use Fiction to tell your story, express your expertise, and build your network.',
                   theme: 'blue',
                   themeMode: 'dark',
                   verticalPosition: 'bottom',
@@ -207,29 +210,30 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   rows: 2,
                   superTitle: {
                     icon: { class: 'i-tabler-rocket' },
-                    text: 'Own Your Brand',
+                    text: 'Homebase',
                   },
-                  title: 'Websites Optimized for Personal Brands',
-                  content: 'Your story deserves a home that reflects your voice. Fiction crafts stunning personal websites with effortless customization.',
+                  title: 'Website',
+                  content: 'A stunning personal website with effortless customization.',
                   theme: 'orange',
                   themeMode: 'dark',
                   verticalPosition: 'bottom',
                   horizontalPosition: 'left',
-
+                  bg: { ...stock.getAssetBySlug('whvmql'), overlay: { opacity: 0.3 } },
                 },
                 {
                   cols: 4,
                   rows: 2,
                   superTitle: {
                     icon: { class: 'i-tabler-mail' },
-                    text: 'Capture & Connect',
+                    text: 'Inbox',
                   },
-                  title: 'Build an Audience, Start Your Newsletter',
-                  content: 'Engage your audience with every send. Fiction helps you build your email list and deliver newsletters that captivate.',
+                  title: 'Newsletter',
+                  content: 'Capture leads and contacts, then nurture them with a newsletter.',
                   theme: 'blue',
                   themeMode: 'dark',
                   verticalPosition: 'bottom',
                   horizontalPosition: 'left',
+                  bg: { ...stock.getAssetBySlug('dvyiy3'), overlay: { opacity: 0.3 } },
 
                 },
                 {
@@ -237,15 +241,15 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   rows: 2,
                   superTitle: {
                     icon: { class: 'i-tabler-bolt' },
-                    text: 'Powered by AI',
+                    text: 'Content',
                   },
-                  title: 'Effortless Content Creation with AI',
-                  content: 'Stuck on words? Use AI tools to unlock creativity. Craft content that inspires, informs, and converts.',
+                  title: 'Posts',
+                  content: 'Craft content that inspires, informs, and converts.',
                   theme: 'green',
                   themeMode: 'dark',
                   verticalPosition: 'bottom',
                   horizontalPosition: 'left',
-
+                  bg: { ...stock.getAssetBySlug('aratfe'), overlay: { opacity: 0.3 } },
                 },
               ],
             },

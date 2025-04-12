@@ -12,19 +12,38 @@ const props = defineProps({
   },
 })
 
-const uc = vue.computed(() => {
-  return props.card.userConfig.value || {}
-})
+const uc = vue.computed(() => props.card.userConfig.value || {})
 </script>
 
 <template>
   <div :class="card.classes.value.contentWidth">
-    <div class="grid grid-cols-1 gap-x-6 lg:gap-x-16 gap-y-20 lg:grid-cols-3">
-      <div v-if="uc.title" class="mx-auto max-w-2xl lg:mx-0 text-center lg:text-right space-y-3 ">
-        <CardText animate="fade" :card path="title" tag="h2" class="text-2xl font-semibold md:text-3xl xl:text-5xl md:text-balance x-font-title" />
-        <CardText animate="fade" :card path="subTitle" tag="p" class="text-lg lg:text-2xl leading-8 dark:text-theme-300" />
+    <div class="grid grid-cols-1 gap-x-8 lg:gap-x-16 gap-y-12 lg:grid-cols-12">
+      <!-- Header section with improved spacing and alignment -->
+      <div
+        v-if="uc.title"
+        class="lg:col-span-4 flex flex-col text-center lg:text-left space-y-4"
+      >
+        <CardText
+          animate="fade"
+          :card
+          path="title"
+          tag="h2"
+          class="text-3xl font-semibold tracking-tight md:text-4xl x-font-title"
+        />
+        <CardText
+          animate="fade"
+          :card
+          path="subTitle"
+          tag="p"
+          class="text-base md:text-lg xl:text-xl leading-relaxed text-theme-600 dark:text-theme-300"
+        />
       </div>
-      <StandardTeam :card class="grid-cols-1 " :class="uc.title ? 'lg:col-span-2' : 'lg:col-span-3'" />
+
+      <!-- Team members with adaptive column span -->
+      <StandardTeam
+        :card
+        :class="uc.title ? 'lg:col-span-8' : 'lg:col-span-12'"
+      />
     </div>
   </div>
 </template>
