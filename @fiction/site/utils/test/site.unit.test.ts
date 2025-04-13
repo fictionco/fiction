@@ -4,7 +4,7 @@
 
 import type { EditorState } from '../../site.js'
 import FSite from '@fiction/cards/CardSite.vue'
-import { AppRoute, shortId, waitFor } from '@fiction/core'
+import { AppRoute, shortId } from '@fiction/core'
 import { afterAll, describe, expect, it } from 'vitest'
 import { requestManageSite } from '../../load.js'
 import { Site } from '../../site.js'

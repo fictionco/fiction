@@ -1,11 +1,12 @@
 import type { FictionAdmin } from '@fiction/admin'
 
-import type {  dashTemplate  } from '@fiction/admin/dashboard/templates'
+import type { dashTemplate } from '@fiction/admin/dashboard/templates'
 import type { FictionAnalytics } from '@fiction/analytics'
 import type { FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, FictionRevision, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionContact } from '@fiction/plugin-contact'
-import { cardTemplate, type FictionSites } from '@fiction/site'
+import type { FictionSites } from '@fiction/site'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
+import { cardTemplate } from '@fiction/site'
 import { QueryManagePost } from './endpoint'
 import { FictionPublish } from './publish'
 import { getRoutes } from './routes'
@@ -86,9 +87,9 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
       key: 'posts',
       getTemplates: async () => {
         return [
-          cardTemplate({templateId: 'tplManagePost', el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue'))}),
-          cardTemplate({templateId: 'tplManagePostEdit', el: vue.defineAsyncComponent(() => import('./admin/PagePostEdit.vue'))}),
-          cardTemplate({templateId: 'tplManagePostPreview', el: vue.defineAsyncComponent(() => import('./admin/ViewPreview.vue'))}),
+          cardTemplate({ templateId: 'tplManagePost', el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) }),
+          cardTemplate({ templateId: 'tplManagePostEdit', el: vue.defineAsyncComponent(() => import('./admin/PagePostEdit.vue')) }),
+          cardTemplate({ templateId: 'tplManagePostPreview', el: vue.defineAsyncComponent(() => import('./admin/ViewPreview.vue')) }),
         ]
       },
       getPages: async ({ factory }) => [
@@ -112,7 +113,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
           cards: [
             await factory.fromTemplate({
               templateId: 'tplManagePostEdit',
-              userConfig: { standard: { spaceSize: 'none' }},
+              userConfig: { standard: { spaceSize: 'none' } },
             }),
           ],
           userConfig: { layoutFormat: 'full' },

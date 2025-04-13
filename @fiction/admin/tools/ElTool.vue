@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { ActionButton, MediaObject } from '@fiction/core'
 import type { EditorTool } from './tools'
-import XButton from '@fiction/ui/buttons/XButton.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 
 defineOptions({ name: 'ElTool' })

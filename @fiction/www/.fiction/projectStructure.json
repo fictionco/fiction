@@ -6,7 +6,6 @@
         "AuthView.vue": null,
         "DashBar.vue": null,
         "DashBarMenu.vue": null,
-        "DashDarkModeToggle.vue": null,
         "DashNav.vue": null,
         "DashWrap.vue": null,
         "ElAvatarOrg.vue": null,
@@ -20,11 +19,11 @@
         "WidgetChart.vue": null,
         "WidgetVideo.vue": null,
         "WidgetWrap.vue": null,
-        "cardDash.ts": null,
         "img": {
           "pin.svg": null,
           "screenshot.jpg": null
         },
+        "templates.ts": null,
         "util.ts": null,
         "widget.ts": null
       },
@@ -178,169 +177,10 @@
       "CardSite.vue": null,
       "CardText.vue": null,
       "CardTextPost.vue": null,
+      "CardToolDropdown.vue": null,
       "CardWrap.vue": null,
       "EffectTransitionCardList.vue": null,
       "SiteText.vue": null,
-      "content-bento": {
-        "ElBento.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null,
-        "utils.ts": null
-      },
-      "content-faq": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null
-      },
-      "content-features": {
-        "ElCard.vue": null,
-        "FeatureItem.vue": null,
-        "FeaturesCarousel.vue": null,
-        "FeaturesGrid.vue": null,
-        "FeaturesMasonry.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null
-      },
-      "content-hero": {
-        "ElHero.vue": null,
-        "config.ts": null,
-        "hero.card-ui.test.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null
-      },
-      "content-people": {
-        "ElCard.vue": null,
-        "StandardTeam.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null,
-        "static": {
-          "people-natasha.png": null,
-          "people-steve.png": null,
-          "people-thor.png": null,
-          "people-tony.png": null
-        }
-      },
-      "content-profile": {
-        "ElCard.vue": null,
-        "card.unit.test.ts": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null
-      },
-      "content-steps": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null
-      },
-      "content-story": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null,
-        "static": {
-          "bond1.png": null,
-          "bond2.jpg": null,
-          "bond3.jpg": null,
-          "bond4.png": null
-        }
-      },
-      "content-timeline": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null
-      },
-      "content-tour": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null
-      },
-      "convert-capture": {
-        "DemoProse.vue": null,
-        "EffectScrollModal.vue": null,
-        "ElCard.vue": null,
-        "EmailForm.vue": null,
-        "captureCard.card-ui.test.ts": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null
-      },
-      "convert-contact": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null
-      },
-      "convert-cta": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null
-      },
-      "convert-pricing": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null
-      },
-      "effect-shape": {
-        "ElEffect.vue": null,
-        "config.ts": null,
-        "index.ts": null
-      },
-      "effect-text": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "index.ts": null
-      },
       "el": {
         "CardActionArea.vue": null,
         "CardActionAreaConfirmModal.vue": null,
@@ -357,148 +197,9 @@
         "SuperTitle.vue": null,
         "util.ts": null
       },
-      "gallery-masonry": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null
-      },
-      "gallery-parallax-scroll": {
-        "CardContent.vue": null,
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null,
-        "static": {
-          "trek-1.png": null,
-          "trek-2.png": null,
-          "trek-3.png": null,
-          "trek-4.png": null
-        }
-      },
-      "gallery-showcase": {
-        "ElShowcase.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null,
-        "showcase.card-ui.test.ts": null,
-        "static": {
-          "showcase-adidas.png": null,
-          "showcase-amazon.png": null,
-          "showcase-apple.png": null,
-          "showcase-cocacola.png": null,
-          "showcase-coke.png": null,
-          "showcase-disney.png": null,
-          "showcase-google.png": null,
-          "showcase-microsoft.png": null,
-          "showcase-netflix.png": null,
-          "showcase-nike.png": null,
-          "showcase-spotify.png": null,
-          "showcase-starbucks.png": null,
-          "showcase-tesla.png": null
-        }
-      },
       "index.ts": null,
-      "location-maps": {
-        "ElCard.vue": null,
-        "ElMap.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null
-      },
-      "media-marquee": {
-        "ElMarquee.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
-        },
-        "index.ts": null,
-        "marquee.card-ui.test.ts": null,
-        "static": {
-          "marquee-min-1.png": null,
-          "marquee-min-2.png": null,
-          "marquee-min-3.png": null,
-          "marquee-min-4.png": null,
-          "marquee-min-5.png": null
-        }
-      },
-      "modal-media": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "index.ts": null,
-        "mediaEmbedder.ts": null,
-        "test": {
-          "embedder.unit.test.ts": null
-        }
-      },
       "notes.md": null,
       "package.json": null,
-      "page": {
-        "area": {
-          "ElArea.vue": null,
-          "config.ts": null,
-          "img": {
-            "screen-dark.svg": null,
-            "screen-light.svg": null
-          },
-          "index.ts": null
-        },
-        "error404": {
-          "El404.vue": null,
-          "index.ts": null
-        },
-        "footer-personal": {
-          "ElCard.vue": null,
-          "config.ts": null,
-          "img": {
-            "screen-dark.svg": null,
-            "screen-light.svg": null
-          },
-          "index.ts": null
-        },
-        "footer-pro": {
-          "ElCard.vue": null,
-          "config.ts": null,
-          "img": {
-            "screen-dark.svg": null,
-            "screen-light.svg": null
-          },
-          "index.ts": null
-        },
-        "nav": {
-          "ElCard.vue": null,
-          "XNav.vue": null,
-          "config.ts": null,
-          "img": {
-            "screen-dark.svg": null,
-            "screen-light.svg": null
-          },
-          "index.ts": null
-        },
-        "transaction": {
-          "CardWrapTransaction.vue": null,
-          "TransactionView.vue": null,
-          "TransactionWrap.vue": null,
-          "index.ts": null
-        },
-        "wrap": {
-          "CardWrap.vue": null,
-          "index.ts": null
-        }
-      },
       "posts": {
         "list": {
           "ElCard.vue": null,
@@ -521,109 +222,360 @@
             "screen-dark.svg": null,
             "screen-light.svg": null
           },
-          "index.ts": null,
-          "ssrUtil.ts": null
+          "index.ts": null
         }
       },
-      "proof-logos": {
-        "ElLogos.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
+      "pro": {
+        "footer-personal": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
         },
-        "index.ts": null
-      },
-      "proof-metrics": {
-        "ElMetrics.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
+        "footer-pro": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
         },
-        "index.ts": null
+        "pricing": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        }
       },
-      "proof-quotes": {
-        "ElQuote.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
+      "standard": {
+        "area": {
+          "ElArea.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
         },
-        "index.ts": null
-      },
-      "proof-testimonials": {
-        "ElCard.vue": null,
-        "LayoutMasonry.vue": null,
-        "LayoutMega.vue": null,
-        "LayoutSlider.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
+        "capture": {
+          "DemoProse.vue": null,
+          "EffectScrollModal.vue": null,
+          "ElCard.vue": null,
+          "EmailForm.vue": null,
+          "captureCard.card-ui.test.ts": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
         },
-        "index.ts": null
-      },
-      "slider-cinema": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "city-photo.jpg": null,
-          "desert-photo.mp4": null,
-          "mountain-photo.mp4": null,
-          "night-photo.mp4": null,
-          "screen-dark.svg": null,
-          "screen-light.svg": null,
-          "wildlife-photo.mp4": null
+        "error404": {
+          "El404.vue": null,
+          "index.ts": null
         },
-        "index.ts": null
-      },
-      "slider-overlay": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
+        "mediaModal": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "index.ts": null,
+          "mediaEmbedder.ts": null,
+          "test": {
+            "embedder.unit.test.ts": null
+          }
         },
-        "index.ts": null
-      },
-      "slider-statement": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
+        "nav": {
+          "ElCard.vue": null,
+          "__XNav.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
         },
-        "index.ts": null
-      },
-      "social-insta": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "index.ts": null,
-        "queries.ts": null
+        "textEffects": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "index.ts": null
+        },
+        "transaction": {
+          "CardWrapTransaction.vue": null,
+          "TransactionView.vue": null,
+          "TransactionWrap.vue": null,
+          "index.ts": null
+        },
+        "wrap": {
+          "CardWrap.vue": null,
+          "index.ts": null
+        }
       },
       "tailwind.config.ts": null,
       "test": {
         "inputOption.unit.test.ts": null,
         "tpl.unit.test.ts": null
       },
-      "typography-fit-text": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
+      "user": {
+        "bento": {
+          "ElBento.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null,
+          "utils.ts": null
         },
-        "index.ts": null
-      },
-      "typography-ticker": {
-        "ElCard.vue": null,
-        "config.ts": null,
-        "img": {
-          "screen-dark.svg": null,
-          "screen-light.svg": null
+        "contact": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
         },
-        "index.ts": null
+        "faq": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        },
+        "features": {
+          "ElCard.vue": null,
+          "FeatureItem.vue": null,
+          "FeaturesCarousel.vue": null,
+          "FeaturesGrid.vue": null,
+          "FeaturesMasonry.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        },
+        "fitText": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        },
+        "hero": {
+          "ElCard.vue": null,
+          "ElHero.vue": null,
+          "config.ts": null,
+          "hero.card-ui.test.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        },
+        "logos": {
+          "ElLogos.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        },
+        "maps": {
+          "ElCard.vue": null,
+          "ElMap.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        },
+        "marquee": {
+          "ElMarquee.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null,
+          "marquee.card-ui.test.ts": null,
+          "static": {
+            "marquee-min-1.png": null,
+            "marquee-min-2.png": null,
+            "marquee-min-3.png": null,
+            "marquee-min-4.png": null,
+            "marquee-min-5.png": null
+          }
+        },
+        "masonryGallery": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        },
+        "metrics": {
+          "ElMetrics.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        },
+        "overlaySlider": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        },
+        "parallaxScroll": {
+          "CardContent.vue": null,
+          "ElCard.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null,
+          "static": {
+            "trek-1.png": null,
+            "trek-2.png": null,
+            "trek-3.png": null,
+            "trek-4.png": null
+          }
+        },
+        "people": {
+          "ElCard.vue": null,
+          "StandardTeam.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null,
+          "static": {
+            "people-natasha.png": null,
+            "people-steve.png": null,
+            "people-thor.png": null,
+            "people-tony.png": null
+          }
+        },
+        "profile": {
+          "ElCard.vue": null,
+          "card.unit.test.ts": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        },
+        "quotes": {
+          "ElQuote.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        },
+        "showcase": {
+          "ElShowcase.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null,
+          "showcase.card-ui.test.ts": null,
+          "static": {
+            "showcase-adidas.png": null,
+            "showcase-amazon.png": null,
+            "showcase-apple.png": null,
+            "showcase-cocacola.png": null,
+            "showcase-coke.png": null,
+            "showcase-disney.png": null,
+            "showcase-google.png": null,
+            "showcase-microsoft.png": null,
+            "showcase-netflix.png": null,
+            "showcase-nike.png": null,
+            "showcase-spotify.png": null,
+            "showcase-starbucks.png": null,
+            "showcase-tesla.png": null
+          }
+        },
+        "steps": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        },
+        "story": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null,
+          "static": {
+            "bond1.png": null,
+            "bond2.jpg": null,
+            "bond3.jpg": null,
+            "bond4.png": null
+          }
+        },
+        "testimonials": {
+          "ElCard.vue": null,
+          "LayoutMasonry.vue": null,
+          "LayoutMega.vue": null,
+          "LayoutSlider.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        },
+        "ticker": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        },
+        "timeline": {
+          "ElCard.vue": null,
+          "config.ts": null,
+          "img": {
+            "screen-dark.svg": null,
+            "screen-light.svg": null
+          },
+          "index.ts": null
+        }
       },
       "utils": {
         "generateStructure.ts": null,
@@ -962,6 +914,7 @@
         "serverHealth.ts": null,
         "snapshot.ts": null,
         "socket.ts": null,
+        "ssr.ts": null,
         "static.ts": null,
         "steps.ts": null,
         "store.ts": null,
@@ -1318,7 +1271,6 @@
           "CustomDomainInstructions.vue": null,
           "InputAddElements.vue": null,
           "InputManageLayout.vue": null,
-          "InputManagePages.vue": null,
           "InputRevisionHistory.vue": null,
           "LayoutDraggable.vue": null,
           "LayoutToolRegion.vue": null,
@@ -1328,12 +1280,6 @@
           "ToolSectionsAdd.vue": null,
           "ToolSectionsLayout.vue": null,
           "ToolSettings.vue": null,
-          "__InputSpecialSlugs.vue": null,
-          "__PageToolMaster.vue": null,
-          "__ToolGlobalStyling.vue": null,
-          "__ToolPageHistory.vue": null,
-          "__ToolPagePublish.vue": null,
-          "__ToolPageSettings.vue": null,
           "tools.ts": null,
           "utils.ts": null
         }
@@ -1496,6 +1442,9 @@
         },
         "home": {
           "img": {
+            "abstract1.webp": null,
+            "abstract2.webp": null,
+            "abstract3.webp": null,
             "andrew.jpg": null,
             "brian.jpg": null,
             "dean2.jpg": null,
@@ -1507,19 +1456,20 @@
           },
           "index.ts": null
         },
-        "img": {
-          "about": {
-            "ap.webp": null,
-            "fiction-office.webp": null,
-            "girl-computer.webp": null,
-            "people2.webp": null,
-            "pro.webp": null,
-            "spectrum.jpg": null
-          }
-        },
         "index.ts": null,
         "package.json": null,
         "pages": {
+          "about": {
+            "img": {
+              "ap.webp": null,
+              "fiction-office.webp": null,
+              "girl-computer.webp": null,
+              "people2.webp": null,
+              "pro.webp": null,
+              "spectrum.jpg": null
+            },
+            "index.ts": null
+          },
           "pricing": {
             "index.ts": null
           },

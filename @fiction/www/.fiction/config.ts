@@ -241,6 +241,7 @@ export interface CompiledServiceConfig {
       | 'cards'
       | 'userConfig'
       | 'isHome'
+      | 'inNav'
       | 'editor'
       | 'generation'
       | 'draft'

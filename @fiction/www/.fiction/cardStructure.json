@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2025-04-08T20:05:21.043Z",
+  "generatedAt": "2025-04-13T01:45:31.160Z",
   "templates": [
     {
       "templateId": "cardHeroV1",
@@ -55,20 +55,6 @@
       "classification": {},
       "icon": "i-tabler-layout-list",
       "colorTheme": "lime",
-      "isPublic": true
-    },
-    {
-      "templateId": "cardStatementSliderV1",
-      "title": "Statement Slides",
-      "description": "Transform your key messages into captivating statements that command attention. Perfect for showcasing testimonials, company values, or product benefits in an engaging, interactive format.",
-      "subTitle": "Create a sequence of powerful messages that guide your audience and drive action",
-      "category": [
-        "content",
-        "marketing"
-      ],
-      "classification": {},
-      "icon": "i-tabler-message-circle-2",
-      "colorTheme": "indigo",
       "isPublic": true
     },
     {
@@ -248,21 +234,6 @@
       "isPublic": true
     },
     {
-      "templateId": "cardCinemaSliderV1",
-      "title": "Cinema Slider",
-      "description": "Perfect for photography portfolios, event promotion, product launches, or any content that benefits from dramatic full-screen visuals with overlaid text and calls-to-action.",
-      "subTitle": "Create immersive full-screen presentations with background videos and images",
-      "category": [
-        "marketing",
-        "portfolio",
-        "media"
-      ],
-      "classification": {},
-      "icon": "i-tabler-movie",
-      "colorTheme": "rose",
-      "isPublic": true
-    },
-    {
       "templateId": "cardPhotoGalleryV1",
       "title": "Masonry Gallery",
       "description": "Transform your images and videos into an immersive visual story with our dynamic masonry gallery.\nPerfect for portfolios, product showcases, or photo collections. Features automatic layout optimization,\nhover effects, lightbox viewing, and customizable grid arrangements.",
@@ -287,46 +258,6 @@
       "classification": {},
       "icon": "i-tabler-player-play",
       "colorTheme": "pink",
-      "isPublic": true
-    },
-    {
-      "templateId": "cardTourV1",
-      "title": "Visual Tour",
-      "description": "Create immersive visual narratives that guide viewers through your story.\nPerfect for product showcases, case studies, or multi-step journeys where each section\nbuilds compelling momentum toward your goals.",
-      "subTitle": "Guide viewers through your story with immersive visual narratives",
-      "category": [
-        "marketing",
-        "content"
-      ],
-      "classification": {},
-      "icon": "i-tabler-compass",
-      "colorTheme": "cyan",
-      "isPublic": true
-    },
-    {
-      "templateId": "cardCtaV1",
-      "title": "Call To Action",
-      "description": "Create high-converting sections that drive user action through clear value propositions,\nsocial proof, and benefit-focused content. Includes multiple layouts for email capture, product trials,\ndemo requests, and other conversion goals. Features customizable messaging, benefit highlights, and\ncommunity social proof to boost conversion rates.",
-      "subTitle": "Convert visitors into subscribers, customers, or leads with compelling offers",
-      "category": [
-        "conversion"
-      ],
-      "classification": {
-        "category": [
-          "conversion"
-        ],
-        "useCase": [
-          "conversion",
-          "subscribe",
-          "lead"
-        ],
-        "type": [
-          "text",
-          "input"
-        ]
-      },
-      "icon": "i-tabler-speakerphone",
-      "colorTheme": "red",
       "isPublic": true
     },
     {
@@ -444,6 +375,19 @@
       "isPublic": true
     },
     {
+      "templateId": "cardFaqV1",
+      "title": "FAQ & Accordion",
+      "description": "Add a clean, expandable FAQ section to answer common questions. Perfect for product pages, support sections, or any content that benefits from a Q&A format.",
+      "subTitle": "Simple expandable questions and answers",
+      "category": [
+        "content"
+      ],
+      "classification": {},
+      "icon": "i-tabler-list-details",
+      "colorTheme": "emerald",
+      "isPublic": true
+    },
+    {
       "templateId": "cardFooterProV1",
       "title": "Footer Pro",
       "description": "Create a premium brand experience with this advanced footer component.\n    Features a sophisticated layout with brand messaging, column-based navigation, trust badges,\n    and social proof elements. Perfect for SaaS, enterprise, and digital-first brands.\n    Includes animated reveals, smart content organization, and comprehensive brand elements.",
@@ -454,19 +398,6 @@
       "classification": {},
       "icon": "i-tabler-box-align-bottom",
       "colorTheme": "blue",
-      "isPublic": true
-    },
-    {
-      "templateId": "cardFooterPersonalV1",
-      "title": "Personal Footer",
-      "description": "Transform your site's footer into a powerful navigation hub and brand anchor.\n    This versatile footer adapts to various brand personalities - from corporate polish to creative flair.\n    Features animated reveal effects, smart content sections, and seamless dark mode support.\n    Perfect for multi-section navigation, contact information, and legal requirements.",
-      "subTitle": "Create a lasting impression with a thoughtfully designed footer",
-      "category": [
-        "navigation"
-      ],
-      "classification": {},
-      "icon": "i-tabler-layout-bottombar",
-      "colorTheme": "violet",
       "isPublic": true
     },
     {

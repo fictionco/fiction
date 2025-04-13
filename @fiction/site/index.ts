@@ -1,4 +1,4 @@
-import type { dashTemplate, panelTemplate } from '@fiction/admin/dashboard/templates.js'
+import type { dashTemplate } from '@fiction/admin/dashboard/templates.js'
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { FictionAnalytics } from '@fiction/analytics/index.js'
 import type { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRevision, FictionRouter, FictionServer, FictionUser } from '@fiction/core'

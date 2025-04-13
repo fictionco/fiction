@@ -4,8 +4,6 @@ import type { Site } from '../../site'
 import type { ToolKeys } from './tools.js'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
-import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import InputAddElements from './InputAddElements.vue'
 import InputManageLayout from './InputManageLayout.vue'
 
 const props = defineProps<{

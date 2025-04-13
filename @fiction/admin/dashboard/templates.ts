@@ -1,6 +1,5 @@
 import { MediaBasicSchema, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
-import FictionLogo from '@fiction/ui/brand/FictionLogo.vue'
 import { z } from 'zod'
 import DashWrap from './DashWrap.vue'
 

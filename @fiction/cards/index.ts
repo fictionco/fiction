@@ -2,7 +2,7 @@ import type { FictionEnv, FictionPluginSettings, FictionRouter, NavListItem } fr
 import type { CardConfigPortable, FictionSites } from '@fiction/site'
 import type { CardSettings, CardTemplate, CardTemplateSettings } from '@fiction/site/card'
 import type { CardFactory } from '@fiction/site/cardFactory'
-import type { CardOptionsWithStandard, StandardUserConfig } from '@fiction/site/schema'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import type { Site } from '@fiction/site/site.js'
 import { envConfig, FictionPlugin, log, safeDirname, toKebab, toLabel, vue } from '@fiction/core'
 import { Card, cardTemplate } from '@fiction/site/card'
