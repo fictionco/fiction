@@ -40,7 +40,6 @@ export const mockStripeSubscription: Stripe.Subscription = {
   object: 'subscription',
   application: null,
   application_fee_percent: null,
-  discount: null,
   automatic_tax: {
     enabled: false,
     liability: null,
@@ -48,7 +47,6 @@ export const mockStripeSubscription: Stripe.Subscription = {
   },
   billing_cycle_anchor: Math.floor(Date.now() / 1000),
   billing_cycle_anchor_config: null,
-  billing_thresholds: null,
   cancel_at: null,
   cancel_at_period_end: false,
   canceled_at: null,
@@ -60,8 +58,6 @@ export const mockStripeSubscription: Stripe.Subscription = {
   collection_method: 'charge_automatically',
   created: Math.floor(Date.now() / 1000),
   currency: 'usd',
-  current_period_end: Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60,
-  current_period_start: Math.floor(Date.now() / 1000),
   customer: mockStripeCustomer.id,
   days_until_due: null,
   default_payment_method: null,
@@ -81,7 +77,8 @@ export const mockStripeSubscription: Stripe.Subscription = {
     data: [{
       id: 'si_test123',
       object: 'subscription_item',
-      billing_thresholds: null,
+      current_period_end: Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60,
+      current_period_start: Math.floor(Date.now() / 1000),
       created: Math.floor(Date.now() / 1000),
       metadata: {},
       price: {
@@ -98,7 +95,6 @@ export const mockStripeSubscription: Stripe.Subscription = {
         nickname: null,
         product: 'prod_123',
         recurring: {
-          aggregate_usage: null,
           interval: 'month',
           interval_count: 1,
           meter: null,
@@ -120,7 +116,6 @@ export const mockStripeSubscription: Stripe.Subscription = {
         id: 'plan_123',
         object: 'plan',
         active: true,
-        aggregate_usage: null,
         amount: 1000,
         amount_decimal: '1000',
         billing_scheme: 'per_unit',

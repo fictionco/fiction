@@ -245,7 +245,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
       const imageMetadata = metadata || {}
 
       const mediaMetadata = await this.getMediaMetadata(mainBuffer, fileMime)
-      const { width, height, duration, orientation } = { ...imageMetadata, ...mediaMetadata }
+      const { width, height, duration } = { ...imageMetadata, ...mediaMetadata }
 
       const mediaConfig: Partial<TableMediaConfig> = {
         ...fields,
@@ -264,7 +264,6 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
         size,
         width,
         height,
-        orientation,
         duration,
       }
 

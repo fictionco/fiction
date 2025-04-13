@@ -179,8 +179,8 @@ export function processCustomerData(args: ProcessCustomerDataArgs): CustomerData
   const productKey = priceKey ? priceKey.split('_')[0] : 'free'
   const productConfig = products.find(p => p.key === productKey) || products[0]
   const paymentMethod = raw.customer?.invoice_settings?.default_payment_method as Stripe.PaymentMethod
-
-  const { current_period_end, current_period_start } = sub || {}
+  const subItem = sub?.items.data[0]
+  const { current_period_end, current_period_start } = subItem || {}
 
   return {
     ...raw,
