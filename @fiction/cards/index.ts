@@ -52,7 +52,7 @@ const templateGroups = [
     description: 'Share your expertise and insights',
     templates: [
       () => import('./posts/list'),
-      () => import('./posts/magazine'),
+      () => import('./posts/blog'),
       () => import('./user/steps'),
       () => import('./user/faq'),
       () => import('./user/timeline'),
@@ -229,7 +229,7 @@ const uiDemoTemplates = [
   },
 ]
 
-function getUiDemoCardTemplates() {
+export function getUiDemoCardTemplates() {
   const uiDemoTemplatesList = uiDemoTemplates.map((t) => {
     const el = vue.defineAsyncComponent(t.component)
 
@@ -239,14 +239,9 @@ function getUiDemoCardTemplates() {
       el,
       isPublic: true,
       getConfig: async (args) => {
-        const demoCard = await args.factory.fromTemplate({
-          templateId: args.templateId,
-          el,
-        })
+        const demoCard = cardConfig<any>({ templateId: args.templateId })
         return {
-          demoPage: {
-            cards: [demoCard],
-          },
+          demoPage: { cards: [demoCard] },
         }
       },
 
@@ -274,6 +269,9 @@ export async function getDemoPages(args: {
   return await Promise.all(demoPagePromises)
 }
 
+/**
+ * Creates the listing for website demo pages.
+ */
 export async function getCardDemoListing(): Promise<NavListItem[]> {
   const listing: NavListItem[] = []
 

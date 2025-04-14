@@ -82,7 +82,7 @@ const options = vue.computed(() => {
 const header = vue.computed(() => {
   return {
     title: 'Developer Resources',
-    subTitle: 'Access API keys, documentation, and integration tools for building with our platform',
+    subTitle: 'Access API keys, documentation, and integration tools',
     media: {
       class: 'i-tabler-code',
     },
@@ -119,13 +119,6 @@ vue.onMounted(async () => {
         :data-value="JSON.stringify(org)"
         @update:model-value="update($event)"
       />
-
-      <div class="text-sm text-theme-600 dark:text-theme-200 space-y-2 p-6">
-        <p>
-          Need help getting started? Check our
-          <a href="https://docs.fiction.com" target="_blank" class="text-primary-500 dark:text-primary-400 hover:underline">API documentation</a> for guides and examples.
-        </p>
-      </div>
     </div>
   </SettingsPanel>
 </template>

@@ -1,5 +1,5 @@
-import type { dashTemplate } from '@fiction/admin/dashboard/templates.js'
 import type { FictionAdmin } from '@fiction/admin/index.js'
+import type { AdminTemplates } from '@fiction/admin/theme/index.js'
 import type { FictionAnalytics } from '@fiction/analytics/index.js'
 import type { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRevision, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionAi } from '@fiction/plugin-ai'
@@ -7,6 +7,7 @@ import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { Site } from './site.js'
 import type { TableSiteConfig } from './tables.js'
 import { initializeClientTag } from '@fiction/analytics/tag/entry.js'
+import { cardConfig } from '@fiction/cards/index.js'
 import { crossVar, FictionPlugin, getAnonymousId, isNode, safeDirname, vue } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import { cardTemplate } from './card.js'
@@ -48,6 +49,13 @@ export type SitesPluginSettings = {
   adminBaseRoute?: string
   themes: () => Promise<Theme[]>
 } & FictionPluginSettings
+
+const templates = [
+  cardTemplate({ templateId: 'tplManageSite', el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) }),
+  cardTemplate({ templateId: 'tplSiteEditor', el: vue.defineAsyncComponent(() => import('./plugin-builder/SiteEditor.vue')) }),
+]
+
+type SiteAdminTemplates = AdminTemplates & typeof templates
 
 export class FictionSites extends FictionPlugin<SitesPluginSettings> {
   adminBaseRoute = this.settings.adminBaseRoute || '/admin'
@@ -99,17 +107,14 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
 
     this.settings.fictionAdmin.addFeature({
       key: 'sites',
-      getTemplates: async () => [
-        cardTemplate({ templateId: 'tplManageSite', el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) }),
-        cardTemplate({ templateId: 'tplSiteEditor', el: vue.defineAsyncComponent(() => import('./plugin-builder/SiteEditor.vue')) }),
-      ],
-      getPages: async ({ factory }) => [
-        await factory.fromTemplate<typeof dashTemplate>({
+      getTemplates: async () => templates,
+      getPages: async () => [
+        cardConfig<SiteAdminTemplates>({
           templateId: 'dash',
           slug: 'sites',
           title: 'Website',
           cards: [
-            await factory.fromTemplate({ templateId: 'tplManageSite' }),
+            cardConfig<SiteAdminTemplates>({ templateId: 'tplManageSite' }),
           ],
           userConfig: {
             isNavItem: true,
@@ -117,13 +122,13 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
             navIconAlt: 'i-tabler-browser-plus',
           },
         }),
-        await factory.fromTemplate<typeof dashTemplate>({
+        cardConfig<SiteAdminTemplates>({
           templateId: 'dash',
           slug: 'edit-site',
           title: 'Website Editor',
           description: 'Customize and configure your website settings',
           cards: [
-            await factory.fromTemplate({
+            cardConfig<SiteAdminTemplates>({
               templateId: 'tplSiteEditor',
               userConfig: { standard: { spaceSize: 'none' as const } },
             }),

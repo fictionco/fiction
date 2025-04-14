@@ -10,9 +10,7 @@ import { FictionTeam } from '@fiction/core/plugin-team/index.js'
 import { getEnvVars } from '@fiction/core/utils/index.js'
 import { FictionForms } from '@fiction/forms'
 import { FictionAi } from '@fiction/plugin-ai'
-import { FictionBrand } from '@fiction/plugin-brand'
 import { FictionContact } from '@fiction/plugin-contact/index.js'
-import { FictionExtend } from '@fiction/plugin-extend/index.js'
 import { FictionMonitor } from '@fiction/plugin-monitor/index.js'
 import { FictionStripe } from '@fiction/plugin-stripe/index.js'
 import { FictionTransactions } from '@fiction/plugin-transactions'
@@ -21,7 +19,7 @@ import { FictionSites } from '@fiction/site/index.js'
 import { FictionUi } from '@fiction/ui/index.js'
 import { version } from '../package.json'
 import { commands } from './commands.js'
-import { getExtensionIndex, getThemes } from './extend.js'
+import { getThemes } from './extend.js'
 import { getStripeProductConfig } from './stripeProducts'
 
 const cwd = safeDirname(import.meta.url, '..')
@@ -36,6 +34,7 @@ const META = {
     domain: 'fiction.com',
     termsUrl: 'https://docs.fiction.com/resources/terms.html',
     privacyUrl: 'https://docs.fiction.com/resources/privacy.html',
+    orgId: 'org661d8818f01bb9289c28813a',
   },
 } as const
 
@@ -196,15 +195,12 @@ const fictionForms = new FictionForms({ ...s, fictionSites })
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
 const fictionContact = new FictionContact(s)
 const fictionPosts = new FictionPosts({ fictionContact, fictionSites, ...s })
-const fictionBrand = new FictionBrand({ ...s })
 
-const baseService = { ...s, fictionForms, fictionBrand, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionContact, fictionPosts }
+const baseService = { ...s, fictionForms, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionContact, fictionPosts }
 
 export type SpecificService = typeof baseService
 
-const fictionExtend = new FictionExtend({ ...s, extensionIndex: getExtensionIndex(baseService) })
-
-const service = { ...baseService, fictionExtend }
+const service = { ...baseService }
 
 export function setup(): ServiceConfig {
   async function initializeBackingServices(_args: { context: 'node' | 'app' }) {

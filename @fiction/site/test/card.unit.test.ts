@@ -162,7 +162,7 @@ describe('cardTemplate', async () => {
         "cardLogosV1",
         "cardShowcaseGalleryV1",
         "cardPostsListV1",
-        "cardPostsMagazineV1",
+        "cardBlogV1",
         "cardInstaV1",
         "cardStepsV1",
         "cardFaqV1",

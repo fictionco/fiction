@@ -304,19 +304,11 @@ const options = vue.computed(() => {
     }),
     createOption({
       key: 'publication',
-      label: 'Publication and Marketing',
+      label: 'Publication',
       input: 'group',
-      options: newsletterOptions,
+      options: [...newsletterOptions, ...legalOptions],
       format: 'control',
       icon: { class: 'i-tabler-speakerphone' },
-    }),
-    createOption({
-      key: 'legal',
-      label: 'Trust and Compliance',
-      input: 'group',
-      options: legalOptions,
-      format: 'control',
-      icon: { class: 'i-tabler-shield-check' },
     }),
     createOption({
       key: 'adminOnly',

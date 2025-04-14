@@ -254,7 +254,7 @@ export class Card<
       return foundTemplate
     }
     else if (this.settings.el) {
-      return new CardTemplate({ el: this.settings.el, templateId: `${this.cardId}-inline` })
+      return new CardTemplate({ el: this.settings.el, templateId: `${this.cardId}-direct` })
     }
   })
 

@@ -9,22 +9,25 @@ const { user, url = '', imageSize = 200 } = defineProps<{
   imageSize?: number
 }>()
 
-const media = vue.computed<MediaObject>(() => {
-  let mediaUrl: string | undefined
+const mediaUrl = vue.computed(() => {
   if (url) {
-    mediaUrl = url
+    return url
   }
   else if (user && user.avatar?.url) {
-    mediaUrl = user.avatar.url
+    return user.avatar.url
   }
   else if (user?.email) {
     const email = user?.email
     const g = gravatarUrlSync(email, { size: imageSize })
-    mediaUrl = g.url
+    return g.url
   }
+  return undefined
+})
 
-  if (mediaUrl) {
-    return { format: 'url', url: mediaUrl }
+const media = vue.computed<MediaObject>(() => {
+  const url = mediaUrl.value
+  if (url) {
+    return { format: 'url', url }
   }
   else {
     return {
@@ -57,7 +60,8 @@ const media = vue.computed<MediaObject>(() => {
       :media="media"
     />
     <div
-      class="absolute inset-0 z-10 pointer-events-none ring-2 ring-inset ring-white rounded-full"
+      class="absolute inset-0 z-10 pointer-events-none ring-2 ring-inset rounded-full"
+      :class="mediaUrl ? 'ring-white' : 'ring-theme-400'"
     />
   </div>
 </template>

@@ -4,6 +4,7 @@ import type { Post } from '@fiction/posts'
 import { vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import El404 from '@fiction/ui/page/El404.vue'
+import PostHero from './PostHero.vue'
 import PostItem from './PostItem.vue'
 
 export interface BlogConfig {
@@ -17,6 +18,10 @@ export interface BlogConfig {
   imagePosition?: 'top' | 'right' | 'left' | 'cover' | 'none'
   /** Base URL path for posts, defaults to "p" */
   basePath?: string
+  /** Display mode for posts */
+  displayMode?: 'standard' | 'hero' | 'mixed'
+  /** Number of hero posts to show at the top (when in mixed mode) */
+  heroCount?: number
 }
 
 const props = defineProps<{
@@ -42,6 +47,8 @@ const defaultConfig: BlogConfig = {
   showReadTime: false,
   imagePosition: 'top',
   basePath: 'p',
+  displayMode: 'standard',
+  heroCount: 1,
 }
 
 const config = vue.computed<BlogConfig>(() => ({
@@ -61,6 +68,35 @@ const indexMeta = vue.computed(() => ({
 const hasMorePosts = vue.computed(() => {
   const { offset = 0, limit = 12, count = 0 } = indexMeta.value
   return offset + limit < count
+})
+
+// Separate hero posts from standard posts based on the display mode
+const heroPosts = vue.computed(() => {
+  if (config.value.displayMode === 'standard' || props.posts.length === 0) {
+    return []
+  }
+
+  if (config.value.displayMode === 'hero') {
+    return props.posts
+  }
+
+  // For mixed mode, take the first N posts as hero posts
+  const heroCount = Math.min(config.value.heroCount || 1, props.posts.length)
+  return props.posts.slice(0, heroCount)
+})
+
+const standardPosts = vue.computed(() => {
+  if (config.value.displayMode === 'hero' || props.posts.length === 0) {
+    return []
+  }
+
+  if (config.value.displayMode === 'standard') {
+    return props.posts
+  }
+
+  // For mixed mode, take the remaining posts after hero posts
+  const heroCount = Math.min(config.value.heroCount || 1, props.posts.length)
+  return props.posts.slice(heroCount)
 })
 
 // Handle "Load More" action
@@ -127,13 +163,34 @@ const paginationInfo = vue.computed(() => {
       </span>
     </div>
 
-    <!-- Posts grid or list layout -->
-    <div v-if="posts.length > 0" :class="gridClasses" itemscope itemtype="https://schema.org/Blog">
+    <!-- Hero Posts Section -->
+    <div v-if="heroPosts.length > 0" class="hero-posts-section mb-16 lg:mb-24">
+      <PostHero
+        v-for="(post, index) in heroPosts"
+        :key="`hero-${post.postId || index}`"
+        :post="post"
+        :orientation="index % 2 === 0 ? 'left' : 'right'"
+        :config="config"
+      />
+    </div>
+
+    <!-- Regular Posts Grid or List Layout -->
+    <div v-if="standardPosts.length > 0" :class="gridClasses" itemscope itemtype="https://schema.org/Blog">
       <PostItem
-        v-for="(post, index) in posts"
-        :key="post.postId || index"
+        v-for="(post, index) in standardPosts"
+        :key="`standard-${post.postId || index}`"
         :post="post"
         :config="config"
+      />
+    </div>
+
+    <!-- No Posts at All (After Hero and Standard) -->
+    <div v-if="!loading && heroPosts.length === 0 && standardPosts.length === 0">
+      <El404
+        :super-title="{ text: 'Blog' }"
+        :title="emptyTitle || 'No Posts Available'"
+        :sub-title="emptySubTitle || 'Check back later for new content'"
+        :buttons="[{ label: 'Return to Homepage', href: '/', theme: 'primary' }]"
       />
     </div>
 
@@ -154,18 +211,9 @@ const paginationInfo = vue.computed(() => {
       </div>
     </div>
 
-    <!-- Empty state -->
-    <El404
-      v-if="!loading && posts.length === 0"
-      :super-title="{ text: 'Blog' }"
-      :title="emptyTitle || 'No Posts Available'"
-      :sub-title="emptySubTitle || 'Check back later for new content'"
-      :buttons="[{ label: 'Return to Homepage', href: '/', theme: 'primary' }]"
-    />
-
     <!-- Pagination / Load More -->
     <div
-      v-if="!loading && posts.length > 0 && hasMorePosts"
+      v-if="!loading && (heroPosts.length > 0 || standardPosts.length > 0) && hasMorePosts"
       class="mt-12 flex justify-center"
       role="navigation"
       aria-label="Pagination"

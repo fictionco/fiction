@@ -58,61 +58,34 @@ export async function loadPosts(config: LoadPostsConfig): Promise<LoadPostsResul
   // Default result structure
   const result: LoadPostsResult = { posts: [], indexMeta }
 
-  if (!fictionPosts || !site) {
-    console.error('Fiction posts or site not provided')
+  const orgId = site?.settings.orgId
+
+  if (!fictionPosts || !site || !orgId) {
+    console.error('Fiction posts, orgId, site not provided')
     return result
   }
 
   try {
-    const r = await loadGlobalPosts({ fictionPosts, indexMeta, site })
+    const indexArgs = {
+      site,
+      limit: indexMeta.limit,
+      offset: indexMeta.offset,
+      orgId,
+      caller: 'PostListCard',
+      filters: indexMeta.filters,
+      fictionPosts,
+    }
 
-    return r
+    const response = await getPostIndex(indexArgs)
+
+    return {
+      posts: response?.posts || [],
+      indexMeta: { ...indexMeta, ...(response?.indexMeta || {}) },
+    }
   }
   catch (error) {
     console.error('Error loading posts:', error)
     return result
-  }
-}
-
-/**
- * Load posts from global post storage
- */
-async function loadGlobalPosts(args: {
-  fictionPosts: FictionPosts
-  indexMeta: IndexMeta
-  site: Site
-}): Promise<LoadPostsResult> {
-  const { fictionPosts, indexMeta, site } = args
-  const orgId = site?.settings.orgId
-
-  if (!orgId) {
-    console.error('No organization ID found')
-    return { posts: [], indexMeta }
-  }
-
-  const routeSlug = site.siteRouter.params.value.itemId as string
-
-  if (routeSlug) {
-    const posts = await getPost({ fictionPosts, where: { slug: routeSlug }, orgId })
-
-    return { posts, indexMeta }
-  }
-
-  const indexArgs = {
-    site,
-    limit: indexMeta.limit,
-    offset: indexMeta.offset,
-    orgId,
-    caller: 'PostListCard',
-    filters: indexMeta.filters,
-    fictionPosts,
-  }
-
-  const response = await getPostIndex(indexArgs)
-
-  return {
-    posts: response?.posts || [],
-    indexMeta: { ...indexMeta, ...(response?.indexMeta || {}) },
   }
 }
 

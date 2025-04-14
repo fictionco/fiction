@@ -1,10 +1,11 @@
 import type { FictionAdmin } from '@fiction/admin'
 
-import type { dashTemplate } from '@fiction/admin/dashboard/templates'
+import type { AdminTemplates } from '@fiction/admin/theme'
 import type { FictionAnalytics } from '@fiction/analytics'
 import type { FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, FictionRevision, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionContact } from '@fiction/plugin-contact'
 import type { FictionSites } from '@fiction/site'
+import { cardConfig } from '@fiction/cards'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import { QueryManagePost } from './endpoint'
@@ -34,6 +35,14 @@ export * from './schema'
 export * from './types'
 export * from './utils/index.js'
 export * from './utils/links.js'
+
+const templates = [
+  cardTemplate({ templateId: 'tplManagePost', el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) }),
+  cardTemplate({ templateId: 'tplManagePostEdit', el: vue.defineAsyncComponent(() => import('./admin/PagePostEdit.vue')) }),
+  cardTemplate({ templateId: 'tplManagePostPreview', el: vue.defineAsyncComponent(() => import('./admin/ViewPreview.vue')) }),
+]
+
+type PostAdminTemplates = AdminTemplates & typeof templates
 
 export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   widgets = getWidgets({ fictionPosts: this, ...this.settings })
@@ -85,58 +94,52 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
 
     fictionAdmin.addFeature({
       key: 'posts',
-      getTemplates: async () => {
-        return [
-          cardTemplate({ templateId: 'tplManagePost', el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) }),
-          cardTemplate({ templateId: 'tplManagePostEdit', el: vue.defineAsyncComponent(() => import('./admin/PagePostEdit.vue')) }),
-          cardTemplate({ templateId: 'tplManagePostPreview', el: vue.defineAsyncComponent(() => import('./admin/ViewPreview.vue')) }),
-        ]
-      },
+      getTemplates: async () => templates,
       getPages: async ({ factory }) => [
 
-        await factory.fromTemplate<typeof dashTemplate>({
+        cardConfig<PostAdminTemplates>({
           templateId: 'dash',
           slug: 'posts',
           title: 'Posts',
           description: 'Create, manage, and schedule your content',
           cards: [
-            await factory.fromTemplate({ templateId: 'tplManagePost' }),
+            cardConfig<PostAdminTemplates>({ templateId: 'tplManagePost' }),
           ],
           userConfig: { isNavItem: true, navIcon: 'i-tabler-file-description', navIconAlt: 'i-tabler-file-spark' },
         }),
-        await factory.fromTemplate<typeof dashTemplate>({
+        cardConfig<PostAdminTemplates>({
           regionId: 'main',
           templateId: 'dash',
           slug: 'edit-post',
           title: 'Post Editor',
           description: 'Create and edit your content with our full-featured editor',
           cards: [
-            await factory.fromTemplate({
+            cardConfig<PostAdminTemplates>({
               templateId: 'tplManagePostEdit',
               userConfig: { standard: { spaceSize: 'none' } },
             }),
           ],
           userConfig: { layoutFormat: 'full' },
         }),
-        await factory.fromTemplate<typeof dashTemplate>({
+        cardConfig<PostAdminTemplates>({
           templateId: 'dash',
           userConfig: { layoutFormat: 'full' },
           slug: 'preview-post-browser',
           title: 'Post Preview (Browser)',
           cards: [
-            await factory.fromTemplate({
+            cardConfig<PostAdminTemplates>({
               templateId: 'tplManagePostPreview',
               userConfig: { standard: { spaceSize: 'none' } },
             }),
           ],
         }),
-        await factory.fromTemplate<typeof dashTemplate>({
+        cardConfig<PostAdminTemplates>({
           templateId: 'dash',
           userConfig: { layoutFormat: 'full' },
           slug: 'preview-post-email',
           title: 'Post Preview (Email)',
           cards: [
-            await factory.fromTemplate({
+            cardConfig<PostAdminTemplates>({
               templateId: 'tplManagePostPreview',
               userConfig: { standard: { spaceSize: 'none' } },
             }),

@@ -24,7 +24,7 @@ const {
       <h1 class="mt-4 text-3xl font-semibold x-font-title">
         {{ title || 'Page Not Available' }}
       </h1>
-      <p class="mt-6 text-base font-sans leading-7 text-theme-600">
+      <p class="mt-6 text-base font-sans leading-7 text-theme-400">
         {{ subTitle || `We couldn't find the page you're looking for.` }}
       </p>
       <div v-if="buttons" class="mt-10 flex items-center justify-center gap-x-6">

@@ -464,7 +464,7 @@ export async function getPages(args: SectionArgs) {
     cardConfig({
       slug: 'blog',
       cards: [
-        cardConfig({ templateId: 'cardPostsMagazineV1' }),
+        cardConfig({ templateId: 'cardBlogV1' }),
       ],
     }),
 

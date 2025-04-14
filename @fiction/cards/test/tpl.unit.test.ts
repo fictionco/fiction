@@ -111,7 +111,7 @@ describe('verify template settings config', async () => {
         {
           "hasDemo": true,
           "isPublic": true,
-          "templateId": "cardPostsMagazineV1",
+          "templateId": "cardBlogV1",
           "unusedSchema": {},
         },
         {

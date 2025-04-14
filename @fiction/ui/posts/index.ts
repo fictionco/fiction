@@ -217,7 +217,6 @@ export async function getDemoPosts(args: { limit?: number } = {}): Promise<PostO
       excerpt: 'Discover the secrets of headlines that don\'t just attract clicks—they compel action. Transform your titles from skippable to unforgettable.',
       categories: ['Writing'],
       tags: ['headlines', 'copywriting', 'engagement'],
-      media: stock.getRandomByTags(['object']),
       dateAt: new Date(baseDate.getTime() - 0 * 24 * 60 * 60 * 1000).toISOString(),
     },
     {

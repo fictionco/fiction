@@ -42,14 +42,14 @@ const nav = vue.computed(() => {
         <div class="relative">
           <nav class="" aria-label="Global">
             <div class="relative flex items-center justify-between gap-12">
-              <div v-if="uc.brand?.logo" class="inline-flex mr-4 justify-start basis-0 grow">
+              <div class="inline-flex mr-4 justify-start basis-0 grow">
                 <CardLink
                   :card
                   href="/"
                   class="flex items-end group"
                 >
                   <XLogoType
-                    :logo="uc.brand.logo"
+                    :logo="uc.brand?.logo"
                     :classes="{
                       text: 'x-font-title text-2xl font-medium',
                     }"

@@ -99,9 +99,14 @@ export async function loadSiteFromTheme(args: {
   const appMeta = fictionEnv.meta.app || {}
   const orgId = args.fictionOrgId || appMeta.orgId || fictionEnv.var('FICTION_ORG_ID')
   const siteId = args.fictionSiteId || appMeta.siteId || fictionEnv.var('FICTION_SITE_ID')
+  const fictionUser = fictionSites.settings.fictionUser
 
   if (!orgId) {
     throw new Error(`loadSiteFromTheme: orgId required (caller:${caller})`)
+  }
+
+  if (!fictionUser) {
+    throw new Error(`loadSiteFromTheme: fictionUser not available (caller:${caller})`)
   }
 
   const subDomain = `theme-${themeId}`
@@ -161,12 +166,6 @@ export async function loadSite(args: {
   let site: Site | undefined = undefined
   try {
     const { fictionOrgId, fictionSiteId, siteId, subDomain, hostname, themeId, cardId, siteMode = 'standard', internal } = mountContext || {}
-
-    const { siteConfig } = fictionSites.settings.fictionEnv.getInitialState<{ siteConfig?: TableSiteConfig }>() || {}
-
-    if (siteConfig) {
-      return await Site.create({ ...siteConfig, fictionSites, siteRouter, siteMode })
-    }
 
     const where = { siteId, subDomain, hostname, themeId } as WhereSite
     const hasWhere = Object.values(where).filter(Boolean).length > 0

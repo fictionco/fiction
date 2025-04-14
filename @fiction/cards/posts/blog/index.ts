@@ -2,15 +2,15 @@ import { safeDirname, vue } from '@fiction/core'
 import { getPostPaths } from '@fiction/posts/utils/post'
 import { cardTemplate } from '@fiction/site'
 
-export const templateId = 'cardPostsMagazineV1'
+export const templateId = 'cardBlogV1'
 
 export const template = cardTemplate({
   root: safeDirname(import.meta.url),
   templateId,
   category: ['posts'],
   icon: 'i-tabler-notebook',
-  title: 'Magazine Posts',
-  subTitle: 'Create dynamic blog layouts with featured posts and immersive content',
+  title: 'Blog',
+  subTitle: 'Standard blog layout',
   description: 'Transform your blog into a visually stunning magazine with customizable layouts, featured posts, and rich media integration. Perfect for showcasing editorial content, news articles, and thought leadership pieces with style.',
   colorTheme: 'blue',
   el: vue.defineAsyncComponent(() => import('./ElMagazine.vue')),

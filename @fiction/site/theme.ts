@@ -135,7 +135,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
         },
       },
       org: {
-        orgName: 'Workspace',
+        orgName: 'No Organization',
       },
     }
   }

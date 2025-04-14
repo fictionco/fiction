@@ -9,15 +9,7 @@ export async function getPages(args: ThemeConfigArgs) {
       isHome: true,
       cards: [
         cardConfig({
-          templateId: 'cardHeroV1',
-          userConfig: {
-            items: [
-              {
-                title: 'Hello World',
-                subTitle: 'Welcome to your new site',
-              },
-            ],
-          },
+          templateId: 'cardBlogV1',
         }),
       ],
     }),

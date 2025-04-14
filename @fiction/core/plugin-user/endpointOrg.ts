@@ -208,7 +208,7 @@ export class QueryManageOrganization extends OrgQuery {
       case 'delete':
         return this.deleteOrganization(params, meta)
       case 'retrieve':
-        return this.retrieveOrganization(params, meta)
+        return this.readOrganization(params, meta)
       case 'generateApiSecret':
         return this.generateApiSecret(params, meta)
       default:
@@ -306,7 +306,7 @@ export class QueryManageOrganization extends OrgQuery {
     return this.prepareResponse(responseOrg, `Deleted organization: ${responseOrg.orgName}`, meta)
   }
 
-  private async retrieveOrganization(params: ManageOrganizationParams & { _action: 'retrieve' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
+  private async readOrganization(params: ManageOrganizationParams & { _action: 'retrieve' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
     const { where } = params
     const [responseOrg] = await this.db().select('*').from(t.org).where(where)
 

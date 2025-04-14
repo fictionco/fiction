@@ -16,15 +16,15 @@ const modalVisible = vue.ref(false)
 
 const header = vue.computed(() => {
   return {
-    title: 'Your Organizations',
-    subTitle: `Change active organization, add, or remove organizations`,
+    title: 'Your Workspaces',
+    subTitle: `Change active workspace, add, or remove workspaces`,
     media: {
       class: 'i-tabler-building-plus',
     },
     action: {
       buttons: [
         {
-          label: 'Add New Organization',
+          label: 'Add New Workspace',
           theme: 'primary' as const,
           icon: 'i-tabler-building-plus',
           onClick: () => (modalVisible.value = true),
@@ -95,7 +95,7 @@ const otherItemList = list.value.filter(item => !item.isActive)
 </script>
 
 <template>
-  <SettingsPanel title="Your Organizations" :header>
+  <SettingsPanel title="Your Workspaces" :header>
     <div class="p-4 md:p-6 xl:p-12">
       <div class="space-y-6">
         <ElIndexGrid

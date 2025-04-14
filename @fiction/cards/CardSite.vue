@@ -246,7 +246,7 @@ vue.onMounted(async () => {
     :data-site-id="site?.siteId ?? '-'"
     :data-user-email="fictionUser.activeUser.value?.email ?? '-'"
     :data-fiction-router-id="site?.siteRouter.routerId ?? '-'"
-    class="x-site bg-theme-50 dark:bg-theme-900 text-theme-800 dark:text-theme-0 antialiased  "
+    class="x-site bg-theme-50 dark:bg-theme-900 text-theme-800 dark:text-theme-0 antialiased font-medium"
   >
     <div class="x-font-body x-site-content relative z-10 bg-theme-0 dark:bg-theme-950">
       <div

@@ -66,7 +66,7 @@ export class CardFactory<U extends readonly CardTemplate<any>[] = readonly CardT
     if (!templateId && !tpl)
       throw new Error('CardFactory: templateId or tpl required')
 
-    const inlineTemplate = tpl || (el ? new CardTemplate({ el, templateId: `${templateId}-inline` }) : undefined)
+    const inlineTemplate = tpl || (el ? new CardTemplate({ el, templateId: `${templateId}-factory-inline` }) : undefined)
 
     const template = inlineTemplate || this.templates?.find(template => template.settings.templateId === templateId)
 

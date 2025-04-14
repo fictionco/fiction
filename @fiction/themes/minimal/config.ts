@@ -2,7 +2,7 @@ import type { ThemeConfig, ThemeConfigArgs } from '@fiction/site'
 
 import type { StockMedia } from '@fiction/ui/stock'
 import { cardConfig } from '@fiction/cards/index'
-import { getDemoUserConfig } from '@fiction/cards/posts/magazine/config'
+import { getDemoUserConfig } from '@fiction/cards/posts/blog/config'
 
 type SectionArgs = ThemeConfigArgs & {
   stock: StockMedia
@@ -30,7 +30,7 @@ export async function getPages(args: SectionArgs) {
       slug: 'blog',
       cards: [
         cardConfig({
-          templateId: 'cardPostsMagazineV1',
+          templateId: 'cardBlogV1',
           userConfig: await getDemoUserConfig({ factory, stock }),
         }),
       ],

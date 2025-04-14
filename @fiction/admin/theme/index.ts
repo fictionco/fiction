@@ -3,7 +3,7 @@ import type { CardFactory } from '@fiction/site/cardFactory.js'
 import type { SiteGlobalUserConfig } from '@fiction/site/schema.js'
 import type { Site } from '@fiction/site/site.js'
 import type { FictionAdmin } from '../index.js'
-import { getCardTemplates } from '@fiction/cards'
+import { cardConfig, getCardTemplates } from '@fiction/cards'
 import { safeDirname } from '@fiction/core/index.js'
 import { Theme } from '@fiction/site/theme.js'
 import favicon from '@fiction/ui/brand/favicon.svg'
@@ -22,25 +22,27 @@ export async function getTemplates(args: { site: Site }) {
   return [...tpl, dashTemplate, authTemplate, ...adminTemplates]
 }
 
+export type AdminTemplates = Awaited<ReturnType<typeof getTemplates>>
+
 export async function getPages(args: { factory: CardFactory, site: Site }) {
   const { factory } = args
 
   return [
-    await factory.fromTemplate<typeof dashTemplate>({
+    cardConfig<AdminTemplates>({
       regionId: 'main',
       templateId: 'dash',
       slug: '_404',
       title: 'Not Found (404)',
       cards: [
-        await factory.fromTemplate({ templateId: 'card404ErrorV1' }),
+        cardConfig<AdminTemplates>({ templateId: 'card404ErrorV1' }),
       ],
     }),
-    await factory.fromTemplate<typeof TransactionTemplate>({
+    cardConfig<AdminTemplates>({
       templateId: 'cardTransactionViewV1',
       slug: 'auth',
       title: 'Settings',
       cards: [
-        await factory.fromTemplate<typeof authTemplate>({
+        cardConfig<AdminTemplates>({
           templateId: 'authPage',
           userConfig: {
             homeUrl: 'https://www.fiction.com',

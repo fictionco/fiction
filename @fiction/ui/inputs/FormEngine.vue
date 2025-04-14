@@ -161,13 +161,13 @@ function getTabClasses(index: number) {
 }
 
 const rootListClasses = vue.computed(() => {
-  const defaultClass = format === 'control' ? '@[800px]:grid grid-cols-2 divide-y divide-theme-200/50 dark:divide-theme-600/50 gap-0' : cls.value.inputGap
+  const defaultClass = format === 'control' ? 'divide-y divide-theme-200/50 dark:divide-theme-600/50 gap-0' : cls.value.inputGap
 
   return twMerge(['flex flex-col', defaultClass])
 })
 
 function getInputWrapClasses(opt: InputOption) {
-  const defaultClass = format === 'control' ? '@[500px]:p-8 px-4 py-6' : opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-6' : ''
+  const defaultClass = format === 'control' ? '@[800px]:px-16 @[800px]:py-12 @[500px]:p-8 px-4 py-6' : opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-6' : ''
   return twMerge([defaultClass, classes.inputWrap || ''])
 }
 

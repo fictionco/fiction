@@ -163,7 +163,7 @@ const icon = { format: 'component', el: FictionLogo } as MediaObject
             class="work-area relative block min-h-0 w-full overflow-hidden md:flex md:h-full md:overflow-visible"
           >
             <div
-              class="md:static md:flex h-dvh w-[60%] md:w-[calc(16rem+3vw)] shrink-0 md:opacity-100 will-change-auto transition-all  duration-300 border-theme-300/50 dark:border-theme-700/70 fixed top-0 z-30 justify-end border-r"
+              class="md:static md:flex h-dvh w-[60%] md:w-[calc(16rem+3vw)] shrink-0 md:opacity-100 will-change-auto transition-all  duration-300 border-theme-300/50 dark:border-theme-600/50 fixed top-0 z-30 justify-end border-r"
               :class="showMobileNav ? 'left-0 opacity-100' : '-left-full opacity-0'"
             >
               <DashNav class="md:pl-12 md:pr-6" :icon :nav="primaryNav" :nav-bottom="bottomNav" :card />

@@ -24,7 +24,7 @@ export function ensureStandardPages(args: { site: Site, pages: Card[] }): Card[]
       title: 'Post Single',
       isSystem: true,
       isSingle: true,
-      cards: [{ templateId: 'cardPostsMagazineV1' }],
+      cards: [{ templateId: 'cardBlogV1' }],
     }))
   }
 
@@ -38,7 +38,7 @@ export function ensureStandardPages(args: { site: Site, pages: Card[] }): Card[]
       title: 'Post Archive',
       isSystem: true,
       isArchive: true,
-      cards: [{ templateId: 'cardPostsMagazineV1' }],
+      cards: [{ templateId: 'cardBlogV1' }],
     }))
   }
 
