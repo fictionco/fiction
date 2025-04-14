@@ -1,4 +1,5 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import { PostSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -24,7 +25,7 @@ export const schema = z.object({
   scrollHandling: z.enum(['sticky', 'scrolling']).optional().describe('Media behavior on scroll'),
 })
 
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 type StorySection = z.infer<typeof StorySectionSchema>
 
 const options = [

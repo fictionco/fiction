@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { resetUi, vue } from '@fiction/core'
 import { Card } from '@fiction/site/card'
-import CardWrap from './CardWrap.vue'
+import CardToolDropdown from './CardToolDropdown.vue'
 import EffectTransitionCardList from './EffectTransitionCardList.vue'
 
 const { card, tag = 'div' } = defineProps<{ card?: Card, tag: string }>()
@@ -51,10 +51,15 @@ const renderCards = vue.computed(() => {
 <template>
   <component :is="tag" class="card-engine" :data-total-cards="card?.cards.value.length">
     <EffectTransitionCardList>
-      <CardWrap
+      <div
         v-for="(subCard) in renderCards.display"
         :key="subCard.cardId"
         :card="subCard"
+        class="relative group/engine"
+        :class="[
+          card?.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300 dark:outline-theme-600' : '',
+          isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 dark:hover:outline-blue-600 cursor-pointer  transition-all' : '',
+        ]"
         @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
       >
         <component
@@ -65,7 +70,13 @@ const renderCards = vue.computed(() => {
           :data-card-type="subCard.templateId.value"
           :card="subCard"
         />
-      </CardWrap>
+        <CardToolDropdown
+          v-if="card?.site?.isEditable.value"
+          :card="card"
+          class="absolute top-3 opacity-40 group-hover/engine:opacity-100"
+          :class="card.tpl.value?.settings.isContainer ? 'left-3' : 'right-3'"
+        />
+      </div>
     </EffectTransitionCardList>
     <component
       :is="subCard.tpl.value?.settings?.el"

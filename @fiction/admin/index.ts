@@ -13,6 +13,7 @@ import type { Card, CardTemplate, TableCardConfig } from '@fiction/site/index.js
 import type { dashTemplate } from './dashboard/templates.js'
 import type { Widget } from './dashboard/widget.js'
 import type { WidgetLocation } from './types.js'
+import { cardConfig } from '@fiction/cards/index.js'
 import { envConfig } from '@fiction/core'
 import { FictionPlugin } from '@fiction/core/plugin.js'
 import { safeDirname, vue } from '@fiction/core/utils'

@@ -1,4 +1,5 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import type { InputOption } from '@fiction/ui'
 import { ActionAreaSchema, colorThemeUser, MediaIconSchema, SizeSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
@@ -30,7 +31,7 @@ export const schema = z.object({
 })
 
 export type FeatureConfig = z.infer<typeof featureSchema>
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 const options: InputOption[] = [
   createOption({

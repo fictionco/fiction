@@ -1,3 +1,4 @@
+import type { StandardUserConfig } from '@fiction/site/schema'
 import { MediaIconSchema, NavListItemSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -32,7 +33,7 @@ const schema = z.object({
 
 export type PricingPlan = z.infer<typeof PriceSchema>
 type PricingPlanFeature = NonNullable<PricingPlan['features']>[number]
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 const options = [
 

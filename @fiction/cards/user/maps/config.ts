@@ -1,3 +1,4 @@
+import type { StandardUserConfig } from '@fiction/site/schema'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
 
@@ -51,7 +52,7 @@ export const schema = z.object({
 
 export type MapUserConfig = z.infer<typeof mapSchema>
 type MarkerConfig = z.infer<typeof MarkerSchema>
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 export const defaultMap = {
   lat: 33.652199,

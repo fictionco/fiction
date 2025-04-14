@@ -7,6 +7,7 @@ import CardLink from '@fiction/cards/el/CardLink.vue'
 import { getTextColorBasedOnBackground, isDarkOrLightMode, pathCheck, vue } from '@fiction/core'
 import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 import XIcon from '@fiction/ui/media/XIcon.vue'
+import CardWrap from '../../CardWrap.vue'
 import { schema } from './config'
 
 const props = defineProps({
@@ -136,7 +137,7 @@ function getTransformStyle(item: TickerConfig) {
 </script>
 
 <template>
-  <div class="">
+  <CardWrap :card>
     <div ref="tickerWrap" class="x-font-title font-bold [perspective:1000px] " :style="{ perspective: '1000px' }">
       <CardLink
         v-for="(item, i) in items"
@@ -179,7 +180,7 @@ function getTransformStyle(item: TickerConfig) {
         </div>
       </CardLink>
     </div>
-  </div>
+  </CardWrap>
 </template>
 
 <style scoped>

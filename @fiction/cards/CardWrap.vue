@@ -7,14 +7,14 @@ import XMedia from '@fiction/ui/media/XMedia.vue'
 import CardToolDropdown from './CardToolDropdown.vue'
 import StandardHeader from './el/StandardHeader.vue'
 
-const props = defineProps({
-  card: { type: Object as vue.PropType<Card<CardOptionsWithStandard>>, required: true },
-})
+const { card } = defineProps<{
+  card: Card<CardOptionsWithStandard>
+}>()
 
 const cardWrap = vue.ref<HTMLElement | null>(null)
 const loaded = vue.ref(false)
-const config = vue.computed(() => props.card.config.value || {})
-const siteUc = vue.computed(() => props.card.site?.fullConfig.value || {})
+const config = vue.computed(() => card.config.value || {})
+const siteUc = vue.computed(() => card.site?.fullConfig.value || {})
 const standardUc = vue.computed(() => config.value.standard)
 
 const colorScheme = vue.computed(() => {
@@ -64,7 +64,7 @@ const containerStyle = vue.computed(() => {
 vue.watch(() => standardUc.value?.fonts, (fontStyle) => {
   let addFonts = {}
 
-  const site = props.card.site
+  const site = card.site
   Object.entries(fontStyle || {}).forEach(([_key, f]) => {
     const family = f?.family
 
@@ -78,21 +78,20 @@ vue.watch(() => standardUc.value?.fonts, (fontStyle) => {
     site.userFonts.value = { ...site.userFonts.value, ...addFonts }
   }
 }, { immediate: true })
-const isEditable = vue.computed(() => props.card?.site?.isEditable.value)
+const isEditable = vue.computed(() => card?.site?.isEditable.value)
 </script>
 
 <template>
   <div
     ref="cardWrap"
     :key="card.cardId"
-    class="  card-wrap dark relative w-full group/engine"
+    class="card-wrap relative w-full"
     :style="containerStyle"
     :class="[
       card.classes.value.verticalSpacing,
       loaded ? 'loaded' : '',
       card.depth.value <= 1 ? `overflow-x-clip` : '',
-      card.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300 dark:outline-theme-600' : '',
-      isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 dark:hover:outline-blue-600 cursor-pointer  transition-all' : '',
+
     ]"
     :data-card-template-id="card.templateId.value"
     :data-font-title="standardUc?.fonts?.title?.family"
@@ -117,12 +116,7 @@ const isEditable = vue.computed(() => props.card?.site?.isEditable.value)
         </div>
       </div>
     </div>
-    <CardToolDropdown
-      v-if="props.card?.site?.isEditable.value"
-      :card="props.card"
-      class="absolute top-3 opacity-40 group-hover/engine:opacity-100"
-      :class="card.tpl.value?.settings.isContainer ? 'left-3' : 'right-3'"
-    />
+
     <XMedia
       v-if="colorScheme?.background"
       class="object-cover w-full h-full absolute inset-0 pointer-events-none -z-10"

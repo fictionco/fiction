@@ -2,6 +2,7 @@
 import type { Card } from '@fiction/site/card'
 import type { MapUserConfig, UserConfig } from './config'
 import { vue } from '@fiction/core'
+import CardWrap from '../../CardWrap.vue'
 import ElMap from './ElMap.vue'
 
 const props = defineProps({
@@ -45,29 +46,31 @@ const mapGridCols = vue.computed(() => {
 </script>
 
 <template>
-  <div class="relative" :class="card.classes.value.contentWidth">
-    <div
-      class="grid grid-cols-1 gap-6 lg:gap-8"
-      :class="[mapGridCols]"
-    >
+  <CardWrap :card>
+    <div class="relative" :class="card.classes.value.contentWidth">
       <div
-        v-for="(map, i) in uc.maps"
-        :key="i"
-        class="relative w-full  "
+        class="grid grid-cols-1 gap-6 lg:gap-8"
+        :class="[mapGridCols]"
       >
         <div
-          class="w-full h-full"
-          :class="[getAspectRatioClass(map.aspectRatio)]"
-          :style="getCustomRatioStyle(map)"
+          v-for="(map, i) in uc.maps"
+          :key="i"
+          class="relative w-full  "
         >
-          <ElMap
-            class="absolute inset-0 w-full h-full"
-            :map-config="map"
-            :container="`mapbox-${card.cardId}-${i}`"
-            :animate="true"
-          />
+          <div
+            class="w-full h-full"
+            :class="[getAspectRatioClass(map.aspectRatio)]"
+            :style="getCustomRatioStyle(map)"
+          >
+            <ElMap
+              class="absolute inset-0 w-full h-full"
+              :map-config="map"
+              :container="`mapbox-${card.cardId}-${i}`"
+              :animate="true"
+            />
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </CardWrap>
 </template>

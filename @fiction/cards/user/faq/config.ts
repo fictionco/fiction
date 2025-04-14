@@ -1,4 +1,5 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import type { InputOption } from '@fiction/ui'
 import type { StockMedia } from '@fiction/ui/stock'
 import { ActionAreaSchema, PostSchema } from '@fiction/core'
@@ -22,7 +23,7 @@ export const schema = z.object({
   }).optional().describe('Additional support section below FAQs [@ai]'),
 })
 
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 export type FaqItem = z.infer<typeof faqItemSchema>
 
 const options: InputOption[] = [

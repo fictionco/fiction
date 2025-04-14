@@ -1,4 +1,5 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock/index.js'
 import { PostSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
@@ -19,7 +20,7 @@ export const schema = z.object({
   subTitle: z.string().optional().describe('Team description [@ai]'),
   items: z.array(MemberSchema).optional().describe('Team member list [@ai]'),
 })
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 type MemberConfig = z.infer<typeof MemberSchema>
 
 function getOptions() {

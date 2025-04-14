@@ -1,3 +1,4 @@
+import type { StandardUserConfig } from '@fiction/site/schema'
 import { ActionAreaSchema, SuperTitleSchema, vue } from '@fiction/core/index.js'
 import { cardTemplate } from '@fiction/site/index.js'
 import { createOption } from '@fiction/ui/index.js'
@@ -10,7 +11,7 @@ export const schema = z.object({
   action: ActionAreaSchema.optional(),
 })
 
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 async function getConfig() {
   const options = [

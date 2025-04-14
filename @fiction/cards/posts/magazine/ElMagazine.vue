@@ -9,6 +9,7 @@ import { Post } from '@fiction/posts'
 import { loadPosts } from '@fiction/posts/utils/post'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
+import CardWrap from '../../CardWrap.vue'
 import ElMagazineIndex from './ElMagazineIndex.vue'
 import ElMagazineSingle from './ElMagazineSingle.vue'
 
@@ -55,64 +56,66 @@ const posts = vue.computed(() => {
 </script>
 
 <template>
-  <div
-    :class="card.classes.value.contentWidth"
-    :data-post-format="uc.posts?.format"
-    :data-post-limit="uc.posts?.limit"
-    :data-item-id="itemId"
-    :data-view-id="viewId"
-  >
-    <transition
-      enter-active-class="ease-out duration-200"
-      enter-from-class="opacity-0 translate-y-10"
-      enter-to-class="opacity-100 translate-y-0"
-      leave-active-class="ease-in duration-200"
-      leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 -translate-y-10"
-      mode="out-in"
+  <CardWrap :card>
+    <div
+      :class="card.classes.value.contentWidth"
+      :data-post-format="uc.posts?.format"
+      :data-post-limit="uc.posts?.limit"
+      :data-item-id="itemId"
+      :data-view-id="viewId"
     >
-      <div v-if="!hasInitialized" class="flex justify-center py-12 h-[80vh]">
-        <ElSpinner class="size-8 text-theme-500" />
-      </div>
+      <transition
+        enter-active-class="ease-out duration-200"
+        enter-from-class="opacity-0 translate-y-10"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-active-class="ease-in duration-200"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 -translate-y-10"
+        mode="out-in"
+      >
+        <div v-if="!hasInitialized" class="flex justify-center py-12 h-[80vh]">
+          <ElSpinner class="size-8 text-theme-500" />
+        </div>
 
-      <template v-else-if="itemId">
-        <ElMagazineSingle
-          v-if="itemId"
-          :key="itemId"
-          :card
-          :post="posts[0]"
-          :related-posts="posts.slice(1, 4)"
-          :loading="loading"
-        />
-        <El404
-          v-else
-          title="Post Not Found"
-          sub-title="We couldn't find the post at this location"
-          :buttons="[{
-            label: 'All Posts',
-            icon: 'i-tabler-article',
-            href: card.link(`/${viewId}`),
-            theme: 'primary',
-          }]"
-        />
-      </template>
+        <template v-else-if="itemId">
+          <ElMagazineSingle
+            v-if="itemId"
+            :key="itemId"
+            :card
+            :post="posts[0]"
+            :related-posts="posts.slice(1, 4)"
+            :loading="loading"
+          />
+          <El404
+            v-else
+            title="Post Not Found"
+            sub-title="We couldn't find the post at this location"
+            :buttons="[{
+              label: 'All Posts',
+              icon: 'i-tabler-article',
+              href: card.link(`/${viewId}`),
+              theme: 'primary',
+            }]"
+          />
+        </template>
 
-      <template v-else>
-        <ElMagazineIndex
-          v-if="posts.length"
-          :card
-          :posts
-          :index-meta="indexMeta"
-          :loading="loading"
-          @update:index-meta="indexMeta = $event"
-        />
+        <template v-else>
+          <ElMagazineIndex
+            v-if="posts.length"
+            :card
+            :posts
+            :index-meta="indexMeta"
+            :loading="loading"
+            @update:index-meta="indexMeta = $event"
+          />
 
-        <El404
-          v-else-if="!posts.length"
-          title="No Posts Available"
-          sub-title="Check back later for new content"
-        />
-      </template>
-    </transition>
-  </div>
+          <El404
+            v-else-if="!posts.length"
+            title="No Posts Available"
+            sub-title="Check back later for new content"
+          />
+        </template>
+      </transition>
+    </div>
+  </CardWrap>
 </template>

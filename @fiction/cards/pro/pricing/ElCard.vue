@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site'
 import type { PricingPlan, UserConfig } from './config'
+import CardWrap from '@fiction/cards/CardWrap.vue'
 import { formatNumber, vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import XIcon from '@fiction/ui/media/XIcon.vue'
@@ -148,138 +149,140 @@ const containerClass = vue.computed(() => {
 </script>
 
 <template>
-  <div :class="card.classes.value.contentWidth" :show="isVisible">
-    <!-- Annual Toggle -->
-    <div v-if="uc.hasAnnual" class="flex flex-col items-center gap-4 mb-6 md:mb-12 animate-item" :class="isVisible ? 'opacity-100' : 'opacity-0'">
-      <div v-if="uc.hasAnnual" class="flex justify-center">
-        <div class="relative grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-sans font-semibold leading-5 ring-1 ring-inset ring-theme-300 dark:ring-theme-600">
-          <label :class="priceDuration === 'month' ? 'text-theme-0' : 'text-theme-500 dark:text-theme-200'" class="z-10 relative cursor-pointer rounded-full px-4 py-0.5 transition-all" @click="priceDuration = 'month'">
-            <span>Monthly</span>
-          </label>
-          <label :class="priceDuration === 'year' ? ' text-theme-0' : 'text-theme-500 dark:text-theme-200'" class="z-10 relative cursor-pointer rounded-full px-4 py-0.5 transition-all" @click="priceDuration = 'year'">
-            <span>Annually</span>
-          </label>
-          <div class="bg-primary-500 dark:bg-primary-800/50 ring-1 ring-inset ring-primary-600 dark:ring-primary-500/50 text-primary-0 rounded-full marker w-50 absolute h-full w-[50%] transition-all ease-[cubic-bezier(0.25,1,0.33,1)] duration-500" :class="priceDuration === 'month' ? 'left-0' : 'left-1/2'" />
-        </div>
-        <div class="hidden md:relative">
-          <div
-            v-if="uc.annualDiscountPercent"
-            class="x-font-highlight absolute left-full -top-12 w-56 flex items-center bottom-full -rotate-12"
-          >
-            <div class="i-tabler-arrow-down-left" /><div>Pay {{ uc.annualDiscountPercent }}% Less</div>
+  <CardWrap :card>
+    <div :class="card.classes.value.contentWidth" :show="isVisible">
+      <!-- Annual Toggle -->
+      <div v-if="uc.hasAnnual" class="flex flex-col items-center gap-4 mb-6 md:mb-12 animate-item" :class="isVisible ? 'opacity-100' : 'opacity-0'">
+        <div v-if="uc.hasAnnual" class="flex justify-center">
+          <div class="relative grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-sans font-semibold leading-5 ring-1 ring-inset ring-theme-300 dark:ring-theme-600">
+            <label :class="priceDuration === 'month' ? 'text-theme-0' : 'text-theme-500 dark:text-theme-200'" class="z-10 relative cursor-pointer rounded-full px-4 py-0.5 transition-all" @click="priceDuration = 'month'">
+              <span>Monthly</span>
+            </label>
+            <label :class="priceDuration === 'year' ? ' text-theme-0' : 'text-theme-500 dark:text-theme-200'" class="z-10 relative cursor-pointer rounded-full px-4 py-0.5 transition-all" @click="priceDuration = 'year'">
+              <span>Annually</span>
+            </label>
+            <div class="bg-primary-500 dark:bg-primary-800/50 ring-1 ring-inset ring-primary-600 dark:ring-primary-500/50 text-primary-0 rounded-full marker w-50 absolute h-full w-[50%] transition-all ease-[cubic-bezier(0.25,1,0.33,1)] duration-500" :class="priceDuration === 'month' ? 'left-0' : 'left-1/2'" />
+          </div>
+          <div class="hidden md:relative">
+            <div
+              v-if="uc.annualDiscountPercent"
+              class="x-font-highlight absolute left-full -top-12 w-56 flex items-center bottom-full -rotate-12"
+            >
+              <div class="i-tabler-arrow-down-left" /><div>Pay {{ uc.annualDiscountPercent }}% Less</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Pricing Cards Grid -->
-    <div :class="containerClass">
-      <div
-        v-for="(plan, i) in uc.prices"
-        :key="i"
-        class="animate-item transition-all duration-500"
-        :class="[getVariantClasses(plan).card, isVisible ? 'opacity-100' : 'opacity-0']"
-      >
-        <div :class="getContainerPadding()" class="flex flex-col h-full">
-          <!-- Plan Header -->
-          <div class="flex justify-between items-start mb-8">
-            <div class="flex gap-3 items-center">
-              <CardText
-                :card
-                tag="h3"
-                :path="`prices.${i}.title`"
-                class="text-2xl font-semibold x-font-title"
+      <!-- Pricing Cards Grid -->
+      <div :class="containerClass">
+        <div
+          v-for="(plan, i) in uc.prices"
+          :key="i"
+          class="animate-item transition-all duration-500"
+          :class="[getVariantClasses(plan).card, isVisible ? 'opacity-100' : 'opacity-0']"
+        >
+          <div :class="getContainerPadding()" class="flex flex-col h-full">
+            <!-- Plan Header -->
+            <div class="flex justify-between items-start mb-8">
+              <div class="flex gap-3 items-center">
+                <CardText
+                  :card
+                  tag="h3"
+                  :path="`prices.${i}.title`"
+                  class="text-2xl font-semibold x-font-title"
+                  :class="getVariantClasses(plan).highlight"
+                />
+                <CardButton
+                  v-if="plan.badge"
+                  :card
+                  tag="span"
+                  :path="`prices.${i}.badge`"
+                  size="xs"
+                  :theme="uc.layout === 'cards' && plan.variant === 'highlighted' ? 'white' : 'primary'"
+                  :design="uc.layout === 'cards' ? 'solid' : 'outline'"
+                >
+                  {{ plan.badge }}
+                </CardButton>
+              </div>
+              <XIcon
+                v-if="plan.icon"
+                :media="plan.icon"
+                class="size-10"
                 :class="getVariantClasses(plan).highlight"
               />
-              <CardButton
-                v-if="plan.badge"
-                :card
-                tag="span"
-                :path="`prices.${i}.badge`"
-                size="xs"
-                :theme="uc.layout === 'cards' && plan.variant === 'highlighted' ? 'white' : 'primary'"
-                :design="uc.layout === 'cards' ? 'solid' : 'outline'"
-              >
-                {{ plan.badge }}
-              </CardButton>
             </div>
-            <XIcon
-              v-if="plan.icon"
-              :media="plan.icon"
-              class="size-10"
-              :class="getVariantClasses(plan).highlight"
-            />
-          </div>
 
-          <!-- Pricing -->
-          <div class="mb-8">
-            <div class="flex items-baseline gap-x-1">
-              <span
-                class="text-5xl font-bold x-font-title tracking-tight"
-                :class="getVariantClasses(plan).pricing"
-              >
-                <span v-if="plan.price" class="text-2xl align-top font-medium -mr-0.5">$</span>
-                {{ getPrice(plan) }}
-              </span>
-              <span
-                v-if="plan.price"
-                :class="uc.layout === 'cards' && plan.variant === 'highlighted' ? 'text-white/70' : 'text-theme-600/70 dark:text-theme-400/70'"
-                class="text-base font-sans"
-              >/ mo</span>
-            </div>
-            <CardText
-              :card
-              tag="p"
-              :path="`prices.${i}.description`"
-              class="mt-3 text-lg"
-              :class="[
-                uc.layout === 'cards' && plan.variant === 'highlighted'
-                  ? 'text-white/80'
-                  : 'text-theme-500 dark:text-theme-400',
-              ]"
-            />
-          </div>
-
-          <!-- Features List -->
-          <div class="space-y-4 grow">
-            <div
-              v-for="(feature, fi) in plan.features"
-              :key="fi"
-              class="flex gap-3 text-base font-sans items-center"
-              :class="getFeatureClasses(plan)"
-            >
-              <XIcon
-                class=" shrink-0 size-5 text-primary-500"
-                :media="{ class: 'i-tabler-check' }"
-                :class="uc.layout === 'cards' && plan.variant === 'highlighted' ? 'text-white' : ''"
-              />
+            <!-- Pricing -->
+            <div class="mb-8">
+              <div class="flex items-baseline gap-x-1">
+                <span
+                  class="text-5xl font-bold x-font-title tracking-tight"
+                  :class="getVariantClasses(plan).pricing"
+                >
+                  <span v-if="plan.price" class="text-2xl align-top font-medium -mr-0.5">$</span>
+                  {{ getPrice(plan) }}
+                </span>
+                <span
+                  v-if="plan.price"
+                  :class="uc.layout === 'cards' && plan.variant === 'highlighted' ? 'text-white/70' : 'text-theme-600/70 dark:text-theme-400/70'"
+                  class="text-base font-sans"
+                >/ mo</span>
+              </div>
               <CardText
                 :card
-                tag="span"
-                :path="`prices.${i}.features.${fi}.label`"
+                tag="p"
+                :path="`prices.${i}.description`"
+                class="mt-3 text-lg"
+                :class="[
+                  uc.layout === 'cards' && plan.variant === 'highlighted'
+                    ? 'text-white/80'
+                    : 'text-theme-500 dark:text-theme-400',
+                ]"
               />
             </div>
-          </div>
 
-          <!-- CTA Button -->
-          <div class="mt-8">
-            <CardButtons
-              :card
-              :buttons="[{
-                icon: plan.button?.icon,
-                href: getPricingLink(plan),
-                label: plan.button?.label || 'Start',
-                format: 'block',
-                theme: uc.layout === 'cards' && plan.variant === 'highlighted' ? 'white' : 'primary',
-                design: plan.variant === 'highlighted' ? 'solid' : 'outline',
-              }]"
-              ui-size="xl"
-              format="block"
-              design="solid"
-            />
+            <!-- Features List -->
+            <div class="space-y-4 grow">
+              <div
+                v-for="(feature, fi) in plan.features"
+                :key="fi"
+                class="flex gap-3 text-base font-sans items-center"
+                :class="getFeatureClasses(plan)"
+              >
+                <XIcon
+                  class=" shrink-0 size-5 text-primary-500"
+                  :media="{ class: 'i-tabler-check' }"
+                  :class="uc.layout === 'cards' && plan.variant === 'highlighted' ? 'text-white' : ''"
+                />
+                <CardText
+                  :card
+                  tag="span"
+                  :path="`prices.${i}.features.${fi}.label`"
+                />
+              </div>
+            </div>
+
+            <!-- CTA Button -->
+            <div class="mt-8">
+              <CardButtons
+                :card
+                :buttons="[{
+                  icon: plan.button?.icon,
+                  href: getPricingLink(plan),
+                  label: plan.button?.label || 'Start',
+                  format: 'block',
+                  theme: uc.layout === 'cards' && plan.variant === 'highlighted' ? 'white' : 'primary',
+                  design: plan.variant === 'highlighted' ? 'solid' : 'outline',
+                }]"
+                ui-size="xl"
+                format="block"
+                design="solid"
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </CardWrap>
 </template>

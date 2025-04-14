@@ -83,7 +83,6 @@ const templateGroups = [
       () => import('./standard/wrap'),
       () => import('./standard/area'),
       () => import('./standard/nav'),
-      () => import('./user/faq'),
       () => import('./pro/footer-pro'),
       () => import('./standard/footer'),
     ],

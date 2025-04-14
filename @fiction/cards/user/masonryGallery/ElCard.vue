@@ -5,6 +5,7 @@ import { vue } from '@fiction/core'
 import MasonryEffect from '@fiction/ui/effect/EffectMasonry.vue'
 import ElLightbox from '@fiction/ui/media/ElLightbox.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
+import CardWrap from '../../CardWrap.vue'
 
 const props = defineProps<{
   card: Card<UserConfig>
@@ -101,52 +102,54 @@ function showLightbox(index: number) {
 </script>
 
 <template>
-  <div :class="card.classes.value.contentWidth">
-    <MasonryEffect
-      :items="items"
-      :options="masonryOptions"
-      :class="layout.animation"
-    >
-      <div
-        v-for="(item, index) in items"
-        :key="index"
-        :class="getItemClasses(item)"
-        :style="getItemStyle(item)"
-        @click="showLightbox(index)"
+  <CardWrap :card>
+    <div :class="card.classes.value.contentWidth">
+      <MasonryEffect
+        :items="items"
+        :options="masonryOptions"
+        :class="layout.animation"
       >
-        <!-- Media Layer -->
-        <XMedia
-          :media="item?.media"
-          :animate="true"
-          class="absolute inset-0 object-cover group-hover:scale-110 transition-all duration-500 ease-out"
-        />
+        <div
+          v-for="(item, index) in items"
+          :key="index"
+          :class="getItemClasses(item)"
+          :style="getItemStyle(item)"
+          @click="showLightbox(index)"
+        >
+          <!-- Media Layer -->
+          <XMedia
+            :media="item?.media"
+            :animate="true"
+            class="absolute inset-0 object-cover group-hover:scale-110 transition-all duration-500 ease-out"
+          />
 
-        <!-- Overlay Layer with Gradient -->
-        <div :class="getOverlayClasses(item)" />
+          <!-- Overlay Layer with Gradient -->
+          <div :class="getOverlayClasses(item)" />
 
-        <!-- Content Layer -->
-        <div class="absolute inset-0 flex items-end">
-          <div :class="getContentClasses(item)">
-            <h3
-              class="text-xl md:text-2xl font-semibold x-font-title transform "
-            >
-              {{ item?.title }}
-            </h3>
-            <p
-              class="text-base md:text-lg opacity-90 line-clamp-3"
-            >
-              {{ item?.content }}
-            </p>
+          <!-- Content Layer -->
+          <div class="absolute inset-0 flex items-end">
+            <div :class="getContentClasses(item)">
+              <h3
+                class="text-xl md:text-2xl font-semibold x-font-title transform "
+              >
+                {{ item?.title }}
+              </h3>
+              <p
+                class="text-base md:text-lg opacity-90 line-clamp-3"
+              >
+                {{ item?.content }}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    </MasonryEffect>
+      </MasonryEffect>
 
-    <ElLightbox
-      v-if="currentLightboxIndex >= 0"
-      v-model:active-index="currentLightboxIndex"
-      :items="items"
-      :show-caption="true"
-    />
-  </div>
+      <ElLightbox
+        v-if="currentLightboxIndex >= 0"
+        v-model:active-index="currentLightboxIndex"
+        :items="items"
+        :show-caption="true"
+      />
+    </div>
+  </CardWrap>
 </template>

@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site/card'
-import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
+import CardWrap from '../../CardWrap.vue'
 import CardLink from '../../el/CardLink.vue'
 
 const { card } = defineProps<{ card: Card }>()
-const { fictionUser } = useService()
 
 const icon = `<svg
             class="size-[.9em] inline-block mt-[-5px]"
@@ -22,7 +21,7 @@ const icon = `<svg
 </script>
 
 <template>
-  <footer class="border-t border-theme-700/50 text-theme-200 py-10">
+  <CardWrap :card class="border-t border-theme-700/50 text-theme-200 py-10">
     <div class="max-w-5xl mx-auto px-4 flex flex-col gap-8 justify-center items-center text-sm font-sans">
       <!-- Terms Above -->
       <nav class="flex justify-center md:justify-end gap-4 items-center">
@@ -58,5 +57,5 @@ const icon = `<svg
         </p>
       </div>
     </div>
-  </footer>
+  </CardWrap>
 </template>

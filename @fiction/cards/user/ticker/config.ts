@@ -1,3 +1,4 @@
+import type { StandardUserConfig } from '@fiction/site/schema'
 import { fontFamilySchema, MediaIconSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -40,7 +41,7 @@ export const schema = z.object({
   items: z.array(SchemaTicker).default([]).describe('Array of ticker items [@ai label=Ticker Items]'),
 })
 
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 export type TickerConfig = z.infer<typeof SchemaTicker>
 

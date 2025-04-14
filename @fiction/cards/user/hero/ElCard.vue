@@ -3,6 +3,7 @@ import type { UserConfig } from '.'
 import type { HeroConfig } from './config'
 import { vue } from '@fiction/core'
 import { Card } from '@fiction/site'
+import CardWrap from '../../CardWrap.vue'
 import ElHero from './ElHero.vue'
 
 const { card } = defineProps<{
@@ -25,7 +26,9 @@ function createHeroCard(item: HeroConfig, index: number) {
 </script>
 
 <template>
-  <div class="space-y-48">
-    <ElHero v-for="(item, i) in uc.items" :key="i" :card="createHeroCard(item, i)" />
-  </div>
+  <CardWrap :card>
+    <div class="space-y-48">
+      <ElHero v-for="(item, i) in uc.items" :key="i" :card="createHeroCard(item, i)" />
+    </div>
+  </CardWrap>
 </template>

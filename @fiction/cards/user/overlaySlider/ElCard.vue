@@ -6,6 +6,7 @@ import { pathCheck, vue } from '@fiction/core'
 import EffectFitText from '@fiction/ui/effect/EffectFitText.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import CardText from '../../CardText.vue'
+import CardWrap from '../../CardWrap.vue'
 import NavDots from '../../el/NavDots.vue'
 import { schema } from './config'
 
@@ -160,72 +161,74 @@ vue.onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div :class="card.classes.value.contentWidth">
-    <div class="py-24 md:py-4">
-      <div v-if="!currentItem && card.site?.isEditable.value" class="p-12 text-center font-sans text-theme-400/80 dark:text-theme-600/80">
-        No Slides Added
-      </div>
-      <div v-else class="md:flex items-center justify-between md:h-[620px] xl:h-[700px] space-y-8 md:space-y-0">
-        <div class="relative h-full basis-[33%]">
-          <transition
-            enter-active-class="transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
-            enter-from-class="opacity-0 translate-x-44"
-            enter-to-class="opacity-100 translate-x-0"
-            leave-active-class="transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
-            leave-from-class="opacity-100 translate-x-0"
-            leave-to-class="opacity-0 -translate-x-44"
-            mode="out-in"
-          >
-            <div
-              :key="currentItem._id"
-              class="text-theme-900 dark:text-theme-0 w-full md:absolute top-1/2 md:-translate-y-1/2 z-20 space-y-8"
-              :class="currentItem?.textBlend === 'difference' ? 'mix-blend-difference text-white dark:text-black' : '[text-shadow:_1px_1px_2px_rgba(0,0,0,0.1)]'"
-            >
-              <EffectFitText
-                :lines="2"
-                :content="currentItem?.title || ''"
-                class="x-font-title z-20 font-bold md:w-[170%]"
-                :min-size="40"
-              >
-                <CardText :card tag="span" :path="pathCheck(`items.${currentItemIndex}.title`, schema)" />
-              </EffectFitText>
-              <EffectFitText
-                v-if="currentItem?.subTitle"
-                :lines="1"
-                :min-size="28"
-                :content="currentItem?.subTitle || ''"
-                class="x-font-title z-20 font-medium md:w-[160%] mt-4"
-              >
-                <CardText animate="fade" :card tag="span" :path="pathCheck(`items.${currentItemIndex}.subTitle`, schema)" />
-              </EffectFitText>
-            </div>
-          </transition>
+  <CardWrap :card>
+    <div :class="card.classes.value.contentWidth">
+      <div class="py-24 md:py-4">
+        <div v-if="!currentItem && card.site?.isEditable.value" class="p-12 text-center font-sans text-theme-400/80 dark:text-theme-600/80">
+          No Slides Added
         </div>
-        <div class="h-[400px] md:h-full relative basis-[67%] [perspective:1000px] z-10">
-          <div class="absolute md:relative w-full h-full flex justify-end items-center">
-            <div
-              v-for="(item, i) in renderItems"
-              :key="item._id"
-              class="carousel-item absolute w-full h-full cursor-pointer"
-              :style="getItemStyle(i)"
-              @click="setActiveItemByTitle(item.title)"
+        <div v-else class="md:flex items-center justify-between md:h-[620px] xl:h-[700px] space-y-8 md:space-y-0">
+          <div class="relative h-full basis-[33%]">
+            <transition
+              enter-active-class="transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
+              enter-from-class="opacity-0 translate-x-44"
+              enter-to-class="opacity-100 translate-x-0"
+              leave-active-class="transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
+              leave-from-class="opacity-100 translate-x-0"
+              leave-to-class="opacity-0 -translate-x-44"
+              mode="out-in"
             >
-              <XMedia
-                :media="item.media"
-                class="w-full h-full object-cover rounded-[20px] overflow-hidden shadow-[10px_-10px_10px_-8px_rgba(0_0_0/0.3)]"
+              <div
+                :key="currentItem._id"
+                class="text-theme-900 dark:text-theme-0 w-full md:absolute top-1/2 md:-translate-y-1/2 z-20 space-y-8"
+                :class="currentItem?.textBlend === 'difference' ? 'mix-blend-difference text-white dark:text-black' : '[text-shadow:_1px_1px_2px_rgba(0,0,0,0.1)]'"
+              >
+                <EffectFitText
+                  :lines="2"
+                  :content="currentItem?.title || ''"
+                  class="x-font-title z-20 font-bold md:w-[170%]"
+                  :min-size="40"
+                >
+                  <CardText :card tag="span" :path="pathCheck(`items.${currentItemIndex}.title`, schema)" />
+                </EffectFitText>
+                <EffectFitText
+                  v-if="currentItem?.subTitle"
+                  :lines="1"
+                  :min-size="28"
+                  :content="currentItem?.subTitle || ''"
+                  class="x-font-title z-20 font-medium md:w-[160%] mt-4"
+                >
+                  <CardText animate="fade" :card tag="span" :path="pathCheck(`items.${currentItemIndex}.subTitle`, schema)" />
+                </EffectFitText>
+              </div>
+            </transition>
+          </div>
+          <div class="h-[400px] md:h-full relative basis-[67%] [perspective:1000px] z-10">
+            <div class="absolute md:relative w-full h-full flex justify-end items-center">
+              <div
+                v-for="(item, i) in renderItems"
+                :key="item._id"
+                class="carousel-item absolute w-full h-full cursor-pointer"
+                :style="getItemStyle(i)"
+                @click="setActiveItemByTitle(item.title)"
+              >
+                <XMedia
+                  :media="item.media"
+                  class="w-full h-full object-cover rounded-[20px] overflow-hidden shadow-[10px_-10px_10px_-8px_rgba(0_0_0/0.3)]"
+                />
+              </div>
+              <NavDots
+                class=" mt-6 justify-center z-10 absolute bottom-4 right-0 w-full"
+                :active-item="currentItemIndex"
+                :items="slidesWithIds"
+                :wrap-selector="`[data-card-id='${card.cardId}']`"
+                :overlay="true"
+                @update:active-item="setActiveItem($event)"
               />
             </div>
-            <NavDots
-              class=" mt-6 justify-center z-10 absolute bottom-4 right-0 w-full"
-              :active-item="currentItemIndex"
-              :items="slidesWithIds"
-              :wrap-selector="`[data-card-id='${card.cardId}']`"
-              :overlay="true"
-              @update:active-item="setActiveItem($event)"
-            />
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </CardWrap>
 </template>

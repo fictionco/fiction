@@ -1,4 +1,5 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
 import { colorThemeUser, MediaBasicSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
@@ -33,7 +34,7 @@ const schema = z.object({
 })
 
 export type MediaItem = z.infer<typeof MediaItemSchema>
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 // Input options for the admin interface
 const options = [

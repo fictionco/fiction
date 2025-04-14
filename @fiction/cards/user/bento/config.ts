@@ -1,5 +1,6 @@
 import type { ActionArea } from '@fiction/core'
 import type { CardFactory } from '@fiction/site/cardFactory'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import type { InputOption } from '@fiction/ui'
 import type { StockMedia } from '@fiction/ui/stock/index.js'
 import { ActionAreaSchema, colorThemeUser, MediaDisplaySchema, SizeSchema, SuperTitleSchema } from '@fiction/core'
@@ -34,7 +35,7 @@ export const schema = z.object({
 })
 
 export type BentoItem = z.infer<typeof BentoItemSchema>
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 const options: InputOption[] = [
   createOption({

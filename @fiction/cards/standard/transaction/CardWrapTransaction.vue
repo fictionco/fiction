@@ -2,6 +2,7 @@
 import type { vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import ElEngine from '../../CardEngine.vue'
+import CardWrap from '../../CardWrap.vue'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -9,7 +10,7 @@ defineProps({
 </script>
 
 <template>
-  <div v-if="card.site">
+  <CardWrap v-if="card.site" :card>
     <ElEngine tag="main" :card />
-  </div>
+  </CardWrap>
 </template>

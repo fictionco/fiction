@@ -1,6 +1,7 @@
 import type { MapUserConfig } from '@fiction/cards/user/maps'
 import { cardConfig } from '@fiction/cards'
 import ImageAndrew from './img/ap.webp'
+import ImageMorgan from './img/morgan.jpg'
 import ImageOffice from './img/fiction-office.webp'
 import ImageGirlComputer from './img/girl-computer.webp'
 import ImagePro from './img/pro.webp'
@@ -16,8 +17,8 @@ export async function getAboutPage() {
             theme: 'primary',
             text: 'About Fiction',
           },
-          title: `Fiction's Story`,
-          subTitle: `Helping people since 2023.`,
+          title: `Your Story Matters`,
+          subTitle: `Imagine a place where you can share your work, connect with others, and build your brand effortlessly.`,
 
           media: {
             format: 'url',
@@ -36,15 +37,15 @@ export async function getAboutPage() {
         {
           superTitle: {
             icon: { class: 'i-tabler-x' },
-            text: 'The Problem',
+            text: 'The Struggle',
             theme: 'red',
           },
-          title: `74% of Professionals Remain Invisible`,
-          subTitle: `Yet almost all of them have a story to tell. We built Fiction to help you share your work and ideas with the world.`,
+          title: `“Where Do I Even Start?”`,
+          subTitle: `74% of professionals lack an online presence. Complex tools and endless options leave you stuck, wondering how to share your work without the headache.`,
 
           media: {
-            format: 'url' as const,
-            url: ImagePro,
+            format: 'url',
+            url: ImageGirlComputer,
           },
           layout: 'left',
           action: { buttons: [] },
@@ -60,15 +61,15 @@ export async function getAboutPage() {
         {
           superTitle: {
             icon: { class: 'i-tabler-users' },
-            text: 'Our Solution',
+            text: 'Our Promise',
             theme: 'green',
           },
-          title: `For busy, frustrated professionals`,
-          subTitle: `We built Fiction after watching brilliant minds struggle to share their work online. Now 21,000+ professionals use our platform daily to build their legacy.`,
+          title: `Effortless Branding for Busy Pros`,
+          subTitle: `Notice how peers with strong profiles land better opportunities? Fiction makes it simple for 21,000+ professionals to stand out without the tech overwhelm.`,
 
           media: {
             format: 'url',
-            url: ImageGirlComputer,
+            url: ImagePro,
           },
           layout: 'right',
           action: { buttons: [] },
@@ -80,25 +81,44 @@ export async function getAboutPage() {
   const teamCard = cardConfig({
     templateId: 'cardPeopleV1',
     userConfig: {
-      subTitle: `Expertise You Can Trust`,
-      title: `Our Team`,
-      items: [{
-        title: 'Andrew Powers',
-        subTitle: 'Founder & CEO',
-        content: 'Andrew previously built platforms that empowered 70,000+ creators at PageLines.',
-        media: {
-          format: 'url',
-          url: ImageAndrew,
+      subTitle: `Here to Help You Succeed`,
+      title: `Meet Your Team`,
+      items: [
+        {
+          title: 'Andrew Powers',
+          subTitle: 'Co-Founder / CEO',
+          content: 'Andrew is a veteran in product experience, ensuring that Fiction is user-friendly and intuitive.',
+          media: {
+            format: 'url',
+            url: ImageAndrew,
+          },
+          action: {
+            buttons: [{
+              label: 'LinkedIn',
+              theme: 'cyan',
+              icon: { class: 'i-tabler-brand-linkedin' },
+              href: 'https://www.linkedin.com/in/arpowers',
+            }],
+          },
         },
-        action: {
-          buttons: [{
-            label: 'LinkedIn',
-            theme: 'cyan',
-            icon: { class: 'i-tabler-brand-linkedin' },
-            href: 'https://www.linkedin.com/in/arpowers',
-          }],
+        {
+          title: 'Morgan Jones',
+          subTitle: 'Co-Founder / Sales',
+          content: 'Morgan is a master of customer experience, ensuring your journey with Fiction is smooth and enjoyable.',
+          media: {
+            format: 'url',
+            url: ImageMorgan,
+          },
+          action: {
+            buttons: [{
+              label: 'LinkedIn',
+              theme: 'cyan',
+              icon: { class: 'i-tabler-brand-linkedin' },
+              href: 'https://www.linkedin.com/in/morgan-jones-mba',
+            }],
+          },
         },
-      }],
+      ],
       layout: 'mediabox',
     },
   })
@@ -109,7 +129,7 @@ export async function getAboutPage() {
     zoom: 15,
     pitch: 60,
     markers: [{ lat: 33.5427, lng: -117.7854, label: 'Orange County, CA' }],
-    mapStyle: 'satellite' as const,
+    mapStyle: 'satellite',
   }
 
   const mapSaltLake: MapUserConfig = {
@@ -118,7 +138,7 @@ export async function getAboutPage() {
     zoom: 8,
     pitch: 80,
     markers: [{ lat: 40.7608, lng: -111.8910, label: 'Salt Lake City, UT' }],
-    mapStyle: 'outdoors' as const,
+    mapStyle: 'outdoors',
   }
 
   const mapCard = cardConfig({
@@ -134,24 +154,24 @@ export async function getAboutPage() {
       layout: 'visible',
       standard: {
         headers: {
-          title: 'Values',
-          subTitle: 'Basic principles that guide the company.',
+          title: 'What We Believe',
+          subTitle: 'Ideas that shape how we help you.',
         },
       },
       items: [
         {
-          title: 'Karma',
-          content: `Give genuinely. Returns follow naturally.`,
+          title: 'Give to Grow',
+          content: `Your success fuels ours. We\'re here to lift you up, knowing it comes back around.`,
           icon: { iconId: 'target' },
         },
         {
-          title: `Beauty`,
-          content: `Elegance cuts through noise. Simplicity wins.`,
+          title: 'Make It Stunning',
+          content: `Great ideas deserve to look amazing. We craft tools that let your work shine.`,
           icon: { class: 'i-tabler-sparkles' },
         },
         {
-          title: `Discipline`,
-          content: `Consistent excellence outperforms sporadic brilliance.`,
+          title: 'Keep It Simple',
+          content: `No fluff, no stress. We focus on what works to save you time and effort.`,
           icon: { iconId: 'sparkles' },
         },
       ],

@@ -4,6 +4,7 @@ import type { UserConfig } from './config'
 import { getNavComponentType, vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import XMedia from '@fiction/ui/media/XMedia.vue'
+import CardWrap from '../../CardWrap.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
@@ -57,49 +58,51 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <div class="py-4 relative">
-    <div class="marquee relative z-10 mx-auto" :class="loaded ? '' : 'opacity-0'">
-      <div class="marquee-track" :class="uc.direction === 'right' ? 'reverse' : ''">
-        <div class="marquee-grid grid gap-4 lg:gap-8">
-          <component
-            :is="getNavComponentType(item)"
-            v-for="(item, i) in temp"
-            :key="i"
-            :to="item.href"
-            :href="item.href"
-            class="group/marquee marquee-item relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.33,1)] hover:-translate-y-1 hover:scale-105 hover:z-10"
-            :class="[getStagger(i)]"
-            :data-display-items="temp.length"
-            :data-display-direction="uc.direction || 'left'"
-          >
-            <div class="x-action-item absolute inset-0 transition-all duration-1000 opacity-0">
-              <div v-if="item.media" class="item-media absolute inset-0 overflow-hidden">
-                <XMedia
-                  :media="item.media"
-                  class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.33,1)] group-hover/marquee:scale-105"
-                />
+  <CardWrap :card>
+    <div class="py-4 relative">
+      <div class="marquee relative z-10 mx-auto" :class="loaded ? '' : 'opacity-0'">
+        <div class="marquee-track" :class="uc.direction === 'right' ? 'reverse' : ''">
+          <div class="marquee-grid grid gap-4 lg:gap-8">
+            <component
+              :is="getNavComponentType(item)"
+              v-for="(item, i) in temp"
+              :key="i"
+              :to="item.href"
+              :href="item.href"
+              class="group/marquee marquee-item relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.33,1)] hover:-translate-y-1 hover:scale-105 hover:z-10"
+              :class="[getStagger(i)]"
+              :data-display-items="temp.length"
+              :data-display-direction="uc.direction || 'left'"
+            >
+              <div class="x-action-item absolute inset-0 transition-all duration-1000 opacity-0">
+                <div v-if="item.media" class="item-media absolute inset-0 overflow-hidden">
+                  <XMedia
+                    :media="item.media"
+                    class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.33,1)] group-hover/marquee:scale-105"
+                  />
+                  <div
+                    class="grad absolute inset-0 transition-opacity duration-300 "
+                    :class="uc.showAllText ? '' : 'opacity-0 group-hover/marquee:opacity-100'"
+                  />
+                </div>
                 <div
-                  class="grad absolute inset-0 transition-opacity duration-300 "
+                  class="absolute bottom-0 p-3 lg:p-6 text-white transition-opacity duration-300 "
                   :class="uc.showAllText ? '' : 'opacity-0 group-hover/marquee:opacity-100'"
-                />
-              </div>
-              <div
-                class="absolute bottom-0 p-3 lg:p-6 text-white transition-opacity duration-300 "
-                :class="uc.showAllText ? '' : 'opacity-0 group-hover/marquee:opacity-100'"
-              >
-                <h2 class="font-medium text-base lg:text-xl x-font-title">
-                  {{ item.title }}
-                </h2>
-                <div class="opacity-70 font-medium text-sm lg:text-base">
-                  {{ item.subTitle }}
+                >
+                  <h2 class="font-medium text-base lg:text-xl x-font-title">
+                    {{ item.title }}
+                  </h2>
+                  <div class="opacity-70 font-medium text-sm lg:text-base">
+                    {{ item.subTitle }}
+                  </div>
                 </div>
               </div>
-            </div>
-          </component>
+            </component>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </CardWrap>
 </template>
 
 <style lang="less">

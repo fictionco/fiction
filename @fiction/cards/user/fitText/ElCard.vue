@@ -5,6 +5,7 @@ import { vue } from '@fiction/core'
 import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 import EffectFitText from '@fiction/ui/effect/EffectFitText.vue'
 import CardText from '../../CardText.vue'
+import CardWrap from '../../CardWrap.vue'
 
 const props = defineProps<{
   card: Card<UserConfig>
@@ -42,16 +43,18 @@ vue.watch(() => uc.value.font, (newFont) => {
 </script>
 
 <template>
-  <div :class="card.classes.value.contentWidth" :data-value="JSON.stringify(fitOpts)">
-    <EffectFitText v-bind="fitOpts" :content="uc.text || ''">
-      <CardText
-        :card="card"
-        tag="span"
-        path="text"
-        animate="rise"
-        :style="textStyles"
-        class="block leading-tight"
-      />
-    </EffectFitText>
-  </div>
+  <CardWrap :card>
+    <div :class="card.classes.value.contentWidth" :data-value="JSON.stringify(fitOpts)">
+      <EffectFitText v-bind="fitOpts" :content="uc.text || ''">
+        <CardText
+          :card="card"
+          tag="span"
+          path="text"
+          animate="rise"
+          :style="textStyles"
+          class="block leading-tight"
+        />
+      </EffectFitText>
+    </div>
+  </CardWrap>
 </template>

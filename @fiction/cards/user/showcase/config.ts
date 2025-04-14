@@ -1,4 +1,5 @@
 import type { ActionButton } from '@fiction/core'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import { PostHandlingSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -25,7 +26,7 @@ const schema = z.object({
     .describe('Minimum columns on mobile for responsive layouts'),
 })
 
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 const options = [
   createOption({

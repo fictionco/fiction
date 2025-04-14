@@ -1,4 +1,5 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
 import { NavListItemSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
@@ -19,7 +20,7 @@ export const schema = z.object({
 })
 
 export type LogoConfig = z.infer<typeof logoSchema>
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 export const options = [
   createOption({

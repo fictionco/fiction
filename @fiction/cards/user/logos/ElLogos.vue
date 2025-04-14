@@ -4,6 +4,7 @@ import type { LogoConfig, UserConfig } from './config'
 import { vue } from '@fiction/core'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import { getColorThemeStyles } from '@fiction/ui/utils'
+import CardWrap from '../../CardWrap.vue'
 
 const props = defineProps({
   card: {
@@ -46,7 +47,7 @@ function getLogoStyle(item: LogoConfig) {
 </script>
 
 <template>
-  <div>
+  <CardWrap :card>
     <div class="content-standard p-4 text-center md:p-0 ">
       <div
         class="items-center"
@@ -99,7 +100,7 @@ function getLogoStyle(item: LogoConfig) {
         </div>
       </div>
     </div>
-  </div>
+  </CardWrap>
 </template>
 
 <style lang="less">

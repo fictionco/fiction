@@ -5,6 +5,7 @@ import { pathCheck, vue } from '@fiction/core'
 import EffectScrollReveal from '@fiction/ui/effect/EffectScrollReveal.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import CardText from '../../CardText.vue'
+import CardWrap from '../../CardWrap.vue'
 import CardActionArea from '../../el/CardActionArea.vue'
 import { schema } from './config'
 
@@ -18,7 +19,7 @@ const editingStoryText = vue.ref(false)
 </script>
 
 <template>
-  <div>
+  <CardWrap :card>
     <div v-for="(item, i) in uc.items" :key="i" class="py-[4vw]">
       <div
         class="md:flex gap-8 md:gap-16 lg:gap-20 relative space-y-6 md:space-y-0"
@@ -57,5 +58,5 @@ const editingStoryText = vue.ref(false)
         </div>
       </div>
     </div>
-  </div>
+  </CardWrap>
 </template>

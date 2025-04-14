@@ -1,4 +1,5 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock/index.js'
 import { ActionAreaSchema, colorThemeUser, NavListItemSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
@@ -33,7 +34,7 @@ export const schema = z.object({
 })
 
 export type Quote = z.infer<typeof QuoteSchema>
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 // Input Configuration
 const options = [

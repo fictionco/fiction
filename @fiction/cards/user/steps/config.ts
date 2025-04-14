@@ -1,4 +1,5 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import { MediaBasicSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -14,7 +15,7 @@ export const schema = z.object({
   items: z.array(pointSchema).optional().describe('List of points/steps [@ai]'),
 })
 
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 type PointConfig = z.infer<typeof pointSchema>
 
 // Input options configuration remains the same

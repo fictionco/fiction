@@ -2,6 +2,7 @@
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './config'
 import { vue } from '@fiction/core'
+import CardWrap from '../../CardWrap.vue'
 import FeaturesCarousel from './FeaturesCarousel.vue'
 import FeaturesGrid from './FeaturesGrid.vue'
 import FeaturesMasonry from './FeaturesMasonry.vue'
@@ -24,14 +25,16 @@ const LayoutComponent = vue.computed(() => {
 </script>
 
 <template>
-  <div class="space-y-12" :class="[card.classes.value.contentWidth]" :data-layout-style="uc.layout?.style">
-    <!-- Features Layout -->
-    <component
-      :is="LayoutComponent"
-      :card="card"
-      :features="uc.items || []"
-      :layout="uc.layout || {}"
-      :style="uc.style || {}"
-    />
-  </div>
+  <CardWrap :card>
+    <div class="space-y-12" :class="[card.classes.value.contentWidth]" :data-layout-style="uc.layout?.style">
+      <!-- Features Layout -->
+      <component
+        :is="LayoutComponent"
+        :card="card"
+        :features="uc.items || []"
+        :layout="uc.layout || {}"
+        :style="uc.style || {}"
+      />
+    </div>
+  </CardWrap>
 </template>

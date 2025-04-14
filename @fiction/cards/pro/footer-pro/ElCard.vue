@@ -7,6 +7,7 @@ import XIcon from '@fiction/ui/media/XIcon.vue'
 import XLogoType from '@fiction/ui/media/XLogoType.vue'
 import CardNavLink from '../../CardNavLink.vue'
 import CardText from '../../CardText.vue'
+import CardWrap from '../../CardWrap.vue'
 import CardActionArea from '../../el/CardActionArea.vue'
 
 defineOptions({ name: 'FooterPro' })
@@ -33,8 +34,8 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <div :id="card.cardId">
-    <div :class="card.classes.value.contentWidth">
+  <CardWrap :card>
+    <div :id="card.cardId" :class="card.classes.value.contentWidth">
       <div class="border-t border-theme-200 dark:border-theme-700/80 pt-16 mt-4">
         <!-- Main grid layout -->
         <div class="grid grid-cols-1 xl:grid-cols-12 gap-12">
@@ -171,5 +172,5 @@ vue.onMounted(() => {
         </div>
       </div>
     </div>
-  </div>
+  </CardWrap>
 </template>

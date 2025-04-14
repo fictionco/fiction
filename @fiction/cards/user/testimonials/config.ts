@@ -28,7 +28,7 @@ export const schema = z.object({
   items: z.array(TestimonialSchema).optional(),
 })
 
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 // Input Configuration
 const options = [

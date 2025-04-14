@@ -4,6 +4,7 @@ import type { UserConfig } from './config.js'
 import { pathCheck, vue } from '@fiction/core'
 import XNumber from '@fiction/ui/common/XNumber.vue'
 import CardText from '../../CardText.vue'
+import CardWrap from '../../CardWrap.vue'
 import { schema } from './config.js'
 
 const props = defineProps({
@@ -14,7 +15,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
 </script>
 
 <template>
-  <div>
+  <CardWrap :card>
     <div
       class="mx-auto grid max-w-6xl  px-6 lg:px-8 gap-8 gap-y-12 md:gap-24"
       :class="uc.items?.length === 1 ? 'md:grid-cols-1' : uc.items?.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'"
@@ -37,5 +38,5 @@ const uc = vue.computed(() => props.card.userConfig.value)
         </div>
       </div>
     </div>
-  </div>
+  </CardWrap>
 </template>

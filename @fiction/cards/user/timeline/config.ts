@@ -1,4 +1,5 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
+import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
 import { ActionAreaSchema, dayjs, PostSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
@@ -21,7 +22,7 @@ export const schema = z.object({
   items: z.array(MilestoneSchema).optional(),
 })
 
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 type MilestoneConfig = z.infer<typeof MilestoneSchema>
 
 export function getOptions() {

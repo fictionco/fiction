@@ -1,6 +1,6 @@
 import type { MediaObject } from '@fiction/core'
 import type { CardFactory } from '@fiction/site/cardFactory'
-import type { StandardUserConfig } from '@fiction/site/schema'
+import type { CardOptionsWithStandard, StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
 import { ActionAreaSchema, NavListItemSchema, SuperTitleSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
@@ -28,7 +28,7 @@ export const schema = z.object({
   action: ActionAreaSchema.optional().describe('List of social media links [@ai]'),
 })
 
-export type UserConfig = z.infer<typeof schema>
+export type UserConfig = z.infer<typeof schema> & CardOptionsWithStandard
 type DetailConfig = z.infer<typeof detailSchema>
 
 // Input options configuration
