@@ -259,7 +259,7 @@ vue.onMounted(async () => {
         <template v-else-if="site">
           <component
             :is="site.currentPage.value.tpl.value?.settings.el"
-            class="x-site-card"
+            class="x-site-card min-h-[100vh] flex flex-col"
             :card="site.currentPage.value"
             :params="fictionRouter.params.value"
           />

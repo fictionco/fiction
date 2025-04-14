@@ -78,18 +78,21 @@ vue.watch(() => standardUc.value?.fonts, (fontStyle) => {
     site.userFonts.value = { ...site.userFonts.value, ...addFonts }
   }
 }, { immediate: true })
+const isEditable = vue.computed(() => props.card?.site?.isEditable.value)
 </script>
 
 <template>
   <div
     ref="cardWrap"
     :key="card.cardId"
-    class="relative card-wrap dark"
+    class="  card-wrap dark relative w-full group/engine"
     :style="containerStyle"
     :class="[
       card.classes.value.verticalSpacing,
       loaded ? 'loaded' : '',
       card.depth.value <= 1 ? `overflow-x-clip` : '',
+      card.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300 dark:outline-theme-600' : '',
+      isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 dark:hover:outline-blue-600 cursor-pointer  transition-all' : '',
     ]"
     :data-card-template-id="card.templateId.value"
     :data-font-title="standardUc?.fonts?.title?.family"

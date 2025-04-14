@@ -17,7 +17,7 @@ const options = [
 
 export const template = cardTemplate({
   templateId,
-  el: vue.defineAsyncComponent(async () => import('./CardWrap.vue')),
+  el: vue.defineAsyncComponent(async () => import('./ElWrap.vue')),
 
   isPublic: false,
   isPageCard: true,

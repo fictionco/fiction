@@ -55,17 +55,12 @@ const renderCards = vue.computed(() => {
         v-for="(subCard) in renderCards.display"
         :key="subCard.cardId"
         :card="subCard"
-        :data-card-id="subCard.cardId"
-        class="relative w-full group/engine"
-        :class="[
-          subCard.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300 dark:outline-theme-600' : '',
-          isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 dark:hover:outline-blue-600 cursor-pointer  transition-all' : '',
-        ]"
         @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
       >
         <component
           :is="subCard.tpl.value?.settings?.el"
           :id="subCard.cardId"
+          :data-card-id="subCard.cardId"
           data-test-id="card-engine-component"
           :data-card-type="subCard.templateId.value"
           :card="subCard"

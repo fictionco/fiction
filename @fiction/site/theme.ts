@@ -110,7 +110,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
         }),
         footer: cardConfig({
           cards: [
-            cardConfig({ templateId: 'cardFooterProV1' }),
+            cardConfig({ templateId: 'cardStandardFooterV1' }),
           ],
         }),
         hidden: cardConfig({

@@ -85,6 +85,7 @@ const templateGroups = [
       () => import('./standard/nav'),
       () => import('./user/faq'),
       () => import('./pro/footer-pro'),
+      () => import('./standard/footer'),
     ],
   },
   {

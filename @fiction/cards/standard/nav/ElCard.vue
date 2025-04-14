@@ -32,14 +32,6 @@ const nav = vue.computed(() => {
 
   return out
 })
-
-const layoutClass = vue.computed(() => {
-  return {
-    brand: '',
-    primary: 'grow justify-center',
-    utility: 'shrink ',
-  }
-})
 </script>
 
 <template>
@@ -48,7 +40,7 @@ const layoutClass = vue.computed(() => {
       <div class="relative">
         <nav class="" aria-label="Global">
           <div class="relative flex items-center justify-between gap-12">
-            <div v-if="uc.brand?.logo" class="inline-flex mr-4 justify-start basis-0 grow" :class="layoutClass.brand">
+            <div v-if="uc.brand?.logo" class="inline-flex mr-4 justify-start basis-0 grow">
               <CardLink
                 :card
                 href="/"
@@ -82,7 +74,7 @@ const layoutClass = vue.computed(() => {
             </div>
 
             <!-- Utility Navigation -->
-            <div class="gap-x-6 flex items-center justify-end basis-0 grow" :class="layoutClass.utility">
+            <div class="gap-x-6 flex items-center justify-end basis-0 grow">
               <UserMenu :card :nav="nav.primary" />
             </div>
           </div>
