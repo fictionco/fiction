@@ -237,45 +237,7 @@ const legalOptions = [
       }),
     ],
   }),
-  createOption({
-    key: 'control.termsUrl',
-    testId: 'termsUrl',
-    label: 'Terms of Service URL',
-    input: 'InputControl',
-    valueDisplay: () => {
-      const { termsUrl } = org.value?.legal || {}
-      const out = []
-      if (termsUrl)
-        out.push('Terms of Service Added')
 
-      return {
-        status: termsUrl ? 'ready' : 'optional',
-        data: out.join(', '),
-      }
-    },
-    options: [
-      createOption({ schema, key: 'legal.termsUrl', label: 'Terms of Service URL', input: 'InputUrl' }),
-    ],
-  }),
-  createOption({
-    key: 'control.privacyUrl',
-    testId: 'privacyUrl',
-    label: 'Privacy Policy URL',
-    input: 'InputControl',
-    valueDisplay: () => {
-      const { privacyUrl } = org.value?.legal || {}
-      const out = []
-      if (privacyUrl)
-        out.push('Privacy Policy Added')
-      return {
-        status: privacyUrl ? 'ready' : 'optional',
-        data: out.join(', '),
-      }
-    },
-    options: [
-      createOption({ schema, key: 'legal.privacyUrl', label: 'Privacy Policy URL', input: 'InputUrl' }),
-    ],
-  }),
 ]
 
 const adminOptions = [

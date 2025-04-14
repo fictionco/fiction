@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site/card'
+import { useService } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import CardWrap from '../../CardWrap.vue'
 import CardLink from '../../el/CardLink.vue'
 
 const { card } = defineProps<{ card: Card }>()
+const { fictionEnv } = useService()
 
 const icon = `<svg
             class="size-[.9em] inline-block mt-[-5px]"
@@ -25,25 +27,25 @@ const icon = `<svg
     <div class="max-w-5xl mx-auto px-4 flex flex-col gap-8 justify-center items-center text-sm font-sans">
       <!-- Terms Above -->
       <nav class="flex justify-center md:justify-end gap-4 items-center">
-        <span>&copy; Some Site</span>
+        <span>&copy; {{ card.site?.org.value.orgName }}</span>
         &middot;
-        <CardLink :card href="/privacy">
+        <CardLink :card :href="fictionEnv.meta.app?.privacyUrl">
           Privacy
         </CardLink>
         &middot;
-        <CardLink :card href="/terms">
+        <CardLink :card :href="fictionEnv.meta.app?.termsUrl">
           Terms
         </CardLink>
       </nav>
 
       <XButton
-        to="/start"
+        href="https://www.fiction.com"
         size="md"
         design="outline"
         theme="primary"
         :icon="{ format: 'html', html: icon }"
       >
-        Start Writing
+        Share Your Story
       </XButton>
       <div class="flex gap-2 items-center font-sans text-theme-400">
         <a
@@ -53,7 +55,7 @@ const icon = `<svg
         <p
           class="text-sm"
         >
-          Own your story.
+          The Leadership Platform
         </p>
       </div>
     </div>
