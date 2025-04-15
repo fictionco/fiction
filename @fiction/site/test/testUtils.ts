@@ -110,7 +110,7 @@ export async function createSiteTestUtils(args: {
   const runOnStart = async (args: { context: 'app' | 'node', isProd?: boolean }) => {
     const { context } = args
     await out.fictionAnalytics?.init()
-    await out.fictionSites?.ensureAppDefaults({ context, defaultId: 'test' })
+    // wait out.fictionSites?.ensureAppDefaults({ context, defaultId: 'test' })
   }
 
   out.init = async () => {

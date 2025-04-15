@@ -1,10 +1,7 @@
 import type { Knex } from 'knex'
-import type { FictionDb } from '../plugin-db/index.js'
-import type { FictionEmail } from '../plugin-email/index.js'
-import type { FictionEnv } from '../plugin-env/index.js'
 import type { EndpointResponse } from '../types/index.js'
 import type { EndpointManageAction, EndpointMeta } from '../utils/endpoint.js'
-import type { FictionUser, OrganizationMember } from './index.js'
+import type { FictionUser, OrganizationMember, UserPluginSettings } from './index.js'
 import type { MemberAccess, MemberStatus, Organization, OrganizationMembership, User } from './types.js'
 import { Query } from '../query.js'
 import { standardTable as t } from '../tbl.js'
@@ -12,11 +9,8 @@ import { abort } from '../utils/error.js'
 import { objectId } from '../utils/id.js'
 import { gravatarUrlSync } from '../utils/url.js'
 
-interface OrgQuerySettings {
+type OrgQuerySettings = UserPluginSettings & {
   fictionUser: FictionUser
-  fictionDb: FictionDb
-  fictionEmail?: FictionEmail
-  fictionEnv: FictionEnv
 }
 export abstract class OrgQuery extends Query<OrgQuerySettings> {
   db = () => this.settings.fictionDb.client()
@@ -103,17 +97,16 @@ export class QueryOrganizationsByUserId extends QueryOrganization {
 
     const r = await q
 
-    const data = r
-      .map((org: Organization) => this.refineRawOrganization({ org, loadOrgId, userId }, _meta))
-      .filter(Boolean) as Organization[]
+    const results = await Promise.all(r.map((org: Organization) => this.refineRawOrganization({ org, loadOrgId, userId })))
+
+    const data = results.filter(Boolean) as Organization[]
 
     return { status: 'success', data }
   }
 
-  refineRawOrganization(
+  async refineRawOrganization(
     params: { org: Organization, loadOrgId?: string, userId?: string },
-    _meta: EndpointMeta,
-  ): Organization | undefined {
+  ): Promise<Organization | undefined> {
     const { org, loadOrgId } = params
     if (!org)
       return

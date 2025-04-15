@@ -76,7 +76,7 @@ const layout = vue.computed(() => {
         <CardText
           tag="h3"
           :card
-          class="text-lg md:text-xl lg:text-2xl md:text-balance text-theme-800 dark:text-theme-200 !leading-relaxed"
+          class="text-lg  md:text-xl lg:text-2xl md:text-balance text-theme-800 dark:text-theme-300 !leading-relaxed"
           :class="layout === 'justify' ? 'lg:text-right' : ''"
           :path="pathCheck('subTitle', schema)"
           placeholder="Sub Title"

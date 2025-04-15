@@ -4,6 +4,8 @@ import { dayjs, vue } from '@fiction/core'
 import { countWords } from '@fiction/core/utils/wordCount'
 import XLink from '@fiction/ui/common/XLink.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
+import XIcon from '../media/XIcon.vue'
+import PostItemMeta from './PostItemMeta.vue'
 
 defineOptions({ name: 'PostItem' })
 
@@ -14,24 +16,8 @@ const props = defineProps<{
 }>()
 
 export interface PostItemConfig {
-  showExcerpt?: boolean
-  showAuthors?: boolean
-  showDate?: boolean
-  showReadTime?: boolean
   imagePosition?: 'top' | 'right' | 'left' | 'cover' | 'none'
-  /** Base URL path for posts, defaults to "p" */
-  basePath?: string
 }
-
-// Generate post URL with base path
-const postUrl = vue.computed(() => {
-  const originalUrl = props.post.href.value || ''
-  if (originalUrl.includes('/'))
-    return originalUrl
-
-  const slug = props.post.slug?.value || ''
-  return slug ? `/${props.config.basePath || 'p'}/${slug}` : originalUrl
-})
 
 // Format the date nicely
 const formattedDate = vue.computed(() =>
@@ -57,11 +43,11 @@ const layoutClasses = vue.computed(() => {
 
   if (position === 'cover') {
     return {
-      container: 'rounded-lg overflow-hidden min-h-[280px] @md/post-item:min-h-[340px] @lg/post-item:min-h-[380px]',
+      container: 'rounded-lg overflow-hidden min-h-[280px] @sm/post-item:min-h-[340px] @lg/post-item:min-h-[380px]',
       link: 'block h-full w-full',
       image: 'w-full h-full absolute inset-0 transition-transform duration-500 group-hover:scale-105',
-      content: 'z-10 relative h-full justify-end p-5 @md/post-item:p-6 @lg/post-item:p-7',
-      title: 'text-white mb-2 @md/post-item:mb-3',
+      content: 'z-10 relative h-full justify-end p-5 @sm/post-item:p-6 @lg/post-item:p-7',
+      title: 'text-white mb-2 @sm/post-item:mb-3',
       excerpt: 'text-white/85 line-clamp-2 mb-3',
       meta: 'text-white/75',
     }
@@ -70,12 +56,12 @@ const layoutClasses = vue.computed(() => {
   if (position === 'left' || position === 'right') {
     return {
       container: '',
-      link: `flex gap-5 @md/post-item:gap-6 @lg/post-item:gap-7 h-full ${position === 'right' ? 'flex-row-reverse' : ''}`,
-      image: 'size-24 @md/post-item:size-32 @lg/post-item:size-40 rounded-lg shrink-0 overflow-hidden',
+      link: `flex gap-5 @sm/post-item:gap-6 @lg/post-item:gap-7 h-full ${position === 'right' ? 'flex-row-reverse' : ''}`,
+      image: 'size-16 @sm/post-item:size-24 @lg/post-item:size-32 rounded-lg shrink-0 overflow-hidden',
       content: 'flex-grow py-1',
       title: 'line-clamp-3',
-      excerpt: 'text-theme-600 dark:text-theme-100 mb-auto',
-      meta: 'text-theme-300',
+      excerpt: 'text-theme-600 dark:text-theme-300 mb-auto',
+      meta: 'text-theme-400',
     }
   }
 
@@ -86,8 +72,8 @@ const layoutClasses = vue.computed(() => {
     image: 'w-full aspect-[16/9] overflow-hidden rounded-lg',
     content: 'flex-grow pt-4',
     title: '',
-    excerpt: 'text-theme-600 dark:text-theme-100 mb-auto',
-    meta: 'text-theme-300',
+    excerpt: 'text-theme-600 dark:text-theme-300 mb-auto',
+    meta: 'text-theme-400',
   }
 })
 </script>
@@ -106,7 +92,7 @@ const layoutClasses = vue.computed(() => {
     <meta itemprop="description" :content="post.excerpt?.value || post.subTitle?.value || ''">
     <meta v-if="publishDate" itemprop="datePublished" :content="publishDate">
     <meta v-if="modifiedDate" itemprop="dateModified" :content="modifiedDate">
-    <link v-if="postUrl" itemprop="url" :href="postUrl">
+    <link v-if="post.href.value" itemprop="url" :href="post.href.value">
 
     <!-- Author metadata -->
     <div v-if="authors.length" itemscope itemtype="https://schema.org/Person" itemprop="author" class="hidden">
@@ -124,7 +110,7 @@ const layoutClasses = vue.computed(() => {
 
     <!-- Link wrapper -->
     <XLink
-      :href="postUrl"
+      :href="post.href.value"
       :class="layoutClasses.link"
     >
       <!-- Cover layout with overlay -->
@@ -143,17 +129,17 @@ const layoutClasses = vue.computed(() => {
         <div class="flex flex-col" :class="[layoutClasses.content]">
           <h2
             itemprop="headline"
-            class="x-font-title font-semibold md:text-pretty text-lg tracking-tight @md/post-item:text-xl @lg/post-item:text-2xl"
+            class="x-font-title font-semibold md:text-pretty text-lg tracking-tight @sm/post-item:text-xl @lg/post-item:text-2xl"
             :class="[
               layoutClasses.title,
             ]"
           >
-            {{ post.title.value }}
+            {{ post.title.value || 'No Title' }}
           </h2>
 
           <p
-            v-if="config.showExcerpt && post.excerpt?.value"
-            class="font-medium text-sm @md/post-item:text-base @lg/post-item:text-lg leading-relaxed mt-2 line-clamp-3 max-w-prose"
+            v-if="post.excerpt?.value"
+            class="text-sm @sm/post-item:text-base @lg/post-item:text-lg leading-relaxed mt-2 line-clamp-3 max-w-prose"
             :class="[
               layoutClasses.excerpt,
             ]"
@@ -162,26 +148,13 @@ const layoutClasses = vue.computed(() => {
             {{ post.excerpt.value }}
           </p>
 
-          <div
-            class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs @md/post-item:text-sm mt-3 font-sans"
-            :class="[
-              layoutClasses.meta,
-            ]"
-          >
-            <time v-if="config.showDate && formattedDate" itemprop="datePublished" :datetime="publishDate">
-              {{ formattedDate }}
-            </time>
-
-            <span v-if="config.showReadTime && readTime">{{ readTime }} min read</span>
-
-            <div v-if="config.showAuthors && authors.length" class="flex items-center gap-1">
-              <span>By</span>
-              <span class="font-medium" itemprop="author" itemscope itemtype="https://schema.org/Person">
-                <span itemprop="name">{{ authors[0].fullName }}</span>
-              </span>
-              <span v-if="authors.length > 1">+ {{ authors.length - 1 }} more</span>
-            </div>
-          </div>
+          <PostItemMeta
+            :post="post"
+            :color-class="layoutClasses.meta"
+            text-size="text-xs @sm/post-item:text-sm"
+            :like-count="123"
+            :comment-count="0"
+          />
         </div>
       </template>
 
@@ -189,27 +162,34 @@ const layoutClasses = vue.computed(() => {
       <template v-else>
         <!-- Media (for top, left, right) -->
         <XMedia
-          v-if="post.media?.value && config.imagePosition !== 'none'"
+          v-if="post.media?.value?.url && config.imagePosition !== 'none'"
           :media="post.media.value"
           class="overflow-hidden"
           :class="[layoutClasses.image]"
           itemprop="image"
         />
+        <div
+          v-else
+          :class="[layoutClasses.image]"
+          class="bg-theme-800/50 rounded-lg flex items-center justify-center text-theme-700"
+        >
+          <XIcon :media="{ class: 'i-tabler-pin' }" class="size-8 lg:size-12" />
+        </div>
 
         <div class="flex flex-col" :class="[layoutClasses.content]">
           <h2
             itemprop="headline"
-            class="x-font-title font-semibold md:text-pretty text-lg tracking-tight @md/post-item:text-xl @lg/post-item:text-2xl"
+            class="x-font-title font-semibold md:text-pretty text-lg tracking-tight @sm/post-item:text-xl @lg/post-item:text-2xl"
             :class="[
               layoutClasses.title,
             ]"
           >
-            {{ post.title.value }}
+            {{ post.title.value || '(No Title)' }}
           </h2>
 
           <p
-            v-if="config.showExcerpt && (post.excerpt?.value || post.subTitle?.value)"
-            class="text-sm font-medium @md/post-item:text-base @lg/post-item:text-lg leading-relaxed mt-2 line-clamp-3 max-w-prose"
+            v-if="(post.excerpt?.value || post.subTitle?.value)"
+            class="text-sm @sm/post-item:text-base @lg/post-item:text-lg leading-relaxed mt-2 line-clamp-3 max-w-prose"
             :class="[
               layoutClasses.excerpt,
             ]"
@@ -218,26 +198,14 @@ const layoutClasses = vue.computed(() => {
             {{ post.excerpt.value || post.subTitle.value }}
           </p>
 
-          <div
-            class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs @md/post-item:text-sm mt-3 font-sans"
-            :class="[
-              layoutClasses.meta,
-            ]"
-          >
-            <time v-if="config.showDate && formattedDate" itemprop="datePublished" :datetime="publishDate">
-              {{ formattedDate }}
-            </time>
-
-            <span v-if="config.showReadTime && readTime">{{ readTime }} min read</span>
-
-            <div v-if="config.showAuthors && authors.length" class="flex items-center gap-1">
-              <span>By</span>
-              <span class="font-medium" itemprop="author" itemscope itemtype="https://schema.org/Person">
-                <span itemprop="name">{{ authors[0].fullName }}</span>
-              </span>
-              <span v-if="authors.length > 1">+ {{ authors.length - 1 }} more</span>
-            </div>
-          </div>
+          <PostItemMeta
+            :post="post"
+            class="mt-3"
+            :color-class="layoutClasses.meta"
+            text-size="text-xs @sm/post-item:text-sm"
+            :like-count="123"
+            :comment-count="23"
+          />
         </div>
       </template>
     </XLink>

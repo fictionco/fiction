@@ -1,150 +1,108 @@
 <script lang="ts" setup>
-import type { IndexMeta } from '@fiction/core'
-import type { TablePostConfig } from '@fiction/posts'
+import type { Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
-import type { BlogConfig } from './PostIndex.vue'
 import { vue } from '@fiction/core'
-import { Post } from '@fiction/posts'
+import { Post as PostModel } from '@fiction/posts'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import InputRadioButton from '@fiction/ui/inputs/InputRadioButton.vue'
 import { getDemoPosts } from './index.js'
-import PostIndex from './PostIndex.vue'
+import PostLayout from './PostLayout.vue'
+import SidebarMediaItem from './SidebarMediaItem.vue'
+import SidebarWidget from './SidebarWidget.vue'
 
 defineOptions({ name: 'PostIndexDemo' })
 
 const { card } = defineProps<{ card?: Card }>()
 
-// Demo configuration presets
-const presets: { name: string, config: BlogConfig }[] = [
+// Layout presets with minimal but useful options
+const presets = [
   {
-    name: 'Standard Grid',
+    name: 'Blog',
     config: {
-      columns: 3,
-      showExcerpt: true,
-      showAuthors: true,
-      showDate: true,
-      imagePosition: 'top',
-      basePath: 'blog',
-      displayMode: 'standard',
+      layout: 'blog',
+      featuredCount: 1,
+      showSidebar: true,
     },
   },
   {
-    name: 'Hero Only',
+    name: 'Magazine',
     config: {
-      showExcerpt: true,
-      showAuthors: true,
-      showDate: true,
-      showReadTime: true,
-      basePath: 'blog',
-      displayMode: 'hero',
+      layout: 'magazine',
+      featuredCount: 1,
+      showSidebar: true,
     },
   },
   {
-    name: 'Mixed (Hero + Grid)',
+    name: 'Featured Only',
     config: {
-      columns: 3,
-      showExcerpt: true,
-      showAuthors: true,
-      showDate: true,
-      imagePosition: 'top',
-      basePath: 'blog',
-      displayMode: 'mixed',
-      heroCount: 2,
+      layout: 'blog',
+      featuredCount: 3,
+      showSidebar: false,
     },
   },
   {
-    name: 'List Layout',
+    name: 'No Featured',
     config: {
-      showExcerpt: true,
-      showAuthors: true,
-      showDate: true,
-      showReadTime: true,
-      imagePosition: 'left',
-      basePath: 'articles',
-      displayMode: 'standard',
+      layout: 'blog',
+      featuredCount: 0,
+      showSidebar: true,
     },
   },
   {
-    name: 'Magazine Style',
+    name: 'Full Width',
     config: {
-      columns: 2,
-      showExcerpt: true,
-      showAuthors: true,
-      showDate: true,
-      imagePosition: 'cover',
-      basePath: 'magazine',
-      displayMode: 'standard',
+      layout: 'magazine',
+      featuredCount: 1,
+      showSidebar: false,
     },
   },
-]
+] as const
 
-// Additional base path presets
-const basePathPresets = ['p', 'blog', 'articles', 'news', 'post', 'magazine']
+// Sample about content
+const aboutContent = {
+  title: 'About This Blog',
+  content: 'Join our community of readers and stay updated with the latest insights and stories.',
+}
 
-// Display mode options
-const displayModes = [
-  { value: 'standard', label: 'Standard' },
-  { value: 'hero', label: 'Hero Only' },
-  { value: 'mixed', label: 'Mixed' },
-]
-
-// Current configuration and index meta
 const activePreset = vue.ref(0)
 const currentConfig = vue.computed(() => presets[activePreset.value].config)
-const currentIndexMeta = vue.ref<IndexMeta>({
-  limit: 12,
-  offset: 0,
-  count: 999,
-})
-
-// Hero count (for mixed mode)
-const heroCount = vue.ref(currentConfig.value.heroCount || 1)
-
-// Selected display mode
-const selectedDisplayMode = vue.computed({
-  get: () => currentConfig.value.displayMode || 'standard',
-  set: (value) => {
-    const config = { ...currentConfig.value, displayMode: value as 'standard' | 'hero' | 'mixed' }
-    presets[activePreset.value].config = config
-  },
-})
-
-// Update index meta handler
-function updateIndexMeta(newMeta: IndexMeta) {
-  currentIndexMeta.value = newMeta
-}
-
-// Update hero count (for mixed mode)
-function updateHeroCount() {
-  const count = Math.max(1, Math.min(5, heroCount.value))
-  const config = { ...currentConfig.value, heroCount: count }
-  presets[activePreset.value].config = config
-}
 
 const posts = vue.shallowRef<Post[]>([])
 const loading = vue.ref(true)
 
+// Mark a couple posts as featured for demo purposes
+function markFeaturedPosts(allPosts: Post[]) {
+  if (allPosts.length > 0) {
+    allPosts[0].isFeatured.value = true
+
+    if (allPosts.length > 3) {
+      allPosts[3].isFeatured.value = true
+    }
+
+    if (allPosts.length > 5) {
+      allPosts[5].isFeatured.value = true
+    }
+  }
+  return allPosts
+}
+
 vue.onMounted(async () => {
-  posts.value = (await getDemoPosts()).map((p: TablePostConfig) => {
-    return new Post({ ...p, card })
-  })
+  // Get demo posts and convert to Post objects
+  const demoPosts = await getDemoPosts()
+  posts.value = markFeaturedPosts(demoPosts.map(p => new PostModel({ ...p, card }))).sort(() => Math.random() - 0.5)
   loading.value = false
 })
 </script>
 
 <template>
-  <div class="space-y-8 max-w-screen-2xl mx-auto px-4">
+  <div class="space-y-8 max-w-screen-2xl mx-auto px-4 py-6" :class="card?.classes.value.contentWidth">
     <!-- Controls -->
-    <div class="bg-theme-100 dark:bg-theme-800 rounded-lg p-4 space-y-4">
-      <h3 class="text-lg font-medium mb-3">
-        Blog Layout Options
-      </h3>
-
-      <div class="flex flex-wrap gap-2 mb-4">
+    <div class="border border-theme-200 dark:border-theme-700 rounded-lg p-6 space-y-4">
+      <div class="flex flex-wrap gap-2">
         <XButton
           v-for="(preset, index) in presets"
           :key="preset.name"
           :theme="activePreset === index ? 'primary' : 'theme'"
+          design="solid"
           size="sm"
           @click="activePreset = index"
         >
@@ -152,60 +110,61 @@ vue.onMounted(async () => {
         </XButton>
       </div>
 
-      <!-- Display Mode selector -->
-      <div class="mb-4">
-        <h4 class="text-sm font-medium mb-2">
-          Display Mode
-        </h4>
-        <div class="flex flex-wrap gap-4">
-          <InputRadioButton
-            v-model="selectedDisplayMode"
-            :list="displayModes"
-            ui-size="sm"
-          />
-        </div>
-      </div>
-
-      <!-- Hero Count (visible only in mixed mode) -->
-      <div v-if="selectedDisplayMode === 'mixed'" class="mb-4">
-        <h4 class="text-sm font-medium mb-2">
-          Hero Posts Count
-        </h4>
-        <div class="flex items-center gap-2">
-          <input
-            v-model.number="heroCount"
-            type="number"
-            min="1"
-            max="5"
-            class="px-3 py-1 rounded border border-theme-300 dark:border-theme-600 bg-white dark:bg-theme-700 text-sm w-20"
-          >
-          <XButton
-            size="xs"
-            theme="primary"
-            @click="updateHeroCount"
-          >
-            Apply
-          </XButton>
-        </div>
-      </div>
-
-      <!-- Configuration details -->
-      <div
-        class="text-[10px] font-mono text-theme-500 dark:text-theme-400 bg-white dark:bg-theme-700 p-2 rounded mt-4 overflow-hidden"
-        style="max-height: 200px; overflow-y: auto;"
-      >
-        <div>Active configuration:</div>
-        <pre class="overflow-x-auto p-2">{{ JSON.stringify(currentConfig, null, 2) }}</pre>
-      </div>
+      <!-- Configuration display -->
+      <pre class="text-xs font-mono border border-theme-200 dark:border-theme-700 p-3 rounded-md overflow-auto mt-4 text-theme-700 dark:text-theme-300">{{ JSON.stringify(currentConfig, null, 2) }}</pre>
     </div>
 
-    <!-- Blog index with current configuration -->
-    <PostIndex
+    <!-- Blog layout with current configuration -->
+    <PostLayout
       :posts="posts"
-      :loading="loading || false"
-      :index-meta="currentIndexMeta"
+      :loading="loading"
+      title="Latest Articles"
+      :about="aboutContent"
       :config="currentConfig"
-      @update:index-meta="updateIndexMeta"
-    />
+    >
+      <template #sidebar>
+        <div class="space-y-10">
+          <!-- About Widget -->
+          <SidebarWidget title="About">
+            <p class="text-theme-600 dark:text-theme-300 mb-4">
+              This blog explores design principles, development techniques, and marketing strategies for modern digital products.
+            </p>
+            <XButton theme="primary" design="outline" size="md" href="#" icon-after="i-tabler-arrow-up-right">
+              Subscribe
+            </XButton>
+          </SidebarWidget>
+          <!-- Categories Widget -->
+          <SidebarWidget title="Categories">
+            <ul class="space-y-3 text-theme-700 dark:text-theme-300">
+              <li><a href="#" class="hover:text-primary-400 transition-colors">Design</a></li>
+              <li><a href="#" class="hover:text-primary-400 transition-colors">Development</a></li>
+              <li><a href="#" class="hover:text-primary-400 transition-colors">Marketing</a></li>
+              <li><a href="#" class="hover:text-primary-400 transition-colors">Business</a></li>
+            </ul>
+          </SidebarWidget>
+
+          <!-- Recommended Posts Widget -->
+          <SidebarWidget title="Recommended">
+            <div class="space-y-4">
+              <SidebarMediaItem
+                title="How to Build Better Products"
+                subtitle="5 min read"
+                href="#"
+              />
+              <SidebarMediaItem
+                title="The Future of Design Systems"
+                subtitle="8 min read"
+                href="#"
+              />
+              <SidebarMediaItem
+                title="Marketing Strategy Guide"
+                subtitle="4 min read"
+                href="#"
+              />
+            </div>
+          </SidebarWidget>
+        </div>
+      </template>
+    </PostLayout>
   </div>
 </template>

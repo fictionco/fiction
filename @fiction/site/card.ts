@@ -1,4 +1,4 @@
-import type { colorTheme, MediaObject, Query, vueRouter } from '@fiction/core'
+import type { colorTheme, MediaObject, Query, StandardSize, vueRouter } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import type { CardQuerySettings } from './cardQuery.js'
 import type { CardClassification } from './classification.js'
@@ -263,6 +263,12 @@ export class Card<
 
   constructor(settings: CardSettings<T>) {
     super('Card', settings)
+  }
+
+  getVerticalSpacingClass(args: {
+    size?: StandardSize
+  }) {
+    return getSpacingClass({ size: this.fullConfig.value?.standard?.spaceSize || args.size || 'md', direction: 'both' })
   }
 
   classes = vue.computed(() => {

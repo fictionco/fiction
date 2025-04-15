@@ -40,7 +40,6 @@ export type FictionAppSettings = {
   publicFolder?: string
   appInstanceId?: string // to differentiate multiple apps
   fictionOrgId?: string
-  fictionSiteId?: string
   renderTokenSecret?: string
   root?: string
 } & FictionPluginSettings

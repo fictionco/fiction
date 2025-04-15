@@ -52,7 +52,7 @@ const padClasses: Record<SizeWithNone, string> = {
   '2xl': 'px-4 sm:px-14 lg:px-20',
 }
 
-export function getContentWidthClass(args: { size: SizeWithNone, padSize?: SizeWithNone | boolean }): string {
+export function getContentWidthClass(args: { size?: SizeWithNone, padSize?: SizeWithNone | boolean }): string {
   const { size = 'md', padSize } = args
 
   const baseClass = baseContentWidthClasses[size] || baseContentWidthClasses.md

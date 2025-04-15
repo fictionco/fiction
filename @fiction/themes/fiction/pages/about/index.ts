@@ -1,9 +1,9 @@
 import type { MapUserConfig } from '@fiction/cards/user/maps'
 import { cardConfig } from '@fiction/cards'
 import ImageAndrew from './img/ap.webp'
-import ImageMorgan from './img/morgan.jpg'
 import ImageOffice from './img/fiction-office.webp'
 import ImageGirlComputer from './img/girl-computer.webp'
+import ImageMorgan from './img/morgan.jpg'
 import ImagePro from './img/pro.webp'
 
 export async function getAboutPage() {
@@ -18,7 +18,7 @@ export async function getAboutPage() {
             text: 'About Fiction',
           },
           title: `Your Story Matters`,
-          subTitle: `Imagine a place where you can share your work, connect with others, and build your brand effortlessly.`,
+          subTitle: `Create your ideal digital self.`,
 
           media: {
             format: 'url',

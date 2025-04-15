@@ -235,31 +235,31 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     return site
   }
 
-  async ensureAppDefaults(args: { context?: 'node' | 'app', defaultId?: string }) {
-    const { context = 'node', defaultId = 'admin' } = args
+  // async ensureAppDefaults(args: { context?: 'node' | 'app', defaultId?: string }) {
+  //   const { context = 'node', defaultId = 'admin' } = args
 
-    const envId = 'FICTION_SITE_ID'
+  //   const envId = 'FICTION_SITE_ID'
 
-    if (context === 'node' && !crossVar.has(envId)) {
-      const { fictionUser, fictionEnv } = this.settings
+  //   if (context === 'node' && !crossVar.has(envId)) {
+  //     const { fictionUser, fictionEnv } = this.settings
 
-      if (!fictionUser)
-        throw new Error('No fictionUser')
+  //     if (!fictionUser)
+  //       throw new Error('No fictionUser')
 
-      const appOrgId = await fictionUser.ensureAppOrgId(args)
+  //     const appOrgId = await fictionUser.ensureAppOrgId(args)
 
-      if (!appOrgId) {
-        throw new Error('No appOrgId')
-      }
+  //     if (!appOrgId) {
+  //       throw new Error('No appOrgId')
+  //     }
 
-      const site = await this.ensureSiteForOrg({ orgId: appOrgId, siteId: defaultId })
+  //     const site = await this.ensureSiteForOrg({ orgId: appOrgId, siteId: defaultId })
 
-      if (!crossVar.has(envId)) {
-        crossVar.set(envId, site.siteId)
-      }
-      fictionEnv.log.info(`Setting app ${envId} to '${site.siteId}'`)
-    }
+  //     if (!crossVar.has(envId)) {
+  //       crossVar.set(envId, site.siteId)
+  //     }
+  //     fictionEnv.log.info(`Setting app ${envId} to '${site.siteId}'`)
+  //   }
 
-    return crossVar.get(envId)
-  }
+  //   return crossVar.get(envId)
+  // }
 }

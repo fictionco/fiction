@@ -5,7 +5,7 @@ import type { SiteGlobalUserConfig } from './schema.js'
 import type { SiteSettings } from './site.js'
 import type { TableCardConfig } from './tables.js'
 import { cardConfig } from '@fiction/cards/index.js'
-import { deepMerge, FictionObject, toLabel, vue } from '@fiction/core'
+import { deepMerge, FictionObject, objectId, toLabel, vue } from '@fiction/core'
 import { CardFactory } from './cardFactory.js'
 import { Site } from './site.js'
 
@@ -126,10 +126,10 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
           fonts: {
             mono: { family: 'DM Mono', stack: 'monospace' },
             input: { family: 'DM Mono', stack: 'sans' },
-            title: { family: 'Poppins', stack: 'sans' },
-            sans: { family: 'Plus+Jakarta+Sans', stack: 'sans' },
-            body: { family: 'Lora', stack: 'sans' },
-            serif: { family: 'Lora', stack: 'serif' },
+            title: { stack: 'sans' },
+            sans: { stack: 'sans' },
+            body: { stack: 'sans' },
+            serif: { stack: 'serif' },
             highlight: { family: 'Caveat', stack: 'sans' },
           },
         },

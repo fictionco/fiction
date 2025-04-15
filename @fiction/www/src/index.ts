@@ -123,7 +123,6 @@ const fictionApp = new FictionApp({
   srcFolder: path.join(cwd, './src'),
   renderTokenSecret: tokenSecret,
   fictionOrgId: fictionEnv.var('FICTION_ORG_ID'),
-  fictionSiteId: fictionEnv.var('FICTION_SITE_ID'),
 })
 
 const fictionRouterSites = new FictionRouter({
@@ -231,7 +230,6 @@ export function setup(): ServiceConfig {
       }
       else {
         await initializeBackingServices(args)
-        await fictionSites.ensureAppDefaults({ context })
 
         if (command === 'app' || command === 'dev') {
           const { build } = options as { build?: boolean, useLocal?: boolean }

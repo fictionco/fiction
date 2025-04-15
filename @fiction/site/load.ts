@@ -18,7 +18,7 @@ export type SiteMode = 'designer' | 'editable' | 'standard' | 'coding'
 export type WhereSite = { siteId?: string, subDomain?: string, hostname?: string, themeId?: string, internal?: string, cardId?: string }
   & ({ siteId: string } | { subDomain: string } | { hostname: string } | { themeId: string } | { internal: string } | { cardId: string })
 
-type MountContext = { siteMode?: SiteMode, fictionOrgId?: string, fictionSiteId?: string, contextCacheKey?: string } & WhereSite
+type MountContext = { siteMode?: SiteMode, fictionOrgId?: string, contextCacheKey?: string } & WhereSite
 type RequestManageSiteParams = ManageSiteParams & { siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode, orgId?: string, siteId?: string }
 
 export async function requestManageSite(args: RequestManageSiteParams) {
@@ -83,7 +83,6 @@ export async function loadSiteById(args: { where: WhereSite, siteRouter: Fiction
 }
 
 export async function loadSiteFromTheme(args: {
-  fictionSiteId?: string
   fictionOrgId?: string
   themeId: string
   siteRouter: FictionRouter
@@ -98,7 +97,6 @@ export async function loadSiteFromTheme(args: {
   const { fictionEnv } = fictionSites.settings
   const appMeta = fictionEnv.meta.app || {}
   const orgId = args.fictionOrgId || appMeta.orgId || fictionEnv.var('FICTION_ORG_ID')
-  const siteId = args.fictionSiteId || appMeta.siteId || fictionEnv.var('FICTION_SITE_ID')
   const fictionUser = fictionSites.settings.fictionUser
 
   if (!orgId) {
@@ -110,12 +108,14 @@ export async function loadSiteFromTheme(args: {
   }
 
   const subDomain = `theme-${themeId}`
+  const siteId = `${orgId}-${subDomain}`
 
   if (!theme) {
     const msg = `${caller}: no theme found for themeId: ${themeId}`
     logger.error(msg, { data: { availableThemes: availableThemes.map(t => t.themeId) } })
     throw new Error(msg)
   }
+
   const site = await theme.toSite({
     fictionSites,
     subDomain,
@@ -132,7 +132,7 @@ export async function loadSiteFromTheme(args: {
 export async function loadSiteFromCard(args: { cardId: string, siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode, caller?: string }): Promise<Site> {
   const { cardId } = args
   const normCardId = toCamel(cardId)
-  const site = await loadSiteFromTheme({ ...args, themeId: 'minimal', fictionSiteId: `card-${normCardId}` })
+  const site = await loadSiteFromTheme({ ...args, themeId: 'minimal' })
 
   const { createDemoPage } = await import('./utils/demo.js')
 
@@ -165,7 +165,7 @@ export async function loadSite(args: {
 
   let site: Site | undefined = undefined
   try {
-    const { fictionOrgId, fictionSiteId, siteId, subDomain, hostname, themeId, cardId, siteMode = 'standard', internal } = mountContext || {}
+    const { fictionOrgId, siteId, subDomain, hostname, themeId, cardId, siteMode = 'standard', internal } = mountContext || {}
 
     const where = { siteId, subDomain, hostname, themeId } as WhereSite
     const hasWhere = Object.values(where).filter(Boolean).length > 0
@@ -180,7 +180,7 @@ export async function loadSite(args: {
       return
 
     if (themeId) {
-      site = await loadSiteFromTheme({ fictionOrgId, fictionSiteId, themeId, siteRouter, fictionSites, siteMode, caller })
+      site = await loadSiteFromTheme({ fictionOrgId, themeId, siteRouter, fictionSites, siteMode, caller })
       logger.debug(`loading site from theme (${themeId})`, { data: { themeId, site: site.toConfig() } })
     }
     else if (cardId) {
@@ -252,7 +252,6 @@ export function getMountContext(args: {
   let siteMode = args.siteMode || 'standard'
 
   const fictionOrgId = orgId || runVars?.FICTION_ORG_ID
-  const fictionSiteId = siteId || runVars?.FICTION_SITE_ID
 
   // Premade mount context as passed in mount, used in preview and editing
   if (mountContext) {
@@ -306,7 +305,7 @@ export function getMountContext(args: {
 
   const contextCacheKey = Object.entries(selector).filter(o => o[1]).map(([key, value]) => `${key}:${value}`).join('-')
 
-  return { siteMode, fictionOrgId, fictionSiteId, contextCacheKey, ...selector } as MountContext
+  return { siteMode, fictionOrgId, contextCacheKey, ...selector } as MountContext
 }
 
 function formatPath(basePath: string, path: string): string {

@@ -11,7 +11,6 @@ import multer from 'multer'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { log } from '../plugin-log/index.js'
 import { FictionPlugin } from '../plugin.js'
-import { appOrgId } from '../utils/index.js'
 import { QueryManageMedia, QueryMediaIndex, QuerySaveMedia } from './queries.js'
 import { mediaTable } from './tables.js'
 import { relativeMedia } from './utils.js'
@@ -130,7 +129,7 @@ export class FictionMedia extends FictionPlugin<FictionMediaSettings> {
   }
 
   async relativeMedia(args: { url: string, orgId?: string, userId?: string }): Promise<TableMediaConfig> {
-    const orgId = args.orgId || appOrgId()
+    const orgId = args.orgId
     return relativeMedia({ fictionMedia: this, cache: this.cache, orgId, ...args })
   }
 }

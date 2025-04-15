@@ -1,14 +1,15 @@
 <script lang="ts" setup>
+import type { StandardSize } from '@fiction/core'
 import type { Card } from '@fiction/site/index.js'
 import type { CardOptionsWithStandard } from '@fiction/site/schema'
 import { getColorScheme, vue } from '@fiction/core'
 import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import CardToolDropdown from './CardToolDropdown.vue'
 import StandardHeader from './el/StandardHeader.vue'
 
 const { card } = defineProps<{
   card: Card<CardOptionsWithStandard>
+  contentWidth?: StandardSize
 }>()
 
 const cardWrap = vue.ref<HTMLElement | null>(null)
@@ -78,7 +79,6 @@ vue.watch(() => standardUc.value?.fonts, (fontStyle) => {
     site.userFonts.value = { ...site.userFonts.value, ...addFonts }
   }
 }, { immediate: true })
-const isEditable = vue.computed(() => card?.site?.isEditable.value)
 </script>
 
 <template>
@@ -88,7 +88,7 @@ const isEditable = vue.computed(() => card?.site?.isEditable.value)
     class="card-wrap relative w-full"
     :style="containerStyle"
     :class="[
-      card.classes.value.verticalSpacing,
+      card.getVerticalSpacingClass({ size: contentWidth }),
       loaded ? 'loaded' : '',
       card.depth.value <= 1 ? `overflow-x-clip` : '',
 

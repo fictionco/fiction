@@ -33,12 +33,12 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
               items: [
                 {
                   superTitle: {
-                    text: 'The First AI Personal Branding Agency',
+                    text: 'Join over 2000+ leaders',
                     theme: 'orange',
                     icon: { class: 'i-tabler-rocket' },
                   },
-                  title: `Become the [@text_effect type=squiggle]Authority[/@text_effect] in your industry.`,
-                  subTitle: `Fiction helps leaders become influencers. Start crafting your online persona and building your reputation.`,
+                  title: `Own Your [@text_effect type=squiggle]Story[/@text_effect].`,
+                  subTitle: `Become the authority in your industry with AI-enhanced digital presence that turns leaders into influencers.`,
 
                   action: {
                     buttons: [
