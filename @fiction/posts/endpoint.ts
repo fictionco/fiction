@@ -186,6 +186,44 @@ export class QueryManagePost extends PostsQuery {
     return count
   }
 
+  private async getRelatedPosts(post: TablePostConfig, orgId: string): Promise<TablePostConfig['relatedPosts']> {
+    if (!post.postId)
+      return undefined
+
+    const db = this.db()
+    const { postId, dateAt, type = 'post', categories, tags } = post
+    const baseQuery = { orgId, status: 'published', type }
+
+    // Skip date-based queries if no dateAt exists
+    const [nextPost, prevPost, similarPosts] = await Promise.all([
+      dateAt
+        ? db.select('*').from(t.posts).where(baseQuery).where('dateAt', '>', dateAt).orderBy('dateAt', 'asc').first<TablePostConfig>()
+        : null,
+
+      dateAt
+        ? db.select('*').from(t.posts).where(baseQuery).where('dateAt', '<', dateAt).orderBy('dateAt', 'desc').first<TablePostConfig>()
+        : null,
+
+      db.select('*').from(t.posts).where(baseQuery).whereNot('postId', postId).where((builder) => {
+        if (categories?.length) {
+          builder.whereRaw('categories && ?', [categories])
+        }
+        else if (tags?.length) {
+          builder.whereRaw('tags && ?', [tags])
+        }
+      }).orderBy('dateAt', 'desc').limit(3),
+    ])
+
+    // Sanitize function to remove sensitive fields
+    const sanitize = (p?: TablePostConfig) => p ? omit(p, ['draft', 'content']) as TablePostConfig : undefined
+
+    return {
+      next: sanitize(nextPost as TablePostConfig | undefined),
+      prev: sanitize(prevPost as TablePostConfig | undefined),
+      similar: (similarPosts?.map(sanitize).filter(Boolean) || []) as TablePostConfig[],
+    }
+  }
+
   private async getPost(params: ManagePostParams & { _action: 'get' }, _meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig[]>> {
     const { where, select = ['*'], loadDraft = false } = params
     const db = this.db()
@@ -226,6 +264,10 @@ export class QueryManagePost extends PostsQuery {
 
     if (loadDraft && post.draft)
       post = deepMerge([post, post.draft as TablePostConfig])
+
+    if (post.postId && post.status === 'published') {
+      post.relatedPosts = await this.getRelatedPosts(post, orgId)
+    }
 
     return { status: 'success', data: [post] }
   }

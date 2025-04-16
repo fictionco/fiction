@@ -7,7 +7,7 @@ import { useService, vue } from '@fiction/core'
 import { useSSRData } from '@fiction/core/utils/ssr'
 import { Post } from '@fiction/posts'
 import { loadPosts } from '@fiction/posts/utils/post'
-import PostLayout from '@fiction/ui/posts/PostLayout.vue'
+import PostIndexLayout from '@fiction/ui/posts/PostIndexLayout.vue'
 import XWidgetAbout from '@fiction/ui/posts/XWidgetAbout.vue'
 import CardWrap from '../../CardWrap.vue'
 
@@ -59,7 +59,7 @@ const blogConfig = {
 
 <template>
   <CardWrap :card>
-    <PostLayout
+    <PostIndexLayout
       :class="card.classes.value.contentWidth"
       :card
       :posts
@@ -71,6 +71,6 @@ const blogConfig = {
       <template #sidebar>
         <XWidgetAbout :card />
       </template>
-    </PostLayout>
+    </PostIndexLayout>
   </CardWrap>
 </template>

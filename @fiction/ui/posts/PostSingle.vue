@@ -38,13 +38,6 @@ vue.watch(() => props.isLiked, (newVal) => {
     localIsLiked.value = newVal
 })
 
-function handleLikeUpdate() {
-  const newCount = localIsLiked.value ? localLikeCount.value - 1 : localLikeCount.value + 1
-  localLikeCount.value = newCount
-  localIsLiked.value = !localIsLiked.value
-  emit('update:likeCount', newCount)
-}
-
 async function handleShare() {
   const url = window.location.href
   await navigator.clipboard.writeText(url)
@@ -53,31 +46,19 @@ async function handleShare() {
 </script>
 
 <template>
-  <div v-if="card" class="font-sans">
+  <div v-if="card" class="font-sans @container/post">
     <!-- Loading Skeleton -->
     <div v-if="loading" class="pt-16 pb-32 animate-pulse" aria-hidden="true">
-      <div class="max-w-[75ch] mx-auto px-4">
-        <div class="w-24 h-4 bg-theme-100 dark:bg-theme-800 rounded mb-6" />
-        <div class="w-3/4 h-10 bg-theme-100 dark:bg-theme-800 rounded mb-4" />
-        <div class="w-1/2 h-6 bg-theme-100 dark:bg-theme-800 rounded mb-8" />
-        <div class="flex gap-3 mb-8">
-          <div class="w-8 h-8 rounded-full bg-theme-100 dark:bg-theme-800" />
-          <div class="space-y-2">
-            <div class="w-32 h-3 bg-theme-100 dark:bg-theme-800 rounded" />
-            <div class="w-20 h-2 bg-theme-100 dark:bg-theme-800 rounded" />
-          </div>
-        </div>
-        <div class="space-y-3">
-          <div class="w-full h-3 bg-theme-100 dark:bg-theme-800 rounded" />
-          <div class="w-5/6 h-3 bg-theme-100 dark:bg-theme-800 rounded" />
-          <div class="w-2/3 h-3 bg-theme-100 dark:bg-theme-800 rounded" />
-        </div>
+      <div class="max-w-[75ch] mx-auto space-y-6">
+        <div class="w-36 h-12 bg-theme-100 dark:bg-theme-800 rounded mb-6" />
+        <div class="w-3/4 h-24 bg-theme-100 dark:bg-theme-800 rounded mb-4" />
+        <div class="w-1/2 h-8 bg-theme-100 dark:bg-theme-800 rounded mb-8" />
       </div>
     </div>
 
     <!-- Post Content -->
-    <article v-else-if="post" class="px-4 max-w-[75ch] mx-auto">
-      <div class="py-12">
+    <article v-else-if="post" class="mx-auto">
+      <div>
         <!-- Post Title & Subtitle -->
         <SiteText
           v-model="post.config.value"
@@ -129,7 +110,7 @@ async function handleShare() {
 
         <!-- Content -->
         <XEntry
-          class="font-serif text-base md:text-lg"
+          class="font-serif text-base md:text-xl"
           :theme="post.theme.value"
           :drop-cap="props.dropCap"
         >

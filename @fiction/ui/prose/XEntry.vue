@@ -30,8 +30,10 @@ const themeColors = vue.computed(() => {
 </script>
 
 <template>
-  <div ref="entryEl" class="x-entry" :class="[dropCap ? 'drop-cap' : '']">
-    <slot />
+  <div>
+    <div ref="entryEl" class="x-entry" :class="[dropCap ? 'drop-cap' : '']">
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -162,8 +164,8 @@ const themeColors = vue.computed(() => {
 
   /* Blockquotes */
   blockquote {
-    margin: calc(var(--base-font-size) * 2) calc(var(--base-font-size) * 1.618);
-    padding-left: calc(var(--base-font-size) * 1.618);
+    margin: calc(var(--base-font-size) * 2) 0;
+    padding-left: calc(var(--base-font-size) * 1);
     position: relative;
     max-width: 55ch;
     font-family: var(--font-family-title, inherit);
@@ -174,7 +176,7 @@ const themeColors = vue.computed(() => {
       top: 0;
       left: 0;
       bottom: 0;
-      width: 2px;
+      width: 3px;
       background: linear-gradient(
         to bottom,
         transparent,
@@ -185,7 +187,7 @@ const themeColors = vue.computed(() => {
     }
 
     p {
-      font-size: calc(var(--base-font-size) * 1.159);
+      font-size: 1.1em;
       line-height: 1.5;
     }
 

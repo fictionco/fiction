@@ -39,13 +39,17 @@ export function countWords(text: string): number {
 /**
  * Recursively get word count from an object's text fields
  */
-export function getObjectWordCount(obj: Record<string, any>, opts: { addFields?: string[] } = {}): number {
+export function getObjectWordCount(obj: Record<string, any>, opts: { addFields?: string[], ignoreKeys?: string[] } = {}): number {
   if (!obj)
     return 0
 
   const allTextFields = [...TEXT_FIELDS, ...(opts.addFields || [])]
 
   return Object.entries(obj).reduce((count, [key, value]) => {
+    // Ignore specified keys
+    if (opts.ignoreKeys && opts.ignoreKeys.includes(key))
+      return count
+
     // Handle taxonomy arrays
     if (TAXONOMY_FIELDS.includes(key as typeof TAXONOMY_FIELDS[number]) && Array.isArray(value)) {
       return count + value.reduce((sum, term) => sum + (typeof term === 'string' ? countWords(term) : 0), 0)
@@ -64,7 +68,7 @@ export function getObjectWordCount(obj: Record<string, any>, opts: { addFields?:
     }
 
     // Count words if field name matches and value is string
-    if (allTextFields.includes(key) && typeof value === 'string') {
+    if (allTextFields.includes(key) && typeof value === 'string' && value.length > 0) {
       return count + countWords(value)
     }
 

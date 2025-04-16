@@ -53,6 +53,7 @@ const templateGroups = [
     templates: [
       () => import('./posts/list'),
       () => import('./posts/blog'),
+      () => import('./posts/single'),
       () => import('./user/steps'),
       () => import('./user/faq'),
       () => import('./user/timeline'),
@@ -197,48 +198,48 @@ const uiDemoTemplates = [
     title: 'Buttons',
     description: 'Standard button styles',
     icon: 'i-tabler-square-rounded-chevron-right-filled',
-    component: () => import('@fiction/ui/buttons/test/TestButtonsAll.vue'),
+    component: vue.defineAsyncComponent(() => import('@fiction/ui/buttons/test/TestButtonsAll.vue')),
   },
   {
     templateId: 'xinput',
     title: 'Inputs',
     description: 'Standard input styles',
     icon: 'i-tabler-input-check',
-    component: () => import('@fiction/ui/inputs/test/TestInputsAll.vue'),
+    component: vue.defineAsyncComponent(() => import('@fiction/ui/inputs/test/TestInputsAll.vue')),
   },
   {
     templateId: 'xlogo',
     title: 'Logo Component',
     description: 'Standard logo handling',
     icon: 'i-tabler-brand-apple',
-    component: () => import('@fiction/ui/test/TestLogoHandling.vue'),
+    component: vue.defineAsyncComponent(() => import('@fiction/ui/test/TestLogoHandling.vue')),
   },
   {
     templateId: 'xmedia',
     title: 'Media Component',
     description: 'Standard media handling',
     icon: 'i-tabler-photo-hexagon',
-    component: () => import('@fiction/ui/test/TestMediaHandling.vue'),
+    component: vue.defineAsyncComponent(() => import('@fiction/ui/test/TestMediaHandling.vue')),
   },
   {
     templateId: 'xindex',
     title: 'Post Index',
     description: 'Post handling',
     icon: 'i-tabler-photo-hexagon',
-    component: () => import('@fiction/ui/posts/DemoPostIndex.vue'),
+    component: vue.defineAsyncComponent(() => import('@fiction/ui/posts/DemoPostIndex.vue')),
   },
   {
     templateId: 'xpost',
     title: 'Post Component',
     description: 'Post Single',
     icon: 'i-tabler-photo-hexagon',
-    component: () => import('@fiction/ui/posts/DemoPostSingle.vue'),
+    component: vue.defineAsyncComponent(() => import('@fiction/ui/posts/DemoPostSingle.vue')),
   },
 ]
 
 export function getUiDemoCardTemplates() {
   const uiDemoTemplatesList = uiDemoTemplates.map((t) => {
-    const el = vue.defineAsyncComponent(t.component)
+    const el = t.component
 
     return cardTemplate({
       ...t,

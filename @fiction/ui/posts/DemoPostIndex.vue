@@ -5,7 +5,7 @@ import { vue } from '@fiction/core'
 import { Post as PostModel } from '@fiction/posts'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import { getDemoPosts } from './index.js'
-import PostLayout from './PostLayout.vue'
+import PostIndexLayout from './PostIndexLayout.vue'
 import SidebarMediaItem from './SidebarMediaItem.vue'
 import SidebarWidget from './SidebarWidget.vue'
 
@@ -115,7 +115,7 @@ vue.onMounted(async () => {
     </div>
 
     <!-- Blog layout with current configuration -->
-    <PostLayout
+    <PostIndexLayout
       :posts="posts"
       :loading="loading"
       title="Latest Articles"
@@ -148,23 +148,23 @@ vue.onMounted(async () => {
             <div class="space-y-4">
               <SidebarMediaItem
                 title="How to Build Better Products"
-                subtitle="5 min read"
+                sub-title="5 min read"
                 href="#"
               />
               <SidebarMediaItem
                 title="The Future of Design Systems"
-                subtitle="8 min read"
+                sub-title="8 min read"
                 href="#"
               />
               <SidebarMediaItem
                 title="Marketing Strategy Guide"
-                subtitle="4 min read"
+                sub-title="4 min read"
                 href="#"
               />
             </div>
           </SidebarWidget>
         </div>
       </template>
-    </PostLayout>
+    </PostIndexLayout>
   </div>
 </template>

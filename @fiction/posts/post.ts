@@ -49,6 +49,16 @@ export class Post extends FictionObject<PostConfig> {
   wordCount = vue.ref(this.settings.wordCount || 0)
   scheduleMode = vue.ref<'now' | 'schedule'>('now')
   editedFields = vue.ref<Record<string, boolean>>({})
+  relatedPosts = vue.computed(() => {
+    const { next, prev, similar } = this.settings.relatedPosts || {}
+    const out = {
+      next: next ? new Post({ ...this.settings, ...next }) : null,
+      prev: prev ? new Post({ ...this.settings, ...prev }) : null,
+      similar: similar ? similar.map(post => new Post({ ...this.settings, ...post })) : [],
+    } as { next?: Post, prev?: Post, similar?: Post[] }
+
+    return out
+  })
 
   saveUtil = new AutosaveUtility({
     onSave: async () => this.save({ isAutosave: true, caller: 'autosave' }),

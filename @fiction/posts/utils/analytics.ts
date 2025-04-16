@@ -10,7 +10,7 @@ export async function updatePostWordCount(args: { orgId: string, post?: TablePos
     const db = fictionPosts.settings.fictionDb.client()
     const postId = post.postId
 
-    const wordCount = getObjectWordCount(post)
+    const wordCount = getObjectWordCount(post, { ignoreKeys: ['relatedPosts', 'draft', 'userConfig'] })
 
     if (wordCount !== post.wordCount) {
       await db(t.posts)

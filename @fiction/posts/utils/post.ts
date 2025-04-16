@@ -24,7 +24,7 @@ export type LoadPostsConfig = {
 export async function getPost(args: { orgId: string, where: WherePost, fictionPosts: FictionPosts }) {
   const { orgId, where, fictionPosts } = args
 
-  const r = await fictionPosts.requests.ManagePost.request({ _action: 'get', orgId, where: { orgId, ...where } })
+  const r = await fictionPosts.requests.ManagePost.request({ _action: 'get', where: { orgId, ...where } })
 
   return r.data || []
 }

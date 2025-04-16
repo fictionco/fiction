@@ -272,7 +272,7 @@ vue.onBeforeUnmount(() => {
     :data-media-scale="activeLogo?.scale"
   >
     <span :style="typographyStyle">
-      {{ activeLogo.typography?.label || (org?.orgName || 'Organization') }}
+      {{ activeLogo.typography?.label || (org?.orgName || 'Logo') }}
     </span>
   </div>
 </template>

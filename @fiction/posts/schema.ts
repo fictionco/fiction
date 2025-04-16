@@ -25,6 +25,11 @@ export type TablePostConfig = Partial<ColType<typeof postCols>> & {
   sites?: Partial<TableSiteConfig>[]
   draftId?: string
   org?: Organization
+  relatedPosts?: {
+    next?: TablePostConfig
+    prev?: TablePostConfig
+    similar?: TablePostConfig[]
+  }
 }
 
 export type PostUserConfig = {

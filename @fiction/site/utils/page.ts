@@ -5,7 +5,7 @@ import { Card } from '../card.js'
 
 const logger = log.contextLogger('sitePageUtils')
 
-export function ensureStandardPages(args: { site: Site, pages: Card[] }): Card[] {
+export function ensureStandardPages(args: { site?: Site, pages: Card[] }): Card[] {
   const { site, pages } = args
   const templateId = site?.theme.value?.templateDefaults.value.page || 'cardPageWrapV1'
   const standardPages: Card[] = []
@@ -24,7 +24,7 @@ export function ensureStandardPages(args: { site: Site, pages: Card[] }): Card[]
       title: 'Post Single',
       isSystem: true,
       isSingle: true,
-      cards: [{ templateId: 'cardBlogV1' }],
+      cards: [{ templateId: 'cardSinglePostV1' }],
     }))
   }
 
@@ -58,7 +58,7 @@ export async function setPages(args: { pages?: CardConfigPortable[], site?: Site
     return c
   }) || []
 
-  return pageCards
+  return ensureStandardPages({ site, pages: pageCards })
 }
 
 export function updatePages(args: { site: Site, pages: (CardConfigPortable | undefined)[] }) {

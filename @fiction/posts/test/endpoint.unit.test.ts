@@ -684,4 +684,94 @@ describe('post crud tests', async () => {
     expect(deleteResult.status).toBe('error')
     expect(deleteResult.message).toBe('Post not found')
   })
+
+  it('returns related posts when fetching a single post', async () => {
+    // Create multiple posts with different dates to test navigation
+    const posts = [
+      {
+        title: 'First Post',
+        content: 'This is the first post content',
+        status: 'published',
+        dateAt: dayjs().subtract(2, 'days').toISOString(),
+        categories: ['tech', 'news'],
+      },
+      {
+        title: 'Second Post',
+        content: 'This is the second post content',
+        status: 'published',
+        dateAt: dayjs().subtract(1, 'days').toISOString(),
+        categories: ['tech', 'tutorial'],
+      },
+      {
+        title: 'Third Post',
+        content: 'This is the third post content',
+        status: 'published',
+        dateAt: dayjs().toISOString(),
+        categories: ['tech', 'news'],
+      },
+    ] as Partial<TablePostConfig>[]
+
+    const createdPosts: TablePostConfig[] = []
+
+    // Create all posts
+    for (const postData of posts) {
+      const result = await fictionPosts.queries.ManagePost.serve({
+        _action: 'create',
+        fields: postData,
+        orgId,
+        userId,
+      }, { ...meta, caller: 'testRelatedPosts' })
+      expect(result.status).toBe('success')
+
+      if (result.data?.[0]) {
+        createdPosts.push(result.data[0])
+      }
+    }
+
+    expect(createdPosts.length).toBe(3)
+
+    // Get the middle post with related posts
+    const retrieve = {
+      _action: 'get',
+      where: {
+        postId: createdPosts[1].postId || '',
+        orgId,
+      },
+    } as const
+
+    const retrieveResult = await fictionPosts.queries.ManagePost.serve(retrieve, { ...meta, caller: 'testGetRelatedPosts' })
+    expect(retrieveResult.status).toBe('success')
+
+    const post = retrieveResult.data?.[0]
+    expect(post).toBeTruthy()
+
+    // Check related posts
+    expect(post?.relatedPosts).toBeTruthy()
+
+    // Next post should be the third one
+    expect(post?.relatedPosts?.next?.postId).toBe(createdPosts[2].postId)
+    expect(post?.relatedPosts?.next?.title).toBe('Third Post')
+
+    // Previous post should be the first one
+    expect(post?.relatedPosts?.prev?.postId).toBe(createdPosts[0].postId)
+    expect(post?.relatedPosts?.prev?.title).toBe('First Post')
+
+    // Similar posts should contain posts with matching categories
+    expect(post?.relatedPosts?.similar?.length).toBeGreaterThan(0)
+
+    // Verify that content is not included in related posts
+    expect(post?.relatedPosts?.next?.content).toBeUndefined()
+    expect(post?.relatedPosts?.prev?.content).toBeUndefined()
+
+    // Clean up
+    for (const post of createdPosts) {
+      if (post.postId) {
+        await fictionPosts.queries.ManagePost.serve({
+          _action: 'delete',
+          where: { postId: post.postId },
+          orgId,
+        }, { ...meta, caller: 'testCleanupRelatedPosts' })
+      }
+    }
+  })
 })

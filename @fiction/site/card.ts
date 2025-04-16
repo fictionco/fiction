@@ -271,6 +271,13 @@ export class Card<
     return getSpacingClass({ size: this.fullConfig.value?.standard?.spaceSize || args.size || 'md', direction: 'both' })
   }
 
+  getContentWidthClass(args: {
+    size?: StandardSize
+    padSize?: boolean
+  }) {
+    return getContentWidthClass({ size: this.fullConfig.value?.standard?.widthSize || args.size || 'md', padSize: args.padSize || true })
+  }
+
   classes = vue.computed(() => {
     const spacing = this.fullConfig.value?.standard
 

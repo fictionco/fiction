@@ -7,9 +7,10 @@ import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import StandardHeader from './el/StandardHeader.vue'
 
-const { card } = defineProps<{
+const { card, contentWidth } = defineProps<{
   card: Card<CardOptionsWithStandard>
   contentWidth?: StandardSize
+  verticalSpacing?: StandardSize
 }>()
 
 const cardWrap = vue.ref<HTMLElement | null>(null)
@@ -79,6 +80,10 @@ vue.watch(() => standardUc.value?.fonts, (fontStyle) => {
     site.userFonts.value = { ...site.userFonts.value, ...addFonts }
   }
 }, { immediate: true })
+
+const contentWidthClass = vue.computed(() => {
+  return contentWidth ? card.getContentWidthClass({ size: contentWidth }) : ''
+})
 </script>
 
 <template>
@@ -88,7 +93,7 @@ vue.watch(() => standardUc.value?.fonts, (fontStyle) => {
     class="card-wrap relative w-full"
     :style="containerStyle"
     :class="[
-      card.getVerticalSpacingClass({ size: contentWidth }),
+      card.getVerticalSpacingClass({ size: verticalSpacing }),
       loaded ? 'loaded' : '',
       card.depth.value <= 1 ? `overflow-x-clip` : '',
 
@@ -107,12 +112,14 @@ vue.watch(() => standardUc.value?.fonts, (fontStyle) => {
           <div
             v-if="standardUc?.headers?.title && !card?.site?.currentItemId.value"
             class="mb-8 lg:mb-16"
-            :class="[card.classes.value.contentWidth]"
+            :class="[contentWidthClass]"
             data-standard-header
           >
             <StandardHeader v-if="standardUc?.headers?.title" :card />
           </div>
-          <slot />
+          <div :class="[contentWidthClass]">
+            <slot />
+          </div>
         </div>
       </div>
     </div>
