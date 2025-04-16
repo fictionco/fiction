@@ -31,13 +31,13 @@ export function getSpacingClass(args: { size: SizeWithNone, direction: Direction
 const baseContentWidthClasses: Record<SizeWithNone, string> = {
   'none': 'mx-auto',
   'full': 'mx-auto w-full',
-  'xxs': 'mx-auto max-w-screen-md',
-  'xs': 'mx-auto max-w-screen-lg',
-  'sm': 'mx-auto max-w-screen-xl',
-  'md': 'mx-auto max-w-screen-2xl',
-  'lg': 'mx-auto max-w-screen-3xl',
-  'xl': 'mx-auto max-w-screen-4xl',
-  '2xl': 'mx-auto max-w-screen-5xl',
+  'xxs': 'mx-auto max-w-screen-sm',
+  'xs': 'mx-auto max-w-screen-md',
+  'sm': 'mx-auto max-w-screen-lg',
+  'md': 'mx-auto max-w-screen-xl',
+  'lg': 'mx-auto max-w-screen-2xl',
+  'xl': 'mx-auto max-w-screen-3xl',
+  '2xl': 'mx-auto max-w-screen-4xl',
 }
 
 const padClasses: Record<SizeWithNone, string> = {

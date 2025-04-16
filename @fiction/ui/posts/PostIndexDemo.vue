@@ -20,7 +20,7 @@ const presets = [
     config: {
       layout: 'blog',
       featuredCount: 1,
-      showSidebar: true,
+      sidebar: 'right',
     },
   },
   {
@@ -28,7 +28,7 @@ const presets = [
     config: {
       layout: 'magazine',
       featuredCount: 1,
-      showSidebar: true,
+      sidebar: 'right',
     },
   },
   {
@@ -36,7 +36,7 @@ const presets = [
     config: {
       layout: 'blog',
       featuredCount: 3,
-      showSidebar: false,
+      sidebar: 'none',
     },
   },
   {
@@ -44,7 +44,7 @@ const presets = [
     config: {
       layout: 'blog',
       featuredCount: 0,
-      showSidebar: true,
+      sidebar: 'left',
     },
   },
   {
@@ -52,7 +52,7 @@ const presets = [
     config: {
       layout: 'magazine',
       featuredCount: 1,
-      showSidebar: false,
+      sidebar: 'none',
     },
   },
 ] as const

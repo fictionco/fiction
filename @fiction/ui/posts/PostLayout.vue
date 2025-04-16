@@ -18,7 +18,7 @@ const props = defineProps<{
   config?: {
     layout?: 'magazine' | 'blog'
     featuredCount?: number
-    showSidebar?: boolean
+    sidebar?: 'left' | 'right' | 'none'
   }
 }>()
 
@@ -26,7 +26,7 @@ const props = defineProps<{
 const config = vue.computed(() => ({
   layout: props.config?.layout || 'blog',
   featuredCount: props.config?.featuredCount ?? 1,
-  showSidebar: props.config?.showSidebar !== false,
+  sidebar: props.config?.sidebar || 'right',
 }))
 
 // Separate featured posts from regular content
@@ -64,24 +64,10 @@ const imagePosition = vue.computed(() => {
   }
   return 'left'
 })
-
-// Determine if we need to center the content
-const contentClasses = vue.computed(() => {
-  // For magazine without sidebar, use full width with no max-width constraint
-  if (config.value.layout === 'magazine' && !config.value.showSidebar) {
-    return 'lg:w-full'
-  }
-  // For blog layout without sidebar, center with max-width constraint
-  else if (!config.value.showSidebar) {
-    return 'lg:w-full max-w-3xl mx-auto'
-  }
-  // With sidebar
-  return 'lg:w-2/3'
-})
 </script>
 
 <template>
-  <div class="post-layout max-w-screen-xl mx-auto space-y-10">
+  <div class="post-layout  space-y-10" :class="config.sidebar === 'none' && config.layout === 'blog' ? 'max-w-3xl mx-auto' : ''">
     <!-- Featured Posts Section -->
     <div v-if="featuredPosts.length > 0" class="featured-posts space-y-12">
       <PostHero
@@ -99,9 +85,9 @@ const contentClasses = vue.computed(() => {
     </div>
 
     <!-- Main Content Area with Optional Sidebar -->
-    <div class="post-content-area flex flex-col lg:flex-row gap-12 ">
+    <div class="post-content-area flex flex-col lg:flex-row gap-12 " :class="config.sidebar === 'left' ? 'lg:flex-row-reverse' : ''">
       <!-- Main Posts Grid -->
-      <div class="w-full space-y-8 @container/post-list" :class="contentClasses">
+      <div class="w-full space-y-8 @container/post-list" :class="config.sidebar !== 'none' ? 'lg:w-2/3' : 'lg:w-full'">
         <!-- Post Tabs -->
         <div class="flex gap-8 border-b border-theme-700/80">
           <button
@@ -137,7 +123,7 @@ const contentClasses = vue.computed(() => {
       </div>
 
       <!-- Sidebar - Using slots for widgets -->
-      <aside v-if="config.showSidebar" class="w-full lg:w-1/3 pt-8 lg:pt-0">
+      <aside v-if="config.sidebar !== 'none'" class="w-full lg:w-1/3 pt-8 lg:pt-4">
         <slot name="sidebar" />
       </aside>
     </div>

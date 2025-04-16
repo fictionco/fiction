@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { NavListItem } from '@fiction/core'
 import type { Post } from '@fiction/posts'
 import { dayjs, vue } from '@fiction/core'
 import { countWords } from '@fiction/core/utils/wordCount'
@@ -24,12 +25,12 @@ const emit = defineEmits<{
 
 // Default to showing all items if not specified
 const displayItems = vue.computed(() =>
-  props.items || ['date', 'readTime', 'author', 'like', 'comment', 'share'],
+  props.items || ['date', 'readTime', 'like', 'comment', 'share'],
 )
 
 // Format the date nicely
 const formattedDate = vue.computed(() =>
-  props.post.dateAt?.value ? dayjs(props.post.dateAt?.value).format('MMM D, YYYY') : '',
+  props.post.dateAt?.value ? dayjs(props.post.dateAt.value).format('MMM D') : '',
 )
 
 // Calculate read time
@@ -44,6 +45,65 @@ const authors = vue.computed(() => props.post.authors?.value || [])
 // Default color and size classes if not provided
 const metaColorClass = vue.computed(() => props.colorClass || 'text-theme-400')
 const metaTextSize = vue.computed(() => props.textSize || 'text-xs @sm/post-item:text-sm')
+
+// Generate the meta items as NavListItem objects
+const metaItems = vue.computed(() => {
+  const items: NavListItem[] = []
+
+  if (displayItems.value.includes('date') && formattedDate.value) {
+    items.push({
+      label: formattedDate.value,
+      icon: { class: 'i-tabler-calendar' },
+      key: 'date',
+      dateAt: props.post.dateAt?.value,
+    })
+  }
+
+  if (displayItems.value.includes('readTime') && readTime.value) {
+    items.push({
+      label: `${readTime.value} min`,
+      icon: { class: 'i-tabler-clock' },
+      key: 'readTime',
+    })
+  }
+
+  if (displayItems.value.includes('author') && authors.value.length) {
+    items.push({
+      label: authors.value[0].fullName || '',
+      icon: { class: 'i-tabler-user' },
+      key: 'author',
+      info: authors.value.length > 1 ? `+ ${authors.value.length - 1}` : undefined,
+    })
+  }
+
+  if (displayItems.value.includes('like')) {
+    items.push({
+      label: props.likeCount ? String(props.likeCount) : '',
+      icon: { class: props.isLiked ? 'i-tabler-heart-filled' : 'i-tabler-heart' },
+      key: 'like',
+      onClick: () => handleLike(),
+    })
+  }
+
+  if (displayItems.value.includes('comment')) {
+    items.push({
+      label: props.commentCount ? String(props.commentCount) : '',
+      icon: { class: 'i-tabler-message-circle-2' },
+      key: 'comment',
+      onClick: () => handleComment(),
+    })
+  }
+
+  if (displayItems.value.includes('share')) {
+    items.push({
+      icon: { class: 'i-tabler-upload' },
+      key: 'share',
+      onClick: () => handleShare(),
+    })
+  }
+
+  return items
+})
 
 function handleLike() {
   if (props.likeCount !== undefined) {
@@ -75,67 +135,25 @@ function handleShare() {
     class="flex flex-wrap items-center gap-x-5 gap-y-2 font-sans"
     :class="[metaColorClass, metaTextSize]"
   >
-    <!-- Date -->
-    <time
-      v-if="displayItems.includes('date') && formattedDate"
-      :datetime="post.dateAt?.value"
-      class="flex items-center"
-    >
-      <XIcon :media="{ class: 'i-tabler-calendar' }" class="size-3.5 mr-1 opacity-75" />
-      {{ formattedDate }}
-    </time>
-
-    <!-- Read time -->
-    <span
-      v-if="displayItems.includes('readTime') && readTime"
-      class="flex items-center"
-    >
-      <XIcon :media="{ class: 'i-tabler-clock' }" class="size-3.5 mr-1 opacity-75" />
-      {{ readTime }} min read
-    </span>
-
-    <!-- Author -->
-    <div
-      v-if="displayItems.includes('author') && authors.length"
-      class="flex items-center"
-    >
-      <XIcon :media="{ class: 'i-tabler-user' }" class="size-3.5 mr-1 opacity-75" />
-      <span>{{ authors[0].fullName }}</span>
-      <span v-if="authors.length > 1" class="ml-1">+ {{ authors.length - 1 }}</span>
-    </div>
-
-    <!-- Like button -->
     <button
-      v-if="displayItems.includes('like')"
-      class="flex items-center transition-colors hover:text-primary-400 focus:outline-none"
-      :class="{ 'text-primary-500': isLiked }"
-      @click.prevent="handleLike"
+      v-for="item in metaItems"
+      :key="item.key"
+      class="flex items-center"
+      :class="[
+        !!item.onClick ? 'cursor-pointer transition-colors hover:text-primary-400 focus:outline-none' : 'cursor-default',
+        item.key === 'like' && isLiked ? 'text-primary-500' : '',
+      ]"
+      @click.prevent="item.onClick && item.onClick({})"
     >
       <XIcon
-        :media="{ class: isLiked ? 'i-tabler-heart-filled' : 'i-tabler-heart' }"
+        v-if="item.icon"
+        :media="item.icon"
         class="size-3.5 mr-1"
+        :class="{ 'opacity-75': !item.onClick }"
       />
-      <span v-if="likeCount" class="text-[10px] font-medium">{{ likeCount }}</span>
-    </button>
-
-    <!-- Comment link -->
-    <button
-      v-if="displayItems.includes('comment')"
-      class="flex items-center transition-colors hover:text-primary-400 focus:outline-none"
-      @click.prevent="handleComment"
-    >
-      <XIcon :media="{ class: 'i-tabler-message-circle-2' }" class="size-3.5 mr-1" />
-      <span v-if="commentCount" class="text-[10px] font-medium">{{ commentCount }}</span>
-    </button>
-
-    <!-- Share button -->
-    <button
-      v-if="displayItems.includes('share')"
-      class="flex items-center transition-colors hover:text-primary-400 focus:outline-none"
-      @click.prevent="handleShare"
-    >
-      <XIcon :media="{ class: 'i-tabler-upload' }" class="size-3.5 mr-1" />
-      <span class="sr-only">Share</span>
+      <span v-if="item.label" class="text-xs font-medium">{{ item.label }}</span>
+      <span v-if="item.info" class="ml-1">{{ item.info }}</span>
+      <span v-if="item.key === 'share'" class="sr-only">Share</span>
     </button>
   </div>
 </template>

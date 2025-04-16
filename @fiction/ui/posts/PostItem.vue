@@ -61,7 +61,7 @@ const layoutClasses = vue.computed(() => {
       content: 'flex-grow py-1',
       title: 'line-clamp-3',
       excerpt: 'text-theme-600 dark:text-theme-300 mb-auto',
-      meta: 'text-theme-400',
+      meta: 'text-theme-500',
     }
   }
 
@@ -73,7 +73,7 @@ const layoutClasses = vue.computed(() => {
     content: 'flex-grow pt-4',
     title: '',
     excerpt: 'text-theme-600 dark:text-theme-300 mb-auto',
-    meta: 'text-theme-400',
+    meta: 'text-theme-500',
   }
 })
 </script>
