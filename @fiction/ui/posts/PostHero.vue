@@ -46,14 +46,15 @@ const showMeta = vue.computed(() =>
     :class="layout === 'split' ? 'h-auto md:h-[28rem]' : 'h-[24rem] md:h-[32rem]'"
   >
     <!-- Media background -->
-    <div class="absolute inset-0 w-full h-full">
-      <XMedia
-        v-if="post.media?.value"
-        :media="post.media.value"
-        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-      />
-      <!-- Gradient overlay for legibility -->
-      <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/10" />
+    <div class="absolute inset-0 w-full h-full bg-theme-800/50">
+      <template v-if="post.media?.value?.url">
+        <XMedia
+          :media="post.media.value"
+          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+        <!-- Gradient overlay for legibility -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/10" />
+      </template>
     </div>
 
     <!-- Content -->

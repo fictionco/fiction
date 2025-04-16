@@ -4,8 +4,9 @@ import { getColorScheme, vue } from '@fiction/core'
 
 defineOptions({ name: 'XEntry' })
 
-const { theme } = defineProps<{
+const { theme, dropCap } = defineProps<{
   theme?: ColorThemeUser
+  dropCap?: boolean
 }>()
 
 const entryEl = vue.ref<HTMLElement>()
@@ -29,7 +30,7 @@ const themeColors = vue.computed(() => {
 </script>
 
 <template>
-  <div ref="entryEl" class="x-entry">
+  <div ref="entryEl" class="x-entry" :class="[dropCap ? 'drop-cap' : '']">
     <slot />
   </div>
 </template>
@@ -40,11 +41,13 @@ const themeColors = vue.computed(() => {
 
 .x-entry {
   /* CSS Variables for maintainable theming */
-  --base-font-size: 1em;
+  --post-theme-light: v-bind('themeColors.colorLight');
+  --post-theme-dark: v-bind('themeColors.colorDark');
+
+  --base-font-size: 1.3em;
   --golden-ratio: 1.618;
   --line-height: 1.75;
   --text-color: rgba(var(--theme-100) / 1);
-  --heading-color: rgba(255, 255, 255, 0.95);
   --muted-color: rgba(var(--theme-100) / 0.8);
   --border-color: rgba(var(--theme-600) / 0.6);
 
@@ -57,19 +60,23 @@ const themeColors = vue.computed(() => {
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-color);
 
+  &.drop-cap:first-letter {
+    float: left;
+    font-size: calc(var(--base-font-size) * var(--line-height) * var(--golden-ratio));
+    line-height: 0.8;
+    font-weight: 700;
+    margin-right: calc(var(--base-font-size) * 0.15);
+    margin-top: calc(var(--base-font-size) * 0.05);
+  }
+
   /* Headings with golden ratio progression */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-family-title, inherit);
-    font-weight: 500;
-    letter-spacing: -0.015em;
+    font-weight: 600;
     line-height: 1.15;
     margin: 0;
-    color: var(--heading-color);
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     text-wrap: pretty;
-
+    letter-spacing: -.02em;
   }
 
   h1 {
@@ -79,7 +86,7 @@ const themeColors = vue.computed(() => {
   }
 
   h2 {
-    font-weight: 600;
+    font-weight: 700;
     font-size: calc(var(--base-font-size) * 2);
     margin: calc(var(--base-font-size) * 1.5) 0 calc(var(--base-font-size) * 0.5);
   }
@@ -180,7 +187,6 @@ const themeColors = vue.computed(() => {
     p {
       font-size: calc(var(--base-font-size) * 1.159);
       line-height: 1.5;
-      color: var(--heading-color);
     }
 
     footer {
@@ -205,7 +211,7 @@ const themeColors = vue.computed(() => {
   ol { list-style-type: decimal; }
 
   li {
-    margin-bottom: calc(var(--base-font-size) * 1.618);
+    margin-bottom: calc(var(--base-font-size) * 0.618);
     padding-left: calc(var(--base-font-size) * 0.3);
 
     p {
@@ -227,9 +233,8 @@ const themeColors = vue.computed(() => {
     padding: var(--base-font-size);
     border-radius: calc(var(--base-font-size) * 0.3);
     overflow-x: auto;
-    background: rgba(30, 30, 30, 1);
+    background: rgba(var(--theme-700) / .5);
     border: 1px solid var(--border-color);
-    font-size: calc(var(--base-font-size) * 0.9);
 
     code {
       padding: 0;
@@ -293,17 +298,6 @@ const themeColors = vue.computed(() => {
     max-width: 36em;
   }
 
-  /* Drop cap */
-  .drop-cap:first-letter {
-    float: left;
-    font-size: calc(var(--base-font-size) * 3.5);
-    line-height: 0.8;
-    font-weight: 700;
-    margin-right: calc(var(--base-font-size) * 0.15);
-    margin-top: calc(var(--base-font-size) * 0.1);
-    color: rgba(var(--primary-400) / 1);
-  }
-
   /* Responsive embeds */
   .embed-responsive {
     position: relative;
@@ -360,6 +354,46 @@ const themeColors = vue.computed(() => {
     margin-right: calc(var(--base-font-size) * 0.5);
     color: rgba(var(--primary-400) / 1);
     font-weight: 600;
+  }
+
+   /* Tables */
+   table {
+    width: 100%;
+    max-width: 65ch;
+    margin: calc(var(--base-font-size) * 1.618) 0;
+    border-collapse: collapse;
+    font-size: calc(var(--base-font-size) * 0.9);
+    line-height: var(--line-height);
+    color: var(--text-color);
+    overflow-x: auto;
+    display: block;
+  }
+
+  thead {
+    background: rgba(var(--theme-700) / 0.2);
+  }
+
+  th {
+    font-weight: 600;
+    text-align: left;
+    padding: calc(var(--base-font-size) * 0.618) var(--base-font-size);
+    border-bottom: 2px solid var(--border-color);
+  }
+
+  td {
+    padding: calc(var(--base-font-size) * 0.618) var(--base-font-size);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  tr:hover {
+    background: rgba(var(--theme-700) / 0.1);
+  }
+
+  /* Nested tables */
+  td table {
+    margin: 0;
+    max-width: 100%;
+    font-size: calc(var(--base-font-size) * 0.85);
   }
 }
 </style>

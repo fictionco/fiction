@@ -13,7 +13,6 @@ import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import CardButton from '../../CardButton.vue'
 import CardWrap from '../../CardWrap.vue'
-import ElMagazineSingle from '../blog/ElMagazineSingle.vue'
 import PostCard from './PostCard.vue'
 
 defineOptions({ name: 'PostList' })
@@ -150,18 +149,9 @@ vue.onServerPrefetch(() => fetchPosts())
         <ElSpinner class="h-8 w-8 text-theme-500" />
       </div>
 
-      <ElMagazineSingle
-        v-else-if="routeSlug"
-        :key="routeSlug"
-        :card="card"
-        :loading="postsLoading"
-        :post="singlePost"
-        :next-post="nextPost"
-      />
-
       <!-- Grid Layout -->
       <div
-        v-else-if="displayConfig.layout === 'grid'"
+        v-if="displayConfig.layout === 'grid'"
         :class="[
           gridClass,
           displayConfig.gap === 'sm' && 'gap-4',

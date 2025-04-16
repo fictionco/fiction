@@ -53,9 +53,9 @@ const regularPosts = vue.computed(() => {
 // Determine grid columns based on layout
 const gridClasses = vue.computed(() => {
   if (config.value.layout === 'magazine') {
-    return 'grid-cols-1 @[500px]/post-list:grid-cols-2 @[1000px]/post-list:grid-cols-3 gap-8'
+    return 'grid grid-cols-1 @[500px]/post-list:grid-cols-2 @[1000px]/post-list:grid-cols-3 gap-8'
   }
-  return 'grid-cols-1 gap-12'
+  return ' divide-y divide-theme-700/50'
 })
 
 const imagePosition = vue.computed(() => {
@@ -89,19 +89,25 @@ const imagePosition = vue.computed(() => {
       <!-- Main Posts Grid -->
       <div class="w-full space-y-8 @container/post-list" :class="config.sidebar !== 'none' ? 'lg:w-2/3' : 'lg:w-full'">
         <!-- Post Tabs -->
-        <div class="flex gap-8 border-b border-theme-700/80">
-          <button
-            class="py-3 px-2 border-b-2 font-medium "
-            :class="true ? 'border-primary-500 text-theme-900 dark:text-theme-50' : 'border-theme-500 dark:text-theme-400 hover:text-theme-700 dark:hover:text-theme-200'"
+        <div class="flex gap-4 items-center">
+          <XButton
+            theme="default"
+            design="link"
+            size="sm"
+            class="opacity-70"
           >
             Latest
-          </button>
-          <button
-            class="py-3 px-2 text-theme-500  border-b-2  transition-colors"
-            :class="false ? 'border-primary-500 text-theme-900 dark:text-theme-50' : 'border-theme-600/60 dark:text-theme-400 hover:text-theme-700 dark:hover:text-theme-200'"
+          </XButton>
+          <XButton
+            theme="default"
+            design="link"
+            size="sm"
+            class="opacity-40"
           >
             Popular
-          </button>
+          </XButton>
+
+          <div class="h-px bg-theme-700/50 basis-0 grow" />
         </div>
 
         <div v-if="regularPosts.length > 0" class="grid" :class="gridClasses">
@@ -110,6 +116,9 @@ const imagePosition = vue.computed(() => {
             :key="`post-${post.postId}`"
             :post="post"
             :config="{ imagePosition }"
+            :class="[
+              config.layout === 'blog' ? 'py-8' : '',
+            ]"
           />
         </div>
         <div v-else-if="!loading && featuredPosts.length === 0" class="text-center py-12">
@@ -123,7 +132,7 @@ const imagePosition = vue.computed(() => {
       </div>
 
       <!-- Sidebar - Using slots for widgets -->
-      <aside v-if="config.sidebar !== 'none'" class="w-full lg:w-1/3 pt-8 lg:pt-4">
+      <aside v-if="config.sidebar !== 'none'" class="w-full lg:w-1/3 pt-8 lg:pt-0">
         <slot name="sidebar" />
       </aside>
     </div>

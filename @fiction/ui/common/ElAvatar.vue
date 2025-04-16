@@ -1,10 +1,16 @@
 <script lang="ts" setup>
-import type { MediaObject, User } from '@fiction/core'
+import type { MediaObject, Organization, User } from '@fiction/core'
 import { gravatarUrlSync, vue } from '@fiction/core'
 import XMedia from '../media/XMedia.vue'
 
-const { user, url = '', imageSize = 200 } = defineProps<{
+const {
+  user,
+  org,
+  url = '',
+  imageSize = 200,
+} = defineProps<{
   user?: User
+  org?: Organization
   url?: string
   imageSize?: number
 }>()
@@ -12,6 +18,9 @@ const { user, url = '', imageSize = 200 } = defineProps<{
 const mediaUrl = vue.computed(() => {
   if (url) {
     return url
+  }
+  else if (org && org.avatar?.url) {
+    return org.avatar.url
   }
   else if (user && user.avatar?.url) {
     return user.avatar.url

@@ -6,7 +6,7 @@ import { Post as PostModel } from '@fiction/posts'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import { getDemoPosts } from './index.js'
-import SinglePost from './PostSingle.vue'
+import PostSingle from './PostSingle.vue'
 import SidebarWidget from './SidebarWidget.vue'
 
 defineOptions({ name: 'DemoPostSingle' })
@@ -79,11 +79,7 @@ vue.onMounted(async () => {
   const demoPosts = (await getDemoPosts()).sort(() => Math.random() - 0.5)
   if (demoPosts.length > 0) {
     // Find a post with substantial content
-    const targetPost = demoPosts.find(p =>
-      p.content
-      && p.media?.url
-      && p.authors?.length,
-    ) || demoPosts[0]
+    const targetPost = demoPosts[0]
 
     post.value = new PostModel({ ...targetPost, card })
     loading.value = false
@@ -119,7 +115,7 @@ vue.onMounted(async () => {
     <div class="flex flex-col lg:flex-row gap-8">
       <!-- Main content area -->
       <div class="flex-1">
-        <SinglePost
+        <PostSingle
           :card="card"
           :post="post"
           :loading="loading"

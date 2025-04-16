@@ -3,12 +3,11 @@ import type { Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import SiteText from '@fiction/cards/SiteText.vue'
 import { dayjs, pathCheck, PostSchema as schema, vue } from '@fiction/core'
-
+import XButton from '@fiction/ui/buttons/XButton.vue' // Assuming a minimal button component
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import XEntry from '@fiction/ui/prose/XEntry.vue'
-import { getColorThemeStyles } from '@fiction/ui/utils'
-import PostItemMeta from './PostItemMeta.vue'
+import XPostAuthor from './XPostAuthor.vue'
 
 defineOptions({ name: 'SinglePost' })
 
@@ -16,39 +15,22 @@ const props = defineProps<{
   card?: Card
   loading?: boolean
   post?: Post
-  nextPost?: Post
   likeCount?: number
-  commentCount?: number
   isLiked?: boolean
   dropCap?: boolean
-  showSocial?: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'update:likeCount', count: number): void
-  (e: 'comment'): void
   (e: 'share'): void
 }>()
 
-const singlePostEl = vue.ref<HTMLElement>()
-
-const themeStyle = vue.computed(() => {
-  return getColorThemeStyles(props.post?.theme.value)
-})
-
 const localLikeCount = vue.ref(props.likeCount ?? 42)
-const localCommentCount = vue.ref(props.commentCount ?? 7)
 const localIsLiked = vue.ref(props.isLiked ?? false)
 
-// Update local refs when props change
 vue.watch(() => props.likeCount, (newVal) => {
   if (newVal !== undefined)
     localLikeCount.value = newVal
-})
-
-vue.watch(() => props.commentCount, (newVal) => {
-  if (newVal !== undefined)
-    localCommentCount.value = newVal
 })
 
 vue.watch(() => props.isLiked, (newVal) => {
@@ -56,184 +38,120 @@ vue.watch(() => props.isLiked, (newVal) => {
     localIsLiked.value = newVal
 })
 
-function handleLikeUpdate(count: number) {
-  localLikeCount.value = count
+function handleLikeUpdate() {
+  const newCount = localIsLiked.value ? localLikeCount.value - 1 : localLikeCount.value + 1
+  localLikeCount.value = newCount
   localIsLiked.value = !localIsLiked.value
-  emit('update:likeCount', count)
+  emit('update:likeCount', newCount)
 }
 
-function handleComment() {
-  // Scroll to comments or open comment form
-  console.warn('Opening comment form...')
-  emit('comment')
-}
-
-function handleShare() {
-  // Handle successful sharing
-  console.warn('Post shared!')
+async function handleShare() {
+  const url = window.location.href
+  await navigator.clipboard.writeText(url)
   emit('share')
 }
 </script>
 
 <template>
-  <div v-if="card" ref="singlePostEl">
+  <div v-if="card" class="font-sans">
     <!-- Loading Skeleton -->
-    <div
-      v-if="loading"
-      class="pt-24 pb-40 animate-pulse"
-      aria-hidden="true"
-    >
-      <div class="max-w-[850px] mx-auto px-5 sm:px-8">
-        <div class="w-24 h-5 bg-theme-100 dark:bg-theme-800 rounded mb-8" />
-        <div class="w-3/4 h-12 bg-theme-100 dark:bg-theme-800 rounded mb-4" />
-        <div class="w-2/3 h-8 bg-theme-100 dark:bg-theme-800 rounded mb-8" />
-        <div class="flex gap-4 mb-12">
-          <div class="w-10 h-10 rounded-full bg-theme-100 dark:bg-theme-800" />
+    <div v-if="loading" class="pt-16 pb-32 animate-pulse" aria-hidden="true">
+      <div class="max-w-[75ch] mx-auto px-4">
+        <div class="w-24 h-4 bg-theme-100 dark:bg-theme-800 rounded mb-6" />
+        <div class="w-3/4 h-10 bg-theme-100 dark:bg-theme-800 rounded mb-4" />
+        <div class="w-1/2 h-6 bg-theme-100 dark:bg-theme-800 rounded mb-8" />
+        <div class="flex gap-3 mb-8">
+          <div class="w-8 h-8 rounded-full bg-theme-100 dark:bg-theme-800" />
           <div class="space-y-2">
-            <div class="w-36 h-4 bg-theme-100 dark:bg-theme-800 rounded" />
-            <div class="w-24 h-3 bg-theme-100 dark:bg-theme-800 rounded" />
+            <div class="w-32 h-3 bg-theme-100 dark:bg-theme-800 rounded" />
+            <div class="w-20 h-2 bg-theme-100 dark:bg-theme-800 rounded" />
           </div>
         </div>
-        <div class="w-full aspect-video bg-theme-100 dark:bg-theme-800 rounded-lg mb-12" />
-        <div class="space-y-4">
-          <div class="w-full h-4 bg-theme-100 dark:bg-theme-800 rounded" />
-          <div class="w-full h-4 bg-theme-100 dark:bg-theme-800 rounded" />
-          <div class="w-2/3 h-4 bg-theme-100 dark:bg-theme-800 rounded" />
+        <div class="space-y-3">
+          <div class="w-full h-3 bg-theme-100 dark:bg-theme-800 rounded" />
+          <div class="w-5/6 h-3 bg-theme-100 dark:bg-theme-800 rounded" />
+          <div class="w-2/3 h-3 bg-theme-100 dark:bg-theme-800 rounded" />
         </div>
       </div>
     </div>
 
     <!-- Post Content -->
-    <article v-else-if="post" class="px-5 sm:px-8 @container/prose max-w-[850px] mx-auto">
-      <div class="my-[clamp(2rem,5vw,4rem)]">
-        <!-- Post Meta Top -->
-        <div class="flex justify-between items-center mb-6">
-          <div
-            class="text-sm text-theme-400"
-          >
-            {{ dayjs(post.dateAt.value || post.publishAt.value).format('MMMM D, YYYY') }}
-          </div>
-
-          <!-- Social Actions -->
-          <PostItemMeta
-            v-if="showSocial !== false"
-            :post="post"
-            :like-count="localLikeCount"
-            :comment-count="localCommentCount"
-            :is-liked="localIsLiked"
-            :items="['like', 'comment', 'share']"
-            @update:like-count="handleLikeUpdate"
-            @comment="handleComment"
-            @share="handleShare"
-          />
-        </div>
-
+    <article v-else-if="post" class="px-4 max-w-[75ch] mx-auto">
+      <div class="py-12">
         <!-- Post Title & Subtitle -->
-        <div class="space-y-4 mb-8">
-          <SiteText
-            v-model="post.config.value"
-            :card
-            tag="h1"
-            :path="pathCheck('title', schema)"
-            :post="post"
-            class="text-2xl md:text-3xl lg:text-4xl font-semibold x-font-title text-balance leading-tight"
-          />
-          <SiteText
-            v-model="post.config.value"
-            :card
-            tag="h2"
-            :path="pathCheck('subTitle', schema)"
-            class="text-lg md:text-xl lg:text-2xl dark:text-theme-400 text-balance leading-snug"
-          />
-        </div>
-
-        <!-- Author Info -->
-        <div v-if="post.authors?.value?.length" class="flex items-center gap-8">
-          <div
-            v-for="(author, i) in post.authors.value"
-            :key="i"
-            class="text-base flex gap-4 items-center mt-2 not-prose"
-          >
-            <div class="size-10 rounded-full ring-1 ring-white/30 overflow-hidden bg-theme-100 dark:bg-theme-800">
-              <img
-                v-if="author.avatar?.url"
-                :src="author.avatar.url"
-                :alt="author.fullName || ''"
-                class="size-full object-cover"
-              >
-              <div
-                v-else
-                class="size-full flex items-center justify-center text-theme-500 dark:text-theme-400"
-              >
-                <div class="i-tabler-user text-xl" />
-              </div>
-            </div>
-            <div class="text-left space-y-1">
-              <div class="font-bold text-base leading-tight">
-                {{ author.fullName || author.email?.split('@')[0] }}
-              </div>
-              <div
-                class="text-sm text-theme-400"
-              >
-                {{ author.title || author.email }}
-              </div>
-            </div>
-          </div>
-          <div class="flex-grow h-px bg-theme-700/70" />
-        </div>
-      </div>
-
-      <!-- Featured Image -->
-      <div
-        v-if="post.media?.value?.url"
-        class="relative mb-[clamp(2rem,5vw,4rem)] overflow-hidden rounded-lg aspect-video"
-      >
-        <XMedia
-          :media="post.media.value"
-          class="w-full h-full object-cover"
-          :animate="true"
+        <SiteText
+          v-model="post.config.value"
+          :card
+          tag="h1"
+          :path="pathCheck('title', schema)"
+          :post="post"
+          class="text-3xl md:text-4xl xl:text-5xl font-bold x-font-title md:text-pretty !leading-[1.3]  mb-4"
         />
-      </div>
+        <SiteText
+          v-model="post.config.value"
+          :card
+          tag="h2"
+          :path="pathCheck('subTitle', schema)"
+          class="text-lg md:text-xl xl:text-2xl text-theme-500 dark:text-theme-400 md:text-pretty !leading-[1.3] mb-8"
+        />
 
-      <!-- Content -->
-      <div class="max-w-[75ch] mx-auto">
+        <!-- Author, Date, and Actions -->
+        <div class="flex items-center gap-4 mb-8 justify-between">
+          <div v-if="post.authors?.value?.length">
+            <XPostAuthor v-for="user in post.authors.value" :key="user.userId" :user />
+          </div>
+          <div class="flex gap-2">
+            <XButton
+              :icon="localIsLiked ? 'i-tabler-heart-filled' : 'i-tabler-heart'"
+              theme="default"
+              :label="localLikeCount.toString()"
+            >
+              {{ post.likeCount.value || 'Like' }}
+            </XButton>
+            <XButton
+              icon="i-tabler-upload"
+              theme="default"
+              @click="handleShare"
+            >
+              Share
+            </XButton>
+          </div>
+        </div>
+
+        <!-- Featured Image (if present) -->
+        <div v-if="post.media?.value?.url" class="mb-12 rounded-md overflow-hidden aspect-video">
+          <XMedia
+            :media="post.media.value"
+            class="w-full h-full object-cover"
+            :animate="true"
+          />
+        </div>
+
+        <!-- Content -->
         <XEntry
+          class="font-serif text-base md:text-lg"
           :theme="post.theme.value"
-          :class="{ 'with-drop-cap': dropCap }"
+          :drop-cap="props.dropCap"
         >
           <SiteText
             v-model="post.config.value"
             :card
             :path="pathCheck('content', schema)"
-            class="text-base @[500px]/prose:text-lg"
           />
         </XEntry>
-
-        <!-- Bottom Meta -->
-        <div v-if="showSocial !== false" class="mt-16 pt-6 border-t border-theme-200 dark:border-theme-800 flex justify-between items-center">
-          <div
-            class="font-medium text-sm text-theme-300"
-          >
-            {{ dayjs(post.dateAt.value || post.publishAt.value).format('MMMM D, YYYY') }}
-          </div>
-
-          <PostItemMeta
-            :post="post"
-            :like-count="localLikeCount"
-            :comment-count="localCommentCount"
-            :is-liked="localIsLiked"
-            :items="['like', 'comment', 'share']"
-            @update:like-count="handleLikeUpdate"
-            @comment="handleComment"
-            @share="handleShare"
-          />
-        </div>
       </div>
     </article>
 
-    <El404
-      v-else
-      title="Post Not Found"
-    />
+    <El404 v-else title="Post Not Found" />
   </div>
 </template>
+
+<style scoped>
+.with-drop-cap::first-letter {
+  float: left;
+  font-size: rem;
+  line-height: 0.8;
+  margin: 0.1em 0.1em 0 0;
+  font-weight: 600;
+}
+</style>

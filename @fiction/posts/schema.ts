@@ -1,4 +1,4 @@
-import type { ColType, ComplexDataFilter, User } from '@fiction/core'
+import type { ColType, ComplexDataFilter, Organization, User } from '@fiction/core'
 import type { TableSiteConfig } from '@fiction/site'
 import type { StandardUserConfig } from '@fiction/site/schema'
 import { ColorThemeUserSchema, createTableSchema, EmailSenderSchema, MediaDisplaySchema, PostStatusSchema, standardTable, toSlug } from '@fiction/core'
@@ -24,6 +24,7 @@ export type TablePostConfig = Partial<ColType<typeof postCols>> & {
   commentCount?: number
   sites?: Partial<TableSiteConfig>[]
   draftId?: string
+  org?: Organization
 }
 
 export type PostUserConfig = {
