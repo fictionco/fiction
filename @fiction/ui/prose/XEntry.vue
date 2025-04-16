@@ -60,19 +60,26 @@ const themeColors = vue.computed(() => {
   /* Headings with golden ratio progression */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-family-title, inherit);
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: -0.015em;
     line-height: 1.15;
     margin: 0;
     color: var(--heading-color);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-wrap: pretty;
+
   }
 
   h1 {
+    font-weight: 700;
     font-size: calc(var(--base-font-size) * 2.618);
     margin: calc(var(--base-font-size) * 1.618) 0 calc(var(--base-font-size) * 0.618);
   }
 
   h2 {
+    font-weight: 600;
     font-size: calc(var(--base-font-size) * 2);
     margin: calc(var(--base-font-size) * 1.5) 0 calc(var(--base-font-size) * 0.5);
   }
@@ -112,10 +119,6 @@ const themeColors = vue.computed(() => {
     margin: 0 0 var(--base-font-size);
     max-width: 65ch;
     line-height: var(--line-height);
-  }
-
-  p:last-child {
-    margin-bottom: 0;
   }
 
   /* Sections */
@@ -202,7 +205,7 @@ const themeColors = vue.computed(() => {
   ol { list-style-type: decimal; }
 
   li {
-    margin-bottom: calc(var(--base-font-size) * 0.618);
+    margin-bottom: calc(var(--base-font-size) * 1.618);
     padding-left: calc(var(--base-font-size) * 0.3);
 
     p {

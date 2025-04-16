@@ -148,7 +148,7 @@ function handleShare() {
         </div>
 
         <!-- Author Info -->
-        <div v-if="post.authors?.value?.length" class="flex justify-start">
+        <div v-if="post.authors?.value?.length" class="flex items-center gap-8">
           <div
             v-for="(author, i) in post.authors.value"
             :key="i"
@@ -179,6 +179,7 @@ function handleShare() {
               </div>
             </div>
           </div>
+          <div class="flex-grow h-px bg-theme-700/70" />
         </div>
       </div>
 
