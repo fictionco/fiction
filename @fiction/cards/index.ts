@@ -221,11 +221,18 @@ const uiDemoTemplates = [
     component: () => import('@fiction/ui/test/TestMediaHandling.vue'),
   },
   {
-    templateId: 'xpost',
-    title: 'Post Component',
+    templateId: 'xindex',
+    title: 'Post Index',
     description: 'Post handling',
     icon: 'i-tabler-photo-hexagon',
-    component: () => import('@fiction/ui/posts/PostIndexDemo.vue'),
+    component: () => import('@fiction/ui/posts/DemoPostIndex.vue'),
+  },
+  {
+    templateId: 'xpost',
+    title: 'Post Component',
+    description: 'Post Single',
+    icon: 'i-tabler-photo-hexagon',
+    component: () => import('@fiction/ui/posts/DemoPostSingle.vue'),
   },
 ]
 

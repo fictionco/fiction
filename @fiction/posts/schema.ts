@@ -20,6 +20,8 @@ export type TableEmailConfig = Partial<ColType<typeof emailCols>>
 
 export type TablePostConfig = Partial<ColType<typeof postCols>> & {
   authors?: User[]
+  likeCount?: number
+  commentCount?: number
   sites?: Partial<TableSiteConfig>[]
   draftId?: string
 }
