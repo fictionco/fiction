@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { StandardSize } from '@fiction/core'
+import type { StandardSizeComplete } from '@fiction/core'
 import type { Card } from '@fiction/site/index.js'
 import type { CardOptionsWithStandard } from '@fiction/site/schema'
 import { getColorScheme, vue } from '@fiction/core'
@@ -9,8 +9,8 @@ import StandardHeader from './el/StandardHeader.vue'
 
 const { card, contentWidth } = defineProps<{
   card: Card<CardOptionsWithStandard>
-  contentWidth?: StandardSize
-  verticalSpacing?: StandardSize
+  contentWidth?: StandardSizeComplete
+  verticalSpacing?: StandardSizeComplete
 }>()
 
 const cardWrap = vue.ref<HTMLElement | null>(null)

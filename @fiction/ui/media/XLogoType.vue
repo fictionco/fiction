@@ -2,6 +2,7 @@
 import type { LogoObject, Organization } from '@fiction/core'
 import { determineMediaFormat, vue } from '@fiction/core'
 import { googleFontsUtility } from '@fiction/core/utils/fonts'
+import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import { twMerge } from 'tailwind-merge'
 import XIcon from './XIcon.vue'
 
@@ -266,11 +267,12 @@ vue.onBeforeUnmount(() => {
   </div>
   <div
     v-else
-    class="x-logo-type"
+    class="x-logo-type flex items-center gap-4"
     :class="classes.text"
     :data-logo-variant="variant"
     :data-media-scale="activeLogo?.scale"
   >
+    <ElAvatar v-if="org?.avatar?.url" :org class="size-8" />
     <span :style="typographyStyle">
       {{ activeLogo.typography?.label || (org?.orgName || 'Logo') }}
     </span>

@@ -69,7 +69,7 @@ const media = vue.computed<MediaObject>(() => {
       :media="media"
     />
     <div
-      class="absolute inset-0 z-10 pointer-events-none ring-2 ring-inset rounded-full"
+      class="absolute inset-0 z-10 pointer-events-none ring-1 ring-inset rounded-full"
       :class="mediaUrl ? 'ring-white' : 'ring-theme-400'"
     />
   </div>

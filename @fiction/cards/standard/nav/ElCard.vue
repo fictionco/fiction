@@ -36,8 +36,8 @@ const nav = vue.computed(() => {
 </script>
 
 <template>
-  <CardWrap :card>
-    <div class="z-20" :class="card.classes.value.contentWidth">
+  <CardWrap :card content-width="full" class="border-b border-theme-700">
+    <div class="z-20">
       <div class="x-header-container">
         <div class="relative">
           <nav class="" aria-label="Global">
@@ -51,7 +51,7 @@ const nav = vue.computed(() => {
                   <XLogoType
                     :logo="uc.brand?.logo"
                     :classes="{
-                      text: 'x-font-title text-2xl font-medium',
+                      text: 'x-font-title text-lg font-bold',
                     }"
                     :media-handling="{ height: 1.6 }"
                     class="transition-all group-hover:opacity-80 duration-200"
@@ -62,7 +62,7 @@ const nav = vue.computed(() => {
               </div>
 
               <div
-                class="hidden md:flex gap-x-4 items-center grow-0 pt-1"
+                class="hidden md:flex gap-x-4 items-center grow-0"
               >
                 <CardNavLink
                   v-for="(item, i) in nav.primary"
