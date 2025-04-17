@@ -31,7 +31,7 @@ To help with customization and fine-tuning, Fiction also integrates a growing li
 
 Stable Diffusion WebUI is an amazing tool that includes inpainting, outpainting, batching, and more but currently must be self-hosted or run via Python notebooks. Fiction is the first platform to integrate this tool into a no-code platform.
 
-"Before Fiction, working with AI was a very technical process. You needed to know how to code, and you needed to know how to use complicated tools like Python notebooks. When I started, I remember how frustrating it was debugging GPU libraries and Python dependencies. That's when it occured to me there was an opportunity to make this easier for people." said Fiction CEO Andrew Powers.
+"Before Fiction, working with AI was a very technical process. You needed to know how to code, and you needed to know how to use complicated tools like Python notebooks. When I started, I remember how frustrating it was debugging GPU libraries and Python dependencies. That's when it occurred to me there was an opportunity to make this easier for people." said Fiction CEO Andrew Powers.
 
 Unlike existing AI tools Fiction differentiates itself by procuring a dedicated GPU for every customer. This allows customers to work at their own pace, without worrying about quotas. The experience is also more reliable, as customers don't have to worry about other customers using up all the GPU time.
 
