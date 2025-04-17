@@ -96,12 +96,6 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
   }
 
   async toSite(settings: Omit<SiteSettings, 'themeId'>): Promise<Site> {
-    const { fictionSites, orgId } = settings
-    if (fictionSites && orgId) {
-      const r = await settings.fictionSites.settings.fictionUser?.requests.ManageOrganization.request({ _action: 'retrieve', where: { orgId } }, { caller: 'loadSiteFromTheme' })
-      if (r?.data?.orgId)
-        settings.org = r.data
-    }
     const site = await Site.create({ themeId: this.themeId, pages: [], sections: {}, ...settings }, { isNewSite: true })
 
     return site

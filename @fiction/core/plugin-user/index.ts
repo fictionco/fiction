@@ -215,37 +215,6 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     }
   }
 
-  // watchRouteUserChanges = async (): Promise<void> => {
-  //   console.log('watchRouteUserChanges')
-  //   if (!hasWindow())
-  //     return
-
-  //   await this?.pageInitialized()
-
-  //   vue.watch(
-  //     () => this.settings.fictionRouter?.current.value,
-  //     async (route) => {
-  //       if (!route)
-  //         return
-
-  //       const routeVars = { ...route.params, ...route.query } as Record<string, string | undefined>
-
-  //       const { _logout, orgId } = routeVars
-
-  //       if (_logout) {
-  //         // wait for a bit to allow for any other actions/redirects to complete
-  //         await waitFor(100)
-  //         await this?.logout({ caller: 'watchRouteUserChanges-logout-param' })
-  //         return
-  //       }
-
-  //       if (orgId)
-  //         await this.setNewActiveOrgId({ orgId, caller: 'routeOrgId' })
-  //     },
-  //     { immediate: true },
-  //   )
-  // }
-
   async ensureUserAndOrganization(args: { email: string, orgName: string, orgId?: string }): Promise<{ user: User, org: Organization }> {
     if (!isNode())
       throw new Error('ensureUserAndOrganization only available on server')

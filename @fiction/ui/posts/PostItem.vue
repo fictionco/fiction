@@ -82,7 +82,7 @@ const layoutClasses = vue.computed(() => {
   <article
     itemscope
     itemtype="https://schema.org/BlogPosting"
-    class="@container/post-item relative h-full group transition-opacity duration-300 text-theme-800 dark:text-theme-100 hover:opacity-95"
+    class="@container/post-item relative h-full group/post-item transition-opacity duration-300 text-theme-800 dark:text-theme-100 hover:opacity-95"
     :class="[
       layoutClasses.container,
     ]"
@@ -150,8 +150,11 @@ const layoutClasses = vue.computed(() => {
 
           <PostItemMeta
             :post="post"
-            :color-class="layoutClasses.meta"
-            text-size="text-xs @sm/post-item:text-sm"
+            :classes="{
+              color: layoutClasses.meta,
+              textSize: 'text-xs @sm/post-item:text-sm',
+              hoverOnly: 'opacity-0 group-hover/post-item:opacity-100',
+            }"
             :like-count="123"
             :comment-count="0"
           />
@@ -201,8 +204,11 @@ const layoutClasses = vue.computed(() => {
           <PostItemMeta
             :post="post"
             class="mt-3"
-            :color-class="layoutClasses.meta"
-            text-size="text-xs @sm/post-item:text-sm"
+            :classes="{
+              color: layoutClasses.meta,
+              textSize: 'text-xs @sm/post-item:text-sm',
+              hoverOnly: 'opacity-0 group-hover/post-item:opacity-100',
+            }"
             :like-count="123"
             :comment-count="23"
           />

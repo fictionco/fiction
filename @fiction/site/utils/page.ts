@@ -38,7 +38,7 @@ export function ensureStandardPages(args: { site?: Site, pages: Card[] }): Card[
       title: 'Post Archive',
       isSystem: true,
       isArchive: true,
-      cards: [{ templateId: 'cardBlogV1' }],
+      cards: [{ templateId: 'cardBlogV1', userConfig: { index: { sidebar: 'none', featuredCount: 0, imagePosition: 'right' } } }],
     }))
   }
 
@@ -104,7 +104,7 @@ export function getViewMap(args: { pages: Card[] }) {
   }
   const archiveCard = pages.find(p => p.settings.isArchive)
   if (archiveCard) {
-    cardMap.a = archiveCard.cardId
+    cardMap.archive = archiveCard.cardId
   }
 
   // Ensure 404 page exists

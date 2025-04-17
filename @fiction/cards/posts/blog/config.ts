@@ -9,6 +9,8 @@ export const schema = z.object({
   posts: PostHandlingSchema.optional().describe('Blog post configuration and handling'),
   index: z.object({
     featuredCount: z.number().optional().describe('Number of featured posts to display prominently'),
+    sidebar: z.enum(['left', 'right', 'none', '']).optional().describe('Sidebar position for the blog layout'),
+    imagePosition: z.enum(['left', 'right', 'top', 'cover', 'none']).optional().describe('Position of the image in the blog layout'),
   }).optional(),
 })
 

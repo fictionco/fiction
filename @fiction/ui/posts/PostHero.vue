@@ -42,7 +42,7 @@ const showMeta = vue.computed(() =>
 
 <template>
   <article
-    class="hero-post group relative rounded-xl overflow-hidden"
+    class="hero-post group/post-item relative rounded-xl overflow-hidden"
     :class="layout === 'split' ? 'h-auto md:h-[28rem]' : 'h-[24rem] md:h-[32rem]'"
   >
     <!-- Media background -->
@@ -65,8 +65,11 @@ const showMeta = vue.computed(() =>
         <PostItemMeta
           :post="post"
           class="mb-4"
-          color-class="text-white/75"
-          text-size="text-xs @sm/post-item:text-sm"
+          :classes="{
+            color: 'text-white/75',
+            hoverOnly: 'opacity-0 group-hover/post-item:opacity-100',
+            textSize: 'text-xs @sm/post-item:text-sm',
+          }"
           :like-count="123"
           :comment-count="23"
         />

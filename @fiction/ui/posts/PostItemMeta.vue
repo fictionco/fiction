@@ -9,12 +9,15 @@ defineOptions({ name: 'PostItemMeta' })
 
 const props = defineProps<{
   post: Post
-  colorClass?: string
-  textSize?: string
   items?: ('date' | 'readTime' | 'author' | 'like' | 'comment' | 'share')[]
   likeCount?: number
   commentCount?: number
   isLiked?: boolean
+  classes: {
+    color?: string
+    hoverOnly?: string
+    textSize?: string
+  }
 }>()
 
 const emit = defineEmits<{
@@ -25,7 +28,7 @@ const emit = defineEmits<{
 
 // Default to showing all items if not specified
 const displayItems = vue.computed(() =>
-  props.items || ['date', 'readTime', 'like', 'comment', 'share'],
+  props.items || ['date', 'readTime', 'author', 'like', 'comment', 'share'],
 )
 
 // Format the date nicely
@@ -43,8 +46,8 @@ const readTime = vue.computed(() => {
 const authors = vue.computed(() => props.post.authors?.value || [])
 
 // Default color and size classes if not provided
-const metaColorClass = vue.computed(() => props.colorClass || 'text-theme-400')
-const metaTextSize = vue.computed(() => props.textSize || 'text-xs @sm/post-item:text-sm')
+const metaColorClass = vue.computed(() => props.classes?.color || 'text-theme-400')
+const metaTextSize = vue.computed(() => props.classes?.textSize || 'text-xs @sm/post-item:text-sm')
 
 // Generate the meta items as NavListItem objects
 const metaItems = vue.computed(() => {
@@ -78,6 +81,7 @@ const metaItems = vue.computed(() => {
 
   if (displayItems.value.includes('like')) {
     items.push({
+      className: props.classes?.hoverOnly,
       label: props.likeCount ? String(props.likeCount) : '',
       icon: { class: props.isLiked ? 'i-tabler-heart-filled' : 'i-tabler-heart' },
       key: 'like',
@@ -87,6 +91,7 @@ const metaItems = vue.computed(() => {
 
   if (displayItems.value.includes('comment')) {
     items.push({
+      className: props.classes?.hoverOnly,
       label: props.commentCount ? String(props.commentCount) : '',
       icon: { class: 'i-tabler-message-circle-2' },
       key: 'comment',
@@ -96,6 +101,7 @@ const metaItems = vue.computed(() => {
 
   if (displayItems.value.includes('share')) {
     items.push({
+      className: props.classes?.hoverOnly,
       icon: { class: 'i-tabler-upload' },
       key: 'share',
       onClick: () => handleShare(),
@@ -138,10 +144,11 @@ function handleShare() {
     <button
       v-for="item in metaItems"
       :key="item.key"
-      class="flex items-center"
+      class="flex items-center transition-opacity"
       :class="[
         !!item.onClick ? 'cursor-pointer transition-colors hover:text-primary-400 focus:outline-none' : 'cursor-default',
         item.key === 'like' && isLiked ? 'text-primary-500' : '',
+        item.className,
       ]"
       @click.prevent="item.onClick && item.onClick({})"
     >

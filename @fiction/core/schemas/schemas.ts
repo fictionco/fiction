@@ -310,6 +310,7 @@ const BaseNavListItemSchema = z.object({
   description: z.string().optional().describe('Longer description or explanation of the item [@ai]'),
   info: z.string().optional().describe('Tertiary text, often used for metadata like "5 min read" or counts'),
   count: z.number().optional().describe('Numeric count or value associated with the item'),
+  className: z.string().optional().describe('Custom CSS class for styling the item'),
 
   // Visual
   media: MediaDisplaySchema.optional().describe('Media content shown with the item'),

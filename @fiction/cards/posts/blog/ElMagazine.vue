@@ -14,13 +14,14 @@ import CardWrap from '../../CardWrap.vue'
 const { card } = defineProps<{ card: Card<UserConfig> }>()
 const { fictionPosts } = useService<{ fictionPosts: FictionPosts }>()
 
+const uc = vue.computed(() => card.userConfig.value || {})
 const indexMeta = vue.ref<IndexMeta>({
   offset: 0,
-  limit: card.userConfig.value.posts?.limit || 12,
+  limit: uc.value.posts?.limit || 12,
   count: 0,
 })
 
-const uc = vue.computed(() => card.userConfig.value || {})
+const sortBy = vue.ref<'latest' | 'popular'>('latest')
 
 // Define function to fetch posts
 async function fetchPosts() {
@@ -50,27 +51,32 @@ const posts = vue.computed(() => {
   return postData.map((p: TablePostConfig) => new Post({ fictionPosts, card, ...p }))
 })
 
-const blogConfig = {
-  layout: 'blog',
-  featuredCount: 1,
-  sidebar: 'right',
-} as const
+const config = vue.computed(() => {
+  return {
+    layout: 'blog',
+    featuredCount: uc.value.index?.featuredCount ?? 1,
+    sidebar: uc.value.index?.sidebar || 'right',
+    imagePosition: uc.value.index?.imagePosition,
+  } as const
+})
 </script>
 
 <template>
   <CardWrap :card>
-    <PostIndexLayout
-      :class="card.classes.value.contentWidth"
-      :card
-      :posts
-      :index-meta="indexMeta"
-      :loading
-      :config="blogConfig"
-      @update:index-meta="indexMeta = $event"
-    >
-      <template #sidebar>
-        <XWidgetAbout :card />
-      </template>
-    </PostIndexLayout>
+    <div :class="card.classes.value.contentWidth">
+      <PostIndexLayout
+        v-model:sort-by="sortBy"
+        :card
+        :posts
+        :index-meta="indexMeta"
+        :loading
+        :config
+        @update:index-meta="indexMeta = $event"
+      >
+        <template #sidebar>
+          <XWidgetAbout :card />
+        </template>
+      </PostIndexLayout>
+    </div>
   </CardWrap>
 </template>

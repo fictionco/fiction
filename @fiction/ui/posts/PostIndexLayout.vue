@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from '@fiction/posts'
 import { vue } from '@fiction/core'
-import XButton from '@fiction/ui/buttons/XButton.vue'
 import PostHero from './PostHero.vue'
 import PostItem from './PostItem.vue'
 
@@ -10,6 +9,7 @@ defineOptions({ name: 'PostLayout' })
 const props = defineProps<{
   posts: Post[]
   loading?: boolean
+  sortBy?: 'latest' | 'popular'
   title?: string
   about?: {
     title: string
@@ -19,7 +19,12 @@ const props = defineProps<{
     layout?: 'magazine' | 'blog'
     featuredCount?: number
     sidebar?: 'left' | 'right' | 'none'
+    imagePosition?: 'top' | 'left' | 'right' | 'cover' | 'none'
   }
+}>()
+
+const emit = defineEmits<{
+  (e: 'update:sortBy', value: 'latest' | 'popular'): void
 }>()
 
 // Simple configuration with sensible defaults
@@ -27,6 +32,7 @@ const config = vue.computed(() => ({
   layout: props.config?.layout || 'blog',
   featuredCount: props.config?.featuredCount ?? 1,
   sidebar: props.config?.sidebar || 'right',
+  imagePosition: props.config?.imagePosition || (props.config?.layout === 'magazine' ? 'top' : 'left'),
 }))
 
 // Separate featured posts from regular content
@@ -57,17 +63,10 @@ const gridClasses = vue.computed(() => {
   }
   return ' divide-y divide-theme-700/50'
 })
-
-const imagePosition = vue.computed(() => {
-  if (config.value.layout === 'magazine') {
-    return 'top'
-  }
-  return 'left'
-})
 </script>
 
 <template>
-  <div class="post-layout  space-y-10" :class="config.sidebar === 'none' && config.layout === 'blog' ? 'max-w-3xl mx-auto' : ''">
+  <div class="post-layout  space-y-10" :class="config.sidebar === 'none' && config.layout === 'blog' ? 'max-w-2xl mx-auto' : ''">
     <!-- Featured Posts Section -->
     <div v-if="featuredPosts.length > 0" class="featured-posts space-y-12">
       <PostHero
@@ -90,22 +89,18 @@ const imagePosition = vue.computed(() => {
       <div class="w-full space-y-8 @container/post-list" :class="config.sidebar !== 'none' ? 'lg:w-2/3' : 'lg:w-full'">
         <!-- Post Tabs -->
         <div class="flex gap-4 items-center">
-          <XButton
-            theme="default"
-            design="link"
-            size="sm"
-            class="opacity-70"
+          <button
+            :class="!sortBy || sortBy === 'latest' ? 'cursor-default' : 'text-theme-500'"
+            @click="emit('update:sortBy', 'latest')"
           >
             Latest
-          </XButton>
-          <XButton
-            theme="default"
-            design="link"
-            size="sm"
-            class="opacity-40"
+          </button>
+          <button
+            :class="sortBy === 'popular' ? 'cursor-default' : 'text-theme-500'"
+            @click="emit('update:sortBy', 'popular')"
           >
             Popular
-          </XButton>
+          </button>
 
           <div class="h-px bg-theme-700/50 basis-0 grow" />
         </div>
@@ -115,7 +110,7 @@ const imagePosition = vue.computed(() => {
             v-for="post in regularPosts"
             :key="`post-${post.postId}`"
             :post="post"
-            :config="{ imagePosition }"
+            :config="{ imagePosition: config.imagePosition }"
             :class="[
               config.layout === 'blog' ? 'py-8' : '',
             ]"

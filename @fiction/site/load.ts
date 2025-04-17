@@ -1,4 +1,4 @@
-import type { FictionRouter, RunVars } from '@fiction/core'
+import type { FictionRouter, Organization, RunVars } from '@fiction/core'
 import type { ManageSiteParams } from './endpoint.js'
 import type { FictionSites, TableSiteConfig } from './index.js'
 import { log, toCamel } from '@fiction/core'
@@ -110,6 +110,13 @@ export async function loadSiteFromTheme(args: {
   const subDomain = `theme-${themeId}`
   const siteId = `${orgId}-${subDomain}`
 
+  let org: Organization | undefined = undefined
+  if (fictionSites && orgId && !org) {
+    const r = await fictionSites.settings.fictionUser?.requests.ManageOrganization.request({ _action: 'retrieve', where: { orgId } }, { caller: 'loadSiteFromTheme' })
+    if (r?.data?.orgId)
+      org = r.data
+  }
+
   if (!theme) {
     const msg = `${caller}: no theme found for themeId: ${themeId}`
     logger.error(msg, { data: { availableThemes: availableThemes.map(t => t.themeId) } })
@@ -124,6 +131,7 @@ export async function loadSiteFromTheme(args: {
     siteRouter,
     siteMode,
     isStatic: true,
+    org,
   })
 
   return site
