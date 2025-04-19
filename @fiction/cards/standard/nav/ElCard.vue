@@ -37,7 +37,7 @@ const nav = vue.computed(() => {
 </script>
 
 <template>
-  <CardWrap :card content-width="full" class="bg-theme-700/20">
+  <CardWrap :card content-width="full" class="">
     <div class="z-20">
       <div class="x-header-container">
         <div class="relative">

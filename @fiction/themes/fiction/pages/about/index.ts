@@ -41,7 +41,7 @@ export async function getAboutPage() {
             theme: 'red',
           },
           title: `“Where Do I Even Start?”`,
-          subTitle: `74% of professionals lack an online presence. Complex tools and endless options leave you stuck, wondering how to share your work without the headache.`,
+          subTitle: `74% of professionals lack an online presence. Complex tools and endless options make it hard.`,
 
           media: {
             format: 'url',
@@ -65,7 +65,7 @@ export async function getAboutPage() {
             theme: 'green',
           },
           title: `Effortless Branding for Busy Pros`,
-          subTitle: `Notice how peers with strong profiles land better opportunities? Fiction makes it simple for 21,000+ professionals to stand out without the tech overwhelm.`,
+          subTitle: `People with strong profiles land better opportunities. Fiction makes it simple to stand out without the headache.`,
 
           media: {
             format: 'url',
