@@ -36,13 +36,15 @@ export * from './types'
 export * from './utils/index.js'
 export * from './utils/links.js'
 
-const templates = [
-  cardTemplate({ templateId: 'tplManagePost', el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) }),
-  cardTemplate({ templateId: 'tplManagePostEdit', el: vue.defineAsyncComponent(() => import('./admin/PagePostEdit.vue')) }),
-  cardTemplate({ templateId: 'tplManagePostPreview', el: vue.defineAsyncComponent(() => import('./admin/ViewPreview.vue')) }),
-]
+function getTemplates() {
+  return [
+    cardTemplate({ templateId: 'tplManagePost', el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) }),
+    cardTemplate({ templateId: 'tplManagePostEdit', el: vue.defineAsyncComponent(() => import('./admin/PagePostEdit.vue')) }),
+    cardTemplate({ templateId: 'tplManagePostPreview', el: vue.defineAsyncComponent(() => import('./admin/ViewPreview.vue')) }),
+  ]
+}
 
-type PostAdminTemplates = AdminTemplates & typeof templates
+type PostAdminTemplates = AdminTemplates & ReturnType<typeof getTemplates>
 
 export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   widgets = getWidgets({ fictionPosts: this, ...this.settings })
@@ -94,7 +96,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
 
     fictionAdmin.addFeature({
       key: 'posts',
-      getTemplates: async () => templates,
+      getTemplates: async () => getTemplates(),
       getPages: async ({ factory }) => [
 
         cardConfig<PostAdminTemplates>({

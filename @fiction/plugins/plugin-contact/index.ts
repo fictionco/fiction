@@ -3,6 +3,8 @@ import type { dashTemplate } from '@fiction/admin/dashboard/templates'
 import type { FictionAnalytics } from '@fiction/analytics'
 import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
+import type { Site } from '@fiction/site'
+import type { Contact } from './schema'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import { getWidgets } from './admin/widgets'
@@ -99,5 +101,50 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
         }),
       ],
     })
+  }
+
+  async createSubscription(args: { email: string, tags?: string[], orgId: string }) {
+    const { email, tags, orgId } = args
+    const queryVars = { orgId, tags }
+    const r = await this.transactions.subscribe.requestSend({
+      to: email,
+      queryVars,
+    })
+
+    return r
+  }
+
+  // In class initialization
+  pendingRequests = new Map<string, Promise<any>>()
+
+  async getCurrentContact(args: { site: Site, userId?: string }): Promise<Contact | undefined> {
+    const { site, userId } = args
+
+    if (!userId)
+      return undefined
+
+    const orgId = site.settings.orgId
+    if (!orgId) {
+      return undefined
+    }
+
+    // Create a cache key
+    const cacheKey = `sub:${site.siteId}:${userId || ''}:${this.cacheKey.value}`
+
+    // Check for existing cached promise
+    if (this.pendingRequests.has(cacheKey))
+      return this.pendingRequests.get(cacheKey)
+
+    // Execute and cache the promise
+    const promise = (async () => {
+      const response = await this.requests.ManageContact.request({ _action: 'list', orgId, where: { userId }, limit: 1 })
+
+      const contact = response.data?.[0]
+
+      return contact
+    })()
+
+    this.pendingRequests.set(cacheKey, promise)
+    return promise
   }
 }

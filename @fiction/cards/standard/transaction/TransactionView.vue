@@ -13,8 +13,8 @@ const uc = vue.computed(() => props.card.userConfig.value)
 </script>
 
 <template>
-  <div class="auth-wrap relative flex overflow-hidden bg-white dark:bg-theme-1000 dark:text-theme-0">
-    <div
+  <div class="auth-wrap relative flex overflow-hidden bg-white dark:bg-theme-900 dark:text-theme-0">
+    <!-- <div
       class="relative hidden w-[38.2%] overflow-hidden bg-gradient-to-br from-primary-975/30 via-primary-975/20 to-primary-975/30 text-primary-0 border-r border-primary-950 lg:block"
     >
       <a class="relative z-20 p-8 block" :href="uc.homeUrl">
@@ -40,13 +40,13 @@ const uc = vue.computed(() => props.card.userConfig.value)
         :color2-scale="1000"
         :speed="500"
       />
-    </div>
+    </div> -->
     <div class="relative flex min-h-screen grow flex-col items-center shrink-0">
-      <div class="relative">
+      <div class="relative basis-0 grow">
         <div
           class="relative mx-auto flex items-center justify-between px-4 py-2 text-xs md:max-w-7xl"
         >
-          <div class="mt-2 text-center lg:hidden">
+          <div class="mt-2 text-center">
             <XMedia :media="uc.logo" class="h-6" />
           </div>
         </div>
@@ -64,6 +64,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
           </div>
         </div>
       </div>
+      <div class="basis-0 grow" />
     </div>
   </div>
 </template>

@@ -7,11 +7,8 @@ export async function getPages(args: ThemeConfigArgs) {
     cardConfig({
       slug: 'home',
       isHome: true,
-      cards: [
-        cardConfig({
-          templateId: 'cardBlogV1',
-        }),
-      ],
+      inNav: true,
+      cards: [cardConfig({ templateId: 'cardBlogV1' })],
     }),
   ]
 }

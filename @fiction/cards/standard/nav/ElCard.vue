@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { UserConfig } from './config'
 import CardNavLink from '@fiction/cards/CardNavLink.vue'
-import { useService, vue } from '@fiction/core'
+import { toLabel, useService, vue } from '@fiction/core'
 import XLogoType from '@fiction/ui/media/XLogoType.vue'
 import UserMenu from '@fiction/ui/nav/UserMenu.vue'
 import CardWrap from '../../CardWrap.vue'
@@ -17,9 +18,9 @@ const uc = vue.computed(() => card.userConfig.value || {})
 // Process navigation items for both primary and utility nav
 const nav = vue.computed(() => {
   const siteRouter = card.site?.siteRouter
-  const pages = card.site?.pages.value.filter(p => p.inNav.value).map(page => ({
-    label: page.title.value || page.slug.value,
-    href: `/${page.slug.value}`,
+  const pages: NavListItem[] = card.site?.pages.value.filter(p => p.inNav.value).map(page => ({
+    label: page.title.value || toLabel(page.slug.value),
+    href: `/${page.isHome.value ? '' : page.slug.value}`,
   })) || []
 
   const out = {
@@ -36,7 +37,7 @@ const nav = vue.computed(() => {
 </script>
 
 <template>
-  <CardWrap :card content-width="full" class="border-b border-theme-700">
+  <CardWrap :card content-width="full" class="bg-theme-700/20">
     <div class="z-20">
       <div class="x-header-container">
         <div class="relative">
@@ -64,15 +65,18 @@ const nav = vue.computed(() => {
               <div
                 class="hidden md:flex gap-x-4 items-center grow-0"
               >
-                <CardNavLink
+                <CardLink
                   v-for="(item, i) in nav.primary"
                   :key="i"
                   :card
-                  :item
-                  class="py-1 px-3 text-sm font-sans font-medium inline-flex items-center rounded-lg"
-                  :depth="0"
-                  hover-effect="underline"
-                />
+                  :href="item.href"
+                  class="py-1 px-4 text-sm font-sans inline-flex items-center rounded-lg  transition-all duration-200 font-medium"
+                  :class="[
+                    item.isActive ? 'bg-theme-700 text-theme-0' : 'hover:bg-theme-700 text-theme-200 hover:text-theme-0',
+                  ]"
+                >
+                  {{ item.label }}
+                </CardLink>
               </div>
 
               <!-- Utility Navigation -->

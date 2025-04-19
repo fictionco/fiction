@@ -4,11 +4,12 @@ import type { FictionAnalytics } from '@fiction/analytics/index.js'
 import type { FictionApp, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionPluginSettings, FictionRevision, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionAi } from '@fiction/plugin-ai'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
+import type { FictionContact } from '@fiction/plugins/plugin-contact/index.js'
 import type { Site } from './site.js'
 import type { TableSiteConfig } from './tables.js'
 import { initializeClientTag } from '@fiction/analytics/tag/entry.js'
 import { cardConfig } from '@fiction/cards/index.js'
-import { crossVar, FictionPlugin, getAnonymousId, isNode, safeDirname, vue } from '@fiction/core'
+import { FictionPlugin, getAnonymousId, isNode, safeDirname, vue } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import { cardTemplate } from './card.js'
 import { CardQueryHandler } from './cardQuery.js'
@@ -38,6 +39,7 @@ export type SitesPluginSettings = {
   fictionApp: FictionApp
   fictionRouter: FictionRouter
   fictionAdmin: FictionAdmin
+  fictionContact?: FictionContact
   fictionMonitor?: FictionMonitor
   fictionAi?: FictionAi
   fictionAnalytics?: FictionAnalytics
@@ -50,12 +52,14 @@ export type SitesPluginSettings = {
   themes: () => Promise<Theme[]>
 } & FictionPluginSettings
 
-const templates = [
-  cardTemplate({ templateId: 'tplManageSite', el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) }),
-  cardTemplate({ templateId: 'tplSiteEditor', el: vue.defineAsyncComponent(() => import('./plugin-builder/SiteEditor.vue')) }),
-]
+function getTemplates() {
+  return [
+    cardTemplate({ templateId: 'tplManageSite', el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) }),
+    cardTemplate({ templateId: 'tplSiteEditor', el: vue.defineAsyncComponent(() => import('./plugin-builder/SiteEditor.vue')) }),
+  ]
+}
 
-type SiteAdminTemplates = AdminTemplates & typeof templates
+type SiteAdminTemplates = AdminTemplates & ReturnType<typeof getTemplates>
 
 export class FictionSites extends FictionPlugin<SitesPluginSettings> {
   adminBaseRoute = this.settings.adminBaseRoute || '/admin'
@@ -107,7 +111,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
 
     this.settings.fictionAdmin.addFeature({
       key: 'sites',
-      getTemplates: async () => templates,
+      getTemplates: async () => getTemplates(),
       getPages: async () => [
         cardConfig<SiteAdminTemplates>({
           templateId: 'dash',

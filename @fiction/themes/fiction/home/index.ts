@@ -38,7 +38,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                     icon: { class: 'i-tabler-rocket' },
                   },
                   title: `Own Your [@text_effect type=squiggle]Story[/@text_effect].`,
-                  subTitle: `The digital presence platform that turns leaders into influencers.`,
+                  subTitle: `Create a professional website, newsletter and more for your personal brand.`,
 
                   action: {
                     buttons: [

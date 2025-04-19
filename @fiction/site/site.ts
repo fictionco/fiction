@@ -1,4 +1,5 @@
 import type { FictionRouter, FontFamily } from '@fiction/core'
+import type { Contact } from '@fiction/plugins/plugin-contact/schema.js'
 import type { Card, CardTemplate } from './card.js'
 import type { FictionSites, ThemeConfig } from './index.js'
 import type { SiteMode } from './load.js'
@@ -67,11 +68,12 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       return
     }
 
+    const fictionUser = this.fictionSites.settings.fictionUser
+
     const queryVarHooks: QueryVarHook[] = [
       {
         key: '_logout',
         callback: async () => {
-          const fictionUser = this.fictionSites.settings.fictionUser
           await waitFor(100)
           await fictionUser?.logout({ caller: 'watchRouteUserChanges-logout-param' })
         },
@@ -80,7 +82,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
         key: '_token',
         callback: async (args: { site: Site, value: string }) => {
           const { value } = args
-          const fictionUser = this.fictionSites.settings.fictionUser
           if (value) {
             await fictionUser?.setCurrentUser({ token: value, reason: 'watchRouteUserChanges-token-param' })
           }
@@ -97,6 +98,18 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
         const [tool] = c
         this.editorController.hideToolDrawers.value = tool ? 'right' : ''
       }, { immediate: true })
+    }
+
+    if (this.siteMode.value === 'standard') {
+      vue.watch(
+        () => fictionUser?.activeUser.value?.userId,
+        (userId) => {
+          if (userId) {
+            this.setActiveContact({ userId })
+          }
+        },
+        { immediate: true },
+      )
     }
   }
 
@@ -376,5 +389,13 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     Object.values(this.sections.value).forEach(s => s.cleanup())
     this.pages.value = []
     this.sections.value = {}
+  }
+
+  activeContact = vue.ref<Contact | undefined>()
+
+  async setActiveContact(args: { userId?: string }) {
+    const { userId } = args
+    const contact = await this.fictionSites.settings.fictionContact?.getCurrentContact({ site: this, userId })
+    this.activeContact.value = contact
   }
 }

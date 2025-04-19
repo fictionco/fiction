@@ -5,8 +5,9 @@ import { useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
+import XButton from '../buttons/XButton.vue'
 import NavMobile from './NavMobile.vue'
-import { getFictionNavItems } from './navUtils'
+import { getFictionAuthUrl, getFictionNavItems } from './navUtils'
 
 defineOptions({ name: 'UserMenu' })
 
@@ -17,8 +18,25 @@ const mobileMenuVisible = vue.ref(false)
 </script>
 
 <template>
-  <div class="flex items-center relative h">
+  <div class="flex items-center relative gap-4">
+    <XButton
+      v-if="card.site?.activeContact.value?.status !== 'active'"
+      theme="primary"
+
+      icon-after="i-tabler-arrow-up-right"
+      href="?_subscribe=1"
+    >
+      Subscribe
+    </XButton>
+    <XButton
+      v-if="!user"
+      class="hidden md:block"
+      :href="getFictionAuthUrl({ fictionEnv, site: card.site })"
+    >
+      Sign In
+    </XButton>
     <XDropDown
+      v-else
       :site="card.site"
       dropdown-alignment="end"
       mode="click"
@@ -32,7 +50,7 @@ const mobileMenuVisible = vue.ref(false)
         >
           <div>
             <ElAvatar
-              class="size-9"
+              class="size-8"
               :user="user"
             />
           </div>
@@ -49,7 +67,7 @@ const mobileMenuVisible = vue.ref(false)
       <template #default="{ isActive }">
         <div class="flex items-center relative hover:opacity-80 active:opacity-50">
           <ElAvatar
-            class="size-9 mr-1.5"
+            class="size-8 mr-1.5"
             :user="user"
           />
           <div

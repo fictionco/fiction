@@ -85,7 +85,5 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <TransactionWrap
-    v-bind="content"
-  />
+  <TransactionWrap v-bind="content" />
 </template>

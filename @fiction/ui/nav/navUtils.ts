@@ -1,7 +1,8 @@
 import type { FictionEnv, FictionUser } from '@fiction/core'
+import type { Site } from '@fiction/site'
 
-export function getFictionNavItems(args: { fictionEnv: FictionEnv, fictionUser: FictionUser }) {
-  const { fictionEnv, fictionUser } = args
+export function getFictionNavItems(args: { fictionEnv: FictionEnv, fictionUser: FictionUser, site?: Site }) {
+  const { fictionEnv, fictionUser, site } = args
   const baseUrl = fictionEnv.isProd.value ? 'https://www.fiction.com' : 'http://localhost:4444'
   const isLoggedIn = fictionUser.activeUser.value
   return isLoggedIn
@@ -11,16 +12,18 @@ export function getFictionNavItems(args: { fictionEnv: FictionEnv, fictionUser: 
         { label: 'Sign Out', href: '/?_logout=1', icon: { class: 'i-tabler-arrow-down-left' } },
       ]
     : [
-        { label: 'Sign In', href: getFictionAuthUrl({ fictionEnv }), icon: { class: 'i-tabler-arrow-up-right' } },
+        { label: 'Sign In', href: getFictionAuthUrl({ fictionEnv, site }), icon: { class: 'i-tabler-arrow-up-right' } },
       ]
 }
 
-export function getFictionAuthUrl(args: { fictionEnv: FictionEnv }) {
-  const { fictionEnv } = args
+export function getFictionAuthUrl(args: { fictionEnv: FictionEnv, site?: Site }) {
+  const { fictionEnv, site } = args
   const baseUrl = fictionEnv.isProd.value ? 'https://www.fiction.com' : 'http://localhost:4444'
   const currentUrl = typeof window !== 'undefined' ? window.location.href : ''
   const urlEncodedCurrentUrl = encodeURIComponent(currentUrl)
-  return `${baseUrl}/app/auth?redirect=${urlEncodedCurrentUrl}`
+  const handle = site?.org.value?.handle
+  const h = handle ? `&h=${handle}` : ''
+  return `${baseUrl}/app/auth?redirect=${urlEncodedCurrentUrl}${h}`
 }
 
 export function openAuthPopup(args: { fictionUser: FictionUser, fictionEnv: FictionEnv }) {

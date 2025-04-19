@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { Post } from '@fiction/posts'
 import { vue } from '@fiction/core'
+import ElSpinner from '../loaders/ElSpinner.vue'
 import PostHero from './PostHero.vue'
 import PostItem from './PostItem.vue'
 
@@ -67,69 +68,71 @@ const gridClasses = vue.computed(() => {
 
 <template>
   <div class="post-layout  space-y-10" :class="config.sidebar === 'none' && config.layout === 'blog' ? 'max-w-2xl mx-auto' : ''">
-    <!-- Featured Posts Section -->
-    <div v-if="featuredPosts.length > 0" class="featured-posts space-y-12">
-      <PostHero
-        v-for="post in featuredPosts"
-        :key="`featured-${post.postId}`"
-        :post="post"
-        layout="cover"
-        :config="{
-          showExcerpt: true,
-          showAuthors: true,
-          showDate: true,
-          showReadTime: true,
-        }"
-      />
+    <div v-if="loading" class="flex items-center justify-center p-12">
+      <ElSpinner class="size-8 text-theme-600" />
     </div>
-
-    <!-- Main Content Area with Optional Sidebar -->
-    <div class="post-content-area flex flex-col lg:flex-row gap-12 " :class="config.sidebar === 'left' ? 'lg:flex-row-reverse' : ''">
-      <!-- Main Posts Grid -->
-      <div class="w-full space-y-8 @container/post-list" :class="config.sidebar !== 'none' ? 'lg:w-2/3' : 'lg:w-full'">
-        <!-- Post Tabs -->
-        <div class="flex gap-4 items-center">
-          <button
-            :class="!sortBy || sortBy === 'latest' ? 'cursor-default' : 'text-theme-500'"
-            @click="emit('update:sortBy', 'latest')"
-          >
-            Latest
-          </button>
-          <button
-            :class="sortBy === 'popular' ? 'cursor-default' : 'text-theme-500'"
-            @click="emit('update:sortBy', 'popular')"
-          >
-            Popular
-          </button>
-
-          <div class="h-px bg-theme-700/50 basis-0 grow" />
-        </div>
-
-        <div v-if="regularPosts.length > 0" class="grid" :class="gridClasses">
-          <PostItem
-            v-for="post in regularPosts"
-            :key="`post-${post.postId}`"
-            :post="post"
-            :config="{ imagePosition: config.imagePosition }"
-            :class="[
-              config.layout === 'blog' ? 'py-8' : '',
-            ]"
-          />
-        </div>
-        <div v-else-if="!loading && featuredPosts.length === 0" class="text-center py-12">
-          <p class="text-theme-500 dark:text-theme-400 text-lg">
-            No posts available
-          </p>
-        </div>
-        <div v-else-if="loading" class="animate-pulse space-y-8 py-8">
-          <div v-for="i in 3" :key="i" class="h-48 bg-theme-200 dark:bg-theme-700 rounded-lg" />
-        </div>
+    <template v-else>
+      <!-- Featured Posts Section -->
+      <div v-if="featuredPosts.length > 0" class="featured-posts space-y-12">
+        <PostHero
+          v-for="post in featuredPosts"
+          :key="`featured-${post.postId}`"
+          :post="post"
+          layout="cover"
+          :config="{
+            showExcerpt: true,
+            showAuthors: true,
+            showDate: true,
+            showReadTime: true,
+          }"
+        />
       </div>
 
-      <!-- Sidebar - Using slots for widgets -->
-      <aside v-if="config.sidebar !== 'none'" class="w-full lg:w-1/3 pt-8 lg:pt-0">
-        <slot name="sidebar" />
-      </aside>
-    </div>
+      <!-- Main Content Area with Optional Sidebar -->
+      <div class="post-content-area flex flex-col lg:flex-row gap-12 " :class="config.sidebar === 'left' ? 'lg:flex-row-reverse' : ''">
+        <!-- Main Posts Grid -->
+        <div class="w-full space-y-8 @container/post-list grow" :class="config.sidebar !== 'none' ? 'lg:w-3/4' : 'lg:w-full'">
+          <!-- Post Tabs -->
+          <div class="flex gap-4 items-center">
+            <button
+              :class="!sortBy || sortBy === 'latest' ? 'cursor-default' : 'text-theme-500'"
+              @click="emit('update:sortBy', 'latest')"
+            >
+              Latest
+            </button>
+            <button
+              :class="sortBy === 'popular' ? 'cursor-default' : 'text-theme-500'"
+              @click="emit('update:sortBy', 'popular')"
+            >
+              Popular
+            </button>
+
+            <div class="h-px bg-theme-700/50 basis-0 grow" />
+          </div>
+
+          <div v-if="regularPosts.length > 0" class="grid" :class="gridClasses">
+            <PostItem
+              v-for="post in regularPosts"
+              :key="`post-${post.postId}`"
+              :post="post"
+              :config="{ imagePosition: config.imagePosition }"
+              :class="[
+                config.layout === 'blog' ? 'py-8' : '',
+              ]"
+            />
+          </div>
+          <div v-else-if="!loading && featuredPosts.length === 0" class="text-center py-12">
+            <p class="text-theme-500 dark:text-theme-400 text-lg">
+              No posts available
+            </p>
+          </div>
+        </div>
+
+        <!-- Sidebar - Using slots for widgets -->
+        <aside v-if="config.sidebar !== 'none'" class="w-full lg:w-[300px] pt-8 lg:pt-0">
+          <slot name="sidebar" />
+        </aside>
+      </div>
+    </template>
   </div>
 </template>

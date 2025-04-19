@@ -50,8 +50,8 @@ async function createSubscription() {
     if (r?.status === 'success') {
       service.fictionEnv.events.emit('notify', {
         type: 'success',
-        message: 'Successfully Subscribed',
-        more: 'Check your email to confirm.',
+        message: 'Success!',
+        more: 'Please confirm via email.',
       })
       emit('update:subscribed', email.value)
       showConfirmModal.value = true

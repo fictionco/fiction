@@ -19,7 +19,7 @@ defineProps({
 
 .cardList-enter-from {
   opacity: 0;
-  transform: translateY(-200px) scale(0.8);
+  transform: translateY(-100px) scale(0.9);
 }
 
 .cardList-enter-to {

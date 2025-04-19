@@ -12,26 +12,40 @@ const { card } = defineProps<{
 const org = vue.computed(() => {
   return card.site?.org.value
 })
+
+const headline = vue.computed(() => {
+  return org.value?.headline || `Welcome`
+})
+
+const about = vue.computed(() => {
+  return org.value?.about || `Welcome! Check out our latest posts and updates.`
+})
 </script>
 
 <template>
   <SidebarWidget title="About">
-    <div class="space-y-4 @container/about">
+    <div class="space-y-6 @container/about">
       <div v-if="org?.orgName" class="flex items-center gap-4">
         <ElAvatar v-if="org.avatar?.url" class="size-14" :org />
         <div class="space-y-0.5">
-          <div class="font-bold text-base">
+          <div class="font-bold text-lg">
             {{ org?.orgName || '' }}
           </div>
           <div class="text-base text-theme-500 dark:text-theme-400">
-            {{ org?.headline || 'Author' }}
+            {{ headline }}
           </div>
         </div>
       </div>
-      <p v-if="org?.about" class="text-theme-600 dark:text-theme-300 text-sm line-clamp-5">
-        {{ org?.about }}
+      <p class="text-theme-600 dark:text-theme-300 text-sm line-clamp-5">
+        {{ about }}
       </p>
-      <XButton theme="primary" design="outline" size="md" href="#" icon-after="i-tabler-arrow-up-right">
+      <XButton
+        theme="primary"
+        design="outline"
+        size="md"
+        icon-after="i-tabler-arrow-up-right"
+        href="?_subscribe=1"
+      >
         Subscribe
       </XButton>
     </div>

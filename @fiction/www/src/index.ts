@@ -180,19 +180,20 @@ const fictionStripe = new FictionStripe({
   customerPortalUrl: `https://billing.stripe.com/p/login/fZedS66gTaiegww7ss`,
   products: getStripeProductConfig(),
 })
-
+const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
 const fictionAdmin = new FictionAdmin({ ...basicService, fictionTransactions, fictionMedia })
 
 const s = { ...basicService, fictionAppSites, fictionStripe, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionTransactions, fictionAdmin }
 
 const themes = async () => getThemes({ ...s, fictionStripe })
 
-const fictionSites = new FictionSites({ ...s, fictionAnalytics, fictionAppSites, fictionRouterSites, flyApiToken, flyAppId: 'fiction-gateway', adminBaseRoute: '/admin', themes })
-const fictionCards = new FictionCards({ ...s, fictionSites })
-const fictionTeam = new FictionTeam({ ...s })
-const fictionForms = new FictionForms({ ...s, fictionSites })
-const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
 const fictionContact = new FictionContact(s)
+const fictionTeam = new FictionTeam({ ...s })
+
+const fictionSites = new FictionSites({ ...s, fictionContact, fictionAnalytics, fictionAppSites, fictionRouterSites, flyApiToken, flyAppId: 'fiction-gateway', adminBaseRoute: '/admin', themes })
+const fictionCards = new FictionCards({ ...s, fictionSites })
+const fictionForms = new FictionForms({ ...s, fictionSites })
+
 const fictionPosts = new FictionPosts({ fictionContact, fictionSites, ...s })
 
 const baseService = { ...s, fictionForms, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionContact, fictionPosts }

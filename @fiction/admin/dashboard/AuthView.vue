@@ -512,7 +512,7 @@ const isCodeConfirmState = vue.computed(() => ['verify-email', 'email-link-sent'
 
 <template>
   <TransactionView :card :quote>
-    <TransactionWrap v-bind="screenConfig">
+    <TransactionWrap v-bind="{ logo: card.userConfig.value.logo, ...screenConfig }">
       <ElForm
         class="space-y-5"
         data-test-id="form"
@@ -714,7 +714,7 @@ const isCodeConfirmState = vue.computed(() => ['verify-email', 'email-link-sent'
                 </XButton>
               </div>
 
-              <div v-if="['welcome'].includes(authState)" class="leading-normal text-xs px-4 text-pretty">
+              <div v-if="['welcome'].includes(authState)" class="leading-normal text-xs px-4 text-pretty text-theme-500">
                 By continuing, you agree to the
                 <a class="underline hover:text-theme-600 dark:hover:text-theme-300" :href="termsUrl" target="_blank">Terms</a>
                 and

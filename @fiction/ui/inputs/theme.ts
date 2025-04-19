@@ -134,7 +134,7 @@ export function inputClasses(args: { uiSize?: StandardSize }) {
       'dark:focus-within:ring-2',
     ],
     bg: ['bg-theme-50', 'dark:bg-theme-800/50'],
-    border: ['ring-theme-300', 'dark:ring-theme-600/70'],
+    border: ['ring-theme-300', 'dark:ring-theme-600'],
     focus: [
       'focus:ring-primary-700',
       'focus:bg-theme-50/50',

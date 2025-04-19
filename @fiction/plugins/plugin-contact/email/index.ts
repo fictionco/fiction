@@ -10,7 +10,7 @@ export function getEmails(args: { fictionContact: FictionContact }) {
   const fictionUser = fictionContact.settings.fictionUser
 
   const subscribe = new EmailAction<{
-    transactionArgs: { userId: string, code?: string, where: { orgId: string } }
+    transactionArgs: { userId: string, code?: string, where: { orgId: string }, tags?: string[] }
     transactionResponse: EndpointResponse<Contact>
     queryVars: { orgId: string, orgName?: string, orgEmail?: string }
   }>({
@@ -36,7 +36,7 @@ export function getEmails(args: { fictionContact: FictionContact }) {
 
       return {
         emailVars,
-        subject: `${senderName}: Please Confirm ✅`,
+        subject: `${senderName}: Confirm your subscription`,
         title: 'Confirm Your Subscription',
         subTitle: 'Just click to complete',
         content: `Click the button to confirm you'd like to follow <strong>${senderName}</strong>.`,
@@ -51,17 +51,18 @@ export function getEmails(args: { fictionContact: FictionContact }) {
       } satisfies EmailConfigResponse
     },
     serverTransaction: async (args, meta: EndpointMeta) => {
-      const { where, userId, code } = args
+      const { where, userId, code, tags } = args
 
       if (!code) {
         throw new Error('Missing code')
       }
 
       const orgId = where.orgId
+      const caller = 'subscribeServerTransaction'
 
-      await fictionUser.queries.ManageUser.serve({ _action: 'verifyEmail', code, email: userId }, { ...meta, caller: 'subscribeServerTransactionVerifyEmail', server: true })
+      await fictionUser.queries.ManageUser.serve({ _action: 'verifyEmail', code, email: userId }, { ...meta, caller, server: true })
 
-      const r = await fictionContact.queries.ManageContact.serve({ _action: 'create', orgId, contact: { userId } }, { ...meta, caller: 'subscribeServerTransactionCreate', server: true })
+      const r = await fictionContact.queries.ManageContact.serve({ _action: 'create', orgId, contact: { userId, tags } }, { ...meta, caller, server: true })
 
       const sub = r.data?.[0]
 

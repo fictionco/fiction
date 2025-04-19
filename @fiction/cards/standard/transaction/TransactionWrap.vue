@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-import type { ActionButton, SuperTitle } from '@fiction/core'
+import type { ActionButton, MediaObject, SuperTitle } from '@fiction/core'
 import { vue } from '@fiction/core'
 import XText from '@fiction/ui/common/XText.vue'
 import InputActionList from '@fiction/ui/inputs/InputActionList.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 
 const props = defineProps({
   loading: { type: Boolean, default: false },
   icon: { type: String, default: '' },
+  media: { type: Object as vue.PropType<MediaObject>, default: undefined },
   superTitle: { type: Object as vue.PropType<SuperTitle>, default: () => {} },
   title: { type: String, default: '' },
   subTitle: { type: String, default: '' },
