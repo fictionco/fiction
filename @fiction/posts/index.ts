@@ -9,6 +9,7 @@ import { cardConfig } from '@fiction/cards'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site'
 import { QueryManagePost } from './endpoint'
+import { QueryPostComments, QueryPostLikes } from './endpointMeta'
 import { FictionPublish } from './publish'
 import { getRoutes } from './routes'
 import { tables } from './schema'
@@ -50,6 +51,8 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   widgets = getWidgets({ fictionPosts: this, ...this.settings })
   queries = {
     ManagePost: new QueryManagePost({ fictionPosts: this, ...this.settings }),
+    PostComments: new QueryPostComments({ fictionPosts: this, ...this.settings }),
+    PostLikes: new QueryPostLikes({ fictionPosts: this, ...this.settings }),
   }
 
   requests = this.createRequests({

@@ -1,18 +1,19 @@
 <script lang="ts" setup>
+import type { FictionAdmin } from '@fiction/admin'
 import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import { getFictionAuthUrl, getFictionNavItems } from '@fiction/admin'
 import { useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import XButton from '../buttons/XButton.vue'
 import NavMobile from './NavMobile.vue'
-import { getFictionAuthUrl, getFictionNavItems } from './navUtils'
 
 defineOptions({ name: 'UserMenu' })
 
 const { card, nav } = defineProps<{ card: Card, nav?: NavListItem[] }>()
-const { fictionUser, fictionEnv } = useService()
+const { fictionUser, fictionAdmin } = useService<{ fictionAdmin: FictionAdmin }>()
 const user = vue.computed(() => fictionUser.activeUser?.value)
 const mobileMenuVisible = vue.ref(false)
 </script>
@@ -31,7 +32,7 @@ const mobileMenuVisible = vue.ref(false)
     <XButton
       v-if="!user"
       class="hidden md:block"
-      :href="getFictionAuthUrl({ fictionEnv, site: card.site })"
+      :href="getFictionAuthUrl({ fictionAdmin, site: card.site })"
     >
       Sign In
     </XButton>
@@ -42,7 +43,7 @@ const mobileMenuVisible = vue.ref(false)
       mode="click"
       class="pointer-events-none md:pointer-events-auto "
       :classes="{ width: 'w-64' }"
-      :items="getFictionNavItems({ fictionEnv, fictionUser })"
+      :items="getFictionNavItems({ fictionAdmin, fictionUser })"
     >
       <template #top>
         <div

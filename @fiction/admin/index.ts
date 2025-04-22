@@ -13,7 +13,6 @@ import type { Card, CardTemplate, TableCardConfig } from '@fiction/site/index.js
 import type { dashTemplate } from './dashboard/templates.js'
 import type { Widget } from './dashboard/widget.js'
 import type { WidgetLocation } from './types.js'
-import { cardConfig } from '@fiction/cards/index.js'
 import { envConfig } from '@fiction/core'
 import { FictionPlugin } from '@fiction/core/plugin.js'
 import { safeDirname, vue } from '@fiction/core/utils'
@@ -24,6 +23,7 @@ import { getWidgets } from './widgets/widgets'
 
 export * from './tools/tools.js'
 export * from './types.js'
+export * from './utils/index.js'
 
 envConfig.register({ name: 'ADMIN_UI_ROOT', onLoad: ({ fictionEnv }) => { fictionEnv.addUiRoot(safeDirname(import.meta.url)) } })
 
@@ -49,6 +49,15 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
     super('FictionAdmin', { root: safeDirname(import.meta.url), ...settings })
 
     this.admin()
+  }
+
+  urls() {
+    const appUrl = this.settings.fictionApp.appUrl.value
+    return {
+      auth: `${appUrl}/app/auth`,
+      dashboard: `${appUrl}/app`,
+      settings: `${appUrl}/app/settings`,
+    }
   }
 
   admin() {

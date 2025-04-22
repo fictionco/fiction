@@ -45,7 +45,7 @@ const icon = `<svg
         theme="primary"
         :icon="{ format: 'html', html: icon }"
       >
-        Share Your Story
+        Tell Your Story
       </XButton>
       <div class="flex gap-2 items-center font-sans text-theme-400">
         <a
@@ -55,7 +55,7 @@ const icon = `<svg
         <p
           class="text-sm"
         >
-          The Leadership Platform
+          Portfolio Platform
         </p>
       </div>
     </div>

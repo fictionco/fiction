@@ -1,11 +1,12 @@
 <script lang="ts" setup>
+import type { FictionAdmin } from '@fiction/admin'
 import type { NavListItem } from '@fiction/core'
+import { getFictionAuthUrl, getFictionNavItems } from '@fiction/admin'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElAvatar from '../common/ElAvatar.vue'
 import NavMobileItem from './NavMobileItem.vue'
 import NavMobilePanel from './NavMobilePanel.vue'
-import { getFictionAuthUrl, getFictionNavItems } from './navUtils'
 
 defineOptions({
   name: 'NavMobile',
@@ -20,9 +21,9 @@ const emit = defineEmits<{
   (event: 'update:vis', payload: boolean): void
 }>()
 
-const { fictionUser, fictionEnv } = useService()
+const { fictionUser, fictionAdmin } = useService<{ fictionAdmin: FictionAdmin }>()
 const user = vue.computed(() => fictionUser.activeUser?.value)
-const navItems = vue.computed(() => getFictionNavItems({ fictionEnv, fictionUser }))
+const navItems = vue.computed(() => getFictionNavItems({ fictionAdmin, fictionUser }))
 
 const legalItems = vue.computed(() => [
   { label: 'About', href: 'https://www.fiction.com/about' },
@@ -90,7 +91,7 @@ const legalItems = vue.computed(() => [
               size="md"
               icon-after="i-tabler-arrow-right"
               data-test-id="mobile-sign-in-button"
-              :href="getFictionAuthUrl({ fictionEnv })"
+              :href="getFictionAuthUrl({ fictionAdmin })"
             >
               Sign In
             </XButton>

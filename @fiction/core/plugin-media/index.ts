@@ -129,7 +129,7 @@ export class FictionMedia extends FictionPlugin<FictionMediaSettings> {
   }
 
   async relativeMedia(args: { url: string, orgId?: string, userId?: string }): Promise<TableMediaConfig> {
-    const orgId = args.orgId
+    const orgId = args.orgId || this.settings.fictionEnv?.meta.app?.orgId
     return relativeMedia({ fictionMedia: this, cache: this.cache, orgId, ...args })
   }
 }

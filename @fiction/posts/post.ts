@@ -5,6 +5,7 @@ import { FictionObject, objectId, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save'
 import { postLink } from '.'
 import { managePost } from './utils'
+import { PostLike } from './utils/like'
 
 export type PostConfig = {
   fictionPosts?: FictionPosts
@@ -31,7 +32,6 @@ export class Post extends FictionObject<PostConfig> {
   tags = vue.ref(this.settings.tags || [])
   categories = vue.ref(this.settings.categories || [])
   authors = vue.ref(this.settings.authors || [])
-  sites = vue.shallowRef(this.settings.sites || [])
   dateAt = vue.ref(this.settings.dateAt || new Date().toISOString())
   userConfig = vue.ref(this.settings.userConfig || {})
   sender = vue.ref(this.settings.sender || {})
@@ -65,6 +65,8 @@ export class Post extends FictionObject<PostConfig> {
   })
 
   previewPath = vue.computed(() => this.card?.link({ path: `/preview-post/${this.postId}` }))
+
+  like = new PostLike(this)
 
   constructor(settings: PostConfig) {
     super('Post', settings)
@@ -180,7 +182,6 @@ export class Post extends FictionObject<PostConfig> {
       tags: this.tags.value,
       categories: this.categories.value,
       authors: this.authors.value,
-      sites: this.sites.value,
       wordCount: this.wordCount.value,
     }
   }
@@ -189,4 +190,21 @@ export class Post extends FictionObject<PostConfig> {
     get: () => this.toConfig(),
     set: (value: TablePostConfig) => this.update(value, { noSave: false, caller: 'config' }),
   })
+
+  copyLinkToClipboard() {
+    // Get the current URL for sharing
+    const url = typeof window !== 'undefined'
+      ? window.location.origin + this.href.value
+      : this.href.value
+
+    // Copy to clipboard
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(url)
+      this.settings.fictionPosts?.fictionEnv.events.emit('notify', {
+        type: 'success',
+        message: 'Link copied to clipboard',
+        duration: 2000,
+      })
+    }
+  }
 }

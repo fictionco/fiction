@@ -27,13 +27,12 @@ const userConfig = vue.computed(() => props.card.userConfig.value)
 const termsUrl = vue.computed(() => userConfig.value.termsUrl || fictionEnv.meta.app?.termsUrl)
 const privacyUrl = vue.computed(() => userConfig.value.privacyUrl || fictionEnv.meta.app?.privacyUrl)
 
-// Detect if running in popup
-const isPopup = vue.ref(false)
+const userToken = vue.ref('')
 
 // Organization data state
 const orgData = vue.ref<OrgData | null>(null)
-const orgHandle = vue.computed(() => fictionRouter.query.value.for as string | undefined)
-const redirectUrl = vue.computed(() => fictionRouter.query.value.redirect as string | undefined)
+const orgHandle = vue.computed(() => decodeURIComponent(fictionRouter.query.value.for as string | undefined || ''))
+const redirectUrl = vue.computed(() => decodeURIComponent(fictionRouter.query.value.redirect as string | undefined || ''))
 const emailQueryVars = vue.computed(() => {
   const out: Record<string, string> = {}
 
@@ -80,16 +79,6 @@ const authState = vue.computed<AuthState>(() => {
   return isValidAuthState(val) ? val : 'welcome'
 })
 
-// Random inspiring quotes
-const quotes = [
-  { text: 'Yesterday you said tomorrow.', author: 'Nike' },
-  { text: 'Become who you are.', author: 'Nietzsche' },
-  { text: 'Take massive action now!', author: 'Tony Robbins' },
-  { text: 'Change your story, change your life.', author: 'Lori Gottlieb' },
-  { text: 'It all begins with your story...', author: 'Andrew Powers' },
-  { text: 'Be as you wish to seem.', author: 'Socrates' },
-]
-const quote = vue.computed(() => quotes[Math.floor(Math.random() * quotes.length)])
 type TransactionProps = InstanceType<typeof TransactionWrap>['$props']
 
 // Screen configuration based on current auth state
@@ -175,57 +164,32 @@ function getRedirectDestination(args: {
   redirectUrl?: string
   orgData?: OrgData | null
   isNewUser?: boolean
+  token?: string
 }): { path: string, query: Record<string, string> } {
-  const { redirectUrl, orgData, isNewUser } = args
+  const { redirectUrl, orgData, isNewUser, token } = args
+
+  const query: Record<string, string> = {}
+  if (token)
+    query._token = encodeURIComponent(token)
+  if (isNewUser)
+    query._isNewUser = '1'
 
   // If redirect URL is provided, use it
   if (redirectUrl) {
-    return { path: redirectUrl, query: {} }
+    return { path: redirectUrl, query }
   }
 
   // If org data is available and has primaryDomain, redirect to org site
   if (orgData?.primaryDomain) {
-    return {
-      path: `https://${orgData.primaryDomain}`,
-      query: isNewUser ? { _isNewUser: '1' } : {},
-    }
+    return { path: `https://${orgData.primaryDomain}`, query }
   }
 
   // Default: redirect to dashboard
-  return {
-    path: '/',
-    query: isNewUser ? { _isNewUser: '1' } : {},
-  }
-}
-
-// Post message to parent when auth completes
-function notifyParentWindow(user: User, token: string) {
-  if (typeof window === 'undefined' || !window.opener)
-    return
-
-  try {
-    window.opener.postMessage({
-      type: 'auth-success',
-      token,
-      user,
-    }, '*')
-  }
-  catch (error) {
-    console.error('Error sending postMessage to parent', error)
-  }
-}
-
-function closePopup() {
-  if (typeof window !== 'undefined' && window.opener) {
-    window.close()
-  }
+  return { path: '/', query }
 }
 
 // Lifecycle hooks
 vue.onMounted(async () => {
-  // Check if running in popup mode
-  isPopup.value = window.opener !== null && window.opener !== window
-
   // Set page title
   unhead.useHead({
     title: () => pageTitle.value,
@@ -270,7 +234,7 @@ async function loadOrgData(handle: string): Promise<void> {
     const response = await fictionUser.requests.ManageOrganization.request({
       _action: 'retrieve',
       where: { handle },
-    })
+    }, { disableNotify: true })
 
     if (response.status === 'success' && response.data) {
       orgData.value = response.data as OrgData
@@ -293,7 +257,7 @@ async function navigateTo(state: AuthState) {
 }
 
 // Countdown and redirect
-function startRedirectCountdown(seconds = 3) {
+function startRedirectCountdown(seconds = 2) {
   redirectCountdown.value = seconds
   clearRedirectTimer()
 
@@ -315,27 +279,14 @@ function clearRedirectTimer() {
 }
 
 async function redirectToDashboard(args?: { isNewUser?: boolean }) {
-  // For popup windows, we close the window instead of redirecting
-  if (isPopup.value && window.opener) {
-    window.close()
-    return
-  }
-
   const destination = getRedirectDestination({
     redirectUrl: redirectUrl.value,
     orgData: orgData.value,
     isNewUser: args?.isNewUser,
+    token: userToken.value,
   })
 
   await props.card.goto(destination, { caller: 'authCard-redirect' })
-}
-
-// Handle auth success with token and user data
-function handleAuthSuccess(response: { token?: string, user?: User, isNew?: boolean }) {
-  if (isPopup.value && response.token && response.user) {
-    // Send auth data to parent window
-    notifyParentWindow(response.user, response.token)
-  }
 }
 
 // Form submission handler
@@ -400,7 +351,11 @@ async function verifyCode(callback: (response: EndpointResponse<User> & { isNew?
     throw new Error(response.message || 'Invalid code. Please try again.')
   }
 
-  handleAuthSuccess(response)
+  if (!response.token) {
+    throw new Error('No token received. Please try again.')
+  }
+
+  userToken.value = response.token
 
   if (callback) {
     await callback(response)
@@ -431,8 +386,6 @@ async function setNewPassword() {
   if (response.status !== 'success') {
     throw new Error(response.message || 'Could not update password. Please try again.')
   }
-
-  handleAuthSuccess(response)
 
   await navigateTo('password-updated')
 }
@@ -494,8 +447,6 @@ async function passwordLogin() {
     throw new Error(response?.message || 'Login failed. Please check your credentials.')
   }
 
-  handleAuthSuccess(response)
-
   if (!response.user?.emailVerified) {
     // Need to verify email
 
@@ -511,7 +462,7 @@ const isCodeConfirmState = vue.computed(() => ['verify-email', 'email-link-sent'
 </script>
 
 <template>
-  <TransactionView :card :quote>
+  <TransactionView :card>
     <TransactionWrap v-bind="{ logo: card.userConfig.value.logo, ...screenConfig }">
       <ElForm
         class="space-y-5"
@@ -535,16 +486,10 @@ const isCodeConfirmState = vue.computed(() => ['verify-email', 'email-link-sent'
           <template v-else-if="['verify-success', 'password-updated'].includes(authState)">
             <div class="text-center space-y-4">
               <p class="text-theme-500 dark:text-theme-400 text-sm text-pretty my-6">
-                <template v-if="isPopup">
-                  Successfully authenticated! This window will close automatically.
-                </template>
-                <template v-else>
-                  Redirecting in {{ redirectCountdown }} seconds...
-                </template>
+                Redirecting in {{ redirectCountdown }} seconds...
               </p>
 
               <XButton
-                v-if="!isPopup"
                 theme="primary"
                 design="solid"
                 size="lg"
@@ -553,17 +498,6 @@ const isCodeConfirmState = vue.computed(() => ['verify-email', 'email-link-sent'
                 @click.prevent="redirectToDashboard()"
               >
                 Complete
-              </XButton>
-              <XButton
-                v-else
-                theme="primary"
-                design="solid"
-                size="lg"
-                icon="i-tabler-x"
-                data-test-id="close-popup-button"
-                @click.prevent="closePopup()"
-              >
-                Close Window
               </XButton>
             </div>
           </template>

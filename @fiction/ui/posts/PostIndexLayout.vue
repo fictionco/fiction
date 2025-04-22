@@ -2,7 +2,7 @@
 import type { Post } from '@fiction/posts'
 import { vue } from '@fiction/core'
 import ElSpinner from '../loaders/ElSpinner.vue'
-import PostHero from './PostHero.vue'
+import PostFeature from './PostFeature.vue'
 import PostItem from './PostItem.vue'
 
 defineOptions({ name: 'PostLayout' })
@@ -33,7 +33,7 @@ const config = vue.computed(() => ({
   layout: props.config?.layout || 'blog',
   featuredCount: props.config?.featuredCount ?? 1,
   sidebar: props.config?.sidebar || 'right',
-  imagePosition: props.config?.imagePosition || (props.config?.layout === 'magazine' ? 'top' : 'left'),
+  imagePosition: props.config?.imagePosition || (props.config?.layout === 'magazine' ? 'top' : 'right'),
 }))
 
 // Separate featured posts from regular content
@@ -67,24 +67,17 @@ const gridClasses = vue.computed(() => {
 </script>
 
 <template>
-  <div class="post-layout  space-y-10" :class="config.sidebar === 'none' && config.layout === 'blog' ? 'max-w-2xl mx-auto' : ''">
+  <div class="post-layout mx-auto space-y-10" :class="config.sidebar === 'none' && config.layout === 'blog' ? 'max-w-2xl' : 'max-w-screen-lg'">
     <div v-if="loading" class="flex items-center justify-center p-12">
       <ElSpinner class="size-8 text-theme-600" />
     </div>
     <template v-else>
       <!-- Featured Posts Section -->
       <div v-if="featuredPosts.length > 0" class="featured-posts space-y-12">
-        <PostHero
+        <PostFeature
           v-for="post in featuredPosts"
           :key="`featured-${post.postId}`"
           :post="post"
-          layout="cover"
-          :config="{
-            showExcerpt: true,
-            showAuthors: true,
-            showDate: true,
-            showReadTime: true,
-          }"
         />
       </div>
 

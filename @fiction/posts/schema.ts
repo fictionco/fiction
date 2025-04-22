@@ -8,10 +8,11 @@ import { z } from 'zod'
 
 export const t = {
   posts: 'fiction_post',
-  postTaxonomies: 'fiction_post_taxonomy',
   postAuthor: 'fiction_post_author',
   postSite: 'fiction_post_site',
   email: 'fiction_email',
+  postLikes: 'fiction_post_likes',
+  postComments: 'fiction_post_comments',
   ...siteTables,
   ...standardTable,
 }
@@ -22,7 +23,6 @@ export type TablePostConfig = Partial<ColType<typeof postCols>> & {
   authors?: User[]
   likeCount?: number
   commentCount?: number
-  sites?: Partial<TableSiteConfig>[]
   draftId?: string
   org?: Organization
   relatedPosts?: {
@@ -30,6 +30,16 @@ export type TablePostConfig = Partial<ColType<typeof postCols>> & {
     prev?: TablePostConfig
     similar?: TablePostConfig[]
   }
+}
+
+export type TableCommentConfig = Partial<ColType<typeof postCommentCols>> & {
+  user?: User
+  replies?: TableCommentConfig[]
+  replyCount?: number
+}
+
+export type TableLikeConfig = Partial<ColType<typeof postLikeCols>> & {
+  user?: User
 }
 
 export type PostUserConfig = {
@@ -98,6 +108,8 @@ export const postCols = [
   new Col({ key: 'publishAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
   new Col({ key: 'publishedAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
   new Col({ key: 'archiveAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
+  new Col({ key: 'likeCount', sec: 'setting', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
+  new Col({ key: 'commentCount', sec: 'setting', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
 ] as const
 
 export const TablePostSchema = createTableSchema(postCols)
@@ -135,6 +147,23 @@ export const emailCols = [
   new Col({ key: 'metadata', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
 ] as const
 
+export const postLikeCols = [
+  new Col({ key: 'likeId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('lke')`)) }),
+  new Col({ key: 'postId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.posts}.postId`).onDelete('CASCADE').index() }),
+  new Col({ key: 'userId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.user}.userId`).onDelete('CASCADE').index() }),
+  new Col({ key: 'orgId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.org}.orgId`).onUpdate('CASCADE').notNullable().index() }),
+] as const
+
+export const postCommentCols = [
+  new Col({ key: 'commentId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('cmt')`)) }),
+  new Col({ key: 'postId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.posts}.postId`).onDelete('CASCADE').index() }),
+  new Col({ key: 'userId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.user}.userId`).onDelete('CASCADE').index() }),
+  new Col({ key: 'orgId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.org}.orgId`).onUpdate('CASCADE').notNullable().index() }),
+  new Col({ key: 'parentId', sec: 'setting', sch: () => z.string().optional(), make: ({ s, col }) => s.string(col.k).references(`${t.postComments}.commentId`).onDelete('CASCADE').nullable().index() }),
+  new Col({ key: 'content', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k).notNullable() }),
+  new Col({ key: 'status', sec: 'setting', sch: () => z.enum(['pending', 'approved', 'spam', 'trash']), make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('approved') }),
+] as const
+
 export const tables = [
   new FictionDbTable({ tableKey: t.posts, cols: postCols }),
   new FictionDbTable({
@@ -151,5 +180,14 @@ export const tables = [
     tableKey: t.email,
     cols: emailCols,
     constraints: [{ type: 'unique', columns: ['post_id', 'contact_id'] }],
+  }),
+  new FictionDbTable({
+    tableKey: t.postLikes,
+    cols: postLikeCols,
+    constraints: [{ type: 'unique', columns: ['post_id', 'user_id'] }],
+  }),
+  new FictionDbTable({
+    tableKey: t.postComments,
+    cols: postCommentCols,
   }),
 ]

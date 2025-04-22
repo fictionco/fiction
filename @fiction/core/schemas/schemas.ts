@@ -305,6 +305,7 @@ const BaseNavListItemSchema = z.object({
   key: z.string().optional().describe('Unique index key for the item'),
   id: z.string().optional().describe('Globally unique identifier for the item'),
   label: z.string().optional().describe('Primary text displayed for the item (e.g., "Products") [@ai]'),
+  srLabel: z.string().optional().describe('Screen reader label for accessibility [@ai]'),
   subLabel: z.string().optional().describe('Secondary text shown below label for additional context [@ai]'),
   value: z.union([z.string(), z.number()]).optional().describe('Value associated with the item [@ai]'),
   description: z.string().optional().describe('Longer description or explanation of the item [@ai]'),

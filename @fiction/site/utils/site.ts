@@ -50,7 +50,7 @@ export function setupRouteWatcher(args: {
         if (typeof routeVars[key] !== 'undefined') {
           // prevent clicks propagating and closing modals
           await waitFor(30)
-          const result = await hook.callback({ site, value: routeVars[key] })
+          const result = await hook.callback({ site, value: decodeURIComponent(routeVars[key]) })
           // Create new query parameters excluding the current hook key
           const newQuery = { ...route.query }
           delete newQuery[key]

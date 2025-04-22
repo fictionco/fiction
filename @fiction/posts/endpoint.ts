@@ -246,7 +246,6 @@ export class QueryManagePost extends PostsQuery {
 
     if (post.postId) {
       post.authors = await db.select([`${t.user}.userId`, `${t.user}.email`, `${t.user}.fullName`, `${t.postAuthor}.priority`]).from(t.postAuthor).join(t.user, `${t.user}.user_id`, `=`, `${t.postAuthor}.user_id`).where(`${t.postAuthor}.post_id`, post.postId).orderBy(`${t.postAuthor}.priority`, 'asc')
-      post.sites = await db.select([`${t.sites}.siteId`, `${t.sites}.title`]).from(t.postSite).join(t.sites, `${t.sites}.site_id`, `=`, `${t.postSite}.site_id`).where(`${t.postSite}.post_id`, post.postId)
 
       // get defaults from org details
       const sel: (keyof Organization)[] = ['orgName', 'orgEmail', 'senderName', 'senderEmail', 'companyName', 'websiteUrl', 'streetAddress', 'avatar']
@@ -332,7 +331,6 @@ export class QueryManagePost extends PostsQuery {
     await Promise.all([
       db(t.posts).update(prepped).where({ postId }),
       this.updateAssociations({ type: 'authors', postId, fields, orgId }),
-      this.updateAssociations({ type: 'sites', postId, fields, orgId }),
       this.settings.fictionUser.queries.ManageOrganization.serve({ _action: 'update', where: { orgId }, fields: orgUpdateFields }, { server: true }),
     ])
 
@@ -359,7 +357,7 @@ export class QueryManagePost extends PostsQuery {
     return { status: 'success', data: [finalPost], message: 'Post updated' }
   }
 
-  private async updateAssociations(args: { type: 'authors' | 'sites', fields: TablePostConfig, postId: string, orgId: string }) {
+  private async updateAssociations(args: { type: 'authors', fields: TablePostConfig, postId: string, orgId: string }) {
     const db = this.db()
     const { type, fields, postId, orgId } = args
 
@@ -370,8 +368,6 @@ export class QueryManagePost extends PostsQuery {
     const newIds = items.map((item) => {
       if (type === 'authors' && 'userId' in item)
         return item.userId
-      else if (type === 'sites' && 'siteId' in item)
-        return item.siteId
       return ''
     }).filter(Boolean)
 
@@ -441,7 +437,6 @@ export class QueryManagePost extends PostsQuery {
 
     await Promise.all([
       this.updateAssociations({ type: 'authors', postId, orgId, fields: associationFields }),
-      this.updateAssociations({ type: 'sites', postId, orgId, fields: associationFields }),
 
     ])
 
@@ -507,12 +502,10 @@ export class QueryManagePost extends PostsQuery {
     })
 
     const authors = fields.authors || []
-    const sites = fields.sites || []
     const newDraft = {
       draftId: objectId({ prefix: 'dft' }),
       ...draft,
       ...fields,
-      sites,
       authors,
       updatedAt: now,
       createdAt: draft.createdAt,

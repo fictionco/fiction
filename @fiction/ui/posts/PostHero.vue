@@ -10,40 +10,13 @@ defineOptions({ name: 'PostHero' })
 
 const props = defineProps<{
   post: Post
-  layout?: 'cover' | 'split'
-  config?: {
-    showExcerpt?: boolean
-    showAuthors?: boolean
-    showDate?: boolean
-    showReadTime?: boolean
-  }
+  layout?: 'left' | 'right' | 'above' | 'cover'
 }>()
-
-// Format the date
-const formattedDate = vue.computed(() =>
-  props.post.dateAt?.value ? dayjs(props.post.dateAt.value).format('MMM D, YYYY') : '',
-)
-
-// Calculate read time
-const readTime = vue.computed(() => {
-  const wordCount = props.post.content?.value ? countWords(props.post.content.value) : 0
-  return Math.ceil(wordCount / 225)
-})
-
-// Other computed properties
-const authors = vue.computed(() => props.post.authors?.value || [])
-const showExcerpt = vue.computed(() => props.config?.showExcerpt !== false && !!props.post.excerpt?.value)
-const showMeta = vue.computed(() =>
-  (props.config?.showDate && !!formattedDate.value)
-  || (props.config?.showReadTime && !!readTime.value)
-  || (props.config?.showAuthors && authors.value.length > 0),
-)
 </script>
 
 <template>
   <article
-    class="hero-post group/post-item relative rounded-xl overflow-hidden"
-    :class="layout === 'split' ? 'h-auto md:h-[28rem]' : 'h-[24rem] md:h-[32rem]'"
+    class="hero-post group/post-item relative rounded-xl overflow-hidden h-[24rem] md:h-[32rem]"
   >
     <!-- Media background -->
     <div class="absolute inset-0 w-full h-full bg-theme-800/50">
@@ -62,6 +35,21 @@ const showMeta = vue.computed(() =>
       <div class="max-w-3xl">
         <!-- Meta information -->
 
+        <!-- Title -->
+        <h2 class="x-font-title font-semibold text-white text-2xl md:text-3xl lg:text-4xl mb-4">
+          <XLink :href="post.href.value" class="text-white hover:text-white focus:outline-none">
+            {{ post.title.value }}
+          </XLink>
+        </h2>
+
+        <!-- Excerpt -->
+        <p
+          v-if="post.subTitle?.value || post.excerpt?.value"
+          class="text-white/90 text-base md:text-lg mb-6 line-clamp-3 max-w-2xl"
+        >
+          {{ post.subTitle?.value || post.excerpt?.value }}
+        </p>
+
         <PostItemMeta
           :post="post"
           class="mb-4"
@@ -73,31 +61,6 @@ const showMeta = vue.computed(() =>
           :like-count="123"
           :comment-count="23"
         />
-
-        <!-- Title -->
-        <h2 class="x-font-title font-semibold text-white text-2xl md:text-3xl lg:text-4xl mb-4">
-          <XLink :href="post.href.value" class="text-white hover:text-white focus:outline-none">
-            {{ post.title.value }}
-          </XLink>
-        </h2>
-
-        <!-- Excerpt -->
-        <p
-          v-if="showExcerpt"
-          class="text-white/90 text-base md:text-lg mb-6 line-clamp-3 max-w-2xl"
-        >
-          {{ post.excerpt?.value }}
-        </p>
-
-        <!-- Read more link -->
-        <XLink
-          :href="post.href.value"
-          class="inline-flex items-center text-white hover:text-primary-300 border-b border-white/30
-                hover:border-primary-300 transition-colors pb-0.5"
-        >
-          Read article
-          <span class="i-tabler-arrow-right ml-1.5" />
-        </XLink>
       </div>
     </div>
   </article>

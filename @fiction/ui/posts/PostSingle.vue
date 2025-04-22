@@ -19,30 +19,6 @@ const props = defineProps<{
   isLiked?: boolean
   dropCap?: boolean
 }>()
-
-const emit = defineEmits<{
-  (e: 'update:likeCount', count: number): void
-  (e: 'share'): void
-}>()
-
-const localLikeCount = vue.ref(props.likeCount ?? 42)
-const localIsLiked = vue.ref(props.isLiked ?? false)
-
-vue.watch(() => props.likeCount, (newVal) => {
-  if (newVal !== undefined)
-    localLikeCount.value = newVal
-})
-
-vue.watch(() => props.isLiked, (newVal) => {
-  if (newVal !== undefined)
-    localIsLiked.value = newVal
-})
-
-async function handleShare() {
-  const url = window.location.href
-  await navigator.clipboard.writeText(url)
-  emit('share')
-}
 </script>
 
 <template>
@@ -83,16 +59,16 @@ async function handleShare() {
           </div>
           <div class="flex gap-2">
             <XButton
-              :icon="localIsLiked ? 'i-tabler-heart-filled' : 'i-tabler-heart'"
-              theme="default"
-              :label="localLikeCount.toString()"
+              :icon="props.post?.like.isLiked.value ? 'i-tabler-heart-filled' : 'i-tabler-heart'"
+              :theme="props.post?.like.isLiked.value ? 'red' : 'default'"
+              @click="props.post?.like.toggle()"
             >
               {{ post.likeCount.value || 'Like' }}
             </XButton>
             <XButton
               icon="i-tabler-upload"
               theme="default"
-              @click="handleShare"
+              @click="post.copyLinkToClipboard()"
             >
               Share
             </XButton>

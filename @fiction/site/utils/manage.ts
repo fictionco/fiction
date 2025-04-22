@@ -64,9 +64,12 @@ export async function siteGoto(args: {
   if (!site)
     return
 
+  // Handle external URLs
   const routePath = typeof location === 'object' ? location.path : location
-  if (typeof routePath === 'string' && routePath.includes('http')) {
-    window.location.href = routePath
+  if (typeof routePath === 'string' && routePath.startsWith('http')) {
+    const query = (typeof location === 'object' ? location.query : {}) as Record<string, string>
+    const queryString = new URLSearchParams(query).toString()
+    window.location.href = `${routePath}${routePath.includes('?') ? '&' : '?'}${queryString}`
     return
   }
 
