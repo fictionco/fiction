@@ -130,17 +130,17 @@ const parentPanelProps = vue.computed(() => {
         class="lg:w-[29%] shrink-0 rounded-l-md md:border-r dark:border-theme-600/60 border-theme-300/60 relative overflow-x-clip"
       >
         <transition :name="transitionDirection" mode="out-in">
-          <div v-if="!currentItemId || (isDesktop && !parentPanel)" class="space-y-6 p-3 md:p-8 xl:p-12">
+          <div v-if="!currentItemId || (isDesktop && !parentPanel)" class="space-y-6 p-4">
             <div class="space-y-3">
               <ElHeader
                 v-if="header"
-                class="bg-theme-50 dark:bg-theme-800/50 rounded-xl p-4 lg:p-8"
+                class="bg-theme-50 dark:bg-theme-800/50 rounded-xl p-4 md:p-6"
                 :model-value="header"
                 :theme="theme || 'primary'"
                 @update:model-value="emit('update:header', $event)"
               />
             </div>
-            <div class="space-y-3 text-right pb-32">
+            <div class="space-y-3 text-right pb-32 md:p-4">
               <CardLink
                 v-for="(v, i) in nav"
                 :key="i"
