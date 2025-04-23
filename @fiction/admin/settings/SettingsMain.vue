@@ -11,14 +11,14 @@ defineProps({
 const panels = [
   new Card<NavCardUserConfig>({
     slug: 'org',
-    title: 'Workspace Settings',
-    description: 'Manage your workspace preferences',
+    title: 'Brand Settings',
+    description: 'Manage your preferences',
     el: vue.defineAsyncComponent(async () => import('../settings/PanelOrganization.vue')),
     userConfig: { isNavItem: true, navIcon: 'i-tabler-building', navIconAlt: 'i-tabler-building-cog' },
   }),
   new Card<NavCardUserConfig>({
     slug: 'account',
-    title: 'User Details',
+    title: 'Account Settings',
     description: 'Manage your login info',
     el: vue.defineAsyncComponent(async () => import('../settings/PanelAccount.vue')),
     userConfig: { isNavItem: true, navIcon: 'i-tabler-user-circle', navIconAlt: 'i-tabler-user-cog' },

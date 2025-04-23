@@ -230,7 +230,7 @@ export class QueryManageOrganization extends OrgQuery {
     if (!responseOrg)
       throw abort('API secret generation failed')
 
-    return this.prepareResponse(responseOrg, 'new API secret key was created', meta)
+    return this.prepareResponse(responseOrg, 'new secret API key was created', meta)
   }
 
   private async createOrganization(params: ManageOrganizationParams & { _action: 'create' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
@@ -284,7 +284,7 @@ export class QueryManageOrganization extends OrgQuery {
       .into(t.org)
       .returning<Organization[]>('*')
 
-    return this.prepareResponse(responseOrg, 'Organization updated', meta)
+    return this.prepareResponse(responseOrg, 'Successfully updated', meta)
   }
 
   private async deleteOrganization(params: ManageOrganizationParams & { _action: 'delete' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {

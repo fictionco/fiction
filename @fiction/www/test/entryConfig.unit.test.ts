@@ -57,7 +57,7 @@ describe('user config', async () => {
     expect(service.fictionServer?.endpoints?.map(_ => _.key))
       .toMatchInlineSnapshot(`
         [
-          "CheckUsername",
+          "CheckHandle",
           "ManageUser",
           "ManageOrganization",
           "ManageMemberRelation",

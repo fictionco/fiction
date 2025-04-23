@@ -50,7 +50,7 @@ describe('email actions', async () => {
         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3Vic2NyaWJlciIsInVzZXJJZCI6InVzcjY2ZjI0OGU0Zjg5MDEzMGQ5ZjA5M2Y4ZSIsImVtYWlsIjoiYXJwb3dlcnMrMzE4OTkxNDQ4MUBnbWFpbC5jb20iLCJ2ZXJpZnlFbWFpbCI6dHJ1ZSwiaWF0IjoxNzI3MTU0NDA0LCJleHAiOjE3MjczMjcyMDR9.Mq6RT1YRdtdDwbwPCfSR_TtPBaPCMaObbkS-i3sCHm4",
         "unsubscribeUrl": "http://localhost:24773/__transaction/unsubscribe",
         "userId": "usr66f248e4f890130d9f093f8e",
-        "username": "",
+        "handle": "",
       }
     `)
 
@@ -94,7 +94,7 @@ describe('email actions', async () => {
         "token": "[token]",
         "unsubscribeUrl": "http://localhost:[port]/__transaction/unsubscribe",
         "userId": "[userId]",
-        "username": "",
+        "handle": "",
       }
     `)
   })

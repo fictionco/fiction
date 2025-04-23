@@ -271,7 +271,7 @@ const viewModes = vue.computed(() => {
               schema,
               key: 'slug',
               label: 'Slug',
-              input: 'InputUsername',
+              input: 'InputHandle',
               placeholder: 'my-post',
               isRequired: true,
               props: {

@@ -25,7 +25,7 @@ export abstract class UserBaseQuery extends Query<UserQuerySettings> {
   }
 }
 
-export type WhereUser = { email: string } | { userId: string } | { username: string } | { googleId: string }
+export type WhereUser = { email: string } | { userId: string } | { handle: string } | { googleId: string }
 
 type CreateUserFields = Partial<User> & { email: string, password?: string, orgName?: string, orgId?: string }
 
@@ -249,11 +249,11 @@ export class QueryManageUser extends UserBaseQuery {
     if (!meta?.bearer)
       throw abort('bearer required')
 
-    // Check if the bearer's userId, email, or username matches the respective fields in 'where', if they exist
+    // Check if the bearer's userId, email, or handle matches the respective fields in 'where', if they exist
     const isValid = (
       ('userId' in where && where.userId === meta.bearer.userId)
       || ('email' in where && meta.bearer.email && where.email.toLowerCase() === meta.bearer.email.toLowerCase())
-      || ('username' in where && where.username === meta.bearer.username)
+      || ('handle' in where && where.handle === meta.bearer.handle)
     )
 
     // Throw an error if no valid fields match

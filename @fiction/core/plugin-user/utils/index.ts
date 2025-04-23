@@ -9,10 +9,10 @@ import { abort } from '../../utils/error'
 import { dayjs } from '../../utils/libraries'
 
 export function defaultOrgName(email: string, suffix: string = ''): string {
-  // Extract username from email and clean special characters
-  const username = email.substring(0, email.lastIndexOf('@')).split('+')[0]
+  // Extract handle from email and clean special characters
+  const handle = email.substring(0, email.lastIndexOf('@')).split('+')[0]
 
-  const capitalized = toLabel(username).replace(/\W/g, '').replace(/\d+$/, '')
+  const capitalized = toLabel(handle).replace(/\W/g, '').replace(/\d+$/, '')
 
   const orgName = [capitalized, suffix].join(' ').trim()
 

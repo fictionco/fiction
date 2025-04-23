@@ -26,7 +26,7 @@ describe('inputs', () => { // Remove async from describe
       const textInputs = ['InputText', 'InputTextarea', 'InputPassword', 'InputEmail', 'InputUrl']
 
       const props: Record<string, any> = {}
-      if (name === 'InputUsername') {
+      if (name === 'InputHandle') {
         props.table = 'fiction_user'
       }
       else if (name === 'InputControl') {

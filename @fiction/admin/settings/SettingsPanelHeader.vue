@@ -36,12 +36,12 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
             :theme="colorTheme"
           />
         </div>
-        <div class="space-y-1">
+        <div class="space-y-1.5">
           <XText
             v-if="modelValue.title"
             tag="h1"
             :model-value="modelValue.title"
-            class="text-lg md:text-3xl font-bold text-theme-900 dark:text-theme-0 x-font-title"
+            class="text-lg md:text-xl font-semibold text-theme-900 dark:text-theme-0 x-font-title"
             :is-editable="editable.includes('title')"
             @update:model-value="updateValue('title', $event)"
           />

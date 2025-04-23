@@ -1,6 +1,7 @@
 import type { IconName } from '@fiction/ui/lib/systemIcons.js'
 import type { vue } from '../utils/libraries.js'
 import { z } from 'zod'
+import { UserSchema } from '../plugin-user/schema.js'
 import { OrFilterGroupSchema } from '../types/endpoint.js'
 import { ColorScaleSchema, colorThemeUser, colorThemeWithInvert } from '../utils/colors.js'
 
@@ -238,6 +239,7 @@ export const MediaDisplaySchema = MediaContentSchema.extend({
 export type MediaObject = z.infer<typeof MediaDisplaySchema & typeof MediaIconSchema>
 
 export const ActionButtonSchema = z.object({
+  key: z.string().optional().describe('Unique key for the button'),
   label: z.string().optional().describe('Button text [@ai]'),
   href: z.string().optional().describe('Button link URL or /path [@ai]'),
   size: SizeSchema.optional().describe('Button size'),
@@ -254,6 +256,8 @@ export const ActionButtonSchema = z.object({
   target: z.enum(['_blank', '_self']).optional().describe('Link target [@ai]'),
   hover: ButtonHoverSchema.optional(),
   type: z.enum(['button', 'submit', 'reset']).optional(),
+  animate: z.boolean().optional().describe('Enable button animation'),
+
 }, { description: 'ActionButtonSchema' })
 
 export type ActionButton = z.infer<typeof ActionButtonSchema>
@@ -420,14 +424,6 @@ export const SuperTitleSchema = z.object({
 
 export type SuperTitle = z.infer<typeof SuperTitleSchema>
 
-export const UserSchema = z.object({
-  fullName: z.string().optional(),
-  email: z.string().optional(),
-  avatar: MediaBasicSchema.optional(),
-  title: z.string().optional(),
-  websiteUrl: z.string().optional(),
-})
-
 /**
  * POSTS
  */
@@ -440,6 +436,16 @@ export const PostSEOSchema = z.object({
 const PostUserConfigSchema = z.object({
   seo: PostSEOSchema.optional().describe('Search engine and social media optimization settings'),
   isContentCompletionDisabled: z.boolean().optional(),
+})
+
+export const AuthorSchema = z.object({
+  fullName: z.string().optional(),
+  email: z.string().optional(),
+  avatar: MediaBasicSchema.optional(),
+  title: z.string().optional(),
+  headline: z.string().optional(),
+  about: z.string().optional(),
+  websiteUrl: z.string().optional(),
 })
 
 export const PostSchema = z.object({
@@ -468,7 +474,7 @@ export const PostSchema = z.object({
   categories: z.array(z.string()).optional().describe('Content groupings [@ai]'),
 
   // Associated Data
-  authors: z.array(UserSchema).optional().describe('Content creators'),
+  authors: z.array(AuthorSchema).optional().describe('Content creators'),
   action: ActionAreaSchema.optional().describe('Interactive buttons [@ai]'),
 
   userConfig: PostUserConfigSchema.optional().describe('Custom settings'),

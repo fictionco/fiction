@@ -29,7 +29,7 @@ const emit = defineEmits<{
       <div class="font-semibold text-lg">
         {{ title || 'No Title' }}
       </div>
-      <XButtonList :buttons="action.buttons" class="flex justify-end gap-2" ui-size="sm" />
+      <XButtonList :buttons="action.buttons" class="flex justify-end gap-2" ui-size="md" />
     </div>
 
     <div v-if="header" class="px-4 py-8 md:px-8 md:py-16">

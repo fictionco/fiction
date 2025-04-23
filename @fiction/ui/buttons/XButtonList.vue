@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ActionButton } from '@fiction/core'
 import type { UiElementSize } from '../utils'
-import { shortId, vue } from '@fiction/core'
+import { shortId, toSlug, vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '../anim'
 import XButton from './XButton.vue'
 
@@ -40,7 +40,7 @@ function getButtonType(action: ActionButton) {
   <div v-if="buttons?.length" :id="randomId">
     <XButton
       v-for="(btn, i) in buttons"
-      :key="btn.testId || `btn-${i}`"
+      :key="toSlug(btn.label) || `btn-${i}`"
       class="x-action-item"
       :data-test-id="btn.testId"
       :theme="getButtonType(btn)"
@@ -53,6 +53,7 @@ function getButtonType(action: ActionButton) {
       :loading="btn.loading"
       :icon-after="btn.iconAfter"
       :disabled="btn.disabled"
+      :animate="btn.animate"
       @click.stop="btn.onClick && btn.onClick({ event: $event, item: btn })"
     >
       {{ btn.label }}

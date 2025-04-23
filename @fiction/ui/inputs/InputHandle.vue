@@ -6,7 +6,7 @@ import { useService, vue } from '@fiction/core'
 import ElTooltip from '../common/ElTooltip.vue'
 import { inputClasses } from './theme'
 
-defineOptions({ name: 'InputUsername' })
+defineOptions({ name: 'InputHandle' })
 
 const props = defineProps({
   modelValue: { type: [String], default: '' },
@@ -85,7 +85,7 @@ async function handleEmit(target: EventTarget | null) {
     status.value = 'loading'
 
     try {
-      const r = await fictionDb.requests.CheckUsername.request({ table: props.table, columns })
+      const r = await fictionDb.requests.CheckHandle.request({ table: props.table, columns })
 
       status.value = r.data?.available || 'error'
       reason.value = r.data?.reason ?? 'unknown'

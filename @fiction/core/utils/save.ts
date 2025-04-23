@@ -3,7 +3,7 @@ import { log } from '../plugin-log'
 import { vue } from './libraries'
 
 export type AutosaveConfig<T extends EndpointResponse = EndpointResponse> = {
-  onSave: () => Promise<T | undefined | void>
+  onSave?: () => Promise<T | undefined | void>
   onTrigger?: () => void
   debounceMs?: number
   onError?: (error: unknown) => void
@@ -38,6 +38,10 @@ export class AutosaveUtility<T extends EndpointResponse = EndpointResponse> {
   }
 
   private async save(): Promise<T | undefined | void> {
+    if (!this.config.onSave) {
+      return
+    }
+
     try {
       const r = await this.config.onSave()
       this.isDirty.value = false

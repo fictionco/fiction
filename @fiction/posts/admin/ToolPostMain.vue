@@ -67,7 +67,7 @@ const options = vue.computed<InputOption[]>(() => {
               schema,
               key: 'slug',
               label: 'Slug',
-              input: 'InputUsername',
+              input: 'InputHandle',
               placeholder: 'my-post',
               isRequired: true,
               props: {

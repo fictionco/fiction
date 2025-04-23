@@ -15,7 +15,7 @@ const action = vue.computed(() => {
 
 <template>
   <SettingsPanel title="Team" :action>
-    <div :class="isParent ? 'px-6 py-12' : 'p-4 md:p-6 xl:p-12'">
+    <div :class="isParent ? 'p-4 xl:px-6 xl:py-12' : 'p-4 md:p-6 xl:p-12'">
       <ElTeamList :card :ui-size="isParent ? 'xs' : 'md'" />
     </div>
   </SettingsPanel>

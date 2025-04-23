@@ -135,7 +135,7 @@ export type IdentifyTraitsUser = IdentifyTraitsBase & {
   birthday: string
   company: Partial<IdentifyCompany>
   title: string
-  username: string
+  handle: string
   gender: string
   lists: { id: string, status: string }[]
   [key: string]: any

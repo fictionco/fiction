@@ -245,6 +245,6 @@ exports[`authentication flow UI > sends magic link email successfully > Magic li
   "token": "[token]",
   "unsubscribeUrl": "http://localhost:[port]/__transaction/unsubscribe",
   "userId": "[userId]",
-  "username": null,
+  "handle": null,
 }
 `;

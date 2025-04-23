@@ -49,9 +49,17 @@ export type ColType<T extends readonly Col<string, any>[]> = ColTupleToObject<Co
 export function createTableSchema<T extends readonly Col<any, any>[]>(cols: T) {
   const entries = cols.map(col => [col.key, col.sch({ z })])
   const shape = Object.fromEntries(entries)
-  const schema = z.object(shape).partial()
+  // Add createdAt and updatedAt to the shape
+  const schema = z.object({
+    ...shape,
+    createdAt: z.string().optional(),
+    updatedAt: z.string().optional(),
+  }).partial()
 
   return schema as z.ZodObject<
-    { [K in keyof ColType<T>]: z.ZodOptional<z.ZodType<ColType<T>[K]>> }
+    { [K in keyof ColType<T>]: z.ZodOptional<z.ZodType<ColType<T>[K]>> } & {
+      createdAt: z.ZodOptional<z.ZodString>
+      updatedAt: z.ZodOptional<z.ZodString>
+    }
   >
 }

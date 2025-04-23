@@ -4,7 +4,7 @@ import type { Card } from '@fiction/site'
 import type { InputOption } from '@fiction/ui/index.js'
 import type { FictionAdmin } from '..'
 import { gravatarUrlSync, useService, vue } from '@fiction/core'
-import { AutosaveUtility } from '@fiction/core/utils/save.js'
+import { UserSchema as schema } from '@fiction/core/plugin-user/schema'
 import ElModal from '@fiction/ui/ElModal.vue'
 import { createOption } from '@fiction/ui/index.js'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
@@ -21,6 +21,7 @@ const service = useService<{ fictionAdmin: FictionAdmin }>()
 const loading = vue.ref(true)
 const sending = vue.ref('')
 const mode = vue.ref<'current' | 'changeEmail'>('current')
+const isDirty = vue.ref(false)
 
 const user = vue.computed(() => service.fictionUser.activeUser.value)
 
@@ -40,156 +41,48 @@ async function save() {
 
   await endpoint.projectRequest({ _action: 'update', fields, where: { userId } })
 
+  isDirty.value = false
+
   sending.value = ''
 }
-
-const saveUtil = new AutosaveUtility({
-  onSave: () => save(),
-})
 
 function update(userNew: User) {
   service.fictionUser.activeUser.value = userNew
 
-  saveUtil.autosave({ caller: 'panelAccountUpdate' })
+  isDirty.value = true
 }
 
-const detailOptions = [
-  createOption({
-    key: 'control.fullName',
-    label: 'Full Name',
-    subLabel: 'Your first and last name',
-    input: 'InputControl',
-    valueDisplay: () => {
-      return {
-        status: user.value?.fullName ? 'ready' : 'incomplete',
-        data: user.value?.fullName,
-      }
-    },
-    options: [
-      createOption({ key: 'fullName', label: 'Full Name', input: 'InputText', placeholder: 'Enter Your Name', isRequired: true }),
-    ],
-  }),
-  createOption({
-    key: 'control.avatar',
-    label: 'User Avatar',
-    subLabel: 'Will default to Gravatar if not set.',
-    input: 'InputControl',
-    valueDisplay: () => {
-      return {
-        status: user.value?.avatar?.url ? 'ready' : 'incomplete',
-        data: user.value?.avatar,
-        format: 'media',
-      }
-    },
-    options: [
-      createOption({ key: 'avatar', label: 'Account Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
-    ],
-  }),
-  createOption({
-    key: 'control.username',
-    label: 'Username',
-    subLabel: 'Unique username for your account',
-    input: 'InputControl',
-    valueDisplay: () => {
-      return {
-        status: user.value?.username ? 'ready' : 'incomplete',
-        data: user.value?.username,
-      }
-    },
-    options: [
-      createOption({ key: 'username', label: 'Username', input: 'InputUsername', placeholder: 'my-username', props: { table: 'fiction_user', columns: [{ name: 'username' }] } }),
-    ],
-  }),
-  createOption({
-    key: 'control.phone',
-    label: 'Phone Number',
-    subLabel: 'Include country code. Used for 2FA and notifications.',
-    input: 'InputControl',
-    valueDisplay: () => {
-      return {
-        status: user.value?.phone ? 'ready' : 'optional',
-        data: user.value?.phone,
-      }
-    },
-    options: [
-      createOption({ key: 'phone', label: 'Phone Number', description: 'Include country code. Used for 2FA and notifications.', input: 'InputPhone', placeholder: '+1 555 555 5555' }),
-    ],
-  }),
-]
-
-const profileOptions = [
-  createOption({
-    key: 'control.headline',
-    label: 'Profile Headline',
-    subLabel: 'Appears with your name.',
-    input: 'InputControl',
-    valueDisplay: () => {
-      return {
-        status: user.value?.headline ? 'ready' : 'optional',
-        data: user.value?.headline,
-      }
-    },
-    options: [
-      createOption({ key: 'headline', label: 'Profile Headline', input: 'InputText', placeholder: 'Enter Headline' }),
-    ],
-  }),
-  createOption({
-    key: 'control.bio',
-    label: 'Profile Website',
-    subLabel: 'Linked from author profile',
-    input: 'InputControl',
-    valueDisplay: () => {
-      return {
-        status: user.value?.websiteUrl ? 'ready' : 'optional',
-        data: user.value?.websiteUrl,
-      }
-    },
-    options: [
-      createOption({ key: 'websiteUrl', label: 'Website URL', input: 'InputUrl', placeholder: 'https://www.example.com' }),
-    ],
-  }),
-  createOption({
-    key: 'control.social',
-    label: 'Social Links',
-    subLabel: 'Add Links to your social profiles',
-    input: 'InputControl',
-    valueDisplay: () => {
-      const accounts = Object.entries(user.value?.accounts || {})
-      const accountList = accounts.filter(([k, v]) => v)
-      const accountsSetText = accountList.map(([k, v]) => k.replace('Url', '')).join(', ')
-      return {
-        status: accountList.length ? 'ready' : 'optional',
-        data: accountsSetText,
-      }
-    },
-    options: [
-      createOption({ key: 'accounts.xUrl', label: 'X / Twitter URL', input: 'InputUrl', placeholder: 'https://www.x.com/username' }),
-      createOption({ key: 'accounts.instagramUrl', label: 'Instagram URL', input: 'InputUrl', placeholder: 'https://www.instagram.com/username' }),
-      createOption({ key: 'accounts.linkedinUrl', label: 'LinkedIn URL', input: 'InputUrl', placeholder: 'https://www.linkedin.com/in/username' }),
-      createOption({ key: 'accounts.facebookUrl', label: 'Facebook URL', input: 'InputUrl', placeholder: 'https://www.facebook.com/username' }),
-      createOption({ key: 'accounts.githubUrl', label: 'GitHub URL', input: 'InputUrl', placeholder: 'https://www.github.com/username' }),
-      createOption({ key: 'accounts.youtubeUrl', label: 'YouTube URL', input: 'InputUrl', placeholder: 'https://www.youtube.com/channel/username' }),
-      createOption({ key: 'accounts.pinterestUrl', label: 'Pinterest URL', input: 'InputUrl', placeholder: 'https://www.pinterest.com/username' }),
-      createOption({ key: 'accounts.tiktokUrl', label: 'TikTok URL', input: 'InputUrl', placeholder: 'https://www.tiktok.com/@username' }),
-    ],
-  }),
+const detailOptions: InputOption[] = [
+  createOption({ schema, key: 'fullName', label: 'Full Name', input: 'InputText', placeholder: 'Enter Your Name', isRequired: true }),
+  createOption({ schema, key: 'avatar', label: 'Account Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
+  createOption({ schema, key: 'handle', label: 'Username', input: 'InputHandle', placeholder: 'my-username', props: { table: 'fiction_user', columns: [{ name: 'username' }] } }),
+  createOption({ schema, key: 'headline', label: 'Profile Headline', input: 'InputText', placeholder: 'Enter Headline' }),
+  createOption({ schema, key: 'about', label: 'About', input: 'InputTextarea', placeholder: 'Enter a short bio' }),
 ]
 
 const options = vue.computed(() => {
   return [
     createOption({
       key: 'userDetails',
-      label: 'Account Details',
+      label: 'Important Details',
       input: 'group',
       options: detailOptions,
-      format: 'control',
     }),
     createOption({
-      key: 'userProfile',
-      label: 'Profile Details',
+      key: 'userDetails',
+      label: 'Social',
       input: 'group',
-      options: profileOptions,
-      format: 'control',
+      icon: { class: 'icon-tabler-social' },
+      options: [
+        createOption({ schema, key: 'accounts.xUrl', label: 'X / Twitter URL', input: 'InputUrl', placeholder: 'https://www.x.com/username' }),
+        createOption({ schema, key: 'accounts.instagramUrl', label: 'Instagram URL', input: 'InputUrl', placeholder: 'https://www.instagram.com/username' }),
+        createOption({ schema, key: 'accounts.linkedinUrl', label: 'LinkedIn URL', input: 'InputUrl', placeholder: 'https://www.linkedin.com/in/username' }),
+        createOption({ schema, key: 'accounts.facebookUrl', label: 'Facebook URL', input: 'InputUrl', placeholder: 'https://www.facebook.com/username' }),
+        createOption({ schema, key: 'accounts.githubUrl', label: 'GitHub URL', input: 'InputUrl', placeholder: 'https://www.github.com/username' }),
+        createOption({ schema, key: 'accounts.youtubeUrl', label: 'YouTube URL', input: 'InputUrl', placeholder: 'https://www.youtube.com/channel/username' }),
+        createOption({ schema, key: 'accounts.pinterestUrl', label: 'Pinterest URL', input: 'InputUrl', placeholder: 'https://www.pinterest.com/username' }),
+        createOption({ schema, key: 'accounts.tiktokUrl', label: 'TikTok URL', input: 'InputUrl', placeholder: 'https://www.tiktok.com/@username' }),
+      ],
     }),
   ]
 })
@@ -301,11 +194,11 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
     :loading
     :header
     :action="{ buttons: [{
-      label: saveUtil.isDirty.value ? 'Saving...' : 'Saved',
+      label: isDirty ? 'Save Changes' : 'Saved',
       onClick: () => save(),
-      theme: saveUtil.isDirty.value ? 'primary' : 'default',
+      theme: isDirty ? 'primary' : 'default',
       loading: sending === 'saving',
-      icon: saveUtil.isDirty.value ? 'i-tabler-upload' : 'i-tabler-check',
+      icon: isDirty ? 'i-tabler-upload' : 'i-tabler-check',
     }] }"
   >
     <FormEngine

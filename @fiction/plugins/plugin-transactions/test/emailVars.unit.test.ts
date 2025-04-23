@@ -64,7 +64,7 @@ describe('createEmailVars', async () => {
         "fullName",
         "email",
         "userId",
-        "username",
+        "handle",
         "token",
         "code",
         "originUrl",

@@ -21,7 +21,7 @@ export type EmailVars<T extends Record<string, string> | undefined = Record<stri
   fullName: string
   email: string
   userId: string
-  username: string
+  handle: string
   token: string
   originUrl: string
   unsubscribeUrl: string

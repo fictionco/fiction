@@ -135,7 +135,7 @@ export function getSiteOptions(args: { site: Site }) {
               schema: SiteSchema,
               key: 'subDomain',
               label: 'Fiction Domain',
-              input: 'InputUsername',
+              input: 'InputHandle',
               isRequired: true,
               props: {
                 beforeInput: 'https://',
@@ -206,7 +206,7 @@ export function getPageOptions(args: { site: Site, page?: CardConfigPortable, te
       testId: 'add-page-slug',
       key: 'slug',
       label: 'Slug',
-      input: 'InputUsername',
+      input: 'InputHandle',
       placeholder: 'page-slug',
       isRequired: true,
       props: {

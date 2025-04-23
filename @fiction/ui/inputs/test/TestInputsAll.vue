@@ -69,11 +69,11 @@ vue.onMounted(async () => {
       <TestInput input-name="Font" :input-el="inputs.InputFont" />
 
       <TestInput
-        input-name="Username"
-        :input-el="inputs.InputUsername"
+        input-name="Handle"
+        :input-el="inputs.InputHandle"
         :input-props="{
           table: 'fiction_user',
-          column: 'username',
+          column: 'handle',
           beforeInput: 'https://',
           afterInput: '.test.com',
         }"

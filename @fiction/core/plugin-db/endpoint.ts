@@ -5,7 +5,7 @@ import { toSlug } from '../utils/casing.js'
 
 type QuerySettings = { fictionDb: FictionDb }
 
-type UsernameResult = { available: ResponseStatus, reason: ValidationReason }
+type HandleResult = { available: ResponseStatus, reason: ValidationReason }
 
 export type CheckColumnValue = {
   name: string
@@ -15,11 +15,11 @@ export type CheckColumnValue = {
   allowAnyValue?: boolean
 }
 
-type CheckUsernameParams = { table: string, columns: CheckColumnValue[] }
+type CheckHandleParams = { table: string, columns: CheckColumnValue[] }
 
-export class CheckUsername extends Query<QuerySettings> {
-  isUrlFriendly(username: string): boolean {
-    return /^[\w-]+$/.test(username)
+export class CheckHandle extends Query<QuerySettings> {
+  isUrlFriendly(handle: string): boolean {
+    return /^[\w-]+$/.test(handle)
   }
 
   async getWords(): Promise<Set<string>> {
@@ -28,13 +28,13 @@ export class CheckUsername extends Query<QuerySettings> {
   }
 
   async run(
-    params: CheckUsernameParams,
-  ): Promise<EndpointResponse<UsernameResult>> {
+    params: CheckHandleParams,
+  ): Promise<EndpointResponse<HandleResult>> {
     const wordsSet = await this.getWords()
     const { fictionDb } = this.settings
     const { table, columns } = params
 
-    let result: UsernameResult = { available: 'loading', reason: 'loading' }
+    let result: HandleResult = { available: 'loading', reason: 'loading' }
 
     try {
       for (const col of columns) {

@@ -45,8 +45,7 @@ const indexMeta = vue.ref()
       :list
       theme="primary"
       :action="{ buttons: [{
-        //
-        label: 'Invite Team Member',
+        label: 'Invite',
         theme: 'primary',
         icon: 'i-tabler-user-plus',
         onClick: () => (modalVisible = true),

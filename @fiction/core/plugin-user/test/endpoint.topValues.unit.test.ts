@@ -22,7 +22,7 @@ describe('get top values', async () => {
       _action: 'create',
       fields: {
         email: getTestEmail(),
-        username: objectId({ prefix: 'test' }),
+        handle: objectId({ prefix: 'test' }),
       },
     }, { server: true })
 
@@ -154,7 +154,7 @@ describe('get top values', async () => {
   })
 
   it('should handle non-array columns', async () => {
-    // Test with regular column like 'username'
+    // Test with regular column like 'handle'
     const response = await fictionUser.queries.GetTopValues.serve({
       table,
       column: 'memberAccess',

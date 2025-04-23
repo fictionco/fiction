@@ -75,7 +75,7 @@ describe('tracking client', async () => {
       birthday: '1993-01-01',
       company: { name: 'Fiction', id: 'companyId123' },
       title: 'Software Engineer',
-      username: 'johndoe',
+      handle: 'johndoe',
       gender: 'male',
       lists: [{ id: 'listId123', status: 'active' }],
     }

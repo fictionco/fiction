@@ -3,19 +3,19 @@ import { describe, expect, it } from 'vitest'
 import { defaultOrgName } from './index.js'
 
 describe('defaultOrgName', () => {
-  it('should extract the username and remove special characters', () => {
+  it('should extract the handle and remove special characters', () => {
     const email = 'user.name+123@gmail.com'
     const result = defaultOrgName(email)
     expect(result).toContain('UserName')
   })
 
-  it('should handle usernames ending with "s" correctly', () => {
+  it('should handle handle ending with "s" correctly', () => {
     const email = 'chris@example.com'
     const result = defaultOrgName(email)
     expect(result).toBe('Chris')
   })
 
-  it('should handle usernames not ending with "s" and add \'s correctly', () => {
+  it('should handle handle not ending with "s" and add \'s correctly', () => {
     const email = 'robert123@example.com'
     const result = defaultOrgName(email, 'Latest News')
     expect(result).toBe('Robert Latest News')
@@ -33,7 +33,7 @@ describe('defaultOrgName', () => {
     expect(result).toBe('JohnDoeSenior')
   })
 
-  it('should handle email addresses with no username part', () => {
+  it('should handle email addresses with no handle part', () => {
     const email = '@example.com'
     const result = defaultOrgName(email)
     expect(result).toBe('')

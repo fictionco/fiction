@@ -8,7 +8,7 @@ const { user } = defineProps<{
 }>()
 
 const subtext = vue.computed(() => {
-  return user.headline || (user.username ? `@${user.username}` : undefined) || 'Author'
+  return user.headline || (user.handle ? `@${user.handle}` : undefined) || 'Author'
 })
 
 const displayName = vue.computed(() => {
