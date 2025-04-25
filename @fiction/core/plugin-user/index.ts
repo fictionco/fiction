@@ -7,11 +7,12 @@ import type { FictionServer } from '../plugin-server/index.js'
 import type { FictionPluginSettings } from '../plugin.js'
 import type { ManageUserParams } from './endpoint.js'
 import type { Organization, OrganizationMember, User } from './types.js'
+import { HooksUtil } from '@fiction/core/utils/hook.js'
 import { EnvVar, vars } from '../plugin-env/index.js'
 // likely fixed in TS 4.8
 import { FictionPlugin } from '../plugin.js'
 import { TypedEventTarget } from '../utils/eventTarget.js'
-import { crossVar, isActualBrowser, isNode, safeDirname, vue } from '../utils/index.js'
+import { isActualBrowser, isNode, safeDirname, vue } from '../utils/index.js'
 import { createUserToken, decodeUserToken, manageClientUserToken } from '../utils/jwt.js'
 import { getAccessLevel, userCan, userCapabilities } from '../utils/priv.js'
 import * as priv from '../utils/priv.js'
@@ -53,8 +54,14 @@ export type UserEventMap = {
   resetPassword: CustomEvent<{ user: User }>
 }
 
+export type UserHookEvents = {
+  newUser: (args: { user: User, params: ManageUserParams & { _action: 'create' } }) => Promise<void>
+  newOrg: (args: { org: Organization, userId: string, withDefaults?: boolean }) => Promise<void>
+}
+
 export class FictionUser extends FictionPlugin<UserPluginSettings> {
   priv = priv
+  hooks = new HooksUtil<UserHookEvents>()
   userTokenKey = 'fictionAuthToken'
   activeUser = vue.ref<User>()
   initialized?: Promise<boolean>

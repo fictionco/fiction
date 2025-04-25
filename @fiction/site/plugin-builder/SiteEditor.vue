@@ -14,7 +14,7 @@ import El404 from '@fiction/ui/page/El404.vue'
 import { getMountContext, loadSite } from '../load'
 import SiteEditorFrame from './SiteEditorFrame.vue'
 
-defineProps({
+const { card } = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
@@ -46,8 +46,10 @@ async function load() {
       mountContext,
     })
 
-    if (!site.value)
-      throw new Error('No site found')
+    if (!site.value) {
+      await card.goto({ path: '/sites' })
+      return
+    }
 
     site.value.frame.init({ caller: 'SiteEditor' })
 

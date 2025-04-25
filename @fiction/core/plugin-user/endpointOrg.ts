@@ -255,7 +255,8 @@ export class QueryManageOrganization extends OrgQuery {
     if (!responseOrg?.orgId)
       throw new Error('Organization creation failed')
 
-    this.settings.fictionEnv.events.emit('onNewOrganization', { org: responseOrg, userId, withDefaults })
+
+    await this.settings.fictionUser.hooks.run('newOrg', { org: responseOrg, userId, withDefaults })
 
     await this.manageMemberRelation({ userId, orgId: responseOrg.orgId, accessType: 'owner' }, { server: true, ...meta, caller: 'orgCreateMemberRelationCall' })
 

@@ -6,7 +6,7 @@ import type { FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, Fict
 import type { FictionContact } from '@fiction/plugin-contact'
 import type { FictionSites } from '@fiction/site'
 import { cardConfig } from '@fiction/cards'
-import { FictionPlugin, safeDirname, vue } from '@fiction/core'
+import { FictionPlugin, orgFields, safeDirname, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card.js'
 import { QueryManagePost } from './endpoint'
 import { QueryPostComments, QueryPostLikes } from './endpointMeta'
@@ -79,15 +79,12 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   }
 
   hooks() {
-    this.fictionEnv.events.on('onNewOrganization', async (event) => {
-      const { org: { orgId }, userId, withDefaults } = event.detail
 
-      if (!withDefaults) { return }
-
-      if (!orgId)
-        throw new Error('orgId not found')
-
-      await createHelloWorldPost({ orgId, fictionPosts: this, userId })
+    this.settings.fictionUser.hooks.on('newOrg', 'posts:defaults', async (args) => {
+      const { org, userId, withDefaults } = args
+      if (withDefaults && org.orgId) {
+        await createHelloWorldPost({ orgId: org.orgId, fictionPosts: this, userId })
+      }
     })
   }
 
@@ -100,7 +97,7 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     fictionAdmin.addFeature({
       key: 'posts',
       getTemplates: async () => getTemplates(),
-      getPages: async ({ factory }) => [
+      getPages: async () => [
 
         cardConfig<PostAdminTemplates>({
           templateId: 'dash',

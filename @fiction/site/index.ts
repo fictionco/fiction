@@ -86,6 +86,16 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     this.addSitemaps()
     this.admin()
     this.addStructureFile()
+    this.hooks()
+  }
+
+  hooks() {
+    this.settings.fictionUser?.hooks.on('newOrg', 'sites:default', async (args) => {
+      const { org, withDefaults } = args
+      if (withDefaults) {
+        await this.queries.ManageSite.serve({ _action: 'create', fields: { title: org.orgName || 'Default Site', isPrimary: true }, caller: 'DefaultSite' }, { server: true })
+      }
+    })
   }
 
   addStructureFile() {

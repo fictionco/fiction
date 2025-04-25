@@ -49,7 +49,7 @@ const m = vue.computed(() => {
     <div v-else class="absolute inset-0 overflow-hidden">
       <XMedia class="absolute inset-0 z-10" :media="m" />
       <div
-        class="absolute inset-0 z-20 mix-blend-overlay dark:mix-blend-difference pointer-events-none ring-2 ring-inset ring-black dark:ring-white rounded-xl"
+        class="absolute inset-0 z-20  pointer-events-none ring-2 ring-inset ring-black dark:ring-white rounded-xl"
       />
     </div>
   </div>

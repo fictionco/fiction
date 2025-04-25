@@ -19,9 +19,9 @@ const emit = defineEmits(['update:vis'])
 
 const serv = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter }>()
 
-const { fictionSites, fictionRouterSites, fictionEnv } = serv
+const { fictionSites, fictionRouterSites, fictionEnv, fictionUser } = serv
 
-const form = vue.ref<Partial<TableSiteConfig>>({ title: '', themeId: '', userConfig: { } })
+const form = vue.ref<Partial<TableSiteConfig>>({ title: fictionUser.activeOrganization.value?.orgName, themeId: 'base', userConfig: { } })
 const isLoading = vue.ref(false)
 
 async function requestCreateSite() {
@@ -55,7 +55,7 @@ const stepConfig: StepConfig = {
 
       {
         title: 'Create a New Site',
-        subTitle: 'Exciting! What should we call it?',
+        subTitle: 'What should we call it?',
         placeholder: 'Enter a site name',
         key: 'name',
         class: 'max-w-lg',

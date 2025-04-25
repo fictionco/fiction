@@ -175,11 +175,11 @@ function applyChanges(value: MediaObject) {
               </template>
               <div
                 v-else
-                class="text-center border-2 border-dashed border-theme-200 dark:border-theme-700 rounded-lg p-8 w-full h-full flex items-center justify-center"
+                class="text-center  rounded-lg p-8 w-full h-full flex items-center justify-center"
               >
                 <div>
                   <i class="i-tabler-photo-plus text-4xl text-theme-400 dark:text-theme-600 mb-2" />
-                  <p class="text-theme-500 dark:text-theme-400">
+                  <p class="text-theme-400 dark:text-theme-600">
                     No media selected
                   </p>
                 </div>

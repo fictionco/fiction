@@ -28,7 +28,7 @@ function updateValue<T extends keyof PostObject = keyof PostObject>(key: T, valu
 <template>
   <div class="">
     <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="flex flex-col md:flex-row items-start gap-4 md:gap-6 grow w-full">
+      <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6 grow w-full">
         <div v-if="modelValue.media" class="flex-shrink-0 flex gap-3 items-center">
           <ElIndexItemMedia
             :media="modelValue.media"

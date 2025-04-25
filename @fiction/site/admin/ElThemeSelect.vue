@@ -59,11 +59,11 @@ function toggleSelected(themeId: string) {
           <img :src="theme.settings.screenshots?.dark?.desktop" class="pointer-events-none shadow-xl rounded-lg object-cover absolute object-top h-full w-full">
         </div>
         <div
-          class="absolute bottom-0  py-3 px-6 text-white mt-4 w-full rounded-b-lg  transition-all origin-bottom flex flex-col gap-3 items-center grow justify-between "
+          class="absolute bottom-0 p-3 text-white mt-4 w-full rounded-b-lg  transition-all origin-bottom flex flex-col gap-3 items-center grow justify-between "
           :class="modelValue === theme.themeId ? 'bg-primary-800/90' : 'bg-black/90 '"
         >
           <div class="space-y-1 pointer-events-none w-full">
-            <div class="font-bold text-xl">
+            <div class="font-bold text-sm">
               {{ theme.title }}
             </div>
             <div class="text-xs opacity-80 leading-tight line-clamp-2">
@@ -74,7 +74,7 @@ function toggleSelected(themeId: string) {
             <XButton
               theme="overlay"
               design="outline"
-              size="sm"
+              size="xs"
               @click.stop.prevent="toggleSelected(theme.themeId)"
             >
               {{ modelValue === theme.themeId ? 'Selected!' : 'Select' }}
@@ -82,7 +82,7 @@ function toggleSelected(themeId: string) {
             <XButton
               theme="overlay"
               design="outline"
-              size="sm"
+              size="xs"
               :href="getThemePreviewUrl({ site: card.site, themeId: theme.themeId })"
               target="_blank"
               icon="i-tabler-eye"

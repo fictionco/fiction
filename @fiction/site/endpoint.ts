@@ -19,7 +19,7 @@ export abstract class SitesQuery extends Query<SitesQuerySettings> {
     super(settings)
   }
 
-  getThemeById(themeId?: string) {
+  getThemeById(themeId = 'base') {
     if (!themeId)
       throw abort('themeId required')
 
