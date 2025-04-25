@@ -28,6 +28,7 @@ export * from './entry.js'
 export * from './types.js'
 
 export interface MetaAppDetails {
+  version?: string
   name?: string
   email?: string
   url?: string
@@ -59,10 +60,7 @@ export interface FictionControlSettings {
   serverOnlyModules?: ServerModuleDef[]
   uiPaths?: string[]
   staticPaths?: string[]
-  meta?: {
-    version?: string
-    app?: MetaAppDetails
-  }
+  meta?: MetaAppDetails | ((fictionEnv: FictionEnv) => MetaAppDetails)
 }
 
 type BaseCompiled = {
@@ -102,8 +100,8 @@ export class FictionEnv<
   cwd = this.settings.cwd
   monorepoRoot = safeDirname(import.meta.url, '../../..')
   mainFilePath = this.settings.mainFilePath || path.join(this.cwd, 'index.ts')
-  meta = this.settings.meta || { }
-  id = this.settings.id || toSlug(this.meta.app?.name) || 'fiction'
+  meta: MetaAppDetails
+  id = this.settings.id || 'fictionEnv'
   inspector = this.settings.inspector || false
   mode = vue.ref<'development' | 'production' | undefined>(isDev() ? 'development' : 'production')
 
@@ -190,9 +188,11 @@ export class FictionEnv<
 
     const flags = Object.entries(flagsList).map(([key, value]) => `${key}: ${value}`).join(', ')
 
+    this.meta = typeof this.settings.meta === 'function' ? this.settings.meta(this) : this.settings.meta || {}
+
     this.log.info(`[start] environment`, {
       data: {
-        appName: this.meta.app?.name || 'no name',
+        appName: this.meta?.name || 'no name',
         version: `${this.version || 'no version'} [fiction: ${fictionVersion}]`,
         vars: Object.keys(crossVar.vars()).length,
         commands: this.commands.map(c => c.command).join(', '),

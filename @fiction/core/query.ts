@@ -4,6 +4,7 @@ import type { EndpointMeta } from './utils/endpoint.js'
 import type { ErrorConfig } from './utils/error.js'
 import type { vue } from './utils/libraries.js'
 import { log } from './plugin-log/index.js'
+import { debugUser } from './plugin-user/utils/index.js'
 import { abort } from './utils/error.js'
 
 export type QueryConfig = {
@@ -41,7 +42,7 @@ export abstract class Query<T extends QueryConfig = QueryConfig> {
       return { status: 'error', reason: 'bearer is undefined (but orgId or userId are set)' }
     }
     else if (orgId && !bearer?.orgs?.find(org => org.orgId === orgId)) {
-      this.log.error('Permission denied: bearer not a member of org', { data: { orgId, bearer } })
+      this.log.error('Permission denied: bearer not a member of org', { data: { orgId, bearer: debugUser(bearer) } })
       return { status: 'error', reason: `bearer user (${bearer?.userId}) not a member of org (${orgId})` }
     }
     else if (userId && bearer?.userId !== userId) {
@@ -65,8 +66,8 @@ export abstract class Query<T extends QueryConfig = QueryConfig> {
       const permissionResult = await this.permission(params, meta)
 
       if (permissionResult.status !== 'success') {
-        const { request: _r, ..._m } = meta || {}
-        this.log.error(`Permission denied: ${permissionResult.reason} (caller: ${meta?.caller || 'unknown'})`, { data: { params, meta: _m, query: this.name } })
+        const { caller, bearer } = meta || {}
+        this.log.error(`Permission denied: ${permissionResult.reason} (caller: ${meta?.caller || 'unknown'})`, { data: { params, meta: { caller, bearer: debugUser(bearer) }, query: this.name } })
         throw abort('unauthorized', { code: 'PERMISSION_DENIED', message: 'Permission denied', reason: permissionResult.reason || 'Unknown' })
       }
 

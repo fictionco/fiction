@@ -16,7 +16,7 @@ export const theme = new Theme({
     const { site } = args
     const { getConfig } = await import('./config')
     const fictionEnv = site.fictionSites.fictionEnv
-    const domain = fictionEnv.meta.app?.domain || 'fiction.com'
+    const domain = fictionEnv.meta?.domain || 'fiction.com'
 
     return await getConfig({ ...args, domain })
   },

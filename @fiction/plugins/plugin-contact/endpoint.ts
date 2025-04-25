@@ -29,6 +29,7 @@ export type ManageContactRequest =
   | { _action: 'count', orgId: string, filters?: ComplexDataFilter[] }
   | { _action: 'update', orgId: string, where: WhereSubscription[], fields: Partial<TableContactConfig> }
   | { _action: 'delete', orgId: string, where: WhereSubscription[] }
+  | { _action: 'current', targetOrgId: string, userId?: string }
 
 export type ManageContactParams = ManageContactRequest & IndexQuery
 
@@ -61,6 +62,9 @@ export class ManageContactQuery extends SubscribeEndpoint {
       case 'delete':
         r = await this.deleteContact(params, meta)
         break
+      case 'current':
+        r = await this.getCurrentContact(params, meta)
+        break
       default:
         r = { status: 'error', message: 'Invalid action' }
     }
@@ -69,10 +73,15 @@ export class ManageContactQuery extends SubscribeEndpoint {
       return { status: 'error', message: 'Invalid action' }
     }
 
-    return this.addIndexMeta(params, r, meta)
+    // We only add index meta for certain actions
+    if (['list', 'count'].includes(_action)) {
+      return this.addIndexMeta(params as ManageContactParams & { _action: 'count' | 'list' }, r, meta)
+    }
+
+    return r
   }
 
-  private async addIndexMeta(params: ManageContactParams, r: ManageContactResponse, _meta?: EndpointMeta): Promise<ManageContactResponse> {
+  private async addIndexMeta(params: ManageContactParams & { _action: 'count' | 'list' }, r: ManageContactResponse, _meta?: EndpointMeta): Promise<ManageContactResponse> {
     const { orgId } = params
     const { limit = this.limit, offset = this.offset, filters = [] } = params
 
@@ -85,6 +94,19 @@ export class ManageContactQuery extends SubscribeEndpoint {
     r.indexMeta = { limit, offset, count: +count, ...r.indexMeta }
 
     return r
+  }
+
+  private async getCurrentContact(params: ManageContactParams & { _action: 'current' }, meta: EndpointMeta): Promise<ManageContactResponse> {
+    const { targetOrgId, userId = meta.bearer?.userId } = params
+
+    if (!targetOrgId)
+      return { status: 'error', message: 'Missing targetOrgId' }
+    if (!userId)
+      return { status: 'success', data: undefined }
+
+    const data = await this.db().table(t.contact).select('*').where({ orgId: targetOrgId, userId })
+
+    return { status: 'success', data }
   }
 
   // Helper function to resolve userId from email

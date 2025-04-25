@@ -213,7 +213,7 @@ export class QueryManageSubmission extends FormQuery {
         content,
         title,
         subTitle: `Details are below`,
-        buttons: [{ label: 'Fiction Dashboard', href: `${this.settings.fictionEnv.meta.app?.url}/app` }],
+        buttons: [{ label: 'Fiction Dashboard', href: `${this.settings.fictionEnv.meta?.url}/app` }],
         caller: 'formSendInfo',
       }, { server: true }))
 

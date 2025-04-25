@@ -40,7 +40,7 @@ export class FictionServer extends FictionPlugin<FictionServerSettings> {
   })
 
   isInitialized = false
-  serverName = this.settings.serverName || `${this.settings.fictionEnv.meta.app?.name} Server`
+  serverName = this.settings.serverName || `${this.settings.fictionEnv.meta?.name} Server`
   server?: http.Server
   // fictionUser added in fictionUser module as the module depends on this one
   fictionUser?: FictionUser

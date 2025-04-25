@@ -30,7 +30,7 @@ export class CardQueryHandler extends SitesQuery {
     }
     else if (themeId) {
       const fictionEnv = this.settings.fictionEnv
-      const { orgId, siteId } = fictionEnv.meta.app || {}
+      const { orgId, siteId } = fictionEnv.meta || {}
       site = await this.siteFromConfig({ fields: { themeId, siteId, orgId } }, meta)
     }
 

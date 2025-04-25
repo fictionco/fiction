@@ -168,7 +168,7 @@ const rootListClasses = vue.computed(() => {
 
 function getInputWrapClasses(opt: InputOption) {
   const defaultClass = format === 'control' ? '@[800px]:px-16 @[800px]:py-12 @[500px]:p-8 px-4 py-6' : opt.settings.uiFormat !== 'naked' && depth === 0 ? 'px-6' : ''
-  return twMerge([defaultClass, classes.inputWrap || ''])
+  return twMerge([defaultClass, classes.inputWrap || 'max-w-[600px]'])
 }
 
 function getGroupClasses(opt: InputOption) {
@@ -216,7 +216,7 @@ function handleTabChange(index: number) {
 
 <template>
   <div
-    class="@container/engine flex flex-col"
+    class="@container/engine flex flex-col "
     :class="[`form-engine-${depth}`, cls.inputGap]"
     :data-value="depth === 0 ? JSON.stringify(modelValue) : undefined"
     :data-form-engine-depth="depth"

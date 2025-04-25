@@ -272,8 +272,6 @@ export function createTestUtils(opts?: TestUtilSettings) {
 
         fictionApp.logReady({ serveMode: 'comboSSR' })
       }
-
-      await fictionUser.ensureAppOrgId({ context: args.context, defaultId: 'test' })
     },
     ...service,
   }

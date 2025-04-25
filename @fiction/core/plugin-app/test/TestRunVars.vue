@@ -9,8 +9,8 @@ const list = [
   { id: 'is-test', title: 'IS_TEST', value: process.env.IS_TEST },
   { id: 'node-env', title: 'NODE_ENV', value: process.env.NODE_ENV },
   { id: 'is-app', title: 'IS_APP_CLIENT', value: process.env.IS_APP_CLIENT },
-  { id: 'app-name', title: 'App Name', value: fictionEnv.meta.app?.name },
-  { id: 'app-email', title: 'App Email', value: fictionEnv.meta.app?.email },
+  { id: 'app-name', title: 'App Name', value: fictionEnv.meta?.name },
+  { id: 'app-email', title: 'App Email', value: fictionEnv.meta?.email },
 ]
 </script>
 

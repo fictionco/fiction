@@ -33,8 +33,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
 
   // gets preveiw frame url for the current site - used to show preview in the admin
   currentSiteFrameUrl = vue.computed(() => {
-    const s = this.site.fictionSites
-    return `${s.adminBaseRoute}/preview/site/${this.site.siteId}${this.framePath.value}`
+    return `${this.site.fictionSites.previewRoute}/site/${this.site.siteId}${this.framePath.value}`
   })
 
   previewPath = vue.computed(() => this.site.fictionSites.getQueryItemPreviewPath.value)

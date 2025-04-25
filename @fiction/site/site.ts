@@ -402,8 +402,19 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   activeContact = vue.ref<Contact | undefined>()
 
   async setActiveContact(args: { userId?: string }) {
-    const { userId } = args
-    const contact = await this.fictionSites.settings.fictionContact?.getCurrentContact({ site: this, userId })
-    this.activeContact.value = contact
+    const fictionContact = this.fictionSites.settings.fictionContact
+
+    if (!fictionContact) {
+      throw new Error('FictionContact is not available')
+    }
+
+    const targetOrgId = this.org.value.orgId
+    if (!targetOrgId) {
+      throw new Error('Organization ID is not available')
+    }
+
+    const response = await fictionContact?.requests.ManageContact.request({ _action: 'current', targetOrgId }, { caller: 'getCurrentContact' })
+
+    this.activeContact.value = response.data?.[0]
   }
 }

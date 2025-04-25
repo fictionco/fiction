@@ -80,7 +80,7 @@ export class QueryTeamInvite extends TeamQuery {
     if (!fictionUser || !fictionEmail)
       throw abort('User or email service unavailable')
 
-    const appUrl = fictionEnv.meta.app?.url
+    const appUrl = fictionEnv.meta?.url
     if (!appUrl)
       throw abort('Application URL not configured')
 
@@ -197,7 +197,7 @@ export class QueryTeamInvite extends TeamQuery {
 
   invitationReturnUrl(args: { code: string, email: string, orgId: string, redirect?: string, isNew?: boolean }): string {
     const { email, code, orgId, redirect, isNew = false } = args
-    const url = this.settings.fictionEnv.meta.app?.url
+    const url = this.settings.fictionEnv.meta?.url
 
     if (!url) {
       throw new Error('No app URL defined in environment meta settings')

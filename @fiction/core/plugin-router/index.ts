@@ -40,7 +40,7 @@ export class FictionRouter<
   replacers: LinkReplace
 
   loadingRoute = vue.ref(true)
-  baseUrl = this.settings.baseUrl || this.fictionEnv?.meta.app?.url || ''
+  baseUrl = this.settings.baseUrl || this.fictionEnv?.meta?.url || ''
   // prepended to every route (vue-router base)
   routeBasePath = this.settings.routeBasePath || '/'
   noBrowserNav = vue.ref(this.settings.noBrowserNav ?? !!this.fictionEnv?.isNode)

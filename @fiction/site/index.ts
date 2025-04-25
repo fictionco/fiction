@@ -46,10 +46,8 @@ export type SitesPluginSettings = {
   fictionMedia: FictionMedia
   fictionAppSites: FictionApp
   fictionRouterSites: FictionRouter
-  flyAppId: string
-  flyApiToken: string
-  adminBaseRoute?: string
   themes: () => Promise<Theme[]>
+  fictionOrgId?: string
 } & FictionPluginSettings
 
 function getTemplates() {
@@ -62,8 +60,8 @@ function getTemplates() {
 type SiteAdminTemplates = AdminTemplates & ReturnType<typeof getTemplates>
 
 export class FictionSites extends FictionPlugin<SitesPluginSettings> {
-  adminBaseRoute = this.settings.adminBaseRoute || '/admin'
   themes = vue.shallowRef<Theme[]>([])
+  previewRoute = '/admin/preview'
 
   builder = new FictionSiteBuilder({ ...this.settings, fictionSites: this })
 
@@ -181,7 +179,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     const finalSelectorType = selectorType || (siteId ? 'site' : subDomain ? 'domain' : themeId ? 'theme' : cardId ? 'card' : 'none')
     const finalSelectorId = selectorId || siteId || subDomain || themeId || cardId || 'none'
 
-    return `${this.adminBaseRoute}/preview/${finalSelectorType}/${finalSelectorId}`
+    return `${this.previewRoute}/${finalSelectorType}/${finalSelectorId}`
   })
 
   cleanup() {

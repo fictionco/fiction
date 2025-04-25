@@ -114,7 +114,7 @@ describe('team invite functionality', async () => {
   it('should generate correct invitation URLs', async () => {
     // Access the method directly for unit testing
     const teamInviteQuery = testUtils.fictionTeam.queries.TeamInvite
-    const appUrl = testUtils.fictionEnv.meta.app?.url || 'https://app.example.com'
+    const appUrl = testUtils.fictionEnv.meta?.url || 'https://app.example.com'
 
     // Test for new user
     const newUserUrl = teamInviteQuery.invitationReturnUrl({

@@ -40,10 +40,10 @@ describe('sitePreview', async () => {
     const cur = () => r.current.value
     const previewPath = () => testUtils.fictionSites.getQueryItemPreviewPath.value
 
-    const orgBase = testUtils.fictionSites.adminBaseRoute
-    const siteEdit = `${orgBase}/siteEdit`
+    const previewRoute = testUtils.fictionSites.previewRoute
+    const siteEdit = `${previewRoute}/siteEdit`
 
-    await r.push(`/admin/preview/theme/test`, { caller: ctx.task.name })
+    await r.push(`${previewRoute}/theme/test`, { caller: ctx.task.name })
 
     expect(cur().params).toMatchInlineSnapshot(`
       {

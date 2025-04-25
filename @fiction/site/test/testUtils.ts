@@ -59,8 +59,7 @@ export async function createSiteTestUtils(args: {
 
   const fictionEnv = testUtils.fictionEnv
 
-  const { awsAccessKey, awsAccessKeySecret, flyApiToken, openaiApiKey, awsBucketMedia } = v
-  const flyAppId = 'fiction-gateway'
+  const { awsAccessKey, awsAccessKeySecret, openaiApiKey, awsBucketMedia } = v
 
   const routes = [new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FSite })]
 
@@ -94,7 +93,7 @@ export async function createSiteTestUtils(args: {
     ...(args.themes || []),
   ])
 
-  out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), flyApiToken, flyAppId, themes })
+  out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), themes })
   out.fictionCards = new FictionCards({ ...out, fictionSites: out.fictionSites, fictionRouterSites: out.fictionRouterSites })
   await runServicesSetup(out, { context: 'test' })
 

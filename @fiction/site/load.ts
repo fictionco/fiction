@@ -112,9 +112,7 @@ export async function loadSiteFromTheme(args: {
   const { themeId, siteRouter, fictionSites, siteMode, caller } = args
   const availableThemes = fictionSites.themes.value
   const theme = availableThemes.find(t => t.themeId === themeId)
-  const { fictionEnv } = fictionSites.settings
-  const appMeta = fictionEnv.meta.app || {}
-  const orgId = args.fictionOrgId || appMeta.orgId || fictionEnv.var('FICTION_ORG_ID')
+  const orgId = args.fictionOrgId || fictionSites.settings.fictionOrgId
   const fictionUser = fictionSites.settings.fictionUser
 
   if (!orgId) {

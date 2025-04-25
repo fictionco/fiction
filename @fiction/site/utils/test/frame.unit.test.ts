@@ -157,7 +157,6 @@ describe('previewUrl', async () => {
   it('should return the preview URL for the site', async () => {
     const site = await Site.create({ ...common, isProd: true, subDomain: 'sub' })
 
-    expect(site.fictionSites.adminBaseRoute).toMatchInlineSnapshot(`"/admin"`)
-    expect(site.frame.currentSiteFrameUrl.value).toBe(`${site.fictionSites.adminBaseRoute}/preview/site/${site.siteId}`)
+    expect(site.frame.currentSiteFrameUrl.value).toBe(`${testUtils.fictionSites.previewRoute}/site/${site.siteId}`)
   })
 })

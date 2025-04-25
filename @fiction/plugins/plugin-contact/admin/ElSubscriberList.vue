@@ -62,6 +62,8 @@ const indexMeta = vue.ref()
 async function load(args: { offset?: number, limit?: number } = {}) {
   loading.value = true
 
+  await service.fictionUser.userInitialized({ caller: 'ElSubscriberList' })
+
   try {
     const { offset = 0, limit = 40 } = args
     const endpoint = service.fictionContact.requests.ManageContact
@@ -69,7 +71,7 @@ async function load(args: { offset?: number, limit?: number } = {}) {
     if (!orgId)
       throw new Error('No orgId')
 
-    const r = await endpoint.projectRequest({ _action: 'list', offset, limit })
+    const r = await endpoint.projectRequest({ _action: 'list', offset, limit }, { caller: 'ElSubscriberList' })
 
     indexMeta.value = r.indexMeta
 

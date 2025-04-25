@@ -385,7 +385,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     const template = await this.indexHtml.getRenderedIndexHtml()
 
     const urls = (await this.fictionApp.fictionSitemap?.getSitemapPaths({ runVars: {
-      HOSTNAME: this.fictionEnv?.meta.app?.url || '',
+      HOSTNAME: this.fictionEnv?.meta?.url || '',
     } })) || []
 
     fs.ensureDirSync(distFolderStatic)

@@ -34,7 +34,7 @@ async function load() {
     if (!orgId)
       throw new Error('No orgId')
 
-    const r = await endpoint.projectRequest({ _action: 'list', where: { contactId } })
+    const r = await endpoint.projectRequest({ _action: 'list', where: { contactId } }, { caller: 'ViewSingle' })
 
     if (!r.data || !r.data.length)
       throw new Error('No contact found')

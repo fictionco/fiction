@@ -25,24 +25,23 @@ import { getStripeProductConfig } from './stripeProducts'
 const cwd = safeDirname(import.meta.url, '..')
 
 // Core configuration
-const META = {
-  version,
-  app: {
+function META() {
+  return {
+    version,
     name: 'Fiction',
     email: 'admin@fiction.com',
     url: 'https://www.fiction.com',
     domain: 'fiction.com',
     termsUrl: 'https://docs.fiction.com/resources/terms.html',
     privacyUrl: 'https://docs.fiction.com/resources/privacy.html',
-    orgId: 'org661d8818f01bb9289c28813a',
-  },
-} as const
+  }
+}
 
 const URLS = {
-  app: `https://www.${META.app.domain}`,
-  beacon: `https://beacon.${META.app.domain}`,
-  gateway: `https://*.${META.app.domain}`,
-  sites: `https://*.fictionsites.com`,
+  app: `https://www.fiction.com`,
+  beacon: `https://beacon.fiction.com`,
+  gateway: `https://*.fiction.com`,
+  sites: `https://*.fiction.com`,
 } as const
 
 const envFiles = [path.join(apiRoot, './.env')]
@@ -77,7 +76,6 @@ const v = getEnvVars(fictionEnv, envVarNames)
 const {
   redisUrl,
   apolloApiKey,
-  flyApiToken,
   googleClientId,
   googleClientSecret,
   tokenSecret,
@@ -101,7 +99,7 @@ const comboPort = +fictionEnv.var('APP_PORT')
 const fictionRouter = new FictionRouter({
   routerId: 'parentRouter',
   fictionEnv,
-  baseUrl: fictionEnv.meta.app?.url,
+  baseUrl: fictionEnv.meta?.url,
   routes: (fictionRouter) => {
     return [
       new AppRoute({ name: 'buttonsDemo', path: '/demo-buttons', component: async (): Promise<any> => import('@fiction/ui/buttons/test/TestButtonsAll.vue'), noSitemap: true }),
@@ -115,14 +113,13 @@ const fictionRouter = new FictionRouter({
 })
 
 const fictionApp = new FictionApp({
-  liveUrl: fictionEnv.meta.app?.url,
+  liveUrl: fictionEnv.meta?.url,
   port: comboPort,
   fictionRouter,
   isLive: fictionEnv.isProd,
   fictionEnv,
   srcFolder: path.join(cwd, './src'),
   renderTokenSecret: tokenSecret,
-  fictionOrgId: fictionEnv.var('FICTION_ORG_ID'),
 })
 
 const fictionRouterSites = new FictionRouter({
@@ -142,7 +139,7 @@ const fictionAppSites = new FictionApp({
   localHostname: '*.lan.com',
   liveUrl: URLS.sites,
   renderTokenSecret: tokenSecret,
-  altHostnames: [{ prod: `theme-minimal.${fictionEnv.meta.app?.domain}`, dev: 'theme-minimal.lan.com' }],
+  altHostnames: [{ prod: `theme-minimal.${fictionEnv.meta?.domain}`, dev: 'theme-minimal.lan.com' }],
   isLive: fictionEnv.isProd,
   srcFolder: path.join(cwd, './src'),
 })
@@ -190,7 +187,15 @@ const themes = async () => getThemes({ ...s, fictionStripe })
 const fictionContact = new FictionContact(s)
 const fictionTeam = new FictionTeam({ ...s })
 
-const fictionSites = new FictionSites({ ...s, fictionContact, fictionAnalytics, fictionAppSites, fictionRouterSites, flyApiToken, flyAppId: 'fiction-gateway', adminBaseRoute: '/admin', themes })
+const fictionSites = new FictionSites({
+  ...s,
+  fictionContact,
+  fictionAnalytics,
+  fictionAppSites,
+  fictionRouterSites,
+  fictionOrgId: fictionEnv.var('FICTION_ORG_ID'),
+  themes,
+})
 const fictionCards = new FictionCards({ ...s, fictionSites })
 const fictionForms = new FictionForms({ ...s, fictionSites })
 

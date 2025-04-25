@@ -24,8 +24,8 @@ const { fictionRouter, fictionAdmin, fictionEnv, fictionUser } = useService<{ fi
 
 // User configuration
 const userConfig = vue.computed(() => props.card.userConfig.value)
-const termsUrl = vue.computed(() => userConfig.value.termsUrl || fictionEnv.meta.app?.termsUrl)
-const privacyUrl = vue.computed(() => userConfig.value.privacyUrl || fictionEnv.meta.app?.privacyUrl)
+const termsUrl = vue.computed(() => userConfig.value.termsUrl || fictionEnv.meta?.termsUrl)
+const privacyUrl = vue.computed(() => userConfig.value.privacyUrl || fictionEnv.meta?.privacyUrl)
 
 const userToken = vue.ref('')
 
@@ -142,7 +142,7 @@ const screenConfig = vue.computed(() => {
 const pageTitle = vue.computed(() => {
   const orgPrefix = orgData.value ? `${orgData.value.orgName} - ` : ''
   const authText = authState.value === 'welcome' ? 'Sign in' : 'Create account'
-  return `${orgPrefix}${authText} - ${fictionEnv.meta.app?.name}`
+  return `${orgPrefix}${authText} - ${fictionEnv.meta?.name}`
 })
 
 // Utility functions - can be extracted to a separate file

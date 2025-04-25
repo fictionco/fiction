@@ -29,11 +29,11 @@ const icon = `<svg
       <nav class="flex justify-center md:justify-end gap-4 items-center">
         <span>&copy; {{ card.site?.org.value.orgName }}</span>
         &middot;
-        <CardLink :card :href="fictionEnv.meta.app?.privacyUrl">
+        <CardLink :card :href="fictionEnv.meta?.privacyUrl">
           Privacy
         </CardLink>
         &middot;
-        <CardLink :card :href="fictionEnv.meta.app?.termsUrl">
+        <CardLink :card :href="fictionEnv.meta?.termsUrl">
           Terms
         </CardLink>
       </nav>

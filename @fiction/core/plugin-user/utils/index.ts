@@ -164,3 +164,21 @@ export async function validateNewEmail(params: {
 
   return true
 }
+
+export function debugUser(user?: User) {
+  return {
+    userId: user?.userId,
+    email: user?.email,
+    handle: user?.handle,
+    fullName: user?.fullName,
+    googleId: user?.googleId,
+    orgs: user?.orgs?.map(org => ({
+      orgId: org.orgId,
+      orgName: org.orgName,
+      orgEmail: org.orgEmail,
+      createdByUserId: org.createdByUserId,
+      customerId: org.customerId,
+      customerIdTest: org.customerIdTest,
+    })),
+  }
+}

@@ -27,7 +27,7 @@ interface FictionMonitorSettings {
 }
 
 export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
-  monitorEmail = this.settings.monitorEmail || this.settings.fictionEnv.meta.app?.email
+  monitorEmail = this.settings.monitorEmail || this.settings.fictionEnv.meta?.email
   isTest = isTest()
   slackWebhookUrl = this.settings.slackWebhookUrl
   sentryPublicDsn = this.settings.sentryPublicDsn

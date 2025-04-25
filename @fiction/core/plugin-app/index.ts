@@ -39,7 +39,6 @@ export type FictionAppSettings = {
   mainIndexHtml?: string
   publicFolder?: string
   appInstanceId?: string // to differentiate multiple apps
-  fictionOrgId?: string
   renderTokenSecret?: string
   root?: string
 } & FictionPluginSettings
@@ -221,7 +220,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   }
 
   logReady(args: { serveMode: string }) {
-    const app = this.settings.fictionEnv.meta.app || {}
+    const app = this.settings.fictionEnv.meta || {}
     const { port, appInstanceId, prodUrl, localUrl, settings } = this
     const serveMode = args.serveMode
     const isLive = this.isLive.value ?? false

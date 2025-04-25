@@ -18,7 +18,7 @@ export const fictionEnv = new FictionEnv({
     new CliCommand({ command: 'render', type: 'util' }),
   ],
   version,
-  meta: { app: { name: 'Fiction Monorepo', email: 'hello@fiction.com' } },
+  meta: { name: 'Fiction Monorepo', email: 'hello@fiction.com' },
 })
 
 const fictionRelease = new FictionRelease({ fictionEnv })

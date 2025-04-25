@@ -126,7 +126,7 @@ export class QueryTransactionalEmail extends EmailQuery {
   }
 
   fromAppEmail() {
-    const appMeta = this.settings.fictionEnv.meta.app || {}
+    const appMeta = this.settings.fictionEnv.meta || {}
 
     const { name, email = 'no-reply@fiction.com' } = appMeta
 
