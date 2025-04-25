@@ -19,7 +19,7 @@ const {
   <div class="grid place-items-center px-6 py-24 sm:py-32 lg:px-8 h-[50dvh]">
     <div class="text-center">
       <p class="text-sm font-medium text-theme-400 font-sans">
-        {{ superTitle?.text || '404 - Not Found' }}
+        {{ superTitle?.text || '404' }}
       </p>
       <h1 class="mt-4 text-3xl font-semibold x-font-title">
         {{ title || 'Page Not Available' }}

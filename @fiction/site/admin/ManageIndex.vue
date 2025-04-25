@@ -56,7 +56,7 @@ function getActions(location: 'top' | 'zero') {
     testId: 'createSite',
     label: 'Create New Site',
     icon: 'i-tabler-plus',
-    theme: 'green',
+    theme: 'primary',
     onClick: () => (showCreateModal.value = true),
   }]
   return location === 'zero' || list.value.length > 0 ? { buttons } : {}
@@ -78,7 +78,7 @@ function getActions(location: 'top' | 'zero') {
           action: getActions('zero'),
           media: { class: 'i-tabler-browser-plus' },
         }"
-        theme="green"
+        theme="primary"
         :action="getActions('top')"
         :on-item-click="() => {}"
         @bulk-edit="() => {}"

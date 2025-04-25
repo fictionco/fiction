@@ -32,8 +32,8 @@ const panels = [
       subTitle: 'Customizable websites and landing pages.',
       media: { class: 'i-tabler-browser' },
       action: {},
-      theme: 'green',
+      theme: 'primary',
     }"
-    theme="green"
+    theme="primary"
   />
 </template>

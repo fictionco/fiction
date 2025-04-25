@@ -36,7 +36,7 @@ export type WhereSite = {
   | { handle: string }
 )
 
-type MountContext = { siteMode?: SiteMode, fictionOrgId?: string, contextCacheKey?: string } & WhereSite
+type MountContext = { siteMode?: SiteMode, contextCacheKey?: string } & WhereSite
 type RequestManageSiteParams = ManageSiteParams & { siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode, orgId?: string, siteId?: string }
 
 export async function requestManageSite(args: RequestManageSiteParams) {
@@ -189,9 +189,9 @@ export async function loadSite(args: {
 
   let site: Site | undefined = undefined
   try {
-    const { fictionOrgId, siteId, subDomain, hostname, themeId, cardId, siteMode = 'standard', internal } = mountContext || {}
+    const { orgId, siteId, subDomain, hostname, themeId, cardId, siteMode = 'standard', internal } = mountContext || {}
 
-    const where = { siteId, subDomain, hostname, themeId } as WhereSite
+    const where = { siteId, subDomain, hostname, themeId, orgId } as WhereSite
     const hasWhere = Object.values(where).filter(Boolean).length > 0
 
     const selectors = [siteId, subDomain, themeId, cardId].filter(Boolean)
@@ -204,7 +204,7 @@ export async function loadSite(args: {
       return
 
     if (themeId) {
-      site = await loadSiteFromTheme({ fictionOrgId, themeId, siteRouter, fictionSites, siteMode, caller })
+      site = await loadSiteFromTheme({ themeId, siteRouter, fictionSites, siteMode, caller })
       logger.debug(`loading site from theme (${themeId})`, { data: { themeId, site: site.toConfig() } })
     }
     else if (cardId) {
@@ -275,8 +275,6 @@ export function getMountContext(args: {
   let selector: Partial<MountContext> = {}
   let siteMode = args.siteMode || 'standard'
 
-  const fictionOrgId = orgId || runVars?.FICTION_ORG_ID
-
   // Premade mount context as passed in mount, used in preview and editing
   if (mountContext) {
     const mc = mountContext as MountContext
@@ -286,6 +284,7 @@ export function getMountContext(args: {
       themeId: mc.themeId,
       subDomain: mc.subDomain,
       hostname: mc.hostname,
+      orgId: mc.orgId,
     }
     siteMode = mc.siteMode || siteMode
   }
@@ -299,6 +298,7 @@ export function getMountContext(args: {
         themeId: selectorType === 'theme' ? selectorId : undefined,
         subDomain: selectorType === 'domain' ? selectorId : undefined,
         hostname: selectorType === 'hostname' ? selectorId : undefined,
+        orgId: selectorType === 'org' ? selectorId : undefined,
       }
     }
 
@@ -310,6 +310,7 @@ export function getMountContext(args: {
         themeId: queryVars.themeId || undefined,
         subDomain: queryVars.subDomain || undefined,
         hostname: queryVars.hostname || undefined,
+        orgId: queryVars.orgId || undefined,
       }
     }
 
@@ -321,10 +322,8 @@ export function getMountContext(args: {
 
   const numVals = Object.values(selector).filter(Boolean).length
 
-  if (numVals === 0 && fictionOrgId) {
-    selector = {
-      orgId: fictionOrgId,
-    }
+  if (numVals === 0 && orgId) {
+    selector = { orgId }
   }
   else if (numVals !== 1) {
     logger.error('MountContext: INVALID SELECTOR', { data: { selector, queryVars, selectorType, selectorId, siteMode, passedMountContext: mountContext } })
@@ -336,7 +335,7 @@ export function getMountContext(args: {
 
   const contextCacheKey = Object.entries(selector).filter(o => o[1]).map(([key, value]) => `${key}:${value}`).join('-')
 
-  return { siteMode, fictionOrgId, contextCacheKey, ...selector } as MountContext
+  return { siteMode, contextCacheKey, ...selector } as MountContext
 }
 
 function formatPath(basePath: string, path: string): string {

@@ -26,7 +26,7 @@ const mediaStyle = vue.computed(() => {
   const style = getColorThemeStyles(theme || 'primary')
 
   return {
-    base: `relative rounded-full overflow-hidden shrink-0`,
+    base: `relative rounded-xl overflow-hidden shrink-0`,
     iconWrapper: style?.bg,
     icon: style?.text,
     ring: style?.ring,
@@ -39,18 +39,17 @@ const m = vue.computed(() => {
 </script>
 
 <template>
-  <div :class="[mediaStyle.base, mediaStyle.iconWrapper, mediaStyle.icon]">
+  <div :class="[mediaStyle.base, mediaStyle.iconWrapper, mediaStyle.icon, mediaStyle.ring]" class="ring-2 ring-inset">
     <div
       v-if="m && !m?.url && !m?.html"
-      :class="mediaStyle.ring"
-      class="w-full h-full flex items-center justify-center rounded-full ring-2 ring-inset"
+      class="w-full h-full flex items-center justify-center rounded-full"
     >
       <XIcon class="size-[60%]" :media="m" />
     </div>
     <div v-else class="absolute inset-0 overflow-hidden">
       <XMedia class="absolute inset-0 z-10" :media="m" />
       <div
-        class="absolute inset-0 z-20 mix-blend-overlay dark:mix-blend-difference pointer-events-none ring-2 ring-inset ring-black dark:ring-white rounded-full"
+        class="absolute inset-0 z-20 mix-blend-overlay dark:mix-blend-difference pointer-events-none ring-2 ring-inset ring-black dark:ring-white rounded-xl"
       />
     </div>
   </div>

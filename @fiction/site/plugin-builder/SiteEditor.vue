@@ -35,9 +35,6 @@ async function load() {
     const { siteId = q.site, themeId = q.theme, cardId = q.card } = q
     const orgId = fictionUser.activeOrgId.value
 
-    if (!siteId && !themeId && !cardId)
-      throw new Error('No site, theme, or card id provided')
-
     // create the router for the site
     await fictionRouterSites.create({ noBrowserNav: true, caller: 'SiteEditor' })
 
@@ -211,7 +208,7 @@ async function resetToPublished() {
           </CardButton>
         </template>
         <template #default>
-          <El404 v-if="!site && !loading" title="Site Not Found" sub-title="No site was found here." :buttons="[{ href: card.link('/sites'), label: 'View Sites' }]" />
+          <El404 v-if="!site && !loading" title="Site Not Found" sub-title="Site is missing at this url" :buttons="[{ href: card.link('/sites'), label: 'View Sites' }]" />
           <SiteEditorFrame v-else class="h-full" :site="site" />
         </template>
       </ViewEditor>
