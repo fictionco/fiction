@@ -11,7 +11,7 @@ import { Site } from '../../site.js'
 import { createSiteTestUtils } from '../../test/testUtils.js'
 import { siteGoto, siteLink } from '../manage.js'
 import { setPages, updatePages } from '../page.js'
-import { activeSiteHostname, saveSite, updateSite } from '../site.js'
+import { saveSite, updateSite } from '../site.js'
 
 describe('siteLink / siteGoto', async () => {
   const testUtils = await createSiteTestUtils()
@@ -187,15 +187,18 @@ describe('updateSite / updatePages', async () => {
     await updateSite({
       caller: 'testUpdateSite',
       site,
-      newConfig: { title: 'New Title', userConfig: {
-        locale: 'es',
-      } satisfies Site['userConfig']['value'], subDomain: 'newSub', customDomains: [{ hostname: 'new.com' }] },
+      newConfig: {
+        title: 'New Title',
+        userConfig: {
+          locale: 'es',
+        } satisfies Site['userConfig']['value'],
+        subDomain: 'newSub',
+      },
     })
 
     expect(site.title.value).toBe('New Title')
     expect(site.userConfig.value?.locale).toBe('es')
     expect(site.subDomain.value).toBe('newSub')
-    expect(site.customDomains.value[0].hostname).toBe('new.com')
   })
 
   it('updates and initializes new partial regions', async () => {
@@ -243,28 +246,5 @@ describe('updateSite / updatePages', async () => {
     expect(userSitePages[0]?.slug.value).toBe(undefined)
     expect(userSitePages[0]?.title.value).toBe('Updated Title')
     expect(userSitePages[0]?.userConfig.value.otherProp).toBe('Updated')
-  })
-})
-
-describe('activeSiteHostname', async () => {
-  const testUtils = await createSiteTestUtils()
-  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` }
-
-  it('should return the hostname from a full URL', async () => {
-    testUtils.fictionAppSites.liveUrl.value = 'https://*.example.com'
-
-    const site = await Site.create({ ...common, subDomain: 'subdomain', isProd: false })
-
-    expect(activeSiteHostname(site).value).toBe('subdomain.lan.com')
-
-    site.isProd.value = true
-
-    expect(activeSiteHostname(site).value).toBe('subdomain.example.com')
-  })
-
-  it('should return empty string for invalid URL', async () => {
-    testUtils.fictionAppSites.liveUrl.value = 'invalid-url'
-    const site = await Site.create({ ...common, subDomain: 'subdomain', isProd: true })
-    expect(activeSiteHostname(site).value).toBe('')
   })
 })

@@ -5,6 +5,7 @@ import { gravatarUrlSync, useService, vue } from '@fiction/core'
 import { OrgSchema as schema } from '@fiction/core/plugin-user/schema'
 import { createOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
+import InputApiKey from './InputApiKey.vue'
 import SettingsPanel from './SettingsPanel.vue'
 
 type UserConfig = {
@@ -73,6 +74,21 @@ const o = [
     ],
   }),
   createOption({
+    schema,
+    key: 'group.dev',
+    label: 'Developer',
+    input: 'group',
+    options: [
+      createOption({
+        key: 'apiSecret',
+        label: 'Secret API Key',
+        description: 'Keep this key secure. Do not share or expose it in client-side code.',
+        input: InputApiKey,
+        props: { card },
+      }),
+    ],
+  }),
+  createOption({
     key: 'adminOnly',
     label: 'Admin Only Options',
     input: 'group',
@@ -120,7 +136,7 @@ const o = [
 const header = vue.computed(() => {
   return {
     title: org.value?.orgName,
-    subTitle: `Brand Details - id:${org.value?.orgId}`,
+    subTitle: `Brand - id:${org.value?.orgId}`,
     media: avatarUrl.value,
   }
 })
@@ -133,7 +149,7 @@ vue.onMounted(async () => {
 
 <template>
   <SettingsPanel
-    title="Brand Details"
+    title="Global Settings"
     :loading
     :action="{
       buttons: [{

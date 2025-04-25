@@ -1,6 +1,6 @@
 import { safeDirname, vue } from '@fiction/core'
 import { getPostPaths } from '@fiction/posts/utils/post'
-import { cardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site/card.js'
 
 export const templateId = 'cardBlogV1'
 

@@ -17,12 +17,11 @@ export function getSiteIndexItemList(sites: Site[], parentCard: Card): SiteListI
   }
 
   const rows = sites.map((site) => {
-    const domain = site.primaryCustomDomain.value || fictionAppSites.liveUrl.value.replace('*', site.settings.subDomain || '')
-    const displayDomain = domain.replace('https://', '').replace('http://', '').replace('www.', '')
+
     const editLink = siteLink({ site: parentCard.site, location: { path: '/edit-site', query: { siteId: site.settings.siteId } } })
     const out: SiteListItem = {
       label: site.settings.title || 'Untitled',
-      description: `${displayDomain}`,
+      description: site.settings.isPrimary ? 'Primary site' : 'Development site',
       key: site.settings.siteId,
       href: editLink,
       // figure: { el: vue.defineAsyncComponent(() => import('./fig/FigSite.vue')), props: { site } },

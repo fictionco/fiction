@@ -17,7 +17,7 @@ export const theme = new Theme({
   },
 
   isPublic: true,
-  getTemplates: () => getCardTemplates(),
+  getTemplates: () => getCardTemplates({ caller: 'baseTheme' }),
   getConfig: async (args) => {
     const { getConfig } = await import('./config')
 

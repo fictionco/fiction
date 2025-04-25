@@ -2,7 +2,7 @@ import type { CardConfigPortable, Site } from '@fiction/site'
 import type { FormConfigPortable } from './schema'
 import { FictionObject } from '@fiction/core'
 import { CardFactory } from '@fiction/site/cardFactory'
-import { getCardTemplates } from './templates'
+import { getFormCardTemplates } from './templates'
 
 type FormTemplateConfig = FormConfigPortable & {
   formTemplateId: string
@@ -36,7 +36,7 @@ export async function getFormTemplates(args: { site?: Site, formConfig: FormConf
 
   const factory = new CardFactory({
     site,
-    templates: await getCardTemplates(),
+    templates: await getFormCardTemplates(),
     caller: 'getFormTemplates',
   })
   return [

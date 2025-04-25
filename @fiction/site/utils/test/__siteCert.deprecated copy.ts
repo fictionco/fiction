@@ -1,3 +1,4 @@
+import type { EndpointMeta } from '@fiction/core'
 /**
  * @vitest-environment happy-dom
  */
@@ -6,31 +7,35 @@ import { afterAll, describe, expect, it } from 'vitest'
 import { requestManageSite } from '../../load.js'
 import { t } from '../../tables.js'
 import { createSiteTestUtils } from '../../test/testUtils.js'
-import { updateCustomDomains } from '../cert.js'
+import { updateCustomDomains } from '../__cert.js'
 import { saveSite } from '../site.js'
 
 describe('updateCustomDomains', async () => {
   const testUtils = await createSiteTestUtils()
   const { user } = await testUtils.init()
   afterAll(() => testUtils.close())
-  const { fictionSites, fictionDb } = testUtils
-
-  // Setup test site
-  const result = await requestManageSite({
-    _action: 'create',
-    fields: { title: 'test', themeId: 'test' },
-    caller: 'saveSiteInit',
+  const meta = { bearer: user } as EndpointMeta
+  const common = {
     fictionSites: testUtils.fictionSites,
     siteRouter: testUtils.fictionRouterSites,
+    themeId: 'test',
     siteMode: 'standard',
-  })
-
+  } as const
+  const { fictionSites, fictionDb } = testUtils
+  const result = await requestManageSite(
+    {
+      _action: 'create',
+      fields: { title: 'test', themeId: 'test' },
+      caller: 'saveSiteInit',
+      ...common,
+    },
+  )
   if (!result.site || !result.response?.data)
     throw new Error('problem creating site')
 
   const site = result.site
 
-  it('adds new domain mapping when custom domain added', async () => {
+  it('adds new certs when new custom domains are added', async () => {
     const newDomain = { hostname: `test-${shortId()}.test.com` }
     const siteId = site.siteId
     const updatedDomains = await updateCustomDomains({ siteId, customDomains: [newDomain], fictionSites, fictionDb }, {})
@@ -39,36 +44,26 @@ describe('updateCustomDomains', async () => {
     expect(updatedDomains[0].hostname).toBe(newDomain.hostname)
   })
 
-  it('removes domain mapping when custom domain removed', async () => {
+  it('removes certs when custom domains are removed', async () => {
     const existingDomain = { hostname: `existing-${shortId()}.test.com` }
     await testUtils.fictionDb.client()(t.domains).insert({
       siteId: site.siteId,
       hostname: existingDomain.hostname,
     })
+    const siteId = site.siteId
+    const updatedDomains = await updateCustomDomains({ siteId, customDomains: [], fictionSites, fictionDb }, {})
 
-    const updatedDomains = await updateCustomDomains({
-      siteId: site.siteId,
-      customDomains: [],
-      fictionSites,
-      fictionDb,
-    }, {})
-
-    const domainExists = await testUtils.fictionDb.client()(t.domains)
-      .where({ hostname: existingDomain.hostname })
-      .first()
+    const domainExists = await testUtils.fictionDb.client()(t.domains).where({ hostname: existingDomain.hostname }).first()
 
     expect(updatedDomains).toHaveLength(0)
     expect(domainExists).toBeUndefined()
   })
 
-  it('saves site with valid domains and filters invalid ones', async () => {
-    const hostname = `test-${shortId()}.test.com`
+  it('saves site with domains', async () => {
+    const hostname = `test-q-${shortId()}.test.com`
     const newDomain = { hostname, isPrimary: true }
     const badDomain = { hostname: 'bad' }
-
-    await site.update({
-      customDomains: [newDomain, badDomain],
-    }, { caller: 'certTests' })
+    await site.update({ customDomains: [newDomain, badDomain] }, { caller: 'certTests' })
 
     const updatedSite = await saveSite({
       site,
@@ -76,20 +71,15 @@ describe('updateCustomDomains', async () => {
       isPublishingDomains: true,
     })
 
-    // Verify domain records
     expect(updatedSite?.customDomains).toHaveLength(1)
     expect(updatedSite?.customDomains[0].hostname).toBe(newDomain.hostname)
     expect(updatedSite?.customDomains[0].isPrimary).toBe(true)
 
-    // Verify domain mapping exists in DB
-    const domainRecord = await testUtils.fictionDb.client()(t.domains)
-      .where({ hostname: newDomain.hostname })
-      .first()
+    const deployedCert1 = await testUtils.fictionSites.queries.ManageDomain.serve({ _action: 'retrieve', hostname: newDomain.hostname, allowInTest: true }, { ...meta, caller: 'updateCustomDomains' })
 
-    expect(domainRecord).toBeTruthy()
-    expect(domainRecord.hostname).toBe(hostname)
+    expect(deployedCert1.status).toBe('success')
+    expect(deployedCert1.data?.hostname).toBe(hostname)
 
-    // Test domain removal
     await site.update({ customDomains: [] }, { caller: 'certTests' })
 
     const updatedSite2 = await saveSite({
@@ -100,11 +90,15 @@ describe('updateCustomDomains', async () => {
 
     expect(updatedSite2?.customDomains).toHaveLength(0)
 
-    // Verify domain mapping removed from DB
-    const removedDomain = await testUtils.fictionDb.client()(t.domains)
-      .where({ hostname: newDomain.hostname })
-      .first()
+    const deployedCert2 = await testUtils.fictionSites.queries.ManageDomain.serve({ _action: 'retrieve', hostname: newDomain.hostname, allowInTest: true }, { ...meta, caller: 'updateCustomDomains' })
 
-    expect(removedDomain).toBeUndefined()
+    expect(deployedCert2).toMatchInlineSnapshot(`
+      {
+        "data": undefined,
+        "status": "success",
+      }
+    `)
+    expect(deployedCert2.status).toBe('success')
+    expect(deployedCert2.data).toBeUndefined()
   })
 })

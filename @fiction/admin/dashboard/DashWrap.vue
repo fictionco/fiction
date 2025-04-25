@@ -92,7 +92,7 @@ const bottomNav = vue.computed<NavListItem[]>(() => {
 const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
   return [
     {
-      label: 'Brand Settings',
+      label: 'Global Settings',
       href: card.link({ path: '/settings/org' }),
       icon: 'i-tabler-building-cog',
     },

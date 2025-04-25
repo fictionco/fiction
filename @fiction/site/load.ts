@@ -15,8 +15,26 @@ const logger = log.contextLogger('siteLoader')
  * - coding: the site is being loaded manually, and coded to run directly
  */
 export type SiteMode = 'designer' | 'editable' | 'standard' | 'coding'
-export type WhereSite = { siteId?: string, subDomain?: string, hostname?: string, themeId?: string, internal?: string, cardId?: string }
-  & ({ siteId: string } | { subDomain: string } | { hostname: string } | { themeId: string } | { internal: string } | { cardId: string })
+
+export type WhereSite = {
+  orgId?: string
+  handle?: string
+  siteId?: string
+  subDomain?: string
+  hostname?: string
+  themeId?: string
+  internal?: string
+  cardId?: string
+} & (
+  | { siteId: string }
+  | { subDomain: string }
+  | { hostname: string }
+  | { themeId: string }
+  | { internal: string }
+  | { cardId: string }
+  | { orgId: string }
+  | { handle: string }
+)
 
 type MountContext = { siteMode?: SiteMode, fictionOrgId?: string, contextCacheKey?: string } & WhereSite
 type RequestManageSiteParams = ManageSiteParams & { siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode, orgId?: string, siteId?: string }
@@ -252,7 +270,7 @@ export function getMountContext(args: {
   siteId?: string
   orgId?: string
 }): MountContext {
-  const { selectorType, selectorId, queryVars = {}, runVars, siteId, orgId } = args
+  const { selectorType, selectorId, queryVars = {}, runVars, orgId } = args
 
   const mountContext = runVars?.MOUNT_CONTEXT
 
@@ -303,7 +321,14 @@ export function getMountContext(args: {
     }
   }
 
-  if (Object.values(selector).filter(Boolean).length !== 1) {
+  const numVals = Object.values(selector).filter(Boolean).length
+
+  if (numVals === 0 && fictionOrgId) {
+    selector = {
+      orgId: fictionOrgId,
+    }
+  }
+  else if (numVals !== 1) {
     logger.error('MountContext: INVALID SELECTOR', { data: { selector, queryVars, selectorType, selectorId, siteMode, passedMountContext: mountContext } })
     logger.error('MountContext: INVALID SELECTOR -- RUN VARS', { data: { runVars } })
 

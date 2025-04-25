@@ -7,7 +7,6 @@ import { applyComplexFilters, dayjs, deepMerge, incrementSlugId, objectId, omit,
 import { abort } from '@fiction/core/utils/error.js'
 import { Card } from './card.js'
 import { t } from './tables.js'
-import { updateCustomDomains } from './utils/cert.js'
 import { getPageWordCount } from './utils/page.js'
 import { trackSiteMetrics } from './utils/site.js'
 
@@ -460,10 +459,30 @@ export class ManageSite extends SitesQuery {
 
     const themeSite = await this.createSiteFromTheme(params, meta)
 
+    const db = this.db()
+
+    // Check if this organization has any sites
+    const existingSites = await db(t.sites)
+      .where({ orgId })
+      .count<{ count: string }>('* as count')
+      .first()
+
+    const isFirstSite = existingSites?.count === '0'
+
+    // Set isPrimary if it's the first site or explicitly requested
+    const isPrimary = isFirstSite || fields.isPrimary
+
     const scope = 'publish'
 
     const defaultSubDomain = meta.bearer?.email?.split('@')[0] || 'site'
-    const mergedFields = deepMerge([themeSite, { subDomain: `${defaultSubDomain}-${shortId({ len: 4 })}` }, fields])
+    const mergedFields = deepMerge([themeSite, { subDomain: `${defaultSubDomain}-${shortId({ len: 4 })}`, isPrimary }, fields])
+
+    // If this site should be primary, unset primary on other sites
+    if (isPrimary) {
+      await db(t.sites)
+        .where({ orgId, isPrimary: true })
+        .update({ isPrimary: false })
+    }
 
     const prepped = this.settings.fictionDb.prep({ type: 'insert', fields: mergedFields, table: t.sites, meta })
 
@@ -473,13 +492,6 @@ export class ManageSite extends SitesQuery {
       throw abort('site not created')
 
     await this.updateSitePages({ siteId: site.siteId, fields: themeSite.pages || [], userId, orgId, scope }, meta)
-
-    await updateCustomDomains({
-      siteId: site.siteId,
-      customDomains: fields.customDomains,
-      fictionSites: this.settings.fictionSites,
-      fictionDb: this.settings.fictionDb,
-    }, meta)
 
     const finalSite = await this.fetchSiteWithDetails({ selector: { siteId: site.siteId }, scope })
 
@@ -544,13 +556,6 @@ export class ManageSite extends SitesQuery {
     if (fields.pages && fields.pages.length) {
       await this.updateSitePages({ siteId: updatedSite.siteId, fields: fields.pages, userId, orgId, scope }, meta)
     }
-
-    await updateCustomDomains({
-      siteId: updatedSite.siteId,
-      customDomains: fields.customDomains,
-      fictionSites: this.settings.fictionSites,
-      fictionDb: this.settings.fictionDb,
-    }, meta)
 
     const finalSite = await this.fetchSiteWithDetails({ selector, scope })
 
@@ -788,15 +793,6 @@ export class ManageSite extends SitesQuery {
       if (scope === 'draft') {
         site = deepMerge([site, site.draft as TableSiteConfig])
       }
-      else {
-        // Get domains
-        const domains = await db
-          .select()
-          .from(t.domains)
-          .where({ siteId: site.siteId })
-
-        site.customDomains = domains
-      }
 
       // Get pages
       const pagesResponse = await this.settings.fictionSites.queries.ManagePage.serve({
@@ -834,7 +830,6 @@ export class ManageSite extends SitesQuery {
       // Return basic site data with empty org object if error occurs
       return {
         ...omit(site, 'draft'),
-        customDomains: [],
         pages: [],
         org: {},
       }
@@ -860,41 +855,82 @@ export class ManageSite extends SitesQuery {
   }
 
   async getSiteSelector(where: WhereSite) {
-    if (!where.hostname) {
+    const db = this.settings.fictionDb.client()
+
+    // If siteId is already provided, return immediately
+    if (!where.hostname && !where.orgId) {
       return where
     }
 
-    const db = this.settings.fictionDb.client()
-    const { hostname } = where
+    // If hostname is provided, find the orgId first
+    if (where.hostname) {
+      const { hostname } = where
+      const rootDomain = hostname.split('.').slice(1).join('.')
+      const shouldCheckRoot = rootDomain !== hostname
 
-    // Get root domain if it differs from hostname
-    const rootDomain = hostname.split('.').slice(1).join('.')
-    const shouldCheckRoot = rootDomain !== hostname
-
-    const domain = await db
-      .select('siteId')
-      .from(t.domains)
-      .where((builder) => {
-        builder.where({ hostname })
-        if (shouldCheckRoot) {
-          builder.orWhere({ hostname: rootDomain })
-        }
-      })
+      // Find domain to get the orgId
+      const domain = await db
+        .select('*')
+        .from(t.domains)
+        .where((builder) => {
+          builder.where({ hostname })
+          if (shouldCheckRoot) {
+            builder.orWhere({ hostname: rootDomain })
+          }
+        })
       // Prioritize verified primary domains, then verified, then exact matches
-      .orderByRaw(`
+        .orderByRaw(`
         is_verified DESC,
         is_primary DESC,
         hostname = ? DESC
       `, [hostname])
-      .first()
+        .first()
 
-    if (!domain?.siteId) {
-      this.log.error('Error Loading Site', { data: { where } })
+      // If we have a direct site match, return it
+      if (domain?.siteId) {
+        return { siteId: domain.site_id }
+      }
 
-      throw new Error(`Site not found (where:${JSON.stringify(where)})`)
+      if (!domain?.orgId) {
+        this.log.error('Error Loading Site', { data: { where, domain } })
+        throw new Error(`Site not found (where:${JSON.stringify(where)})`)
+      }
+
+      // Use the orgId to find the site
+      where = { orgId: domain.orgId }
     }
 
-    return { siteId: domain.siteId } as WhereSite
+    // Handle orgId case (which now includes hostname lookups)
+    if (where.orgId) {
+      // First try to find a primary site
+      let site = await db
+        .select('site_id')
+        .from(t.sites)
+        .where({
+          orgId: where.orgId,
+          isPrimary: true,
+        })
+        .first()
+
+      // If no primary site, fall back to most recently updated
+      if (!site?.siteId) {
+        site = await db
+          .select('*')
+          .from(t.sites)
+          .where({ orgId: where.orgId })
+          .orderBy('updated_at', 'desc')
+          .first()
+      }
+
+      if (!site?.siteId) {
+        this.log.error('No site found for organization', { data: where })
+        throw new Error(`No site found for organization: ${where.orgId}`)
+      }
+
+      return { siteId: site.siteId }
+    }
+
+    throw new Error(`Invalid selector: ${JSON.stringify(where)}`)
   }
 
   private async restoreFromRevision(params: ManageSiteParams & { _action: 'restore' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {

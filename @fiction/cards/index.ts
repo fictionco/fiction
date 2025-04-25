@@ -1,9 +1,8 @@
 import type { FictionEnv, FictionPluginSettings, FictionRouter, NavListItem } from '@fiction/core'
-import type { CardConfigPortable, FictionSites } from '@fiction/site'
+import type { CardConfigPortable, FictionSites, Site } from '@fiction/site'
 import type { CardSettings, CardTemplate, CardTemplateSettings } from '@fiction/site/card'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
-import type { Site } from '@fiction/site/site.js'
 import { envConfig, FictionPlugin, log, safeDirname, toKebab, toLabel, vue } from '@fiction/core'
 import { Card, cardTemplate } from '@fiction/site/card'
 import { generateCardStructure } from './utils/generateStructure'
@@ -183,7 +182,8 @@ async function getTemplateModules(): Promise<TemplateModule[]> {
 }
 
 // Main template getter
-export async function getCardTemplates(): Promise<CardTemplate<any>[]> {
+export async function getCardTemplates(args: { caller?: string } = {}): Promise<CardTemplate<any>[]> {
+  logger.info('HELLO', { data: { tp: typeof cardTemplate } })
   const modules = await getTemplateModules()
 
   return [
@@ -336,7 +336,7 @@ export class FictionCards extends FictionPlugin<CardsPluginSettings> {
 
   addStructureFile() {
     this.fictionEnv.generators.push(async () => {
-      const cardTemplates = await getCardTemplates()
+      const cardTemplates = await getCardTemplates({ caller: 'cardStructure' })
 
       const results = await generateCardStructure({
         templates: cardTemplates,

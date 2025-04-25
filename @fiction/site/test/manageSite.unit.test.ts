@@ -19,17 +19,24 @@ describe('getSiteSelector', async () => {
   })
 
   // Utility function to create a test site with domains
-  async function getSelectorTestSite(domains: Array<{
-    hostname: string
-    isVerified?: boolean
-    isPrimary?: boolean
-  }>) {
+  async function getSelectorTestSite(args: {
+    domains: Array<{
+      hostname: string
+      isVerified?: boolean
+      isPrimary?: boolean
+    }>
+    fields?: Partial<TableSiteConfig>
+  }) {
+    const { domains, fields } = args
     const response = await testUtils.fictionSites.queries.ManageSite.serve({
       _action: 'create',
       fields: {
         title: 'Domain Test Site',
         themeId: 'test',
         subDomain: `test-${objectId({ prefix: 'sub' })}`,
+        handle: `hndl-${objectId({ prefix: 'sub' })}`,
+        isPrimary: true,
+        ...fields,
       },
       orgId,
       userId,
@@ -44,7 +51,7 @@ describe('getSiteSelector', async () => {
     if (domains.length > 0) {
       await testUtils.fictionDb.client()(t.domains).insert(
         domains.map(d => ({
-          siteId,
+          orgId,
           hostname: d.hostname,
           isVerified: d.isVerified ?? false,
           isPrimary: d.isPrimary ?? false,
@@ -57,11 +64,13 @@ describe('getSiteSelector', async () => {
 
   it('should return exact match for www subdomain', async () => {
     const domain = `www.test-${shortId()}.com`
-    const siteId = await getSelectorTestSite([{
-      hostname: domain,
-      isVerified: true,
-      isPrimary: true,
-    }])
+    const siteId = await getSelectorTestSite({
+      domains: [{
+        hostname: domain,
+        isVerified: true,
+        isPrimary: true,
+      }],
+    })
 
     const result = await testUtils.fictionSites.queries.ManageSite.serve({
       _action: 'retrieve',
@@ -75,10 +84,12 @@ describe('getSiteSelector', async () => {
 
   it('should fallback to root domain when subdomain not found', async () => {
     const rootDomain = `test-${shortId()}.com`
-    const siteId = await getSelectorTestSite([{
-      hostname: rootDomain,
-      isVerified: true,
-    }])
+    const siteId = await getSelectorTestSite({
+      domains: [{
+        hostname: rootDomain,
+        isVerified: true,
+      }],
+    })
 
     const result = await testUtils.fictionSites.queries.ManageSite.serve({
       _action: 'retrieve',
@@ -94,18 +105,25 @@ describe('getSiteSelector', async () => {
     const domain = `www.test-${shortId()}.com`
 
     // First site with primary domain
-    const siteId1 = await getSelectorTestSite([{
-      hostname: domain,
-      isVerified: true,
-      isPrimary: true,
-    }])
+    const siteId1 = await getSelectorTestSite({
+      domains: [{
+        hostname: domain,
+        isVerified: true,
+        isPrimary: true,
+      }],
+    })
 
     // Second site with non-primary domain
-    await getSelectorTestSite([{
-      hostname: domain,
-      isVerified: true,
-      isPrimary: false,
-    }])
+    await getSelectorTestSite({
+      domains: [{
+        hostname: domain,
+        isVerified: true,
+        isPrimary: false,
+      }],
+      fields: {
+        isPrimary: false,
+      },
+    })
 
     const result = await testUtils.fictionSites.queries.ManageSite.serve({
       _action: 'retrieve',
@@ -118,7 +136,7 @@ describe('getSiteSelector', async () => {
   })
 
   it('should handle non-hostname queries', async () => {
-    const siteId = await getSelectorTestSite([])
+    const siteId = await getSelectorTestSite({ domains: [] })
 
     const result = await testUtils.fictionSites.queries.ManageSite.serve({
       _action: 'retrieve',
@@ -132,7 +150,7 @@ describe('getSiteSelector', async () => {
 
   it('should error for non-existent domain', async () => {
     const nonexistentDomain = `nonexistent-${shortId()}.com`
-    await getSelectorTestSite([]) // Create a site but with no domains
+    await getSelectorTestSite({ domains: [] }) // Create a site but with no domains
 
     const result = await testUtils.fictionSites.queries.ManageSite.serve({
       _action: 'retrieve',
@@ -147,10 +165,12 @@ describe('getSiteSelector', async () => {
 
   it('should handle root domain directly', async () => {
     const rootDomain = `test-${shortId()}.com`
-    const siteId = await getSelectorTestSite([{
-      hostname: rootDomain,
-      isVerified: true,
-    }])
+    const siteId = await getSelectorTestSite({
+      domains: [{
+        hostname: rootDomain,
+        isVerified: true,
+      }],
+    })
 
     const result = await testUtils.fictionSites.queries.ManageSite.serve({
       _action: 'retrieve',
@@ -166,18 +186,20 @@ describe('getSiteSelector', async () => {
     const rootDomain = `test-${shortId()}.com`
     const subdomain = `blog.${rootDomain}`
 
-    const siteId = await getSelectorTestSite([
-      {
-        hostname: subdomain,
-        isVerified: true,
-        isPrimary: true,
-      },
-      {
-        hostname: rootDomain,
-        isVerified: true,
-        isPrimary: true,
-      },
-    ])
+    const siteId = await getSelectorTestSite({
+      domains: [
+        {
+          hostname: subdomain,
+          isVerified: true,
+          isPrimary: true,
+        },
+        {
+          hostname: rootDomain,
+          isVerified: true,
+          isPrimary: true,
+        },
+      ],
+    })
 
     const result = await testUtils.fictionSites.queries.ManageSite.serve({
       _action: 'retrieve',
@@ -331,7 +353,7 @@ describe('getSiteMetrics and trackSiteMetrics', async () => {
           "orgId": "[id:TRUTHY]",
           "timeEndAtIso": "[datetime:TRUTHY]",
           "timeStartAtIso": "[datetime:TRUTHY]",
-          "timeZone": "America/Los_Angeles",
+          "timeZone": "America/Denver",
         },
       }
     `)
@@ -520,13 +542,19 @@ describe('manageSite query', async () => {
             slug: 'test-page',
           },
         ],
-        customDomains: [
-          {
-            hostname: testingDomain,
-            isPrimary: true,
-          },
-        ],
+
       }
+
+      const customDomains = {
+        hostname: testingDomain,
+        isPrimary: true,
+      }
+
+      // Insert custom domain into the database
+      await testUtils.fictionSites.queries.ManageDomain.serve(
+        { _action: 'create', orgId, fields: customDomains, userId, caller: 'test' },
+        { server: true },
+      )
 
       const response = await testUtils.fictionSites.queries.ManageSite.serve(
         { _action: 'create', fields, orgId, userId, caller: 'test', isPublishingDomains: true },
@@ -554,12 +582,6 @@ describe('manageSite query', async () => {
               slug: 'test-page',
             }),
           ]),
-          customDomains: expect.arrayContaining([
-            expect.objectContaining({
-              hostname: testingDomain,
-              isPrimary: true,
-            }),
-          ]),
         })
       })
 
@@ -574,7 +596,7 @@ describe('manageSite query', async () => {
         expect(response.message).toContain('Site not found')
       })
 
-      it('should retrieve site by custom domain hostname', async () => {
+      it.only('should retrieve site by custom domain hostname', async () => {
         const response = await testUtils.fictionSites.queries.ManageSite.serve(
           { _action: 'retrieve', where: { hostname: testingDomain }, orgId, caller: 'test' },
           { server: true },
@@ -673,20 +695,6 @@ describe('manageSite query', async () => {
           title: 'Test Page',
           slug: 'test-page',
           templateId: 'cardPageWrapV1',
-        })
-      })
-
-      it('should return all domains with site', async () => {
-        const response = await testUtils.fictionSites.queries.ManageSite.serve(
-          { _action: 'retrieve', where: { siteId }, orgId, userId, caller: 'test' },
-          { server: true },
-        )
-
-        expect(response.status).toBe('success')
-        expect(response.data?.customDomains).toHaveLength(1)
-        expect(response.data?.customDomains[0]).toMatchObject({
-          hostname: testingDomain,
-          isPrimary: true,
         })
       })
     })

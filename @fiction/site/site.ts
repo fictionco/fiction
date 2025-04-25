@@ -53,9 +53,42 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     return ['editable', 'designer'].includes(this.siteMode.value) || false
   })
 
+  isPrimary = vue.ref(this.settings.isPrimary)
+
   isDesigner = vue.computed(() => ['designer', 'coding'].includes(this.siteMode.value) || false)
   frame = new SiteFrameTools({ site: this, relation: this.isDesigner.value ? 'parent' : 'child' })
   events = new TypedEventTarget<SiteEventMap>({ fictionEnv: this.fictionSites.fictionEnv })
+  siteId = this.settings.siteId || objectId({ prefix: 'ste' })
+  isProd = vue.ref(this.settings.isProd ?? this.fictionSites.fictionEnv?.isProd.value)
+  title = vue.ref(this.settings.title)
+  status = vue.ref(this.settings.status)
+  subDomain = vue.ref(this.settings.subDomain || shortId({ prefix: `${this.title.value || 'site'}-`, len: 3 }))
+  handle = vue.ref(this.settings.handle)
+  isAnimationDisabled = vue.ref(false)
+  themeId = vue.ref(this.settings.themeId)
+  theme = vue.computed(() => {
+    const themes = this.fictionSites.themes.value
+    const found = themes.find(t => t.themeId === this.themeId.value)
+    return found || themes[0]
+  })
+
+  history = new SiteHistory(this)
+
+  userConfig = vue.ref(this.settings.userConfig || {})
+  themeConfig = vue.ref<ThemeConfig>()
+  fullConfig = vue.computed(() => deepMerge([this.themeConfig.value?.userConfig, this.userConfig.value]))
+
+  org = vue.computed(() => deepMerge([this.themeConfig.value?.org, this.settings.org]))
+  hostname = vue.computed(() => {
+    const sub = this.settings.isPrimary ? this.org.value?.handle : `stage-${this.handle.value}`
+    return this.isProd.value ? `${sub}.fiction.com` : `${sub}.lan.com`
+  })
+
+  url = vue.computed(() => {
+    const port = this.fictionSites.settings.fictionAppSites?.port.value
+    const hostname = this.hostname.value
+    return this.isProd.value ? `https://${hostname}` : `http://${hostname}:${port}`
+  })
 
   constructor(settings: T) {
     super('Site', settings)
@@ -120,30 +153,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     this.editorController.useTool({ toolId })
   }
 
-  siteId = this.settings.siteId || objectId({ prefix: 'ste' })
-  isProd = vue.ref(this.settings.isProd ?? this.fictionSites.fictionEnv?.isProd.value)
-  title = vue.ref(this.settings.title)
-
-  status = vue.ref(this.settings.status)
-  subDomain = vue.ref(this.settings.subDomain || shortId({ prefix: `${this.title.value || 'site'}-`, len: 3 }))
-  customDomains = vue.ref(this.settings.customDomains || [])
-
-  isAnimationDisabled = vue.ref(false)
-  themeId = vue.ref(this.settings.themeId)
-  theme = vue.computed(() => {
-    const themes = this.fictionSites.themes.value
-    const found = themes.find(t => t.themeId === this.themeId.value)
-    return found || themes[0]
-  })
-
-  history = new SiteHistory(this)
-
-  userConfig = vue.ref(this.settings.userConfig || {})
-  themeConfig = vue.ref<ThemeConfig>()
-  fullConfig = vue.computed(() => deepMerge([this.themeConfig.value?.userConfig, this.userConfig.value]))
-
-  org = vue.computed(() => deepMerge([this.themeConfig.value?.org, this.settings.org]))
-
   static async create<U extends SiteSettings>(settings: U, options: { isNewSite?: boolean } = {}): Promise<Site<U>> {
     const site = new Site<U>(settings)
 
@@ -184,7 +193,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   userFonts = vue.ref<Record<string, FontFamily>>({})
   siteFonts = activeSiteFont(this)
-  primaryCustomDomain = vue.computed(() => this.customDomains.value?.find(d => d.isPrimary)?.hostname ?? this.customDomains.value?.[0]?.hostname)
   shortcodes = new Shortcodes({
     fictionEnv: this.fictionSites.fictionEnv,
     shortcodes: [
@@ -277,7 +285,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       status: this.status.value,
       title: this.title.value,
       subDomain: this.subDomain.value,
-      customDomains: this.customDomains.value,
+      isPrimary: this.isPrimary.value,
       userConfig: this.userConfig.value,
       pages,
       sections,

@@ -1,6 +1,6 @@
 import type { StandardUserConfig } from '@fiction/site/schema'
 import { ActionAreaSchema, SuperTitleSchema, vue } from '@fiction/core/index.js'
-import { cardTemplate } from '@fiction/site/index.js'
+import { cardTemplate } from '@fiction/site/card.js'
 import { createOption } from '@fiction/ui/index.js'
 import { z } from 'zod'
 
@@ -21,11 +21,7 @@ async function getConfig() {
     createOption({ key: 'action', label: 'Actions', input: 'InputActionArea' }),
   ]
 
-  return {
-    schema,
-    options,
-    userConfig: {},
-  }
+  return { schema, options, userConfig: {} }
 }
 
 export const template = cardTemplate({

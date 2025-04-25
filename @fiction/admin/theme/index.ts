@@ -1,4 +1,3 @@
-import type { template as TransactionTemplate } from '@fiction/cards/standard/transaction/index.js'
 import type { CardFactory } from '@fiction/site/cardFactory.js'
 import type { SiteGlobalUserConfig } from '@fiction/site/schema.js'
 import type { Site } from '@fiction/site/site.js'
@@ -18,15 +17,13 @@ export async function getTemplates(args: { site: Site }) {
   const service = site.fictionSites.fictionEnv.getService<{ fictionAdmin: FictionAdmin }>()
 
   const adminTemplates = await service.fictionAdmin.getAdminTemplates()
-  const tpl = await getCardTemplates()
+  const tpl = await getCardTemplates({ caller: 'adminTheme' })
   return [...tpl, dashTemplate, authTemplate, ...adminTemplates]
 }
 
 export type AdminTemplates = Awaited<ReturnType<typeof getTemplates>>
 
 export async function getPages(args: { factory: CardFactory, site: Site }) {
-  const { factory } = args
-
   return [
     cardConfig<AdminTemplates>({
       regionId: 'main',

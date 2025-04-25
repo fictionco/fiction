@@ -13,8 +13,8 @@ import { FictionPlugin, getAnonymousId, isNode, safeDirname, vue } from '@fictio
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import { cardTemplate } from './card.js'
 import { CardQueryHandler } from './cardQuery.js'
-import { ManageDomain } from './endpoint-domains.js'
 import { ManagePage, ManageSite, ManageSites } from './endpoint.js'
+import { ManageDomain } from './endpointDomains.js'
 import { loadSitemap } from './load.js'
 import { FictionSiteBuilder } from './plugin-builder/index.js'
 import { getRoutes } from './routes.js'
@@ -116,12 +116,12 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
         cardConfig<SiteAdminTemplates>({
           templateId: 'dash',
           slug: 'sites',
-          title: 'Website',
+          title: 'Manage Websites',
           cards: [
             cardConfig<SiteAdminTemplates>({ templateId: 'tplManageSite' }),
           ],
           userConfig: {
-            isNavItem: true,
+            isNavItem: false,
             navIcon: 'i-tabler-browser',
             navIconAlt: 'i-tabler-browser-plus',
           },
@@ -129,7 +129,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
         cardConfig<SiteAdminTemplates>({
           templateId: 'dash',
           slug: 'edit-site',
-          title: 'Website Editor',
+          title: 'Website',
           description: 'Customize and configure your website settings',
           cards: [
             cardConfig<SiteAdminTemplates>({
@@ -138,9 +138,9 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
             }),
           ],
           userConfig: {
-            isNavItem: false,
+            isNavItem: true,
             layoutFormat: 'full',
-            navIcon: 'i-tabler-home-plus',
+            navIcon: 'i-tabler-browser',
           },
         }),
       ],

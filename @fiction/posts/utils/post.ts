@@ -6,7 +6,6 @@ import type { SiteContentPath } from '@fiction/site/load'
 import type { WherePost } from '../endpoint'
 import { getSiteContentPaths } from '@fiction/site/load'
 import { manageSiteIndex } from '@fiction/site/utils/manage'
-import { activeSiteDisplayUrl } from '@fiction/site/utils/site'
 
 export type LoadPostsResult = {
   posts: TablePostConfig[]
@@ -131,7 +130,7 @@ export async function findPostLocations(args: { post: Post, fictionPosts: Fictio
     // Filter paths that match this post
     const postPaths = contentPaths.filter(path => path.type === 'post' && path.meta?.postId === post.postId)
 
-    const siteUrl = activeSiteDisplayUrl(site, { mode: 'display' }).value
+    const siteUrl = site.url.value
 
     // Format the results
     return postPaths.map((pathDetails) => {

@@ -3,12 +3,12 @@ import { safeDirname, vue } from '@fiction/core'
 import { z } from 'zod'
 import { cardTemplate } from '../../card.js'
 import { Theme } from '../../theme.js'
-import { staticFileUrl } from '../../utils/site.js'
+import '@fiction/site'
 
 const def = vue.defineAsyncComponent
 
 async function getTemplates() {
-  const tpl = await getCardTemplates()
+  const tpl = await getCardTemplates({ caller: 'testTheme' })
   return [
     ...tpl,
     cardTemplate({
@@ -56,7 +56,6 @@ export const theme = new Theme({
   },
   getConfig: async (args) => {
     const { site, factory } = args
-    const obama = staticFileUrl({ site, filename: 'obama.webp' })
 
     const mediaGridCard = cardConfig({
       templateId: 'cardMarqueeV1',
@@ -65,7 +64,7 @@ export const theme = new Theme({
           {
             title: 'Barack Obama',
             subTitle: 'Personal Site',
-            media: { url: obama },
+            media: { url: '' },
           },
         ],
       },

@@ -12,7 +12,6 @@ import XText from '@fiction/ui/common/XText.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import { getMountContext, loadSite } from '../load'
-import { activeSiteDisplayUrl } from '../utils/site'
 import SiteEditorFrame from './SiteEditorFrame.vue'
 
 defineProps({
@@ -20,7 +19,7 @@ defineProps({
 })
 
 const service = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter, fictionAppSites: FictionApp }>()
-const { fictionRouter, fictionSites, fictionRouterSites, fictionEnv } = service
+const { fictionRouter, fictionSites, fictionRouterSites, fictionEnv, fictionUser } = service
 
 const loading = vue.ref(true)
 const sending = vue.ref('')
@@ -34,13 +33,15 @@ async function load() {
   try {
     const q = fictionRouter.query.value as Record<string, string>
     const { siteId = q.site, themeId = q.theme, cardId = q.card } = q
+    const orgId = fictionUser.activeOrgId.value
 
     if (!siteId && !themeId && !cardId)
       throw new Error('No site, theme, or card id provided')
 
+    // create the router for the site
     await fictionRouterSites.create({ noBrowserNav: true, caller: 'SiteEditor' })
 
-    const mountContext = getMountContext({ queryVars: { siteId, themeId, cardId }, siteMode: 'designer' })
+    const mountContext = getMountContext({ orgId, queryVars: { siteId, themeId, cardId }, siteMode: 'designer' })
 
     site.value = await loadSite({
       fictionSites,
@@ -72,6 +73,7 @@ async function load() {
 }
 
 vue.onMounted(async () => {
+  await fictionUser.userInitialized({ caller: 'SiteEditor' })
   await load()
 })
 
@@ -160,11 +162,11 @@ async function resetToPublished() {
               :items="[
                 {
                   label: 'Published Site',
-                  href: `${activeSiteDisplayUrl(site, { mode: 'staging' }).value}`,
+                  href: `${site.url.value}?_scope=published`,
                 },
                 {
                   label: 'Site with Draft Changes',
-                  href: `${activeSiteDisplayUrl(site, { mode: 'staging' }).value}?_scope=draft`,
+                  href: `${site.url.value}?_scope=draft`,
                 },
               ]"
             >

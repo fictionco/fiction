@@ -11,7 +11,7 @@ defineProps({
 const panels = [
   new Card<NavCardUserConfig>({
     slug: 'org',
-    title: 'Brand Settings',
+    title: 'Global Settings',
     description: 'Manage your preferences',
     el: vue.defineAsyncComponent(async () => import('../settings/PanelOrganization.vue')),
     userConfig: { isNavItem: true, navIcon: 'i-tabler-building', navIconAlt: 'i-tabler-building-cog' },
@@ -44,13 +44,7 @@ const panels = [
     el: vue.defineAsyncComponent(async () => import('../settings/PanelBilling.vue')),
     userConfig: { isNavItem: true, navIcon: 'i-tabler-credit-card', navIconAlt: 'i-tabler-credit-card-filled' },
   }),
-  new Card<NavCardUserConfig>({
-    slug: 'developer',
-    title: 'Developer Settings',
-    description: 'Access API keys, documentation, and technical resources',
-    el: vue.defineAsyncComponent(async () => import('../settings/PanelDev.vue')),
-    userConfig: { isNavItem: true, navIcon: 'i-tabler-code-circle', navIconAlt: 'i-tabler-code-circle-filled' },
-  }),
+
   new Card<NavCardUserConfig>({
     slug: 'manage-organizations',
     title: 'Change Workspace',

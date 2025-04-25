@@ -18,7 +18,7 @@ export const theme = new Theme({
   },
 
   isPublic: true,
-  getTemplates: () => getCardTemplates(),
+  getTemplates: () => getCardTemplates({ caller: 'prestigeTheme' }),
   getBaseConfig: () => {
     return {
       userConfig: {

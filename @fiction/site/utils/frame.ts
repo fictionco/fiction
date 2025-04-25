@@ -4,7 +4,7 @@ import type { Site } from '../index.js'
 import type { SiteMode } from '../load.js'
 import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
 import { FictionObject, getUrlPath, resetUi, vue } from '@fiction/core'
-import { activeSiteDisplayUrl, updateSite } from './site.js'
+import { updateSite } from './site.js'
 
 export type FramePostMessageList =
   | { messageType: 'setSite', data: { siteConfig: Partial<TableSiteConfig>, caller?: string } }
@@ -39,8 +39,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
 
   previewPath = vue.computed(() => this.site.fictionSites.getQueryItemPreviewPath.value)
 
-  displayUrlBase = activeSiteDisplayUrl(this.site, { mode: 'display' })
-  displayUrl = vue.computed(() => `${this.displayUrlBase.value}${this.site.currentPath.value}`)
+  displayUrl = vue.computed(() => `${this.site.url.value}${this.site.currentPath.value}`)
 
   // path used for iframe url, we don't use currentPath as it causes full page reloads
   // so we only update this when the frame URL actually needs to change (not when the route changes from URL click in frame)

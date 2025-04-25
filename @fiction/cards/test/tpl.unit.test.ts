@@ -8,7 +8,7 @@ describe('verify template settings config', async () => {
   const testUtils = await createSiteTestUtils()
   const site = await testUtils.createSite()
 
-  const templates = await getCardTemplates()
+  const templates = await getCardTemplates({ caller: 'testTemplateSettings' })
 
   it('has template options set correctly', async () => {
     const factory = new CardFactory({ site, templates, caller: 'verifyTemplateSettings' })

@@ -1,5 +1,6 @@
 import type { TestUtils } from '@fiction/core/test-utils/init'
 import type { CardConfigPortable, Theme } from '../index.js'
+
 import { FictionAdmin } from '@fiction/admin'
 import { FictionAnalytics } from '@fiction/analytics/index.js'
 import FSite from '@fiction/cards/CardSite.vue'
@@ -13,7 +14,7 @@ import { FictionAi } from '@fiction/plugin-ai'
 import { FictionContact } from '@fiction/plugin-contact'
 import { FictionTransactions } from '@fiction/plugin-transactions'
 import * as minimalTheme from '@fiction/theme-minimal'
-import { FictionSites } from '..'
+import { FictionSites } from '../index.js'
 import { Site } from '../site.js'
 
 import * as testTheme from './test-theme'

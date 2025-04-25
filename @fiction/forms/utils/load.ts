@@ -4,7 +4,7 @@ import type { FormConfigPortable } from '../schema'
 import { deepMerge } from '@fiction/core'
 import { Form } from '../form'
 import { getFormTemplates } from '../formTemplates'
-import { getCardTemplates } from '../templates'
+import { getFormCardTemplates } from '../templates'
 
 export async function loadForm(args: { formConfig: FormConfigPortable, site: Site, fictionForms: FictionForms }): Promise<Form> {
   const { formConfig, site, fictionForms } = args
@@ -33,6 +33,6 @@ export async function loadForm(args: { formConfig: FormConfigPortable, site: Sit
 
   const fullFormConfig = deepMerge<FormConfigPortable>([{ formId: formId || `static-${formTemplateId}`, ...f }, formConfig])
 
-  const templates = await getCardTemplates()
+  const templates = await getFormCardTemplates()
   return new Form({ fictionForms, orgId, templates, site, ...fullFormConfig })
 }

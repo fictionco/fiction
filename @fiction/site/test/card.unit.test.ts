@@ -10,7 +10,7 @@ describe('card', async () => {
   const testUtils = await createSiteTestUtils()
   const site = await Site.create({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` })
 
-  const templates = await getCardTemplates()
+  const templates = await getCardTemplates({ caller: 'testCard' })
   const inlineTemplate = templates.find(t => t.settings.templateId === 'cardHeroV1')
   const card = new Card({
     site,

@@ -15,6 +15,7 @@ export const t = {
 
 type st = { updatedAt?: string, createdAt?: string }
 
+
 export const pageRegionIds = ['header', 'main', 'footer', 'aside', 'article', 'section'] as const
 export type PageRegion = typeof pageRegionIds[number] | string
 
@@ -22,7 +23,6 @@ export type TableSiteConfig = Omit<ColType<typeof siteCols>, 'draft'> & st & {
   pages: CardConfigPortable[]
   draft?: TableSiteConfig
   org: Organization
-  customDomains: TableDomainConfig[]
 }
 
 type TablePageCardConfig = Partial<ColType<typeof pageCols>>
@@ -44,7 +44,6 @@ export type TableCardConfig<T extends Record<string, unknown> = Record<string, u
 
 export type CardConfigPortable<T extends Record<string, unknown> = Record<string, unknown>> = Omit<Partial<TableCardConfig<T>>, 'cards' | 'effects'> & {
   cards?: CardConfigPortable[]
-  effects?: CardConfigPortable[]
 }
 
 export const EffectPortableSchema = z.object({
@@ -54,14 +53,14 @@ export const EffectPortableSchema = z.object({
 
 export const domainCols = [
   new Col({ key: 'domainId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('dmn')`)).index() }),
-  new Col({ key: 'siteId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.sites}.site_id`).onDelete('CASCADE').onUpdate('CASCADE').notNullable().index() }),
+  new Col({ key: 'orgId', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.org}.org_id`).onDelete('CASCADE').onUpdate('CASCADE').index() }),
   new Col({ key: 'hostname', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col }) => s.string(col.k).notNullable().index() }),
   new Col({ key: 'isPrimary', sec: 'setting', sch: ({ z }) => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
   new Col({ key: 'isVerified', sec: 'setting', sch: ({ z }) => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
 ] as const
 
 export const TableDomainSchema = createTableSchema(domainCols)
-export type TableDomainConfig = Partial<ColType<typeof domainCols>> & { hostname: string }
+export type TableDomainConfig = Partial<ColType<typeof domainCols>>
 
 export const siteCols = [
   new Col({ key: 'siteId', sec: 'permanent', sch: () => z.string().min(1), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('site')`)).index() }),
@@ -69,7 +68,9 @@ export const siteCols = [
   new Col({ key: 'orgId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`fiction_org.org_id`).onUpdate('CASCADE').notNullable().index() }),
   new Col({ key: 'title', sec: 'setting', sch: () => z.string().min(1), make: ({ s, col }) => s.string(col.k).defaultTo('') }),
   new Col({ key: 'themeId', sec: 'setting', sch: () => z.string().min(1), make: ({ s, col }) => s.string(col.k).notNullable() }),
+  new Col({ key: 'isPrimary', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
   new Col({ key: 'subDomain', sec: 'setting', sch: () => z.string().min(1), make: ({ s, col, db }) => s.string(col.k).unique().notNullable().defaultTo(db.raw(`short_id(9)`)).index(), prepare: ({ value }) => (value).replaceAll(/[^\w-]+/g, '').toLowerCase() }),
+  new Col({ key: 'handle', sec: 'setting', sch: () => z.string().min(1), make: ({ s, col, db }) => s.string(col.k).unique().notNullable().defaultTo(db.raw(`short_id(9)`)).index(), prepare: ({ value }) => (value).replaceAll(/[^\w-]+/g, '').toLowerCase() }),
   new Col({ key: 'status', sec: 'setting', sch: () => z.enum(['pending', 'active', 'inactive']), make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('pending') }),
   new Col({ key: 'userConfig', sec: 'setting', sch: () => z.record(z.unknown()) as z.Schema<SiteGlobalUserConfig & Record<string, unknown>>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'userPrivate', sec: 'settingPrivate', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
@@ -115,6 +116,6 @@ export const tables = [
     tableKey: t.domains,
     timestamps: true,
     cols: domainCols,
-    constraints: [{ type: 'unique', columns: ['site_id', 'hostname'] }],
+    constraints: [{ type: 'unique', columns: ['org_id', 'hostname'] }],
   }),
 ]

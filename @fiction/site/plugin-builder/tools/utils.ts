@@ -3,7 +3,6 @@ import { colorThemeUser, toLabel, vue } from '@fiction/core'
 import { PageSchema, SiteSchema } from '@fiction/site/schema'
 import { createOption } from '@fiction/ui'
 import { t } from '../../tables'
-import { activeSiteHostname } from '../../utils/site'
 
 export function getSiteOptions(args: { site: Site }) {
   const { site } = args
@@ -155,7 +154,7 @@ export function getSiteOptions(args: { site: Site }) {
               isRequired: true,
 
               props: {
-                destination: activeSiteHostname(site, { isProd: true }).value,
+                destination: site.hostname.value,
                 uiSize: 'md',
               },
             }),
@@ -164,7 +163,7 @@ export function getSiteOptions(args: { site: Site }) {
               label: 'Setup Instructions',
               input: vue.defineAsyncComponent(() => import('./CustomDomainInstructions.vue')),
               props: {
-                destination: activeSiteHostname(site, { isProd: true }).value,
+                destination: site.hostname.value,
               },
             }),
           ],

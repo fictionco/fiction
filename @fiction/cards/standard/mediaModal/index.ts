@@ -1,5 +1,5 @@
 import { vue } from '@fiction/core'
-import { cardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site/card.js'
 
 const templateId = 'cardModalMediaV1'
 

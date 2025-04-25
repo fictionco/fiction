@@ -180,7 +180,6 @@ describe('site plugin tests', async () => {
       title: 'test site',
       themeId: 'test',
       subDomain,
-      customDomains: [{ hostname }],
     },
     _action: 'create',
     caller: 'sitePluginTest',
@@ -209,9 +208,7 @@ describe('site plugin tests', async () => {
     })
 
     const r = await requestManageSite({
-      fields: {
-        customDomains: [],
-      },
+      fields: { },
       _action: 'update',
       caller: ctx.task.name,
       isPublishingDomains: true,
@@ -225,19 +222,7 @@ describe('site plugin tests', async () => {
     expect(loaded2).toBeDefined()
     expect(loaded2?.siteId).toBe(site.siteId)
 
-    expect((loaded?.customDomains.value || []).flatMap(_ => Object.keys(_)).sort()).toMatchInlineSnapshot(`
-      [
-        "createdAt",
-        "domainId",
-        "hostname",
-        "isPrimary",
-        "isVerified",
-        "siteId",
-        "updatedAt",
-      ]
-    `)
 
-    expect(r.site?.customDomains.value).toMatchInlineSnapshot(`[]`)
   })
 
   it('should load a site by ID with loadSiteById', async () => {

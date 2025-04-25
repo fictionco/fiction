@@ -1,5 +1,5 @@
 import type { inputs } from '@fiction/ui/inputs/index.js'
-import { cardTemplate } from '@fiction/site'
+import { cardTemplate } from '@fiction/site/card.js'
 import { z } from 'zod'
 import CardForm from './deck/CardForm.vue'
 import InputWrap from './deck/InputWrap.vue'
@@ -25,7 +25,7 @@ const inputSchema = z.object({
 
 export type InputUserConfig = z.infer<typeof inputSchema>
 
-export async function getCardTemplates() {
+export async function getFormCardTemplates() {
   const common = { el: InputWrap, getConfig: async () => {
     return { schema: inputSchema }
   } }

@@ -1,6 +1,6 @@
 import type { FictionSites, Site, SiteSettings } from '../index.js'
 import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
-import { toCamel, vue, waitFor } from '@fiction/core'
+import { vue, waitFor } from '@fiction/core'
 import { Card } from '../card.js'
 import { t } from '../tables.js'
 import { setPages } from './page.js'
@@ -233,76 +233,6 @@ export async function updateSite(args: {
     site.syncChange({ caller, noSave })
 
   return site
-}
-
-export function activeSiteHostname(site: Site, opts: { isProd?: boolean } = {}) {
-  return vue.computed(() => {
-    const isProd = opts.isProd ?? site.isProd.value
-    const sub = site.subDomain.value || 'NO_SUB_DOMAIN'
-    const app = site.fictionSites.settings.fictionAppSites
-    const base = isProd ? app?.liveUrl.value : app?.localUrl.value
-
-    if (isProd && !base.includes('*'))
-      console.error(`liveUrl must include a wildcard (*) - ${base}`)
-
-    const full = base.replace('*', sub)
-    try {
-      return full ? new URL(full).hostname : ''
-    }
-    catch (e) {
-      console.error(`Invalid URL encountered in getSiteHostname: ${full} - ${(e as Error).message}`)
-
-      return ''
-    }
-  })
-}
-
-export function getSitePrimaryDomain(site: Site) {
-  return site.customDomains.value.find(d => d.isPrimary) || site.customDomains.value[0] || activeSiteHostname(site).value
-}
-
-export function activeSiteDisplayUrl(site: Site, opts: { isProd?: boolean, mode: 'display' | 'staging' }) {
-  return vue.computed(() => {
-    const { mode = 'display', isProd = site.isProd.value } = opts
-    const port = site.fictionSites.settings.fictionAppSites?.port.value
-
-    if (site.primaryCustomDomain.value && mode === 'display') {
-      return `https://${site.primaryCustomDomain.value}`
-    }
-    else {
-      const hostname = activeSiteHostname(site).value
-      const baseUrl = isProd ? `https://${hostname}` : `http://${hostname}:${port}`
-      return baseUrl
-    }
-  })
-}
-
-export function staticFileUrl(args: { site: Site, filename: string }) {
-  const { site, filename } = args
-  const siteUrl = activeSiteDisplayUrl(site, { mode: 'staging' }).value
-  return [siteUrl, '__static', filename].join('/')
-}
-
-type Camelize<S extends string> = S extends `${infer T}-${infer U}`
-  ? `${Lowercase<T>}${Capitalize<Camelize<U>>}`
-  : Lowercase<S>
-
-type CamelizeFileNames<T extends readonly string[]> = {
-  [K in T[number] as Camelize<K extends `${infer Base}.${string}` ? Base : K>]: string;
-}
-
-export function staticFileUrls<T extends readonly string[]>(args: { site: Site, filenames: T }): CamelizeFileNames<T> {
-  const { site, filenames } = args
-  const siteUrl = activeSiteDisplayUrl(site, { mode: 'staging' }).value
-  const result = {} as CamelizeFileNames<T>
-
-  filenames.forEach((filename) => {
-    const baseFilename = filename.replace(/\.[^/.]+$/, '') // Remove the file extension
-    const camelCaseName = toCamel(baseFilename) as keyof CamelizeFileNames<T>
-    result[camelCaseName] = `${siteUrl}/__static/${filename}` as CamelizeFileNames<T>[typeof camelCaseName]
-  })
-
-  return result
 }
 
 export function scrollActiveCardIntoView(args: { site: Site, cardId: string }) {
