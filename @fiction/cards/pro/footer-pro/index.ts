@@ -15,7 +15,7 @@ export const template = cardTemplate({
     Features a sophisticated layout with brand messaging, column-based navigation, trust badges,
     and social proof elements. Perfect for SaaS, enterprise, and digital-first brands.
     Includes animated reveals, smart content organization, and comprehensive brand elements.`,
-  isPublic: true,
+  isPublic: false,
   el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
 
   async getConfig(args) {

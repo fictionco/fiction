@@ -139,7 +139,7 @@ async function resetToPublished() {
             />
           </div>
           <div class="flex space-x-1 font-semibold items-center">
-            <span>Site Editor</span>
+            <span class="text-theme-500">Site Editor</span>
             <span class="i-tabler-slash text-xl dark:text-theme-500" />
             <XText v-if="site" v-model="site.title.value" title="Site Title" :is-editable="true" class="hover:bg-theme-100 hover:dark:bg-theme-700 whitespace-nowrap" />
           </div>
@@ -148,40 +148,24 @@ async function resetToPublished() {
           <div class="flex gap-2 items-center">
             <ElSavingSignal
               :is-dirty="site?.saveUtil.isDirty.value"
-              :nav-items="[{
-                label: 'Reset to Published',
-                onClick: () => resetToPublished(),
-                testId: 'reset-to-published',
-              }]"
+
               data-test-id="draft-control-dropdown"
               :classes="{ text: 'hidden md:inline' }"
+              ui-size="sm"
+              class="mr-2"
             />
-            <XDropDown
-              mode="click"
-              :items="[
-                {
-                  label: 'Published Site',
-                  href: `${site.url.value}?_scope=published`,
-                },
-                {
-                  label: 'Site with Draft Changes',
-                  href: `${site.url.value}?_scope=draft`,
-                },
-              ]"
+            <CardButton
+              :card
+              theme="default"
+              target="_blank"
+              size="md"
+              icon="i-tabler-eye"
+              design="ghost"
+              data-test-id="viewSiteButton"
+              :href="`${site.url.value}?_scope=draft`"
             >
-              <CardButton
-                :card
-                theme="default"
-                target="_blank"
-                size="md"
-                icon="i-tabler-eye"
-                design="ghost"
-                icon-after="i-tabler-chevron-down"
-                data-test-id="viewSiteButton"
-              >
-                Preview
-              </CardButton>
-            </XDropDown>
+              Preview
+            </CardButton>
           </div>
           <CardButton
             v-if="site.editor.value.savedNeedsPublish"

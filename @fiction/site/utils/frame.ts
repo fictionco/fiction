@@ -2,6 +2,7 @@ import type { ResetUiScope, ResetUiTrigger } from '@fiction/core'
 import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil.js'
 import type { Site } from '../index.js'
 import type { SiteMode } from '../load.js'
+import type { ToolKeys } from '../plugin-builder/tools/tools.js'
 import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
 import { FictionObject, getUrlPath, resetUi, vue } from '@fiction/core'
 import { updateSite } from './site.js'
@@ -12,6 +13,7 @@ export type FramePostMessageList =
   | { messageType: 'resetUi', data: { cause: string, scope: ResetUiScope, trigger: ResetUiTrigger } }
   | { messageType: 'setActiveCard', data: { cardId: string, caller?: string } }
   | { messageType: 'setEditPath', data: { cardId: string, path: string, caller?: string } }
+  | { messageType: 'setToolId', data: { toolId: ToolKeys | '' } }
   | { messageType: 'navigate', data: { urlOrPath: string, siteId: string } }
   | { messageType: 'frameReady', data: undefined }
   | { messageType: 'keypress', data: { key: string, direction: 'up' | 'down' } }
@@ -139,6 +141,10 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     this.send({ msg: { messageType: 'setEditPath', data: args } })
   }
 
+  syncTool(args: { toolId: ToolKeys | '' }) {
+    this.send({ msg: { messageType: 'setToolId', data: args } })
+  }
+
   syncCard(args: { caller: string, cardConfig: CardConfigPortable }) {
     if (!this.site)
       throw new Error('no site')
@@ -199,6 +205,12 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
         else
           this.log.error('No card found', { data: { cardConfig } })
 
+        break
+      }
+
+      case 'setToolId': {
+        const { toolId } = msg.data
+        site.editorActivateTool({ toolId })
         break
       }
 

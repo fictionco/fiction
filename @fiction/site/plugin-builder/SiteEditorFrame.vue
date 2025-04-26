@@ -220,7 +220,9 @@ function handlePageOrderUpdate(ids: string[]) {
             :disabled="!site.history?.canUndo.value"
             respond="icon:xl"
             @click="site.history?.undo()"
-          />
+          >
+            Undo
+          </XButton>
         </ElTooltip>
         <ElTooltip
           direction="bottom"
@@ -234,7 +236,9 @@ function handlePageOrderUpdate(ids: string[]) {
             :disabled="!site.history?.canRedo.value"
             respond="icon:xl"
             @click="site.history?.redo()"
-          />
+          >
+            Redo
+          </XButton>
         </ElTooltip>
 
         <XDropDown

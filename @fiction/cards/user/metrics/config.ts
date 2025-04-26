@@ -31,6 +31,7 @@ const options = [
     input: 'group',
     icon: { class: 'i-tabler-numbers' },
     options: [
+
       createOption({
         schema,
         key: 'items',
@@ -71,52 +72,7 @@ const options = [
             input: 'InputSelect',
             list: numberFormats,
           }),
-          createOption({
-            schema,
-            key: 'items.0.icon',
-            label: 'Icon',
-            input: 'InputIcon',
-          }),
-          createOption({
-            schema,
-            key: 'items.0.theme',
-            label: 'Color Theme',
-            input: 'InputColorTheme',
-          }),
-          createOption({
-            schema,
-            key: 'items.0.emphasis',
-            label: 'Emphasis',
-            input: 'InputRadioButton',
-            props: { uiSize: 'sm' },
-            description: 'Makes this metric more prominent in featured layout',
-            list: [
-              { label: 'Normal', value: undefined },
-              { label: 'Highlighted', value: 'highlighted' },
-              { label: 'Muted', value: 'muted' },
-            ],
-          }),
-        ],
-      }),
-    ],
-  }),
-  createOption({
-    schema,
-    key: 'group.settings',
-    label: 'Settings',
-    input: 'group',
-    icon: { class: 'i-tabler-settings' },
-    options: [
-      createOption({
-        schema,
-        key: 'layout',
-        label: 'Layout Style',
-        input: 'InputRadioButton',
-        props: { uiSize: 'sm' },
-        list: [
-          { label: 'Grid', value: 'grid' },
-          { label: 'Inline Row', value: 'inline' },
-          { label: 'Key Metric', value: 'featured' },
+
         ],
       }),
     ],

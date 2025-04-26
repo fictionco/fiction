@@ -82,7 +82,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   org = vue.computed(() => deepMerge([this.themeConfig.value?.org, this.settings.org]))
   hostname = vue.computed(() => {
-    const sub = this.settings.isPrimary ? this.org.value?.handle : `stage-${this.handle.value}`
+    const orgHandle = this.org.value?.handle
+    const sub = this.settings.isPrimary && orgHandle ? orgHandle : `stage-${this.handle.value}`
     return this.isProd.value ? `${sub}.fiction.com` : `${sub}.lan.com`
   })
 
@@ -125,15 +126,13 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     ]
     setupRouteWatcher({ site: this, queryVarHooks })
 
-    // show all pages on load of designer
-    if (this.siteMode.value === 'designer') {
-      this.editorController.useTool({ toolId: 'pages' })
-
-      vue.watch(() => [this.editorController.activeTool.primary.value], (c) => {
-        const [tool] = c
-        this.editorController.hideToolDrawers.value = tool ? 'right' : ''
-      }, { immediate: true })
-    }
+    // // show all pages on load of designer
+    // if (this.siteMode.value === 'designer') {
+    //   vue.watch(() => [this.editorController.activeTool.primary.value], (c) => {
+    //     const [tool] = c
+    //     this.editorController.hideToolDrawers.value = tool ? 'right' : ''
+    //   }, { immediate: true })
+    // }
 
     if (this.siteMode.value === 'standard') {
       vue.watch(
@@ -152,7 +151,10 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   async editorActivateTool(args: { toolId: ToolKeys | '' }) {
     const { toolId } = args
+
     this.editorController.useTool({ toolId })
+
+    this.frame.syncTool({ toolId })
   }
 
   static async create<U extends SiteSettings>(settings: U, options: { isNewSite?: boolean } = {}): Promise<Site<U>> {
@@ -228,16 +230,13 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   sections = vue.shallowRef(setSections({ site: this, sections: this.settings.sections }))
   layout = vue.computed<Record<string, Card>>(() => ({ ...this.sections.value, main: this.currentPage.value }))
 
-  editor = localRef<EditorState>({
-    key: `site-editor-${this.siteId}`,
-    def: {
-      selectedCardId: '',
-      selectedPageId: '',
-      selectedRegionId: 'main',
-      editPath: '',
-      savedNeedsPublish: false,
-    },
-    merge: () => this.settings.editor,
+  editor = vue.ref<EditorState>({
+    selectedCardId: '',
+    selectedPageId: '',
+    selectedRegionId: 'main',
+    editPath: '',
+    savedNeedsPublish: false,
+    ...this.settings.editor,
   })
 
   setEditPath(args: { path: string, caller: string }) {
@@ -311,31 +310,28 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       this.history.saveState({ description: caller, type: 'site', siteConfig: this.toConfig({ onlyKeys }) })
   }
 
-  activeCard = vue.computed(() => this.availableCards.value.find(c => c.cardId === this.editor.value.selectedCardId))
+  activeCard = vue.computed(() => {
+    const cardId = this.editor.value.selectedCardId
+    const out = this.availableCards.value.find(c => c.cardId === cardId)
+
+    return out
+  })
 
   /**
    * sets active card and syncs active card between frames
    */
-  setActiveCard(args: { cardId: string, action?: 'delete' | 'edit' | 'add' }) {
-    const { cardId, action } = args
+  setActiveCard(args: { cardId: string }) {
+    const { cardId } = args
 
     resetUi({ scope: 'all', cause: 'setActiveCard', trigger: 'manualReset' })
 
-    this.editor.value.selectedCardId = cardId
+    this.editor.value = { ...this.editor.value, selectedCardId: cardId }
 
     this.events.emit('setActiveCard', { cardId })
 
-    this.frame.syncActiveCard({ cardId, action })
+    this.frame.syncActiveCard({ cardId })
 
-    if (action === 'delete') {
-      this.removeCard({ cardId })
-    }
-    else if (action === 'add') {
-      this.editorActivateTool({ toolId: 'sectionsLayout' })
-    }
-    else {
-      scrollActiveCardIntoView({ cardId, site: this })
-    }
+    scrollActiveCardIntoView({ cardId, site: this })
   }
 
   async updateLayout(args: { order: LayoutOrder[] }) {

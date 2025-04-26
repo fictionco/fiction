@@ -15,7 +15,7 @@ export const template = cardTemplate({
     Features intelligent layouts, mega menus, and contextual user interactions.
     Perfect for modern digital brands that need sophisticated information architecture
     with visual hierarchy and clear user pathways.`,
-  isPublic: true,
+  isPublic: false,
   el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
 
   // Base configuration before user customization

@@ -11,29 +11,10 @@ export function standardCardOptions(args: { card: Card }) {
     icon: { class: 'i-tabler-layout-grid' },
     input: 'group',
     options: [
-      createOption({
-        key: 'group.colors',
-        icon: { class: 'i-tabler-background' },
-        isClosed: true,
-        label: 'Colors',
-        input: 'group',
-        options: [
-          createOption({ key: 'standard.background', label: 'Background', input: 'InputMedia', props: { isBackground: true }, schema }),
-          createOption({ key: 'standard.primaryColor', label: 'Primary Color', input: 'InputSelectCustom', list: colorThemeBright, schema }),
-        ],
-      }),
-
-      createOption({
-        key: 'group.space',
-        icon: { class: 'i-tabler-viewport-wide' },
-        isClosed: true,
-        label: 'Spacing',
-        input: 'group',
-        options: [
-          createOption({ schema, key: 'standard.widthSize', label: 'Content Width', input: 'InputSelectCustom', list: SizeSchemaComplete.options }),
-          createOption({ schema, key: 'standard.spaceSize', label: 'Vertical Spacing', input: 'InputSelectCustom', list: SizeSchemaComplete.options }),
-        ],
-      }),
+      createOption({ key: 'standard.background', label: 'Background', input: 'InputMedia', props: { isBackground: true }, schema }),
+      createOption({ key: 'standard.primaryColor', label: 'Primary Color', input: 'InputSelectCustom', list: colorThemeBright, schema }),
+      createOption({ schema, key: 'standard.widthSize', label: 'Content Width', input: 'InputSelectCustom', list: SizeSchemaComplete.options }),
+      createOption({ schema, key: 'standard.spaceSize', label: 'Vertical Spacing', input: 'InputSelectCustom', list: SizeSchemaComplete.options }),
 
     ],
   })

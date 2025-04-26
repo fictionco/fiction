@@ -14,7 +14,9 @@ const editDropdownItems = vue.computed(() => {
   const items: NavListItem[] = [
     {
       value: 'edit',
-      onClick: () => {},
+      onClick: () => {
+        card?.site?.setActiveCard({ cardId: card.cardId })
+      },
     },
     {
       label: 'Add/Move',
@@ -37,7 +39,7 @@ const editDropdownItems = vue.computed(() => {
 function handleEditDropdownClick(args: { item: NavListItem, event: MouseEvent }) {
   const { item, event } = args
   editDropdownVisible.value = false
-  card?.site?.setActiveCard({ cardId: card.cardId })
+
   item.onClick?.({ item, event })
 }
 
@@ -48,19 +50,21 @@ onResetUi(() => {
 
 <template>
   <div
-    class="z-40 transition-all bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600/80 hover:z-20 cursor-pointer py-[1px] px-1.5 text-blue-100 font-sans text-xs  flex gap-0.5 items-center justify-center rounded-md"
+    class="z-40 flex flex-col items-end justify-center transition-all  hover:z-20 cursor-pointer font-sans text-sm gap-0.5"
     @click.stop="editDropdownVisible = !editDropdownVisible"
   >
-    <div>{{ card.tpl.value?.settings.title || 'Tools' }}</div>
-    <div class="i-tabler-chevron-down" />
+    <div class="flex items-center gap-1 px-2 py-0.5 text-blue-100 bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600/80 rounded-md select-none">
+      <div>{{ card.tpl.value?.settings.title || 'Tools' }}</div>
+      <div class="i-tabler-chevron-down" />
+    </div>
     <div
       v-if="editDropdownVisible"
-      class="dd absolute top-full mt-2 w-full bg-blue-500 dark:bg-blue-600/60 rounded-md"
+      class="dd top-full mt-2 w-full bg-blue-500 dark:bg-blue-600/60 rounded-md overflow-hidden"
     >
       <div
         v-for="(item, i) in editDropdownItems"
         :key="i"
-        class="py-1 px-1.5 hover:bg-blue-600 dark:hover:bg-blue-700 capitalize cursor-pointer"
+        class="py-1 px-2 hover:bg-blue-600 dark:hover:bg-blue-700 capitalize cursor-pointer"
         @click.stop="handleEditDropdownClick({ item, event: $event })"
       >
         {{ item.label || item.value }}

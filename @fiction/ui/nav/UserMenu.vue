@@ -41,7 +41,7 @@ const mobileMenuVisible = vue.ref(false)
       :site="card.site"
       dropdown-alignment="end"
       mode="click"
-      class="pointer-events-none md:pointer-events-auto "
+      :class="card.site?.isEditable.value ? 'pointer-events-none' : 'pointer-events-none md:pointer-events-auto '"
       :classes="{ width: 'w-64' }"
       :items="getFictionNavItems({ fictionAdmin, fictionUser })"
     >

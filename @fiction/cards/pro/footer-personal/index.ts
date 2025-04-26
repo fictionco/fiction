@@ -15,7 +15,7 @@ export const template = cardTemplate({
     This versatile footer adapts to various brand personalities - from corporate polish to creative flair.
     Features animated reveal effects, smart content sections, and seamless dark mode support.
     Perfect for multi-section navigation, contact information, and legal requirements.`,
-  isPublic: true,
+  isPublic: false,
   el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
 
   // Config implementation

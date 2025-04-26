@@ -212,7 +212,7 @@ const componentProps = vue.computed(() => {
         <div
           class="flex items-center space-x-2 text-theme-700 dark:text-theme-0"
         >
-          <label v-if="label" class="font-medium" :for="attrs.for" v-text="label" />
+          <label v-if="label" class="font-semibold" :for="attrs.for" v-text="label" />
           <div v-if="description || subLabel" class="group relative flex items-center">
             <div class="text-lg text-theme-500 hover:text-theme-400 i-tabler-help group-hover:opacity-40 cursor-help" />
             <div class="pointer-events-none bg-theme-0 dark:bg-theme-700 dark:border-theme-600 border dark:text-theme-0 absolute -left-4 top-full z-30 mt-2 opacity-0 max-h-0 w-56 origin-top-right rounded-md p-4 text-xs shadow-lg ring-1 ring-black/10 focus:outline-none group-hover:max-h-[300px] group-hover:opacity-100 transition-all">

@@ -29,14 +29,14 @@ export function getTools(args: { site: Site }) {
       isPrimary: true,
       design: 'drawer',
     },
-    {
-      toolId: 'sectionsAdd',
-      title: 'Add New',
-      icon: { class: 'i-tabler-plus' },
-      el: vue.defineAsyncComponent(async () => import('./ToolSectionsAdd.vue')),
-      isPrimary: true,
-      design: 'drawer',
-    },
+    // {
+    //   toolId: 'sectionsAdd',
+    //   title: 'Add New',
+    //   icon: { class: 'i-tabler-plus' },
+    //   el: vue.defineAsyncComponent(async () => import('./ToolSectionsAdd.vue')),
+    //   isPrimary: true,
+    //   design: 'drawer',
+    // },
 
     {
       toolId: 'siteSettings',

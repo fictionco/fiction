@@ -113,7 +113,7 @@ const cls = vue.computed(() => {
   const configs = {
     md: {
       groupHeader: 'py-1.5 px-2 text-xs',
-      groupPad: 'p-4 pr-2 @[500px]:px-8 @[500px]:pr-3 @[700px]:px-10 @[700px]:pr-5',
+      groupPad: 'p-4 @[350px]:px-6 @[500px]:px-8 @[700px]:px-10',
       inputGap: 'gap-5 @sm:gap-7 @xl:gap-10',
       tab: 'py-2 px-4 text-xs font-normal',
     },
@@ -271,7 +271,7 @@ function handleTabChange(index: number) {
             :class="getTabClasses(i)"
             @click="handleTabChange(i)"
           >
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 font-semibold">
               <XIcon v-if="opt.settings.icon" class="size-[1.1em]" :media="opt.settings.icon" />
               <span class=" whitespace-nowrap" v-html="opt.label.value" />
             </div>

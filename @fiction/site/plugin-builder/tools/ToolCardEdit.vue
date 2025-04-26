@@ -23,10 +23,6 @@ const options = vue.shallowRef<InputOption[]>([])
 
 vue.provide('site', props.site)
 
-vue.watch(() => props.site?.activeCard.value, async () => {
-  options.value = await getCardOptionConfig({ card: props.site?.activeCard.value }) || []
-})
-
 const activeCard = vue.computed(() => props.site?.activeCard.value)
 
 const activeCardConfig = vue.computed({
@@ -37,6 +33,16 @@ const activeCardConfig = vue.computed({
 function setActiveCardConfig(config: Partial<TableCardConfig>) {
   activeCardConfig.value = config
 }
+
+vue.onMounted(() => {
+  vue.watch(
+    () => props.site?.activeCard.value,
+    async (card) => {
+      options.value = await getCardOptionConfig({ card }) || []
+    },
+    { immediate: true },
+  )
+})
 </script>
 
 <template>

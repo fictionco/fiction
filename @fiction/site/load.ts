@@ -189,12 +189,12 @@ export async function loadSite(args: {
 
   let site: Site | undefined = undefined
   try {
-    const { orgId, siteId, subDomain, hostname, themeId, cardId, siteMode = 'standard', internal } = mountContext || {}
+    const { orgId, handle, siteId, subDomain, hostname, themeId, cardId, siteMode = 'standard', internal } = mountContext || {}
 
-    const where = { siteId, subDomain, hostname, themeId, orgId } as WhereSite
+    const where = { siteId, subDomain, hostname, themeId, orgId, handle } as WhereSite
     const hasWhere = Object.values(where).filter(Boolean).length > 0
 
-    const selectors = [siteId, subDomain, themeId, cardId].filter(Boolean)
+    const selectors = [siteId, subDomain, themeId, cardId, handle].filter(Boolean)
 
     if (selectors.length > 1)
       logger.error('Multiple selectors used to load site', { data: { selectors } })
@@ -256,6 +256,10 @@ export function domainMountContext({ runVars }: { runVars: Partial<RunVars> }): 
   if (effectiveSubdomain.startsWith(themePrefix))
     return { themeId: effectiveSubdomain.substring(themePrefix.length) }
 
+  const stagePrefix = 'stage-'
+  if (effectiveSubdomain.startsWith(stagePrefix))
+    return { handle: effectiveSubdomain.substring(stagePrefix.length) }
+
   return { subDomain: effectiveSubdomain }
 }
 
@@ -285,6 +289,7 @@ export function getMountContext(args: {
       subDomain: mc.subDomain,
       hostname: mc.hostname,
       orgId: mc.orgId,
+      handle: mc.handle,
     }
     siteMode = mc.siteMode || siteMode
   }
@@ -299,6 +304,7 @@ export function getMountContext(args: {
         subDomain: selectorType === 'domain' ? selectorId : undefined,
         hostname: selectorType === 'hostname' ? selectorId : undefined,
         orgId: selectorType === 'org' ? selectorId : undefined,
+        handle: selectorType === 'handle' ? selectorId : undefined,
       }
     }
 
@@ -311,6 +317,7 @@ export function getMountContext(args: {
         subDomain: queryVars.subDomain || undefined,
         hostname: queryVars.hostname || undefined,
         orgId: queryVars.orgId || undefined,
+        handle: queryVars.handle || undefined,
       }
     }
 

@@ -16,7 +16,7 @@ export const template = cardTemplate({
   subTitle: 'Design strategic pricing tables that guide customers to the perfect plan',
   icon: 'i-tabler-report-money',
   colorTheme: 'emerald',
-  isPublic: true,
+  isPublic: false,
   el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
 
   async getConfig(args) {

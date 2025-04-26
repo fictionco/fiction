@@ -13,7 +13,7 @@ export const template = cardTemplate({
   icon: 'i-tabler-layout-board',
   colorTheme: 'blue',
   isContainer: true, // ui drawer
-  isPublic: true,
+  isPublic: false,
   el: vue.defineAsyncComponent(async () => import('./ElArea.vue')),
 
   // Base configuration

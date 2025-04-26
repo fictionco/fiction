@@ -15,7 +15,7 @@ const {
   loading = false,
 } = defineProps<{
   tag?: 'h1' | 'h2' | 'h3' | 'div' | 'span' | 'p' | 'a'
-  modelValue: number | string
+  modelValue?: number | string
   animate?: boolean
   format?: NumberFormats
   prefix?: string
@@ -39,7 +39,7 @@ vue.onMounted(() => {
     loadAnimation()
   else loaded.value = true
 
-  vue.watch(() => modelValue, () => {
+  vue.watch(() => [modelValue, format], () => {
     if (animate)
       loadAnimation()
     else loaded.value = true
@@ -59,7 +59,7 @@ const displayValue = vue.computed(() => loading ? '—' : formattedValue.value)
     :is="tag"
     :id="randomId"
     ref="xNumber"
-    :class="loading  ? 'animate-pulse' : ''"
+    :class="loading ? 'animate-pulse' : ''"
     class="focus:outline-none"
     v-html="displayValue"
   />
