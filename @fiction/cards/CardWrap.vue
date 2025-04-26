@@ -5,7 +5,6 @@ import type { CardOptionsWithStandard } from '@fiction/site/schema'
 import { getColorScheme, vue } from '@fiction/core'
 import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import StandardHeader from './el/StandardHeader.vue'
 
 const { card, contentWidth } = defineProps<{
   card: Card<CardOptionsWithStandard>
@@ -104,19 +103,12 @@ const contentWidthClass = vue.computed(() => {
     :data-card-depth="card.depth.value"
     :data-primary-scheme="colorScheme?.primary"
     :data-theme-scheme="colorScheme?.theme"
-    :data-space-size="card.fullConfig.value?.standard?.spaceSize"
+    :data-content-width="contentWidth"
+    :data-vertical-spacing="verticalSpacing"
   >
     <div class="w-full relative text-theme-950 dark:text-theme-50 x-font-body ">
       <div>
         <div class="relative">
-          <div
-            v-if="standardUc?.headers?.title && !card?.site?.currentItemId.value"
-            class="mb-8 lg:mb-16"
-            :class="[contentWidthClass]"
-            data-standard-header
-          >
-            <StandardHeader v-if="standardUc?.headers?.title" :card />
-          </div>
           <div :class="[contentWidthClass]">
             <slot />
           </div>

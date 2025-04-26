@@ -42,7 +42,7 @@ const props = defineProps<{
           tag="h1"
           :path="pathCheck('title', schema)"
           :post="post"
-          class="text-3xl md:text-4xl xl:text-5xl font-bold x-font-title md:text-pretty !leading-[1.3]  mb-4"
+          class="text-3xl md:text-4xl xl:text-5xl font-semibold x-font-title md:text-pretty !leading-[1.3]  mb-4"
         />
         <SiteText
           v-model="post.config.value"
@@ -86,7 +86,7 @@ const props = defineProps<{
 
         <!-- Content -->
         <XEntry
-          class="font-serif text-base md:text-xl"
+          class="font-serif text-base md:text-lg"
           :theme="post.theme.value"
           :drop-cap="props.dropCap"
         >

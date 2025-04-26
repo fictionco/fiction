@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { ButtonDesign, ButtonFontWeight, ButtonFormat, ButtonHover, ButtonRounding, ButtonShadow, ColorThemeUser, MediaObject, StandardSize } from '@fiction/core'
 import { getNavComponentType, pathIsHref, shortId, vue } from '@fiction/core'
+import { SITE_INJECTION_KEY } from '@fiction/site'
 import { twMerge } from 'tailwind-merge'
 import { animateItemEnter, splitLetters } from '../anim'
 import XIcon from '../media/XIcon.vue'
@@ -49,6 +50,9 @@ const {
   respond?: 'icon:sm' | 'icon:md' | 'icon:lg' | 'icon:xl'
   classes?: { button?: string, icon?: string }
 }>()
+
+const site = vue.inject(SITE_INJECTION_KEY, vue.computed(() => undefined))
+const prevent = vue.computed(() => !!(site.value?.siteMode.value === 'editable'))
 
 const randomId = shortId()
 const loaded = vue.ref(false)
@@ -145,7 +149,7 @@ const textClass = vue.computed(() => {
 
 <template>
   <component
-    :is="getNavComponentType({ href }, hover === 'none' ? 'div' : tag || 'button')"
+    :is="prevent ? 'div' : getNavComponentType({ href }, hover === 'none' ? 'div' : tag || 'button')"
     :id="randomId"
     v-bind="linkProps"
     class="xbutton group/button"

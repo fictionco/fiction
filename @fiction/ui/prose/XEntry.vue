@@ -82,13 +82,11 @@ const themeColors = vue.computed(() => {
   }
 
   h1 {
-    font-weight: 700;
     font-size: calc(var(--base-font-size) * 2.618);
     margin: calc(var(--base-font-size) * 1.618) 0 calc(var(--base-font-size) * 0.618);
   }
 
   h2 {
-    font-weight: 700;
     font-size: calc(var(--base-font-size) * 2);
     margin: calc(var(--base-font-size) * 1.5) 0 calc(var(--base-font-size) * 0.5);
   }
@@ -168,7 +166,6 @@ const themeColors = vue.computed(() => {
     padding-left: calc(var(--base-font-size) * 1);
     position: relative;
     max-width: 55ch;
-    font-family: var(--font-family-title, inherit);
 
     &:before {
       content: "";
@@ -192,14 +189,10 @@ const themeColors = vue.computed(() => {
     }
 
     footer {
-      margin-top: calc(var(--base-font-size) * 0.618);
-      font-size: calc(var(--base-font-size) * 0.9);
+      font-size: .9em;
       color: var(--muted-color);
     }
 
-    cite {
-      font-style: normal;
-    }
   }
 
   /* Lists */

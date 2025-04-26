@@ -5,7 +5,7 @@ import type { FictionSites, TableSiteConfig } from '@fiction/site'
 import type { FramePostMessageList } from '@fiction/site/utils/frame'
 import { getColorScheme, log, simpleHandlebarsParser, toLabel, unhead, useService, vue } from '@fiction/core'
 import { useSSRData } from '@fiction/core/utils/ssr'
-import { Site } from '@fiction/site'
+import { Site, SITE_INJECTION_KEY } from '@fiction/site'
 import { getMountContext, loadSite } from '@fiction/site/load'
 import { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
@@ -78,6 +78,8 @@ const { data: site, loading, hasInitialized } = useSSRData({
     },
   },
 })
+
+vue.provide(SITE_INJECTION_KEY, site)
 
 const fonts = vue.computed(() => site.value?.siteFonts.value)
 

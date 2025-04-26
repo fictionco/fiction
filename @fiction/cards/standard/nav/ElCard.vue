@@ -2,7 +2,6 @@
 import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { UserConfig } from './config'
-import CardNavLink from '@fiction/cards/CardNavLink.vue'
 import { toLabel, useService, vue } from '@fiction/core'
 import XLogoType from '@fiction/ui/media/XLogoType.vue'
 import UserMenu from '@fiction/ui/nav/UserMenu.vue'
@@ -42,8 +41,8 @@ const nav = vue.computed(() => {
       <div class="x-header-container">
         <div class="relative">
           <nav class="" aria-label="Global">
-            <div class="relative flex items-center justify-between gap-12">
-              <div class="inline-flex mr-4 justify-start basis-0 grow">
+            <div class="relative flex items-center justify-between gap-8">
+              <div class="inline-flex justify-start">
                 <CardLink
                   :card
                   href="/"
@@ -63,7 +62,7 @@ const nav = vue.computed(() => {
               </div>
 
               <div
-                class="hidden md:flex gap-x-4 items-center grow-0"
+                class="hidden md:flex gap-x-4 items-center grow justify-start"
               >
                 <CardLink
                   v-for="(item, i) in nav.primary"

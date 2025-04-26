@@ -48,7 +48,7 @@ onResetUi(() => {
 
 <template>
   <div
-    class="z-40 transition-all bg-blue-500 dark:bg-blue-600/60 dark:hover:bg-blue-600/80 hover:z-20 cursor-pointer py-[1px] px-1.5 text-blue-100 font-sans text-xs  flex gap-0.5 items-center justify-center rounded-md"
+    class="z-40 transition-all bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-600/80 hover:z-20 cursor-pointer py-[1px] px-1.5 text-blue-100 font-sans text-xs  flex gap-0.5 items-center justify-center rounded-md"
     @click.stop="editDropdownVisible = !editDropdownVisible"
   >
     <div>{{ card.tpl.value?.settings.title || 'Tools' }}</div>

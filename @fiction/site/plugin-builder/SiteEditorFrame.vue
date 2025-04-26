@@ -45,13 +45,13 @@ vue.watch(
 )
 
 // Page grid view state
-const showPageGrid = vue.computed({
-  get: () => props.site?.editorController.isUsingTool({ toolId: 'pages' }) || false,
-  set: (value) => {
-    const toolId = value ? 'pages' : ''
-    props.site?.editorController.useTool({ toolId })
-  },
-})
+// const showPageGrid = vue.computed({
+//   get: () => !props.site?.editor.value.selectedPageId,
+//   set: (value) => {
+//     if (props.site)
+//       props.site.editor.value.selectedPageId = value ? '' : props.site?.activePageId.value
+//   },
+// })
 
 const maxGridPages = 16 // Limit to prevent performance issues
 
@@ -63,7 +63,7 @@ const sitePages = vue.computed(() => {
 
   // Filter pages and sort to put home page first
   const filteredPages = props.site.pages.value
-    .filter(page => !page.slug.value?.startsWith('__'))
+    .filter(page => !page.slug.value?.startsWith('__') && !page.isSystem.value)
     .sort((a, b) => {
       return a.isHome.value ? -1 : b.isHome.value ? 1 : 0
     })
@@ -78,20 +78,8 @@ async function selectPage(cardId: string) {
     return
 
   // Close grid view
-  showPageGrid.value = false
-
-  if (cardId)
-    props.site.activePageId.value = cardId
-
-  props.site.editor.value.selectedPageId = cardId || ''
-
-  // Reset device mode to desktop
+  props.site.editingPageId.value = cardId
   activeDeviceModeKey.value = 'desktop'
-
-  // Reset selected card
-  if (props.site.editor.value.selectedCardId) {
-    props.site.editor.value.selectedCardId = ''
-  }
 }
 
 // Method to check if page is current active page
@@ -173,8 +161,8 @@ function handlePageOrderUpdate(ids: string[]) {
 </script>
 
 <template>
-  <div class="space-y-4 p-4 xl:p-6 @container bg-theme-800">
-    <div v-if="showPageGrid" class="flex gap-2 items-baseline">
+  <div v-if="site" class="space-y-4 p-4 xl:p-6 @container bg-theme-800">
+    <div v-if="!site.editingPageId.value" class="flex gap-2 items-baseline">
       <div class="font-semibold">
         All Pages
       </div>
@@ -187,10 +175,25 @@ function handlePageOrderUpdate(ids: string[]) {
       class="flex justify-between space-x-2"
     >
       <div class="flex items-center gap-3">
+        <XButton
+          size="sm"
+          rounding="md"
+          design="ghost"
+          icon="i-tabler-layout-grid"
+          @click.stop="site.editingPageId.value = ''"
+        >
+          All Pages
+        </XButton>
+        <XButton
+          size="sm"
+          rounding="md"
+          design="ghost"
+          icon="i-tabler-pencil"
+          @click.stop="site.editorActivateTool({ toolId: 'pageEdit' })"
+        >
+          Edit Page: {{ currentPageStandard?.title || currentPage?.title.value || toLabel(currentPage?.slug.value) || 'Untitled' }}
+        </XButton>
         <div class="flex items-center gap-2">
-          <div class="font-semibold">
-            {{ currentPageStandard?.title || currentPage?.title.value || toLabel(currentPage?.slug.value) || 'Untitled' }}
-          </div>
           <div class="font-mono text-sm text-theme-500 dark:text-theme-400 flex items-center gap-1">
             <XText
               :model-value="site.currentPath.value"
@@ -203,14 +206,6 @@ function handlePageOrderUpdate(ids: string[]) {
             </div>
           </div>
         </div>
-        <XButton
-          size="xs"
-          design="ghost"
-          icon="i-tabler-pencil"
-          @click.stop="site.editorActivateTool({ toolId: 'pageEdit' })"
-        >
-          Edit Page Settings
-        </XButton>
       </div>
       <div class="flex items-center gap-3">
         <ElTooltip
@@ -218,9 +213,10 @@ function handlePageOrderUpdate(ids: string[]) {
           content="Undo the last change"
         >
           <XButton
-            rounding="full"
+            rounding="md"
             icon="i-tabler-arrow-back"
-            size="xs"
+            size="sm"
+            design="ghost"
             :disabled="!site.history?.canUndo.value"
             respond="icon:xl"
             @click="site.history?.undo()"
@@ -231,9 +227,10 @@ function handlePageOrderUpdate(ids: string[]) {
           content="Redo the last undo"
         >
           <XButton
-            rounding="full"
+            rounding="md"
             icon="i-tabler-arrow-forward"
-            size="xs"
+            size="sm"
+            design="ghost"
             :disabled="!site.history?.canRedo.value"
             respond="icon:xl"
             @click="site.history?.redo()"
@@ -247,9 +244,10 @@ function handlePageOrderUpdate(ids: string[]) {
           dropdown-alignment="end"
         >
           <XButton
-            rounding="full"
+            rounding="md"
             :icon="activeDeviceMode?.icon"
-            size="xs"
+            size="sm"
+            design="ghost"
             icon-after="i-tabler-chevron-down"
           >
             {{ toLabel(activeDeviceMode?.value) }}
@@ -261,7 +259,7 @@ function handlePageOrderUpdate(ids: string[]) {
     <!-- Page grid view with drag and drop -->
 
     <EffectDraggableSort
-      v-show="site && showPageGrid"
+      v-show="site && !site.editingPageId.value"
       item-selector=".draggable-page"
       :disabled="false"
       :allow-horizontal="true"
@@ -279,7 +277,7 @@ function handlePageOrderUpdate(ids: string[]) {
         <!-- Page preview iframe -->
         <div class="relative size-full overflow-hidden bg-theme-100 dark:bg-theme-900">
           <iframe
-            :src="site.frame.framePageUrl({ slug: !page.isHome.value ? page.slug.value : '', siteMode: 'designer' })"
+            :src="site.frame.framePageUrl({ slug: !page.isHome.value ? page.slug.value : '', siteMode: 'standard' })"
             class="transform scale-[0.25] origin-top-left"
             style="width: 400%; height: 400%"
             frameborder="0"
@@ -336,7 +334,7 @@ function handlePageOrderUpdate(ids: string[]) {
       class="min-h-0 relative mx-auto pb-10 flex flex-col transition-all duration-300"
       :class="[
         deviceModeConfig?.wrapClass,
-        showPageGrid ? 'opacity-0 h-0 overflow-hidden' : 'h-full',
+        !site.editingPageId.value ? 'opacity-0 h-0 overflow-hidden' : 'h-full',
       ]"
     >
       <ElBrowserFrameDevice

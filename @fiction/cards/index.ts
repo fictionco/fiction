@@ -183,7 +183,6 @@ async function getTemplateModules(): Promise<TemplateModule[]> {
 
 // Main template getter
 export async function getCardTemplates(args: { caller?: string } = {}): Promise<CardTemplate<any>[]> {
-  logger.info('HELLO', { data: { tp: typeof cardTemplate } })
   const modules = await getTemplateModules()
 
   return [

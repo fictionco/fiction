@@ -15,9 +15,6 @@ export const template = cardTemplate({
   colorTheme: 'blue',
   el: vue.defineAsyncComponent(() => import('./ElMagazine.vue')),
   isPublic: true,
-  getBaseConfig: () => {
-    return { standard: { showOnSingle: true } }
-  },
   getConfig: async (args) => {
     const { getConfig } = await import('./config')
     return getConfig({ ...args, templateId })

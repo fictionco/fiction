@@ -47,16 +47,14 @@ const icon = `<svg
       >
         Tell Your Story
       </XButton>
-      <div class="flex gap-2 items-center font-sans text-theme-400">
-        <a
+      <div class="flex gap-1 items-center font-sans text-theme-400">
+        Powered by <CardLink
+          :card
           class="text-sm font-medium underline underline-offset-4"
           href="https://www.fiction.com"
-        >Fiction</a>
-        <p
-          class="text-sm"
         >
-          Portfolio Platform
-        </p>
+          Fiction
+        </CardLink>
       </div>
     </div>
   </CardWrap>

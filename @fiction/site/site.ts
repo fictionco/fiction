@@ -44,6 +44,8 @@ export type SiteEventMap = {
   editorActivateTool: CustomEvent<{ toolId: ToolKeys }>
 }
 
+export const SITE_INJECTION_KEY = Symbol('siteRef') as vue.InjectionKey<vue.Ref<Site | undefined>>
+
 export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T> {
   fictionSites = this.settings.fictionSites
   siteRouter = this.settings.siteRouter
@@ -349,15 +351,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     this.isAnimationDisabled.value = false
   }
-
-  // async setEditPageAsHome() {
-  //   updatePages({ site: this, pages: this.pages.value.map(p => ({ ...p.toConfig(), isHome: false, slug: p.slug.value === '_home' ? 'old-home' : p.slug.value })) })
-  //   this.editPageConfig.value = { ...this.editPageConfig.value, isHome: true, slug: '_home' }
-
-  //   await this.save()
-
-  //   this.activePageId.value = this.editPageConfig.value.cardId || ''
-  // }
 
   removeCard(args: { cardId: string }) {
     return removeCard({

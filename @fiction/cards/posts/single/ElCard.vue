@@ -48,7 +48,7 @@ const post = vue.computed<Post | undefined>(() => {
 </script>
 
 <template>
-  <CardWrap :card content-width="md" vertical-spacing="sm">
+  <CardWrap :card content-width="md" vertical-spacing="md">
     <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
       <!-- Main content area -->
       <div class="flex-1">

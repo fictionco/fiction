@@ -75,7 +75,7 @@ const sizeClasses: Record<HeaderSize, SizeClasses> = {
   },
 }
 
-const currentSizeClasses = vue.computed(() => sizeClasses[headerSize.value])
+const currentSizeClasses = vue.computed(() => sizeClasses[headerSize.value] || {})
 </script>
 
 <template>

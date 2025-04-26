@@ -9,12 +9,6 @@ export function getTools(args: { site: Site }) {
   return [
 
     {
-      toolId: 'pages',
-      title: 'Pages',
-      icon: { class: 'i-tabler-stack' },
-      isPrimary: true,
-    },
-    {
       toolId: 'pageEdit',
       title: 'Edit Page',
       icon: { class: 'i-tabler-file' },

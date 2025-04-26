@@ -123,27 +123,23 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
     /**
      * When an organization is updated, update the customer details in Stripe
      */
-    this.settings.fictionEnv?.addHook({
-      hook: 'updateOrganization',
-      caller: 'FictionStripe',
-      context: 'server',
-      callback: async (o) => {
-        try {
-          if (!o.orgId) {
-            throw new Error('updateOrganization hook missing orgId')
-          }
+    this.settings.fictionUser.hooks.on('updateOrg', 'stripe:updateOrg', async (args) => {
+      const { org } = args
+      try {
+        if (!org.orgId) {
+          throw new Error('updateOrganization hook missing orgId')
+        }
 
-          const { orgId, orgEmail, orgName } = o
-          await this.queries.ManageCustomer.serve(
-            { _action: 'update', orgId, fields: { email: orgEmail, name: orgName } },
-            { server: true },
-          )
-        }
-        catch (error) {
-          this.log.error('Failed to update customer details in hook', { error })
-          throw error
-        }
-      },
+        const { orgId, orgEmail, orgName } = org
+        await this.queries.ManageCustomer.serve(
+          { _action: 'update', orgId, fields: { email: orgEmail, name: orgName } },
+          { server: true },
+        )
+      }
+      catch (error) {
+        this.log.error('Failed to update customer details in hook', { error })
+        throw error
+      }
     })
   }
 

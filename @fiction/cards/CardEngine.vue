@@ -4,14 +4,12 @@ import { Card } from '@fiction/site/card'
 import CardToolDropdown from './CardToolDropdown.vue'
 import EffectTransitionCardList from './EffectTransitionCardList.vue'
 
-const { card, tag = 'div' } = defineProps<{ card?: Card, tag: string }>()
-
-const isEditable = vue.computed(() => card?.site?.isEditable.value)
+const { card, tag = 'div', isEditable = false } = defineProps<{ card?: Card, tag?: string, isEditable?: boolean }>()
 
 function handleCardClick(args: { cardId: string, event: MouseEvent }) {
   const { event, cardId } = args
 
-  if (isEditable.value) {
+  if (isEditable) {
     event?.stopPropagation()
     resetUi({ scope: 'all', cause: 'ElEngine', trigger: 'elementClick' })
     card?.site?.setActiveCard({ cardId })
@@ -71,10 +69,10 @@ const renderCards = vue.computed(() => {
           :card="subCard"
         />
         <CardToolDropdown
-          v-if="card?.site?.isEditable.value"
-          :card="card"
-          class="absolute top-3 opacity-40 group-hover/engine:opacity-100"
-          :class="card.tpl.value?.settings.isContainer ? 'left-3' : 'right-3'"
+          v-if="isEditable && subCard"
+          :card="subCard"
+          class="absolute top-3 opacity-0 group-hover/engine:opacity-100"
+          :class="subCard.tpl.value?.settings.isContainer ? 'left-3' : 'right-3'"
         />
       </div>
     </EffectTransitionCardList>
