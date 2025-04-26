@@ -46,7 +46,7 @@ const hasIconNav = vue.computed(() => {
           <div
             v-show="controller?.hideToolDrawers.value !== 'both' && controller?.hideToolDrawers.value !== 'left'"
             class="no-scrollbar flex-none  relative hidden md:block"
-            :class="hasIconNav ? 'w-[70px]' : 'w-0'"
+            :class="hasIconNav ? 'w-[80px]' : 'w-0'"
             @click.stop="resetUi({ scope: 'inputs', cause: 'clickEditorTools', trigger: 'elementClick' })"
           >
             <div
@@ -71,7 +71,7 @@ const hasIconNav = vue.computed(() => {
                     >
                       <XIcon class="size-6" :media="tool.icon" />
                       <span
-                        class="text-[10px] truncate min-w-0 w-full text-center select-none "
+                        class="text-[11px] font-semibold truncate min-w-0 w-full text-center select-none "
                         :class="controller?.isUsingTool({ toolId: tool.toolId })
                           ? 'text-white'
                           : 'text-theme-500 dark:text-theme-400 group-hover:text-white'"
@@ -98,7 +98,7 @@ const hasIconNav = vue.computed(() => {
                     >
                       <XIcon class="size-6" :media="tool.icon" />
                       <span
-                        class="text-[10px] truncate min-w-0 w-full text-center select-none"
+                        class="text-[11px] font-semibold truncate min-w-0 w-full text-center select-none"
                         :class="controller?.isUsingTool({ toolId: tool.toolId })
                           ? 'text-white'
                           : 'text-theme-500 dark:text-theme-400 group-hover:text-white'"

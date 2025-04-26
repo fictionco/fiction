@@ -18,8 +18,9 @@ function createHeroCard(item: HeroConfig, index: number) {
     templateId: 'cardHeroV1',
     userConfig: item,
     site: card.site,
-    onSync: (subCard) => {
-      card.updateUserConfig({ path: `items.${index}`, value: subCard.userConfig.value })
+    onSync: ({ cardConfig }) => {
+      const value = cardConfig.userConfig
+      card.updateUserConfig({ path: `items.${index}`, value })
     },
   })
 }

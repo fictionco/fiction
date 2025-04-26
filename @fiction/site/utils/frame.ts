@@ -48,7 +48,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   frameUrl = vue.computed(() => `${this.previewPath.value}${this.framePath.value}`)
   framePageUrl = (args: { slug?: string, siteMode?: SiteMode }) => {
     const { slug, siteMode } = args
-    return `${this.previewPath.value}/${slug}?_siteMode=${siteMode}`
+    return `${this.previewPath.value}/${slug}?_siteMode=${siteMode}&_scope=draft`
   }
 
   setUtil(util: FrameUtility<FramePostMessageList>) {

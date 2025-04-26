@@ -4,7 +4,7 @@ import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil'
 import type { Card } from '../card'
 import type { Site } from '../site'
 import type { FramePostMessageList } from '../utils/frame'
-import { toLabel, vue } from '@fiction/core'
+import { fastHash, toLabel, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
@@ -272,7 +272,7 @@ function handlePageOrderUpdate(ids: string[]) {
     >
       <div
         v-for="page in sitePages"
-        :key="`${page.cardId}-${page.slug.value}-${page.isHome.value ? 'home' : ''}`"
+        :key="fastHash(page.toConfig())"
         :data-drag-id="page.cardId"
         class="z-20 draggable-page h-80 relative group transition-all duration-300 ease-out bg-white dark:bg-theme-800 rounded-lg shadow-md overflow-hidden cursor-pointer ring-1 ring-theme-200 dark:ring-theme-600/60 hover:ring-theme-400 dark:hover:ring-theme-500"
         :class="{ 'ring-2 ring-theme-500 dark:ring-theme-400': isActivePage(page.cardId) }"

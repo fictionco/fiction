@@ -183,7 +183,7 @@ export type CardSettings<T extends Record<string, unknown> = Record<string, unkn
   inlineTemplate?: CardTemplate<any>
   el?: ComponentConstructor
   templates?: CardTemplate[] | readonly CardTemplate[]
-  onSync?: (card: Card) => void
+  onSync?: (args: { card: Card, cardConfig: CardConfigPortable }) => void
   editorConfig?: T & StandardUserConfig
 }
 export type CardBaseConfig = CardOptionsWithStandard & StandardUserConfig & Record<string, unknown>
@@ -354,7 +354,7 @@ export class Card<
 
     this.userConfig.value = setNested({ data: this.userConfig.value, path, value })
 
-    this.syncCard({ caller: `updateUserConfig:${this.templateId.value}`, cardConfig: { userConfig: this.userConfig.value } })
+    this.syncCard({ caller: `updateUserConfig:${this.templateId.value}-${path}`, cardConfig: { userConfig: this.userConfig.value } })
   }
 
   syncCard(args: { caller: string, noSave?: boolean, noHistory?: boolean, cardConfig?: CardConfigPortable }) {
@@ -365,22 +365,22 @@ export class Card<
 
     const cardConfig = args.cardConfig ? { ...args.cardConfig, cardId: this.cardId } : this.toConfig()
 
-    this.site.frame.syncCard({ caller: `card:syncCard:${args.caller}`, cardConfig })
-
     // allow for parent cards and inherited type functionality
     if (this.settings.onSync) {
-      this.settings.onSync(this)
+      this.settings.onSync({ card: this, cardConfig })
     }
+    else {
+      this.site.frame.syncCard({ caller: `card:syncCard:${args.caller}`, cardConfig })
+      if (!args.noSave)
+        this.site?.saveUtil.autosave({ caller: `syncCard-${caller}` })
 
-    if (!args.noSave)
-      this.site?.saveUtil.autosave({ caller: `syncCard-${caller}` })
-
-    if (!noHistory && this.site?.siteMode.value === 'designer') {
-      this.site?.history.saveState({
-        description: `Card updated: ${this.tpl.value?.settings.title}`,
-        type: 'card',
-        cardConfig,
-      })
+      if (!noHistory && this.site?.siteMode.value === 'designer') {
+        this.site?.history.saveState({
+          description: `Card updated: ${this.tpl.value?.settings.title}`,
+          type: 'card',
+          cardConfig,
+        })
+      }
     }
   }
 

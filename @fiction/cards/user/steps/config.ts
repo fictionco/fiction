@@ -27,6 +27,12 @@ function getOptions() {
       label: 'List Items',
       options: [
         createOption({
+          key: 'title',
+          label: 'Section Title',
+          input: 'InputText',
+          isRequired: true,
+        }),
+        createOption({
           key: 'items',
           input: 'InputList',
           props: {
@@ -45,13 +51,6 @@ function getOptions() {
             }),
           ],
         }),
-      ],
-    }),
-    createOption({
-      input: 'group',
-      key: 'settingsGroup',
-      label: 'Settings',
-      options: [
         createOption({
           key: 'layout',
           label: 'Layout Style',
@@ -63,17 +62,19 @@ function getOptions() {
           ],
         }),
         createOption({
-          key: 'title',
-          label: 'Section Title',
-          input: 'InputText',
-          isRequired: true,
-        }),
-        createOption({
           key: 'media',
           label: 'Featured Media',
           input: 'InputMedia',
           description: 'Optional media to accompany your content',
         }),
+      ],
+    }),
+    createOption({
+      input: 'group',
+      key: 'settingsGroup',
+      label: 'Settings',
+      options: [
+
       ],
     }),
 

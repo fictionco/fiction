@@ -23,7 +23,7 @@ export function getTools(args: { site: Site }) {
     },
     {
       toolId: 'sectionsLayout',
-      title: 'Sections',
+      title: 'Elements',
       icon: { class: 'i-tabler-section' },
       el: vue.defineAsyncComponent(async () => import('./ToolSectionsLayout.vue')),
       isPrimary: true,
@@ -44,7 +44,7 @@ export function getTools(args: { site: Site }) {
       icon: { class: 'i-tabler-settings' },
       el: vue.defineAsyncComponent(async () => import('./ToolSettings.vue')),
       isPrimary: true,
-      design: 'modal',
+      design: 'drawer',
     },
 
     {
