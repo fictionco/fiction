@@ -111,7 +111,9 @@ export interface InputOptionSettings {
   list?: (NavListItem | string)[] | readonly (NavListItem | string)[]
   schema?: z.Schema
   generation?: InputOptionGeneration
-  isHidden?: boolean
+  isHidden?: boolean | vue.Ref<boolean>
+  // callback
+  isVisible?: (args: { index?: number, value?: unknown, path?: string }) => boolean
   isUtility?: boolean
   shape?: string[]
   inputClass?: string
@@ -138,7 +140,8 @@ export class InputOption extends FictionObject<InputOptionSettings> {
   placeholder = vue.ref(this.settings.placeholder)
   isRequired = vue.ref(this.settings.isRequired || false)
   isClosed = vue.ref(this.settings.isClosed || false)
-  isHidden = vue.ref(this.settings.isHidden || false)
+  isHidden = vue.isRef(this.settings.isHidden) ? this.settings.isHidden : vue.ref(this.settings.isHidden || false)
+  isVisible = this.settings.isVisible || (() => true)
   description = vue.ref(this.settings.description)
 
   // modal control options

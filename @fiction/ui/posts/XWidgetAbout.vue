@@ -23,20 +23,20 @@ const about = vue.computed(() => {
 </script>
 
 <template>
-  <SidebarWidget title="About">
+  <SidebarWidget>
     <div class="space-y-6 @container/about">
       <div v-if="org?.orgName" class="flex items-center gap-4">
         <ElAvatar v-if="org.avatar?.url" class="size-14" :org />
         <div class="space-y-0.5">
-          <div class="font-bold text-lg">
+          <div class="font-semibold text-lg md:text-xl">
             {{ org?.orgName || '' }}
           </div>
-          <div class="text-base text-theme-500 dark:text-theme-400">
+          <div class="text-base md:text-lg text-theme-500">
             {{ headline }}
           </div>
         </div>
       </div>
-      <p class="text-theme-600 dark:text-theme-300 text-sm line-clamp-5">
+      <p class="text-base line-clamp-5">
         {{ about }}
       </p>
       <XButton

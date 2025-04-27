@@ -124,7 +124,7 @@ function addItem() {
 }
 
 function removeItem(item: Record<string, unknown> & { _key: string }) {
-  const confirmed = confirm('Delete this item permanently?')
+  const confirmed = confirm(`Delete this ${itemName}?`)
   if (!confirmed)
     return
   const val = modelValue.filter(i => i._key !== item._key)
@@ -178,9 +178,13 @@ async function createDraggable() {
 vue.onMounted(async () => {
   await waitFor(200)
 
-  vue.watch(() => listKey.value, async () => {
-    await createDraggable()
-  }, { immediate: true })
+  vue.watch(
+    () => listKey.value,
+    async () => {
+      await createDraggable()
+    },
+    { immediate: true },
+  )
 })
 
 function activateItem(args: { index: number, path: string }) {
@@ -225,6 +229,7 @@ function activateItem(args: { index: number, path: string }) {
               :model-value="item"
               :options
               :depth="1"
+              :engine-index="i"
               :active-path="activePath"
               :edit-path="`${editPath}.${i}`"
               :input-props="{ site }"

@@ -26,7 +26,7 @@ const {
   buttons = [],
   disableGroupHide = false,
   format = 'input',
-  aligned = 'center',
+  engineIndex,
 } = defineProps<{
   stateKey?: string
   options: InputOption[]
@@ -43,6 +43,7 @@ const {
   disableGroupHide?: boolean
   format?: 'control' | 'input'
   aligned?: 'left' | 'right' | 'center'
+  engineIndex?: number
 }>()
 
 const emit = defineEmits<{
@@ -53,14 +54,20 @@ const emit = defineEmits<{
   (event: 'activate', payload: string): void
 }>()
 
+const filteredOptions = vue.computed(() => {
+  return options.filter((opt) => {
+    return !opt.isHidden.value && opt.isVisible({ index: engineIndex, value: modelValue, path: basePath })
+  })
+})
+
 // Groups at the current depth
 const groupOptions = vue.computed(() =>
-  options.filter(opt => opt.input.value === 'group' && !opt.settings.isHidden),
+  filteredOptions.value.filter(opt => opt.input.value === 'group'),
 )
 
 // Non-group elements at the current depth
 const standardOptions = vue.computed(() =>
-  options.filter(opt => opt.input.value !== 'group' && !opt.settings.isHidden),
+  filteredOptions.value.filter(opt => opt.input.value !== 'group'),
 )
 
 // Use tabs only when multiple groups exist at the same depth
@@ -235,8 +242,6 @@ function handleTabChange(index: number) {
 
         <div v-else :class="getInputWrapClasses(opt)" :data-depth="depth" :data-option-key="opt.key.value">
           <ElInput
-            v-if="opt.isHidden.value !== true"
-            :ui-size="uiSize"
             :active-path="activePath"
             :data-option-path="opt.key.value"
             :data-test-id="opt.settings.testId || opt.key.value"

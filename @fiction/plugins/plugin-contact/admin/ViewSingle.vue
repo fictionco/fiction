@@ -216,7 +216,7 @@ const detailOptions = [
 const adminOptions = [
   createOption({
     key: 'deleteContact',
-    label: 'Permanently Delete Contact',
+    label: 'Delete Contact',
     subLabel: 'This action cannot be undone',
     input: 'InputControl',
     actions: () => [

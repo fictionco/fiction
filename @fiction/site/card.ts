@@ -55,7 +55,7 @@ export type CardTemplateSurfaceDefault<T extends string = string> = Partial<{
 type CardTemplateSurface<T> = MergeTypes<T, CardTemplateSurfaceDefault>
 type CardTemplateUserConfigAll<T extends CardTemplateSurfaceDefault> = StandardUserConfig & T['userConfig']
 
-type ConfigArgs = { site?: Site, card?: Card, factory: CardFactory, templateId: string }
+type ConfigArgs = { site?: Site, card?: Card<any>, factory: CardFactory, templateId: string }
 
 export type ConfigResponse<S extends CardTemplateSurfaceDefault = CardTemplateSurfaceDefault> = {
   schema?: CardTemplateSurface<S>[ 'schema' ]

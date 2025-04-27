@@ -271,8 +271,9 @@ export function getMountContext(args: {
   runVars?: Partial<RunVars>
   siteId?: string
   orgId?: string
+  caller?: string
 }): MountContext {
-  const { selectorType, selectorId, queryVars = {}, runVars, orgId } = args
+  const { selectorType, selectorId, queryVars = {}, runVars, orgId, caller } = args
 
   const mountContext = runVars?.MOUNT_CONTEXT
 
@@ -333,8 +334,7 @@ export function getMountContext(args: {
     selector = { orgId }
   }
   else if (numVals !== 1) {
-    logger.error('MountContext: INVALID SELECTOR', { data: { selector, queryVars, selectorType, selectorId, siteMode, passedMountContext: mountContext } })
-    logger.error('MountContext: INVALID SELECTOR -- RUN VARS', { data: { runVars } })
+    logger.error('MountContext: INVALID SELECTOR', { data: { orgId, numVals, caller, selector, queryVars, selectorType, selectorId, siteMode, runVars, passedMountContext: mountContext } })
 
     const errorMessage = 'MountContext Error'
     throw new Error(errorMessage)
@@ -417,7 +417,7 @@ export async function loadSitemap(args: { mode: 'static' | 'dynamic', runVars?: 
     return { hostname: fictionRouter.baseUrl, paths }
   }
   else {
-    const mountContext = getMountContext({ runVars })
+    const mountContext = getMountContext({ runVars, caller: 'loadSitemap' })
     const site = await loadSite({ ...args, siteRouter: fictionRouter, mountContext })
 
     if (!site)

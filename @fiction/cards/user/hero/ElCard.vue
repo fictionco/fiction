@@ -27,7 +27,7 @@ function createHeroCard(item: HeroConfig, index: number) {
 </script>
 
 <template>
-  <CardWrap :card>
+  <CardWrap :card content-width="md">
     <div class="space-y-48">
       <ElHero v-for="(item, i) in uc.items" :key="i" :card="createHeroCard(item, i)" />
     </div>

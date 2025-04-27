@@ -138,7 +138,7 @@ const options = vue.computed<InputOption[]>(() => {
             }),
             createOption({
               key: 'deletePost',
-              label: 'Permanently Delete Post',
+              label: 'Delete Post',
               input: InputActionList,
               props: {
                 buttons: () => [

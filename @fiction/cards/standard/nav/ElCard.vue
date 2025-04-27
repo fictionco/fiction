@@ -71,7 +71,7 @@ const nav = vue.computed(() => {
                   :href="item.href"
                   class="py-1 px-4 text-sm font-sans inline-flex items-center rounded-lg  transition-all duration-200 font-medium"
                   :class="[
-                    item.isActive ? 'bg-theme-700 text-theme-0' : 'hover:bg-theme-700 text-theme-200 hover:text-theme-0',
+                    item.isActive ? 'bg-theme-700 text-theme-0' : 'hover:bg-theme-700 bg-theme-700/30 text-theme-200 hover:text-theme-0',
                   ]"
                 >
                   {{ item.label }}

@@ -36,13 +36,17 @@ async function mountApp() {
 
     const { runVars, ...s } = service
 
+    await service.fictionUser.userInitialized({ caller: 'PreviewComponent' })
+
+    const orgId = service.fictionUser.activeOrgId.value
+
     // Set base for router links
     service.fictionRouterSites.routeBasePath = base.value
 
     const siteMode = (service.fictionRouter.query.value?._siteMode || 'editable') as SiteMode
     const { selectorType, selectorId } = (service.fictionRouter.params.value || {}) as Record<string, string>
 
-    const mountContext = getMountContext({ selectorType, selectorId, siteMode })
+    const mountContext = getMountContext({ runVars, orgId, selectorType, selectorId, siteMode, caller: 'PreviewComponent' })
 
     const serviceConfig = { fictionEnv: service.fictionEnv, service: s, runVars: { ...runVars, MOUNT_CONTEXT: mountContext } }
 

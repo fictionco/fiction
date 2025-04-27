@@ -38,7 +38,7 @@ async function load() {
     // create the router for the site
     await fictionRouterSites.create({ noBrowserNav: true, caller: 'SiteEditor' })
 
-    const mountContext = getMountContext({ orgId, queryVars: { siteId, themeId, cardId }, siteMode: 'designer' })
+    const mountContext = getMountContext({ orgId, queryVars: { siteId, themeId, cardId }, siteMode: 'designer', caller: 'SiteEditor' })
 
     site.value = await loadSite({
       fictionSites,

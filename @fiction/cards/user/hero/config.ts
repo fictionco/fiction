@@ -1,10 +1,10 @@
+import type { Card } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
-import { ActionAreaSchema, MediaBasicSchema, SuperTitleSchema } from '@fiction/core'
+import { ActionAreaSchema, MediaBasicSchema, SuperTitleSchema, vue } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
-import type {Card} from '@fiction/site'
 
 const LayerMediaScheme = z.object({
   media: MediaBasicSchema.optional().describe('Layer image [@ai]'),
@@ -31,11 +31,15 @@ export const schema = z.object({
 
 type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
+function getOptions(args: { card?: Card<UserConfig> }) {
+  const { card } = args
 
-
-
-function getOptions(args: {card?: Card}){
-  return  [
+  const isVisible = (args: { index?: number }) => {
+    const { index = -1 } = args
+    const out = !!(!card || card?.userConfig.value?.items?.[index]?.media?.url)
+    return out
+  }
+  return [
     createOption({
       input: 'group',
       key: 'group.items',
@@ -101,13 +105,13 @@ function getOptions(args: {card?: Card}){
               key: 'media.aspect',
               label: 'Media Aspect',
               input: 'InputRadioButton',
-              props: { uiSize: 'sm' },
               list: [
                 { label: 'Auto', value: 'auto' },
                 { label: 'Square', value: 'square' },
                 { label: 'Portrait', value: 'portrait' },
                 { label: 'Landscape', value: 'landscape' },
               ],
+              isVisible,
             }),
 
             createOption({
@@ -116,6 +120,7 @@ function getOptions(args: {card?: Card}){
               key: 'overlays',
               props: { itemName: 'Overlay' },
               icon: { class: 'i-tabler-layers-subtract' },
+              isVisible,
               options: [
                 createOption({
                   key: 'overlays.0.media',
@@ -152,7 +157,6 @@ function getOptions(args: {card?: Card}){
       ],
     }),
   ]
-
 }
 
 // Structured input options for the design interface
@@ -247,7 +251,7 @@ function getDefaultContent(): UserConfig {
   }
 }
 
-export async function getConfig(args: { templateId: string, factory: CardFactory, card?: Card }) {
+export async function getConfig(args: { templateId: string, factory: CardFactory, card?: Card<UserConfig> }) {
   const stock = await args.factory.getStockMedia()
   const demoPage = await getDemoContent({ ...args, stock })
   return {

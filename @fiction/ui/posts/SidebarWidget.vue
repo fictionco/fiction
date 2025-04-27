@@ -8,11 +8,10 @@ defineProps<{
 
 <template>
   <div class="sidebar-widget space-y-4">
-    <div v-if="title" class="flex items-center gap-4">
-      <h3 class="font-medium text-theme-900 dark:text-theme-50">
+    <div v-if="title" class="flex items-center gap-4 border-b border-theme-200 dark:border-theme-700 pb-2">
+      <h3 class="font-medium text-theme-500">
         {{ title }}
       </h3>
-      <div class="flex-grow h-px bg-theme-200 dark:bg-theme-700" />
     </div>
     <div class="">
       <slot />

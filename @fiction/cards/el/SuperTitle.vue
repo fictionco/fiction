@@ -6,6 +6,8 @@ import XIcon from '@fiction/ui/media/XIcon.vue'
 import { getColorThemeStyles } from '@fiction/ui/utils'
 import CardText from '../CardText.vue'
 
+defineOptions({ name: 'SuperTitle' })
+
 const {
   card,
   basePath,

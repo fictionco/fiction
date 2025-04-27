@@ -67,13 +67,16 @@ const gridClasses = vue.computed(() => {
 </script>
 
 <template>
-  <div class="post-layout mx-auto space-y-10" :class="config.sidebar === 'none' && config.layout === 'blog' ? 'max-w-2xl' : 'max-w-screen-lg'">
+  <div
+    class="post-layout"
+    :class="config.sidebar === 'none' && config.layout === 'blog' ? 'max-w-2xl' : ''"
+  >
     <div v-if="loading" class="flex items-center justify-center p-12">
       <ElSpinner class="size-8 text-theme-600" />
     </div>
     <template v-else>
       <!-- Featured Posts Section -->
-      <div v-if="featuredPosts.length > 0" class="featured-posts space-y-12">
+      <div v-if="featuredPosts.length > 0" class="featured-posts space-y-12 border-b pb-10 mb-10 border-theme-700/50">
         <PostFeature
           v-for="post in featuredPosts"
           :key="`featured-${post.postId}`"
@@ -84,7 +87,7 @@ const gridClasses = vue.computed(() => {
       <!-- Main Content Area with Optional Sidebar -->
       <div class="post-content-area flex flex-col lg:flex-row gap-12 " :class="config.sidebar === 'left' ? 'lg:flex-row-reverse' : ''">
         <!-- Main Posts Grid -->
-        <div class="w-full space-y-8 @container/post-list grow" :class="config.sidebar !== 'none' ? 'lg:w-3/4' : 'lg:w-full'">
+        <div class="w-full @container/post-list grow" :class="config.sidebar !== 'none' ? 'lg:w-[61.8%]' : 'lg:w-full'">
           <!-- Post Tabs -->
           <div class="flex gap-4 items-center">
             <button
@@ -99,8 +102,6 @@ const gridClasses = vue.computed(() => {
             >
               Popular
             </button>
-
-            <div class="h-px bg-theme-700/50 basis-0 grow" />
           </div>
 
           <div v-if="regularPosts.length > 0" class="grid" :class="gridClasses">
@@ -122,7 +123,7 @@ const gridClasses = vue.computed(() => {
         </div>
 
         <!-- Sidebar - Using slots for widgets -->
-        <aside v-if="config.sidebar !== 'none'" class="w-full lg:w-[300px] pt-8 lg:pt-0">
+        <aside v-if="config.sidebar !== 'none'" class="w-full lg:w-[38.2%] pt-8 lg:pt-0">
           <slot name="sidebar" />
         </aside>
       </div>

@@ -5,7 +5,7 @@ import XButton from '../buttons/XButton.vue'
 
 defineOptions({ name: 'InputRadioButton' })
 
-const { modelValue, list = [], uiSize = 'sm' } = defineProps<{
+const { modelValue, list = [], uiSize = 'xs' } = defineProps<{
   modelValue?: string | number
   list?: NavListItem[]
   uiSize?: StandardSize
@@ -18,6 +18,12 @@ const emit = defineEmits<{
 const attrs = vue.useAttrs()
 
 const parsedList = vue.computed(() => normList(list))
+
+// Simple size downscaling map
+const buttonSize = vue.computed(() => {
+  const sizes: Record<string, StandardSize> = { 'sm': 'xxs', 'md': 'xs', 'lg': 'sm', 'xl': 'md', '2xl': 'lg' }
+  return sizes[uiSize] || uiSize
+})
 
 const sizeClasses = vue.computed(() => {
   const sizes = {
@@ -52,12 +58,12 @@ function update(value?: string | number): void {
       v-for="(item) in parsedList"
       :key="item.value"
       :data-test-id="`radio-button-${item.value}`"
-      :theme=" modelValue === item.value ? 'primary' : 'default'"
+      :theme="modelValue === item.value ? 'primary' : 'default'"
       role="radio"
       design="solid"
       :aria-checked="modelValue === item.value"
       rounding="md"
-      :size="uiSize"
+      :size="buttonSize"
       :icon="item.icon"
       :icon-after="item.iconAfter"
       :disabled="!!$attrs.disabled"

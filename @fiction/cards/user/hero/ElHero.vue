@@ -13,35 +13,40 @@ const { card } = defineProps<{
 const uc = vue.computed(() => card.userConfig.value || {})
 const layout = vue.computed(() => uc.value.layout || 'center')
 
-// Layout classes based on user config
+// Media aspect handling
+const aspectRatio = vue.computed(() => {
+  const aspect = uc.value.media?.aspect || 'auto'
+  switch (aspect) {
+    case 'square': return 'aspect-square'
+    case 'portrait': return 'aspect-[3/4]'
+    case 'landscape': return 'aspect-[16/9]'
+    default: return '' // auto
+  }
+})
+
+// Layout classes based on golden ratio principles
 const layoutClasses = vue.computed(() => {
-  const isWideMedia = !!['landscape', 'wide', 'golden'].includes(uc.value.media?.aspect || '')
-  console.log('isWideMedia', uc.value.media?.aspect)
+  const isLeftOrRight = ['left', 'right'].includes(layout.value)
+
   return {
     wrapper: [
-      'gap-8  items-center',
-      {
-        'flex flex-col lg:flex-row-reverse lg:gap-28': layout.value === 'right',
-        'flex flex-col lg:flex-row lg:gap-20': layout.value === 'left',
-      },
+      'items-center relative',
+      isLeftOrRight ? `flex flex-col ${layout.value === 'right' ? 'lg:flex-row-reverse' : 'lg:flex-row'} lg:gap-16` : 'text-center',
     ],
     text: [
-      { 'max-w-xl flex-auto': ['right', 'left'].includes(layout.value) },
+      isLeftOrRight ? 'lg:w-[38.2%] flex-shrink-0' : 'mx-auto',
+      layout.value === 'center' ? 'px-4' : '',
     ],
     media: {
       wrap: [
-        ['right', 'left'].includes(layout.value)
-          ? isWideMedia ? 'w-full' : 'w-full basis-[50%]'
-          : 'mt-16 sm:mt-20 w-full',
-      ],
-      aspect: [
-        'w-full',
+        isLeftOrRight ? 'lg:w-[61.8%] flex-grow' : 'mt-12 mx-auto',
+        'relative',
       ],
     },
   }
 })
 
-// Overlay positioning system
+// Overlay positioning system - simplified for better usability
 const overlayStyles = {
   top: { top: '8%', left: '50%', transform: 'translateX(-50%)', transformOrigin: 'center bottom' },
   bottom: { bottom: '-5%', left: '50%', transform: 'translateX(-50%)', transformOrigin: 'center top' },
@@ -63,7 +68,7 @@ const overlays = vue.computed(() => uc.value.overlays || [])
 </script>
 
 <template>
-  <div :class="card.classes.value.contentWidth">
+  <div>
     <div :class="layoutClasses.wrapper">
       <!-- Content Section -->
       <div :class="layoutClasses.text">
@@ -77,26 +82,26 @@ const overlays = vue.computed(() => uc.value.overlays || [])
         :class="layoutClasses.media.wrap"
       >
         <!-- Main Image -->
-        <XMedia
-          data-option-path="media"
-          :class="layoutClasses.media.aspect"
-          :media="uc.media"
-          image-mode="inline"
-          class="w-full"
-          :animate="true"
-        />
+        <div :class="aspectRatio" class="overflow-hidden rounded-lg">
+          <XMedia
+            data-option-path="media"
+            :media="uc.media"
+            class="w-full h-full object-cover"
+            :image-mode="!aspectRatio ? 'inline' : 'cover'"
+          />
+        </div>
 
         <!-- Overlay Images -->
         <template v-if="overlays.length">
           <div
-            v-for="(overlay, ii) in overlays"
-            :key="ii"
+            v-for="(overlay, i) in overlays"
+            :key="i"
             class="absolute z-10"
             :style="getOverlayStyle(overlay)"
           >
             <EffectParallax class="z-0 mx-auto w-full h-full scale-90 md:scale-100">
               <XMedia
-                class="rounded-xl"
+                class="rounded-lg shadow-sm"
                 :media="overlay?.media"
                 image-mode="inline"
               />
