@@ -127,12 +127,15 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     setupRouteWatcher({ site: this, queryVarHooks })
 
     // // show all pages on load of designer
-    // if (this.siteMode.value === 'designer') {
-    //   vue.watch(() => [this.editorController.activeTool.primary.value], (c) => {
-    //     const [tool] = c
-    //     this.editorController.hideToolDrawers.value = tool ? 'right' : ''
-    //   }, { immediate: true })
-    // }
+    if (this.siteMode.value === 'designer') {
+      vue.watch(
+        () => [this.editingPageId.value],
+        ([c]) => {
+          this.editorController.hideToolDrawers.value = !c ? 'both' : ''
+        },
+        { immediate: true },
+      )
+    }
 
     if (this.siteMode.value === 'standard') {
       vue.watch(
@@ -205,7 +208,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   })
 
   pages = vue.shallowRef([] as Card[])
-  availableCards = vue.computed(() => flattenCards([...this.pages.value, ...Object.values(this.sections.value)]))
+  availableCards = vue.computed(() => flattenCards([this.currentPage.value, ...Object.values(this.sections.value)]))
   currentPath = vue.computed({
     get: () => this.siteRouter.current.value.path,
     set: async v => this.siteRouter.push(v, { caller: 'currentPath' }),

@@ -55,13 +55,12 @@ export type CardTemplateSurfaceDefault<T extends string = string> = Partial<{
 type CardTemplateSurface<T> = MergeTypes<T, CardTemplateSurfaceDefault>
 type CardTemplateUserConfigAll<T extends CardTemplateSurfaceDefault> = StandardUserConfig & T['userConfig']
 
-type ConfigArgs = { site?: Site, factory: CardFactory, templateId: string }
+type ConfigArgs = { site?: Site, card?: Card, factory: CardFactory, templateId: string }
 
 export type ConfigResponse<S extends CardTemplateSurfaceDefault = CardTemplateSurfaceDefault> = {
   schema?: CardTemplateSurface<S>[ 'schema' ]
   options?: InputOption[]
   userConfig?: CardTemplateUserConfigAll<S>
-  effects?: TableCardConfig[]
   demoPage?: CardConfigPortable
 }
 
@@ -105,14 +104,19 @@ export class CardTemplate<
 
   getBaseConfig = this.settings.getBaseConfig || (() => ({ }))
 
-  async getConfig(args: { site?: Site }) {
-    const { site } = args
+  async getConfig(args: { site?: Site, card?: Card }) {
+    const { site, card } = args
     const factory = new CardFactory({
       site,
       templates: site?.theme.value?.templates || [],
       caller: 'cardTemplateGetConfig',
     })
-    const a = { site, factory, templateId: this.settings.templateId || 'no-id' }
+    const a = {
+      site,
+      card,
+      factory,
+      templateId: this.settings.templateId || 'no-id',
+    }
     if (this.settings.getConfig) {
       return this.settings.getConfig(a)
     }

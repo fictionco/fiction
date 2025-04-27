@@ -71,7 +71,7 @@ const overlays = vue.computed(() => uc.value.overlays || [])
 
       <!-- Media Section -->
       <div
-        v-if="uc.media"
+        v-if="uc.media?.url || uc.media?.html"
         class="flow-root relative [perspective:1000px] w-full"
         :class="layoutClasses.media.wrap"
       >

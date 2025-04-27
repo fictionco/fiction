@@ -58,7 +58,7 @@ export function getTools(args: { site: Site }) {
         return vue.computed(() => {
           const c = p.site?.activeCard.value
           const cardTitle = c?.title.value || c?.tpl.value?.settings.title
-          const title = p.site?.editor.value.selectedCardId ? cardTitle : 'Point and Click'
+          const title = p.site?.editor.value.selectedCardId ? cardTitle : 'Section Settings'
           const icon = c?.tpl.value?.settings.icon || 'i-tabler-click'
           const colorTheme = c?.tpl.value?.settings.colorTheme || 'theme'
           return { title, icon, colorTheme }

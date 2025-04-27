@@ -1,23 +1,25 @@
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
 import { determineMediaFormat, MediaDisplaySchema as schema, vue } from '@fiction/core'
-import { createOption } from '.'
+import { createOption, InputOption } from '.'
 import XButton from '../buttons/XButton.vue'
 import ElModal from '../ElModal.vue'
 import XLogo from '../media/XLogo.vue'
 import XMedia from '../media/XMedia.vue'
 import LibraryBackground from './LibraryBackground.vue'
-
 import LibraryIcon from './LibraryIcon.vue'
 import LibraryMediaGallery from './LibraryMediaGallery.vue'
 import TabbedOptions from './TabbedOptions.vue'
+
+// Define valid tool options
+type ToolOptionKey = 'upload' | 'media' | 'icons' | 'background' | 'html'
 
 defineOptions({ name: 'LibraryModal' })
 
 const props = defineProps<{
   modelValue: MediaObject
   vis?: boolean
-  tools?: string[] // Filter by these option keys
+  tools?: ToolOptionKey[] // Typed array of valid tool options
   title?: string
   testId?: string
 }>()
@@ -40,7 +42,8 @@ vue.watch(
   { immediate: true },
 )
 
-const options = [
+// Define all available options
+const allOptions = [
   createOption({
     key: 'upload',
     input: 'group',
@@ -93,13 +96,25 @@ const options = [
   }),
 ]
 
-// Watch model value changes
-vue.watch(() => props.modelValue, (newValue) => {
-  if (newValue) {
-    selectMedia(newValue)
+// Filter options based on tools prop if provided
+const options = vue.computed(() => {
+  if (!props.tools || props.tools.length === 0) {
+    return allOptions
+  }
+
+  return allOptions.filter(option =>
+    props.tools?.includes(option.key.value as ToolOptionKey),
+  )
+})
+
+// Set default active option when options change
+vue.watch(options, (newOptions) => {
+  if (newOptions.length > 0 && (!activeOptionId.value || !newOptions.some(opt => opt.key.value === activeOptionId.value))) {
+    activeOptionId.value = newOptions[0].key.value
   }
 }, { immediate: true })
 
+// Select media based on the model value
 function selectMedia(media: MediaObject) {
   const format = determineMediaFormat(media)
   currentSelection.value = { ...currentSelection.value, format, ...media }
@@ -123,16 +138,17 @@ function applyChanges(value: MediaObject) {
 <template>
   <ElModal
     :vis
-    modal-class="h-[90vh] w-full xl:w-[80vw]"
+    modal-class="max-w-screen-md"
     :has-close="false"
     @update:vis="emit('update:vis', $event)"
   >
     <TabbedOptions
-      :options
+      :options="options"
       :model-value="currentSelection"
       :active-option-id="activeOptionId"
       @update:model-value="applyChanges($event)"
       @update:temp-value="selectMedia($event)"
+      @update:active-option-id="activeOptionId = $event"
     >
       <template #header>
         <div class="flex gap-4">
@@ -159,7 +175,7 @@ function applyChanges(value: MediaObject) {
       <template #preview>
         <div class="p-4 border-b border-theme-200 dark:border-theme-700 h-[200px] bg-theme-50 dark:bg-theme-800">
           <div class="relative h-full">
-            <div class="w-full h-full flex items-center justify-center text-center" :data-m="JSON.stringify(currentSelection)">
+            <div class="w-full h-full flex items-center justify-center text-center">
               <template v-if="currentSelection.format || currentSelection.gradient?.stops?.length || currentSelection.backgroundColor">
                 <XLogo
                   v-if="['iconId', 'iconClass', 'typography'].includes(currentSelection.format || '')"
@@ -175,7 +191,7 @@ function applyChanges(value: MediaObject) {
               </template>
               <div
                 v-else
-                class="text-center  rounded-lg p-8 w-full h-full flex items-center justify-center"
+                class="text-center rounded-lg p-8 w-full h-full flex items-center justify-center"
               >
                 <div>
                   <i class="i-tabler-photo-plus text-4xl text-theme-400 dark:text-theme-600 mb-2" />

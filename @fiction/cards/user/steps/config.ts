@@ -86,12 +86,12 @@ const demoConfigs = {
   // Default instructional example
   default: {
     layout: 'default',
-    title: 'Create Your Perfect Section',
+    title: 'Create Steps',
     items: [
-      { content: 'Start with a compelling headline that speaks directly to your audience\'s desires or pain points.' },
-      { content: 'Use 4-5 concise bullet points that follow a clear pattern - each reinforcing your main message.' },
-      { content: 'Add relevant imagery that emotionally connects with your audience when using side layouts.' },
-      { content: 'End with a strong call-to-action point that motivates your reader to take the next step.' },
+      { content: 'Start with a compelling headline.' },
+      { content: 'Use 4-5 concise bullet points.' },
+      { content: 'Add relevant imagery that emotionally connects.' },
+      { content: 'End with a strong call-to-action.' },
     ],
   },
 

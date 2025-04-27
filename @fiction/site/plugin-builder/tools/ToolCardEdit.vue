@@ -59,7 +59,7 @@ vue.onMounted(() => {
       <ElToolBanner
         v-if="!site.editor.value.selectedCardId"
         class="m-4"
-        title="Make A Selection"
+        title="Point and Click"
         sub="Settings appear here"
         :icon="{ class: 'i-tabler-click' }"
       />

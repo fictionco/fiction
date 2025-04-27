@@ -2,14 +2,16 @@ import type { Site } from '../site'
 import type { CardConfigPortable, TableSiteConfig } from '../tables'
 import { vue } from '@fiction/core'
 
-type HistoryEntry = {
+export type HistoryEntry = {
   type: 'card' | 'site'
   cardConfig?: Partial<CardConfigPortable>
   siteConfig?: Partial<TableSiteConfig>
-  timestamp: number
+  timestamp?: number
   description: string
-}
-
+} & (
+  { type: 'card', cardConfig: Partial<CardConfigPortable> } |
+  { type: 'site', siteConfig: Partial<TableSiteConfig> }
+)
 export class SiteHistory {
   past: vue.Ref<HistoryEntry[]> = vue.ref<HistoryEntry[]>([])
   future: vue.Ref<HistoryEntry[]> = vue.ref<HistoryEntry[]>([])
@@ -46,9 +48,7 @@ export class SiteHistory {
     }
   }
 
-  saveState(args: {
-    description: string
-  } & ({ type: 'card', cardConfig: Partial<CardConfigPortable> } | { type: 'site', siteConfig: Partial<TableSiteConfig> })) {
+  saveState(args: HistoryEntry) {
     if (typeof window === 'undefined')
       return
 
@@ -66,6 +66,8 @@ export class SiteHistory {
     if (this.past.value.length > this.maxHistorySize) {
       this.past.value.shift()
     }
+
+    this.site.frame.syncHistoryEntry({ historyEntry: entry })
   }
 
   async undo() {

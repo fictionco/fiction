@@ -4,6 +4,7 @@ import type { Site } from '../index.js'
 import type { SiteMode } from '../load.js'
 import type { ToolKeys } from '../plugin-builder/tools/tools.js'
 import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
+import type { HistoryEntry } from './history.js'
 import { FictionObject, getUrlPath, resetUi, vue } from '@fiction/core'
 import { updateSite } from './site.js'
 
@@ -17,6 +18,7 @@ export type FramePostMessageList =
   | { messageType: 'navigate', data: { urlOrPath: string, siteId: string } }
   | { messageType: 'frameReady', data: undefined }
   | { messageType: 'keypress', data: { key: string, direction: 'up' | 'down' } }
+  | { messageType: 'historyEntry', data: { historyEntry: HistoryEntry } }
 
 export type SiteFrameUtilityParams = {
   site: Site
@@ -164,6 +166,10 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     this.send({ msg: { messageType: 'setSite', data: { siteConfig, ...args, caller } } })
   }
 
+  syncHistoryEntry(args: { historyEntry: HistoryEntry }) {
+    this.send({ msg: { messageType: 'historyEntry', data: args } })
+  }
+
   send(args: { msg: FramePostMessageList }) {
     const { msg } = args
 
@@ -205,6 +211,12 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
         else
           this.log.error('No card found', { data: { cardConfig } })
 
+        break
+      }
+
+      case 'historyEntry': {
+        const { historyEntry } = msg.data
+        this.site.history.saveState(historyEntry)
         break
       }
 

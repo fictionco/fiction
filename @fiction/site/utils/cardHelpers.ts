@@ -9,7 +9,7 @@ export async function getCardOptionConfig(args: { card?: Card }) {
   const site = card.site
 
   const tpl = card?.tpl.value
-  const config = await tpl?.getConfig?.({ site })
+  const config = await tpl?.getConfig?.({ site, card })
   const out = [...(config?.options || []), standardCardOptions({ card })]
 
   return out as InputOption[]

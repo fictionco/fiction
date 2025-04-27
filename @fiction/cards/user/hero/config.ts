@@ -39,6 +39,20 @@ export function getHeroOptions() {
       input: 'group',
       options: [
         createOption({
+          key: 'layout',
+          label: 'Layout Style',
+          input: 'InputRadioButton',
+          props: { uiSize: 'sm' },
+          list: [
+            { value: 'center' },
+            { value: 'left' },
+            { value: 'right' },
+            { value: 'justify' },
+          ],
+          schema: HeroSchema,
+        }),
+
+        createOption({
           key: 'title',
           label: 'Title',
           input: 'InputText',
@@ -53,6 +67,7 @@ export function getHeroOptions() {
         }),
         createOption({
           key: 'superTitle',
+          label: 'Context Title',
           input: 'InputSuperTitle',
           isClosed: true,
           schema: HeroSchema,
@@ -69,84 +84,54 @@ export function getHeroOptions() {
           input: 'InputMedia',
           schema: HeroSchema,
         }),
-
-        createOption({
-          key: 'group.overlays',
-          label: 'Image Overlays',
-          icon: { class: 'i-tabler-layers-subtract' },
-          input: 'group',
-          schema: HeroSchema,
-          isClosed: true,
-          options: [
-            createOption({
-              input: 'InputList',
-              schema: HeroSchema,
-              key: 'overlays',
-              props: { itemName: 'Overlay' },
-              options: [
-                createOption({
-                  key: 'overlays.0.media',
-                  label: 'Overlay Image',
-                  input: 'InputMedia',
-                  schema: HeroSchema,
-                }),
-                createOption({
-                  key: 'overlays.0.position',
-                  label: 'Position',
-                  input: 'InputSelect',
-                  list: [
-                    { label: 'Top Left', value: 'topLeft' },
-                    { label: 'Top Center', value: 'top' },
-                    { label: 'Top Right', value: 'topRight' },
-                    { label: 'Bottom Left', value: 'bottomLeft' },
-                    { label: 'Bottom Center', value: 'bottom' },
-                    { label: 'Bottom Right', value: 'bottomRight' },
-                    { label: 'Center', value: 'center' },
-                  ],
-                  schema: HeroSchema,
-                }),
-                createOption({
-                  key: 'overlays.0.widthPercent',
-                  label: 'Width %',
-                  input: 'InputRange',
-                  props: { min: 0, max: 100, step: 5, startValue: 30 },
-                  schema: HeroSchema,
-                }),
-              ],
-            }),
-
-          ],
-        }),
-      ],
-    }),
-    createOption({
-      key: 'style',
-      input: 'group',
-      label: 'Design',
-      icon: { class: 'i-tabler-layout' },
-      options: [
-        createOption({
-          key: 'layout',
-          label: 'Layout Style',
-          input: 'InputRadioButton',
-          props: { uiSize: 'sm' },
-          list: [
-            { value: 'center' },
-            { value: 'left' },
-            { value: 'right' },
-            { value: 'justify' },
-          ],
-          schema: HeroSchema,
-        }),
         createOption({
           schema: HeroSchema,
           key: 'media.aspect',
           label: 'Media Aspect',
           input: 'InputRadioButton',
+          props: { uiSize: 'sm' },
           list: [
             { label: 'Square', value: 'aspect:square' },
             { label: 'Portrait', value: 'aspect:portrait' },
             { label: 'Landscape', value: 'aspect:landscape' },
+          ],
+        }),
+
+        createOption({
+          input: 'InputList',
+          schema: HeroSchema,
+          key: 'overlays',
+          props: { itemName: 'Overlay' },
+          icon: { class: 'i-tabler-layers-subtract' },
+          options: [
+            createOption({
+              key: 'overlays.0.media',
+              label: 'Overlay Image',
+              input: 'InputMedia',
+              schema: HeroSchema,
+            }),
+            createOption({
+              key: 'overlays.0.position',
+              label: 'Position',
+              input: 'InputSelect',
+              list: [
+                { label: 'Top Left', value: 'topLeft' },
+                { label: 'Top Center', value: 'top' },
+                { label: 'Top Right', value: 'topRight' },
+                { label: 'Bottom Left', value: 'bottomLeft' },
+                { label: 'Bottom Center', value: 'bottom' },
+                { label: 'Bottom Right', value: 'bottomRight' },
+                { label: 'Center', value: 'center' },
+              ],
+              schema: HeroSchema,
+            }),
+            createOption({
+              key: 'overlays.0.widthPercent',
+              label: 'Width %',
+              input: 'InputRange',
+              props: { min: 0, max: 100, step: 5, startValue: 30 },
+              schema: HeroSchema,
+            }),
           ],
         }),
       ],
