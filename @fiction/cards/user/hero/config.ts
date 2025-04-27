@@ -4,6 +4,7 @@ import type { StockMedia } from '@fiction/ui/stock'
 import { ActionAreaSchema, MediaBasicSchema, SuperTitleSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
+import type {Card} from '@fiction/site'
 
 const LayerMediaScheme = z.object({
   media: MediaBasicSchema.optional().describe('Layer image [@ai]'),
@@ -30,135 +31,129 @@ export const schema = z.object({
 
 type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
-export function getHeroOptions() {
-  return [
+
+
+
+function getOptions(args: {card?: Card}){
+  return  [
     createOption({
-      key: 'content',
-      label: 'Content',
-      icon: { class: 'i-tabler-align-left' },
       input: 'group',
+      key: 'group.items',
+      label: 'Hero Items',
+      icon: { class: 'i-tabler-list' },
       options: [
         createOption({
-          key: 'layout',
-          label: 'Layout Style',
-          input: 'InputRadioButton',
-          props: { uiSize: 'sm' },
-          list: [
-            { value: 'center' },
-            { value: 'left' },
-            { value: 'right' },
-            { value: 'justify' },
-          ],
-          schema: HeroSchema,
-        }),
-
-        createOption({
-          key: 'title',
-          label: 'Title',
-          input: 'InputText',
-          schema: HeroSchema,
-        }),
-        createOption({
-          key: 'subTitle',
-          label: 'Sub Title',
-          input: 'InputTextarea',
-          props: { rows: 3 },
-          schema: HeroSchema,
-        }),
-        createOption({
-          key: 'superTitle',
-          label: 'Context Title',
-          input: 'InputSuperTitle',
-          isClosed: true,
-          schema: HeroSchema,
-        }),
-        createOption({
-          key: 'action.buttons',
-          label: 'Buttons',
-          input: 'InputActions',
-          schema: HeroSchema,
-        }),
-        createOption({
-          key: 'media',
-          label: 'Media',
-          input: 'InputMedia',
-          schema: HeroSchema,
-        }),
-        createOption({
-          schema: HeroSchema,
-          key: 'media.aspect',
-          label: 'Media Aspect',
-          input: 'InputRadioButton',
-          props: { uiSize: 'sm' },
-          list: [
-            { label: 'Square', value: 'aspect:square' },
-            { label: 'Portrait', value: 'aspect:portrait' },
-            { label: 'Landscape', value: 'aspect:landscape' },
-          ],
-        }),
-
-        createOption({
+          key: 'items',
           input: 'InputList',
-          schema: HeroSchema,
-          key: 'overlays',
-          props: { itemName: 'Overlay' },
-          icon: { class: 'i-tabler-layers-subtract' },
+          props: {
+            itemName: 'Hero',
+            itemLabel: args => (args?.item as HeroConfig)?.title ?? 'Untitled',
+          },
           options: [
             createOption({
-              key: 'overlays.0.media',
-              label: 'Overlay Image',
+              key: 'layout',
+              label: 'Layout Style',
+              input: 'InputRadioButton',
+              props: { uiSize: 'sm' },
+              list: [
+                { value: 'center' },
+                { value: 'left' },
+                { value: 'right' },
+                { value: 'justify' },
+              ],
+              schema: HeroSchema,
+            }),
+
+            createOption({
+              key: 'title',
+              label: 'Title',
+              input: 'InputText',
+              schema: HeroSchema,
+            }),
+            createOption({
+              key: 'subTitle',
+              label: 'Sub Title',
+              input: 'InputTextarea',
+              props: { rows: 3 },
+              schema: HeroSchema,
+            }),
+            createOption({
+              key: 'superTitle',
+              label: 'Context Title',
+              input: 'InputSuperTitle',
+              isClosed: true,
+              schema: HeroSchema,
+            }),
+            createOption({
+              key: 'action.buttons',
+              label: 'Buttons',
+              input: 'InputActions',
+              schema: HeroSchema,
+            }),
+            createOption({
+              key: 'media',
+              label: 'Media',
               input: 'InputMedia',
               schema: HeroSchema,
             }),
             createOption({
-              key: 'overlays.0.position',
-              label: 'Position',
-              input: 'InputSelect',
+              schema: HeroSchema,
+              key: 'media.aspect',
+              label: 'Media Aspect',
+              input: 'InputRadioButton',
+              props: { uiSize: 'sm' },
               list: [
-                { label: 'Top Left', value: 'topLeft' },
-                { label: 'Top Center', value: 'top' },
-                { label: 'Top Right', value: 'topRight' },
-                { label: 'Bottom Left', value: 'bottomLeft' },
-                { label: 'Bottom Center', value: 'bottom' },
-                { label: 'Bottom Right', value: 'bottomRight' },
-                { label: 'Center', value: 'center' },
+                { label: 'Auto', value: 'auto' },
+                { label: 'Square', value: 'square' },
+                { label: 'Portrait', value: 'portrait' },
+                { label: 'Landscape', value: 'landscape' },
               ],
-              schema: HeroSchema,
             }),
+
             createOption({
-              key: 'overlays.0.widthPercent',
-              label: 'Width %',
-              input: 'InputRange',
-              props: { min: 0, max: 100, step: 5, startValue: 30 },
+              input: 'InputList',
               schema: HeroSchema,
+              key: 'overlays',
+              props: { itemName: 'Overlay' },
+              icon: { class: 'i-tabler-layers-subtract' },
+              options: [
+                createOption({
+                  key: 'overlays.0.media',
+                  label: 'Overlay Image',
+                  input: 'InputMedia',
+                  schema: HeroSchema,
+                }),
+                createOption({
+                  key: 'overlays.0.position',
+                  label: 'Position',
+                  input: 'InputSelect',
+                  list: [
+                    { label: 'Top Left', value: 'topLeft' },
+                    { label: 'Top Center', value: 'top' },
+                    { label: 'Top Right', value: 'topRight' },
+                    { label: 'Bottom Left', value: 'bottomLeft' },
+                    { label: 'Bottom Center', value: 'bottom' },
+                    { label: 'Bottom Right', value: 'bottomRight' },
+                    { label: 'Center', value: 'center' },
+                  ],
+                  schema: HeroSchema,
+                }),
+                createOption({
+                  key: 'overlays.0.widthPercent',
+                  label: 'Width %',
+                  input: 'InputRange',
+                  props: { min: 0, max: 100, step: 5, startValue: 30 },
+                  schema: HeroSchema,
+                }),
+              ],
             }),
           ],
         }),
       ],
     }),
-
   ]
-}
 
-const options = [
-  createOption({
-    input: 'group',
-    key: 'group.items',
-    label: 'Hero Items',
-    icon: { class: 'i-tabler-list' },
-    options: [
-      createOption({
-        key: 'items',
-        input: 'InputList',
-        props: {
-          itemName: 'Hero',
-          itemLabel: args => (args?.item as HeroConfig)?.title ?? 'Untitled',
-        },
-        options: getHeroOptions(),
-      }),
-    ],
-  }),
-]
+}
 
 // Structured input options for the design interface
 
@@ -252,12 +247,12 @@ function getDefaultContent(): UserConfig {
   }
 }
 
-export async function getConfig(args: { templateId: string, factory: CardFactory }) {
+export async function getConfig(args: { templateId: string, factory: CardFactory, card?: Card }) {
   const stock = await args.factory.getStockMedia()
   const demoPage = await getDemoContent({ ...args, stock })
   return {
     schema,
-    options,
+    options: await getOptions(args),
     userConfig: getDefaultContent(),
     demoPage,
   }

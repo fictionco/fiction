@@ -16,6 +16,7 @@ const layout = vue.computed(() => uc.value.layout || 'center')
 // Layout classes based on user config
 const layoutClasses = vue.computed(() => {
   const isWideMedia = !!['landscape', 'wide', 'golden'].includes(uc.value.media?.aspect || '')
+  console.log('isWideMedia', uc.value.media?.aspect)
   return {
     wrapper: [
       'gap-8  items-center',
@@ -30,7 +31,7 @@ const layoutClasses = vue.computed(() => {
     media: {
       wrap: [
         ['right', 'left'].includes(layout.value)
-          ? isWideMedia ? 'w-full' : 'w-full basis-[60%]'
+          ? isWideMedia ? 'w-full' : 'w-full basis-[50%]'
           : 'mt-16 sm:mt-20 w-full',
       ],
       aspect: [
