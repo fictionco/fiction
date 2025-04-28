@@ -17,7 +17,7 @@ const props = defineProps({
   table: { type: String, required: true },
   columns: { type: Array as vue.PropType<CheckColumnValue[]>, default: () => [] },
   maxLength: { type: Number, default: 100 },
-  minLength: { type: Number, default: 3 },
+  minLength: { type: Number, default: 4 },
   uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
 })
 

@@ -72,7 +72,7 @@ async function handleCopy(): Promise<void> {
         Notes:
       </p>
       <ul class="list-disc list-outside pl-6 space-y-1 text-theme-500 dark:text-theme-400">
-        <li>DNS changes typically take 15-30 minutes to work, but can take up to 48 hours to fully propagate across the internet.</li>
+        <li>DNS changes typically take 15-30 minutes to work, and can take up to 48 hours to fully propagate across the internet.</li>
         <li> Need help? Our support team can guide you through the process or check your DNS configuration.</li>
       </ul>
     </div>

@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import type { Site } from '@fiction/site'
-import type { UiElementSize } from '@fiction/ui/utils'
 import { vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
@@ -12,12 +10,8 @@ export interface CustomDomain {
 
 const props = defineProps({
   modelValue: { type: Array as vue.PropType<CustomDomain[]>, default: () => ([]) },
-  destination: { type: String, required: true },
-  uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
-  site: { type: Object as vue.PropType<Site>, required: true },
 })
 const emit = defineEmits(['update:modelValue'])
-const loading = vue.ref(false)
 
 const domains = vue.computed<CustomDomain[]>({
   get: () => {
@@ -109,7 +103,7 @@ function addAnother() {
         Add Another Domain
       </XButton>
     </div>
-    <div v-else class="flex gap-4">
+    <div v-else class="flex flex-col gap-4">
       <InputText
         v-model="newHostname"
         input="InputText"

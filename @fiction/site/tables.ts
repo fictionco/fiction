@@ -18,13 +18,11 @@ type st = { updatedAt?: string, createdAt?: string }
 export const pageRegionIds = ['header', 'main', 'footer', 'aside', 'article', 'section'] as const
 export type PageRegion = typeof pageRegionIds[number] | string
 
-export type TableSiteConfig = Omit<ColType<typeof siteCols>, 'draft'> & st & {
-  pages: CardConfigPortable[]
-  draft?: TableSiteConfig
-  org: Organization
-}
-
-type TablePageCardConfig = Partial<ColType<typeof pageCols>>
+// export type TableSiteConfig = Omit<ColType<typeof siteCols>, 'draft'> & st & {
+//   pages: CardConfigPortable[]
+//   draft?: TableSiteConfig
+//   org: Organization
+// }
 
 export type TableCardConfig<T extends Record<string, unknown> = Record<string, unknown>> = Omit<TablePageCardConfig, 'cards' | 'effects' | 'single' | 'userConfig' | 'draft'> & st & {
   parentId?: string
@@ -77,6 +75,13 @@ export const siteCols = [
   new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
 ] as const
 
+export const TableSiteSchema = createTableSchema(siteCols)
+export type TableSiteConfig = z.infer<typeof TableSiteSchema> & st & {
+  pages: CardConfigPortable[]
+  draft?: TableSiteConfig
+  org: Organization
+}
+
 export const pageCols = [
   new Col({ key: 'cardId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('card')`)).index() }),
   new Col({ key: 'siteId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k, 50).references(`${t.sites}.site_id`).onDelete('CASCADE').onUpdate('CASCADE').notNullable().index() }),
@@ -97,6 +102,9 @@ export const pageCols = [
   new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'wordCount', sec: 'setting', sch: () => z.number(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
 ] as const
+
+export const TablePageSchema = createTableSchema(pageCols)
+export type TablePageCardConfig = z.infer<typeof TablePageSchema>
 
 export const tables = [
   new FictionDbTable({

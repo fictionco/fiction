@@ -23,11 +23,6 @@ export type MemberAccess = z.infer<typeof UserRoleEnum>
 
 export const GenderEnum = z.enum(['male', 'female', 'other'])
 
-export interface OrganizationConfig {
-  serverTimeoutMinutes: number
-  disableWatermark: boolean
-}
-
 export const EmailSenderSchema = z.object({
   senderName: z.string().optional(),
   senderEmail: z.string().optional(),
@@ -38,14 +33,6 @@ export const EmailSenderSchema = z.object({
 })
 
 export type EmailSender = z.infer<typeof EmailSenderSchema>
-
-export const OrganizationLegalSchema = z.object({
-  termsUrl: z.string().optional(),
-  privacyUrl: z.string().optional(),
-  copyrightText: z.string().optional(),
-})
-
-export type OrganizationLegal = z.infer<typeof OrganizationLegalSchema>
 
 export type Organization = Partial<ColType<typeof orgColumns>> & {
   loadOrgId?: boolean

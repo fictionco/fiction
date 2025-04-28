@@ -50,7 +50,7 @@ async function generateKey(confirmNew?: boolean): Promise<void> {
 </script>
 
 <template>
-  <div class="py-6 space-y-6">
+  <div class="space-y-6">
     <template v-if="fictionUser.activeOrganization.value?.apiSecret">
       <InputText
         v-if="showApiSecret"

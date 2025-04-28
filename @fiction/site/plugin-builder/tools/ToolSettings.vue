@@ -29,7 +29,7 @@ const options = getSiteOptions(props)
   <TabbedOptions
     v-model="v"
     title="Site Settings"
-    :options="[options.global, options.publish, options.styling, options.history]"
+    :options="[options.global, options.history]"
     :input-props="{ site: props.site, tool: props.tool }"
     @done="site.editorActivateTool({ toolId: '' })"
   />
