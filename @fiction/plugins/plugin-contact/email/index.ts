@@ -20,7 +20,7 @@ export function getEmails(args: { fictionContact: FictionContact }) {
     emailConfig: async (emailVars) => {
       const { orgId } = emailVars.queryVars
 
-      const r = await fictionUser.queries.ManageOrganization.serve({ _action: 'retrieve', where: { orgId } }, { server: true, caller: 'subscribe' })
+      const r = await fictionUser.queries.ManageOrganization.serve({ _action: 'read', where: { orgId } }, { server: true, caller: 'subscribe' })
 
       const org = r.data
 

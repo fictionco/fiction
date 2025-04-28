@@ -173,7 +173,7 @@ export class QueryManageSubmission extends FormQuery {
       const { notifyEmails } = userConfig
       // Retrieve organization details
       const r = await this.settings.fictionUser?.queries.ManageOrganization.serve({
-        _action: 'retrieve',
+        _action: 'read',
         where: { orgId },
       }, { ...meta, server: true })
 

@@ -91,7 +91,7 @@ describe('org handling', async () => {
     expect(response?.data?.apiSecret?.length).toBeGreaterThan(10)
 
     const getOrg = await testUtils.fictionUser.queries.ManageOrganization.serve(
-      { _action: 'retrieve', where },
+      { _action: 'read', where },
       { bearer: workingUser },
     )
 

@@ -128,7 +128,7 @@ export async function loadSiteFromTheme(args: {
 
   let org: Organization | undefined = undefined
   if (fictionSites && orgId && !org) {
-    const r = await fictionSites.settings.fictionUser?.requests.ManageOrganization.request({ _action: 'retrieve', where: { orgId } }, { caller: 'loadSiteFromTheme' })
+    const r = await fictionSites.settings.fictionUser?.requests.ManageOrganization.request({ _action: 'read', where: { orgId } }, { caller: 'loadSiteFromTheme' })
     if (r?.data?.orgId)
       org = r.data
   }

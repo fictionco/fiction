@@ -642,7 +642,7 @@ export class QueryManagePost extends PostsQuery {
 
     const [post, org] = await Promise.all([
       this.getPost({ _action: 'get', orgId, userId, where }, meta).then(r => r.data?.[0]),
-      fictionUser.queries.ManageOrganization.serve({ _action: 'retrieve', where: { orgId } }, { server: true }).then(r => r.data),
+      fictionUser.queries.ManageOrganization.serve({ _action: 'read', where: { orgId } }, { server: true }).then(r => r.data),
     ])
 
     if (!post || !org) {

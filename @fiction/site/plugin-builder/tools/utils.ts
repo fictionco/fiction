@@ -125,48 +125,39 @@ export function getSiteOptions(args: { site: Site }) {
       options: [
         createOption({
           schema: SiteSchema,
-          key: 'group.subDomain',
-          label: 'Domain',
-          input: 'group',
-          icon: { class: 'i-tabler-world-www' },
-          options: [
-            createOption({
-              schema: SiteSchema,
-              key: 'subDomain',
-              label: 'Fiction Domain',
-              input: 'InputHandle',
-              isRequired: true,
-              props: {
-                beforeInput: 'https://',
-                afterInput: '.fiction.com',
-                table: t.sites,
-                columns: [{ name: 'subDomain' }],
-                uiSize: 'md',
-              },
-            }),
-            createOption({
-              schema: SiteSchema,
-              key: 'customDomains',
-              label: 'Enter Custom Domain',
-              subLabel: 'Add custom domains for this site (e.g. www.example.com)',
-              description: 'Connect your own domain name to your site. You\'ll need to update your DNS settings with your domain provider.',
-              input: vue.defineAsyncComponent(() => import('./CustomDomain.vue')),
-              isRequired: true,
+          key: 'subDomain',
+          label: 'Fiction Domain',
+          input: 'InputHandle',
+          isRequired: true,
+          props: {
+            beforeInput: 'https://',
+            afterInput: '.fiction.com',
+            table: t.sites,
+            columns: [{ name: 'subDomain' }],
+            uiSize: 'md',
+          },
+        }),
+        createOption({
+          schema: SiteSchema,
+          key: 'customDomains',
+          label: 'Enter Custom Domain',
+          subLabel: 'Add custom domains for this site (e.g. www.example.com)',
+          description: 'Connect your own domain name to your site. You\'ll need to update your DNS settings with your domain provider.',
+          input: vue.defineAsyncComponent(() => import('./CustomDomain.vue')),
+          isRequired: true,
 
-              props: {
-                destination: site.hostname.value,
-                uiSize: 'md',
-              },
-            }),
-            createOption({
-              key: 'domainSetupInstructions',
-              label: 'Setup Instructions',
-              input: vue.defineAsyncComponent(() => import('./CustomDomainInstructions.vue')),
-              props: {
-                destination: site.hostname.value,
-              },
-            }),
-          ],
+          props: {
+            destination: site.hostname.value,
+            uiSize: 'md',
+          },
+        }),
+        createOption({
+          key: 'domainSetupInstructions',
+          label: 'Setup Instructions',
+          input: vue.defineAsyncComponent(() => import('./CustomDomainInstructions.vue')),
+          props: {
+            destination: site.hostname.value,
+          },
         }),
 
       ],

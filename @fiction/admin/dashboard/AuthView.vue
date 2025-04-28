@@ -232,7 +232,7 @@ async function loadOrgData(handle: string): Promise<void> {
 
   try {
     const response = await fictionUser.requests.ManageOrganization.request({
-      _action: 'retrieve',
+      _action: 'read',
       where: { handle },
     }, { disableNotify: true })
 

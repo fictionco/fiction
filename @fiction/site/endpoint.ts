@@ -777,7 +777,7 @@ export class ManageSite extends SitesQuery {
       // Get organization details using ManageOrganization query
       const orgResponse = await this.settings.fictionUser?.queries.ManageOrganization.serve(
         {
-          _action: 'retrieve',
+          _action: 'read',
           where: { orgId: site.orgId },
         },
         { server: true },

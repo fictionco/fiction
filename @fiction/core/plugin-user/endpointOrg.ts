@@ -188,7 +188,7 @@ export type ManageOrganizationParams =
   | { _action: 'create', fields: Partial<Organization>, userId: string, withDefaults?: boolean }
   | { _action: 'update', where: WhereOrg, fields: Partial<Organization> }
   | { _action: 'delete', where: WhereOrg }
-  | { _action: 'retrieve', where: WhereOrg }
+  | { _action: 'read', where: WhereOrg }
   | { _action: 'generateApiSecret', where: WhereOrg }
 
 export class QueryManageOrganization extends OrgQuery {
@@ -200,7 +200,7 @@ export class QueryManageOrganization extends OrgQuery {
         return this.updateOrganization(params, meta)
       case 'delete':
         return this.deleteOrganization(params, meta)
-      case 'retrieve':
+      case 'read':
         return this.readOrganization(params, meta)
       case 'generateApiSecret':
         return this.generateApiSecret(params, meta)
@@ -230,7 +230,7 @@ export class QueryManageOrganization extends OrgQuery {
     if (!responseOrg)
       throw abort('API secret generation failed')
 
-    return this.prepareResponse(responseOrg, 'new secret API key was created', meta)
+    return this.prepareResponse({ org: responseOrg, message: 'new secret API key was created', meta })
   }
 
   private async createOrganization(params: ManageOrganizationParams & { _action: 'create' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
@@ -255,7 +255,6 @@ export class QueryManageOrganization extends OrgQuery {
     if (!responseOrg?.orgId)
       throw new Error('Organization creation failed')
 
-
     await this.settings.fictionUser.hooks.run('newOrg', { org: responseOrg, userId, withDefaults })
 
     await this.manageMemberRelation({ userId, orgId: responseOrg.orgId, accessType: 'owner' }, { server: true, ...meta, caller: 'orgCreateMemberRelationCall' })
@@ -263,7 +262,7 @@ export class QueryManageOrganization extends OrgQuery {
     if (!responseOrg)
       throw new Error('Organization creation failed')
 
-    return this.prepareResponse(responseOrg, 'Organization created', meta)
+    return this.prepareResponse({ org: responseOrg, message: 'Organization created', meta })
   }
 
   private async updateOrganization(params: ManageOrganizationParams & { _action: 'update' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
@@ -285,7 +284,7 @@ export class QueryManageOrganization extends OrgQuery {
       .into(t.org)
       .returning<Organization[]>('*')
 
-    return this.prepareResponse(responseOrg, 'Successfully updated', meta)
+    return this.prepareResponse({ org: responseOrg, message: 'Successfully updated', meta })
   }
 
   private async deleteOrganization(params: ManageOrganizationParams & { _action: 'delete' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
@@ -297,14 +296,14 @@ export class QueryManageOrganization extends OrgQuery {
       .where(where)
       .returning<Organization[]>('*')
 
-    return this.prepareResponse(responseOrg, `Deleted organization: ${responseOrg.orgName}`, meta)
+    return this.prepareResponse({ org: responseOrg, message: `Deleted organization`, meta })
   }
 
-  private async readOrganization(params: ManageOrganizationParams & { _action: 'retrieve' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
+  private async readOrganization(params: ManageOrganizationParams & { _action: 'read' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
     const { where } = params
     const [responseOrg] = await this.db().select('*').from(t.org).where(where)
 
-    return this.prepareResponse(responseOrg, 'Organization retrieved', meta)
+    return this.prepareResponse({ org: responseOrg, meta })
   }
 
   // Additional helper functions for validation, member management, and response preparation
@@ -332,7 +331,8 @@ export class QueryManageOrganization extends OrgQuery {
     )
   }
 
-  private async prepareResponse(org: Organization, message: string, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
+  private async prepareResponse(args: { org: Organization, message?: string, meta: EndpointMeta }): Promise<EndpointResponse<Organization> & { user?: User }> {
+    const { org, message, meta } = args
     const user = await this.returnUser(meta)
 
     return { status: 'success', message, user, data: org }

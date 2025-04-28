@@ -142,7 +142,7 @@ export class FictionPublish extends FictionPlugin<FictionPublishSettings> {
       }
 
       const r2 = await fictionUser.queries.ManageOrganization.serve(
-        { _action: 'retrieve', where: { orgId } },
+        { _action: 'read', where: { orgId } },
         { server: true },
       )
 

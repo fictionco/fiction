@@ -92,7 +92,7 @@ export class QueryTeamInvite extends TeamQuery {
 
     // Fetch organization details
     const { data: org } = await fictionUser.queries.ManageOrganization.serve(
-      { _action: 'retrieve', where: { orgId } },
+      { _action: 'read', where: { orgId } },
       meta,
     )
 
