@@ -47,7 +47,7 @@ const mapGridCols = vue.computed(() => {
 
 <template>
   <CardWrap :card>
-    <div class="relative" :class="card.classes.value.contentWidth">
+    <div class="relative">
       <div
         class="grid grid-cols-1 gap-6 lg:gap-8"
         :class="[mapGridCols]"

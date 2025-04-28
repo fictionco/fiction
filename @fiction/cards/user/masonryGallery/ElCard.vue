@@ -103,53 +103,51 @@ function showLightbox(index: number) {
 
 <template>
   <CardWrap :card>
-    <div :class="card.classes.value.contentWidth">
-      <MasonryEffect
-        :items="items"
-        :options="masonryOptions"
-        :class="layout.animation"
+    <MasonryEffect
+      :items="items"
+      :options="masonryOptions"
+      :class="layout.animation"
+    >
+      <div
+        v-for="(item, index) in items"
+        :key="index"
+        :class="getItemClasses(item)"
+        :style="getItemStyle(item)"
+        @click="showLightbox(index)"
       >
-        <div
-          v-for="(item, index) in items"
-          :key="index"
-          :class="getItemClasses(item)"
-          :style="getItemStyle(item)"
-          @click="showLightbox(index)"
-        >
-          <!-- Media Layer -->
-          <XMedia
-            :media="item?.media"
-            :animate="true"
-            class="absolute inset-0 object-cover group-hover:scale-110 transition-all duration-500 ease-out"
-          />
+        <!-- Media Layer -->
+        <XMedia
+          :media="item?.media"
+          :animate="true"
+          class="absolute inset-0 object-cover group-hover:scale-110 transition-all duration-500 ease-out"
+        />
 
-          <!-- Overlay Layer with Gradient -->
-          <div :class="getOverlayClasses(item)" />
+        <!-- Overlay Layer with Gradient -->
+        <div :class="getOverlayClasses(item)" />
 
-          <!-- Content Layer -->
-          <div class="absolute inset-0 flex items-end">
-            <div :class="getContentClasses(item)">
-              <h3
-                class="text-xl md:text-2xl font-semibold x-font-title transform "
-              >
-                {{ item?.title }}
-              </h3>
-              <p
-                class="text-base md:text-lg opacity-90 line-clamp-3"
-              >
-                {{ item?.content }}
-              </p>
-            </div>
+        <!-- Content Layer -->
+        <div class="absolute inset-0 flex items-end">
+          <div :class="getContentClasses(item)">
+            <h3
+              class="text-xl md:text-2xl font-semibold x-font-title transform "
+            >
+              {{ item?.title }}
+            </h3>
+            <p
+              class="text-base md:text-lg opacity-90 line-clamp-3"
+            >
+              {{ item?.content }}
+            </p>
           </div>
         </div>
-      </MasonryEffect>
+      </div>
+    </MasonryEffect>
 
-      <ElLightbox
-        v-if="currentLightboxIndex >= 0"
-        v-model:active-index="currentLightboxIndex"
-        :items="items"
-        :show-caption="true"
-      />
-    </div>
+    <ElLightbox
+      v-if="currentLightboxIndex >= 0"
+      v-model:active-index="currentLightboxIndex"
+      :items="items"
+      :show-caption="true"
+    />
   </CardWrap>
 </template>

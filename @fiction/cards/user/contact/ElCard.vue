@@ -71,7 +71,7 @@ const formUserConfig = vue.computed(() => {
 
 <template>
   <CardWrap :card>
-    <div ref="contactSection" :class="card.classes.value.contentWidth" class="contact-form">
+    <div ref="contactSection" class="contact-form">
       <div class="text-center">
         <!-- Main Content -->
         <div

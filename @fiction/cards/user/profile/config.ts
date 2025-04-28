@@ -133,19 +133,14 @@ async function getUserConfig(args: { factory: CardFactory, stock: StockMedia }):
 
   return {
     superTitle: { text: 'Your Professional Role' },
-    title: 'Crafting Your Perfect Professional Story',
-    content: `<p>Notice how a well-structured bio can capture attention instantly? Start with your most compelling achievements or unique value proposition. Keep it concise yet impactful.</p>
-<p>Imagine connecting with your audience through carefully chosen words that reflect your authentic voice while maintaining professional credibility. Remember to highlight your expertise and what makes you uniquely qualified.</p>`,
+    title: 'Your Professional Story',
+    content: `<p>A well-structured bio can capture attention instantly... Start with your most compelling achievements or unique value proposition.</p>`,
 
     mediaItems: [
       { media: stock.getRandomByTags(['aspect:portrait']) },
       { media: stock.getRandomByTags(['aspect:portrait']) },
     ],
 
-    details: [
-      { label: 'Location', value: 'Your City, Country', icon: { iconId: 'map' } },
-      { label: 'Email', value: 'hello@yourdomain.com', href: 'mailto:hello@example.com', icon: { iconId: 'mail' } },
-    ],
     action: {
       buttons: [
         { label: 'Message on X', href: '#', icon: { iconId: 'brand-x' } },

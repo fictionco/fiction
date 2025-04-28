@@ -35,7 +35,7 @@ function setActiveItem(index: number) {
 </script>
 
 <template>
-  <div :class="card.classes.value.contentWidth">
+  <div>
     <div class="relative aspect-none lg:aspect-[5/3] xl:aspect-[2.5/1] rounded-2xl shadow-xl dark:shadow-primary-500/10 bg-white dark:bg-theme-800 overflow-hidden mx-auto flex flex-col lg:flex-wrap">
       <div class="w-full lg:w-[50%] h-64 lg:h-full relative">
         <transition

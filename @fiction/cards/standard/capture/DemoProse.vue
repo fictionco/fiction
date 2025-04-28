@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <div :class="card.classes.value.contentWidth">
+  <div>
     <div class="prose dark:prose-invert prose-sm md:prose-lg lg:prose-xl mx-auto focus:outline-none">
       <h1>Why Your Personal Brand Shouldn't Be As Boring As This Header</h1>
       <p>Welcome to the wild world of personal branding, where your LinkedIn profile picture is probably trying too hard and your X bio has gone through more revisions than your actual resume. But fear not! This guide will help you navigate the treacherous waters of professional self-promotion without losing your soul (or your sense of humor).</p>

@@ -143,99 +143,97 @@ vue.onServerPrefetch(() => fetchPosts())
 
 <template>
   <CardWrap :card>
-    <div :class="card.classes.value.contentWidth">
-      <!-- Loading State -->
-      <div v-if="postsLoading" class="flex justify-center py-12">
-        <ElSpinner class="h-8 w-8 text-theme-500" />
-      </div>
+    <!-- Loading State -->
+    <div v-if="postsLoading" class="flex justify-center py-12">
+      <ElSpinner class="h-8 w-8 text-theme-500" />
+    </div>
 
-      <!-- Grid Layout -->
-      <div
-        v-if="displayConfig.layout === 'grid'"
-        :class="[
-          gridClass,
-          displayConfig.gap === 'sm' && 'gap-4',
-          displayConfig.gap === 'md' && 'gap-6',
-          displayConfig.gap === 'lg' && 'gap-8',
-          displayConfig.gap === 'xl' && 'gap-10',
-          displayConfig.gap === '2xl' && 'gap-12',
-        ]"
-      >
-        <PostCard
-          v-for="post in posts"
-          :key="post.slug.value"
-          :card="card"
-          :post="post"
-          :display="displayConfig"
-          :class="dimensions.height"
-        />
-      </div>
-
-      <!-- Scroll Layout -->
-      <div v-else class="relative">
-        <EffectCarousel
-          v-model:active-index="activeItem"
-          :slides="postConfigs"
-          :options="{}"
-        >
-          <template #default="{ slide }">
-            <PostCard
-              :key="slide.slug"
-              :card="card"
-              :post="posts.find(_ => _.slug.value === slide.slug)"
-              :display="displayConfig"
-              class="carousel-cell mr-6 lg:mr-10"
-              :class="[
-                dimensions.height,
-                dimensions.width.mobile,
-                `md:${dimensions.width.desktop}`,
-              ]"
-            />
-          </template>
-        </EffectCarousel>
-
-        <NavDots
-          v-model:active-item="activeItem"
-          :wrap-selector="`[data-card-id='${card.cardId}']`"
-          :items="posts"
-          class="mt-16 z-20 justify-center "
-        />
-      </div>
-
-      <!-- No Posts State -->
-      <El404
-        v-if="!loading && !posts.length"
-        title="No Posts Available"
-        sub-title="Check back later for new content"
+    <!-- Grid Layout -->
+    <div
+      v-if="displayConfig.layout === 'grid'"
+      :class="[
+        gridClass,
+        displayConfig.gap === 'sm' && 'gap-4',
+        displayConfig.gap === 'md' && 'gap-6',
+        displayConfig.gap === 'lg' && 'gap-8',
+        displayConfig.gap === 'xl' && 'gap-10',
+        displayConfig.gap === '2xl' && 'gap-12',
+      ]"
+    >
+      <PostCard
+        v-for="post in posts"
+        :key="post.slug.value"
+        :card="card"
+        :post="post"
+        :display="displayConfig"
+        :class="dimensions.height"
       />
+    </div>
 
-      <!-- Pagination -->
-      <div
-        v-if="pagination.totalPages > 1 && displayConfig.layout === 'grid'"
-        class="mt-12 flex justify-center items-center gap-6"
+    <!-- Scroll Layout -->
+    <div v-else class="relative">
+      <EffectCarousel
+        v-model:active-index="activeItem"
+        :slides="postConfigs"
+        :options="{}"
       >
-        <CardButton
-          :card="card"
-          :disabled="pagination.currentPage === 1"
-          size="sm"
-          rounding="full"
-          @click="changePage(pagination.currentPage - 1)"
-        >
-          Previous
-        </CardButton>
-        <span class="font-sans text-xs text-theme-500 dark:text-theme-400">
-          {{ pagination.currentPage }} / {{ pagination.totalPages }}
-        </span>
-        <CardButton
-          :card="card"
-          :disabled="pagination.currentPage === pagination.totalPages"
-          size="sm"
-          rounding="full"
-          @click="changePage(pagination.currentPage + 1)"
-        >
-          Next
-        </CardButton>
-      </div>
+        <template #default="{ slide }">
+          <PostCard
+            :key="slide.slug"
+            :card="card"
+            :post="posts.find(_ => _.slug.value === slide.slug)"
+            :display="displayConfig"
+            class="carousel-cell mr-6 lg:mr-10"
+            :class="[
+              dimensions.height,
+              dimensions.width.mobile,
+              `md:${dimensions.width.desktop}`,
+            ]"
+          />
+        </template>
+      </EffectCarousel>
+
+      <NavDots
+        v-model:active-item="activeItem"
+        :wrap-selector="`[data-card-id='${card.cardId}']`"
+        :items="posts"
+        class="mt-16 z-20 justify-center "
+      />
+    </div>
+
+    <!-- No Posts State -->
+    <El404
+      v-if="!loading && !posts.length"
+      title="No Posts Available"
+      sub-title="Check back later for new content"
+    />
+
+    <!-- Pagination -->
+    <div
+      v-if="pagination.totalPages > 1 && displayConfig.layout === 'grid'"
+      class="mt-12 flex justify-center items-center gap-6"
+    >
+      <CardButton
+        :card="card"
+        :disabled="pagination.currentPage === 1"
+        size="sm"
+        rounding="full"
+        @click="changePage(pagination.currentPage - 1)"
+      >
+        Previous
+      </CardButton>
+      <span class="font-sans text-xs text-theme-500 dark:text-theme-400">
+        {{ pagination.currentPage }} / {{ pagination.totalPages }}
+      </span>
+      <CardButton
+        :card="card"
+        :disabled="pagination.currentPage === pagination.totalPages"
+        size="sm"
+        rounding="full"
+        @click="changePage(pagination.currentPage + 1)"
+      >
+        Next
+      </CardButton>
     </div>
   </CardWrap>
 </template>

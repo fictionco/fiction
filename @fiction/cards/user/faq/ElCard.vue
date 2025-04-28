@@ -43,101 +43,99 @@ function isItemOpen(index: number) {
 </script>
 
 <template>
-  <CardWrap :card>
-    <div :class="card.classes.value.contentWidth" :data-layout-mode="layout">
-      <!-- FAQ Items List -->
-      <div class="max-w-screen-md mx-auto space-y-4">
+  <CardWrap :card :data-layout-mode="layout">
+    <!-- FAQ Items List -->
+    <div class="max-w-screen-md mx-auto space-y-4">
+      <div
+        v-for="(item, i) in uc.items"
+        :key="i"
+        class="group rounded-xl ring ring-theme-300/30 dark:ring-theme-600/30"
+        :class="[layout !== 'visible' ? 'cursor-pointer hover:ring-theme-300/50 dark:hover:ring-theme-600/60' : '']"
+      >
+        <!-- Question/Title Row -->
         <div
-          v-for="(item, i) in uc.items"
-          :key="i"
-          class="group rounded-xl ring ring-theme-300/30 dark:ring-theme-600/30"
-          :class="[layout !== 'visible' ? 'cursor-pointer hover:ring-theme-300/50 dark:hover:ring-theme-600/60' : '']"
+          class="relative p-4 lg:p-6 xl:p-8 flex items-start gap-5"
+          @click="layout !== 'visible' && toggleItem(i)"
         >
-          <!-- Question/Title Row -->
-          <div
-            class="relative p-4 lg:p-6 xl:p-8 flex items-start gap-5"
-            @click="layout !== 'visible' && toggleItem(i)"
-          >
-            <!-- Icon -->
-            <XIcon
-              v-if="item.icon"
-              :media="item.icon"
-              class="flex-shrink-0 size-7 text-primary-500 dark:text-primary-400"
-            />
+          <!-- Icon -->
+          <XIcon
+            v-if="item.icon"
+            :media="item.icon"
+            class="flex-shrink-0 size-7 text-primary-500 dark:text-primary-400"
+          />
 
-            <div class="flex-grow">
-              <div class="flex justify-between">
-                <CardText
-                  :card
-                  :path="pathCheck(`items.${i}.title`, schema)"
-                  class="x-font-title text-xl lg:text-3xl font-semibold text-theme-900 dark:text-theme-100 transition-colors"
-                  :class="[
-                    isItemOpen(i) && 'text-primary-600 dark:text-primary-400',
-                  ]"
+          <div class="flex-grow">
+            <div class="flex justify-between">
+              <CardText
+                :card
+                :path="pathCheck(`items.${i}.title`, schema)"
+                class="x-font-title text-xl lg:text-3xl font-semibold text-theme-900 dark:text-theme-100 transition-colors"
+                :class="[
+                  isItemOpen(i) && 'text-primary-600 dark:text-primary-400',
+                ]"
+              />
+              <!-- Toggle Button -->
+              <button
+                v-if="layout !== 'visible'"
+                type="button"
+                class="flex-shrink-0 "
+                @click.stop="toggleItem(i)"
+              >
+                <XIcon
+                  :media="{ class: 'i-tabler-chevron-down' }"
+                  class="size-6 text-theme-400 transition-transform duration-200"
+                  :class="isItemOpen(i) && 'rotate-180'"
                 />
-                <!-- Toggle Button -->
-                <button
-                  v-if="layout !== 'visible'"
-                  type="button"
-                  class="flex-shrink-0 "
-                  @click.stop="toggleItem(i)"
-                >
-                  <XIcon
-                    :media="{ class: 'i-tabler-chevron-down' }"
-                    class="size-6 text-theme-400 transition-transform duration-200"
-                    :class="isItemOpen(i) && 'rotate-180'"
-                  />
-                </button>
-              </div>
-
-              <!-- Content Area -->
-              <TransitionSlide>
-                <div v-show="isItemOpen(i)" class="relative">
-                  <div
-                    class="space-y-4 pt-4"
-                  >
-                    <!-- Media if present -->
-                    <XMedia
-                      v-if="item.media"
-                      :media="item.media"
-                      class="rounded-lg overflow-hidden bg-theme-100 dark:bg-theme-800 aspect-video w-96 my-6"
-                    />
-
-                    <XEntry>
-                      <CardText
-                        :card
-                        :path="pathCheck(`items.${i}.content`, schema)"
-                        class="text-lg sm:text-xl lg:text-2xl !leading-relaxed"
-                      />
-                    </XEntry>
-                  </div>
-                </div>
-              </TransitionSlide>
+              </button>
             </div>
+
+            <!-- Content Area -->
+            <TransitionSlide>
+              <div v-show="isItemOpen(i)" class="relative">
+                <div
+                  class="space-y-4 pt-4"
+                >
+                  <!-- Media if present -->
+                  <XMedia
+                    v-if="item.media"
+                    :media="item.media"
+                    class="rounded-lg overflow-hidden bg-theme-100 dark:bg-theme-800 aspect-video w-96 my-6"
+                  />
+
+                  <XEntry>
+                    <CardText
+                      :card
+                      :path="pathCheck(`items.${i}.content`, schema)"
+                      class="text-lg sm:text-xl lg:text-2xl !leading-relaxed"
+                    />
+                  </XEntry>
+                </div>
+              </div>
+            </TransitionSlide>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Support Section -->
-      <div
-        v-if="uc.support?.text || uc.support?.action?.buttons?.length"
-        class="mt-10 text-center max-w-[768px] mx-auto space-y-6"
-      >
-        <CardText
-          v-if="uc.support.text"
-          :card
-          :path="pathCheck(`support.text`, schema)"
-          class="text-lg text-theme-600 dark:text-theme-400 x-font-title"
-        />
+    <!-- Support Section -->
+    <div
+      v-if="uc.support?.text || uc.support?.action?.buttons?.length"
+      class="mt-10 text-center max-w-[768px] mx-auto space-y-6"
+    >
+      <CardText
+        v-if="uc.support.text"
+        :card
+        :path="pathCheck(`support.text`, schema)"
+        class="text-lg text-theme-600 dark:text-theme-400 x-font-title"
+      />
 
-        <CardActionArea
-          v-if="uc.support.action"
-          :card
-          :base-path="pathCheck(`support.action`, schema)"
-          :action="uc.support.action"
-          :classes="{ buttons: 'flex gap-4 justify-center  flex-wrap ' }"
-        />
-      </div>
+      <CardActionArea
+        v-if="uc.support.action"
+        :card
+        :base-path="pathCheck(`support.action`, schema)"
+        :action="uc.support.action"
+        :classes="{ buttons: 'flex gap-4 justify-center  flex-wrap ' }"
+      />
     </div>
   </CardWrap>
 </template>

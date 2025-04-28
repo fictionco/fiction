@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import CardWrap from '@fiction/cards/CardWrap.vue'
 import { version } from '@fiction/core/package.json'
 import favicon from '@fiction/ui/brand/favicon.svg'
 import XButton from '@fiction/ui/buttons/XButton.vue'
@@ -8,11 +9,9 @@ import dash from './dash.svg'
 import ElBenefits from './ElBenefits.vue'
 import ElFeatures from './ElFeatures.vue'
 
-export type UserConfig = { test?: boolean }
-
 defineProps({
   card: {
-    type: Object as vue.PropType<Card<UserConfig>>,
+    type: Object as vue.PropType<Card>,
     required: true,
   },
 })
@@ -21,7 +20,7 @@ const link = 'https://docs.fiction.com'
 </script>
 
 <template>
-  <div class="view-home" :class="card.classes.value.contentWidth">
+  <CardWrap :card class="view-home">
     <div class="relative  ">
       <svg class="-skew-x-6 absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]" aria-hidden="true">
         <defs>
@@ -42,16 +41,16 @@ const link = 'https://docs.fiction.com'
         <rect width="100%" height="100%" stroke-width="0" fill="url(#983e3e4c-de6d-4c3f-8d64-b9761d1534cc)" />
       </svg>
 
-      <div class="pb-24 pt-10 sm:pb-40 lg:flex lg:pt-40">
+      <div class="pb-24 pt-10 sm:pb-32 lg:flex lg:pt-32">
         <div class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
           <img class="h-11" :src="favicon" alt="Your Company">
           <div class="mt-24 sm:mt-32 lg:mt-16">
             <a href="#" class="inline-flex space-x-6 font-sans">
-              <span class="rounded-full bg-theme-800/30 px-3 py-1 text-sm font-semibold leading-6 text-theme-300 ring-1 ring-inset ring-theme-500/20">Join the open source community</span>
+              <span class="rounded-full bg-theme-800/30 px-3 py-1 text-sm font-semibold leading-6 text-theme-300 ring-1 ring-inset ring-theme-500/20">Open Source</span>
 
             </a>
           </div>
-          <h1 class="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl x-font-title text-balance">
+          <h1 class="mt-10 text-4xl font-semibold tracking-tight text-white sm:text-6xl x-font-title text-balance">
             Your Platform, Built Your Way
           </h1>
           <p class="mt-6 text-2xl text-theme-300 leading-relaxed">
@@ -59,8 +58,8 @@ const link = 'https://docs.fiction.com'
             building personal marketing tools.
           </p>
           <div class="mt-10 flex items-center gap-x-6">
-            <XButton theme="primary" :href="link" size="lg">
-              View Developer Docs
+            <XButton theme="primary" design="outline" :href="link" size="lg">
+              Coming Soon
             </XButton>
 
             <XButton
@@ -85,5 +84,5 @@ const link = 'https://docs.fiction.com'
     <ElBenefits :card />
 
     <ElFeatures :card />
-  </div>
+  </CardWrap>
 </template>

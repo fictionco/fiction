@@ -35,7 +35,7 @@ vue.onMounted(() => {
 
 <template>
   <CardWrap :card>
-    <div :id="card.cardId" :class="card.classes.value.contentWidth">
+    <div :id="card.cardId">
       <div class="border-t border-theme-200 dark:border-theme-700/80 pt-16 mt-4">
         <!-- Main grid layout -->
         <div class="grid grid-cols-1 xl:grid-cols-12 gap-12">

@@ -26,7 +26,7 @@ const LayoutComponent = vue.computed(() => {
 
 <template>
   <CardWrap :card>
-    <div class="space-y-12" :class="[card.classes.value.contentWidth]" :data-layout-style="uc.layout?.style">
+    <div class="space-y-12" :data-layout-style="uc.layout?.style">
       <!-- Features Layout -->
       <component
         :is="LayoutComponent"

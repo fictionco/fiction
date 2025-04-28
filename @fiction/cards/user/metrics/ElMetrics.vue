@@ -17,7 +17,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
 <template>
   <CardWrap :card>
     <div
-      class="mx-auto grid max-w-6xl  px-6 lg:px-8 gap-8 gap-y-12 md:gap-24"
+      class="grid  px-6 lg:px-8 gap-8 gap-y-12 md:gap-24"
       :class="uc.items?.length === 1 ? 'md:grid-cols-1' : uc.items?.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'"
     >
       <div

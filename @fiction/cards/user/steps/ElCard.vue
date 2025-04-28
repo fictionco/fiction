@@ -35,7 +35,7 @@ vue.onMounted(() => {
 
 <template>
   <CardWrap :card>
-    <div :id="card.cardId" :class="card.classes.value.contentWidth">
+    <div :id="card.cardId">
       <div
         class="mx-auto space-y-6"
         :class="[!isDefaultLayout ? 'max-w-screen-xl' : 'max-w-screen-lg']"

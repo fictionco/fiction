@@ -1,24 +1,21 @@
-import type { CardFactory } from '@fiction/site/cardFactory.js'
 import type { Site } from '@fiction/site/site.js'
+import { cardConfig } from '@fiction/cards'
 import { vue } from '@fiction/core'
+import { cardTemplate } from '@fiction/site'
 
-export async function page(args: { site: Site, factory: CardFactory }) {
-  const factory = args.factory
+export async function page({ site }: { site: Site }) {
+  const el = vue.defineAsyncComponent(() => import('./el/ElCard.vue'))
+  site.theme.value.templates.push(cardTemplate({ templateId: 'devPageTpl', el }))
 
-  const homeCard = await factory.fromTemplate({
-    el: vue.defineAsyncComponent(async () => import('./el/ElCard.vue')),
-    userConfig: {
-      standard: { spaceSize: 'none' },
-    },
+  const devPage = await cardConfig<any>({
+    templateId: 'devPageTpl',
+    userConfig: { standard: { title: 'FictionOS' } },
   })
 
-  return factory.fromTemplate({
+  return cardConfig({
     regionId: 'main',
     templateId: 'cardPageWrapV1',
     slug: 'developer',
-    cards: [
-      await factory.fromTemplate({ templateId: 'cardPageAreaV1', cards: [homeCard] }),
-
-    ],
+    cards: [devPage],
   })
 }

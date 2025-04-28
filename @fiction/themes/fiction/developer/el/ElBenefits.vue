@@ -72,7 +72,7 @@ const benefits = vue.ref([
   <div>
     <div class="bg-theme-950/50 rounded-xl px-6 lg:px-24 py-12 lg:py-20 border border-theme-800">
       <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <h2 class="text-center text-2xl lg:text-5xl font-bold tracking-tight x-font-title leading-relaxed text-balance">
+        <h2 class="text-center text-2xl lg:text-5xl font-semibold tracking-tight x-font-title leading-relaxed text-balance">
           Why you'll love Fiction OS
         </h2>
         <p class="mt-4 text-center text-lg lg:text-2xl text-theme-500 dark:text-theme-50 text-balance">

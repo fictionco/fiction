@@ -80,7 +80,7 @@ async function getDefaultConfig(args: { stock: StockMedia }): Promise<UserConfig
     items: [
       {
         title: 'Watch Your Story Come Alive',
-        content: 'Notice how the background responds to your scrolling? This dynamic parallax effect instantly elevates your content, creating an immersive experience that keeps visitors engaged. Try adjusting the depth effect to find your perfect balance.',
+        content: 'Notice how the background responds to your scrolling? This dynamic parallax effect instantly elevates your content.',
         parallaxStrength: 0.5,
         media: stock.getRandomByTags(['aspect:portrait']),
         action: {
@@ -89,20 +89,11 @@ async function getDefaultConfig(args: { stock: StockMedia }): Promise<UserConfig
       },
       {
         title: 'See Perfect Content Placement',
-        content: 'Feel how smoothly your content stays in view while captivating visuals flow behind it? This creates a natural reading rhythm that guides visitors through your story. Position your key messages for maximum impact.',
+        content: 'Feel how smoothly your content stays in view while captivating visuals flow behind it?.',
         parallaxStrength: 0.4,
         media: stock.getRandomByTags(['aspect:portrait']),
         action: {
           buttons: [{ label: 'Learn More', theme: 'default', design: 'outline' }],
-        },
-      },
-      {
-        title: 'Transform Visitors Into Action',
-        content: 'Imagine your calls-to-action appearing at exactly the right moment - when engagement is at its peak. Strategic button placement turns captivated viewers into active participants in your story.',
-        parallaxStrength: 0.6,
-        media: stock.getRandomByTags(['aspect:portrait']),
-        action: {
-          variant: 'subscribe',
         },
       },
     ],

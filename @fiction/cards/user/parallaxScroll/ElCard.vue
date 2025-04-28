@@ -34,7 +34,7 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <CardWrap :card>
+  <CardWrap :card content-width="full">
     <div class="flex gap-12 p-4 md:p-0">
       <div class="w-[50dvw] pl-[8%] hidden md:block">
         <div class="sticky top-[calc(50%-3rem)] flex w-full max-w-lg">

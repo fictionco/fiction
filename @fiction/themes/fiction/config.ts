@@ -43,7 +43,7 @@ export async function getConfig(args: {
     getPricingPage(pageArgs),
     getAboutPage(),
     getDemosPage(pageArgs),
-    developer.page({ ...args, factory }),
+    developer.page({ ...args }),
     affiliate.page({ ...args, factory }),
     ...demoPages,
   ])

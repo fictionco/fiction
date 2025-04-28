@@ -58,7 +58,7 @@ vue.onMounted(() => {
 </script>
 
 <template>
-  <CardWrap :card>
+  <CardWrap :card content-width="none">
     <div class="py-4 relative">
       <div class="marquee relative z-10 mx-auto" :class="loaded ? '' : 'opacity-0'">
         <div class="marquee-track" :class="uc.direction === 'right' ? 'reverse' : ''">

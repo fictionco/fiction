@@ -89,7 +89,7 @@ const timelineLineStyle = vue.computed(() => {
 
 <template>
   <CardWrap :card>
-    <div v-if="uc.items?.length" :id="card.cardId" :class="card.classes.value.contentWidth">
+    <div v-if="uc.items?.length" :id="card.cardId">
       <div class="flex flex-col gap-12 md:gap-24 max-w-4xl mx-auto relative pt-24 pb-8">
         <!-- Animated Timeline Line -->
         <div

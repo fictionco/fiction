@@ -15,7 +15,7 @@ const uc = vue.computed(() => card.userConfig.value || {})
 </script>
 
 <template>
-  <CardWrap :card>
+  <CardWrap :card :content-width="uc.layout === 'slider' ? 'full' : 'md'">
     <LayoutMega v-if="uc.layout === 'mega'" :card />
     <LayoutMasonry v-else-if="uc.layout === 'masonry'" :card />
     <LayoutSlider v-else :card />

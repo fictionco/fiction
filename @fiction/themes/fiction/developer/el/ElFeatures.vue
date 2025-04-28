@@ -66,7 +66,7 @@ const features = [
               <div class="h-6 w-6 text-white" v-html="feature.icon" />
             </div>
 
-            <h2 class="mb-6 text-4xl lg:text-6xl tracking-tight font-bold x-font-title">
+            <h2 class="mb-6 text-4xl lg:text-6xl tracking-tight font-semibold x-font-title">
               {{ feature.title }}
             </h2>
             <div class="mb-4 text-xl lg:text-3xl text-theme-500 dark:text-theme-100 leading-relaxed text-balance ">

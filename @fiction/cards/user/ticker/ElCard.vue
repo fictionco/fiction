@@ -137,7 +137,7 @@ function getTransformStyle(item: TickerConfig) {
 </script>
 
 <template>
-  <CardWrap :card>
+  <CardWrap :card content-width="full">
     <div ref="tickerWrap" class="x-font-title font-bold [perspective:1000px] " :style="{ perspective: '1000px' }">
       <CardLink
         v-for="(item, i) in items"

@@ -43,18 +43,16 @@ vue.watch(() => uc.value.font, (newFont) => {
 </script>
 
 <template>
-  <CardWrap :card>
-    <div :class="card.classes.value.contentWidth" :data-value="JSON.stringify(fitOpts)">
-      <EffectFitText v-bind="fitOpts" :content="uc.text || ''">
-        <CardText
-          :card="card"
-          tag="span"
-          path="text"
-          animate="rise"
-          :style="textStyles"
-          class="block leading-tight"
-        />
-      </EffectFitText>
-    </div>
+  <CardWrap :card :data-value="JSON.stringify(fitOpts)">
+    <EffectFitText v-bind="fitOpts" :content="uc.text || ''">
+      <CardText
+        :card="card"
+        tag="span"
+        path="text"
+        animate="rise"
+        :style="textStyles"
+        class="block leading-tight"
+      />
+    </EffectFitText>
   </CardWrap>
 </template>

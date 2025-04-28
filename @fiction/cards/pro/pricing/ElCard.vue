@@ -150,7 +150,7 @@ const containerClass = vue.computed(() => {
 
 <template>
   <CardWrap :card>
-    <div :class="card.classes.value.contentWidth" :show="isVisible">
+    <div :show="isVisible">
       <!-- Annual Toggle -->
       <div v-if="uc.hasAnnual" class="flex flex-col items-center gap-4 mb-6 md:mb-12 animate-item" :class="isVisible ? 'opacity-100' : 'opacity-0'">
         <div v-if="uc.hasAnnual" class="flex justify-center">
