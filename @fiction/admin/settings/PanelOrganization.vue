@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ActionButton, Organization } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import { colorThemeBright, gravatarUrlSync, useService, vue } from '@fiction/core'
+import { gravatarUrlSync, useService, vue } from '@fiction/core'
 import { OrgSchema as schema } from '@fiction/core/plugin-user/schema'
 import { createOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
@@ -27,6 +27,10 @@ const avatarUrl = vue.computed(() => {
 
 const isDirty = vue.ref(false)
 
+const initialGroupKey = vue.computed(() => {
+  return card.site?.siteRouter.query.value?.tab as string | undefined
+})
+
 async function save() {
   sending.value = 'saving'
   const endpoint = service.fictionUser.requests.ManageOrganization
@@ -39,6 +43,7 @@ async function save() {
   await endpoint.projectRequest({ _action: 'update', fields, where: { orgId } })
 
   isDirty.value = false
+  sending.value = ''
 }
 
 function update(orgNew: Organization) {
@@ -93,7 +98,7 @@ const opts = vue.computed(() => {
     }),
     createOption({
       schema,
-      key: 'group.profile',
+      key: 'group.brand',
       label: 'Brand',
       input: 'group',
       icon: { class: 'i-tabler-north-star' },
@@ -290,6 +295,7 @@ vue.onMounted(async () => {
       :options="opts"
       :card
       :disable-group-hide="true"
+      :initial-group-key="initialGroupKey"
       @update:model-value="update($event)"
     />
   </SettingsPanel>

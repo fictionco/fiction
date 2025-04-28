@@ -27,6 +27,7 @@ const {
   disableGroupHide = false,
   format = 'input',
   engineIndex,
+  initialGroupKey,
 } = defineProps<{
   stateKey?: string
   options: InputOption[]
@@ -44,6 +45,7 @@ const {
   format?: 'control' | 'input'
   aligned?: 'left' | 'right' | 'center'
   engineIndex?: number
+  initialGroupKey?: string
 }>()
 
 const emit = defineEmits<{
@@ -73,8 +75,18 @@ const standardOptions = vue.computed(() =>
 // Use tabs only when multiple groups exist at the same depth
 const useTabsForGroups = vue.computed(() => groupOptions.value.length)
 
-// Active tab tracking
-const activeTabIndex = vue.ref(groupOptions.value[0]?.isClosed.value ? -1 : 0)
+// Initialize activeTabIndex with the matching group index if provided
+function initialTabIndex() {
+  if (initialGroupKey && depth === 0) {
+    const index = groupOptions.value.findIndex(opt =>
+      opt.key.value === initialGroupKey || opt.key.value === `group.${initialGroupKey}`,
+    )
+    return index >= 0 ? index : (groupOptions.value[0]?.isClosed.value ? -1 : 0)
+  }
+  return groupOptions.value[0]?.isClosed.value ? -1 : 0
+}
+
+const activeTabIndex = vue.ref(initialTabIndex())
 const lastTabIndex = vue.ref(-1)
 
 // Create a function to recursively get all group options and their isClosed status

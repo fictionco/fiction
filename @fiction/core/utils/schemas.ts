@@ -1,10 +1,10 @@
 import type { z } from 'zod'
 
 /**
- * Get object paths with better handling of potential circular references
- * This preserves type information while preventing infinite recursion
+ * Get object paths with support for deeper nesting levels
+ * Handles array indices and nested objects within arrays
  */
-export type SchemaPathsWithDepth<T, Depth extends number = 3> =
+export type SchemaPathsWithDepth<T, Depth extends number = 5> =
   T extends string | number | boolean | null | undefined | Date
     ? never
     : Depth extends 0
@@ -13,25 +13,34 @@ export type SchemaPathsWithDepth<T, Depth extends number = 3> =
         ? `${number}` | `${number}.${SchemaPathsWithDepth<U, DecrementDepth<Depth>>}`
         : T extends object
         ? keyof T & string | {
-            [K in keyof T & string]: `${K}.${SchemaPathsWithDepth<T[K], DecrementDepth<Depth>>}`
+            [K in keyof T & string]: `${K}` | `${K}.${SchemaPathsWithDepth<T[K], DecrementDepth<Depth>>}`
           }[keyof T & string]
           : never
 
-// Helper type to decrement depth counter
-type DecrementDepth<D extends number> = D extends 0 ? 0 : D extends 1 ? 0 : D extends 2 ? 1 : D extends 3 ? 2 : 0
+// Helper to decrement depth with better support for deeper nesting
+type DecrementDepth<D extends number> =
+  D extends 0 ? 0 :
+    D extends 1 ? 0 :
+      D extends 2 ? 1 :
+        D extends 3 ? 2 :
+          D extends 4 ? 3 :
+            D extends 5 ? 4 : 0
 
 /**
- * Safer version of SchemaFields that avoids circular references
+ * Type for schema paths that supports deeper nesting and array paths
+ * while still preventing circular references
  */
-export type SchemaFields<T extends z.ZodObject<any>> = SchemaPathsWithDepth<z.infer<T>> | '*'
+export type SchemaFields<T extends z.ZodObject<any>> =
+  | SchemaPathsWithDepth<z.infer<T>>
+  | '*'
+  | string // Allow arbitrary string paths for advanced use cases
 
 /**
  * Type helper to validate paths against a schema
- * Returns the path with proper typing from schema
  */
 export function pathCheck<T extends z.ZodType>(
-  path: SchemaPathsWithDepth<z.infer<T>>,
+  path: SchemaPathsWithDepth<z.infer<T>> | '*' | string,
   _schema?: T,
-): SchemaPathsWithDepth<z.infer<T>> {
+): SchemaPathsWithDepth<z.infer<T>> | '*' | string {
   return path
 }

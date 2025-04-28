@@ -62,65 +62,6 @@ function getDefaultConfig(): UserConfig {
 
 function getOptions() {
   return [
-    createOption({
-      key: 'brandGroup',
-      label: 'Brand',
-      input: 'group',
-      schema,
-      icon: { class: 'i-tabler-icons' },
-      options: [
-        createOption({
-          key: 'brand',
-          input: 'InputBrand',
-          schema,
-        }),
-      ],
-    }),
-    createOption({
-      key: 'menusGroup',
-      label: 'Menus',
-      input: 'group',
-      icon: { class: 'i-tabler-list-check' },
-      schema,
-      options: [
-        createOption({ key: 'menus', input: 'InputNavMenu', schema }),
-      ],
-    }),
-
-    createOption({
-      key: 'badgesGroup',
-      label: 'Badges',
-      input: 'group',
-      icon: { class: 'i-tabler-list-medal' },
-      schema,
-      options: [
-        createOption({ key: 'badges', input: 'InputActionArea', schema }),
-      ],
-    }),
-
-    createOption({
-      key: 'additional',
-      label: 'Additional Links',
-      input: 'group',
-      schema,
-      icon: { class: 'i-tabler-link' },
-      options: [
-        createOption({
-          key: 'additional.links',
-          label: 'Links',
-          input: 'InputNav',
-          props: { hasChildNav: false },
-          schema,
-        }),
-        createOption({
-          key: 'additional.social',
-          label: 'Icons',
-          input: 'InputNav',
-          props: { hasChildNav: false, iconOnly: true },
-          schema,
-        }),
-      ],
-    }),
   ]
 }
 

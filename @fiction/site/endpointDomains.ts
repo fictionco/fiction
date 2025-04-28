@@ -30,6 +30,7 @@ export type ManageDomainParams = ManageDomainRequestParams & DomainStandardField
 export class ManageDomain extends Query<SitesQuerySettings> {
   limit = 20
   offset = 0
+  maxDomainsPerOrg = 3
 
   constructor(settings: SitesQuerySettings) {
     super(settings)
@@ -66,6 +67,15 @@ export class ManageDomain extends Query<SitesQuerySettings> {
     if (!hostname)
       throw abort('Invalid hostname')
 
+    // Check domain count limit
+    const { count } = await db(t.domains)
+      .where({ orgId })
+      .count('* as count')
+      .first<{ count: string }>()
+
+    if (parseInt(count, 10) >= this.maxDomainsPerOrg)
+      throw abort(`Maximum of ${this.maxDomainsPerOrg} domains allowed per organization`)
+
     // Prepare domain for insertion
     const domainId = fields.domainId || objectId({ prefix: 'dmn' })
     const prepped = this.settings.fictionDb.prep({
@@ -76,7 +86,7 @@ export class ManageDomain extends Query<SitesQuerySettings> {
     })
 
     // Process in transaction for data integrity
-    const [domain] = await db.transaction(async (trx) => {
+    await db.transaction(async (trx) => {
       // Handle primary domain setting if needed
       if (fields.isPrimary) {
         await trx(t.domains)
@@ -85,19 +95,15 @@ export class ManageDomain extends Query<SitesQuerySettings> {
       }
 
       // Insert domain
-      return trx
+      await trx
         .insert({ ...prepped, orgId })
         .into(t.domains)
         .onConflict(['hostname', 'org_id'])
         .merge()
-        .returning<TableDomainConfig[]>('*')
     })
 
-    return {
-      status: 'success',
-      data: [domain],
-      message: params.successMessage || 'Domain created successfully',
-    }
+    // Return all domains for the organization
+    return this.listAllDomains(orgId, params.successMessage || 'Domain created successfully')
   }
 
   private async retrieveDomain(params: ManageDomainParams & { _action: 'retrieve' }, _meta: EndpointMeta): Promise<EndpointResponse<TableDomainConfig[]>> {
@@ -107,43 +113,25 @@ export class ManageDomain extends Query<SitesQuerySettings> {
     // Add orgId to where clause for security
     const secureWhere = { ...where, orgId }
 
-    // If only orgId is provided, get the primary domain
-    if (Object.keys(secureWhere).length === 1 && secureWhere.orgId) {
-      const domains = await db
-        .select<TableDomainConfig[]>('*')
-        .from(t.domains)
-        .where({ orgId, isPrimary: true })
-        .limit(1)
-
-      if (domains.length > 0) {
-        return { status: 'success', data: domains }
-      }
-
-      // Fallback to any domain if no primary exists
-      const anyDomains = await db
-        .select<TableDomainConfig[]>('*')
-        .from(t.domains)
-        .where({ orgId })
-        .limit(1)
-
-      return {
-        status: anyDomains.length ? 'success' : 'error',
-        data: anyDomains,
-        message: anyDomains.length ? undefined : 'No domains found',
-      }
+    // If only orgId is provided, get all domains
+    if (Object.keys(where).length === 1 && 'orgId' in where) {
+      return this.listAllDomains(orgId, params.successMessage)
     }
 
-    // Standard retrieval
-    const domains = await db
-      .select<TableDomainConfig[]>('*')
+    // For specific domain lookups by ID or hostname, verify existence first
+    const domainExists = await db
+      .select(1)
       .from(t.domains)
       .where(secureWhere)
+      .first()
 
-    return {
-      status: domains.length ? 'success' : 'error',
-      data: domains,
-      message: domains.length ? undefined : 'Domain not found',
+    if (!domainExists) {
+      // If domain doesn't exist, still return all org domains (not an error)
+      return this.listAllDomains(orgId, params.successMessage || 'Domain not found')
     }
+
+    // Return all domains for consistency
+    return this.listAllDomains(orgId, params.successMessage)
   }
 
   private async updateDomain(params: ManageDomainParams & { _action: 'update' }, meta: EndpointMeta): Promise<EndpointResponse<TableDomainConfig[]>> {
@@ -158,6 +146,18 @@ export class ManageDomain extends Query<SitesQuerySettings> {
       fields.hostname = hostname
     }
 
+    // Check if domain exists
+    const domainExists = await db
+      .select(1)
+      .from(t.domains)
+      .where({ ...where, orgId })
+      .first()
+
+    if (!domainExists) {
+      // Return all domains anyway with message
+      return this.listAllDomains(orgId, 'Domain not found')
+    }
+
     // Prepare fields for update
     const prepped = this.settings.fictionDb.prep({
       type: 'update',
@@ -167,7 +167,7 @@ export class ManageDomain extends Query<SitesQuerySettings> {
     })
 
     // Process in transaction for data integrity
-    const updatedDomains = await db.transaction(async (trx) => {
+    await db.transaction(async (trx) => {
       // Handle primary domain setting if needed
       if (fields.isPrimary) {
         await trx(t.domains)
@@ -176,56 +176,60 @@ export class ManageDomain extends Query<SitesQuerySettings> {
       }
 
       // Execute update with security scope (orgId)
-      return trx(t.domains)
+      await trx(t.domains)
         .update({ ...prepped, updatedAt: new Date().toISOString() })
         .where({ ...where, orgId })
-        .returning<TableDomainConfig[]>('*')
     })
 
-    return {
-      status: 'success',
-      data: updatedDomains,
-      message: params.successMessage || 'Domain updated successfully',
-    }
+    // Return all domains for consistency
+    return this.listAllDomains(orgId, params.successMessage || 'Domain updated successfully')
   }
 
   private async deleteDomain(params: ManageDomainParams & { _action: 'delete' }, _meta: EndpointMeta): Promise<EndpointResponse<TableDomainConfig[]>> {
     const { where, orgId } = params
     const db = this.settings.fictionDb.client()
 
+    // Check if domain exists
+    const domainExists = await db
+      .select(1)
+      .from(t.domains)
+      .where({ ...where, orgId })
+      .first()
+
+    if (!domainExists) {
+      // Return all domains anyway with message
+      return this.listAllDomains(orgId, 'Domain not found')
+    }
+
     // Execute delete with security scope (orgId)
-    const deletedDomains = await db(t.domains)
+    await db(t.domains)
       .delete()
       .where({ ...where, orgId })
-      .returning<TableDomainConfig[]>('*')
 
-    return {
-      status: 'success',
-      data: deletedDomains,
-      message: params.successMessage || 'Domain deleted successfully',
-    }
+    // Return all remaining domains
+    return this.listAllDomains(orgId, params.successMessage || 'Domain deleted successfully')
   }
 
   private async listDomains(params: ManageDomainParams & { _action: 'list' }, _meta: EndpointMeta): Promise<EndpointResponse<TableDomainConfig[]>> {
-    const { where = {}, orgId, limit = this.limit, offset = this.offset } = params
+    const { orgId } = params
+    return this.listAllDomains(orgId, params.successMessage)
+  }
+
+  // Helper method to get all domains for an organization
+  private async listAllDomains(orgId: string, successMessage?: string): Promise<EndpointResponse<TableDomainConfig[]>> {
     const db = this.settings.fictionDb.client()
 
-    // Add orgId to where clause for security
-    const secureWhere = { ...where, orgId }
-
-    // Execute query
+    // Get all domains for the organization
     const domains = await db
       .select<TableDomainConfig[]>('*')
       .from(t.domains)
-      .where(secureWhere)
+      .where({ orgId })
       .orderBy('isPrimary', 'desc')
       .orderBy('updatedAt', 'desc')
-      .limit(limit)
-      .offset(offset)
 
-    // Get total count
+    // Get total count (for consistency with pagination metadata)
     const { count } = await db(t.domains)
-      .where(secureWhere)
+      .where({ orgId })
       .count('* as count')
       .first<{ count: string }>()
 
@@ -234,10 +238,10 @@ export class ManageDomain extends Query<SitesQuerySettings> {
       data: domains,
       indexMeta: {
         count: +count,
-        limit,
-        offset,
+        limit: domains.length,
+        offset: 0,
       },
-      message: params.successMessage,
+      message: successMessage,
     }
   }
 }

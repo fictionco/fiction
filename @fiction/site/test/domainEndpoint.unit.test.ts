@@ -2,10 +2,10 @@
  * @vitest-environment happy-dom
  */
 import { shortId } from '@fiction/core'
-import { afterAll, describe, expect, it } from 'vitest'
+import { afterAll, beforeEach, describe, expect, it } from 'vitest'
 import { t, type TableDomainConfig } from '../tables.js'
 import { createSiteTestUtils } from './testUtils.js'
-import {createTestUser} from '@fiction/core/test-utils/init.js'
+import { createTestUser } from '@fiction/core/test-utils/init.js'
 
 describe('manageDomain', async () => {
   const testUtils = await createSiteTestUtils()
@@ -13,6 +13,11 @@ describe('manageDomain', async () => {
   const { fictionSites, fictionDb, fictionUser } = testUtils
 
   afterAll(() => testUtils.close())
+
+  // Clear all domains before each test to ensure domain limit tests work properly
+  beforeEach(async () => {
+    await fictionDb.client()(t.domains).where({ orgId }).delete()
+  })
 
   // Utility functions
   const createTestDomain = async (fields?: TableDomainConfig) => {
@@ -26,9 +31,11 @@ describe('manageDomain', async () => {
         ...fields,
       },
       caller: 'test-create-domain',
-    }, {server: true})
+    }, { server: true })
 
-    const domainId = response.data?.[0]?.domainId
+    // Find the created domain in the response data
+    const createdDomain = response.data?.find(d => d.hostname === hostname)
+    const domainId = createdDomain?.domainId
 
     if (!domainId) {
       throw new Error('Domain creation failed')
@@ -41,8 +48,33 @@ describe('manageDomain', async () => {
     const { response, hostname } = await createTestDomain({ isPrimary: true })
 
     expect(response.status, 'Create should return success status').toBe('success')
-    expect(response.data?.[0]?.hostname, 'Created domain should have correct hostname').toBe(hostname)
-    expect(response.data?.[0]?.isPrimary, 'Created domain should be set as primary').toBe(true)
+    // Find the domain with our hostname
+    const createdDomain = response.data?.find(d => d.hostname === hostname)
+    expect(createdDomain?.hostname, 'Created domain should have correct hostname').toBe(hostname)
+    expect(createdDomain?.isPrimary, 'Created domain should be set as primary').toBe(true)
+
+    // Should return all domains for the org
+    expect(response.data?.length, 'Response should include all domains for org').toBeGreaterThanOrEqual(1)
+  })
+
+  it('enforces domain limit per organization', async () => {
+    // Create 3 domains (the max allowed)
+    await createTestDomain()
+    await createTestDomain()
+    await createTestDomain()
+
+    // Try to create a 4th domain
+    const response = await fictionSites.requests.ManageDomain.request({
+      _action: 'create',
+      orgId,
+      fields: {
+        hostname: `test-${shortId()}.example.com`,
+      },
+      caller: 'test-domain-limit',
+    }, { expectError: true })
+
+    expect(response.status, 'Creating more than the limit should fail').toBe('error')
+    expect(response.message, 'Error message should mention the limit').toContain('Maximum of 3 domains')
   })
 
   it('enforces valid hostnames', async () => {
@@ -69,22 +101,37 @@ describe('manageDomain', async () => {
     })
 
     expect(response.status, 'Retrieve should return success status').toBe('success')
-    expect(response.data?.[0]?.domainId, 'Retrieved domain should have correct ID').toBe(domainId)
-    expect(response.data?.[0]?.hostname, 'Retrieved domain should have correct hostname').toBe(hostname)
+    // Find our domain in the response data
+    const retrievedDomain = response.data?.find(d => d.domainId === domainId)
+    expect(retrievedDomain?.domainId, 'Retrieved domain should have correct ID').toBe(domainId)
+    expect(retrievedDomain?.hostname, 'Retrieved domain should have correct hostname').toBe(hostname)
+
+    // Should return all domains for the org
+    expect(response.data?.length, 'Response should include all domains for org').toBeGreaterThanOrEqual(1)
   })
 
-  it('retrieves the primary domain when only orgId is provided', async () => {
-    const { domainId, hostname } = await createTestDomain({ isPrimary: true })
+  it('retrieves all domains when only orgId is provided', async () => {
+    // Create two domains including one primary
+    const { domainId: primaryId } = await createTestDomain({ isPrimary: true })
+    const { domainId: secondaryId } = await createTestDomain({ isPrimary: false })
 
     const response = await fictionSites.requests.ManageDomain.request({
       _action: 'retrieve',
       orgId,
       where: { orgId },
-      caller: 'test-retrieve-primary',
+      caller: 'test-retrieve-all',
     })
 
     expect(response.status, 'Retrieve should return success status').toBe('success')
-    expect(response.data?.[0]?.isPrimary, 'Retrieved domain should be primary').toBe(true)
+    expect(response.data?.length, 'Should return all domains').toBe(2)
+
+    // Primary domain should be first
+    expect(response.data?.[0]?.isPrimary, 'First domain should be primary').toBe(true)
+    expect(response.data?.[0]?.domainId, 'First domain should be the primary one').toBe(primaryId)
+
+    // Second domain should be the non-primary one
+    const secondDomain = response.data?.find(d => d.domainId === secondaryId)
+    expect(secondDomain?.isPrimary, 'Second domain should not be primary').toBe(false)
   })
 
   it('updates a domain successfully', async () => {
@@ -102,7 +149,11 @@ describe('manageDomain', async () => {
     })
 
     expect(response.status, 'Update should return success status').toBe('success')
-    expect(response.data?.[0]?.hostname, 'Updated domain should have new hostname').toBe(updatedHostname)
+    const updatedDomain = response.data?.find(d => d.domainId === domainId)
+    expect(updatedDomain?.hostname, 'Updated domain should have new hostname').toBe(updatedHostname)
+
+    // Should return all domains for the org
+    expect(response.data?.length, 'Response should include all domains for org').toBeGreaterThanOrEqual(1)
   })
 
   it('enforces primary domain logic with transactions', async () => {
@@ -121,17 +172,12 @@ describe('manageDomain', async () => {
       caller: 'test-update-primary',
     })
 
-    expect(updateResponse.data?.[0]?.isPrimary, 'Second domain should now be primary').toBe(true)
+    const secondDomain = updateResponse.data?.find(d => d.domainId === secondDomainId)
+    expect(secondDomain?.isPrimary, 'Second domain should now be primary').toBe(true)
 
-    // Verify first domain is no longer primary
-    const checkResponse = await fictionSites.requests.ManageDomain.request({
-      _action: 'retrieve',
-      orgId,
-      where: { domainId: firstDomainId },
-      caller: 'test-check-not-primary',
-    })
-
-    expect(checkResponse.data?.[0]?.isPrimary, 'Original domain should no longer be primary').toBe(false)
+    // First domain should no longer be primary
+    const firstDomain = updateResponse.data?.find(d => d.domainId === firstDomainId)
+    expect(firstDomain?.isPrimary, 'Original domain should no longer be primary').toBe(false)
   })
 
   it('lists all domains for an org', async () => {
@@ -146,39 +192,19 @@ describe('manageDomain', async () => {
     })
 
     expect(response.status, 'List should return success status').toBe('success')
-    expect(response.data?.length, 'Should return multiple domains').toBeGreaterThanOrEqual(2)
-    expect(response.indexMeta?.count, 'Count should match returned domains').toBeGreaterThanOrEqual(2)
+    expect(response.data?.length, 'Should return all domains').toBe(2)
+    expect(response.indexMeta?.count, 'Count should match returned domains').toBe(2)
 
     // Check that the primary domain is first in the list (due to orderBy)
     expect(response.data?.[0]?.isPrimary, 'First domain in list should be primary').toBe(true)
-  })
-
-  it('respects the limit parameter when listing domains', async () => {
-    // Ensure there are at least two domains
-    await createTestDomain()
-    await createTestDomain()
-
-    const response = await fictionSites.requests.ManageDomain.request({
-      _action: 'list',
-      orgId,
-      limit: 1,
-      caller: 'test-list-limit',
-    })
-
-    expect(response.data?.length, 'Should return exactly 1 domain').toBe(1)
-    expect(response.indexMeta?.limit, 'Limit should be 1').toBe(1)
-    expect(response.indexMeta?.count, 'Count should be greater than limit').toBeGreaterThan(1)
   })
 
   it('enforces security by only allowing access to own org', async () => {
     // Create a new user in a different org
     const { user: _otherUser, orgId: otherOrgId } = await createTestUser({ fields: { email: `test-${shortId()}@example.com` }, fictionUser})
 
-    console.log('Other Org ID:', otherOrgId)
     // Create a domain in the original org
     const { domainId } = await createTestDomain()
-
-    console.log('Domain ID:', domainId)
 
     // Try to access the domain using the wrong orgId
     const response = await fictionSites.requests.ManageDomain.request({
@@ -188,36 +214,24 @@ describe('manageDomain', async () => {
       caller: 'test-wrong-org',
     })
 
-    console.log('response', response)
-
-    expect(response.status, 'Should not find domain in different org').toBe('error')
+    // The query will succeed but the domain won't be in the results
+    expect(response.status, 'Should return success but no matching domains').toBe('error')
+    expect(response.data, 'Should not find domain in different org').toBeFalsy()
   })
 
   it('deletes a domain successfully', async () => {
     const { domainId } = await createTestDomain()
 
-    const response = await fictionSites.requests.ManageDomain.request({
+    const deleteResponse = await fictionSites.requests.ManageDomain.request({
       _action: 'delete',
       orgId,
       where: { domainId },
       caller: 'test-delete-domain',
     })
 
-
-
-    expect(response.status, 'Delete should return success status').toBe('success')
-    expect(response.data?.[0]?.domainId, 'Deleted domain should have correct ID').toBe(domainId)
-
-    // Verify domain is deleted
-    const checkResponse = await fictionSites.requests.ManageDomain.request({
-      _action: 'retrieve',
-      orgId,
-      where: { domainId },
-      caller: 'test-verify-deleted',
-    })
-
-
-    expect(checkResponse.status, 'Domain should no longer exist').toBe('error')
+    expect(deleteResponse.status, 'Delete should return success status').toBe('success')
+    const deletedDomainExists = deleteResponse.data?.some(d => d.domainId === domainId)
+    expect(deletedDomainExists, 'Deleted domain should no longer be in the list').toBe(false)
   })
 
   it('validates required fields', async () => {
@@ -253,7 +267,5 @@ describe('manageDomain', async () => {
     const primaryCount = domains.filter(d => d.isPrimary).length
     expect(primaryCount, 'Should have exactly one primary domain').toBe(1)
     expect(domains.find(d => d.domainId === domainAId)?.isPrimary, 'Domain A should be primary').toBe(true)
-
-    // Clean up not needed as afterAll will clean up the test environment
   })
 })

@@ -215,45 +215,7 @@ const viewModes = vue.computed(() => {
             }),
           ],
         }),
-        createOption({
-          key: 'group.inbox',
-          input: 'group',
-          label: 'Additional Settings (Global)',
-          icon: { class: 'i-tabler-mail-forward' },
-          options: [
-            createOption({
-              schema,
-              key: 'sender.websiteUrl',
-              label: 'Website URL',
-              subLabel: 'Adds a link to your website in the email footer',
-              input: 'InputUrl',
-              placeholder: org?.websiteUrl || 'Primary Website URL',
-            }),
-            createOption({
-              schema,
-              key: 'sender.companyName',
-              label: 'Company Name',
-              subLabel: 'The legal name of your company',
-              input: 'InputText',
-              placeholder: org?.companyName || 'Enter Name',
-              props: {
-                autocomplete: 'organization',
-              },
-            }),
-            createOption({
-              schema,
-              key: 'sender.streetAddress',
-              label: 'Street Address',
-              subLabel: 'The physical address of your company',
-              input: 'InputText',
-              placeholder: org?.streetAddress || 'Enter Address',
-              props: {
-                autocomplete: 'street-address',
-              },
-            }),
 
-          ],
-        }),
       ],
     },
     {

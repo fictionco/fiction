@@ -267,17 +267,6 @@ export function getOrgAvatar(org: Organization, options: {
     return org.avatar
   }
 
-  // Check sender avatar first when enabled
-  if (useSender && org.senderEmail) {
-    if (org.senderEmail) {
-      return gravatarUrlSync(org.senderEmail, {
-        size,
-        default: 'initials',
-        name: org.senderName || org.orgName,
-      })
-    }
-  }
-
   // Fallback to email gravatar with initials
   return gravatarUrlSync(org.orgEmail, {
     size,

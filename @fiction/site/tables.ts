@@ -76,7 +76,8 @@ export const siteCols = [
 ] as const
 
 export const TableSiteSchema = createTableSchema(siteCols)
-export type TableSiteConfig = z.infer<typeof TableSiteSchema> & st & {
+
+export type TableSiteConfig = Omit<ColType<typeof siteCols>, 'draft'> & st & {
   pages: CardConfigPortable[]
   draft?: TableSiteConfig
   org: Organization
