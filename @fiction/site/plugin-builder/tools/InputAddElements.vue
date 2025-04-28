@@ -10,49 +10,42 @@ import { isDarkOrLightMode, toLabel, vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
 import InputRadioButton from '@fiction/ui/inputs/InputRadioButton.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
-
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import { OldCardTagsSchema } from '../../card'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
 })
 
+const frequencyOrder = ['common', 'standard', 'niche', 'advanced'] as const
+
 const groupTemplates = vue.computed(() => {
   const all = props.site.theme.value?.templates.filter(t => t.settings.isPublic && !t.settings.isEffect) || []
-  const grouped: Record<string, CardTemplate[]> = {}
+  const grouped: Record<string, CardTemplate[]> = { common: [], standard: [], niche: [] }
   const seenTemplates = new Set<string>()
 
-  // Group templates by category, ensuring no duplicates
   all.forEach((template) => {
     const templateId = template.settings.templateId
     if (seenTemplates.has(templateId))
-      return // Skip if already processed
+      return
     seenTemplates.add(templateId)
 
-    // Pick the most common category based on schema order
-    const categories = template.settings.tags || []
-    const categoryOrder = OldCardTagsSchema.options
-    const primaryCategory = categories.length > 0
-      ? categories.sort((a, b) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b))[0]
-      : 'other'
-
-    if (!grouped[primaryCategory])
-      grouped[primaryCategory] = []
-    grouped[primaryCategory].push(template)
+    const frequency = template.settings.frequency || 'niche'
+    if (frequencyOrder.includes(frequency)) {
+      grouped[frequency].push(template)
+    }
+    else {
+      grouped.niche.push(template)
+    }
   })
 
-  // Only include non-empty categories, ordered by schema
-  const categoryOrder = OldCardTagsSchema.options
-  return categoryOrder.reduce((acc, cat) => {
-    if (grouped[cat] && grouped[cat].length > 0)
-      acc[cat] = grouped[cat]
+  return frequencyOrder.reduce((acc, freq) => {
+    if (grouped[freq] && grouped[freq].length > 0)
+      acc[freq] = grouped[freq]
     return acc
   }, {} as Record<string, CardTemplate[]>)
 })
 
-// Search and filter
 const searchQuery = vue.ref('')
 const filteredTemplates = vue.computed(() => {
   const templateGroups = { ...groupTemplates.value }
@@ -62,50 +55,34 @@ const filteredTemplates = vue.computed(() => {
   const query = searchQuery.value.toLowerCase()
   const filteredGroups: Record<string, CardTemplate[]> = {}
 
-  // Filter each group
-  Object.entries(templateGroups).forEach(([category, templates]) => {
+  Object.entries(templateGroups).forEach(([frequency, templates]) => {
     const filtered = templates.filter((template) => {
       const title = template.settings.title?.toLowerCase() || ''
       const description = template.settings.description?.toLowerCase() || ''
       const templateId = template.settings.templateId?.toLowerCase()
-      const categories = template.settings.tags?.map(c => c.toLowerCase()) || []
+      const tags = template.settings.tags?.map(t => t.toLowerCase()) || []
 
       return title.includes(query)
         || description.includes(query)
         || templateId?.includes(query)
-        || categories.some(c => c.includes(query))
+        || tags.some(t => t.includes(query))
     })
 
     if (filtered.length > 0) {
-      filteredGroups[category] = filtered
+      filteredGroups[frequency] = filtered
     }
   })
 
   return filteredGroups
 })
 
-// Region selection
-const regionOptions = vue.computed<NavListItem[]>(() => {
-  const options: NavListItem[] = [
-    { label: 'Top', value: 'main_top' },
-    { label: 'Bottom', value: 'main' },
-  ]
-
-  // Add sections
-  // const sections = props.site.sections.value || {}
-  // Object.entries(sections).forEach(([key, value]) => {
-  //   options.push({
-  //     label: `${toLabel(key)}`,
-  //     value: key,
-  //   })
-  // })
-
-  return options
-})
+const regionOptions = vue.computed<NavListItem[]>(() => [
+  { label: 'Top', value: 'main_top' },
+  { label: 'Bottom', value: 'main' },
+])
 
 const selectedRegion = vue.ref<PageRegion>('main_top')
 
-// Watch for changes in selected region
 vue.watch(selectedRegion, (newRegion) => {
   if (props.site.editor.value) {
     props.site.editor.value.selectedRegionId = newRegion
@@ -137,11 +114,9 @@ function getScreenshotUrl(template: CardTemplate) {
     : template.settings.screenshot?.dark || screenDefaultDark
 }
 
-// Reset search when closing
 vue.watch(addElementsVisible, (visible) => {
-  if (!visible) {
+  if (!visible)
     searchQuery.value = ''
-  }
 })
 </script>
 
@@ -150,7 +125,7 @@ vue.watch(addElementsVisible, (visible) => {
     <TransitionSlide>
       <div v-if="addElementsVisible">
         <div class="flex items-center justify-between gap-3 mb-4">
-          <div class=" flex-1">
+          <div class="flex-1">
             <div class="text-[10px] text-theme-500 mb-1 font-medium font-sans">
               Filter Sections
             </div>
@@ -185,38 +160,35 @@ vue.watch(addElementsVisible, (visible) => {
 
         <div class="space-y-2 select-none">
           <div
-            v-for="(tplGroup, i) in filteredTemplates"
-            :key="i"
+            v-for="(tplGroup, freq) in filteredTemplates"
+            :key="freq"
             class="mb-6"
           >
             <div class="text-[10px] font-semibold text-theme-300 dark:text-theme-500 mb-2 tracking-wider uppercase">
-              {{ toLabel(i) }}
+              {{ toLabel(freq) }}
             </div>
-            <div class="space-y-2">
-              <div class="grid grid-cols-3 gap-6">
+            <div class="grid grid-cols-3 gap-6">
+              <div
+                v-for="(item, i) in tplGroup"
+                :key="i"
+                :data-test-id="`add-element-${item.settings.templateId}`"
+                :theme="item.settings.colorTheme || 'theme'"
+                class="text-xs cursor-pointer hover:opacity-80 flex flex-col items-center justify-center group"
+                :icon="item.settings.icon"
+                @click.prevent="addCard({ templateId: item.settings.templateId })"
+              >
+                <XMedia
+                  :media="{ url: getScreenshotUrl(item) }"
+                  class="w-full aspect-[5/3] rounded-md border border-theme-300/70 dark:border-theme-600 overflow-hidden shadow-md group-hover:ring-1 group-hover:ring-theme-400 dark:group-hover:ring-theme-400 transition-all"
+                />
                 <div
-                  v-for="(item, ii) in tplGroup"
-                  :key="ii"
-                  :data-test-id="`add-element-${item.settings.templateId}`"
-                  :theme="item.settings.colorTheme || 'theme'"
-                  class="text-xs cursor-pointer hover:opacity-80 flex flex-col items-center justify-center group"
-                  :icon="item.settings.icon"
-                  @click.prevent="addCard({ templateId: item.settings.templateId })"
+                  class="p-1 text-[9px] tracking-tight line-clamp-2 truncate w-full text-center text-theme-400 dark:text-theme-200 font-mono font-normal"
                 >
-                  <XMedia
-                    :media="{ url: getScreenshotUrl(item) }"
-                    class="w-full aspect-[5/3] rounded-md border border-theme-300/70 dark:border-theme-600 overflow-hidden shadow-md group-hover:ring-1 group-hover:ring-theme-400 dark:group-hover:ring-theme-400 transition-all"
-                  />
-                  <div
-                    class="p-1 text-[9px] tracking-tight line-clamp-2 truncate w-full text-center text-theme-400 dark:text-theme-200 font-mono font-normal"
-                  >
-                    {{ item.settings.title }}
-                  </div>
+                  {{ item.settings.title }}
                 </div>
               </div>
             </div>
           </div>
-
           <div v-if="Object.keys(filteredTemplates).length === 0" class="py-8 text-center text-theme-400 dark:text-theme-500 text-sm">
             No elements match your search
           </div>

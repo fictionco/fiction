@@ -23,11 +23,11 @@ const { site, tool } = props
     :title="tool.title"
     :icon="tool.icon"
   >
-    <ElForm class="px-4 py-8 space-y-8">
-      <ElInput label="Edit Layout">
+    <ElForm class="px-4 py-8 space-y-10">
+      <ElInput label="Edit Page Layout" sub-label="Drag and drop to rearrange sections">
         <InputManageLayout class="my-2" :site :tool />
       </ElInput>
-      <ElInput label="Click to Add New">
+      <ElInput label="Add New Sections">
         <InputAddElements class="my-2" :site :tool />
       </ElInput>
     </ElForm>
