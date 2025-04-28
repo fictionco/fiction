@@ -432,7 +432,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     this.log.info(`[done:render]`)
   }
 
-  getRunVars = (args: { request: Request, mode: 'dev' | 'prod' | 'test' }): Partial<RunVars> & Record<string, string | Record<string, string>> => {
+  getRunVars(args: { request: Request, mode: 'dev' | 'prod' | 'test' }): Partial<RunVars> & Record<string, string | Record<string, string>> {
     const { request, mode } = args
     const runVars = {
       ...this.settings.fictionEnv.getRenderedEnvVars(),

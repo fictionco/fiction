@@ -14,7 +14,7 @@ export function getStructuredData(args: { site?: Site }) {
   if (!site)
     return '{}'
 
-  const url = site.frame.displayUrl.value
+  const url = site.url.value
   const org = site.org?.value || {}
   const config = site.fullConfig.value
   const siteConfig = config || {}

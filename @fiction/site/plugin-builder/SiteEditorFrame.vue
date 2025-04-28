@@ -347,7 +347,7 @@ function handlePageOrderUpdate(ids: string[]) {
         class="rounded-md shadow-lg border border-theme-200 dark:border-theme-600"
         :url="site.frame.frameUrl.value"
         frame-id="site-builder-iframe"
-        :display-url="site.frame.displayUrl.value"
+        :display-url="site.url.value"
         :browser-bar="false"
         @update:url="site?.frame.updateFrameUrl($event)"
         @message="site?.frame.processFrameMessage({ scope: 'parent', msg: $event as FramePostMessageList })"

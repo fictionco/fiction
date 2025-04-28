@@ -63,20 +63,18 @@ const config = vue.computed(() => {
 
 <template>
   <CardWrap :card>
-    <div :class="card.classes.value.contentWidth">
-      <PostIndexLayout
-        v-model:sort-by="sortBy"
-        :card
-        :posts
-        :index-meta="indexMeta"
-        :loading
-        :config
-        @update:index-meta="indexMeta = $event"
-      >
-        <template #sidebar>
-          <XWidgetAbout :card />
-        </template>
-      </PostIndexLayout>
-    </div>
+    <PostIndexLayout
+      v-model:sort-by="sortBy"
+      :card
+      :posts
+      :index-meta="indexMeta"
+      :loading
+      :config
+      @update:index-meta="indexMeta = $event"
+    >
+      <template #sidebar>
+        <XWidgetAbout :card />
+      </template>
+    </PostIndexLayout>
   </CardWrap>
 </template>

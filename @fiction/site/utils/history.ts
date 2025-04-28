@@ -67,7 +67,8 @@ export class SiteHistory {
       this.past.value.shift()
     }
 
-    this.site.frame.syncHistoryEntry({ historyEntry: entry })
+    if (this.site.siteMode.value === 'editable')
+      this.site.frame.syncHistoryEntry({ historyEntry: entry })
   }
 
   async undo() {

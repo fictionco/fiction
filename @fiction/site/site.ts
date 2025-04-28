@@ -87,10 +87,14 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     return this.isProd.value ? `${sub}.fiction.com` : `${sub}.lan.com`
   })
 
-  url = vue.computed(() => {
+  origin = vue.computed(() => {
     const port = this.fictionSites.settings.fictionAppSites?.port.value
     const hostname = this.hostname.value
     return this.isProd.value ? `https://${hostname}` : `http://${hostname}:${port}`
+  })
+
+  url = vue.computed(() => {
+    return `${this.origin.value}${this.currentPath.value}`
   })
 
   constructor(settings: T) {

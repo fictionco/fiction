@@ -1,4 +1,4 @@
-import type { StandardSize } from '@fiction/core'
+import type { StandardSize, StandardSizeComplete } from '@fiction/core'
 
 type Direction = 'top' | 'bottom' | 'both'
 
@@ -28,44 +28,25 @@ export function getSpacingClass(args: { size: SizeWithNone, direction: Direction
   return classes.join(' ')
 }
 
-const baseContentWidthClasses: Record<SizeWithNone, string> = {
-  'none': 'mx-auto',
-  'full': 'mx-auto w-full',
-  'xxs': 'mx-auto max-w-screen-sm',
-  'xs': 'mx-auto max-w-screen-md',
-  'sm': 'mx-auto max-w-screen-lg',
-  'md': 'mx-auto max-w-screen-xl',
-  'lg': 'mx-auto max-w-screen-2xl',
-  'xl': 'mx-auto max-w-screen-3xl',
-  '2xl': 'mx-auto max-w-screen-4xl',
+const config: Record<
+  StandardSizeComplete,
+  { width: string, pad: string }
+> = {
+  'none': { width: '', pad: '' },
+  'full': { width: 'w-full', pad: 'px-4 sm:px-6 lg:px-8' },
+  'xxs': { width: 'max-w-[480px]', pad: 'px-2 sm:px-4' },
+  'xs': { width: 'max-w-[640px]', pad: 'px-4 sm:px-6' },
+  'sm': { width: 'max-w-[768px]', pad: 'px-4 sm:px-8' },
+  'md': { width: 'max-w-[1152px]', pad: 'px-4 sm:px-8 lg:px-12' },
+  'lg': { width: 'max-w-[1408px]', pad: 'px-4 sm:px-10 lg:px-16' },
+  'xl': { width: 'max-w-[1792px]', pad: 'px-4 sm:px-12 lg:px-20' },
+  '2xl': { width: 'max-w-[2048px]', pad: 'px-4 sm:px-16 lg:px-24' },
 }
 
-const padClasses: Record<SizeWithNone, string> = {
-  'none': '',
-  'full': 'px-4 sm:px-6 lg:px-8',
-  'xxs': 'px-2 sm:px-4',
-  'xs': 'px-4 sm:px-6',
-  'sm': 'px-4 sm:px-8',
-  'md': 'px-4 sm:px-10 lg:px-20',
-  'lg': 'px-4 sm:px-14 lg:px-20',
-  'xl': 'px-4 sm:px-14 lg:px-20',
-  '2xl': 'px-4 sm:px-14 lg:px-20',
-}
-
-export function getContentWidthClass(args: { size?: SizeWithNone, padSize?: SizeWithNone | boolean }): string {
-  const { size = 'md', padSize } = args
-
-  const baseClass = baseContentWidthClasses[size] || baseContentWidthClasses.md
-
-  let padClass = ''
-  if (padSize === true) {
-    // If padSize is true, use the same size as the content width
-    padClass = padClasses[size]
-  }
-  else if (padSize && padSize !== 'none') {
-    // If padSize is specified and not 'none', use that size
-    padClass = padClasses[padSize]
-  }
-
-  return `${baseClass} ${padClass}`.trim()
+/**
+ * Returns Tailwind classes for responsive content width (default: 'md') with standard padding.
+ */
+export function getContentWidthClass({ size = 'md' }: { size?: keyof typeof config } = {}): string {
+  const { width, pad } = config[size]
+  return `mx-auto ${width} ${pad}`.trim()
 }

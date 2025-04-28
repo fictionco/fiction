@@ -130,7 +130,7 @@ export async function findPostLocations(args: { post: Post, fictionPosts: Fictio
     // Filter paths that match this post
     const postPaths = contentPaths.filter(path => path.type === 'post' && path.meta?.postId === post.postId)
 
-    const siteUrl = site.url.value
+    const siteUrl = site.origin.value
 
     // Format the results
     return postPaths.map((pathDetails) => {

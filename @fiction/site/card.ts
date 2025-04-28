@@ -279,7 +279,7 @@ export class Card<
     size?: StandardSizeComplete
     padSize?: boolean
   }) {
-    return getContentWidthClass({ size: this.fullConfig.value?.standard?.widthSize || args.size || 'md', padSize: args.padSize || true })
+    return getContentWidthClass({ size: this.fullConfig.value?.standard?.widthSize || args.size || 'md' })
   }
 
   classes = vue.computed(() => {
@@ -288,7 +288,7 @@ export class Card<
     const contentWidthSize = spacing?.widthSize || 'md'
     const verticalSpacing = spacing?.spaceSize || this.site?.userConfig.value.standard?.spaceSize || 'md'
 
-    const contentWidthClass = getContentWidthClass({ size: contentWidthSize, padSize: true })
+    const contentWidthClass = getContentWidthClass({ size: contentWidthSize })
     const verticalSpacingClass = [getSpacingClass({ size: verticalSpacing, direction: 'both' })].join(' ')
     return {
       contentWidth: contentWidthClass,

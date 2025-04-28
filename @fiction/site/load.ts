@@ -45,7 +45,7 @@ export async function requestManageSite(args: RequestManageSiteParams) {
 
   logger.debug(`request manage site:${_action}`, { data: { fields, where } })
 
-  const routeScope = siteRouter.vars.value._scope as string | undefined
+  const routeScope = siteRouter.query.value._scope as string | undefined
 
   let scope: 'publish' | 'draft' = routeScope === 'draft' ? 'draft' : 'publish'
 

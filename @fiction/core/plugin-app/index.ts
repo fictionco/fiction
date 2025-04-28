@@ -158,9 +158,8 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
 
     const isSSR = fictionEnv.isSSR.value
     if (isSSR) {
-      await fictionRouter.replace({ path: runVars?.PATHNAME }, { caller: 'CreateSSRVueApp', logLevel: 'debug' })
+      await fictionRouter.replace(runVars?.PATHNAME || '/', { caller: 'CreateSSRVueApp', logLevel: 'debug' })
     }
-
     const app: vue.App = isSSR ? vue.createSSRApp(this.rootComponent) : vue.createApp(this.rootComponent)
 
     fictionEnv.service.value = { ...fictionEnv.service.value, ...service, runVars }

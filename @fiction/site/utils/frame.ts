@@ -42,7 +42,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
 
   previewPath = vue.computed(() => this.site.fictionSites.getQueryItemPreviewPath.value)
 
-  displayUrl = vue.computed(() => `${this.site.url.value}${this.site.currentPath.value}`)
+  // displayUrl = vue.computed(() => `${this.site.url.value}${this.site.currentPath.value}`)
 
   // path used for iframe url, we don't use currentPath as it causes full page reloads
   // so we only update this when the frame URL actually needs to change (not when the route changes from URL click in frame)

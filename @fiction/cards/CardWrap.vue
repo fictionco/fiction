@@ -6,7 +6,7 @@ import { getColorScheme, vue } from '@fiction/core'
 import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 
-const { card, contentWidth } = defineProps<{
+const { card, contentWidth = 'md', verticalSpacing = 'md' } = defineProps<{
   card: Card<CardOptionsWithStandard>
   contentWidth?: StandardSizeComplete
   verticalSpacing?: StandardSizeComplete
@@ -81,7 +81,11 @@ vue.watch(() => standardUc.value?.fonts, (fontStyle) => {
 }, { immediate: true })
 
 const contentWidthClass = vue.computed(() => {
-  return contentWidth ? card.getContentWidthClass({ size: contentWidth }) : ''
+  return card.getContentWidthClass({ size: contentWidth })
+})
+
+const verticalSpacingClass = vue.computed(() => {
+  return card.getVerticalSpacingClass({ size: verticalSpacing })
 })
 </script>
 
@@ -92,10 +96,9 @@ const contentWidthClass = vue.computed(() => {
     class="card-wrap relative w-full"
     :style="containerStyle"
     :class="[
-      card.getVerticalSpacingClass({ size: verticalSpacing }),
+      verticalSpacingClass,
       loaded ? 'loaded' : '',
       card.depth.value <= 1 ? `overflow-x-clip` : '',
-
     ]"
     :data-card-template-id="card.templateId.value"
     :data-font-title="standardUc?.fonts?.title?.family"
@@ -106,13 +109,9 @@ const contentWidthClass = vue.computed(() => {
     :data-content-width="contentWidth"
     :data-vertical-spacing="verticalSpacing"
   >
-    <div class="w-full relative text-theme-950 dark:text-theme-50 x-font-body ">
-      <div>
-        <div class="relative">
-          <div :class="[contentWidthClass]">
-            <slot />
-          </div>
-        </div>
+    <div class="w-full relative text-theme-950 dark:text-theme-50 x-font-body">
+      <div :class="contentWidthClass">
+        <slot />
       </div>
     </div>
 
