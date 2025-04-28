@@ -6,7 +6,8 @@ const templateId = 'cardFeaturesV1'
 
 export const template = cardTemplate({
   templateId,
-  category: ['marketing', 'content'],
+  tags: ['content'],
+  frequency: 'common',
   title: 'Features and Benefits',
   description: 'Present your product or service features in an engaging, visually appealing layout that highlights benefits and drives conversion.',
   subTitle: 'Transform feature lists into compelling visual stories that connect with your audience',

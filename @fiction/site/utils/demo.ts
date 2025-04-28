@@ -4,7 +4,7 @@ import { toKebab } from '@fiction/core/index.js'
 
 export async function createDemoPage(args: { site: Site, template: CardTemplate<any> }) {
   const { template } = args
-  const { templateId, title, category, colorTheme, subTitle, description, icon } = template.settings
+  const { templateId, title, tags, colorTheme, subTitle, description, icon } = template.settings
 
   const config = await template.getConfig(args)
   const card = config.demoPage || { cards: [] }
@@ -25,7 +25,7 @@ export async function createDemoPage(args: { site: Site, template: CardTemplate<
           items: [
             {
               superTitle: {
-                text: category?.join(', ').toUpperCase(),
+                text: tags?.join(', ').toUpperCase(),
                 icon: typeof icon === 'string' ? { class: icon } : icon,
                 theme: colorTheme,
               },

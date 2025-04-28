@@ -5,7 +5,8 @@ const templateId = 'cardStoryV1'
 
 export const template = cardTemplate({
   templateId,
-  category: ['content'],
+  tags: ['content'],
+  frequency: 'niche',
   title: 'Scrolling Story',
   description: 'Create engaging narratives that unfold as users scroll, combining captivating media with elegantly revealed text. Perfect for case studies, company histories, or feature presentations.',
   subTitle: 'Transform your narrative into an immersive scrolling experience',

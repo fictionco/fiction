@@ -80,7 +80,7 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
         </div>
       </div>
       <div class="lg:w-[60%] xl:w-[50%] mt-6 md:mt-0 flex items-center">
-        <div class="flex flex-col justify-center gap-10 2xl:gap-16 max-w-full" :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
+        <div class="flex flex-col justify-center gap-3 2xl:gap-8 max-w-full" :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
           <div class="details">
             <SuperTitle
               v-if="uc.superTitle"
@@ -107,48 +107,6 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
                 animate="rise"
               />
             </XEntry>
-          </div>
-
-          <div class="list space-y-4 text-base xl:text-lg @container">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-              <a
-                v-for="(item, i) in uc.details"
-                :key="i"
-                :href="item.href"
-                :class="item.href ? 'hover:border-primary-500 dark:hover:border-primary-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-300' : ''"
-                class="contact-item group/item flex items-center justify-between gap-6 p-4 rounded-xl dark:bg-theme-700/30 border border-theme-300/70 dark:border-theme-600/50 "
-              >
-                <div class="flex flex-row gap-2 grow min-w-0">
-
-                  <div class="min-w-0 flex-1">
-                    <div class="flex gap-1 items-center justify-between w-full">
-
-                      <CardText
-                        :card
-                        tag="span"
-                        :class="item.href ? hoverClasses : ''"
-                        class="block x-font-title font-medium text-theme-900 dark:text-theme-100"
-                        :path="`details.${i}.label`"
-                      />
-                      <XIcon
-                        v-if="item.icon"
-                        class="size-6 text-theme-400/60 dark:text-theme-600/60"
-                        :media="item.icon"
-                      />
-                    </div>
-                    <CardText
-                      v-if="item.value"
-                      :card
-                      tag="span"
-                      :class="item.href ? hoverClasses : ''"
-                      class="block  mt-0.5 font-sans text-theme-600 dark:text-theme-400 truncate"
-                      :path="`details.${i}.value`"
-                    />
-                  </div>
-                </div>
-
-              </a>
-            </div>
           </div>
 
           <CardActionArea

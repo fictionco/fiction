@@ -16,7 +16,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
     templateId: 'cardPageWrapV1',
     slug: 'tour',
     title: 'Why Fiction',
-    inNav: true,
+    nav: 'show',
     cards: [
       cardConfig({
         templateId: 'cardPageAreaV1',

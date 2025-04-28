@@ -42,6 +42,17 @@ const options = [
     options: [
       createOption({
         schema,
+        key: 'layout',
+        input: 'InputRadioButton',
+        label: 'Layout Style',
+        props: { uiSize: 'sm' },
+        list: [
+          { label: 'Media on Left', value: 'left' },
+          { label: 'Media on Right', value: 'right' },
+        ],
+      }),
+      createOption({
+        schema,
         key: 'mediaItems',
         label: 'Profile Media',
         input: 'InputList',
@@ -61,67 +72,11 @@ const options = [
       }),
       createOption({
         schema,
-        key: 'mediaGroup',
-        input: 'group',
+        key: 'action.buttons',
         label: 'Buttons',
-        icon: { class: 'i-tabler-click' },
-        isClosed: true,
-        options: [
-          createOption({
-            schema,
-            key: 'action.buttons',
-            label: 'Profile Media',
-            input: 'InputActions',
-          }),
-        ],
+        input: 'InputActions',
       }),
 
-      createOption({
-        schema,
-        key: 'detailsGroup',
-        input: 'group',
-        label: 'Details',
-        icon: { class: 'i-tabler-list-details' },
-        options: [
-          createOption({
-            schema,
-            key: 'details',
-            input: 'InputList',
-            props: {
-              itemName: 'Detail',
-              itemLabel: args => (args?.item as DetailConfig)?.label ?? 'Untitled',
-            },
-            options: [
-              createOption({ schema, key: 'details.0.label', input: 'InputText', label: 'Label' }),
-              createOption({ schema, key: 'details.0.value', input: 'InputText', label: 'Value' }),
-              createOption({ schema, key: 'details.0.icon', input: 'InputIcon', label: 'Icon' }),
-              createOption({ schema, key: 'details.0.href', input: 'InputSiteRoute', label: 'Link URL' }),
-            ],
-          }),
-        ],
-      }),
-
-    ],
-  }),
-
-  createOption({
-    schema,
-    key: 'settingsGroup',
-    input: 'group',
-    label: 'Design',
-    icon: { class: 'i-tabler-layout' },
-    options: [
-      createOption({
-        schema,
-        key: 'layout',
-        input: 'InputRadioButton',
-        label: 'Layout Style',
-        props: { uiSize: 'sm' },
-        list: [
-          { label: 'Media on Left', value: 'left' },
-          { label: 'Media on Right', value: 'right' },
-        ],
-      }),
     ],
   }),
 

@@ -5,7 +5,8 @@ const templateId = 'CardParallaxScrollV1'
 
 export const template = cardTemplate({
   templateId,
-  category: ['content'],
+  tags: ['content'],
+  frequency: 'niche',
   title: 'Parallax Scroll',
   description: 'Create an immersive visual journey with parallax scrolling and sticky content. Perfect for storytelling, product showcases, or virtual tours that guide visitors through a compelling narrative.',
   subTitle: 'Transform your story into an engaging visual experience that captures attention and drives engagement',

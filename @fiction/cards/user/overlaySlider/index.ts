@@ -6,7 +6,8 @@ export const templateId = 'cardOverlaySliderV1'
 // Main template definition with minimal synchronous code
 export const template = cardTemplate({
   templateId,
-  category: ['marketing', 'portfolio'],
+  tags: ['slider', 'hero'],
+  frequency: 'standard',
   title: 'Overlay Slider',
   subTitle: 'Create an engaging visual journey with this dynamic slider',
   description: 'Create an engaging visual journey with this dynamic slider featuring overlaid text and smooth transitions. Perfect for showcasing team members, services, or key offerings with impact.',

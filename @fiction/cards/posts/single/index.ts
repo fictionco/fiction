@@ -6,12 +6,13 @@ export const templateId = 'cardSinglePostV1'
 export const template = cardTemplate({
   root: safeDirname(import.meta.url),
   templateId,
-  category: ['posts'],
+  tags: ['blog'],
+  frequency: 'standard',
   icon: 'i-tabler-notebook',
   title: 'Blog',
   subTitle: 'Single Post',
   el: vue.defineAsyncComponent(() => import('./ElCard.vue')),
-  isPublic: true,
+  isPublic: false,
   getBaseConfig: () => {
     return { standard: { showOnSingle: true } }
   },

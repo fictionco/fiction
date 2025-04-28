@@ -274,7 +274,7 @@ function handlePageOrderUpdate(ids: string[]) {
         v-for="page in sitePages"
         :key="fastHash(page.toConfig())"
         :data-drag-id="page.cardId"
-        class="z-20 draggable-page h-80 relative group transition-all duration-300 ease-out bg-white dark:bg-theme-800 rounded-lg shadow-md overflow-hidden cursor-pointer ring-1 ring-theme-200 dark:ring-theme-600/60 hover:ring-theme-400 dark:hover:ring-theme-500"
+        class="z-20 draggable-page h-80 lg:h-[400px] relative group transition-all duration-300 ease-out bg-white dark:bg-theme-800 rounded-lg shadow-md overflow-hidden cursor-pointer ring-1 ring-theme-200 dark:ring-theme-600/60 hover:ring-theme-400 dark:hover:ring-theme-500"
         :class="{ 'ring-2 ring-theme-500 dark:ring-theme-400': isActivePage(page.cardId) }"
         @click="selectPage(page.cardId)"
       >
@@ -320,7 +320,7 @@ function handlePageOrderUpdate(ids: string[]) {
       <!-- Add new page button -->
       <div
         v-if="sitePages.length < maxGridPages"
-        class="h-80 cursor-pointer flex items-center justify-center border-2 border-dashed border-theme-300 dark:border-theme-700 rounded-lg hover:border-theme-500 dark:hover:border-theme-500 transition-all"
+        class="h-80 lg:h-[400px] cursor-pointer flex items-center justify-center border-2 border-dashed border-theme-300 dark:border-theme-700 rounded-lg hover:border-theme-500 dark:hover:border-theme-500 transition-all"
         @click.stop="site.editorActivateTool({ toolId: 'pageAdd' });"
       >
         <div class="text-center px-4 py-2">

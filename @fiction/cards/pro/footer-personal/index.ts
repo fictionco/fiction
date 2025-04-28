@@ -6,7 +6,6 @@ const templateId = 'cardFooterPersonalV1'
 // Main template definition with minimal synchronous code
 export const template = cardTemplate({
   templateId,
-  category: ['navigation'],
   icon: 'i-tabler-layout-bottombar',
   title: 'Personal Footer',
   colorTheme: 'violet',

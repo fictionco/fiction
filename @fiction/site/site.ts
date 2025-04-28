@@ -135,7 +135,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       vue.watch(
         () => [this.editingPageId.value],
         ([c]) => {
-          this.editorController.hideToolDrawers.value = !c ? 'both' : ''
+          this.editorController.hideToolDrawers.value = !c ? 'right' : ''
         },
         { immediate: true },
       )

@@ -242,7 +242,7 @@ export function getUiDemoCardTemplates() {
 
     return cardTemplate({
       ...t,
-      category: ['advanced'],
+      tags: ['advanced'],
       el,
       isPublic: true,
       getConfig: async (args) => {

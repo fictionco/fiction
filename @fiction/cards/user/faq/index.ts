@@ -5,7 +5,8 @@ const templateId = 'cardFaqV1'
 
 export const template = cardTemplate({
   templateId,
-  category: ['content'],
+  tags: ['content'],
+  frequency: 'niche',
   icon: 'i-tabler-list-details',
   title: 'FAQ & Accordion',
   subTitle: 'Simple expandable questions and answers',

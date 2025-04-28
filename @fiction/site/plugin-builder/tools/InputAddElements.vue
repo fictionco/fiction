@@ -12,7 +12,7 @@ import InputRadioButton from '@fiction/ui/inputs/InputRadioButton.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import { OldCardCategorySchema } from '../../card'
+import { OldCardTagsSchema } from '../../card'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
@@ -20,30 +20,36 @@ const props = defineProps({
 })
 
 const groupTemplates = vue.computed(() => {
-  const all = props.site.theme.value?.templates.filter(t => t.settings.isPublic && !t.settings.isEffect)
+  const all = props.site.theme.value?.templates.filter(t => t.settings.isPublic && !t.settings.isEffect) || []
   const grouped: Record<string, CardTemplate[]> = {}
+  const seenTemplates = new Set<string>()
 
-  // Group templates by category
-  all?.forEach((template) => {
-    template.settings.category?.forEach((cat) => {
-      if (!grouped[cat])
-        grouped[cat] = []
-      grouped[cat].push(template)
-    })
+  // Group templates by category, ensuring no duplicates
+  all.forEach((template) => {
+    const templateId = template.settings.templateId
+    if (seenTemplates.has(templateId))
+      return // Skip if already processed
+    seenTemplates.add(templateId)
+
+    // Pick the most common category based on schema order
+    const categories = template.settings.tags || []
+    const categoryOrder = OldCardTagsSchema.options
+    const primaryCategory = categories.length > 0
+      ? categories.sort((a, b) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b))[0]
+      : 'other'
+
+    if (!grouped[primaryCategory])
+      grouped[primaryCategory] = []
+    grouped[primaryCategory].push(template)
   })
 
-  const categoryOrder = OldCardCategorySchema.options
-
-  // Order grouped categories based on categoryOrder and include any additional categories at the end
+  // Only include non-empty categories, ordered by schema
+  const categoryOrder = OldCardTagsSchema.options
   return categoryOrder.reduce((acc, cat) => {
-    if (grouped[cat])
+    if (grouped[cat] && grouped[cat].length > 0)
       acc[cat] = grouped[cat]
     return acc
-  }, Object.keys(grouped).reduce((acc, cat) => {
-    if (!categoryOrder.includes(cat as typeof categoryOrder[number]))
-      acc[cat] = grouped[cat]
-    return acc
-  }, {} as Record<string, CardTemplate[]>))
+  }, {} as Record<string, CardTemplate[]>)
 })
 
 // Search and filter
@@ -62,7 +68,7 @@ const filteredTemplates = vue.computed(() => {
       const title = template.settings.title?.toLowerCase() || ''
       const description = template.settings.description?.toLowerCase() || ''
       const templateId = template.settings.templateId?.toLowerCase()
-      const categories = template.settings.category?.map(c => c.toLowerCase()) || []
+      const categories = template.settings.tags?.map(c => c.toLowerCase()) || []
 
       return title.includes(query)
         || description.includes(query)

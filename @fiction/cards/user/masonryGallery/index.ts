@@ -7,7 +7,8 @@ export const templateId = 'cardPhotoGalleryV1'
 // Main template definition with minimal synchronous code
 export const template = cardTemplate({
   templateId,
-  category: ['media'],
+  tags: ['media', 'portfolio'],
+  frequency: 'niche',
   icon: 'i-tabler-library-photo',
   title: 'Masonry Gallery',
   colorTheme: 'emerald',

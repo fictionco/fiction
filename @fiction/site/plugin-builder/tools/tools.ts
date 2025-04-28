@@ -12,7 +12,7 @@ export function getTools(args: { site: Site }) {
       toolId: 'pageEdit',
       title: 'Edit Page',
       icon: { class: 'i-tabler-file' },
-      design: 'modal',
+      design: 'drawer',
       el: vue.defineAsyncComponent(async () => import('./ToolPageEdit.vue')),
     },
     {
@@ -20,6 +20,7 @@ export function getTools(args: { site: Site }) {
       title: 'Add Page',
       icon: { class: 'i-tabler-file-plus' },
       el: vue.defineAsyncComponent(async () => import('./ToolPageAdd.vue')),
+      design: 'drawer',
     },
     {
       toolId: 'sectionsLayout',

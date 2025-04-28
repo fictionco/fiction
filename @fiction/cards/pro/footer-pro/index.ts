@@ -6,7 +6,6 @@ const templateId = 'cardFooterProV1'
 
 export const template = cardTemplate({
   templateId,
-  category: ['navigation'],
   icon: 'i-tabler-box-align-bottom',
   title: 'Footer Pro',
   colorTheme: 'blue',

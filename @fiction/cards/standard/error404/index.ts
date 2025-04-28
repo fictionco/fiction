@@ -28,7 +28,6 @@ export const template = cardTemplate({
   templateId: 'card404ErrorV1',
   title: '404 Error',
   subTitle: 'A simple yet effective not-found page.',
-  category: ['special'],
   icon: 'i-tabler-error-404',
   colorTheme: 'red',
   el: vue.defineAsyncComponent(async () => import('./El404.vue')),

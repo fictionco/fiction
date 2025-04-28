@@ -5,7 +5,8 @@ export const templateId = 'cardTestimonialsV1'
 
 export const template = cardTemplate({
   templateId,
-  category: ['content'],
+  tags: ['content'],
+  frequency: 'standard',
   title: 'Testimonials',
   description: 'Transform customer stories into compelling visual testimonials. Choose from multiple layouts to create emotional connections and build trust through authentic experiences.',
   subTitle: 'Share customer success stories that resonate and inspire trust',

@@ -4,12 +4,8 @@ import { cardTemplate } from '@fiction/site/card'
 // Main template definition with minimal synchronous code
 export const template = cardTemplate({
   templateId: 'cardContactV1',
-  category: ['form', 'marketing'],
-  classification: {
-    category: ['forms'],
-    useCase: ['contact', 'support'],
-    type: ['input'],
-  },
+  tags: ['form'],
+  frequency: 'niche',
   icon: 'i-tabler-mail-fast',
   title: 'Contact & Support',
   colorTheme: 'blue',

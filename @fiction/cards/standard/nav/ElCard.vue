@@ -17,7 +17,7 @@ const uc = vue.computed(() => card.userConfig.value || {})
 // Process navigation items for both primary and utility nav
 const nav = vue.computed(() => {
   const siteRouter = card.site?.siteRouter
-  const pages: NavListItem[] = card.site?.pages.value.filter(p => p.inNav.value).map(page => ({
+  const pages: NavListItem[] = card.site?.pages.value.filter(p => !p.isSystem.value && p.nav.value === 'show').map(page => ({
     label: page.title.value || toLabel(page.slug.value),
     href: `/${page.isHome.value ? '' : page.slug.value}`,
   })) || []

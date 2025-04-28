@@ -15,7 +15,6 @@ export const t = {
 
 type st = { updatedAt?: string, createdAt?: string }
 
-
 export const pageRegionIds = ['header', 'main', 'footer', 'aside', 'article', 'section'] as const
 export type PageRegion = typeof pageRegionIds[number] | string
 
@@ -34,7 +33,6 @@ export type TableCardConfig<T extends Record<string, unknown> = Record<string, u
   userConfig?: T & StandardUserConfig
   cards?: TableCardConfig[]
   single?: TableCardConfig
-  effects?: TableCardConfig[]
   draft?: CardConfigPortable
   scope?: string
   isSystem?: boolean
@@ -93,7 +91,7 @@ export const pageCols = [
   new Col({ key: 'cards', sec: 'setting', sch: () => z.array(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo([]), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'userConfig', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'isHome', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
-  new Col({ key: 'inNav', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
+  new Col({ key: 'nav', sec: 'setting', sch: () => z.enum(['show', 'hide']), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'editor', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'generation', sec: 'setting', sch: () => z.record(z.unknown()) as z.Schema<CardGenerationConfig>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),

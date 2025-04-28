@@ -7,7 +7,8 @@ export const templateId = 'cardBlogV1'
 export const template = cardTemplate({
   root: safeDirname(import.meta.url),
   templateId,
-  category: ['posts'],
+  tags: ['blog', 'content'],
+  frequency: 'common',
   icon: 'i-tabler-notebook',
   title: 'Blog',
   subTitle: 'Standard blog layout',

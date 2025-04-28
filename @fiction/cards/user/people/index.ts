@@ -5,7 +5,8 @@ export const templateId = 'cardPeopleV1'
 
 export const template = cardTemplate({
   templateId,
-  category: ['content', 'marketing', 'engagement'],
+  tags: ['content'],
+  frequency: 'niche',
   title: 'Team Showcase',
   subTitle: 'Build trust and connection with faces.',
   description: 'Transform your about page with a dynamic team showcase that highlights the human side of your business. Perfect for building credibility, showcasing expertise, and creating meaningful connections with your audience through professional profiles, achievements, and social presence.',

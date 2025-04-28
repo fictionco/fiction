@@ -6,7 +6,6 @@ const templateId = 'cardPageAreaV1'
 // Main template definition with minimal synchronous code
 export const template = cardTemplate({
   templateId,
-  category: ['layout', 'basic'], // Added layout category for better organization
   title: 'Content Area',
   description: 'A flexible container that groups and styles content elements. Perfect for creating distinct sections within your page.',
   subTitle: 'Group and style content elements with custom backgrounds, spacing, and layouts',

@@ -5,7 +5,6 @@ export const templateId = 'cardStandardFooterV1'
 
 export const template = cardTemplate({
   templateId,
-  category: ['navigation'],
   icon: 'i-tabler-menu-2',
   title: 'Footer',
   subTitle: 'Standard minimal footer',

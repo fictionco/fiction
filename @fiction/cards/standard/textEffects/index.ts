@@ -5,7 +5,6 @@ export const templateId = 'cardTextEffectV1'
 
 export const template = cardTemplate({
   templateId,
-  category: ['typography'],
   title: 'Dynamic Text Effects',
   subTitle: 'Enhance your content with eye-catching text animations',
   description: 'Add visual interest to your headlines and text with customizable animations, transforms, and effects. Perfect for creating engaging headlines, CTAs, or emphasizing key messages.',

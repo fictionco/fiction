@@ -6,7 +6,8 @@ export const templateId = 'cardTickerV1'
 // Main template definition with minimal synchronous code
 export const template = cardTemplate({
   templateId,
-  category: ['marketing', 'content'],
+  tags: ['content'],
+  frequency: 'standard',
   icon: 'i-tabler-arrow-autofit-width',
   title: 'Animated Ticker',
   description: 'Create eye-catching scrolling announcements with 3D effects, custom fonts, and scroll-reactive animations. Perfect for highlighting time-sensitive offers, news updates, or key messages that demand attention.',

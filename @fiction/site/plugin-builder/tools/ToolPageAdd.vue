@@ -21,7 +21,7 @@ const options = vue.computed<InputOption[]>(() => {
   return [optionGroups.basic]
 })
 
-const page = vue.ref<CardConfigPortable>({ title: '', slug: '', cards: [{ templateId: 'cardHeroV1' }] })
+const page = vue.ref<CardConfigPortable>({ title: '', slug: '', cards: [{ templateId: 'cardHeroV1' }], nav: 'show' })
 
 vue.onMounted(() => {
   /**

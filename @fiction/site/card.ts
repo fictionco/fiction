@@ -13,12 +13,12 @@ import { CardFactory } from './cardFactory.js'
 import { getContentWidthClass, getSpacingClass } from './styling.js'
 import { siteGoto, siteLink } from './utils/manage.js'
 
-export const OldCardCategorySchema = z.enum([
+export const OldCardTagsSchema = z.enum([
   'basic',
-  'posts',
+  'blog',
   'theme',
   'stats',
-  'marketing',
+  'slider',
   'content',
   'layout',
   'media',
@@ -26,19 +26,13 @@ export const OldCardCategorySchema = z.enum([
   'social',
   'commerce',
   'form',
-  'other',
-  'special',
   'portfolio',
-  'advanced',
-  'effect',
-  'conversion',
-  'engagement',
-  'traffic',
-  'awareness',
-  'typography',
+  'hero',
+  'resume',
+  'advanced'
 ])
 
-type CardCategory = z.infer<typeof OldCardCategorySchema>
+type CardTags = z.infer<typeof OldCardTagsSchema>
 
 // Utility type to merge two types
 type MergeTypes<T, U> = T & Omit<U, keyof T>
@@ -73,7 +67,8 @@ export interface CardTemplateSettings<
   title?: string
   subTitle?: string
   description?: string
-  category?: CardCategory[]
+  frequency?: 'common' | 'standard' | 'niche' | 'advanced'
+  tags?: CardTags[]
   classification?: CardClassification
   screenshot?: { light: string, dark: string }
   icon?: string | MediaObject
@@ -213,7 +208,7 @@ export class Card<
   site = this.settings.site
   cardId = this.settings.cardId || objectId({ prefix: 'crd' })
   isHome = vue.ref(this.settings.isHome)
-  inNav = vue.ref(this.settings.inNav)
+  nav = vue.ref(this.settings.nav)
   isSystem = vue.ref(this.settings.isSystem)
   parentId = this.settings.parentId
   depth = vue.ref(this.settings.depth || 0)
@@ -327,7 +322,7 @@ export class Card<
       return
     }
 
-    const availableKeys = ['title', 'slug', 'userConfig', 'editorConfig', 'templateId', 'isHome', 'inNav']
+    const availableKeys = ['title', 'slug', 'userConfig', 'editorConfig', 'templateId', 'isHome', 'nav']
     const newHomePage = cardConfig.isHome && this.site.homePageId.value !== this.cardId
     const entries = Object.entries(cardConfig).filter(([key]) => availableKeys.includes(key))
     entries.forEach(([key, value]) => {
@@ -423,7 +418,7 @@ export class Card<
       cards,
       scope: this.settings.scope,
       isHome: !!this.isHome.value,
-      inNav: !!this.inNav.value,
+      nav: this.nav.value,
     }
   }
 

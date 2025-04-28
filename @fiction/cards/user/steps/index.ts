@@ -6,7 +6,8 @@ const templateId = 'cardStepsV1'
 // Main template definition with minimal synchronous code
 export const template = cardTemplate({
   templateId,
-  category: ['marketing'],
+  tags: ['content'],
+  frequency: 'standard',
   title: 'Number Steps',
   subTitle: 'Engaging list of key points with optional media',
   description: 'Transform complex ideas into clear, sequential steps with rich media support. Perfect for tutorials, processes, or feature highlights. Each point can include images and custom styling to boost engagement.',

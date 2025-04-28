@@ -183,7 +183,7 @@ export async function getAboutPage() {
     templateId: 'cardPageWrapV1',
     slug: 'about',
     title: 'About',
-    inNav: true,
+    nav: 'show',
     cards: [
       cardConfig({
         templateId: 'cardPageAreaV1',

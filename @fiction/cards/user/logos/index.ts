@@ -5,7 +5,8 @@ const templateId = 'cardLogosV1'
 
 export const template = cardTemplate({
   templateId,
-  category: ['marketing'],
+  tags: ['content'],
+  frequency: 'standard',
   title: 'Logo Showcase',
   description: 'Build trust and credibility by showcasing brands that use or endorse your product. Features multiple layout options with hover animations and customizable styling.',
   subTitle: 'Display partner logos, client brands, or featured press mentions',

@@ -5,12 +5,8 @@ export const templateId = 'cardTimelineV1'
 
 export const template = cardTemplate({
   templateId,
-  category: ['content', 'marketing'],
-  classification: {
-    type: ['text'],
-    category: ['content'],
-    useCase: ['timeline', 'list', 'roadmap', 'cv'],
-  } as const,
+  tags: ['stats', 'resume'],
+  frequency: 'standard',
   icon: 'i-tabler-timeline',
   title: 'Milestone Timeline',
   subTitle: 'Visualize a resume/cv, journey, or series of events',

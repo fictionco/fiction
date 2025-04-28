@@ -5,7 +5,8 @@ export const templateId = 'cardBentoV1'
 
 export const template = cardTemplate({
   templateId,
-  category: ['layout', 'content'],
+  tags: ['layout', 'content'],
+  frequency: 'common',
   title: 'Bento Grid',
   description: 'Create visually striking layouts with a flexible grid system that combines images, text, and interactive elements. Perfect for showcasing features, portfolios, or content collections in an engaging masonry-style format.',
   subTitle: 'Transform your content into an engaging visual story with customizable grid layouts',

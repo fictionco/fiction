@@ -6,7 +6,6 @@ export const templateId = 'cardSiteNavV1'
 // Main template definition with minimal synchronous code
 export const template = cardTemplate({
   templateId,
-  category: ['navigation'],
   icon: 'i-tabler-menu-2',
   title: 'Site Navigation',
   subTitle: 'Sophisticated navigation for modern websites',

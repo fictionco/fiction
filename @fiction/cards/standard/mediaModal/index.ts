@@ -5,7 +5,6 @@ const templateId = 'cardModalMediaV1'
 
 export const template = cardTemplate({
   templateId,
-  category: ['media', 'engagement'],
   title: 'Media Modal',
   description: 'Dynamic modal popup system for videos, audio, and external content. Automatically handles various content types like YouTube, Vimeo, Spotify, and more. Perfect for showcasing media content without leaving your page.',
   subTitle: 'Create engaging media experiences with automatic content detection',

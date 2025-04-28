@@ -5,7 +5,8 @@ export const templateId = 'cardMapsV1'
 
 export const template = cardTemplate({
   templateId,
-  category: ['advanced'],
+  tags: ['media'],
+  frequency: 'niche',
   title: 'Interactive Map',
   subTitle: 'Beautiful interactive maps in a variety of styles',
   description: 'Add interactive maps to showcase locations, highlight regions of interest, and provide contextual geographic information. Perfect for business locations, travel itineraries, or geographic data visualization.',

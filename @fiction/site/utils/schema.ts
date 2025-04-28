@@ -91,7 +91,7 @@ export async function cardToZodSchema(args: {
   const describeClausFromTemplate = [
     `${tpl?.settings.title} template`,
     `${tpl?.settings.description}`,
-    `(${tpl?.settings.category})`,
+    `(${tpl?.settings.tags})`,
   ].join(' - ')
 
   return z.object({

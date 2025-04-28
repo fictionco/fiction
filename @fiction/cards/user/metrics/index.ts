@@ -5,8 +5,9 @@ const templateId = 'cardMetricsV1'
 
 export const template = cardTemplate({
   templateId,
-  category: ['stats', 'marketing'],
-  title: 'Impact Metrics',
+  tags: ['stats'],
+  frequency: 'standard',
+  title: 'Metrics',
   description: 'Transform raw numbers into compelling stories that showcase your brand\'s success. Features animated counters, customizable styling, and multiple display formats to help visitors instantly grasp your achievements.',
   subTitle: 'Visualize key performance metrics that build trust and credibility',
   icon: 'i-tabler-chart-dots',
