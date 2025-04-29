@@ -197,9 +197,12 @@ export class Post extends FictionObject<PostConfig> {
       ? window.location.origin + this.href.value
       : this.href.value
 
+    this.log.info('Link copied to clipboard:', { data: { url } })
+
     // Copy to clipboard
     if (typeof navigator !== 'undefined' && navigator.clipboard) {
       navigator.clipboard.writeText(url)
+
       this.settings.fictionPosts?.fictionEnv.events.emit('notify', {
         type: 'success',
         message: 'Link copied to clipboard',

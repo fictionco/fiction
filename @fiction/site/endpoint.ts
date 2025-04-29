@@ -858,7 +858,7 @@ export class ManageSite extends SitesQuery {
     const db = this.settings.fictionDb.client()
 
     // If siteId is already provided, return immediately
-    if (!where.hostname && !where.orgId) {
+    if (!where.hostname && !where.orgId && !where.subDomain) {
       return where
     }
 
@@ -898,6 +898,19 @@ export class ManageSite extends SitesQuery {
 
       // Use the orgId to find the site
       where = { orgId: domain.orgId }
+    }
+    else if (where.subDomain) {
+      const org = await db
+        .select('org_id')
+        .from(t.org)
+        .where({ handle: where.subDomain })
+        .first()
+
+      if (!org?.orgId) {
+        this.log.error('Error Loading Site', { data: { where, org } })
+        throw new Error(`Site not found (where:${JSON.stringify(where)})`)
+      }
+      where = { orgId: org.orgId }
     }
 
     // Handle orgId case (which now includes hostname lookups)

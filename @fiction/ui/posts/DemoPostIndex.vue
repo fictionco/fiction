@@ -20,7 +20,7 @@ const presets = [
     config: {
       layout: 'blog',
       featuredCount: 1,
-      sidebar: 'right',
+      sidebar: 'none',
     },
   },
   {
@@ -28,7 +28,7 @@ const presets = [
     config: {
       layout: 'magazine',
       featuredCount: 1,
-      sidebar: 'right',
+      sidebar: 'none',
     },
   },
   {
@@ -44,7 +44,7 @@ const presets = [
     config: {
       layout: 'blog',
       featuredCount: 0,
-      sidebar: 'left',
+      sidebar: 'none',
     },
   },
   {
@@ -94,7 +94,7 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div class="space-y-8 max-w-screen-2xl mx-auto px-4 py-6" :class="card?.classes.value.contentWidth">
+  <div class="space-y-8 max-w-screen-lg mx-auto px-4 py-6" :class="card?.classes.value.contentWidth">
     <!-- Controls -->
     <div class="border border-theme-200 dark:border-theme-700 rounded-lg p-6 space-y-4">
       <div class="flex flex-wrap gap-2">
@@ -121,50 +121,6 @@ vue.onMounted(async () => {
       title="Latest Articles"
       :about="aboutContent"
       :config="currentConfig"
-    >
-      <template #sidebar>
-        <div class="space-y-10">
-          <!-- About Widget -->
-          <SidebarWidget title="About">
-            <p class="text-theme-600 dark:text-theme-300 mb-4">
-              This blog explores design principles, development techniques, and marketing strategies for modern digital products.
-            </p>
-            <XButton theme="primary" design="outline" size="md" href="#" icon-after="i-tabler-arrow-up-right">
-              Subscribe
-            </XButton>
-          </SidebarWidget>
-          <!-- Categories Widget -->
-          <SidebarWidget title="Categories">
-            <ul class="space-y-3 text-theme-700 dark:text-theme-300">
-              <li><a href="#" class="hover:text-primary-400 transition-colors">Design</a></li>
-              <li><a href="#" class="hover:text-primary-400 transition-colors">Development</a></li>
-              <li><a href="#" class="hover:text-primary-400 transition-colors">Marketing</a></li>
-              <li><a href="#" class="hover:text-primary-400 transition-colors">Business</a></li>
-            </ul>
-          </SidebarWidget>
-
-          <!-- Recommended Posts Widget -->
-          <SidebarWidget title="Recommended">
-            <div class="space-y-4">
-              <SidebarMediaItem
-                title="How to Build Better Products"
-                sub-title="5 min read"
-                href="#"
-              />
-              <SidebarMediaItem
-                title="The Future of Design Systems"
-                sub-title="8 min read"
-                href="#"
-              />
-              <SidebarMediaItem
-                title="Marketing Strategy Guide"
-                sub-title="4 min read"
-                href="#"
-              />
-            </div>
-          </SidebarWidget>
-        </div>
-      </template>
-    </PostIndexLayout>
+    />
   </div>
 </template>

@@ -17,13 +17,13 @@ const displayName = vue.computed(() => {
 </script>
 
 <template>
-  <div class="text-base flex gap-4 items-center mt-4 not-prose">
-    <ElAvatar class="size-8 lg:size-10 rounded-full ring-1 ring-white" :user />
-    <div class="text-left text-base lg:text-lg">
+  <div class="text-base flex gap-3 items-center not-prose">
+    <ElAvatar class="size-8 lg:size-8 rounded-full ring-1 ring-white" :user />
+    <div class="text-left text-sm">
       <div class="font-semibold">
         {{ displayName }}
       </div>
-      <div v-if="subtext" class="font-sans text-sm lg:text-base text-theme-600 dark:text-theme-400">
+      <div v-if="subtext" class="font-sans text-xs text-theme-600 dark:text-theme-400">
         {{ subtext }}
       </div>
     </div>

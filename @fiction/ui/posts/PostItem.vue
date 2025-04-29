@@ -4,6 +4,7 @@ import { vue } from '@fiction/core'
 import XLink from '@fiction/ui/common/XLink.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import XIcon from '../media/XIcon.vue'
+import PostItemByline from './PostItemByline.vue'
 import PostItemMeta from './PostItemMeta.vue'
 
 defineOptions({ name: 'PostItem' })
@@ -56,7 +57,7 @@ const positionClasses = vue.computed(() => {
     article: '',
     contentWrapper: '',
     imageWrapper: 'w-full',
-    content: 'flex-grow pt-4 min-w-0 flex flex-col',
+    content: 'flex-grow pt-4 min-w-0 flex flex-col gap-2',
     title: '',
     excerpt: 'text-theme-600 dark:text-theme-300 mb-auto',
     meta: 'text-theme-500',
@@ -123,21 +124,20 @@ const positionClasses = vue.computed(() => {
 
         <p
           v-if="post.excerpt?.value"
-          class="text-sm @sm/post-item:text-base @lg/post-item:text-lg leading-relaxed mt-2 line-clamp-3 max-w-prose"
+          class="text-sm @sm/post-item:text-base @lg/post-item:text-lg leading-relaxed line-clamp-3 max-w-prose"
           :class="positionClasses.excerpt"
           itemprop="description"
         >
           {{ post.excerpt.value }}
         </p>
 
-        <PostItemMeta
+        <PostItemByline
           :post="post"
           :classes="{
             color: positionClasses.meta,
-            textSize: 'text-xs @sm/post-item:text-sm',
-            hoverOnly: 'opacity-0 group-hover/post-item:opacity-100',
           }"
         />
+        <PostItemMeta :post />
       </div>
     </template>
 
@@ -171,7 +171,7 @@ const positionClasses = vue.computed(() => {
       <!-- Content -->
       <div :class="positionClasses.content">
         <h2
-          class="x-font-title font-semibold md:text-pretty text-lg tracking-tight @sm/post-item:text-xl @lg/post-item:text-2xl"
+          class="x-font-title font-semibold md:text-pretty text-lg line-clamp-2 @sm/post-item:text-xl @lg/post-item:text-2xl"
           :class="positionClasses.title"
         >
           <XLink :href="post.href.value" itemprop="headline" class="hover:opacity-90 transition-opacity duration-100">
@@ -181,21 +181,22 @@ const positionClasses = vue.computed(() => {
 
         <p
           v-if="post.excerpt?.value || post.subTitle?.value"
-          class="text-sm @sm/post-item:text-base @lg/post-item:text-lg leading-relaxed mt-2 line-clamp-3 max-w-prose"
+          class="text-sm @sm/post-item:text-base @lg/post-item:text-lg leading-relaxed line-clamp-3 max-w-prose"
           :class="positionClasses.excerpt"
           itemprop="description"
         >
           {{ post.excerpt.value || post.subTitle.value }}
         </p>
 
-        <PostItemMeta
-          :post="post"
-          class="mt-3"
-          :classes="{
-            color: positionClasses.meta,
-            textSize: 'text-xs @sm/post-item:text-sm',
-          }"
-        />
+        <div class="flex gap-6 items-center flex-wrap">
+          <PostItemByline
+            :post="post"
+            :classes="{
+              color: positionClasses.meta,
+            }"
+          />
+          <PostItemMeta :post />
+        </div>
       </div>
     </div>
   </article>

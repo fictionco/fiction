@@ -4,6 +4,7 @@ import { vue } from '@fiction/core'
 import XLink from '@fiction/ui/common/XLink.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import XIcon from '../media/XIcon.vue'
+import PostItemByline from './PostItemByline.vue'
 import PostItemMeta from './PostItemMeta.vue'
 
 defineOptions({ name: 'PostFeature' })
@@ -16,8 +17,7 @@ const { post, layout = 'left', aspectRatio = 'landscape' } = defineProps<{
 
 // Container layout based on golden ratio principles
 const containerClasses = vue.computed(() => {
-  const baseClasses = 'flex flex-col gap-6'
-
+  const baseClasses = 'flex flex-col gap-6 lg:gap-8'
 
   switch (layout) {
     case 'left':
@@ -99,7 +99,7 @@ const imageContainerClass = vue.computed(() => {
         </div>
 
         <!-- Title with proper rhythm -->
-        <h2 class="x-font-title font-semibold text-theme-950 dark:text-theme-50 text-xl sm:text-2xl md:text-3xl mb-3 line-clamp-2 sm:text-pretty">
+        <h2 class="!leading-[1.2] x-font-title font-semibold text-theme-950 dark:text-theme-50 text-2xl @[600px]/post-feature:text-3xl @[700px]/post-feature:text-4xl mb-3 line-clamp-2 sm:text-pretty">
           <XLink
             :href="post.href.value"
             class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
@@ -116,14 +116,15 @@ const imageContainerClass = vue.computed(() => {
           {{ post.subTitle?.value || post.excerpt?.value }}
         </p>
 
-        <!-- Meta information with refined styling -->
-        <PostItemMeta
-          :post="post"
-          :classes="{
-            color: 'text-theme-500 dark:text-theme-400',
-            textSize: 'text-sm',
-          }"
-        />
+        <div class="flex gap-6 items-center">
+          <PostItemByline
+            :post="post"
+            :classes="{
+              color: 'text-theme-500 dark:text-theme-400',
+            }"
+          />
+          <PostItemMeta :post />
+        </div>
       </div>
     </div>
   </article>

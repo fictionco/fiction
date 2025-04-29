@@ -49,37 +49,10 @@ const post = vue.computed<Post | undefined>(() => {
 
 <template>
   <CardWrap :card>
-    <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
-      <!-- Main content area -->
-      <div class="flex-1">
-        <PostSingle
-          :card
-          :post
-          :loading
-        />
-        <div class="nav flex justify-between items-center mt-8">
-          <XButton
-            :disabled="!post?.relatedPosts.value.prev?.href.value"
-            design="outline"
-            icon="i-tabler-arrow-left"
-            :href="card.link(post?.relatedPosts.value.prev?.href.value)"
-          >
-            Previous
-          </XButton>
-          <XButton
-            :disabled="!post?.relatedPosts.value.next?.href.value"
-            design="outline"
-            icon-after="i-tabler-arrow-right"
-            :href="card.link(post?.relatedPosts.value.next?.href.value)"
-          >
-            Next
-          </XButton>
-        </div>
-      </div>
-      <div class="w-full lg:w-80 @lg/demo:block @container/sidebar space-y-8">
-        <XWidgetAbout :card />
-        <XWidgetPosts :card :posts="post?.relatedPosts.value.similar || []" />
-      </div>
-    </div>
+    <PostSingle
+      :card
+      :post
+      :loading
+    />
   </CardWrap>
 </template>

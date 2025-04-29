@@ -38,37 +38,31 @@ const themeColors = vue.computed(() => {
 </template>
 
 <style lang="less">
-/* Dark mode typography styling optimized for Tufte principles and golden ratio proportions */
-/* All sizing is relative to container's em size for scalability */
-
 .x-entry {
-  /* CSS Variables for maintainable theming */
+  /* Theme variables */
   --post-theme-light: v-bind('themeColors.colorLight');
   --post-theme-dark: v-bind('themeColors.colorDark');
-
-  --base-font-size: 1.3em;
-  --golden-ratio: 1.618;
-  --line-height: 1.75;
   --text-color: rgba(var(--theme-100) / 1);
   --muted-color: rgba(var(--theme-100) / 0.8);
   --border-color: rgba(var(--theme-600) / 0.6);
 
   /* Base typography */
-  font-size: var(--base-font-size);
-  line-height: var(--line-height);
+  font-size: 1.3em;
+  line-height: 1.75;
   font-feature-settings: "kern", "liga", "calt";
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-color);
 
-  &.drop-cap:first-letter {
+  /* Drop cap styling */
+  &.drop-cap p:first-of-type:first-letter {
     float: left;
-    font-size: calc(var(--base-font-size) * var(--line-height) * var(--golden-ratio));
+    font-size: 3.5em;
     line-height: 0.8;
     font-weight: 700;
-    margin-right: calc(var(--base-font-size) * 0.15);
-    margin-top: calc(var(--base-font-size) * 0.05);
+    margin-right: 0.15em;
+    margin-top: 0.05em;
   }
 
   /* Headings with golden ratio progression */
@@ -81,40 +75,20 @@ const themeColors = vue.computed(() => {
     letter-spacing: -.02em;
   }
 
-  h1 {
-    font-size: calc(var(--base-font-size) * 2.618);
-    margin: calc(var(--base-font-size) * 1.618) 0 calc(var(--base-font-size) * 0.618);
-  }
-
-  h2 {
-    font-size: calc(var(--base-font-size) * 2);
-    margin: calc(var(--base-font-size) * 1.5) 0 calc(var(--base-font-size) * 0.5);
-  }
-
-  h3 {
-    font-size: calc(var(--base-font-size) * 1.618);
-    margin: calc(var(--base-font-size) * 1.4) 0 calc(var(--base-font-size) * 0.4);
-  }
-
-  h4 {
-    font-size: calc(var(--base-font-size) * 1.309);
-    margin: calc(var(--base-font-size) * 1.3) 0 calc(var(--base-font-size) * 0.3);
-  }
-
-  h5 {
-    font-size: calc(var(--base-font-size) * 1.159);
-    margin: calc(var(--base-font-size) * 1.2) 0 calc(var(--base-font-size) * 0.3);
-  }
-
+  h1 { font-size: 2em; margin: 1.2em 0 0.4em; }
+  h2 { font-size: 1.618em; margin: 1.1em 0 0.4em; }
+  h3 { font-size: 1.309em; margin: 1em 0 0.35em; }
+  h4 { font-size: 1.159em; margin: 0.9em 0 0.3em; }
+  h5 { font-size: 1.05em; margin: 0.8em 0 0.3em; }
   h6 {
-    font-size: var(--base-font-size);
-    margin: calc(var(--base-font-size) * 1.1) 0 calc(var(--base-font-size) * 0.3);
+    font-size: 1em;
+    margin: 0.7em 0 0.3em;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.03em;
   }
 
-  /* Remove top margin for first headings in common TipTap contexts */
+  /* Remove top margin for first headings */
   > :where(h1, h2, h3, h4, h5, h6):first-child,
   section > :where(h1, h2, h3, h4, h5, h6):first-child,
   li > :where(h1, h2, h3, h4, h5, h6):first-child {
@@ -123,49 +97,42 @@ const themeColors = vue.computed(() => {
 
   /* Paragraphs */
   p {
-    margin: 0 0 var(--base-font-size);
-    max-width: 65ch;
-    line-height: var(--line-height);
+    margin: 0 0 1em;
+    max-width: 35em; /* ~10-12 words per line */
+    line-height: 1.75;
   }
 
   /* Sections */
-  section {
-    margin: calc(var(--base-font-size) * 2) 0;
-  }
+  section { margin: 2em 0; }
 
-  /* Aside (informational boxes) */
+  /* Asides */
   aside {
-    margin: 3em 0;
-    padding: 2em;
-    border-radius: .5em;
+    margin: 2em 0;
+    padding: 1.5em;
+    border-radius: 0.5em;
     background: rgba(var(--theme-700) / 0.3);
 
     :first-child { margin-top: 0; }
     :last-child { margin-bottom: 0; }
-    p {
-    margin: 0 0 calc(var(--base-font-size) * 0.618);
-  }
   }
 
   /* Links */
   a {
     color: rgba(var(--primary-400) / 1);
     text-decoration: underline;
-    text-decoration-thickness: calc(var(--base-font-size) * 0.05);
-    text-underline-offset: calc(var(--base-font-size) * 0.15);
+    text-decoration-thickness: 0.05em;
+    text-underline-offset: 0.15em;
     transition: color 0.2s ease;
 
-    &:hover {
-      color: rgba(var(--post-theme-dark) / 1);
-    }
+    &:hover { color: rgba(var(--post-theme-dark) / 1); }
   }
 
   /* Blockquotes */
   blockquote {
-    margin: calc(var(--base-font-size) * 2) 0;
-    padding-left: calc(var(--base-font-size) * 1);
+    margin: 2em 0;
+    padding-left: 1em;
     position: relative;
-    max-width: 55ch;
+    max-width: 32em;
 
     &:before {
       content: "";
@@ -189,44 +156,39 @@ const themeColors = vue.computed(() => {
     }
 
     footer {
-      font-size: .9em;
+      font-size: 0.9em;
       color: var(--muted-color);
     }
-
   }
 
   /* Lists */
   ul, ol {
-    margin: calc(var(--base-font-size) * 1.618) 0;
-    padding-left: calc(var(--base-font-size) * 1.618);
-    line-height: var(--line-height);
+    margin: 1.5em 0;
+    padding-left: 1.618em;
+    line-height: 1.75;
   }
 
   ul { list-style-type: disc; }
   ol { list-style-type: decimal; }
 
   li {
-    margin-bottom: calc(var(--base-font-size) * 0.618);
-    padding-left: calc(var(--base-font-size) * 0.3);
+    margin-bottom: 0.6em;
+    padding-left: 0.3em;
 
-    p {
-      margin: 0 0 calc(var(--base-font-size) * 0.5);
-    }
+    p { margin: 0 0 0.5em; }
 
     :where(h1, h2, h3, h4, h5, h6) {
-      margin: calc(var(--base-font-size) * 0.618) 0 calc(var(--base-font-size) * 0.3);
+      margin: 0.618em 0 0.3em;
     }
 
-    > ul, > ol {
-      margin: calc(var(--base-font-size) * 0.618) 0;
-    }
+    > ul, > ol { margin: 0.618em 0; }
   }
 
   /* Code */
   pre {
-    margin: calc(var(--base-font-size) * 1.618) 0;
-    padding: var(--base-font-size);
-    border-radius: calc(var(--base-font-size) * 0.3);
+    margin: 1.618em 0;
+    padding: 1em;
+    border-radius: 0.3em;
     overflow-x: auto;
     background: rgba(var(--theme-700) / .5);
     border: 1px solid var(--border-color);
@@ -239,31 +201,78 @@ const themeColors = vue.computed(() => {
   }
 
   :not(pre) > code {
-    padding: calc(var(--base-font-size) * 0.2) calc(var(--base-font-size) * 0.4);
-    border-radius: calc(var(--base-font-size) * 0.3);
-    font-size: calc(var(--base-font-size) * 0.875);
+    padding: 0.2em 0.4em;
+    border-radius: 0.3em;
+    font-size: 0.875em;
     background: rgba(60, 60, 60, 0.7);
     color: rgba(240, 240, 240, 1);
     font-family: var(--font-family-mono, monospace);
   }
 
+  /* Tables - Improved for horizontal scrolling */
+  .table-container {
+    width: 100%;
+    margin: 1.618em 0;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    margin: 2em 0;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: var(--text-color);
+    min-width: 100%; /* Ensures table takes full width */
+    white-space: nowrap; /* Prevents text wrapping in cells */
+    border-radius: 0.3em;
+    border: 1px solid var(--border-color);
+
+  }
+
+  /* Allow specific tables to wrap if desired */
+  table.wrap {
+    white-space: normal;
+  }
+
+  thead {
+    background: rgba(var(--theme-700) / 0.2);
+    font-family: var(--font-family-title, inherit);
+  }
+
+  th {
+    font-weight: 600;
+    text-align: left;
+    padding: 0.618em 1em;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  td {
+    padding: 0.618em 1em;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  tr:hover {
+    background: rgba(var(--theme-700) / 0.1);
+  }
+
   /* Images and figures */
   figure {
-    margin: calc(var(--base-font-size) * 2) auto;
+    margin: 2em auto;
     max-width: 100%;
     text-align: center;
 
     img {
       max-width: 100%;
       height: auto;
-      border-radius: calc(var(--base-font-size) * 0.3);
+      border-radius: 0.3em;
       border: 1px solid var(--border-color);
     }
   }
 
   figcaption {
-    margin-top: calc(var(--base-font-size) * 0.618);
-    font-size: calc(var(--base-font-size) * 0.875);
+    margin-top: 0.618em;
+    font-size: 0.875em;
     color: var(--muted-color);
     max-width: 40em;
     margin-left: auto;
@@ -272,7 +281,7 @@ const themeColors = vue.computed(() => {
 
   /* Horizontal rule */
   hr {
-    margin: calc(var(--base-font-size) * 3) 0;
+    margin: 3em 0;
     height: 1px;
     border: none;
     background: linear-gradient(
@@ -286,17 +295,17 @@ const themeColors = vue.computed(() => {
 
   /* Lead paragraph */
   .lead, p.lead {
-    font-size: calc(var(--base-font-size) * 1.309);
+    font-size: 1.309em;
     line-height: 1.5;
-    margin-bottom: calc(var(--base-font-size) * 1.618);
-    color: var(--heading-color);
-    max-width: 36em;
+    margin-bottom: 1.618em;
+    color: var(--text-color);
+    max-width: 30em;
   }
 
   /* Responsive embeds */
   .embed-responsive {
     position: relative;
-    margin: calc(var(--base-font-size) * 2) 0;
+    margin: 2em 0;
     padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
@@ -307,88 +316,17 @@ const themeColors = vue.computed(() => {
       left: 0;
       width: 100%;
       height: 100%;
-      border-radius: calc(var(--base-font-size) * 0.3);
+      border-radius: 0.3em;
       border: 1px solid var(--border-color);
     }
-  }
-
-  /* Pull quotes and side notes */
-  .pull-right {
-    float: right;
-    margin: calc(var(--base-font-size) * 0.5) 0 calc(var(--base-font-size)) calc(var(--base-font-size) * 1.618);
-    max-width: 40%;
-  }
-
-  .pull-left {
-    float: left;
-    margin: calc(var(--base-font-size) * 0.5) calc(var(--base-font-size) * 1.618) calc(var(--base-font-size)) 0;
-    max-width: 40%;
-  }
-
-  .side-note {
-    font-size: calc(var(--base-font-size) * 0.875);
-    padding: calc(var(--base-font-size) * 0.618) var(--base-font-size);
-    margin: var(--base-font-size) 0;
-    color: var(--muted-color);
-    border-left: 2px solid var(--border-color);
-    max-width: 20em;
   }
 
   /* Mark */
   mark {
     background: rgba(var(--primary-900) / 0.7);
     color: rgba(var(--primary-200) / 1);
-    padding: calc(var(--base-font-size) * 0.1) calc(var(--base-font-size) * 0.2);
-    border-radius: calc(var(--base-font-size) * 0.2);
-  }
-
-  /* Marker */
-  .marker {
-    display: inline-block;
-    width: calc(var(--base-font-size) * 1.5);
-    margin-right: calc(var(--base-font-size) * 0.5);
-    color: rgba(var(--primary-400) / 1);
-    font-weight: 600;
-  }
-
-   /* Tables */
-   table {
-    width: 100%;
-    max-width: 65ch;
-    margin: calc(var(--base-font-size) * 1.618) 0;
-    border-collapse: collapse;
-    font-size: calc(var(--base-font-size) * 0.9);
-    line-height: var(--line-height);
-    color: var(--text-color);
-    overflow-x: auto;
-    display: block;
-  }
-
-  thead {
-    background: rgba(var(--theme-700) / 0.2);
-  }
-
-  th {
-    font-weight: 600;
-    text-align: left;
-    padding: calc(var(--base-font-size) * 0.618) var(--base-font-size);
-    border-bottom: 2px solid var(--border-color);
-  }
-
-  td {
-    padding: calc(var(--base-font-size) * 0.618) var(--base-font-size);
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  tr:hover {
-    background: rgba(var(--theme-700) / 0.1);
-  }
-
-  /* Nested tables */
-  td table {
-    margin: 0;
-    max-width: 100%;
-    font-size: calc(var(--base-font-size) * 0.85);
+    padding: 0.1em 0.2em;
+    border-radius: 0.2em;
   }
 }
 </style>

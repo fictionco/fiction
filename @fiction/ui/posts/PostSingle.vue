@@ -3,10 +3,11 @@ import type { Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import SiteText from '@fiction/cards/SiteText.vue'
 import { dayjs, pathCheck, PostSchema as schema, vue } from '@fiction/core'
-import XButton from '@fiction/ui/buttons/XButton.vue' // Assuming a minimal button component
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import El404 from '@fiction/ui/page/El404.vue'
 import XEntry from '@fiction/ui/prose/XEntry.vue'
+import PostItem from './PostItem.vue'
 import XPostAuthor from './XPostAuthor.vue'
 
 defineOptions({ name: 'SinglePost' })
@@ -19,6 +20,15 @@ const props = defineProps<{
   isLiked?: boolean
   dropCap?: boolean
 }>()
+
+const relatedPosts = vue.computed(() => {
+  const related = []
+  if (props.post?.relatedPosts.value.prev)
+    related.push(props.post.relatedPosts.value.prev)
+  if (props.post?.relatedPosts.value.next)
+    related.push(props.post.relatedPosts.value.next)
+  return related
+})
 </script>
 
 <template>
@@ -42,19 +52,19 @@ const props = defineProps<{
           tag="h1"
           :path="pathCheck('title', schema)"
           :post="post"
-          class="text-3xl md:text-4xl xl:text-5xl font-semibold x-font-title md:text-pretty !leading-[1.3]  mb-4"
+          class="text-3xl @[600px]/post:text-4xl @[800px]/post:text-5xl font-semibold x-font-title md:text-pretty !leading-[1.3]  mb-4"
         />
         <SiteText
           v-model="post.config.value"
           :card
           tag="h2"
           :path="pathCheck('subTitle', schema)"
-          class="text-lg md:text-xl xl:text-2xl text-theme-500 dark:text-theme-400 md:text-pretty !leading-[1.3] mb-8"
+          class="text-lg @[600px]/post:text-xl @[800px]/post:text-2xl text-theme-500 dark:text-theme-400 md:text-pretty !leading-[1.3] mb-8"
         />
 
         <!-- Author, Date, and Actions -->
-        <div class="flex items-center gap-4 mb-8 justify-between">
-          <div v-if="post.authors?.value?.length">
+        <div class="flex items-center gap-4 mb-8 justify-between flex-wrap border-b border-theme-200 dark:border-theme-700 pb-8">
+          <div v-if="post.authors?.value?.length" class="flex gap-6">
             <XPostAuthor v-for="user in post.authors.value" :key="user.userId" :user />
           </div>
           <div class="flex gap-2">
@@ -86,7 +96,7 @@ const props = defineProps<{
 
         <!-- Content -->
         <XEntry
-          class="font-serif text-base md:text-lg"
+          class="font-serif text-base"
           :theme="post.theme.value"
           :drop-cap="props.dropCap"
         >
@@ -96,6 +106,22 @@ const props = defineProps<{
             :path="pathCheck('content', schema)"
           />
         </XEntry>
+
+        <!-- Related Posts Section -->
+        <div v-if="relatedPosts.length" class="mt-16 pb-8">
+          <h3 class="text-xl font-semibold mb-6 text-theme-700 dark:text-theme-300 x-font-title">
+            {{ relatedPosts.length > 1 ? 'Continue Reading' : (post.relatedPosts.value.prev ? 'Previous Post' : 'Next Post') }}
+          </h3>
+
+          <div class="grid gap-8 @[800px]/post:grid-cols-2">
+            <PostItem
+              v-for="relatedPost in relatedPosts"
+              :key="relatedPost.postId"
+              :post="relatedPost"
+              :config="{ imagePosition: 'top' }"
+            />
+          </div>
+        </div>
       </div>
     </article>
 

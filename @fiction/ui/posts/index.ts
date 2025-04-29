@@ -118,7 +118,7 @@ export async function getDemoPosts(args: { limit?: number } = {}): Promise<PostO
         <article>
           <p><em>Visual hierarchy</em> directs your reader's eyes.</p>
           <h2>Key Principles</h2>
-          <ul style="font-size: 16px;">
+          <ul>
             <li><strong>Size:</strong> Bigger elements draw focus.</li>
             <li><strong>Color:</strong> Contrasts highlight priorities.</li>
           </ul>

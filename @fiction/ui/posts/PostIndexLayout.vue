@@ -60,7 +60,7 @@ const regularPosts = vue.computed(() => {
 // Determine grid columns based on layout
 const gridClasses = vue.computed(() => {
   if (config.value.layout === 'magazine') {
-    return 'grid grid-cols-1 @[500px]/post-list:grid-cols-2 @[1000px]/post-list:grid-cols-3 gap-8'
+    return 'grid grid-cols-1 @[500px]/post-list:grid-cols-2 @[1000px]/post-list:grid-cols-3 gap-8 pt-6'
   }
   return 'divide-y divide-theme-700/50'
 })
@@ -81,7 +81,7 @@ function getTabClasses(tabType: 'latest' | 'popular') {
 <template>
   <div
     class="post-layout"
-    :class="config.sidebar === 'none' && config.layout === 'blog' ? 'max-w-2xl mx-auto' : ''"
+    :class="config.sidebar === 'none' && config.layout === 'blog' ? 'max-w-3xl mx-auto' : ''"
   >
     <div v-if="loading" class="flex items-center justify-center p-12">
       <ElSpinner class="size-8 text-theme-600" />
@@ -98,7 +98,7 @@ function getTabClasses(tabType: 'latest' | 'popular') {
 
       <!-- Main Content Area with Optional Sidebar -->
       <div
-        class="post-content-area flex flex-col lg:flex-row "
+        class="post-content-area flex flex-col lg:flex-row gap-12"
         :class="[
           config.sidebar === 'left' ? 'lg:flex-row-reverse' : '',
         ]"
