@@ -32,7 +32,7 @@ const emit = defineEmits<{
 const config = vue.computed(() => ({
   layout: props.config?.layout || 'blog',
   featuredCount: props.config?.featuredCount ?? 1,
-  sidebar: props.config?.sidebar || 'right',
+  sidebar: props.config?.sidebar || 'none',
   imagePosition: props.config?.imagePosition || (props.config?.layout === 'magazine' ? 'top' : 'right'),
 }))
 
@@ -62,21 +62,33 @@ const gridClasses = vue.computed(() => {
   if (config.value.layout === 'magazine') {
     return 'grid grid-cols-1 @[500px]/post-list:grid-cols-2 @[1000px]/post-list:grid-cols-3 gap-8'
   }
-  return ' divide-y divide-theme-700/50'
+  return 'divide-y divide-theme-700/50'
 })
+
+// Helper for tab styling
+function getTabClasses(tabType: 'latest' | 'popular') {
+  const isActive = props.sortBy === tabType
+  return [
+    'py-2 px-4 text-sm font-medium transition-colors duration-200',
+    'border-b-2',
+    isActive
+      ? 'border-theme-0 text-theme-0'
+      : 'border-transparent text-theme-500 hover:text-theme-700 dark:text-theme-400 dark:hover:text-theme-300',
+  ].join(' ')
+}
 </script>
 
 <template>
   <div
     class="post-layout"
-    :class="config.sidebar === 'none' && config.layout === 'blog' ? 'max-w-2xl' : ''"
+    :class="config.sidebar === 'none' && config.layout === 'blog' ? 'max-w-2xl mx-auto' : ''"
   >
     <div v-if="loading" class="flex items-center justify-center p-12">
       <ElSpinner class="size-8 text-theme-600" />
     </div>
     <template v-else>
       <!-- Featured Posts Section -->
-      <div v-if="featuredPosts.length > 0" class="featured-posts space-y-12 border-b pb-10 mb-10 border-theme-700/50">
+      <div v-if="featuredPosts.length > 0" class="featured-posts space-y-12 pb-10">
         <PostFeature
           v-for="post in featuredPosts"
           :key="`featured-${post.postId}`"
@@ -85,19 +97,24 @@ const gridClasses = vue.computed(() => {
       </div>
 
       <!-- Main Content Area with Optional Sidebar -->
-      <div class="post-content-area flex flex-col lg:flex-row gap-12 " :class="config.sidebar === 'left' ? 'lg:flex-row-reverse' : ''">
+      <div
+        class="post-content-area flex flex-col lg:flex-row "
+        :class="[
+          config.sidebar === 'left' ? 'lg:flex-row-reverse' : '',
+        ]"
+      >
         <!-- Main Posts Grid -->
         <div class="w-full @container/post-list grow" :class="config.sidebar !== 'none' ? 'lg:w-[61.8%]' : 'lg:w-full'">
           <!-- Post Tabs -->
-          <div class="flex gap-4 items-center">
+          <div class="flex border-b border-theme-200 dark:border-theme-700">
             <button
-              :class="!sortBy || sortBy === 'latest' ? 'cursor-default' : 'text-theme-500'"
+              :class="getTabClasses('latest')"
               @click="emit('update:sortBy', 'latest')"
             >
               Latest
             </button>
             <button
-              :class="sortBy === 'popular' ? 'cursor-default' : 'text-theme-500'"
+              :class="getTabClasses('popular')"
               @click="emit('update:sortBy', 'popular')"
             >
               Popular

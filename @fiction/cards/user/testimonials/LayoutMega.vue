@@ -52,7 +52,7 @@ function setActiveItem(index: number) {
       <blockquote class="flex flex-col justify-between h-full w-full lg:w-[50%] border-y border-r overflow-hidden rounded-r-2xl border-black/10 p-4 lg:p-10 space-y-6 xl:space-y-12">
         <div class="flex flex-col items-center lg:flex-row  justify-center gap-3 lg:gap-5 grow">
           <div class="flex flex-col items-start lg:flex-row  justify-center gap-3 lg:gap-5 grow">
-            <div class="relative pt-1 text-theme-500">
+            <div class="relative pt-1 text-theme-600/60">
               <svg class="size-6 lg:size-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M13 14.725c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275zm-13 0c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275z" /></svg>
             </div>
             <div class="  shrink inline-block">
@@ -60,7 +60,7 @@ function setActiveItem(index: number) {
                 :key="activeIndex"
                 tag="span"
                 animate="rise"
-                class="text-xl lg:text-2xl  2xl:text-4xl  !leading-[1.6] font-semibold x-font-title line-clamp-6  "
+                class="text-xl lg:text-2xl  2xl:text-3xl font-serif !leading-[1.6] font-medium x-font-title line-clamp-6  "
                 :card
                 :path="pathCheck(`items.${activeIndex}.content`, schema)"
               />
@@ -72,23 +72,23 @@ function setActiveItem(index: number) {
             v-for="(item, i) in items"
             :key="i"
             :ref="el => { if (el) navItemsRef[i] = el as HTMLDivElement }"
-            class=" snap-center basis-1/3 lg:basis-auto transition-opacity duration-500 cursor-pointer"
+            class=" snap-center basis-1/3 lg:basis-auto transition-opacity duration-500 cursor-pointer gap-4"
             :class="activeIndex === i ? 'opacity-100' : 'opacity-40 hover:opacity-100'"
             @click="setActiveItem(i)"
           >
-            <div class="flex justify-center flex-col items-center gap-2">
-              <div><XMedia :media="item.user?.media" class="size-12 md:size-16 rounded-full overflow-clip ring-2 ring-white" /></div>
-              <div class="text-center" :class="activeIndex === i ? 'font-semibold' : ''">
+            <div class="flex justify-center flex-col items-center p-2 gap-2 max-w-[140px] min-w-0">
+              <div><XMedia :media="item.user?.media" class="size-8 md:size-12 rounded-full overflow-clip ring-2 ring-white" /></div>
+              <div class="text-center min-w-0" :class="activeIndex === i ? 'font-semibold' : ''">
                 <CardText
                   tag="div"
-                  class="text-xs md:text-sm font-sans truncate whitespace-nowrap"
+                  class="text-xs md:text-sm font-sans truncate whitespace-nowrap  w-full"
                   :card
                   :path="pathCheck(`items.${i}.user.label`, schema)"
                   animate="fade"
                 />
                 <CardText
                   tag="div"
-                  class="text-xs md:text-sm font-sans opacity-50 truncate whitespace-nowrap"
+                  class="text-xs md:text-sm font-sans opacity-50 truncate whitespace-nowrap w-full"
                   :card
                   :path="pathCheck(`items.${i}.user.subLabel`, schema)"
                   animate="fade"

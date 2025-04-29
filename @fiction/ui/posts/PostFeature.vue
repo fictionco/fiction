@@ -18,11 +18,12 @@ const { post, layout = 'left', aspectRatio = 'landscape' } = defineProps<{
 const containerClasses = vue.computed(() => {
   const baseClasses = 'flex flex-col gap-6'
 
+
   switch (layout) {
     case 'left':
-      return `${baseClasses} md:flex-row md:gap-12`
+      return `${baseClasses} @[800px]/post-feature:flex-row @[800px]/post-feature:gap-12`
     case 'right':
-      return `${baseClasses} md:flex-row-reverse md:gap-12`
+      return `${baseClasses} @[800px]/post-feature:flex-row-reverse @[800px]/post-feature:gap-12`
     case 'above':
       return `${baseClasses} gap-5`
     default:
@@ -49,7 +50,7 @@ const contentClass = vue.computed(() => {
   if (layout === 'above')
     return 'w-full'
 
-  return 'w-full md:w-[38.2%]' // Golden ratio proportion
+  return 'w-full @[800px]/post-feature::w-[38.2%]' // Golden ratio proportion
 })
 
 // Image container proportions based on golden ratio
@@ -57,12 +58,12 @@ const imageContainerClass = vue.computed(() => {
   if (layout === 'above')
     return 'w-full'
 
-  return 'w-full md:w-[61.8%]' // Inverse golden ratio proportion
+  return 'w-full @[800px]/post-feature::w-[61.8%]' // Inverse golden ratio proportion
 })
 </script>
 
 <template>
-  <article class="post-feature relative">
+  <article class="post-feature relative @container/post-feature">
     <div
       :class="containerClasses"
     >
@@ -98,7 +99,7 @@ const imageContainerClass = vue.computed(() => {
         </div>
 
         <!-- Title with proper rhythm -->
-        <h2 class="x-font-title font-semibold text-theme-950 dark:text-theme-50 text-xl sm:text-2xl md:text-3xl mb-3 line-clamp-2">
+        <h2 class="x-font-title font-semibold text-theme-950 dark:text-theme-50 text-xl sm:text-2xl md:text-3xl mb-3 line-clamp-2 sm:text-pretty">
           <XLink
             :href="post.href.value"
             class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors"

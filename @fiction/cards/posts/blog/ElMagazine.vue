@@ -55,7 +55,7 @@ const config = vue.computed(() => {
   return {
     layout: 'blog',
     featuredCount: uc.value.index?.featuredCount ?? 1,
-    sidebar: uc.value.index?.sidebar || 'right',
+    sidebar: uc.value.index?.sidebar || 'none',
     imagePosition: uc.value.index?.imagePosition,
   } as const
 })

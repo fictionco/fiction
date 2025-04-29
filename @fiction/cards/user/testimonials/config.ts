@@ -41,6 +41,19 @@ const options = [
     options: [
       createOption({
         schema,
+        key: 'layout',
+        label: 'Showcase Style',
+        subLabel: 'See how each layout creates a different emotional impact',
+        input: 'InputRadioButton',
+        props: { uiSize: 'sm' },
+        list: [
+          { value: 'slider', label: 'Slider' },
+          { value: 'mega', label: 'Spotlight' },
+          { value: 'masonry', label: 'Collection' },
+        ],
+      }),
+      createOption({
+        schema,
         input: 'InputList',
         key: 'items',
         props: {
@@ -116,29 +129,6 @@ const options = [
             ],
           }),
 
-        ],
-      }),
-    ],
-  }),
-
-  createOption({
-    schema,
-    input: 'group',
-    key: 'group.settings',
-    label: 'Settings',
-    icon: { class: 'i-tabler-settings' },
-    options: [
-      createOption({
-        schema,
-        key: 'layout',
-        label: 'Showcase Style',
-        subLabel: 'See how each layout creates a different emotional impact',
-        input: 'InputRadioButton',
-        props: { uiSize: 'sm' },
-        list: [
-          { value: 'slider', label: 'Slider' },
-          { value: 'mega', label: 'Spotlight' },
-          { value: 'masonry', label: 'Collection' },
         ],
       }),
     ],
