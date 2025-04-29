@@ -51,7 +51,7 @@ vue.onMounted(async () => {
   const sortable = new Sortable(wrapperEl.value, {
     draggable: itemSelector,
     handle: dragHandle || undefined,
-    distance: 3,
+    distance: 10,
     mirror: {
       constrainDimensions: true,
     },

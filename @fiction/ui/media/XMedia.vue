@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
+import type { Card } from '@fiction/site'
 import { determineMediaFormat, getGradientCss, log, removeUndefined, vue, waitFor } from '@fiction/core'
 import * as bh from 'blurhash'
 import ClipPathAnim from '../anim/AnimClipPath.vue'
@@ -12,12 +13,16 @@ const {
   animate = false,
   imageMode = 'cover',
   constraint = 'width',
+  card,
+  path,
 } = defineProps<{
   media?: MediaObject
   imageClass?: string
   animate?: AnimateType
   imageMode?: ImageMode
   constraint?: 'width' | 'height'
+  card?: Card
+  path?: string
 }>()
 
 type ImageMode = 'inline' | 'cover' | 'contain' | 'inlineBlock'
@@ -245,6 +250,15 @@ async function videoHover(args: { mode: 'enter' | 'leave' }) {
     }
   }
 }
+
+function handleMediaClick(event: MouseEvent) {
+  if (card?.site?.isEditable.value && path) {
+    event.stopPropagation()
+    event.preventDefault()
+    card?.site?.setActiveCard({ cardId: card.cardId })
+    card?.setEditPath({ path, caller: 'XMedia' })
+  }
+}
 </script>
 
 <template>
@@ -261,6 +275,7 @@ async function videoHover(args: { mode: 'enter' | 'leave' }) {
       :class="[classes.wrap, flipClass]"
       :style="[bgStyle]"
       :data-loading="loading"
+      @click="handleMediaClick($event)"
     >
       <transition
         enter-active-class="transition ease duration-300"
@@ -308,6 +323,7 @@ async function videoHover(args: { mode: 'enter' | 'leave' }) {
         :aria-label="media?.alt"
         :style="filterStyle"
         v-bind="videoAttrs"
+        draggable="false"
         @mouseenter="videoHover({ mode: 'enter' })"
         @mouseleave="videoHover({ mode: 'leave' })"
       />
@@ -319,6 +335,7 @@ async function videoHover(args: { mode: 'enter' | 'leave' }) {
         :src="validMediaUrl"
         :style="filterStyle"
         :alt="media?.alt"
+        draggable="false"
       >
       <iframe
         v-else-if="mediaFormat === 'iframe'"

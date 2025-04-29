@@ -242,7 +242,6 @@ function getDefaultContent(): UserConfig {
     items: [
       {
         title: 'Hello',
-        subTitle: 'This is a sample subtitle',
         action: {
           buttons: [],
         },

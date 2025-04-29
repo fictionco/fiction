@@ -18,7 +18,7 @@ export async function getAboutPage() {
             text: 'About Fiction',
           },
           title: `Your Story Matters`,
-          subTitle: `Create your ideal digital self.`,
+          subTitle: `Create a perfect version of yourself online.`,
 
           media: {
             format: 'url',
@@ -40,8 +40,8 @@ export async function getAboutPage() {
             text: 'The Struggle',
             theme: 'red',
           },
-          title: `“Where Do I Even Start?”`,
-          subTitle: `74% of professionals lack an online presence. Complex tools and endless options make it hard.`,
+          title: `“This Feels Impossible”`,
+          subTitle: `74% of professionals have no online presence. Clunky tools, tech overwhelm, and fear of looking unprofessional stop them cold.`,
 
           media: {
             format: 'url',
@@ -64,8 +64,8 @@ export async function getAboutPage() {
             text: 'Our Promise',
             theme: 'green',
           },
-          title: `Effortless Branding for Busy Pros`,
-          subTitle: `People with strong profiles land better opportunities. Fiction makes it simple to stand out without the headache.`,
+          title: `Authentic Presence, Made Simple`,
+          subTitle: `You're not a tech expert, and you shouldn't have to be. Fiction lets you create a polished, authentic digital identity with ease—no coding, no stress.`,
 
           media: {
             format: 'url',
@@ -81,13 +81,13 @@ export async function getAboutPage() {
   const teamCard = cardConfig({
     templateId: 'cardPeopleV1',
     userConfig: {
-      subTitle: `Here to Help You Succeed`,
+      subTitle: `Here to Make It Easy`,
       title: `Meet Your Team`,
       items: [
         {
           title: 'Andrew Powers',
           subTitle: 'Co-Founder / CEO',
-          content: 'Andrew is a veteran in product experience, ensuring that Fiction is user-friendly and intuitive.',
+          content: 'Andrew obsesses over making Fiction intuitive, so you can focus on your story, not the tech.',
           media: {
             format: 'url',
             url: ImageAndrew,
@@ -104,7 +104,7 @@ export async function getAboutPage() {
         {
           title: 'Morgan Jones',
           subTitle: 'Co-Founder / Sales',
-          content: 'Morgan is a master of customer experience, ensuring your journey with Fiction is smooth and enjoyable.',
+          content: 'Morgan ensures your experience with Fiction is seamless, from start to stunning finish.',
           media: {
             format: 'url',
             url: ImageMorgan,

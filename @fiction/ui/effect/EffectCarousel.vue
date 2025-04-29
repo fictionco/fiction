@@ -106,10 +106,13 @@ async function initFlickity() {
 vue.onMounted(async () => {
   vue.watch(
     () => [props.slides.length, props.trigger],
-    () => {
-      vue.nextTick(async () => {
-        await initFlickity()
-      })
+    (v, old) => {
+      const [numSlides, trigger] = v
+      const [oldNumSlides, oldTrigger] = old || []
+
+      if (numSlides !== oldNumSlides || trigger !== oldTrigger) {
+        vue.nextTick(() => initFlickity())
+      }
     },
     { immediate: true },
   )

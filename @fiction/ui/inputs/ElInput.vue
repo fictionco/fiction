@@ -247,20 +247,3 @@ const componentProps = vue.computed(() => {
     </div>
   </div>
 </template>
-
-<style lang="less" scoped>
-.highlight-selected {
-  animation: highlightInput .5s cubic-bezier(0.25,1,0.33,1) forwards;
-}
-
-@keyframes highlightInput {
-  0% {
-    opacity: 0.5;
-    transform: scale(0.98);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-</style>

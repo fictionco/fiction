@@ -86,6 +86,15 @@ function setActiveItemByTitle(title?: string) {
   }
 }
 
+function getSlideIndex(renderIndex: number): number {
+  const items = slidesWithIds.value
+  if (items.length === 0)
+    return 0
+
+  const startIndex = ((currentItemIndex.value % items.length) + items.length) % items.length
+  return (startIndex + renderIndex) % items.length
+}
+
 // Animation
 function getItemStyle(index: number) {
   return {
@@ -209,11 +218,13 @@ vue.onBeforeUnmount(() => {
               :key="item._id"
               class="carousel-item absolute w-full h-full cursor-pointer"
               :style="getItemStyle(i)"
-              @click="setActiveItemByTitle(item.title)"
+              @click="setActiveItem(getSlideIndex(i))"
             >
               <XMedia
                 :media="item.media"
                 class="w-full h-full object-cover rounded-[20px] overflow-hidden shadow-[10px_-10px_10px_-8px_rgba(0_0_0/0.3)]"
+                :card
+                :path="pathCheck(`items.${getSlideIndex(i)}.media`, schema)"
               />
             </div>
             <NavDots
