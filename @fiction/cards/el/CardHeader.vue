@@ -50,10 +50,10 @@ const layout = vue.computed(() => {
 </script>
 
 <template>
-  <div class="space-y-6">
+  <div class="space-y-6 ">
     <div
       :class="textWrapClass"
-      class="space-y-5 md:space-y-6"
+      class="space-y-5 md:space-y-6 @container/header"
       data-option-path="layout"
       :data-layout="layout"
     >
@@ -66,7 +66,7 @@ const layout = vue.computed(() => {
         <CardText
           tag="h1"
           :card
-          class="x-font-title font-semibold md:text-balance text-3xl leading-[1.4] md:text-4xl md:leading-[1.2] lg:text-5xl lg:leading-[1.2]"
+          class="x-font-title font-semibold md:text-balance text-3xl @[300px]/header:text-4xl @[600px]/header:text-5xl !leading-[1.2]"
           :path="pathCheck('title', schema)"
           placeholder="Title"
           animate="fade"
@@ -76,7 +76,7 @@ const layout = vue.computed(() => {
         <CardText
           tag="h3"
           :card
-          class="text-lg  md:text-xl lg:text-2xl md:text-balance text-theme-800 dark:text-theme-300 !leading-relaxed"
+          class="text-lg  @[300px]/header:text-xl @[600px]/header:text-2xl md:text-balance text-theme-800 dark:text-theme-300 !leading-relaxed"
           :class="layout === 'justify' ? 'lg:text-right' : ''"
           :path="pathCheck('subTitle', schema)"
           placeholder="Sub Title"

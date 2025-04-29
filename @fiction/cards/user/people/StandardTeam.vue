@@ -46,27 +46,27 @@ const uc = vue.computed(() => props.card.userConfig.value || {})
       />
 
       <!-- Member details with balanced spacing -->
-      <div class="mt-6" :class="uc.layout === 'mediabox' ? 'md:mt-0' : ''">
+      <div class="mt-6 @container/txt grow" :class="uc.layout === 'mediabox' ? 'md:mt-0' : ''">
         <CardText
           animate="fade"
           :card
           :path="pathCheck(`items.${i}.title`, schema)"
           tag="h3"
-          class="text-lg md:text-3xl xl:text-5xl font-semibold x-font-title"
+          class="text-2xl @[300px]/txt:text-3xl @[700px]/txt:text-5xl font-semibold x-font-title"
         />
         <CardText
           animate="fade"
           :card
           :path="pathCheck(`items.${i}.subTitle`, schema)"
           tag="p"
-          class="text-sm md:text-2xl xl:text-2xl mt-1 text-theme-500 dark:text-theme-400 font-sans"
+          class="text-lg @[300px]/txt:text-2xl @[700px]/txt:text-2xl mt-1 text-theme-500 dark:text-theme-400 font-sans"
         />
         <CardText
           animate="fade"
           :card
           :path="pathCheck(`items.${i}.content`, schema)"
           tag="p"
-          class="mt-3 text-base md:text-2xl xl:text-2xl !leading-relaxed"
+          class="mt-3 text-lg @[500px]/txt:text-2xl  !leading-relaxed"
         />
 
         <!-- Social links with consistent spacing -->
