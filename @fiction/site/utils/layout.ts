@@ -27,8 +27,6 @@ export function flattenCards(cardsToFlatten: Card[]): Card[] {
 export function layoutOrderCards(args: { availableCards: Card[], order: LayoutOrder[] }): Card[] {
   const { availableCards, order } = args
 
-  // Function to flatten all cards, including nested ones
-
   const allCards = flattenCards(availableCards)
 
   function reorder(args: { order?: LayoutOrder[] }): Card[] {
@@ -103,4 +101,42 @@ export function getOrderRecursive(args: { depth?: number, parentEl: Element }): 
   })
 
   return out
+}
+
+/**
+ * Move a card up or down within its parent container
+ */
+export function moveCard(args: { card: Card, direction: 'up' | 'down' }) {
+  const { card, direction } = args
+  const { site } = card
+  if (!site)
+    throw new Error('No site associated with card')
+
+  const parent = site.availableCards.value.find(c =>
+    c.cards.value.some(sc => sc.cardId === card.cardId),
+  )
+  if (!parent)
+    throw new Error('Parent card not found')
+
+  const cards = parent.cards.value
+  const index = cards.findIndex(c => c.cardId === card.cardId)
+  if (index === -1)
+    throw new Error('Card not found')
+
+  const newIndex = direction === 'up' ? Math.max(0, index - 1) : Math.min(cards.length - 1, index + 1)
+  if (index === newIndex)
+    return
+
+  // Reorder cards
+  const newCards = [...cards]
+  const [movedCard] = newCards.splice(index, 1) // Extract the card
+  newCards.splice(newIndex, 0, movedCard) // Insert at new position
+
+  // Update layout
+  site.updateLayout({
+    order: [{
+      itemId: parent.cardId,
+      items: newCards.map((c, i) => ({ itemId: c.cardId, type: `card-${i}` })),
+    }],
+  })
 }

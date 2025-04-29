@@ -67,32 +67,37 @@ function setActiveItem(index: number) {
             </div>
           </div>
         </div>
-        <div class="flex gap-3 lg:gap-6  no-scrollbar justify-start py-3 overflow-x-auto snap-mandatory snap-x">
-          <div
-            v-for="(item, i) in items"
-            :key="i"
-            :ref="el => { if (el) navItemsRef[i] = el as HTMLDivElement }"
-            class=" snap-center basis-1/3 lg:basis-auto transition-opacity duration-500 cursor-pointer gap-4"
-            :class="activeIndex === i ? 'opacity-100' : 'opacity-40 hover:opacity-100'"
-            @click="setActiveItem(i)"
-          >
-            <div class="flex justify-center flex-col items-center p-2 gap-2 max-w-[140px] min-w-0">
-              <div><XMedia :media="item.user?.media" class="size-8 md:size-12 rounded-full overflow-clip ring-2 ring-white" /></div>
-              <div class="text-center min-w-0" :class="activeIndex === i ? 'font-semibold' : ''">
-                <CardText
-                  tag="div"
-                  class="text-xs md:text-sm font-sans truncate whitespace-nowrap  w-full"
-                  :card
-                  :path="pathCheck(`items.${i}.user.label`, schema)"
-                  animate="fade"
-                />
-                <CardText
-                  tag="div"
-                  class="text-xs md:text-sm font-sans opacity-50 truncate whitespace-nowrap w-full"
-                  :card
-                  :path="pathCheck(`items.${i}.user.subLabel`, schema)"
-                  animate="fade"
-                />
+        <!-- Navigation dots -->
+        <div class="w-full">
+          <div class="flex gap-2">
+            <div
+              v-for="(item, i) in items.slice(0, 5)"
+              :key="i"
+              class="transition-opacity duration-500 cursor-pointer text-center min-w-0"
+              :class="activeIndex === i ? 'opacity-100' : 'opacity-40 hover:opacity-80'"
+              :style="{ flexBasis: `${100 / items.length}%` }"
+              @click="setActiveItem(i)"
+            >
+              <div class="flex flex-col items-center p-2 gap-2">
+                <div>
+                  <XMedia :media="item.user?.media" class="size-8 md:size-10 rounded-full overflow-clip ring-2 ring-white" />
+                </div>
+                <div class="text-center w-full" :class="activeIndex === i ? '' : ''">
+                  <CardText
+                    tag="div"
+                    class="text-xs font-sans truncate w-full"
+                    :card
+                    :path="pathCheck(`items.${i}.user.label`, schema)"
+                    animate="fade"
+                  />
+                  <CardText
+                    tag="div"
+                    class="text-[10px] md:text-xs font-sans opacity-50 truncate w-full"
+                    :card
+                    :path="pathCheck(`items.${i}.user.subLabel`, schema)"
+                    animate="fade"
+                  />
+                </div>
               </div>
             </div>
           </div>

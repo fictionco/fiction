@@ -2,6 +2,7 @@
 import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { onResetUi, vue } from '@fiction/core'
+import { moveCard } from '@fiction/site/utils/layout'
 
 const { card } = defineProps<{
   title?: string
@@ -19,16 +20,25 @@ const editDropdownItems = vue.computed(() => {
       },
     },
     {
-      label: 'Add/Move',
-      value: 'add',
+      label: 'Move Up',
+      value: 'moveUp',
       onClick: () => {
-        card.site?.editorActivateTool({ toolId: 'sectionsLayout' })
+        moveCard({ card, direction: 'up' })
+      },
+    },
+    {
+      label: 'Move Down',
+      value: 'moveDown',
+      onClick: () => {
+        moveCard({ card, direction: 'down' })
       },
     },
     {
       value: 'delete',
       onClick: () => {
-        card.site?.removeCard({ cardId: card.cardId })
+        const confirmed = confirm('Are you sure?')
+        if (confirmed)
+          card.site?.removeCard({ cardId: card.cardId })
       },
     },
   ] as const

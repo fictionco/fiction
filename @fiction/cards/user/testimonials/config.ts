@@ -42,8 +42,7 @@ const options = [
       createOption({
         schema,
         key: 'layout',
-        label: 'Showcase Style',
-        subLabel: 'See how each layout creates a different emotional impact',
+        label: 'Layout',
         input: 'InputRadioButton',
         props: { uiSize: 'sm' },
         list: [

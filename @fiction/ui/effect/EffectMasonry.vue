@@ -37,7 +37,7 @@ async function initPackery() {
   if (containerRef.value) {
     const defaultOptions: EffectOptions = {
       itemSelector: '.masonry-grid-item',
-      gutter: 40,
+      gutter: '.gutter-sizer',
       percentPosition: true,
       transitionDuration: '0.4s',
       resize: true,
@@ -57,8 +57,7 @@ async function initPackery() {
 }
 
 vue.onMounted(async () => {
-  await waitFor(200) // Allow time for initial rendering
-
+  await waitFor(200)
   vue.watch(() => props.items.length, () => {
     vue.nextTick(async () => {
       await initPackery()
@@ -72,13 +71,13 @@ vue.onBeforeUnmount(() => {
   }
 })
 
-// Expose Packery instance to parent component if needed
 defineExpose({ packery: pckry })
 </script>
 
 <template>
   <div>
     <div ref="containerRef" class="masonry-grid clear-both w-full transition-opacity" :class="isLoading ? 'opacity-0' : 'opacity-100'">
+      <div class="gutter-sizer" :class="props.gap || 'w-4 md:w-6'" />
       <slot />
     </div>
   </div>

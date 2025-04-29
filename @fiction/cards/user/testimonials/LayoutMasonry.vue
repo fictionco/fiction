@@ -23,13 +23,13 @@ const masonryOptions = {
 
 <template>
   <div>
-    <MasonryEffect :items="items" :options="masonryOptions" gap="2vw">
+    <MasonryEffect :items="items" :options="masonryOptions">
       <div v-for="(item, index) in items" :key="index" class="masonry-grid-item float-left w-full md:w-[48%]">
         <div class="relative rounded-2xl overflow-hidden shadow-lg bg-theme-600 dark:bg-theme-700 transition-all duration-300 hover:shadow-xl">
           <XMedia class="absolute inset-0 object-cover" :media="item?.media || item?.user?.media" />
           <div class="flex flex-col justify-between">
             <div class="grow h-72" />
-            <div class="md:flex justify-between relative p-6 ">
+            <div class="flex justify-between relative p-6 gap-6">
               <div class="space-y-4 relative z-10">
                 <div class="text-theme-50 opacity-20">
                   <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -38,14 +38,14 @@ const masonryOptions = {
                 </div>
                 <CardText
                   tag="div"
-                  class="text-lg sm:text-2xl text-theme-50 !leading-[1.4]"
+                  class="text-lg sm:text-xl text-theme-50 !leading-[1.4] font-medium line-clamp-5"
                   :card
                   :path="pathCheck(`items.${index}.content`, schema)"
                   animate="fade"
                 />
               </div>
-              <div class="flex flex-wrap gap-2 md:flex-col items-center justify-center  p-6 relative z-10">
-                <XMedia :media="item.user?.media" class="size-16 rounded-full ring-2 ring-white overflow-hidden" />
+              <div class="flex flex-wrap gap-2 md:flex-col items-center justify-center relative z-10 min-w-[100px]">
+                <XMedia :media="item.user?.media" class="size-12 rounded-full ring-2 ring-white overflow-hidden" />
                 <div class="md:text-center">
                   <CardText
                     tag="div"

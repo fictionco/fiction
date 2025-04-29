@@ -11,6 +11,7 @@ import { deepMerge, FictionObject, objectId, setNested, toLabel, vue } from '@fi
 import { z } from 'zod'
 import { CardFactory } from './cardFactory.js'
 import { getContentWidthClass, getSpacingClass } from './styling.js'
+import { moveCard } from './utils/layout.js'
 import { siteGoto, siteLink } from './utils/manage.js'
 
 export const OldCardTagsSchema = z.enum([
@@ -29,7 +30,7 @@ export const OldCardTagsSchema = z.enum([
   'portfolio',
   'hero',
   'resume',
-  'advanced'
+  'advanced',
 ])
 
 type CardTags = z.infer<typeof OldCardTagsSchema>

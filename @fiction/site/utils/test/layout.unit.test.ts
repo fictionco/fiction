@@ -4,13 +4,13 @@
 
 import type { CardConfigPortable } from '../../tables'
 import type { LayoutOrder } from '../layout'
-import { shortId } from '@fiction/core'
+import { shortId, waitFor } from '@fiction/core'
 import { JSDOM } from 'jsdom'
-import { beforeAll, describe, expect, it } from 'vitest'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { Card } from '../../card'
 import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/testUtils'
-import { getOrderRecursive, getSimpleOrderSchema, layoutOrderCards, setLayoutOrder } from '../layout'
+import { getOrderRecursive, getSimpleOrderSchema, layoutOrderCards, moveCard, setLayoutOrder } from '../layout'
 
 describe('setLayoutOrder', async () => {
   const testUtils = await createSiteTestUtils()
@@ -23,18 +23,21 @@ describe('setLayoutOrder', async () => {
   } as const
   it('should reorder regions and nested cards based on provided order', async () => {
     // Mock data setup
-    const page1 = new Card({ cardId: 'page1', cards: [{ cardId: 'cardA', templateId: 'cardPageAreaV1' }] })
-    const page2 = new Card({ cardId: 'page2', slug: 'foo', isHome: true, cards: [{ cardId: 'cardB', templateId: 'cardPageAreaV1' }] })
-    const page3 = new Card({ cardId: 'page3', cards: [{ cardId: 'cardC', templateId: 'cardHeroV1' }] })
+    const cardA = { cardId: 'cardA', templateId: 'cardPageAreaV1' }
+    const cardB = { cardId: 'cardB', templateId: 'cardPageAreaV1' }
+    const page1 = new Card({ cardId: 'page1', cards: [cardA, cardB] })
+    const page2 = new Card({ cardId: 'page2', slug: 'foo', isHome: true, cards: [cardB, cardA] })
     const cardHeader = new Card({ cardId: 'header', cards: [{ cardId: 'headerA', templateId: 'cardPageAreaV1' }] }).toConfig()
     const cardFooter = new Card({ cardId: 'footer', cards: [{ cardId: 'footerA', templateId: 'cardPageAreaV1' }] }).toConfig()
 
-    const pages = [page1, page2, page3].map(c => c.toConfig())
+    const pages = [page1, page2].map(c => c.toConfig())
     const sections: Record<string, CardConfigPortable> = { header: cardHeader, footer: cardFooter }
     const site = await Site.create({ pages, sections, ...common })
 
+    site.activePageId.value = 'page2'
+
     const order = [
-      { itemId: 'page2', items: [{ itemId: 'cardB' }, { itemId: 'cardC' }] },
+      { itemId: 'page2', items: [{ itemId: 'cardB' }, { itemId: 'cardA' }] },
       { itemId: 'header', items: [{ itemId: 'headerA' }] },
       { itemId: 'footer', items: [{ itemId: 'cardA' }, { itemId: 'footerA' }] },
     ]
@@ -43,21 +46,19 @@ describe('setLayoutOrder', async () => {
 
     // Assertions to verify the correct order
     // -- You'll need to adjust these based on the actual structure and access methods of your Site and Card classes
-    expect(site.pages.value.find(p => p.cardId === 'page2')?.cards.value.map(c => c.cardId)).toEqual(['cardB', 'cardC'])
+    expect(site.pages.value.find(p => p.cardId === 'page2')?.cards.value.map(c => c.cardId)).toEqual(['cardB', 'cardA'])
     expect(site.sections.value.header?.cards.value.map(c => c.cardId)).toEqual(['headerA'])
     expect(site.sections.value.footer?.cards.value.map(c => c.cardId)).toEqual(['cardA', 'footerA'])
 
     const order2 = [
-      { itemId: 'page2', items: [{ itemId: 'cardC' }, { itemId: 'cardA' }] },
-      { itemId: 'page3', items: [{ itemId: 'cardA' }, { itemId: 'cardB' }] },
+      { itemId: 'page2', items: [{ itemId: 'cardA' }, { itemId: 'cardB' }] },
     ]
 
     setLayoutOrder({ site, order: order2 })
 
-    await site.addCard({ cardId: 'cardD', templateId: 'cardHeroV1', addToCardId: 'page3', location: 'top' })
+    await site.addCard({ cardId: 'cardD', templateId: 'cardHeroV1', addToCardId: 'page2', location: 'top' })
 
-    expect(site.pages.value.find(p => p.cardId === 'page2')?.cards.value.map(c => c.cardId)).toEqual(['cardC', 'cardA'])
-    expect(site.pages.value.find(p => p.cardId === 'page3')?.cards.value.map(c => c.cardId)).toEqual(['cardD', 'cardA', 'cardB'])
+    expect(site.pages.value.find(p => p.cardId === 'page2')?.cards.value.map(c => c.cardId)).toEqual(['cardD', 'cardA', 'cardB'])
   })
 })
 
@@ -131,6 +132,7 @@ describe('layout handling', () => {
               "type": "card-1",
             },
           ],
+          "regionId": "none",
           "type": "region",
         },
         {
@@ -158,6 +160,7 @@ describe('layout handling', () => {
               "type": "card-1",
             },
           ],
+          "regionId": "none",
           "type": "region",
         },
       ]
@@ -211,5 +214,113 @@ describe('layout handling', () => {
 
     expect(getSimple(result)).toMatchInlineSnapshot(`"a,c[b,x,y,z[hello,world]]"`)
     expect(getSimple(result)).toBe('a,c[b,x,y,z[hello,world]]')
+  })
+})
+
+describe('moveCard', async () => {
+  const testUtils = await createSiteTestUtils()
+  const common = {
+    fictionSites: testUtils.fictionSites,
+    siteRouter: testUtils.fictionRouterSites,
+    siteMode: 'standard',
+    themeId: 'test',
+    siteId: `test-${shortId()}`,
+  } as const
+
+  it('should move a card up within its parent container', async () => {
+    // Setup a site with a parent page and child cards
+    const cardA = { cardId: 'cardA', templateId: 'cardHeroV1' }
+    const cardB = { cardId: 'cardB', templateId: 'cardHeroV1' }
+    const cardC = { cardId: 'cardC', templateId: 'cardHeroV1' }
+    const page = new Card({
+      cardId: 'page1',
+      slug: 'home',
+      isHome: true,
+      cards: [cardA, cardB, cardC],
+    })
+
+    const site = await Site.create({
+      pages: [page.toConfig()],
+      sections: {},
+      ...common,
+    })
+
+    // Set active page
+    site.activePageId.value = 'page1'
+
+    // Get the card to move (middle card)
+    const cardToMove = site.availableCards.value.find(c => c.cardId === 'cardB')
+
+    // Move the card up
+    moveCard({ card: cardToMove!, direction: 'up' })
+
+    await waitFor(100)
+
+    // Check that the card is now in the first position
+    const updatedPage = site.pages.value.find(p => p.cardId === 'page1')
+    expect(updatedPage?.cards.value.map(c => c.cardId)).toEqual(['cardB', 'cardA', 'cardC'])
+  })
+
+  it('should move a card down within its parent container', async () => {
+    // Setup a site with a parent page and child cards
+    const cardA = { cardId: 'cardA', templateId: 'cardHeroV1' }
+    const cardB = { cardId: 'cardB', templateId: 'cardHeroV1' }
+    const cardC = { cardId: 'cardC', templateId: 'cardHeroV1' }
+    const page = new Card({
+      cardId: 'page1',
+      slug: 'home',
+      isHome: true,
+      cards: [cardA, cardB, cardC],
+    })
+
+    const site = await Site.create({
+      pages: [page.toConfig()],
+      sections: {},
+      ...common,
+    })
+
+    // Set active page
+    site.activePageId.value = 'page1'
+
+    // Get the card to move (first card)
+    const cardToMove = site.availableCards.value.find(c => c.cardId === 'cardA')
+
+    // Move the card down
+    moveCard({ card: cardToMove!, direction: 'down' })
+
+    // Check that the card is now in the second position
+    const updatedPage = site.pages.value.find(p => p.cardId === 'page1')
+    expect(updatedPage?.cards.value.map(c => c.cardId)).toEqual(['cardB', 'cardA', 'cardC'])
+  })
+
+  it('should not move a card when already at edge position', async () => {
+    // Setup a site with a parent page and child cards
+    const cardA = { cardId: 'cardA', templateId: 'cardHeroV1' }
+    const cardB = { cardId: 'cardB', templateId: 'cardHeroV1' }
+    const page = new Card({
+      cardId: 'page1',
+      slug: 'home',
+      isHome: true,
+      cards: [cardA, cardB],
+    })
+
+    const site = await Site.create({
+      pages: [page.toConfig()],
+      sections: {},
+      ...common,
+    })
+
+    // Set active page
+    site.activePageId.value = 'page1'
+
+    // Get the first card
+    const firstCard = site.availableCards.value.find(c => c.cardId === 'cardA')
+
+    // Try to move the top card up (should stay in place)
+    moveCard({ card: firstCard!, direction: 'up' })
+
+    // Check that the order hasn't changed
+    const updatedPage = site.pages.value.find(p => p.cardId === 'page1')
+    expect(updatedPage?.cards.value.map(c => c.cardId)).toEqual(['cardA', 'cardB'])
   })
 })
