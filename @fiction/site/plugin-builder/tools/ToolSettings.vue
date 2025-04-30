@@ -3,7 +3,9 @@ import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import type { Card } from '@fiction/site'
 import type { Site } from '../../site'
 import type { ToolKeys } from './tools'
+import ElTool from '@fiction/admin/tools/ElTool.vue'
 import { vue } from '@fiction/core'
+import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import TabbedOptions from '@fiction/ui/inputs/TabbedOptions.vue'
 import { updateSite } from '../../utils/site'
 import { getSiteOptions } from './utils'
@@ -26,11 +28,19 @@ const options = getSiteOptions(props)
 </script>
 
 <template>
-  <TabbedOptions
-    v-model="v"
-    title="Site Settings"
-    :options="[options.global, options.history]"
-    :input-props="{ site: props.site, tool: props.tool }"
-    @done="site.editorActivateTool({ toolId: '' })"
-  />
+  <ElTool
+    :tool
+    :title="tool.title"
+    :icon="tool.icon"
+  >
+    <FormEngine
+      v-model="v"
+      class="my-4"
+      state-key="optionsEngine"
+      ui-size="md"
+      :options="[options.global, options.history]"
+      :disable-group-hide="true"
+      :input-props="{ site: props.site, tool: props.tool }"
+    />
+  </ElTool>
 </template>

@@ -5,10 +5,11 @@ import XButton from '../buttons/XButton.vue'
 
 defineOptions({ name: 'InputRadioButton' })
 
-const { modelValue, list = [], uiSize = 'xs' } = defineProps<{
+const { modelValue, list = [], uiSize = 'xs', defaultValue } = defineProps<{
   modelValue?: string | number
   list?: NavListItem[]
   uiSize?: StandardSize
+  defaultValue?: string | number
 }>()
 
 const emit = defineEmits<{
@@ -18,6 +19,10 @@ const emit = defineEmits<{
 const attrs = vue.useAttrs()
 
 const parsedList = vue.computed(() => normList(list))
+
+// set default value if modelValue is not set
+if (!modelValue && defaultValue)
+  emit('update:modelValue', defaultValue)
 
 // Simple size downscaling map
 const buttonSize = vue.computed(() => {

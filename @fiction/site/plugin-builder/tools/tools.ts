@@ -20,7 +20,7 @@ export function getTools(args: { site: Site }) {
       title: 'Add Page',
       icon: { class: 'i-tabler-file-plus' },
       el: vue.defineAsyncComponent(async () => import('./ToolPageAdd.vue')),
-      design: 'drawer',
+      design: 'modal',
     },
     {
       toolId: 'sectionsLayout',

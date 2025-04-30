@@ -1,11 +1,11 @@
-import type { CardConfigPortable, Site } from '@fiction/site'
-import { colorThemeUser, toLabel, vue } from '@fiction/core'
+import type { Card, CardConfigPortable, Site } from '@fiction/site'
+import { toLabel, vue } from '@fiction/core'
 import { TablePageSchema as PageSchema, TableSiteSchema as SiteSchema } from '@fiction/site/tables'
 import { createOption } from '@fiction/ui'
 import { t } from '../../tables'
 
-export function getSiteOptions(args: { site: Site }) {
-  const { site } = args
+export function getSiteOptions(args: { card: Card }) {
+  const { card } = args
 
   return {
     global: createOption({
@@ -21,6 +21,18 @@ export function getSiteOptions(args: { site: Site }) {
           label: 'Site Title',
           input: 'InputText',
           isRequired: true,
+        }),
+        createOption({
+          key: 'about',
+          label: 'Global Options',
+          input: 'InputActionList',
+          props: {
+            buttons: () => {
+              return [
+                { href: card.link('/settings/org?tab=brand'), label: 'Global Settings', icon: 'i-tabler-settings', size: 'sm', theme: 'primary' },
+              ]
+            },
+          },
         }),
         // createOption({
         //   schema: SiteSchema,
@@ -140,12 +152,11 @@ export function getPageOptions(args: { site: Site, page?: CardConfigPortable, te
     createOption({
       schema: PageSchema,
       key: 'nav',
-      label: 'Set as Home Page',
-      subLabel: 'If active, this page will be the default landing page for your site',
-      input: 'InputToggle',
+      label: 'Navigation',
+      input: 'InputRadioButton',
+      list: [{ value: 'show' }, { value: 'hide' }],
       props: {
-        onlyOn: page?.isHome,
-        textOn: 'Set as Home Page',
+        defaultValue: 'show',
       },
     }),
   ]
