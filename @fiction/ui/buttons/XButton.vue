@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { ButtonDesign, ButtonFontWeight, ButtonFormat, ButtonHover, ButtonRounding, ButtonShadow, ColorThemeUser, MediaObject, StandardSize } from '@fiction/core'
+import type { Card } from '@fiction/site'
 import { getNavComponentType, pathIsHref, shortId, vue } from '@fiction/core'
 import { SITE_INJECTION_KEY } from '@fiction/site'
 import { twMerge } from 'tailwind-merge'
@@ -29,6 +30,7 @@ const {
   padding,
   respond,
   classes,
+  card,
 } = defineProps<{
   icon?: string | MediaObject
   iconAfter?: string | MediaObject
@@ -49,6 +51,7 @@ const {
   padding?: string
   respond?: 'icon:sm' | 'icon:md' | 'icon:lg' | 'icon:xl'
   classes?: { button?: string, icon?: string }
+  card?: Card
 }>()
 
 const site = vue.inject(SITE_INJECTION_KEY, vue.computed(() => undefined))
@@ -73,22 +76,31 @@ const cls = vue.computed(() => {
   }
 })
 const slots = vue.useSlots()
-const hasContent = vue.computed(() => {
-  const slot = slots?.default?.()?.[0]
-  if (!slot)
+
+function hasNonWhitespaceText(vnodes: vue.VNode | vue.VNode[]): boolean {
+  // Handle single VNode or array of VNodes
+  const nodes = Array.isArray(vnodes) ? vnodes : [vnodes]
+
+  return nodes.some((vnode: vue.VNode) => {
+    // Check if it's a Text node
+    if (vnode.type === Text) {
+      return typeof vnode.children === 'string' && vnode.children.trim() !== ''
+    }
+    // Check children if they exist (recursively)
+    if (Array.isArray(vnode.children)) {
+      return hasNonWhitespaceText(vnode.children as vue.VNode[])
+    }
+    // Handle case where children is a string
+    if (typeof vnode.children === 'string') {
+      return vnode.children.trim() !== ''
+    }
     return false
-  if (Array.isArray(slot)) {
-    return slot.some(c =>
-      c && (
-        (typeof c === 'string' && !!c.trim())
-        || (typeof c === 'object' && (
-          ('children' in c && !!String(c.children).trim())
-          || (c.type !== undefined && c.type !== null)
-        ))
-      ),
-    )
-  }
-  return !!slot
+  })
+}
+
+const hasContent = vue.computed(() => {
+  const slotVNodes = slots.default?.() ?? []
+  return hasNonWhitespaceText(slotVNodes)
 })
 const iconAdjust = vue.computed(() => {
   const sz = size || 'md'
@@ -128,8 +140,13 @@ vue.onMounted(() => {
   }, { immediate: true })
 })
 
+const adjustedHref = vue.computed(() => {
+  return href ? (card ? card.link(href) : href) : undefined
+})
+
 const linkProps = vue.computed(() => {
-  return pathIsHref(href) ? { href } : { to: href }
+  const h = adjustedHref.value
+  return pathIsHref(h) ? { href: h } : { to: h }
 })
 
 const textClass = vue.computed(() => {
@@ -149,7 +166,7 @@ const textClass = vue.computed(() => {
 
 <template>
   <component
-    :is="prevent ? 'div' : getNavComponentType({ href }, hover === 'none' ? 'div' : tag || 'button')"
+    :is="prevent ? 'div' : getNavComponentType({ href: adjustedHref }, hover === 'none' ? 'div' : tag || 'button')"
     :id="randomId"
     v-bind="linkProps"
     class="xbutton group/button"
@@ -191,10 +208,12 @@ const textClass = vue.computed(() => {
       class="flex w-full min-w-0 items-center whitespace-nowrap transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
       :class="[loading ? 'translate-y-[-150%] opacity-0' : '', wrapClass, format === 'spread' ? '' : 'justify-center']"
     >
+      <div v-if="!hasContent" class="txt w-0 opacity-0" aria-hidden="true">-</div> <!-- Zero-width text-height element make sure consistent heights -->
       <div class="flex items-center min-w-0" :class="iconAdjust.gap" :data-has-content="hasContent">
         <template v-if="icon || iconAfter || hasContent">
           <XIcon v-if="icon" :media="icon" class="text-[1.2em] shrink-0" :class="[cls.iconClasses]" />
           <div v-if="hasContent" class="txt truncate min-w-0" :class="textClass"><slot /></div>
+
           <XIcon v-if="iconAfter" :media="iconAfter" class="text-[1.2em] shrink-0" :class="[cls.iconClasses]" />
         </template>
         <template v-else>

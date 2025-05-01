@@ -20,9 +20,9 @@ import { t } from '..'
 import { TablePostSchema as schema } from '../schema.js'
 import { managePost, syncFields } from '../utils'
 import { getPostEmailRecipientCount } from '../utils/email'
+import EditorBody from './EditorBody.vue'
 import InputAudienceFilter from './InputAudienceFilter.vue'
 import InputPostReview from './InputPostReview.vue'
-import PostEditor from './PostEditor.vue'
 import PostPreview from './PostPreview.vue'
 import { postEditController } from './tools'
 
@@ -452,26 +452,19 @@ const statusMap = vue.computed<NavListItem>(() => {
   <div>
     <ViewEditor :tool-props="{ post, card }" :controller="postEditController" :loading="loading" :card>
       <template #headerLeft>
-        <XButton
-          theme="default"
-          :href="card.link('/posts')"
-          class="shrink-0"
-          icon="i-tabler-arrow-left"
-          design="ghost"
-          respond="icon:md"
-        >
-          All
-        </XButton>
-        <div class="flex space-x-1 font-medium pr-4">
-          <RouterLink
-            class="hidden md:flex whitespace-nowrap text-theme-400 dark:text-theme-300  pr-1 hover:text-primary-500 dark:hover:text-theme-0  items-center gap-1"
-            :to="card.link('/posts')"
-          >
-            <span class="i-tabler-file-text text-xl inline-block dark:text-theme-500" />
-            <span>Post</span>
-            <span class="i-tabler-slash text-xl dark:text-theme-500" />
-          </RouterLink>
-          <XText v-if="post" v-model="post.title.value" class="whitespace-nowrap" :is-editable="true" />
+        <div>
+          <XButton
+            :card
+            size="md"
+            href="/"
+            icon="i-tabler-arrow-left"
+            design="link"
+          />
+        </div>
+        <div class="flex space-x-1 font-semibold items-center">
+          <span class="text-theme-500">Post Editor</span>
+          <span class="i-tabler-slash text-xl dark:text-theme-500" />
+          <XText v-if="post" v-model="post.title.value" title="Post Title" :is-editable="true" class="hover:bg-theme-100 hover:dark:bg-theme-700 whitespace-nowrap truncate max-w-[300px]" />
         </div>
 
         <XButton
@@ -506,12 +499,13 @@ const statusMap = vue.computed<NavListItem>(() => {
             v-if="post"
             :is-dirty="post.saveUtil.isDirty.value"
             data-test-id="draft-control-dropdown"
-            class="hidden md:block"
+            ui-size="sm"
+            class="mr-2"
           />
           <XButton
             theme="default"
             target="_blank"
-            size="sm"
+            size="md"
             icon="i-tabler-eye"
             data-test-id="preview-post-button"
             design="ghost"
@@ -545,7 +539,7 @@ const statusMap = vue.computed<NavListItem>(() => {
             icon-after="i-tabler-arrow-right"
             @click.prevent="navigate({ dir: 'next' })"
           >
-            Next
+            Continue
           </XButton>
           <XButton
             v-else
@@ -585,7 +579,7 @@ const statusMap = vue.computed<NavListItem>(() => {
         </XButton>
       </template>
       <template #default>
-        <PostEditor
+        <EditorBody
           v-model:active-key="activeKey"
           :post
           :card

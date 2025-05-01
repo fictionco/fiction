@@ -58,20 +58,26 @@ defineExpose({ editor })
 <template>
   <XEntry
     :theme
-    class="tiptap-wrap prose-entry @container/prose"
+    class="tiptap-wrap @container/prose"
     :data-ai-disabled="isContentCompletionDisabled ? 1 : 0"
   >
-    <div
-      v-if="!editor"
-      class="flex py-24 justify-center h-[90dvh] text-theme-300 dark:text-theme-700"
-    >
-      <ElSpinner class="h-12 w-12" />
-    </div>
-    <template v-else>
-      <!-- <BubbleMenuEngine :editor="editor" /> -->
+    <div class="text-sm @[350px]/prose:text-base @[700px]/prose:text-2xl">
+      <div
+        v-if="!editor"
+        class="flex py-24 justify-center h-[90dvh] text-theme-300 dark:text-theme-700"
+      >
+        <ElSpinner class="h-12 w-12" />
+      </div>
+      <template v-else>
+        <!-- <BubbleMenuEngine :editor="editor" /> -->
 
-      <EditorContent class="text-sm @[350px]/prose:text-base @[700px]/prose:text-2xl focus:outline-none" :editor="editor" data-test-id="prose-editor-content" />
-    </template>
+        <EditorContent
+          class=" focus:outline-none"
+          :editor="editor"
+          data-test-id="prose-editor-content"
+        />
+      </template>
+    </div>
   </XEntry>
 </template>
 
@@ -79,10 +85,10 @@ defineExpose({ editor })
 .tiptap-wrap{
   position: relative;
   .autocomplete-suggestion{
-    color: rgba(var(--theme-500) / 0.5);
+    color: rgba(var(--theme-600) / .5);
   }
   .dark .autocomplete-suggestion{
-    color: rgba(var(--theme-700) / 0.5);
+    color: rgba(var(--theme-600) / .5);
   }
 
   .img-placeholder {
@@ -105,7 +111,7 @@ defineExpose({ editor })
 
   /* Placeholder (on every new line) */
   .is-empty:not(:has(.autocomplete-suggestion))::before {
-    color: rgba(var(--theme-500) / .5);
+    color: rgba(var(--theme-600) / .5);
     content: attr(data-placeholder);
     float: left;
     height: 0;
@@ -113,7 +119,7 @@ defineExpose({ editor })
   }
 
   .dark .is-empty:not(:has(.autocomplete-suggestion))::before {
-    color: rgba(var(--theme-700) / .5);
+    color: rgba(var(--theme-600) / .5);
   }
 
   // for editing text in image component, etc.

@@ -133,34 +133,6 @@ const textFormatItemsPrimary = vue.computed<NavListItem[]>(() => [
   },
 ])
 
-// Text formatting dropdown items
-const textFormatItemsSecondary = vue.computed<NavListItem[]>(() => [
-  {
-    label: 'Strike',
-    isActive: editor.isActive('strike'),
-    icon: { class: 'i-tabler-strikethrough' },
-    onClick: () => editor.chain().focus(null, { scrollIntoView: false }).toggleStrike().run(),
-  },
-  {
-    label: 'Image URL',
-    isActive: editor.isActive('image'),
-    icon: { class: 'i-tabler-photo' },
-    onClick: () => openImageInput(),
-  },
-  {
-    label: 'Superscript',
-    isActive: editor.isActive('superscript'),
-    icon: { class: 'i-tabler-superscript' },
-    onClick: () => editor.chain().toggleSuperscript().run(),
-  },
-  {
-    label: 'Subscript',
-    isActive: editor.isActive('subscript'),
-    icon: { class: 'i-tabler-subscript' },
-    onClick: () => editor.chain().toggleSubscript().run(),
-  },
-])
-
 // Alignment options
 const alignmentItems = vue.computed<NavListItem[]>(() => [
   {
@@ -193,7 +165,7 @@ const headingItems = vue.computed<NavListItem[]>(() => [
   {
     label: 'Paragraph',
     isActive: editor.isActive('paragraph'),
-    icon: { class: 'i-tabler-text-recognition' },
+    icon: { class: 'i-tabler-pilcrow' },
     onClick: () => editor.chain().setParagraph().focus(null, { scrollIntoView: false }).run(),
   },
   {
@@ -223,6 +195,30 @@ const headingItems = vue.computed<NavListItem[]>(() => [
 ])
 
 const listItems = vue.computed<NavListItem[]>(() => [
+  {
+    label: 'Strike',
+    isActive: editor.isActive('strike'),
+    icon: { class: 'i-tabler-strikethrough' },
+    onClick: () => editor.chain().focus(null, { scrollIntoView: false }).toggleStrike().run(),
+  },
+  {
+    label: 'Image URL',
+    isActive: editor.isActive('image'),
+    icon: { class: 'i-tabler-photo' },
+    onClick: () => openImageInput(),
+  },
+  {
+    label: 'Superscript',
+    isActive: editor.isActive('superscript'),
+    icon: { class: 'i-tabler-superscript' },
+    onClick: () => editor.chain().toggleSuperscript().run(),
+  },
+  {
+    label: 'Subscript',
+    isActive: editor.isActive('subscript'),
+    icon: { class: 'i-tabler-subscript' },
+    onClick: () => editor.chain().toggleSubscript().run(),
+  },
   {
     label: 'Bullet List',
     isActive: editor.isActive('bulletList'),
@@ -258,11 +254,20 @@ const listItems = vue.computed<NavListItem[]>(() => [
     icon: { class: 'i-tabler-list-check' },
     onClick: () => editor.chain().toggleTaskList().focus(null, { scrollIntoView: false }).run(),
   },
+  {
+    label: 'Clear Formatting',
+    icon: { class: 'i-tabler-eraser' },
+    onClick: () => clearFormatting(),
+
+  },
 ])
 
 function clearFormatting() {
   editor.chain().clearNodes().unsetAllMarks().run()
 }
+
+const canUndo = vue.computed(() => editor.can().undo())
+const canRedo = vue.computed(() => editor.can().redo())
 
 const dropdownProps = vue.computed(() => {
   return {
@@ -274,169 +279,147 @@ const dropdownProps = vue.computed(() => {
 </script>
 
 <template>
-  <div class="prose-toolbar relative">
-    <div class="flex flex-wrap items-center gap-1 p-1">
-      <!-- Common Format Buttons -->
-      <div class="flex items-center gap-1">
-        <XButton
-          v-for="item in textFormatItemsPrimary"
-          :key="item.label"
-          size="xs"
-          :icon="item.icon"
-          :title="item.label"
-          rounding="md"
-          :theme="item.isActive ? 'primary' : 'default'"
-          @click.prevent="item.onClick?.({ event: $event, item })"
-        />
-      </div>
-
-      <!-- More Text Formatting -->
-      <XDropDown :items="textFormatItemsSecondary" v-bind="dropdownProps">
-        <template #default="{ isActive }">
-          <XButton
-            size="xs"
-            :theme="isActive ? 'primary' : 'default'"
-            icon="i-tabler-text-increase"
-            icon-after="i-tabler-chevron-down"
-            rounding="md"
-            title="More Formatting"
-          />
-        </template>
-      </XDropDown>
-
-      <!-- Text Alignment -->
-      <XDropDown :items="alignmentItems" v-bind="dropdownProps">
-        <template #default="{ isActive }">
-          <XButton
-            size="xs"
-            :theme="isActive ? 'primary' : 'default'"
-            :icon="alignmentItems.find((item) => item.isActive)?.icon || 'i-tabler-align-left'"
-            icon-after="i-tabler-chevron-down"
-            rounding="md"
-            title="Text Alignment"
-          >
-            <span class="hidden lg:inline">{{ alignmentItems.find((item) => item.isActive)?.label }}</span>
-          </XButton>
-        </template>
-      </XDropDown>
-
-      <!-- Heading Styles -->
-      <XDropDown :items="headingItems" v-bind="dropdownProps">
-        <template #default="{ isActive }">
-          <XButton
-            size="xs"
-            :theme="isActive ? 'primary' : 'default'"
-            :icon="headingItems.find((item) => item.isActive)?.icon || 'i-tabler-text-recognition'"
-            icon-after="i-tabler-chevron-down"
-            rounding="md"
-            :title="headingItems.find((item) => item.isActive)?.label"
-          >
-            <span class="hidden lg:inline">{{ headingItems.find((item) => item.isActive)?.label }}</span>
-          </XButton>
-        </template>
-      </XDropDown>
-
-      <!-- Lists -->
-      <XDropDown :items="listItems" v-bind="dropdownProps">
-        <template #default="{ isActive }">
-          <XButton
-            size="xs"
-            :theme="isActive ? 'primary' : 'default'"
-            icon="i-tabler-list"
-            icon-after="i-tabler-chevron-down"
-            rounding="md"
-            title="Lists"
-          >
-            <span class="hidden lg:inline">List</span>
-          </XButton>
-        </template>
-      </XDropDown>
-
-      <!-- Clear Formatting -->
+  <div class="prose-toolbar relative flex flex-wrap items-center justify-center gap-1 p-1 w-full">
+    <!-- Common Format Buttons -->
+    <div class="flex items-center gap-1">
       <XButton
+        v-for="item in textFormatItemsPrimary"
+        :key="item.label"
         size="xs"
-        icon="i-tabler-eraser"
+
+        :icon="item.icon"
+        :title="item.label"
         rounding="md"
-        title="Clear Formatting"
-        @click.prevent="clearFormatting"
-      >
-        <span class="hidden xl:inline">Clear</span>
-      </XButton>
+        design="ghost"
+        :theme="item.isActive ? 'primary' : 'default'"
+        @click.prevent="item.onClick?.({ event: $event, item })"
+      />
+    </div>
 
-      <!-- History Controls -->
-      <div class="flex items-center gap-1 ml-auto">
+    <!-- Text Alignment -->
+    <XDropDown :items="alignmentItems" v-bind="dropdownProps">
+      <template #default="{ isActive }">
         <XButton
           size="xs"
-          icon="i-tabler-arrow-back-up"
+          :theme="isActive ? 'primary' : 'default'"
+          :icon="alignmentItems.find((item) => item.isActive)?.icon || 'i-tabler-align-left'"
+          icon-after="i-tabler-chevron-down"
           rounding="md"
-          title="Undo"
-          @click.prevent="editor.chain().undo().run()"
+          design="ghost"
+          title="Text Alignment"
+        />
+      </template>
+    </XDropDown>
+
+    <!-- Heading Styles -->
+    <XDropDown :items="headingItems" v-bind="dropdownProps">
+      <template #default="{ isActive }">
+        <XButton
+          class="block"
+          size="xs"
+          :theme="isActive ? 'primary' : 'default'"
+          :icon="headingItems.find((item) => item.isActive)?.icon || 'i-tabler-text-recognition'"
+          icon-after="i-tabler-chevron-down"
+          rounding="md"
+          design="ghost"
+          :title="headingItems.find((item) => item.isActive)?.label"
+        />
+      </template>
+    </XDropDown>
+
+    <!-- Lists -->
+    <XDropDown :items="listItems" v-bind="dropdownProps">
+      <template #default="{ isActive }">
+        <XButton
+          class="block"
+          size="xs"
+          :theme="isActive ? 'primary' : 'default'"
+          icon="i-tabler-dots"
+          icon-after="i-tabler-chevron-down"
+          rounding="md"
+          design="ghost"
+          title="Lists"
+        />
+      </template>
+    </XDropDown>
+
+    <!-- History Controls -->
+    <div v-if="canUndo || canRedo" class="flex items-center gap-1">
+      <XButton
+        v-if="canUndo"
+        size="xs"
+        icon="i-tabler-arrow-back-up"
+        rounding="md"
+        design="ghost"
+        title="Undo"
+        @click.prevent="editor.chain().undo().run()"
+      />
+      <XButton
+        v-if="canRedo"
+        size="xs"
+        icon="i-tabler-arrow-forward-up"
+        rounding="md"
+        design="ghost"
+        title="Redo"
+        @click.prevent="editor.chain().redo().run()"
+      />
+    </div>
+
+    <!-- Link Input Dialog -->
+    <div
+      v-if="showLinkInput"
+      class="absolute z-50 top-full left-0 mt-1 bg-white dark:bg-theme-800 rounded-md shadow-lg p-2"
+    >
+      <div class="flex gap-2">
+        <ElInput
+          v-model="linkUrl"
+          input="InputUrl"
+          :placeholder="editor.isActive('link') ? 'Edit link URL' : 'Enter URL'"
+          @keydown.enter="handleLinkSubmit"
+          @keydown.esc="showLinkInput = false"
         />
         <XButton
           size="xs"
-          icon="i-tabler-arrow-forward-up"
+          icon="i-tabler-check"
+          theme="primary"
           rounding="md"
-          title="Redo"
-          @click.prevent="editor.chain().redo().run()"
+          @click="handleLinkSubmit"
+        />
+        <XButton
+          v-if="editor.isActive('link')"
+          size="xs"
+          icon="i-tabler-unlink"
+          rounding="md"
+          @click="removeLink"
         />
       </div>
+    </div>
 
-      <!-- Link Input Dialog -->
-      <div
-        v-if="showLinkInput"
-        class="absolute z-50 top-full left-0 mt-1 bg-white dark:bg-theme-800 rounded-md shadow-lg p-2"
-      >
-        <div class="flex gap-2">
-          <ElInput
-            v-model="linkUrl"
-            input="InputUrl"
-            :placeholder="editor.isActive('link') ? 'Edit link URL' : 'Enter URL'"
-            @keydown.enter="handleLinkSubmit"
-            @keydown.esc="showLinkInput = false"
-          />
-          <XButton
-            size="xs"
-            icon="i-tabler-check"
-            theme="primary"
-            rounding="md"
-            @click="handleLinkSubmit"
-          />
-          <XButton
-            v-if="editor.isActive('link')"
-            size="xs"
-            icon="i-tabler-unlink"
-            rounding="md"
-            @click="removeLink"
-          />
-        </div>
-      </div>
-
-      <!-- Image Input Dialog -->
-      <div
-        v-if="showImageInput"
-        class="absolute z-50 top-full left-0 mt-1 bg-white dark:bg-theme-800 rounded-md shadow-lg p-2"
-      >
-        <div class="flex gap-2">
-          <ElInput
-            v-model="imageUrl"
-            input="InputUrl"
-            :placeholder="editor.isActive('image') ? 'Edit image URL' : 'Enter image URL'"
-            @keydown.enter="handleImageSubmit"
-            @keydown.esc="showImageInput = false"
-          />
-          <XButton
-            size="xs"
-            icon="i-tabler-check"
-            theme="primary"
-            @click="handleImageSubmit"
-          />
-          <XButton
-            v-if="editor.isActive('image')"
-            size="xs"
-            icon="i-tabler-trash"
-            @click="removeImage"
-          />
-        </div>
+    <!-- Image Input Dialog -->
+    <div
+      v-if="showImageInput"
+      class="absolute z-50 top-full left-0 mt-1 bg-white dark:bg-theme-800 rounded-md shadow-lg p-2"
+    >
+      <div class="flex gap-2">
+        <ElInput
+          v-model="imageUrl"
+          input="InputUrl"
+          :placeholder="editor.isActive('image') ? 'Edit image URL' : 'Enter image URL'"
+          @keydown.enter="handleImageSubmit"
+          @keydown.esc="showImageInput = false"
+        />
+        <XButton
+          size="xs"
+          icon="i-tabler-check"
+          theme="primary"
+          @click="handleImageSubmit"
+        />
+        <XButton
+          v-if="editor.isActive('image')"
+          size="xs"
+          icon="i-tabler-trash"
+          @click="removeImage"
+        />
       </div>
     </div>
   </div>

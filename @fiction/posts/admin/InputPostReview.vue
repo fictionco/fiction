@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ColorThemeUser, NavListItem } from '@fiction/core'
 import type { Post } from '../post'
-import type { PanelNavigate, ViewModeKey } from './PagePostEdit.vue'
+import type { PanelNavigate, ViewModeKey } from './EditorWrap.vue'
 import { dayjs, vue } from '@fiction/core'
 import { getObjectWordCount } from '@fiction/core/utils/wordCount'
 import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'

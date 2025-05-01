@@ -6,28 +6,24 @@ export type ToolKeys = 'history' | 'postSettings'
 
 export const tools = [
   {
+    toolId: 'ai',
+    title: 'AI',
+    icon: { class: 'i-tabler-sparkles' },
+    location: 'primary',
+    isPrimary: true,
+    el: vue.defineAsyncComponent(() => import('./ToolAi.vue')),
+    design: 'drawer',
+  },
+  {
     toolId: 'history',
     icon: { class: 'i-tabler-history' },
     el: vue.defineAsyncComponent(() => import('./ToolHistory.vue')),
     location: 'primary',
+    title: 'History',
+    design: 'drawer',
     isPrimary: 'bottom',
   },
-  {
-    toolId: 'emailTest',
-    title: 'Send Test Emails',
-    icon: { class: 'i-tabler-mailbox' },
-    location: 'primary',
-    isPrimary: true,
-    el: vue.defineAsyncComponent(async () => import('./email/ToolEmailTest.vue')),
-  },
-  {
-    toolId: 'postSettings',
-    title: 'Post Settings',
-    icon: { class: 'i-tabler-edit-circle' },
-    location: 'context',
-    isDefault: true,
-    el: vue.defineAsyncComponent(() => import('./ToolPostMain.vue')),
-  },
+
 ] as const satisfies EditorTool[]
 
 export const postEditController = new AdminEditorController({ tools })

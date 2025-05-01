@@ -89,7 +89,7 @@ const hasIconNav = vue.computed(() => {
                   <ElTooltip :content="toLabel(tool.title || tool.toolId)">
                     <div
                       :data-test-id="`tool-button-${tool.toolId}`"
-                      class="flex flex-col cursor-pointer p-2 justify-end size-[50px] rounded-lg transition-all"
+                      class="flex flex-col cursor-pointer py-2 px-1 items-center justify-center w-[60px] rounded-lg transition-all"
                       :title="toLabel(tool.title || tool.toolId)"
                       :class="controller?.isUsingTool({ toolId: tool.toolId })
                         ? 'bg-primary-500 dark:bg-primary-600/60 ring-1 dark:ring-primary-500 ring-primary-600 text-white'
@@ -111,7 +111,7 @@ const hasIconNav = vue.computed(() => {
 
             <ElModal
               :vis="!!primaryTool?.el && primaryTool?.design !== 'drawer'"
-              :modal-class="primaryTool?.modalClass || 'h-[80vh] w-full max-w-screen-md'"
+              :modal-class="primaryTool?.modalClass || 'h-[80vh] w-full max-w-screen-md overflow-scroll no-scrollbar'"
               transition-mode="slideUp"
               :has-close="true"
               @update:vis="controller?.useTool({ toolId: '' })"

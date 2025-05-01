@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
 import type { Post } from '../post.js'
-import type { ViewMode, ViewModeKey } from './PagePostEdit.vue'
+import type { ViewMode, ViewModeKey } from './EditorWrap.vue'
 import { toLabel, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
 import XText from '@fiction/ui/common/XText.vue'
+import InputMedia from '@fiction/ui/inputs/InputMedia.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import ProseEditor from '@fiction/ui/prose/editor/ProseEditor.vue'
 import ProseEditorToolbar from '@fiction/ui/prose/editor/ProseEditorToolbar.vue'
@@ -47,12 +48,6 @@ const activeViewMode = vue.computed(() => {
   return viewModes.find(v => v.value === activeKey)
 })
 
-const classes = vue.computed(() => {
-  return {
-    panel: 'bg-theme-0 dark:bg-theme-800 rounded-md border border-theme-200 shadow-lg dark:border-theme-500/50',
-  }
-})
-
 vue.onMounted(() => {
   vue.watch(() => activeKey, (v) => {
     if (v === 'compose') {
@@ -72,120 +67,82 @@ vue.watch(
   },
 )
 
-function triggerMediaModal() {
-  setTimeout(() => {
-    const button = document.querySelector('[data-option-key="media"] .trigger-button') as HTMLElement | null
-    if (button) {
-      button.click()
-    }
-  }, 0)
-}
+const showMediaInput = vue.ref(false)
+const hasMedia = vue.computed(() => {
+  const v = post?.media.value
+  return !!(v?.url || v?.html)
+})
 </script>
 
 <template>
   <div v-if="post" class="h-full">
-    <div class="p-4 space-y-4 flex flex-col h-full">
-      <div
-        class="flex space-x-2 "
-        :class="activeKey === 'compose' ? 'justify-between' : 'justify-center'"
-      >
-        <div class="flex items-center gap-2 justify-center">
-          <XButton
-            v-for="(mode, i) in viewModes.filter(v => !v.isHidden)"
-            :key="i"
-            rounding="full"
-            respond="icon:xl"
-            design="outline"
-            :class="activeKey === mode.value ? '' : 'opacity-40'"
-            :theme="activeKey === mode.value ? 'primary' : 'default'"
-            :icon="mode.icon"
-            size="xs"
-
-            @click.stop="emit('update:activeKey', mode.value)"
-          >
-            {{ toLabel(mode.value) }}
-          </XButton>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <ElTooltip
-            v-if="activeKey === 'compose'"
-            direction="bottom"
-            content="Toggle Context Drawer"
-          >
-            <XButton
-              rounding="full"
-              :icon="postEditController.hideToolDrawers.value ? 'i-tabler-arrow-bar-to-left' : 'i-tabler-focus'"
-              size="sm"
-              respond="icon:xl"
-              design="outline"
-              :theme="postEditController.hideToolDrawers.value ? 'default' : 'default'"
-              @click.prevent="postEditController.hideToolDrawers.value = postEditController.hideToolDrawers.value ? '' : 'both'"
-            >
-              {{ postEditController.hideToolDrawers.value ? 'Show Settings' : 'Focus Mode' }}
-            </XButton>
-          </ElTooltip>
-        </div>
-      </div>
+    <div class="space-y-4 flex flex-col h-full">
       <transition :name="transit" mode="out-in">
         <div v-if="activeKey === 'overview'">
           <PostOverview :post :card @navigate="emit('navigate', $event)" />
         </div>
         <div v-else-if="activeKey === 'compose'" class="flex-grow flex flex-col gap-4 h-full min-h-0">
-          <div class="flex gap-4 items-stretch">
-            <div :class="classes.panel" class="px-4 py-2 flex flex-col md:flex-row md:items-center md:justify-between grow w-full gap-2 md:gap-6">
-              <XText
-                :model-value="post.title.value"
-                tag="h1"
-                class="text-balance my-0 text-2xl font-semibold x-font-title"
-                :is-editable="true"
-                placeholder="Enter Title"
-                data-test-id="post-editor-title"
-                :disable-formatting="true"
-                @update:model-value="handleUpdate({ key: 'title', value: $event as string, caller: 'proseEditor:title' })"
-              />
-              <XText
-                :model-value="post.subTitle.value"
-                tag="h3"
-                class="dark:text-theme-300 text-xl"
-                :is-editable="true"
-                placeholder="Enter Subtitle"
-                data-test-id="post-editor-subTitle"
-                :disable-formatting="true"
-                @update:model-value="handleUpdate({ key: 'subTitle', value: $event as string, caller: 'proseEditor:subTitle' })"
-              />
-            </div>
-            <div class="h-auto w-[80px] shrink-0" :class="classes.panel">
-              <XMedia
-                data-test-id="featured-post-media"
-                :media="post.media.value"
-                class="h-full w-full dark:bg-theme-900 shadow-inner rounded-md overflow-hidden hover:opacity-85 cursor-pointer"
-                image-mode="contain"
-                @click="triggerMediaModal()"
-              />
-            </div>
-          </div>
           <div
-            class="h-full  @container  overflow-hidden flex flex-col"
-            :class="classes.panel"
+            class="h-full @container/editor overflow-hidden flex flex-col"
           >
-            <div class="flex gap-4 md:gap-6 items-center justify-between px-2 md:px-4 py-2 border-b border-theme-200 dark:border-theme-600">
-              <div class="w-full">
-                <ProseEditorToolbar v-if="proseEditorEl?.editor" :editor="proseEditorEl?.editor" />
-              </div>
-            </div>
             <div class="relative max-h-[100%] grow overflow-scroll w-full min-h-0 dark:bg-theme-950/80 no-scrollbar">
-              <div class="pt-6 md:pt-10 pb-[50vh] px-6 md:px-12 max-w-[900px] mx-auto focus:outline-none space-y-6">
+              <div class=" pt-6 md:pt-10 pb-[50vh] px-6 md:px-12 max-w-[800px] mx-auto focus:outline-none space-y-8">
+                <div class="space-y-6">
+                  <XText
+                    :model-value="post.title.value"
+                    tag="h1"
+                    class="text-balance my-0 text-xl @[350px]/editor:3xl @[700px]/editor:text-5xl !leading-[1.2]  font-semibold x-font-title"
+                    :is-editable="true"
+                    placeholder="Enter Title"
+                    data-test-id="post-editor-title"
+                    :disable-formatting="true"
+                    @update:model-value="handleUpdate({ key: 'title', value: $event as string, caller: 'proseEditor:title' })"
+                  />
+                  <XText
+                    :model-value="post.subTitle.value"
+                    tag="h3"
+                    class="dark:text-theme-300 text-lg @[350px]/editor:xl @[700px]/editor:text-3xl !leading-[1.2]"
+                    :is-editable="true"
+                    placeholder="Enter Subtitle"
+                    data-test-id="post-editor-subTitle"
+                    :disable-formatting="true"
+                    @update:model-value="handleUpdate({ key: 'subTitle', value: $event as string, caller: 'proseEditor:subTitle' })"
+                  />
+                </div>
+
+                <div class="flex items-center gap-4 ">
+                  <div class="border-b border-dashed border-theme-700 grow " />
+                  <div class="text-theme-700 text-sm font-mono i-tabler-slashes" />
+                  <div class="border-b border-dashed border-theme-700 grow " />
+                </div>
+
+                <div class="flex flex-col gap-4">
+                  <InputMedia
+                    v-model="post.media.value"
+                    ui-size="sm"
+                    :aspect-class="!hasMedia ? 'aspect-[5/1]' : ''"
+                    data-test-id="featured-post-media"
+                    :full-width="true"
+                  />
+                </div>
+
+                <div class="p-2 sticky top-0 bg-theme-50 dark:bg-theme-950 z-10 -mx-4">
+                  <ProseEditorToolbar v-if="proseEditorEl?.editor" :editor="proseEditorEl?.editor" />
+                </div>
+
                 <ProseEditor
                   ref="proseEditorEl"
+                  class="font-serif"
                   :model-value="post.content.value"
-                  :is-content-completion-disabled="post.userConfig.value?.isContentCompletionDisabled"
+                  :is-content-completion-disabled="post.userConfig.value?.contentCompletion?.enabled"
                   :supplemental="{ title: post.title.value, subTitle: post.subTitle.value }"
                   @update:model-value="handleUpdate({ key: 'content', value: $event as string, caller: 'proseEditor:content' })"
                 />
 
-                <div v-if="$slots.footer" class="not-prose">
-                  <slot name="footer" />
+                <div class="flex items-center gap-4 ">
+                  <div class="border-b border-dashed border-theme-700 grow " />
+                  <div class="text-theme-700 text-sm font-mono i-tabler-slashes" />
+                  <div class="border-b border-dashed border-theme-700 grow " />
                 </div>
               </div>
             </div>
@@ -194,7 +151,6 @@ function triggerMediaModal() {
         <template v-else>
           <div :key="activeKey">
             <ElOptionWrap
-
               :card
               :post
               :value="activeKey"

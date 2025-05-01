@@ -12,6 +12,8 @@ const props = defineProps<{
   uiSize?: StandardSize
   optionPath?: string
   disabled?: boolean
+  fullWidth?: boolean
+  aspectClass?: string
 }>()
 
 const emit = defineEmits<{
@@ -30,95 +32,82 @@ const hasMedia = vue.computed(() => {
   return v.url || v.html || v.iconId || (props.isBackground && v.gradient)
 })
 
-// Smaller sizing classes compared to default UI elements
-const sizes = {
-  'xxs': 'h-12',
-  'xs': 'h-14',
-  'sm': 'h-16',
-  'md': 'h-20',
-  'lg': 'h-24',
-  'xl': 'h-28',
-  '2xl': 'h-32',
-}
+// Width based on uiSize (only applied when fullWidth is false)
+const widthClass = vue.computed(() => {
+  if (props.fullWidth) return 'w-full'
 
-const height = vue.computed(() => sizes[props.uiSize || 'md'])
+  const sizes = { xxs: 'w-24', xs: 'w-32', sm: 'w-40', md: 'w-48', lg: 'w-56', xl: 'w-64', '2xl': 'w-72' }
+  return sizes[props.uiSize || 'md']
+})
+
+
 
 function openMediaSelector() {
-  if (!props.disabled) {
-    vis.value = true
-  }
+  if (!props.disabled) vis.value = true
 }
 
 function clearMedia(event: MouseEvent) {
   event.stopPropagation()
-
-  // Simple confirmation dialog
-  if (confirm('Remove this media?')) {
-    emit('update:modelValue', {})
-  }
+  if (confirm('Remove this media?')) emit('update:modelValue', {})
 }
 
 function handleMediaUpdate(newValue: MediaObject) {
-  const newMedia = removeUndefined(newValue, { removeNull: true })
-  emit('update:modelValue', newMedia)
+  emit('update:modelValue', removeUndefined(newValue, { removeNull: true }))
 }
 </script>
 
 <template>
-  <div data-test-id="media-input" class="mb-1">
-    <!-- Media is present -->
+  <div data-test-id="media-input" >
+    <!-- Media display or empty placeholder -->
     <div
-      v-if="hasMedia"
-      class="border border-theme-200 dark:border-theme-700 rounded-md overflow-hidden relative group"
-      :class="[height, disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer']"
-      @click="openMediaSelector"
+      class="@container/media-input"
+      :class="[
+        aspectClass || 'aspect-[1.618/1]',
+        widthClass,
+        'border rounded-md overflow-hidden relative',
+        disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer',
+        !hasMedia && 'border-dashed border-theme-300 dark:border-theme-600 hover:border-theme-400 dark:hover:border-theme-500'
+      ]"
+      @click.stop="openMediaSelector"
     >
+      <!-- Media preview -->
       <XMedia
+        v-if="hasMedia"
         :media="value"
-        image-mode="contain"
-        class="w-full h-full object-contain"
+        image-mode="cover"
+        class="w-full h-full object-cover"
       />
 
-      <!-- Hover overlay -->
+      <!-- Empty state -->
       <div
-        v-if="!disabled"
-        class="absolute inset-0 bg-theme-950/10 dark:bg-theme-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+        v-else
+        class="flex flex-col items-center justify-center h-full gap-0.5 @[350px]/media-input:gap-1"
       >
-        <!-- Remove button - positioned in the top right corner -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="size-4 @[350px]/media-input:size-5 text-theme-500 dark:text-theme-400" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+        </svg>
+        <span class="text-[10px] text-theme-500 dark:text-theme-400 font-mono">
+          {{ isBackground ? 'Add Background' : 'Add Media' }}
+        </span>
+      </div>
+
+      <!-- Hover overlay with remove button -->
+      <div
+        v-if="hasMedia && !disabled"
+        class="absolute inset-0 bg-theme-950/10 dark:bg-theme-900/40 opacity-0 hover:opacity-100 transition-opacity"
+      >
         <button
           type="button"
           aria-label="Remove media"
           class="absolute top-1 right-1 p-1 text-theme-50 bg-theme-700/80 hover:bg-theme-600 rounded-lg"
           @click="clearMedia"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="size-2.5" viewBox="0 0 20 20" fill="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="size-3" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
           </svg>
         </button>
       </div>
     </div>
-
-    <!-- No media selected -->
-    <button
-      v-else
-      type="button"
-      :disabled="disabled"
-      class="w-full flex items-center justify-center gap-1.5 border border-dashed border-theme-300 dark:border-theme-600 rounded-md transition-colors"
-      :class="[
-        height,
-        disabled
-          ? 'opacity-60 cursor-not-allowed'
-          : 'hover:border-theme-400 dark:hover:border-theme-500 cursor-pointer',
-      ]"
-      @click="openMediaSelector"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-theme-500 dark:text-theme-400" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
-      </svg>
-      <span class="text-xs text-theme-500 dark:text-theme-400">
-        {{ isBackground ? 'Add Background' : 'Add Media' }}
-      </span>
-    </button>
 
     <!-- Media selector modal -->
     <LibraryModal

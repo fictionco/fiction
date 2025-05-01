@@ -131,7 +131,7 @@ const sizeClasses = vue.computed(() => {
 })
 
 const wrapperClass = vue.computed(() => {
-  const baseClasses = 'relative inline-block text-left'
+  const baseClasses = 'relative'
   return twMerge(baseClasses, classes.wrapper)
 })
 </script>
@@ -147,6 +147,7 @@ const wrapperClass = vue.computed(() => {
       role="button"
       aria-haspopup="true"
       :aria-expanded="isActive"
+      class="flex items-center"
       @click.prevent.stop="toggleClicked()"
     >
       <slot :is-active="isActive" />

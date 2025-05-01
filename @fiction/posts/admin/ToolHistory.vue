@@ -19,25 +19,16 @@ const { site, post, tool } = defineProps<{
 
 const options: InputOption[] = [
   createOption({
-    key: 'post.revision',
-    label: 'Revision History',
+    key: 'group.revision',
+    label: 'Post Revisions',
     input: 'group',
     icon: { class: 'i-tabler-history' },
     options: [
       createOption({
-        key: 'group.revision',
-        label: 'Post Revisions',
-        input: 'group',
-        icon: { class: 'i-tabler-history' },
-        options: [
-          createOption({
-            key: 'revisionHistory',
-            input: vue.defineAsyncComponent(() => import('./InputRevisionHistory.vue')),
-            props: { site, post, tool },
-          }),
-        ],
+        key: 'revisionHistory',
+        input: vue.defineAsyncComponent(() => import('./InputRevisionHistory.vue')),
+        props: { site, post, tool },
       }),
-
     ],
   }),
 

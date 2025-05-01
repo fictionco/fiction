@@ -149,6 +149,7 @@ function applyChanges(value: MediaObject) {
       @update:model-value="applyChanges($event)"
       @update:temp-value="selectMedia($event)"
       @update:active-option-id="activeOptionId = $event"
+      @cancel="emit('update:vis', false)"
     >
       <template #header>
         <div class="flex gap-4">

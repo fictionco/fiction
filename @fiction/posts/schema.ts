@@ -43,7 +43,10 @@ export type TableLikeConfig = Partial<ColType<typeof postLikeCols>> & {
 }
 
 export type PostUserConfig = {
-  isContentCompletionDisabled?: boolean
+  contentCompletion?: {
+    enabled?: boolean
+    prompt?: string
+  }
 } & StandardUserConfig
 
 export type PostDraft = Partial<{ draftId: string, title: string, content: string, userConfig: PostUserConfig, createdAt: string, updatedAt: string }>
@@ -86,7 +89,6 @@ export const postCols = [
   new Col({ key: 'type', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('post') }),
   new Col({ key: 'title', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k).defaultTo('') }),
   new Col({ key: 'subTitle', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k).defaultTo('') }),
-  new Col({ key: 'excerpt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k).defaultTo('') }),
   new Col({ key: 'content', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k).defaultTo('') }),
   new Col({ key: 'media', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'theme', sec: 'setting', sch: () => ColorThemeUserSchema, make: ({ s, col }) => s.string(col.k) }),
@@ -95,7 +97,7 @@ export const postCols = [
   new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'tags', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
   new Col({ key: 'categories', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
-  new Col({ key: 'wordCount', sec: 'setting', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
+
   new Col({ key: 'status', sec: 'setting', sch: () => PostStatusSchema, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('draft') }),
   new Col({ key: 'emailStatus', sec: 'setting', sch: () => PostStatusSchema, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('draft') }),
   new Col({ key: 'emailConfig', sec: 'setting', sch: () => EmailConfigSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
@@ -108,6 +110,7 @@ export const postCols = [
   new Col({ key: 'publishAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
   new Col({ key: 'publishedAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
   new Col({ key: 'archiveAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
+  new Col({ key: 'wordCount', sec: 'setting', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
   new Col({ key: 'likeCount', sec: 'setting', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
   new Col({ key: 'commentCount', sec: 'setting', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
 ] as const

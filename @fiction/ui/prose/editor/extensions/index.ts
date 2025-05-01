@@ -51,7 +51,7 @@ export function getExtensions(args: {
           return 'Enter code...'
         }
 
-        return 'Enter text...'
+        return 'Start writing...'
       },
     }),
 

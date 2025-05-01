@@ -17,8 +17,6 @@ import {
   openMenuFromDragHandle,
 } from './utils'
 
-const plus = `<svg class="size-[1em]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a1 1 0 1 0 2 0a1 1 0 1 0-2 0m0 7a1 1 0 1 0 2 0a1 1 0 1 0-2 0m0 7a1 1 0 1 0 2 0a1 1 0 1 0-2 0m6-14a1 1 0 1 0 2 0a1 1 0 1 0-2 0m0 7a1 1 0 1 0 2 0a1 1 0 1 0-2 0m0 7a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/></svg>`
-
 function DragHandle(options: GlobalDragHandleOptions) {
   let listType = ''
   let dragHandleElement: HTMLElement | null = null
@@ -98,11 +96,15 @@ function DragHandle(options: GlobalDragHandleOptions) {
         'absolute',
         'transition-opacity',
         'size-[1.5em]',
-        'text-theme-500/50',
-        'dark:text-theme-500/50',
+        'p-0.5',
+        'text-theme-500',
+        'dark:text-theme-800/0',
+        'text-[0.8em]',
       )
 
-      const btnClass = ['add-button', 'cursor-grab', 'hover:text-primary-500', 'dark:hover:text-theme-500', 'hover:bg-theme-100', 'dark:hover:bg-theme-700', 'rounded-lg', 'transition-colors', 'duration-200']
+      const btnClass = ['add-button', 'flex', 'justify-center', 'cursor-grab', 'hover:text-primary-500', 'dark:hover:text-theme-500', 'rounded-md', 'transition-colors', 'duration-200']
+      const plus = `<span class="i-tabler-grip-vertical" />`
+
       addItemElement = document.createElement('div')
       addItemElement.classList.add('add-button', 'cursor-grab', ...btnClass)
       addItemElement.innerHTML = plus
@@ -169,7 +171,7 @@ function DragHandle(options: GlobalDragHandleOptions) {
 
           // Calculate positions relative to container
           const adjustedTop = nodeRect.top - containerRect.top + paddingTop + (lineHeight / 2) - (handleHeight / 2)
-          let adjustedLeft = nodeRect.left - containerRect.left - handleContainerElement.offsetWidth
+          let adjustedLeft = nodeRect.left - containerRect.left - handleContainerElement.offsetWidth - 5
 
           if (node.matches('ul:not([data-type=taskList]) li, ol li'))
             adjustedLeft -= 30

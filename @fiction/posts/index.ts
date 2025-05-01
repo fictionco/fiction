@@ -40,7 +40,7 @@ export * from './utils/links.js'
 function getTemplates() {
   return [
     cardTemplate({ templateId: 'tplManagePost', el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) }),
-    cardTemplate({ templateId: 'tplManagePostEdit', el: vue.defineAsyncComponent(() => import('./admin/PagePostEdit.vue')) }),
+    cardTemplate({ templateId: 'tplManagePostEdit', el: vue.defineAsyncComponent(() => import('./admin/EditorWrap.vue')) }),
     cardTemplate({ templateId: 'tplManagePostPreview', el: vue.defineAsyncComponent(() => import('./admin/ViewPreview.vue')) }),
   ]
 }
@@ -79,7 +79,6 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   }
 
   hooks() {
-
     this.settings.fictionUser.hooks.on('newOrg', 'posts:defaults', async (args) => {
       const { org, userId, withDefaults } = args
       if (withDefaults && org.orgId) {

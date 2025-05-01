@@ -148,7 +148,6 @@ async function resetToPublished() {
           <div class="flex gap-2 items-center">
             <ElSavingSignal
               :is-dirty="site?.saveUtil.isDirty.value"
-
               data-test-id="draft-control-dropdown"
               :classes="{ text: 'hidden md:inline' }"
               ui-size="sm"
