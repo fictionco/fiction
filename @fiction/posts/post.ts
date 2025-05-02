@@ -23,7 +23,6 @@ export class Post extends FictionObject<PostConfig> {
   emailStatus = vue.ref(this.settings.emailStatus || 'draft')
   title = vue.ref(this.settings.title || '')
   subTitle = vue.ref(this.settings.subTitle || '')
-  excerpt = vue.ref(this.settings.excerpt || '')
   content = vue.ref(this.settings.content || '')
   slug = vue.ref(this.settings.slug || '')
   href = vue.computed(() => postLink({ card: this.settings.card, slug: this.slug.value }))
@@ -162,7 +161,6 @@ export class Post extends FictionObject<PostConfig> {
       postId: this.postId,
       title: this.title.value,
       subTitle: this.subTitle.value,
-      excerpt: this.excerpt.value,
       content: this.content.value,
       userConfig: this.userConfig.value,
       emailConfig: this.emailConfig.value,

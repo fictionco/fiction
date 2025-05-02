@@ -79,7 +79,7 @@ const list = vue.computed<(IndexItem & { meta: { type: string, typeTheme: ColorT
       media: post.media.value,
       icon: { class: 'i-tabler-pencil' },
       label: post.title.value || 'Untitled',
-      description: post.excerpt.value || post.subTitle.value,
+      description: post.subTitle.value,
       href: props.card.link(`/edit-post?postId=${post.postId}`),
       dateIso: post.publishAt.value || post.settings.updatedAt,
       meta: {
@@ -103,7 +103,9 @@ const list = vue.computed<(IndexItem & { meta: { type: string, typeTheme: ColorT
 
       <!-- Empty state -->
       <div v-else-if="!posts.length" class="p-4 text-center">
-        <p class="text-theme-500 dark:text-theme-400 text-sm">No posts yet</p>
+        <p class="text-theme-500 dark:text-theme-400 text-sm">
+          No posts yet
+        </p>
         <XButtonList
           class="mt-3 gap-2 flex justify-center"
           :buttons="buttons"
@@ -139,20 +141,22 @@ const list = vue.computed<(IndexItem & { meta: { type: string, typeTheme: ColorT
 
             <!-- Metrics row -->
             <div class="flex items-center flex-wrap gap-x-4 gap-y-2 text-xs text-theme-500 dark:text-theme-500">
-              <XButton design="ghost" theme="primary" size="sm">{{ item.meta.type }}</XButton>
+              <XButton design="ghost" theme="primary" size="sm">
+                {{ item.meta.type }}
+              </XButton>
 
               <span class="flex items-center gap-1">
-                <i class="i-tabler-eye"></i>
+                <i class="i-tabler-eye" />
                 {{ item.meta.views }}
               </span>
 
               <span class="flex items-center gap-1">
-                <i class="i-tabler-thumb-up"></i>
+                <i class="i-tabler-thumb-up" />
                 {{ item.meta.likes }}
               </span>
 
               <span class="flex items-center gap-1">
-                <i class="i-tabler-clock"></i>
+                <i class="i-tabler-clock" />
                 {{ formatDate(item.dateIso) }}
               </span>
             </div>

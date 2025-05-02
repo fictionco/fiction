@@ -77,7 +77,7 @@ const positionClasses = vue.computed(() => {
   >
     <!-- SEO metadata -->
     <meta itemprop="headline" :content="post.title.value">
-    <meta itemprop="description" :content="post.excerpt?.value || post.subTitle?.value || ''">
+    <meta itemprop="description" :content="post.subTitle?.value || ''">
     <meta v-if="publishDate" itemprop="datePublished" :content="publishDate">
     <meta v-if="modifiedDate" itemprop="dateModified" :content="modifiedDate">
     <link v-if="post.href.value" itemprop="url" :href="post.href.value">
@@ -123,12 +123,12 @@ const positionClasses = vue.computed(() => {
         </h2>
 
         <p
-          v-if="post.excerpt?.value"
+          v-if="post.subTitle?.value"
           class="text-sm @sm/post-item:text-base @lg/post-item:text-lg leading-relaxed line-clamp-3 max-w-prose"
           :class="positionClasses.excerpt"
           itemprop="description"
         >
-          {{ post.excerpt.value }}
+          {{ post.subTitle.value }}
         </p>
 
         <PostItemByline
@@ -180,12 +180,12 @@ const positionClasses = vue.computed(() => {
         </h2>
 
         <p
-          v-if="post.excerpt?.value || post.subTitle?.value"
+          v-if="post.subTitle?.value"
           class="text-sm @sm/post-item:text-base @lg/post-item:text-lg leading-relaxed line-clamp-3 max-w-prose"
           :class="positionClasses.excerpt"
           itemprop="description"
         >
-          {{ post.excerpt.value || post.subTitle.value }}
+          {{ post.subTitle.value }}
         </p>
 
         <div class="flex gap-6 items-center flex-wrap">

@@ -27,21 +27,19 @@ const { fictionPosts } = useService<{ fictionPosts: FictionPosts }>()
 const activeItem = vue.ref(0)
 const loading = vue.ref(false)
 const indexMeta = vue.ref<IndexMeta>({ offset: 0, limit: 12, count: 0 })
-const singlePost = vue.shallowRef<Post>()
-const nextPost = vue.shallowRef<Post>()
 
 // Computed
 const routeSlug = vue.computed(() => card.site?.siteRouter.params.value.itemId as string | undefined)
 const uc = vue.computed(() => card.userConfig.value || {})
 
 const displayConfig = vue.computed<DisplayUserConfig>(() => ({
-  layout: uc.value.display?.layout || 'grid',
-  proportions: uc.value.display?.proportions || 'standard',
-  showAuthor: uc.value.display?.showAuthor ?? true,
-  showDate: uc.value.display?.showDate ?? true,
-  showExcerpt: uc.value.display?.showExcerpt ?? false,
-  itemsPerRow: uc.value.display?.itemsPerRow || 3,
-  maxRows: uc.value.display?.maxRows || 2,
+  layout: 'grid',
+  proportions: 'standard',
+  showAuthor: true,
+  showDate: true,
+  showExcerpt: false,
+  itemsPerRow: 3,
+  maxRows: 2,
 }))
 
 const gridClass = vue.computed(() => {
@@ -97,7 +95,7 @@ async function fetchPosts() {
   const result = await loadPosts({
     fictionPosts,
     site,
-    indexMeta: { ...indexMeta.value, limit: uc.value.posts?.limit },
+    indexMeta: { ...indexMeta.value, limit: 12 },
   })
 
   // Update indexMeta with values from result

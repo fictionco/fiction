@@ -1,5 +1,5 @@
-import type { ComplexDataFilter, IndexMeta, PostHandlingObject } from '@fiction/core'
-import type { FictionPosts, Post, TablePostConfig } from '@fiction/posts'
+import type { ComplexDataFilter, IndexMeta } from '@fiction/core'
+import type { FictionPosts, Post, PostHandlingObject, TablePostConfig } from '@fiction/posts'
 import type { Card, Site } from '@fiction/site'
 import type { SiteContentPath } from '@fiction/site/load'
 

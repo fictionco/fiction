@@ -39,7 +39,7 @@ const props = defineProps<{
     />
 
     <div v-if="props.display.showExcerpt" class="mt-2 text-xs md:text-sm opacity-80 line-clamp-2">
-      {{ props.post.excerpt }}
+      {{ props.post.subTitle }}
     </div>
 
     <div v-if="props.display.showAuthor" class="mt-3 flex items-center gap-2 text-xs font-sans">

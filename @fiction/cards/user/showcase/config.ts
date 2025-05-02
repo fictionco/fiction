@@ -1,6 +1,6 @@
 import type { ActionButton } from '@fiction/core'
 import type { StandardUserConfig } from '@fiction/site/schema'
-import { PostHandlingSchema } from '@fiction/core'
+import { PostHandlingSchema } from '@fiction/posts'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
 

@@ -1,13 +1,13 @@
-import type { PostObject } from '@fiction/core'
+import type { TablePostConfig } from '@fiction/posts'
 import { createStockMediaHandler } from '../stock'
 
-export async function getDemoPosts(args: { limit?: number } = {}): Promise<PostObject[]> {
+export async function getDemoPosts(args: { limit?: number } = {}): Promise<TablePostConfig[]> {
   const { limit = 6 } = args
   const baseDate = new Date('2024-03-20')
 
   const stock = await createStockMediaHandler()
 
-  const posts: PostObject[] = [
+  const posts: TablePostConfig[] = [
     {
       title: 'The Hidden Story in Your Data: Unlocking Narrative Power Through Visualization Techniques',
       subTitle: 'How to turn numbers into compelling stories',
@@ -35,7 +35,6 @@ export async function getDemoPosts(args: { limit?: number } = {}): Promise<PostO
           <p>Ready to transform your data? Start with a single statistic and build its story.</p>
         </article>
       `,
-      excerpt: 'Turn dry data into stories that resonate. Learn visualization techniques that captivate.',
       categories: ['Analytics'],
       tags: ['data', 'storytelling', 'visualization'],
       media: stock.getRandomByTags(['background']),
@@ -63,7 +62,6 @@ export async function getDemoPosts(args: { limit?: number } = {}): Promise<PostO
           <p>Focus on value, and rankings will follow.</p>
         </article>
       `,
-      excerpt: 'Fix your SEO by prioritizing readers over algorithms.',
       categories: ['SEO'],
       tags: ['optimization', 'search'],
       media: stock.getRandomByTags(['object']),
@@ -99,7 +97,6 @@ export async function getDemoPosts(args: { limit?: number } = {}): Promise<PostO
           <p>Test your headlines with A/B splits to see what works.</p>
         </article>
       `,
-      excerpt: 'Learn to write headlines that stop readers in their tracks.',
       categories: ['Writing'],
       tags: ['headlines', 'copywriting'],
       dateAt: new Date(baseDate.getTime()).toISOString(),
@@ -125,7 +122,6 @@ export async function getDemoPosts(args: { limit?: number } = {}): Promise<PostO
           <p>Use white space to give content room to breathe.</p>
         </article>
       `,
-      excerpt: 'Master visual hierarchy to create intuitive blog designs.',
       categories: ['Design'],
       tags: ['visual design', 'layout'],
       dateAt: new Date(baseDate.getTime() - 1 * 24 * 60 * 60 * 1000).toISOString(),
@@ -152,7 +148,6 @@ export async function getDemoPosts(args: { limit?: number } = {}): Promise<PostO
           <p><span style="color: #ff4500;">Start with a hook</span> to pull readers in.</p>
         </article>
       `,
-      excerpt: `Use psychology to craft stories readers can't put down.`,
       categories: ['Writing'],
       tags: ['psychology', 'storytelling'],
       media: stock.getRandomByTags(['object']),
@@ -165,7 +160,6 @@ export async function getDemoPosts(args: { limit?: number } = {}): Promise<PostO
       content: `
         <p>Just a paragraph to test minimal content.</p>
       `,
-      excerpt: 'A barebones post for testing.',
       categories: [],
       tags: [],
       media: stock.getRandomByTags(['object']),
@@ -202,7 +196,6 @@ export async function getDemoPosts(args: { limit?: number } = {}): Promise<PostO
           <p><strong>Bold</strong>, <em>italic</em>, <span style="color: blue;">colored text</span>.</p>
         </article>
       `,
-      excerpt: 'Push your editor to the limit with nested lists and code.',
       categories: ['Testing'],
       tags: ['formatting', 'editor'],
       media: stock.getRandomByTags(['object']),
@@ -225,7 +218,6 @@ export async function getDemoPosts(args: { limit?: number } = {}): Promise<PostO
           <p>Ensure these render correctly in your editor.</p>
         </article>
       `,
-      excerpt: 'Test how your editor handles special characters and emojis.',
       categories: ['Testing'],
       tags: ['characters', 'emojis'],
       media: stock.getRandomByTags(['object']),

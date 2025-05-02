@@ -110,10 +110,10 @@ const imageContainerClass = vue.computed(() => {
 
         <!-- Excerpt with proper spacing -->
         <p
-          v-if="(post.subTitle?.value || post.excerpt?.value)"
+          v-if="(post.subTitle?.value)"
           class="text-theme-700 dark:text-theme-300 mb-4 line-clamp-2 md:line-clamp-3"
         >
-          {{ post.subTitle?.value || post.excerpt?.value }}
+          {{ post.subTitle?.value }}
         </p>
 
         <div class="flex gap-6 items-center">

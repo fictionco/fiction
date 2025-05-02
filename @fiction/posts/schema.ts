@@ -1,7 +1,6 @@
 import type { ColType, ComplexDataFilter, Organization, User } from '@fiction/core'
-import type { TableSiteConfig } from '@fiction/site'
 import type { StandardUserConfig } from '@fiction/site/schema'
-import { ColorThemeUserSchema, createTableSchema, EmailSenderSchema, MediaDisplaySchema, PostStatusSchema, standardTable, toSlug } from '@fiction/core'
+import { ColorThemeUserSchema, createTableSchema, EmailSenderSchema, MediaDisplaySchema, OrFilterGroupSchema, PostStatusSchema, standardTable, toSlug } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { t as siteTables } from '@fiction/site/tables'
 import { z } from 'zod'
@@ -71,6 +70,17 @@ export const EmailConfigSchema = z.object({
   completedAt: z.string().optional(),
   error: z.string().optional(),
   failedAt: z.string().optional(),
+})
+
+export const GlobalQuerySchema = z.object({
+  filters: z.array(OrFilterGroupSchema).optional().describe('OR-based filter groups [@ai]'),
+  sortBy: z.string().optional().describe('Field to sort by'),
+  sortOrder: z.enum(['asc', 'desc']).optional().describe('Sort direction'),
+  search: z.string().optional().describe('Search query [@ai]'),
+  dateRange: z.object({
+    start: z.date().optional(),
+    end: z.date().optional(),
+  }).optional().describe('Date filter range'),
 })
 
 export type EmailConfig = z.infer<typeof EmailConfigSchema>
@@ -194,3 +204,14 @@ export const tables = [
     cols: postCommentCols,
   }),
 ]
+
+export const PostHandlingSchema = z.object({
+  format: z.enum(['standard', 'local']).optional().describe('Global or inline posts source'),
+  limit: z.number().optional().describe('Max posts to show'),
+  offset: z.number().optional().describe('Number of posts to skip'),
+  entries: z.array(TablePostSchema).optional().describe('Local post entries [@ai]'),
+  query: GlobalQuerySchema.optional().describe('Filter and sort options [@ai]'),
+  viewSlug: z.string().optional().describe('Base URL for posts'),
+})
+
+export type PostHandlingObject = z.infer<typeof PostHandlingSchema>

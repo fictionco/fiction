@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { PostHandlingObject } from '@fiction/core'
-import { PostHandlingSchema as schema } from '@fiction/core'
+import type { PostHandlingObject } from '@fiction/posts'
+import { PostHandlingSchema as schema } from '@fiction/posts'
 import FormEngine from './FormEngine.vue'
 import { createOption } from './index.js'
 

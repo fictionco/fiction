@@ -1,6 +1,6 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
-import { PostHandlingSchema } from '@fiction/core'
+import { PostHandlingSchema } from '@fiction/posts'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
 

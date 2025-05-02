@@ -145,12 +145,6 @@ const statusMap = vue.computed<NavListItem>(() => {
               </div>
             </div>
 
-            <div v-if="post.excerpt.value" class="prose dark:prose-invert">
-              <p class="italic text-theme-600 dark:text-theme-300">
-                {{ post.excerpt.value }}
-              </p>
-            </div>
-
             <div class="pt-4 flex flex-wrap gap-3">
               <XButton
                 icon="i-tabler-eye"

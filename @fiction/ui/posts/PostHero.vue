@@ -44,10 +44,10 @@ const props = defineProps<{
 
         <!-- Excerpt -->
         <p
-          v-if="post.subTitle?.value || post.excerpt?.value"
+          v-if="post.subTitle?.value"
           class="text-white/90 text-base md:text-lg mb-6 line-clamp-3 max-w-2xl"
         >
-          {{ post.subTitle?.value || post.excerpt?.value }}
+          {{ post.subTitle?.value }}
         </p>
 
         <PostItemMeta
