@@ -31,7 +31,6 @@ export class PostLoader extends FictionObject<PostLoaderSettings> {
     return new Post({
       fictionPosts: this.settings.fictionPosts,
       card: this.settings.card,
-      sourceMode: this.sourceMode.value,
       localSourcePath: `${this.rootKey}.entries.${index}`,
       ...postData,
     })

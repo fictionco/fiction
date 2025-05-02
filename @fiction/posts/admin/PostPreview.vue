@@ -3,8 +3,9 @@ import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FrameUtility } from '@fiction/ui/frame/elBrowserFrameUtil.js'
 import type { Post } from '../post.js'
-import { toLabel, vue, useService } from '@fiction/core'
+import { toLabel, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
+import XDropDown from '@fiction/ui/common/XDropDown.vue'
 import ElBrowserFrameDevice from '@fiction/ui/frame/ElBrowserFrameDevice.vue'
 import { getPostPreviewRoute } from '../utils/links.js'
 import PostEmailSendTest from './PostEmailSendTest.vue'
@@ -21,23 +22,26 @@ const service = useService()
 const frameRef = vue.ref<HTMLElement & { frameUtility: FrameUtility }>() // Reference to the child component
 
 type FormatMode = 'browser' | 'email' | 'test'
-const formatModes: (NavListItem & { wrapClass: string, key: FormatMode })[] = [
-  { key: 'browser', icon: { class: 'i-tabler-browser' }, wrapClass: 'w-full' },
-  { key: 'email', icon: { class: 'i-tabler-mail' }, wrapClass: 'w-[60%] max-w-sm' },
-  { key: 'test', label: 'Send Test Email', icon: { class: 'i-tabler-mail' }, wrapClass: 'w-[90%] max-w-2xl' },
+const formatModes: (NavListItem & { wrapClass: string, value: FormatMode })[] = [
+  { value: 'browser', icon: { class: 'i-tabler-browser' }, wrapClass: 'w-full' },
+  { value: 'email', icon: { class: 'i-tabler-mail' }, wrapClass: 'w-[60%] max-w-sm' },
+  { value: 'test', label: 'Send Test Email', icon: { class: 'i-tabler-mail' }, wrapClass: 'w-[90%] max-w-2xl' },
 ] as const
 
-const deviceModes = [
-  { key: 'desktop', icon: 'i-tabler-device-desktop', wrapClass: 'w-full' },
-  { key: 'mobile', icon: 'i-tabler-device-mobile', wrapClass: 'w-[60%] max-w-sm' },
-  { key: 'tablet', icon: 'i-tabler-device-ipad', wrapClass: 'w-[85%] max-w-xl' },
-  { key: 'landscape', icon: 'i-tabler-device-ipad-horizontal', wrapClass: 'w-[90%] max-w-2xl' },
+const activeFormatModeKey = vue.ref<FormatMode>('browser')
+const activeFormatMode = vue.computed(() => formatModes.find(mode => mode.value === activeFormatModeKey.value))
+
+type DeviceModeKeys = 'desktop' | 'mobile' | 'tablet' | 'landscape'
+const deviceModes: (NavListItem & { wrapClass: string, value: DeviceModeKeys })[] = [
+  { value: 'desktop', icon: { class: 'i-tabler-device-desktop' }, wrapClass: 'w-full' },
+  { value: 'mobile', icon: { class: 'i-tabler-device-mobile' }, wrapClass: 'w-[60%] max-w-sm' },
+  { value: 'tablet', icon: { class: 'i-tabler-device-ipad' }, wrapClass: 'w-[85%] max-w-xl' },
+  { value: 'landscape', icon: { class: 'i-tabler-device-ipad-horizontal' }, wrapClass: 'w-[90%] max-w-2xl' },
 ] as const
 
 type DeviceMode = typeof deviceModes[number]['key']
-const activeDeviceMode = vue.ref<DeviceMode>('desktop')
-const deviceModeConfig = vue.computed(() => deviceModes.find(mode => mode.key === activeDeviceMode.value))
-const activeFormatMode = vue.ref<FormatMode>('browser')
+const activeDeviceModeKey = vue.ref<DeviceMode>('desktop')
+const activeDeviceMode = vue.computed(() => deviceModes.find(mode => mode.value === activeDeviceModeKey.value) || deviceModes[0])
 
 const org = vue.computed(() => service.fictionUser.activeOrganization?.value)
 </script>
@@ -46,45 +50,50 @@ const org = vue.computed(() => service.fictionUser.activeOrganization?.value)
   <div v-if="post" class="h-full max-w-screen-xl mx-auto">
     <div class="flex flex-col gap-8 h-full">
       <div class="flex justify-between items-center gap-4">
-        <div class="flex items-center gap-2">
-          <XButton
-            v-for="(mode, i) in formatModes"
-            :key="i"
-            rounding="full"
-            respond="icon:xl"
-            design="outline"
-            :theme="activeFormatMode === mode.key ? 'primary' : 'default'"
-            :icon="mode.icon"
-            size="xs"
-            @click.stop="activeFormatMode = mode.key"
+        <div class="flex items-center justify-center gap-2 w-full">
+          <XDropDown
+            v-model="activeFormatModeKey"
+            mode="click"
+            :items="formatModes"
           >
-            {{ mode.label || toLabel(mode.key) }}
-          </XButton>
-        </div>
-        <div class="flex items-center gap-2">
-          <XButton
-            v-for="(mode, i) in deviceModes"
-            :key="i"
-            rounding="full"
-            respond="icon:xl"
-            design="outline"
-            :theme="activeDeviceMode === mode.key ? 'rose' : 'default'"
-            :icon="mode.icon"
-            size="xs"
-            @click.stop="activeDeviceMode = mode.key"
+            <XButton
+              rounding="md"
+              :icon="activeFormatMode?.icon"
+              size="sm"
+              design="ghost"
+              icon-after="i-tabler-chevron-down"
+            >
+              <span class="text-theme-500 font-medium mr-1">Preview Mode:</span> {{ toLabel(activeFormatMode?.value) || 'none' }}
+            </XButton>
+          </XDropDown>
+          <XDropDown
+            v-if="activeFormatModeKey !== 'test'"
+            v-model="activeDeviceModeKey"
+            mode="click"
+            :items="deviceModes"
+            dropdown-alignment="end"
           >
-            {{ toLabel(mode.key) }}
-          </XButton>
+            <XButton
+              rounding="md"
+              :icon="activeDeviceMode?.icon"
+              size="sm"
+              design="ghost"
+              icon-after="i-tabler-chevron-down"
+            >
+              <span class="text-theme-500 font-medium mr-1">Device:</span> {{ toLabel(activeDeviceMode?.value) || 'none' }}
+            </XButton>
+          </XDropDown>
         </div>
       </div>
-      <div class="min-h-0 h-full relative mx-auto flex flex-col" :class="deviceModeConfig?.wrapClass">
-        <PostEmailSendTest v-if="activeFormatMode === 'test'" :post :card class="max-w-screen-sm mx-auto" />
+      <div v-if="activeFormatModeKey === 'test'" class="w-full">
+        <PostEmailSendTest :post :card class="max-w-screen-sm mx-auto" />
+      </div>
+      <div v-else class="min-h-0 h-full relative mx-auto flex flex-col" :class="activeDeviceMode?.wrapClass">
         <ElBrowserFrameDevice
-          v-else
           ref="frameRef"
-          :device-mode="activeDeviceMode"
+          :device-mode="activeDeviceMode?.value"
           class="rounded-md shadow-lg border border-theme-200"
-          :url="getPostPreviewRoute({ post, card, format: activeFormatMode })"
+          :url="getPostPreviewRoute({ post, card, format: activeFormatModeKey, org })"
           frame-id="post-preview-iframe"
           :browser-bar="true"
           :email-bar="{
@@ -95,7 +104,7 @@ const org = vue.computed(() => service.fictionUser.activeOrganization?.value)
             avatar: org?.avatar,
             dateAt: post.publishAt.value,
           }"
-          :format-mode="activeFormatMode"
+          :format-mode="activeFormatModeKey"
           :display-url="`/posts/${post.slug.value}`"
         />
       </div>

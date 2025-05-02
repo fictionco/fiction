@@ -208,7 +208,7 @@ export async function updateSite(args: {
   if (!newConfig)
     return
 
-  const availableKeys = ['title', 'userConfig', 'changeId', 'subDomain', 'customDomains', 'themeId', 'status']
+  const availableKeys = ['title', 'userConfig', 'changeId', 'handle', 'customDomains', 'themeId', 'status']
   const entries = Object.entries(newConfig).filter(([key]) => availableKeys.includes(key))
 
   entries.forEach(([key, value]) => {

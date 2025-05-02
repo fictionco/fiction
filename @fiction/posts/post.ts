@@ -10,7 +10,6 @@ import { PostLike } from './utils/like'
 export type PostConfig = {
   fictionPosts?: FictionPosts
   card?: Card
-  sourceMode?: 'local' | 'standard'
   noAutoSave?: boolean
   localSourcePath?: string
   viewSlug?: string
@@ -38,7 +37,7 @@ export class Post extends FictionObject<PostConfig> {
   dateAt = vue.ref(this.settings.dateAt || new Date().toISOString())
   userConfig = vue.ref(this.settings.userConfig || {})
   visibility = vue.ref(this.settings.visibility || 'public')
-  emailConfig = vue.ref(this.settings.emailConfig )
+  emailConfig = vue.ref(this.settings.emailConfig)
   isFeatured = vue.ref(this.settings.isFeatured || false)
   likeCount = vue.ref(this.settings.likeCount || 0)
   commentCount = vue.ref(this.settings.commentCount || 0)
@@ -134,11 +133,11 @@ export class Post extends FictionObject<PostConfig> {
     const fields = this.toConfig()
 
     const params = { _action: 'update', where: { postId: this.postId }, fields, isAutosave } as const
-    const p = await managePost({ fictionPosts: this.settings.fictionPosts, params, caller: 'savePost', disableNotify: isAutosave })
+    const r = await this.settings.fictionPosts.requests.ManagePost.projectRequest(params, { caller, disableNotify: isAutosave })
 
     // don't update if autosave was called again during saving to prevent missing changes
     if (!isAutosave || !this.saveUtil.isDirty.value)
-      this.update(p?.toConfig() || {}, { caller: `savePost-${caller}`, noSave: true })
+      this.update(r.data?.[0] || {}, { caller: `savePost-${caller}`, noSave: true })
   }
 
   async delete() {
@@ -148,8 +147,8 @@ export class Post extends FictionObject<PostConfig> {
     else {
       this.log.info('Deleting post')
     }
+    await this.settings.fictionPosts.requests.ManagePost.projectRequest({ _action: 'delete', where: { postId: this.postId } }, { caller: 'deletePost' })
 
-    await managePost({ fictionPosts: this.settings.fictionPosts, params: { _action: 'delete', where: { postId: this.postId } }, caller: 'deletePost' })
     this.settings.fictionPosts.cacheKey.value++
   }
 

@@ -52,11 +52,7 @@ function onValue(v: string) {
 }
 
 function onInput(v: string) {
-  if (post.settings.sourceMode === 'local') {
-    const userConfig = getNewUserConfig(v)
-
-    card.value?.syncCard({ caller: 'updatePost', cardConfig: { cardId: card.value?.cardId, userConfig } })
-  }
+  //
 }
 
 const value = vue.computed(() => {

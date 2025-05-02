@@ -167,13 +167,13 @@ describe('saveSite', async () => {
 
     site.title.value = 'another title'
 
-    const subDomain = shortId()
-    site.subDomain.value = subDomain
+    const handle = shortId()
+    site.handle.value = handle
 
-    const r2 = await saveSite({ site, onlyKeys: ['subDomain'], successMessage: 'Test Success' })
+    const r2 = await saveSite({ site, onlyKeys: ['handle'], successMessage: 'Test Success' })
 
     expect(r2?.title).toBe('new title')
-    expect(r2?.subDomain).toBe(subDomain)
+    expect(r2?.subDomain).toBe(handle)
   })
 })
 

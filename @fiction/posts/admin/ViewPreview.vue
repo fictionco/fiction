@@ -28,7 +28,7 @@ async function load(args: { postId?: string, format?: 'browser' | 'email' }) {
       return
 
     await fictionUser.userInitialized({ caller: 'email-preview' })
-    post.value = await managePost({ fictionPosts, params: { _action: 'get', where: { postId } }, caller: 'postEdit' })
+    post.value = await managePost({ card, fictionPosts, params: { _action: 'get', where: { postId } }, caller: 'postEdit' })
 
     const org = fictionUser.activeOrganization.value
 

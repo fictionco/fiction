@@ -89,6 +89,18 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     this.hooks()
   }
 
+  hostname(args: { subDomain?: string }) {
+    const { subDomain } = args
+    return this.fictionEnv.isProd.value ? `${subDomain}.fiction.com` : `${subDomain}.lan.com`
+  }
+
+  getOrigin(args?: { subDomain?: string }) {
+    const { subDomain } = args || {}
+    const hostname = this.hostname({ subDomain })
+    const port = this.settings.fictionAppSites?.port.value
+    return this.fictionEnv.isProd.value ? `https://${hostname}` : `http://${hostname}:${port}`
+  }
+
   hooks() {
     this.settings.fictionUser?.hooks.on('newOrg', 'sites:default', async (args) => {
       const { org, withDefaults } = args

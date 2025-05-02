@@ -35,14 +35,11 @@ async function createNewPost() {
       fields: { title: postDetails.value.title || '' },
     } as const
 
-    draftPost.value = await managePost({ fictionPosts, params: createParams, caller: 'postStart' })
+    draftPost.value = await managePost({ card, fictionPosts, params: createParams, caller: 'postStart' })
 
     const postId = draftPost.value?.postId
     if (!postId) {
-      fictionEnv.events.emit('notify', {
-        type: 'error',
-        message: 'Unable to create post. Please try again.',
-      })
+      fictionEnv.events.emit('notify', { type: 'error', message: 'Unable to create post. Please try again.' })
       return
     }
 

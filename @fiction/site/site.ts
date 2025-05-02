@@ -64,7 +64,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   isProd = vue.ref(this.settings.isProd ?? this.fictionSites.fictionEnv?.isProd.value)
   title = vue.ref(this.settings.title)
   status = vue.ref(this.settings.status)
-  subDomain = vue.ref(this.settings.subDomain || shortId({ prefix: `${this.title.value || 'site'}-`, len: 3 }))
+
   handle = vue.ref(this.settings.handle)
   isAnimationDisabled = vue.ref(false)
   themeId = vue.ref(this.settings.themeId)
@@ -81,20 +81,15 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   fullConfig = vue.computed(() => deepMerge([this.themeConfig.value?.userConfig, this.userConfig.value]))
 
   org = vue.computed(() => deepMerge([this.themeConfig.value?.org, this.settings.org]))
-  hostname = vue.computed(() => {
-    const orgHandle = this.org.value?.handle
-    const sub = this.settings.isPrimary && orgHandle ? orgHandle : `stage-${this.handle.value}`
-    return this.isProd.value ? `${sub}.fiction.com` : `${sub}.lan.com`
-  })
 
-  origin = vue.computed(() => {
-    const port = this.fictionSites.settings.fictionAppSites?.port.value
-    const hostname = this.hostname.value
-    return this.isProd.value ? `https://${hostname}` : `http://${hostname}:${port}`
+  subDomain = vue.computed(() => {
+    const orgHandle = this.org.value?.handle
+    return this.isPrimary.value && orgHandle ? orgHandle : `stage-${this.handle.value}`
   })
 
   url = vue.computed(() => {
-    return `${this.origin.value}${this.currentPath.value}`
+    const origin = this.fictionSites.getOrigin({ subDomain: this.subDomain.value })
+    return `${origin}${this.currentPath.value}`
   })
 
   constructor(settings: T) {

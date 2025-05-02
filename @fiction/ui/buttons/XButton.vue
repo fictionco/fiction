@@ -78,6 +78,9 @@ const cls = vue.computed(() => {
 const slots = vue.useSlots()
 
 function hasNonWhitespaceText(vnodes: vue.VNode | vue.VNode[]): boolean {
+  if (typeof window === 'undefined' || !vnodes)
+    return true
+
   // Handle single VNode or array of VNodes
   const nodes = Array.isArray(vnodes) ? vnodes : [vnodes]
 

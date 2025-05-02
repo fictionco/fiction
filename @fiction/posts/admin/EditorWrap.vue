@@ -16,17 +16,13 @@ import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import ElModalConfirm from '@fiction/ui/modal/ElModalConfirm.vue'
 import SuccessModal from '@fiction/ui/modal/SuccessModal.vue'
-import { t } from '..'
-import { TablePostSchema as schema } from '../schema.js'
 import { managePost, syncFields } from '../utils'
-import { getPostEmailRecipientCount } from '../utils/email'
 import EditorBody from './EditorBody.vue'
-import InputAudienceFilter from './InputAudienceFilter.vue'
 import InputPostReview from './InputPostReview.vue'
 import PostPreview from './PostPreview.vue'
 import { postEditController } from './tools/tools'
 
-defineProps({
+const { card } = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
@@ -49,7 +45,7 @@ async function load() {
   }
   else {
     const editParams = { _action: 'get', where: { postId } } as const
-    post.value = await managePost({ fictionPosts: service.fictionPosts, params: editParams, caller: 'postEdit' })
+    post.value = await managePost({ card, fictionPosts: service.fictionPosts, params: editParams, caller: 'postEdit' })
   }
   loading.value = false
 }
@@ -58,8 +54,6 @@ const recipientCountRef = vue.ref(0)
 
 vue.onMounted(async () => {
   await load()
-
-
 
   vue.watch(
     () => [post.value?.title.value, post.value?.subTitle.value],
