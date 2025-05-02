@@ -13,7 +13,7 @@ import ProseEditorToolbar from '@fiction/ui/prose/editor/ProseEditorToolbar.vue'
 import ElOptionWrap from './ElOptionWrap.vue'
 import PostOverview from './PostOverview.vue'
 
-import { postEditController } from './tools'
+import { postEditController } from './tools/tools.js'
 
 defineOptions({ name: 'PostEditor' })
 

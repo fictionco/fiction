@@ -16,14 +16,12 @@ export async function getEmailForPost(args: {
 
   const img = await fictionEmail?.emailImages({ fictionMedia })
 
-  const {
-    senderName = org.orgName,
-    senderEmail = org.orgEmail,
-    avatar,
-    websiteUrl,
-    companyName = org.orgName,
-    streetAddress,
-  } = postConfig.sender || {}
+  const senderName = org.orgName
+  const senderEmail = org.orgEmail
+  const avatar = org.avatar
+  const websiteUrl = `https://${org.handle}.fiction.com`
+  const companyName = 'Fiction Inc.'
+  const streetAddress = '123 Fiction St, Fiction City, FC 12345'
 
   const emailConfig: EmailSendConfig = {
     senderName: senderName || (withDefaults ? 'No Name' : ''),
@@ -59,15 +57,16 @@ export async function getEmailForPost(args: {
 
 export async function getPostEmailRecipientCount(args: { post?: Post, fictionContact: FictionContact }) {
   const { post, fictionContact } = args
-  const mode = post?.emailConfig.value.target
+  const mode = post?.audience.value || 'all'
 
   let recipientCount = 0
 
   if (mode === 'nobody' || !post) {
-    return recipientCount
+    return 0
   }
 
-  const filters = mode === 'filtered' ? post.emailConfig.value.filters : undefined
+  // undefined filters means all recipients
+  const filters = undefined
 
   try {
     const response = await fictionContact.requests.ManageContact.projectRequest({

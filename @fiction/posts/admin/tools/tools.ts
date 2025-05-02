@@ -2,22 +2,22 @@ import type { EditorTool } from '@fiction/admin'
 import { AdminEditorController } from '@fiction/admin'
 import { vue } from '@fiction/core'
 
-export type ToolKeys = 'history' | 'postSettings'
+export type ToolKeys = 'history' | 'compose' | 'meta' | 'delivery'
 
 export const tools = [
   {
-    toolId: 'ai',
-    title: 'AI',
-    icon: { class: 'i-tabler-sparkles' },
+    toolId: 'settings',
+    title: 'Settings',
+    icon: { class: 'i-tabler-adjustments' },
     location: 'primary',
     isPrimary: true,
-    el: vue.defineAsyncComponent(() => import('./ToolAi.vue')),
+    el: vue.defineAsyncComponent(() => import('./ToolOptions.vue')),
     design: 'drawer',
   },
   {
     toolId: 'history',
     icon: { class: 'i-tabler-history' },
-    el: vue.defineAsyncComponent(() => import('./ToolHistory.vue')),
+    el: vue.defineAsyncComponent(() => import('./ToolOptions.vue')),
     location: 'primary',
     title: 'History',
     design: 'drawer',

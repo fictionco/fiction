@@ -155,7 +155,7 @@ const sections = vue.computed<ReviewSection[]>(() => [
     content: [
       {
         label: 'Email audience',
-        value: getAudienceInfo(props.post.emailConfig?.value?.target),
+        value: getAudienceInfo(props.post.audience.value || 'all'),
         badge: props.recipientCount ? `${props.recipientCount} recipients` : undefined,
         actions: [{ label: 'Edit Audience', key: 'audience' }],
       },

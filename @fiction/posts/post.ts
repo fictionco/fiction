@@ -28,14 +28,17 @@ export class Post extends FictionObject<PostConfig> {
   href = vue.computed(() => postLink({ card: this.settings.card, slug: this.slug.value }))
   media = vue.ref(this.settings.media)
   theme = vue.ref(this.settings.theme || 'primary')
+  audience = vue.ref(this.settings.audience || 'all')
+  subject = vue.ref(this.settings.subject || '')
+  preview = vue.ref(this.settings.preview || '')
+  testEmails = vue.ref(this.settings.testEmails || [])
   tags = vue.ref(this.settings.tags || [])
   categories = vue.ref(this.settings.categories || [])
   authors = vue.ref(this.settings.authors || [])
   dateAt = vue.ref(this.settings.dateAt || new Date().toISOString())
   userConfig = vue.ref(this.settings.userConfig || {})
-  sender = vue.ref(this.settings.sender || {})
   visibility = vue.ref(this.settings.visibility || 'public')
-  emailConfig = vue.ref({ filters: [], target: 'all', ...this.settings.emailConfig } as EmailConfig)
+  emailConfig = vue.ref(this.settings.emailConfig )
   isFeatured = vue.ref(this.settings.isFeatured || false)
   likeCount = vue.ref(this.settings.likeCount || 0)
   commentCount = vue.ref(this.settings.commentCount || 0)
@@ -99,8 +102,6 @@ export class Post extends FictionObject<PostConfig> {
       'tags',
       'categories',
       'authors',
-      'sites',
-      'sender',
     ]
     const entries = Object.entries(postConfig).filter(([key]) => availableKeys.includes(key))
     entries.forEach(([key, value]) => {
@@ -157,30 +158,38 @@ export class Post extends FictionObject<PostConfig> {
 
     return {
       ...rest,
+      status: this.status.value,
+      emailStatus: this.emailStatus.value,
+
       slug: this.slug.value,
       postId: this.postId,
       title: this.title.value,
       subTitle: this.subTitle.value,
       content: this.content.value,
-      userConfig: this.userConfig.value,
-      emailConfig: this.emailConfig.value,
-      sender: this.sender.value,
-      visibility: this.visibility.value,
-      isFeatured: this.isFeatured.value,
-      priority: this.priority.value,
       media: this.media.value,
-      theme: this.theme.value,
-      dateAt: this.dateAt.value,
-      hasChanges: this.hasChanges.value,
-      publishAt: this.publishAt.value,
-      updatedAt: this.updatedAt.value,
-      publishMode: this.publishMode.value,
-      status: this.status.value,
-      emailStatus: this.emailStatus.value,
       tags: this.tags.value,
       categories: this.categories.value,
       authors: this.authors.value,
-      wordCount: this.wordCount.value,
+
+      subject: this.subject.value,
+      preview: this.preview.value,
+      audience: this.audience.value,
+      testEmails: this.testEmails.value,
+
+      visibility: this.visibility.value,
+      isFeatured: this.isFeatured.value,
+      priority: this.priority.value,
+
+      theme: this.theme.value,
+
+      dateAt: this.dateAt.value,
+      publishAt: this.publishAt.value,
+      publishMode: this.publishMode.value,
+
+      userConfig: this.userConfig.value,
+      emailConfig: this.emailConfig.value,
+
+      hasChanges: this.hasChanges.value,
     }
   }
 

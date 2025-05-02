@@ -24,7 +24,7 @@ import EditorBody from './EditorBody.vue'
 import InputAudienceFilter from './InputAudienceFilter.vue'
 import InputPostReview from './InputPostReview.vue'
 import PostPreview from './PostPreview.vue'
-import { postEditController } from './tools'
+import { postEditController } from './tools/tools'
 
 defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -59,13 +59,7 @@ const recipientCountRef = vue.ref(0)
 vue.onMounted(async () => {
   await load()
 
-  vue.watch(
-    () => [post.value?.emailConfig.value.target, post.value?.emailConfig.value.filters],
-    async () => {
-      recipientCountRef.value = await getPostEmailRecipientCount({ post: post.value, fictionContact: service.fictionContact })
-    },
-    { deep: true, immediate: true },
-  )
+
 
   vue.watch(
     () => [post.value?.title.value, post.value?.subTitle.value],
@@ -98,188 +92,7 @@ const viewModes = vue.computed(() => {
       title: 'Edit Post',
       icon: { class: 'i-tabler-edit' },
     },
-    {
-      value: 'audience',
-      title: 'Select Audience',
-      icon: { class: 'i-tabler-users' },
-      options: [
-        createOption({
-          schema,
-          key: 'group.audienceEmail',
-          input: 'group',
-          label: 'Newsletter Audience',
-          icon: { class: 'i-tabler-mail' },
-          options: [
-            createOption({
-              schema,
-              key: 'emailConfig.target',
-              label: 'Select Audiences',
-              input: 'InputRadioButton',
-              list: [
-                { label: 'All Contacts', value: 'all', icon: { class: 'i-tabler-users' } },
-                { label: 'Filter by Tag', value: 'filtered', icon: { class: 'i-tabler-filter' } },
-                { label: 'No Email', value: 'nobody', icon: { class: 'i-tabler-mail-off' } },
-              ],
-              props: { uiSize: 'md' },
-              disabled: post.value?.status.value !== 'draft',
-            }),
-            createOption({
-              schema,
-              label: 'Estimated Recipients',
-              subLabel: 'Based on selected options and filters',
-              key: 'emailConfig.filters',
-              input: InputAudienceFilter,
-              props: { recipientCount },
-              disabled: post.value?.status.value !== 'draft',
-            }),
-          ],
-        }),
-        createOption({
-          schema,
-          key: 'group.audienceWeb',
-          input: 'group',
-          label: 'Web Audience',
-          icon: { class: 'i-tabler-world' },
-          options: [
-            createOption({
-              schema,
-              key: 'visibility',
-              label: 'Website Visibility',
-              input: 'InputRadioButton',
-              list: [
-                { label: 'Public', value: 'public', icon: { class: 'i-tabler-globe' } },
-                { label: 'Private', value: 'private', icon: { class: 'i-tabler-lock' } },
-                { label: 'Unlisted', value: 'unlisted', icon: { class: 'i-tabler-eye-off' } },
-              ],
-              props: { uiSize: 'md' },
-            }),
-          ],
-        }),
-      ],
-    },
-    {
-      value: 'email',
-      title: 'Email Setup',
-      icon: { class: 'i-tabler-mail' },
-      options: [
-        createOption({
-          key: 'group.inbox',
-          input: 'group',
-          label: 'Inbox Settings',
-          icon: { class: 'i-tabler-inbox' },
-          options: [
-            createOption({
-              schema,
-              key: 'emailConfig.subject',
-              label: 'Subject Line',
-              subLabel: 'This will be same as post title unless modified',
-              description: 'The main inbox subject line.',
-              input: 'InputText',
-              placeholder: post.value?.title.value || 'Enter Subject',
-              isRequired: true,
-              disabled: post.value?.status.value !== 'draft',
-            }),
-            createOption({
-              schema,
-              key: 'emailConfig.preview',
-              label: 'Preview Line',
-              subLabel: 'This will be same as post subtitle unless modified',
-              description: 'The preview line is the first line of the email and is shown in the inbox',
-              input: 'InputText',
-              placeholder: post.value?.subTitle.value || 'Enter Preview Text',
-              disabled: post.value?.status.value !== 'draft',
-            }),
-          ],
-        }),
-        createOption({
-          key: 'group.inbox',
-          input: 'group',
-          label: 'Sender Settings (Global)',
-          icon: { class: 'i-tabler-mail-forward' },
-          options: [
-            createOption({
-              schema,
-              key: 'sender.senderName',
-              label: 'Send From Name',
-              subLabel: 'The name that will appear in the inbox',
-              input: 'InputText',
-              placeholder: org?.orgName || 'Enter Name',
-            }),
-            createOption({
-              schema,
-              key: 'sender.senderEmail',
-              label: 'Reply To Email',
-              subLabel: 'The "sent from" email address',
-              input: 'InputEmail',
-              placeholder: org?.orgEmail || 'Enter Email',
-            }),
-          ],
-        }),
 
-      ],
-    },
-    {
-      value: 'web',
-      title: 'Web and SEO',
-      icon: { class: 'i-tabler-world' },
-      options: [
-        createOption({
-          key: 'group.inbox',
-          input: 'group',
-          label: 'Web Settings',
-          icon: { class: 'i-tabler-inbox' },
-          options: [
-            createOption({
-              schema,
-              key: 'slug',
-              label: 'Slug',
-              input: 'InputHandle',
-              placeholder: 'my-post',
-              isRequired: true,
-              props: {
-                table: t.posts,
-                columns: [
-                  { name: 'slug', allowReserved: true },
-                  { name: 'orgId', value: org?.orgId },
-                ],
-              },
-            }),
-            createOption({
-              schema,
-              key: 'media',
-              label: 'Featured Image',
-              description: 'The image that will be displayed with the post',
-              input: 'InputMedia',
-            }),
-          ],
-        }),
-        createOption({
-          key: 'group.inbox',
-          input: 'group',
-          label: 'SEO',
-          icon: { class: 'i-tabler-search' },
-          options: [
-            createOption({
-              schema,
-              key: 'userConfig.standard.title',
-              label: 'SEO Title',
-              description: 'The title that will be displayed in search results.',
-              placeholder: 'Enter Title',
-              input: 'InputText',
-            }),
-            createOption({
-              schema,
-              key: 'userConfig.standard.description',
-              label: 'SEO Description',
-              description: 'The description that will be displayed in search results.',
-              placeholder: 'Enter Description',
-              input: 'InputText',
-
-            }),
-          ],
-        }),
-      ],
-    },
     {
       value: 'review',
       title: post?.value?.status.value !== 'draft'
@@ -539,7 +352,7 @@ const statusMap = vue.computed<NavListItem>(() => {
             icon-after="i-tabler-arrow-right"
             @click.prevent="navigate({ dir: 'next' })"
           >
-            Continue
+            Review
           </XButton>
           <XButton
             v-else

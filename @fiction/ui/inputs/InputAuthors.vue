@@ -1,13 +1,17 @@
 <script lang="ts" setup>
 import type { ListItem, User } from '@fiction/core'
 import type { FictionTeam } from '@fiction/core/plugin-team'
+import type { Card } from '@fiction/site'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
+import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import InputSelectCustom from '@fiction/ui/inputs/InputSelectCustom.vue'
 
-const { modelValue = [], teamLink = '' } = defineProps<{
+const {
+  modelValue = [],
+} = defineProps<{
   modelValue?: User[]
-  teamLink?: string
+  card: Card
 }>()
 
 const emit = defineEmits<{
@@ -15,6 +19,7 @@ const emit = defineEmits<{
 }>()
 
 const { fictionUser, fictionTeam } = useService<{ fictionTeam: FictionTeam }>()
+const addMore = vue.ref(false)
 const users = vue.ref<User[]>([])
 const list = vue.computed<ListItem[]>(() => users.value.map(t => ({ value: t.userId, label: t.fullName, description: t.email })))
 const isFocused = vue.ref(false)
@@ -49,18 +54,16 @@ function addFromId(userId: string) {
 }
 
 const renderList = vue.computed(() => {
-  const v = modelValue
   // Normalize the search text by converting to lower case and removing all whitespace
-  const s = search.value?.toLowerCase().replace(/\s+/g, '')
-  const li = list.value.filter(l => !v.find(t => t.userId === l.value))
-  return !s
-    ? li
-    : li.filter((item) => {
+  const searchValue = search.value?.toLowerCase().replace(/\s+/g, '') || ''
+  return !searchValue
+    ? list.value
+    : list.value.filter((item) => {
       // Construct a single string from name, description, and value, also normalized
         const searchString = `${item.name?.toLowerCase() || ''} ${item.desc?.toLowerCase() || ''} ${item.value}`
           .replace(/\s+/g, '') // Remove all whitespace for robust matching
 
-        return searchString.includes(s)
+        return searchString.includes(searchValue)
       })
 })
 
@@ -75,39 +78,42 @@ vue.onMounted(async () => {
 
 <template>
   <div class="space-y-2">
-    <div v-if="modelValue && modelValue.length" class="tag-list flex flex-row flex-wrap gap-1">
+    <div v-if="modelValue && modelValue.length" class="tag-list flex flex-row flex-wrap gap-3 items-center">
       <XButton
         v-for="(user, i) in modelValue"
         :key="i"
         class="gap-1"
-        theme="primary"
         size="sm"
         design="outline"
       >
-        <span class="flex items-center gap-1">
+        <span class="flex items-center gap-1.5 ">
+          <span><ElAvatar :user class="size-4" /></span>
           <span>{{ user.fullName || user.email }}</span>
-          <span class="i-tabler-x hover:opacity-70 cursor-pointer" @click.stop="remove(user)" />
+          <span
+            v-if="modelValue.length > 1"
+            class="i-tabler-x hover:opacity-70 cursor-pointer text-theme-500"
+            @click.stop="remove(user)"
+          />
         </span>
+      </XButton>
+      <XButton
+        v-if="modelValue.length > 1 || !addMore"
+        class="gap-1"
+        size="sm"
+        design="ghost"
+        @click.stop="addMore = !addMore"
+      >
+        Add
       </XButton>
     </div>
     <InputSelectCustom
+      v-if="addMore || !modelValue.length"
       v-model:search="search"
       v-model:focused="isFocused"
       :allow-search="true"
       :list="renderList"
-      zero-text="No users found"
+      zero-text="No additional users found"
       @update:model-value="addFromId($event as string)"
     />
-    <div v-if="teamLink" class="flex justify-start gap-2">
-      <XButton
-        class="shrink-0"
-        size="xs"
-        btn="default"
-        :href="teamLink"
-        icon-after="i-tabler-arrow-up-right"
-      >
-        Add to Team
-      </XButton>
-    </div>
   </div>
 </template>

@@ -40,9 +40,9 @@ const options = vue.computed<InputOption[]>(() => {
 const loading = vue.ref('')
 async function sendTest() {
   const pst = post
-  const testEmails = pst?.emailConfig.value.testEmails
+  const testEmails = pst?.testEmails.value || []
 
-  if (testEmails && pst.postId) {
+  if (testEmails?.length && pst?.postId) {
     loading.value = 'testEmail'
 
     await service.fictionPosts.requests.ManagePost.projectRequest({
@@ -56,7 +56,7 @@ async function sendTest() {
 }
 
 const testEmails = vue.computed({
-  get: () => post?.emailConfig.value.testEmails || [],
+  get: () => post?.settings.testEmails || [],
   set: (v) => {
     post?.update({ emailConfig: { ...post.emailConfig.value, testEmails: v } }, { caller: 'ToolEmailPreview' })
   },

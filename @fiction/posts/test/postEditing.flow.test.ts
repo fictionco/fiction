@@ -34,7 +34,6 @@ describe('postEditing', async () => {
         { type: 'fill', selector: `[data-option-path="${pathCheck('emailConfig.subject', schema)}"] input`, text: 'Custom Email Subject' },
         { type: 'hasValue', selector: `[data-option-path="${pathCheck('emailConfig.preview', schema)}"] input`, text: 'hello world' },
         { type: 'fill', selector: `[data-option-path="${pathCheck('emailConfig.preview', schema)}"] input`, text: 'Custom Email Preview' },
-        { type: 'fill', selector: `[data-option-path="${pathCheck('sender.senderName', schema)}"] input`, text: 'Acme' },
 
         // test web
         { type: 'click', selector: '[data-test-id="next-button-top"]' },

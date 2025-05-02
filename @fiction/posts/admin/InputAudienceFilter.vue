@@ -59,7 +59,7 @@ vue.onMounted(async () => {
 
   // Watch for changes
   vue.watch(
-    () => [orGroups.value, post.emailConfig.value.target],
+    () => [orGroups.value, post.audience.value],
     () => {
       fetchCount()
     },
@@ -103,15 +103,15 @@ const tagGroupDisplay = vue.computed(() => {
 
       <div class="text-sm space-y-1 bg-theme-100 dark:bg-theme-700/70 p-4 rounded-lg">
         <div class="text-theme-500 dark:text-theme-400">
-          {{ post.emailConfig.value.target === 'all'
+          {{ post.audience.value === 'all'
             ? 'Sending to all active contacts'
-            : post.emailConfig.value.target === 'filtered' ? 'Sending to contacts with filters' : 'No email will be sent' }}
+            : post.audience.value === 'filtered' ? 'Sending to contacts with filters' : 'No email will be sent' }}
         </div>
         <div v-if="tagGroupDisplay" class="font-medium" v-html="tagGroupDisplay" />
       </div>
     </div>
 
-    <div v-if="post.emailConfig.value.target === 'filtered'">
+    <div v-if="post.audience.value === 'filtered'">
       <ElInput
         v-model="selectedTags"
         label="Contact Tags"

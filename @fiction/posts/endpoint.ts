@@ -246,19 +246,6 @@ export class QueryManagePost extends PostsQuery {
 
     if (post.postId) {
       post.authors = await db.select([`${t.user}.userId`, `${t.user}.email`, `${t.user}.fullName`, `${t.postAuthor}.priority`]).from(t.postAuthor).join(t.user, `${t.user}.user_id`, `=`, `${t.postAuthor}.user_id`).where(`${t.postAuthor}.post_id`, post.postId).orderBy(`${t.postAuthor}.priority`, 'asc')
-
-      // get defaults from org details
-      const sel: (keyof Organization)[] = ['orgName', 'orgEmail', 'companyName', 'streetAddress', 'avatar']
-      const orgData = await db.select<Partial<Organization>>(sel).from(t.org).where(`${t.org}.orgId`, orgId).first()
-
-      if (orgData) {
-        post.sender = {
-          ...orgData,
-          avatar: getOrgAvatar(orgData, { useSender: true }),
-          senderName: orgData?.orgName,
-          senderEmail: orgData?.orgEmail,
-        }
-      }
     }
 
     if (loadDraft && post.draft)
@@ -324,8 +311,6 @@ export class QueryManagePost extends PostsQuery {
     })
 
     prepped.draft = {}
-
-    const { senderName, senderEmail, companyName, websiteUrl, streetAddress } = fields.sender || {}
 
     await Promise.all([
       db(t.posts).update(prepped).where({ postId }),
