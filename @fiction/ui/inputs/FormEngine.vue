@@ -37,7 +37,7 @@ const {
   modelValue?: Record<string, unknown>
   depth?: number
   basePath?: string
-  classes?: { inputWrap?: string, tabWrap?: string }
+  classes?: { inputWrap?: string, tabWrap?: string, groupPad?: string }
   inputProps?: Record<string, unknown>
   uiSize?: UiElementSize
   buttons?: ActionButton[]
@@ -191,7 +191,7 @@ function getInputWrapClasses(opt: InputOption) {
 }
 
 function getGroupClasses(opt: InputOption) {
-  return opt.settings.format === 'control' ? '' : [cls.value.groupPad, '']
+  return classes?.groupPad || (opt.settings.format === 'control' ? '' : cls.value.groupPad)
 }
 
 function getOptionPath(args: { opt: InputOption, index?: number, mode?: 'base' | 'edit' }): string {

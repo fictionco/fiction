@@ -50,7 +50,7 @@ const org = vue.computed(() => service.fictionUser.activeOrganization?.value)
   <div v-if="post" class="h-full max-w-screen-xl mx-auto">
     <div class="flex flex-col gap-8 h-full">
       <div class="flex justify-between items-center gap-4">
-        <div class="flex items-center justify-center gap-2 w-full">
+        <div class="flex items-center justify-start gap-2 w-full">
           <XDropDown
             v-model="activeFormatModeKey"
             mode="click"

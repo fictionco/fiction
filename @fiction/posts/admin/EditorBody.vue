@@ -32,7 +32,7 @@ function handleUpdate(args: { key: 'title' | 'subTitle' | 'content', value: stri
 
   const { key, value, caller } = args
 
-  post.update({ [key]: value }, { caller })
+  post.update({ [key]: value.trim() }, { caller })
 
   emit('update:post', post)
 }
@@ -57,6 +57,10 @@ const hasMedia = vue.computed(() => {
           >
             <div class="relative max-h-[100%] grow overflow-scroll w-full min-h-0 dark:bg-theme-950/80 no-scrollbar">
               <div class=" pt-6 md:pt-10 pb-[50vh] px-6 md:px-12 max-w-[800px] mx-auto focus:outline-none space-y-8">
+                <div class="p-2 sticky top-0 bg-theme-50 dark:bg-theme-950 z-10 -mx-4">
+                  <ProseEditorToolbar v-if="proseEditorEl?.editor" :editor="proseEditorEl?.editor" />
+                </div>
+
                 <div class="space-y-6">
                   <XText
                     :model-value="post.title.value"
@@ -94,10 +98,6 @@ const hasMedia = vue.computed(() => {
                     data-test-id="featured-post-media"
                     :full-width="true"
                   />
-                </div>
-
-                <div class="p-2 sticky top-0 bg-theme-50 dark:bg-theme-950 z-10 -mx-4">
-                  <ProseEditorToolbar v-if="proseEditorEl?.editor" :editor="proseEditorEl?.editor" />
                 </div>
 
                 <ProseEditor

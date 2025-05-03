@@ -98,7 +98,6 @@ const themeColors = vue.computed(() => {
   /* Paragraphs */
   p {
     margin: 0 0 1em;
-    max-width: 35em; /* ~10-12 words per line */
     line-height: 1.75;
   }
 

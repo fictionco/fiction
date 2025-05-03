@@ -215,5 +215,12 @@ export class Post extends FictionObject<PostConfig> {
         duration: 2000,
       })
     }
+    else {
+      this.settings.fictionPosts?.fictionEnv.events.emit('notify', {
+        type: 'error',
+        message: 'Failed to copy link to clipboard',
+        duration: 2000,
+      })
+    }
   }
 }

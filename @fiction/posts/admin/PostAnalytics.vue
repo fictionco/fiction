@@ -149,7 +149,7 @@ const loading = vue.computed(() => factory.loading.value)
 </script>
 
 <template>
-  <div class="border border-theme-200 dark:border-theme-500/50 md:p-12 p-4 rounded-md shadow-md">
+  <div class="border border-theme-200 dark:border-theme-500/50 md:p-6 p-4 rounded-md shadow-md">
     <div v-if="loading" class="p-16 text-center text-theme-500 text-xs flex justify-center items-center gap-4">
       <ElSpinner class="size-6" />
     </div>

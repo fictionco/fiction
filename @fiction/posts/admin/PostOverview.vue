@@ -5,14 +5,16 @@ import type { Post } from '../post.js'
 import type { EditorLocation } from './EditorWrap.vue'
 import { dayjs, toLabel, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
+import { createOption } from '@fiction/ui/inputs'
+import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
+import PostShare from './InputPostShare.vue'
 import PostAnalytics from './PostAnalytics.vue'
 import PostPreview from './PostPreview.vue'
-import PostShare from './PostShare.vue'
 
 defineOptions({ name: 'PostOverview' })
 
-const props = defineProps<{
+const { post, card } = defineProps<{
   post?: Post
   card: Card
   location: EditorLocation
@@ -46,10 +48,10 @@ const activePanel = vue.computed(() => panels.find(p => p.key === activePanelKey
 
 // Calculate word count and reading time
 const readingStats = vue.computed(() => {
-  if (!props.post)
+  if (!post)
     return { words: 0, time: '0 min' }
 
-  const wordCount = props.post.wordCount.value || 0
+  const wordCount = post.wordCount.value || 0
   const readingTime = Math.max(1, Math.round(wordCount / 200))
 
   return {
@@ -58,11 +60,10 @@ const readingStats = vue.computed(() => {
   }
 })
 
-const hasCategory = vue.computed(() => props.post?.categories.value?.length || 0)
-const hasTags = vue.computed(() => props.post?.tags.value?.length || 0)
+const hasCategory = vue.computed(() => post?.categories.value?.length || 0)
+const hasTags = vue.computed(() => post?.tags.value?.length || 0)
 
 const statusMap = vue.computed<NavListItem>(() => {
-  const post = props.post
   const status = post?.status.value || 'draft'
 
   const statusMap = {
@@ -74,13 +75,64 @@ const statusMap = vue.computed<NavListItem>(() => {
 
   return statusMap[status as keyof typeof statusMap] || statusMap.draft
 })
+
+const previewOpts = vue.computed(() => {
+  return [
+
+    createOption({
+      key: 'group.share',
+      label: 'Share',
+      icon: { class: 'i-tabler-share' },
+      input: 'group',
+      options: [
+        createOption({
+          key: 'share',
+          icon: { class: 'i-tabler-share' },
+          input: PostShare,
+          props: { post, card },
+          options: [],
+        }),
+      ],
+    }),
+    createOption({
+      key: 'group.preview',
+      label: 'Preview',
+      icon: { class: 'i-tabler-eye' },
+      input: 'group',
+      options: [
+        createOption({
+          key: 'preview',
+          icon: { class: 'i-tabler-share' },
+          input: PostPreview,
+          props: { post, card },
+          options: [],
+        }),
+      ],
+    }),
+    createOption({
+      key: 'group.analytics',
+      label: 'Analytics',
+      icon: { class: 'i-tabler-chart-bar' },
+      input: 'group',
+      options: [
+        createOption({
+          key: 'analytics',
+          icon: { class: 'i-tabler-share' },
+          input: PostAnalytics,
+          props: { post, card },
+          options: [],
+        }),
+      ],
+    }),
+  ]
+})
 </script>
 
 <template>
-  <div v-if="post" class="max-w-screen-lg mx-auto p-8">
+  <div v-if="post" class="max-w-screen-md mx-auto p-8">
     <div class="flex flex-col space-y-6 ">
       <!-- Main content overview -->
-      <div class="bg-theme-50 dark:bg-theme-800/50 rounded-lg p-6 lg:p-8 border border-theme-200 dark:border-theme-700/70 shadow-sm">
+      <div class="">
         <div class="flex gap-6">
           <!-- Left column with primary info -->
           <div class="flex-grow space-y-6">
@@ -109,17 +161,6 @@ const statusMap = vue.computed<NavListItem>(() => {
               >
                 {{ toLabel(post?.status.value) }}
               </XButton>
-              <XButton
-                v-if="post?.emailStatus && post?.emailStatus.value !== post?.status.value"
-                theme="default"
-                target="_blank"
-                size="sm"
-                icon="i-tabler-mail"
-                data-test-id="post-email-status-badge"
-                design="link"
-              >
-                {{ toLabel(post?.emailStatus.value) }}
-              </XButton>
 
               <div class="flex items-center gap-1 text-theme-500">
                 <i class="i-tabler-file-text" />
@@ -146,67 +187,23 @@ const statusMap = vue.computed<NavListItem>(() => {
                 <span>{{ post.tags.value.length }} {{ post.tags.value.length === 1 ? 'tag' : 'tags' }}</span>
               </div>
             </div>
-
-            <div class="pt-4 flex flex-wrap gap-3">
-              <XButton
-                icon="i-tabler-eye"
-                design="outline"
-                :theme="activePanelKey === 'preview' ? 'primary' : 'default'"
-                size="sm"
-                @click="activePanelKey = 'preview'"
-              >
-                Preview
-              </XButton>
-
-              <XButton
-                icon="i-tabler-share"
-                design="outline"
-                :theme="activePanelKey === 'share' ? 'primary' : 'default'"
-                size="sm"
-                @click="activePanelKey = 'share'"
-              >
-                Share Options
-              </XButton>
-
-              <XButton
-                icon="i-tabler-chart-bar"
-                design="outline"
-                :theme="activePanelKey === 'analytics' ? 'primary' : 'default'"
-                size="sm"
-                @click="activePanelKey = 'analytics'"
-              >
-                Analytics
-              </XButton>
-
-              <XButton
-                icon="i-tabler-edit"
-                design="outline"
-                size="sm"
-                @click="emit('update:location', 'compose')"
-              >
-                Edit Post
-              </XButton>
-            </div>
           </div>
 
           <!-- Right column with media -->
-          <div v-if="post.media.value?.url" class="w-40 h-40 shrink-0 rounded-md overflow-hidden border border-theme-200 dark:border-theme-700 shadow-sm">
-            <XMedia
-              :media="post.media.value"
-              class="h-full w-full"
-              image-mode="cover"
-            />
+          <div>
+            <div v-if="post.media.value?.url" class=" w-40 aspect-video shrink-0 rounded-md overflow-hidden border border-theme-200 dark:border-theme-700 shadow-sm">
+              <XMedia
+                :media="post.media.value"
+                class="h-full w-full"
+                image-mode="cover"
+              />
+            </div>
           </div>
         </div>
       </div>
 
       <div class="pt-4 border-t border-theme-200 dark:border-theme-700">
-        <h2 class="text-lg font-medium mb-4">
-          {{ activePanel.label }}
-        </h2>
-        <PostShare v-if="activePanel.key === 'share'" :post :card />
-        <PostAnalytics v-else-if="activePanel.key === 'analytics'" :post :card />
-        <PostPreview v-else :post :card />
+        <FormEngine :options="previewOpts" :classes="{ groupPad: 'p-0', inputWrap: 'w-full' }" />
       </div>
     </div>
   </div>

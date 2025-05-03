@@ -32,7 +32,7 @@ const relatedPosts = vue.computed(() => {
 </script>
 
 <template>
-  <div v-if="card" class="font-sans @container/post">
+  <div v-if="card" class="font-sans @container/post max-w-[850px] mx-auto">
     <!-- Loading Skeleton -->
     <div v-if="loading" class="pt-16 pb-32 animate-pulse" aria-hidden="true">
       <div class="max-w-[75ch] mx-auto space-y-6">
@@ -43,24 +43,25 @@ const relatedPosts = vue.computed(() => {
     </div>
 
     <!-- Post Content -->
-    <article v-else-if="post" class="mx-auto">
+    <article v-else-if="post" class="mx-auto text-sm @[350px]/post:text-base @[700px]/post:text-[1.4em] @[900px]/post:text-[1.6em]">
       <div>
-        <!-- Post Title & Subtitle -->
-        <SiteText
-          v-model="post.config.value"
-          :card
-          tag="h1"
-          :path="pathCheck('title', schema)"
-          :post="post"
-          class="text-3xl @[600px]/post:text-4xl @[800px]/post:text-5xl font-semibold x-font-title md:text-pretty !leading-[1.3]  mb-4"
-        />
-        <SiteText
-          v-model="post.config.value"
-          :card
-          tag="h2"
-          :path="pathCheck('subTitle', schema)"
-          class="text-lg @[600px]/post:text-xl @[800px]/post:text-2xl text-theme-500 dark:text-theme-400 md:text-pretty !leading-[1.3] mb-8"
-        />
+        <div class="space-y-1 mb-[1.5em]">
+          <SiteText
+            v-model="post.config.value"
+            :card
+            tag="h1"
+            :path="pathCheck('title', schema)"
+            :post="post"
+            class="text-3xl @[600px]/post:text-[2em] @[800px]/post:text-[2.2em] font-semibold x-font-title md:text-pretty !leading-[1.3]"
+          />
+          <SiteText
+            v-model="post.config.value"
+            :card
+            tag="h2"
+            :path="pathCheck('subTitle', schema)"
+            class="text-lg @[600px]/post:text-[1.2em] @[800px]/post:text-[1.3em] text-theme-500 dark:text-theme-400 md:text-pretty !leading-[1.3]"
+          />
+        </div>
 
         <!-- Author, Date, and Actions -->
         <div class="flex items-center gap-4 mb-8 justify-between flex-wrap border-b border-theme-200 dark:border-theme-700 pb-8">
@@ -70,7 +71,7 @@ const relatedPosts = vue.computed(() => {
           <div class="flex gap-2">
             <XButton
               :icon="props.post?.like.isLiked.value ? 'i-tabler-heart-filled' : 'i-tabler-heart'"
-              :theme="props.post?.like.isLiked.value ? 'red' : 'default'"
+              :theme="props.post?.like.isLiked.value ? 'primary' : 'default'"
               @click="props.post?.like.toggle()"
             >
               {{ post.likeCount.value || 'Like' }}
@@ -96,7 +97,7 @@ const relatedPosts = vue.computed(() => {
 
         <!-- Content -->
         <XEntry
-          class="font-serif text-base"
+          class="font-serif"
           :theme="post.theme.value"
           :drop-cap="props.dropCap"
         >

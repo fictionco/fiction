@@ -4,6 +4,7 @@ import type { FictionPosts } from '..'
 import type { Post } from '../post'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
+import InputText from '@fiction/ui/inputs/InputText.vue'
 
 const { post } = defineProps<{
   post: Post
@@ -50,39 +51,44 @@ function shareFacebook() {
 
 <template>
   <div class="sharing-section">
-    <div v-if="loading" class="flex justify-center py-8">
-      <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-theme-500" />
-    </div>
-
     <div class="space-y-6">
-      <div class="bg-theme-50 dark:bg-theme-800 border border-theme-200 dark:border-theme-600 rounded-lg overflow-hidden p-4">
+      <div class="bg-theme-50 dark:bg-theme-800 border border-theme-200 dark:border-theme-600 rounded-lg overflow-hidden p-4 md:p-6">
         <div class="mb-3">
           <div class="flex items-center gap-2">
-            <input
-              type="text"
-              readonly
-              :value="url"
-              class="flex-1 px-3 py-2 bg-white dark:bg-theme-700 border border-theme-200 dark:border-theme-600 rounded text-sm"
-            >
+            <InputText v-model="url" input-class="dark:bg-theme-950" readonly ui-size="lg" />
             <XButton
-              size="sm"
+              class="shrink-0"
               design="ghost"
+              rounding="md"
+              size="lg"
               :icon="copied === url ? 'i-tabler-check' : 'i-tabler-copy'"
               :theme="copied === url ? 'emerald' : 'default'"
               @click="copyToClipboard(url)"
             >
               {{ copied === url ? 'Copied!' : 'Copy' }}
             </XButton>
+            <XButton
+              class="shrink-0"
+              design="ghost"
+              theme="green"
+              rounding="md"
+              icon="i-tabler-external-link"
+              size="lg"
+              :href="url"
+              target="_blank"
+            >
+              Go
+            </XButton>
           </div>
         </div>
 
-        <div class="pt-4">
-          <div class="text-sm font-medium mb-2">
+        <div class="pt-4 text-center space-y-4">
+          <div class="text-sm mb-2 text-theme-500 dark:text-theme-400">
             Share on social media
           </div>
-          <div class="flex flex-wrap gap-2">
+          <div class="flex flex-wrap gap-2 justify-center">
             <XButton
-              size="xs"
+              size="md"
               icon="i-tabler-brand-x"
               theme="blue"
               design="outline"
@@ -91,7 +97,7 @@ function shareFacebook() {
               X
             </XButton>
             <XButton
-              size="xs"
+              size="md"
               icon="i-tabler-brand-linkedin"
               theme="indigo"
               design="outline"
@@ -100,7 +106,7 @@ function shareFacebook() {
               LinkedIn
             </XButton>
             <XButton
-              size="xs"
+              size="md"
               icon="i-tabler-brand-facebook"
               theme="blue"
               design="outline"
@@ -109,7 +115,7 @@ function shareFacebook() {
               Facebook
             </XButton>
             <XButton
-              size="xs"
+              size="md"
               icon="i-tabler-mail"
               theme="emerald"
               design="outline"

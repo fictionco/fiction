@@ -82,7 +82,22 @@ const viewModes = vue.computed(() => {
   return out
 })
 
-const location = vue.ref<EditorLocation>('')
+const location = vue.computed<EditorLocation>({
+  get: () => {
+    const r = service.fictionRouter
+    const location = r.query.value.location as EditorLocation | undefined
+
+    if (location && viewModes.value.some(v => v.value === location)) {
+      return location
+    }
+
+    return post.value?.status.value === 'draft' ? 'compose' : 'overview'
+  },
+  set: (value) => {
+    const r = service.fictionRouter
+    r.push({ query: { ...r.query.value, location: value } }, { caller: 'postEdit' })
+  },
+})
 const modal = vue.ref<ModalLocation>('')
 
 async function savePost(postConfig?: Partial<TablePostConfig>) {
@@ -200,28 +215,41 @@ const statusMap = vue.computed<NavListItem>(() => {
             Review & Publish
           </XButton>
         </template>
-        <XButton
-          v-else-if="post?.status.value === 'scheduled'"
-          theme="orange"
-          design="outline"
-          size="md"
-          data-test-id="next-button-top"
-          :loading="sending === 'update'"
-          @click.prevent.stop="modal = 'unschedule'"
-        >
-          Unschedule
-        </XButton>
-        <XButton
-          v-else-if="post?.status"
-          theme="primary"
-          design="outline"
-          size="md"
-          data-test-id="next-button-top"
-          icon-after="i-tabler-arrow-back"
-          @click.prevent="location = 'overview'"
-        >
-          Back to Overview
-        </XButton>
+        <template v-else-if="post?.status">
+          <XButton
+            v-if="post?.status.value === 'scheduled'"
+            theme="orange"
+            design="outline"
+            size="md"
+            data-test-id="next-button-top"
+            :loading="sending === 'update'"
+            @click.prevent.stop="modal = 'unschedule'"
+          >
+            Unschedule
+          </XButton>
+          <template v-else>
+            <XButton
+              theme="primary"
+              design="outline"
+              size="md"
+              data-test-id="next-button-top"
+              icon="i-tabler-dashboard"
+              @click.prevent="location = 'overview'"
+            >
+              View Overview
+            </XButton>
+            <XButton
+              theme="primary"
+              design="solid"
+              size="md"
+              data-test-id="next-button-top"
+              icon-after="i-tabler-arrow-up-right"
+              @click.prevent="savePost()"
+            >
+              Save
+            </XButton>
+          </template>
+        </template>
       </template>
       <template #default>
         <EditorBody
