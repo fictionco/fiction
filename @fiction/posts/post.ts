@@ -1,10 +1,8 @@
 import type { Card } from '@fiction/site'
 import type { FictionPosts } from '.'
-import type { EmailConfig, TablePostConfig } from './schema'
+import type { TablePostConfig } from './schema'
 import { FictionObject, objectId, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save'
-import { postLink } from '.'
-import { managePost } from './utils'
 import { PostLike } from './utils/like'
 
 export type PostConfig = {
@@ -24,7 +22,7 @@ export class Post extends FictionObject<PostConfig> {
   subTitle = vue.ref(this.settings.subTitle || '')
   content = vue.ref(this.settings.content || '')
   slug = vue.ref(this.settings.slug || '')
-  href = vue.computed(() => postLink({ card: this.settings.card, slug: this.slug.value }))
+  href = vue.computed(() => `/p/${this.slug.value}`)
   media = vue.ref(this.settings.media)
   theme = vue.ref(this.settings.theme || 'primary')
   audience = vue.ref(this.settings.audience || 'all')
@@ -119,6 +117,8 @@ export class Post extends FictionObject<PostConfig> {
 
       this.settings = { ...this.settings, [key as keyof TablePostConfig]: value }
     })
+
+    this.hasChanges.value = true
   }
 
   async save(args: { isAutosave?: boolean, caller: string }) {

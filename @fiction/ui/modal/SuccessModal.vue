@@ -57,7 +57,7 @@ function handleDone() {
         <div class="text-xl text-theme-500 dark:text-theme-400 mb-6">
           {{ content || 'Your action was completed successfully.' }}
         </div>
-        <XButtonList :buttons="action?.buttons || []"></XButtonList>
+        <XButtonList :buttons="action?.buttons || []" />
       </div>
     </ElModal>
   </div>

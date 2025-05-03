@@ -2,6 +2,7 @@
 import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { Post } from '../post.js'
+import type { EditorLocation } from './EditorWrap.vue'
 import { dayjs, toLabel, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
@@ -14,10 +15,11 @@ defineOptions({ name: 'PostOverview' })
 const props = defineProps<{
   post?: Post
   card: Card
+  location: EditorLocation
 }>()
 
 const emit = defineEmits<{
-  (event: 'navigate', payload: { key: 'compose' }): void
+  (event: 'update:location', payload: EditorLocation): void
 }>()
 
 const service = useService()
@@ -75,10 +77,10 @@ const statusMap = vue.computed<NavListItem>(() => {
 </script>
 
 <template>
-  <div v-if="post" class="max-w-screen-xl mx-auto my-8">
+  <div v-if="post" class="max-w-screen-lg mx-auto p-8">
     <div class="flex flex-col space-y-6 ">
       <!-- Main content overview -->
-      <div class="bg-theme-50 dark:bg-theme-800 rounded-lg p-6 lg:p-8 xl:p-14 border border-theme-200 dark:border-theme-600/70 shadow-sm">
+      <div class="bg-theme-50 dark:bg-theme-800/50 rounded-lg p-6 lg:p-8 border border-theme-200 dark:border-theme-700/70 shadow-sm">
         <div class="flex gap-6">
           <!-- Left column with primary info -->
           <div class="flex-grow space-y-6">
@@ -87,10 +89,10 @@ const statusMap = vue.computed<NavListItem>(() => {
                 {{ post.publishAt.value ? dayjs(post.publishAt.value).format('MMM D, YYYY [at] h:mm A') : 'No Publish Time Set' }}
               </div>
 
-              <h1 class="text-2xl font-semibold mb-1 text-balance">
+              <h1 class="text-2xl lg:text-3xl font-semibold mb-1 text-balance x-font-title">
                 {{ post.title.value || 'Untitled Post' }}
               </h1>
-              <p v-if="post.subTitle.value" class="text-theme-600 dark:text-theme-300 text-lg">
+              <p v-if="post.subTitle.value" class="text-theme-600 dark:text-theme-300 text-lg lg:text-xl">
                 {{ post.subTitle.value || 'No Subtitle' }}
               </p>
             </div>
@@ -103,7 +105,7 @@ const statusMap = vue.computed<NavListItem>(() => {
                 size="sm"
                 :icon="statusMap.icon"
                 data-test-id="post-status-badge"
-                design="outline"
+                design="link"
               >
                 {{ toLabel(post?.status.value) }}
               </XButton>
@@ -114,7 +116,7 @@ const statusMap = vue.computed<NavListItem>(() => {
                 size="sm"
                 icon="i-tabler-mail"
                 data-test-id="post-email-status-badge"
-                design="outline"
+                design="link"
               >
                 {{ toLabel(post?.emailStatus.value) }}
               </XButton>
@@ -180,7 +182,7 @@ const statusMap = vue.computed<NavListItem>(() => {
                 icon="i-tabler-edit"
                 design="outline"
                 size="sm"
-                @click="emit('navigate', { key: 'compose' })"
+                @click="emit('update:location', 'compose')"
               >
                 Edit Post
               </XButton>

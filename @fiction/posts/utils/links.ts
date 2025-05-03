@@ -7,16 +7,6 @@ export function postEditLink(args: { post: Post }): string {
   return `/app/edit-post?postId=${post.postId}&_reload=1`
 }
 
-export function postLink(args: { card?: Card, slug?: string, basePath?: string }): string {
-  const { card, slug, basePath = '/p' } = args
-
-  if (!card) {
-    return '/no-card-for-link'
-  }
-
-  return card.link(`${basePath}/${slug}`)
-}
-
 export function taxonomyLink(args: { taxonomy: 'tag' | 'category', term?: string }): string {
   const { taxonomy, term } = args
 

@@ -1,33 +1,27 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
 import type { Post } from '../post.js'
-import type { ViewMode, ViewModeKey } from './EditorWrap.vue'
-import { toLabel, vue } from '@fiction/core'
-import XButton from '@fiction/ui/buttons/XButton.vue'
-import ElTooltip from '@fiction/ui/common/ElTooltip.vue'
+import type { EditorLocation } from './EditorWrap.vue'
+import { vue } from '@fiction/core'
 import XText from '@fiction/ui/common/XText.vue'
 import InputMedia from '@fiction/ui/inputs/InputMedia.vue'
-import XMedia from '@fiction/ui/media/XMedia.vue'
 import ProseEditor from '@fiction/ui/prose/editor/ProseEditor.vue'
 import ProseEditorToolbar from '@fiction/ui/prose/editor/ProseEditorToolbar.vue'
-import ElOptionWrap from './ElOptionWrap.vue'
 import PostOverview from './PostOverview.vue'
 
 import { postEditController } from './tools/tools.js'
 
 defineOptions({ name: 'PostEditor' })
 
-const { post, card, viewModes, activeKey } = defineProps<{
+const { post, card, location } = defineProps<{
   post?: Post
   card: Card
-  viewModes: ViewMode[]
-  activeKey: ViewModeKey
+  location: EditorLocation
 }>()
 
 const emit = defineEmits<{
   (event: 'update:post', payload: Post): void
-  (event: 'update:activeKey', payload: ViewModeKey): void
-  (event: 'navigate', payload: { dir?: 'next' | 'prev' | 'schedule' | 'unschedule', key?: ViewModeKey }): void
+  (event: 'update:location', payload: EditorLocation): void
 }>()
 
 const proseEditorEl = vue.ref<InstanceType<typeof ProseEditor>>()
@@ -43,30 +37,6 @@ function handleUpdate(args: { key: 'title' | 'subTitle' | 'content', value: stri
   emit('update:post', post)
 }
 
-const activeViewModeIndex = vue.computed(() => viewModes.findIndex(v => v.value === activeKey))
-const activeViewMode = vue.computed(() => {
-  return viewModes.find(v => v.value === activeKey)
-})
-
-vue.onMounted(() => {
-  vue.watch(() => activeKey, (v) => {
-    if (v === 'compose') {
-      postEditController.hideToolDrawers.value = ''
-    }
-    else {
-      postEditController.hideToolDrawers.value = 'both'
-    }
-  }, { immediate: true })
-})
-
-const transit = vue.ref('next')
-vue.watch(
-  () => activeViewModeIndex.value,
-  (v, old) => {
-    transit.value = v < old ? 'slide-prev' : 'slide-next'
-  },
-)
-
 const showMediaInput = vue.ref(false)
 const hasMedia = vue.computed(() => {
   const v = post?.media.value
@@ -77,11 +47,11 @@ const hasMedia = vue.computed(() => {
 <template>
   <div v-if="post" class="h-full">
     <div class="space-y-4 flex flex-col h-full">
-      <transition :name="transit" mode="out-in">
-        <div v-if="activeKey === 'overview'">
-          <PostOverview :post :card @navigate="emit('navigate', $event)" />
+      <transition name="next" mode="out-in">
+        <div v-if="location === 'overview'">
+          <PostOverview :post :card :location @update:location="emit('update:location', $event)" />
         </div>
-        <div v-else-if="activeKey === 'compose'" class="flex-grow flex flex-col gap-4 h-full min-h-0">
+        <div v-else class="flex-grow flex flex-col gap-4 h-full min-h-0">
           <div
             class="h-full @container/editor overflow-hidden flex flex-col"
           >
@@ -148,63 +118,6 @@ const hasMedia = vue.computed(() => {
             </div>
           </div>
         </div>
-        <template v-else>
-          <div :key="activeKey">
-            <ElOptionWrap
-              :card
-              :post
-              :value="activeKey"
-              :title="activeViewMode?.title"
-              :options="activeViewMode?.options"
-            >
-              <template #footer>
-                <div class="mt-6 justify-between flex gap-6">
-                  <XButton
-                    :disabled="activeViewModeIndex === 0"
-                    theme="default"
-                    design="outline"
-                    icon="i-tabler-arrow-left"
-                    @click="emit('navigate', { dir: 'prev' })"
-                  >
-                    Previous
-                  </XButton>
-                  <XButton
-                    v-if="activeViewModeIndex < viewModes.length - 1"
-                    theme="primary"
-                    design="outline"
-                    icon-after="i-tabler-arrow-right"
-                    data-test-id="next-button-bottom"
-                    @click="emit('navigate', { dir: 'next' })"
-                  >
-                    Next
-                  </XButton>
-                  <XButton
-                    v-else-if="post.status.value === 'draft'"
-                    theme="primary"
-                    design="solid"
-                    icon="i-tabler-calendar"
-                    icon-after="i-tabler-arrow-right"
-                    data-test-id="schedule-button-bottom"
-                    @click.stop="emit('navigate', { dir: 'schedule' })"
-                  >
-                    Schedule
-                  </XButton>
-                  <XButton
-                    v-else-if="post.status.value === 'scheduled'"
-                    theme="orange"
-                    design="outline"
-                    icon="i-tabler-calendar-off"
-                    icon-after="i-tabler-arrow-back-up"
-                    data-test-id="unschedule-button-bottom"
-                    @click.stop="emit('navigate', { dir: 'unschedule' })"
-                  >
-                    Unschedule
-                  </XButton>
-                </div>
-              </template>
-            </ElOptionWrap>
-          </div>
-        </template>
       </transition>
     </div>
   </div>
