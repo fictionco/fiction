@@ -1,6 +1,6 @@
 import type { ColType, ComplexDataFilter, Organization, User } from '@fiction/core'
 import type { StandardUserConfig } from '@fiction/site/schema'
-import { ColorThemeUserSchema, createTableSchema, EmailSenderSchema, MediaDisplaySchema, OrFilterGroupSchema, PostStatusSchema, standardTable, toSlug } from '@fiction/core'
+import { ColorThemeUserSchema, createTableSchema, MediaDisplaySchema, OrFilterGroupSchema, PostStatusSchema, standardTable, toSlug } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { t as siteTables } from '@fiction/site/tables'
 import { z } from 'zod'
@@ -138,7 +138,7 @@ export const postCols = [
 ] as const
 
 export const TablePostSchema = createTableSchema(postCols).extend({
-  authors: z.array(z.object({ userId: z.string(), name: z.string(), email: z.string() }) ).optional().describe('Post authors') as z.Schema<User[] | undefined>,
+  authors: z.array(z.object({ userId: z.string(), name: z.string(), email: z.string() })).optional().describe('Post authors') as z.Schema<User[] | undefined>,
 })
 
 export const postAuthorCols = [

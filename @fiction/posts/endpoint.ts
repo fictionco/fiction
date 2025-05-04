@@ -1,8 +1,8 @@
-import type { EndpointMeta, EndpointResponse, IndexMeta, IndexQuery, Organization } from '@fiction/core'
+import type { EndpointMeta, EndpointResponse, IndexMeta, IndexQuery } from '@fiction/core'
 import type { FictionPosts } from '.'
 import type { FictionPostsSettings } from './index'
 import type { TablePostConfig } from './schema'
-import { abort, applyComplexFilters, dayjs, deepMerge, getOrgAvatar, incrementSlugId, objectId, omit, Query, standardTable, toSlug } from '@fiction/core'
+import { abort, applyComplexFilters, dayjs, deepMerge, incrementSlugId, objectId, omit, Query, standardTable, toSlug } from '@fiction/core'
 
 import { t } from './schema'
 import { trackPostMetrics } from './utils/analytics'

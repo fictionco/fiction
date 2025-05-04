@@ -5,7 +5,7 @@ import type { SiteGlobalUserConfig } from './schema.js'
 import type { SiteSettings } from './site.js'
 import type { TableCardConfig } from './tables.js'
 import { cardConfig } from '@fiction/cards/index.js'
-import { deepMerge, FictionObject, objectId, toLabel, vue } from '@fiction/core'
+import { deepMerge, FictionObject, toLabel, vue } from '@fiction/core'
 import { CardFactory } from './cardFactory.js'
 import { Site } from './site.js'
 

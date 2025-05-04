@@ -18,7 +18,7 @@
     "express": "^4.21.2",
     "js-yaml": "^4.1.0",
     "metadata-scraper": "^0.2.61",
-    "sql-formatter": "^15.5.2",
+    "sql-formatter": "^15.6.1",
     "stacktrace-js": "^2.0.2",
     "ua-parser-js": "^2.0.3"
   },

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2025-04-13T02:04:29.925Z",
+  "generatedAt": "2025-05-03T21:24:41.514Z",
   "templates": [
     {
       "templateId": "cardHeroV1",
@@ -8,8 +8,7 @@
       "description": "Create compelling hero sections that combine headlines, imagery, and calls-to-action to engage visitors. Perfect for homepages, product launches, and landing pages. The hero should communicate your core value proposition within seconds, using persuasive headlines (5-7 words), supporting text (10-30 words), and strategic imagery that reinforces your message. Include clear calls-to-action that guide visitors toward your primary conversion goals.",
       "subTitle": "Create impactful first impressions with a visually striking hero section.",
       "category": [
-        "basic",
-        "marketing"
+        "content"
       ],
       "classification": {},
       "icon": "i-tabler-presentation",
@@ -22,7 +21,6 @@
       "description": "Create compelling personal profiles with dynamic layouts combining professional photos, bio content, and social connections. Perfect for team pages, speaker bios, or personal websites.",
       "subTitle": "Transform your personal brand into an engaging visual story",
       "category": [
-        "marketing",
         "content"
       ],
       "classification": {},
@@ -49,7 +47,6 @@
       "description": "Present your product or service features in an engaging, visually appealing layout that highlights benefits and drives conversion.",
       "subTitle": "Transform feature lists into compelling visual stories that connect with your audience",
       "category": [
-        "marketing",
         "content"
       ],
       "classification": {},
@@ -77,9 +74,7 @@
       "description": "Transform your about page with a dynamic team showcase that highlights the human side of your business. Perfect for building credibility, showcasing expertise, and creating meaningful connections with your audience through professional profiles, achievements, and social presence.",
       "subTitle": "Build trust and connection with faces.",
       "category": [
-        "content",
-        "marketing",
-        "engagement"
+        "content"
       ],
       "classification": {},
       "icon": "i-tabler-users-group",
@@ -105,8 +100,7 @@
       "description": "Transform customer testimonials into compelling social proof that builds trust and drives conversions. Perfect for showcasing client success stories, expert endorsements, and team perspectives.",
       "subTitle": "Watch your results soar with beautifully designed quotes that capture attention and inspire action",
       "category": [
-        "content",
-        "marketing"
+        "content"
       ],
       "classification": {},
       "icon": "i-tabler-quote",
@@ -115,12 +109,11 @@
     },
     {
       "templateId": "cardMetricsV1",
-      "title": "Impact Metrics",
+      "title": "Metrics",
       "description": "Transform raw numbers into compelling stories that showcase your brand's success. Features animated counters, customizable styling, and multiple display formats to help visitors instantly grasp your achievements.",
       "subTitle": "Visualize key performance metrics that build trust and credibility",
       "category": [
-        "stats",
-        "marketing"
+        "stats"
       ],
       "classification": {},
       "icon": "i-tabler-chart-dots",
@@ -133,7 +126,7 @@
       "description": "Build trust and credibility by showcasing brands that use or endorse your product. Features multiple layout options with hover animations and customizable styling.",
       "subTitle": "Display partner logos, client brands, or featured press mentions",
       "category": [
-        "marketing"
+        "content"
       ],
       "classification": {},
       "icon": "i-tabler-building-store",
@@ -146,7 +139,6 @@
       "description": "Create an immersive gallery experience with a responsive grid layout and elegant popup viewer. Perfect for portfolios, product catalogs, case studies, or any visual storytelling needs.",
       "subTitle": "Transform your visual content into an engaging story that captures attention and drives interaction",
       "category": [
-        "portfolio",
         "content"
       ],
       "classification": {},
@@ -160,7 +152,7 @@
       "description": "Display your blog posts and articles in a clean, organized list format. Choose from grid or scroll layouts to showcase your content effectively, with customizable display options for titles, excerpts, dates, and featured images.",
       "subTitle": "A versatile posts display card with grid and scroll layouts",
       "category": [
-        "posts"
+        "blog"
       ],
       "classification": {},
       "icon": "i-tabler-article",
@@ -168,12 +160,13 @@
       "isPublic": true
     },
     {
-      "templateId": "cardPostsMagazineV1",
-      "title": "Magazine Posts",
+      "templateId": "cardBlogV1",
+      "title": "Blog",
       "description": "Transform your blog into a visually stunning magazine with customizable layouts, featured posts, and rich media integration. Perfect for showcasing editorial content, news articles, and thought leadership pieces with style.",
-      "subTitle": "Create dynamic blog layouts with featured posts and immersive content",
+      "subTitle": "Standard blog layout",
       "category": [
-        "posts"
+        "blog",
+        "content"
       ],
       "classification": {},
       "icon": "i-tabler-notebook",
@@ -186,7 +179,7 @@
       "description": "Transform complex ideas into clear, sequential steps with rich media support. Perfect for tutorials, processes, or feature highlights. Each point can include images and custom styling to boost engagement.",
       "subTitle": "Engaging list of key points with optional media",
       "category": [
-        "marketing"
+        "content"
       ],
       "classification": {},
       "icon": "i-tabler-list-numbers",
@@ -212,23 +205,10 @@
       "description": "Transform your professional journey into an engaging visual story. Perfect for about pages, portfolios, and career highlights.",
       "subTitle": "Visualize a resume/cv, journey, or series of events",
       "category": [
-        "content",
-        "marketing"
+        "stats",
+        "resume"
       ],
-      "classification": {
-        "type": [
-          "text"
-        ],
-        "category": [
-          "content"
-        ],
-        "useCase": [
-          "timeline",
-          "list",
-          "roadmap",
-          "cv"
-        ]
-      },
+      "classification": {},
       "icon": "i-tabler-timeline",
       "colorTheme": "green",
       "isPublic": true
@@ -239,7 +219,8 @@
       "description": "Transform your images and videos into an immersive visual story with our dynamic masonry gallery.\nPerfect for portfolios, product showcases, or photo collections. Features automatic layout optimization,\nhover effects, lightbox viewing, and customizable grid arrangements.",
       "subTitle": "Create stunning masonry layouts that showcase your visual content in an engaging, responsive grid",
       "category": [
-        "media"
+        "media",
+        "portfolio"
       ],
       "classification": {},
       "icon": "i-tabler-library-photo",
@@ -251,38 +232,9 @@
       "title": "Media Modal",
       "description": "Dynamic modal popup system for videos, audio, and external content. Automatically handles various content types like YouTube, Vimeo, Spotify, and more. Perfect for showcasing media content without leaving your page.",
       "subTitle": "Create engaging media experiences with automatic content detection",
-      "category": [
-        "media",
-        "engagement"
-      ],
       "classification": {},
       "icon": "i-tabler-player-play",
       "colorTheme": "pink",
-      "isPublic": true
-    },
-    {
-      "templateId": "cardCaptureV1",
-      "title": "Conversion Capture",
-      "description": "Convert visitors into subscribers with a versatile email capture form. Features multiple display modes (inline, scroll trigger, exit intent), customizable messaging, and social proof elements. Perfect for building email lists, delivering lead magnets, or growing newsletter subscriptions. Optimized for high conversion rates with A/B tested layouts.",
-      "subTitle": "High-converting email capture form with multiple display modes and customizable messaging.",
-      "category": [
-        "marketing",
-        "conversion"
-      ],
-      "classification": {
-        "useCase": [
-          "subscribe"
-        ],
-        "category": [
-          "conversion"
-        ],
-        "type": [
-          "input",
-          "detachable"
-        ]
-      },
-      "icon": "i-tabler-mail",
-      "colorTheme": "blue",
       "isPublic": true
     },
     {
@@ -291,47 +243,11 @@
       "description": "Create professional contact pages with integrated forms and multiple contact methods.\nFeatures customizable layouts, notification settings, and social media integration. Perfect for\ncustomer support, sales inquiries, or general contact information.",
       "subTitle": "Connect with visitors through customizable contact forms and support channels",
       "category": [
-        "form",
-        "marketing"
+        "form"
       ],
-      "classification": {
-        "category": [
-          "forms"
-        ],
-        "useCase": [
-          "contact",
-          "support"
-        ],
-        "type": [
-          "input"
-        ]
-      },
+      "classification": {},
       "icon": "i-tabler-mail-fast",
       "colorTheme": "blue",
-      "isPublic": true
-    },
-    {
-      "templateId": "cardPricingV1",
-      "title": "Pricing Plans",
-      "description": "Create compelling pricing tables that convert visitors into customers. Features interactive toggles for monthly/annual pricing, customizable tiers, and visual hierarchy to highlight your best plans.",
-      "subTitle": "Design strategic pricing tables that guide customers to the perfect plan",
-      "category": [
-        "marketing",
-        "conversion"
-      ],
-      "classification": {
-        "category": [
-          "content"
-        ],
-        "useCase": [
-          "pricing"
-        ],
-        "type": [
-          "text"
-        ]
-      },
-      "icon": "i-tabler-report-money",
-      "colorTheme": "emerald",
       "isPublic": true
     },
     {
@@ -340,63 +256,10 @@
       "description": "Add interactive maps to showcase locations, highlight regions of interest, and provide contextual geographic information. Perfect for business locations, travel itineraries, or geographic data visualization.",
       "subTitle": "Beautiful interactive maps in a variety of styles",
       "category": [
-        "advanced"
+        "media"
       ],
       "classification": {},
       "icon": "i-tabler-map-2",
-      "colorTheme": "blue",
-      "isPublic": true
-    },
-    {
-      "templateId": "cardPageAreaV1",
-      "title": "Content Area",
-      "description": "A flexible container that groups and styles content elements. Perfect for creating distinct sections within your page.",
-      "subTitle": "Group and style content elements with custom backgrounds, spacing, and layouts",
-      "category": [
-        "layout",
-        "basic"
-      ],
-      "classification": {},
-      "icon": "i-tabler-layout-board",
-      "colorTheme": "blue",
-      "isPublic": true
-    },
-    {
-      "templateId": "cardSiteNavV1",
-      "title": "Site Navigation",
-      "description": "Create an engaging brand experience with this premium navigation component.\n    Features intelligent layouts, mega menus, and contextual user interactions.\n    Perfect for modern digital brands that need sophisticated information architecture\n    with visual hierarchy and clear user pathways.",
-      "subTitle": "Sophisticated navigation for modern websites",
-      "category": [
-        "navigation"
-      ],
-      "classification": {},
-      "icon": "i-tabler-menu-2",
-      "colorTheme": "green",
-      "isPublic": true
-    },
-    {
-      "templateId": "cardFaqV1",
-      "title": "FAQ & Accordion",
-      "description": "Add a clean, expandable FAQ section to answer common questions. Perfect for product pages, support sections, or any content that benefits from a Q&A format.",
-      "subTitle": "Simple expandable questions and answers",
-      "category": [
-        "content"
-      ],
-      "classification": {},
-      "icon": "i-tabler-list-details",
-      "colorTheme": "emerald",
-      "isPublic": true
-    },
-    {
-      "templateId": "cardFooterProV1",
-      "title": "Footer Pro",
-      "description": "Create a premium brand experience with this advanced footer component.\n    Features a sophisticated layout with brand messaging, column-based navigation, trust badges,\n    and social proof elements. Perfect for SaaS, enterprise, and digital-first brands.\n    Includes animated reveals, smart content organization, and comprehensive brand elements.",
-      "subTitle": "Professional footer for modern digital brands",
-      "category": [
-        "navigation"
-      ],
-      "classification": {},
-      "icon": "i-tabler-box-align-bottom",
       "colorTheme": "blue",
       "isPublic": true
     },
@@ -406,8 +269,8 @@
       "description": "Create engaging, animated media showcases with smooth scrolling effects. Perfect for portfolios, product galleries, or featured content that captures attention through fluid motion.",
       "subTitle": "Transform static galleries into captivating motion displays",
       "category": [
-        "marketing",
-        "content"
+        "media",
+        "slider"
       ],
       "classification": {},
       "icon": "i-tabler-carousel-horizontal",
@@ -420,8 +283,8 @@
       "description": "Create an engaging visual journey with this dynamic slider featuring overlaid text and smooth transitions. Perfect for showcasing team members, services, or key offerings with impact.",
       "subTitle": "Create an engaging visual journey with this dynamic slider",
       "category": [
-        "marketing",
-        "portfolio"
+        "slider",
+        "hero"
       ],
       "classification": {},
       "icon": "i-tabler-layers-intersect",
@@ -434,7 +297,6 @@
       "description": "Create eye-catching scrolling announcements with 3D effects, custom fonts, and scroll-reactive animations. Perfect for highlighting time-sensitive offers, news updates, or key messages that demand attention.",
       "subTitle": "Transform static announcements into dynamic, engaging messages that capture your audience's attention",
       "category": [
-        "marketing",
         "content"
       ],
       "classification": {},
@@ -457,12 +319,11 @@
     },
     {
       "templateId": "cardResponsiveTextV1",
-      "title": "Responsive Text",
+      "title": "Fit Text",
       "description": "Create attention-grabbing headlines and text displays that automatically fit their container while maintaining perfect proportions. Perfect for hero sections, impact statements, and brand messaging.",
       "subTitle": "Transform your message into a perfectly-sized visual statement that commands attention",
       "category": [
-        "content",
-        "typography"
+        "content"
       ],
       "classification": {},
       "icon": "i-tabler-text-size",
@@ -474,9 +335,6 @@
       "title": "Dynamic Text Effects",
       "description": "Add visual interest to your headlines and text with customizable animations, transforms, and effects. Perfect for creating engaging headlines, CTAs, or emphasizing key messages.",
       "subTitle": "Enhance your content with eye-catching text animations",
-      "category": [
-        "typography"
-      ],
       "classification": {},
       "icon": "i-tabler-text-size",
       "colorTheme": "indigo",

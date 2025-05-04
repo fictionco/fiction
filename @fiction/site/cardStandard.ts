@@ -1,5 +1,5 @@
 import type { Card } from './card'
-import { colorThemeBright, HeaderLayoutSchema, SizeSchema, SizeSchemaComplete } from '@fiction/core'
+import { colorThemeBright, SizeSchemaComplete } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { StandardUserConfigSchema as schema } from './schema'
 

@@ -2,7 +2,6 @@ import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
 import { ActionAreaSchema, brandSchema, NavListItemSchema, NavListSchema } from '@fiction/core'
-import { createOption } from '@fiction/ui'
 import { z } from 'zod'
 
 const socialItemSchema = NavListItemSchema.pick({

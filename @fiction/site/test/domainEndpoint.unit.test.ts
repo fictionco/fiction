@@ -1,11 +1,12 @@
+import type { TableDomainConfig } from '../tables.js'
 /**
  * @vitest-environment happy-dom
  */
 import { shortId } from '@fiction/core'
-import { afterAll, beforeEach, describe, expect, it } from 'vitest'
-import { t, type TableDomainConfig } from '../tables.js'
-import { createSiteTestUtils } from './testUtils.js'
 import { createTestUser } from '@fiction/core/test-utils/init.js'
+import { afterAll, beforeEach, describe, expect, it } from 'vitest'
+import { t } from '../tables.js'
+import { createSiteTestUtils } from './testUtils.js'
 
 describe('manageDomain', async () => {
   const testUtils = await createSiteTestUtils()
@@ -201,7 +202,7 @@ describe('manageDomain', async () => {
 
   it('enforces security by only allowing access to own org', async () => {
     // Create a new user in a different org
-    const { user: _otherUser, orgId: otherOrgId } = await createTestUser({ fields: { email: `test-${shortId()}@example.com` }, fictionUser})
+    const { user: _otherUser, orgId: otherOrgId } = await createTestUser({ fields: { email: `test-${shortId()}@example.com` }, fictionUser })
 
     // Create a domain in the original org
     const { domainId } = await createTestDomain()
@@ -235,8 +236,8 @@ describe('manageDomain', async () => {
   })
 
   it('validates required fields', async () => {
-     // @ts-expect-error - Testing missing required field
-     const r1 = await fictionSites.requests.ManageDomain.request({
+    // @ts-expect-error - Testing missing required field
+    const r1 = await fictionSites.requests.ManageDomain.request({
       _action: 'list',
       caller: 'test-missing-orgId',
     })

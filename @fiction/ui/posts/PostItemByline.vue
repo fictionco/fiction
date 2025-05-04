@@ -1,9 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from '@fiction/posts'
 import { dayjs, vue } from '@fiction/core'
-import { countWords } from '@fiction/core/utils/wordCount'
-import XIcon from '@fiction/ui/media/XIcon.vue'
-import XButton from '../buttons/XButton.vue'
 
 defineOptions({ name: 'PostItemMeta' })
 

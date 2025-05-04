@@ -73,7 +73,7 @@ export class ManageDomain extends Query<SitesQuerySettings> {
       .count('* as count')
       .first<{ count: string }>()
 
-    if (parseInt(count, 10) >= this.maxDomainsPerOrg)
+    if (Number.parseInt(count, 10) >= this.maxDomainsPerOrg)
       throw abort(`Maximum of ${this.maxDomainsPerOrg} domains allowed per organization`)
 
     // Prepare domain for insertion

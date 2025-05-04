@@ -4,7 +4,6 @@ import { vue } from '@fiction/core'
 import XText from '@fiction/ui/common/XText.vue'
 import InputActionList from '@fiction/ui/inputs/InputActionList.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
-import XMedia from '@fiction/ui/media/XMedia.vue'
 
 const props = defineProps({
   loading: { type: Boolean, default: false },

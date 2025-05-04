@@ -2,7 +2,6 @@
 import type { AuthPageUserConfig } from '@fiction/admin/dashboard/templates'
 import type { Card } from '@fiction/site/card'
 import { vue } from '@fiction/core'
-import AnimGradientBg from '@fiction/ui/anim/AnimGradientBg.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 
 const props = defineProps({

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2025-04-13T02:04:29.828Z",
+  "generatedAt": "2025-05-03T21:24:41.397Z",
   "theme": [
     {
       "themeId": "minimal",
@@ -21,85 +21,77 @@
             "userConfig": {},
             "cards": [
               {
-                "parentId": "crd67fb1bad50e9ab750a952375",
+                "parentId": "crd6816899982e3fa1a8ee8a63c",
                 "templateId": "cardSiteNavV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1badb992e511f8c669a4",
+                "cardId": "crd6816899998fd4197c0cc2e40",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1bad50e9ab750a952375",
-            "isHome": false,
-            "inNav": false
+            "cardId": "crd6816899982e3fa1a8ee8a63c",
+            "isHome": false
           },
           "footer": {
             "templateId": "cardPageWrapV1",
             "userConfig": {},
             "cards": [
               {
-                "parentId": "crd67fb1bad825b53fed6c62861",
-                "templateId": "cardFooterProV1",
+                "parentId": "crd68168999f9abc4bc57dff22a",
+                "templateId": "cardStandardFooterV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1bad0665bbb16caa83f8",
+                "cardId": "crd68168999b98894e3f4063353",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1bad825b53fed6c62861",
-            "isHome": false,
-            "inNav": false
+            "cardId": "crd68168999f9abc4bc57dff22a",
+            "isHome": false
           },
           "hidden": {
             "templateId": "cardPageWrapV1",
             "userConfig": {},
             "cards": [
               {
-                "parentId": "crd67fb1badc281a896fdc791ac",
+                "parentId": "crd68168999b9674033ca725d33",
                 "templateId": "cardModalMediaV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1bada19c8e06626fbfa1",
+                "cardId": "crd681689990fb2d61735e95552",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1badc281a896fdc791ac",
+                "parentId": "crd68168999b9674033ca725d33",
                 "templateId": "cardTextEffectV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1bad0252eaf6cb15c46f",
+                "cardId": "crd68168999ec1a80cf09fe9bed",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1badc281a896fdc791ac",
+                "parentId": "crd68168999b9674033ca725d33",
                 "templateId": "cardCaptureV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1bad16f623496c7fdac2",
+                "cardId": "crd681689999e14de87cf3b6175",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1badc281a896fdc791ac",
-            "isHome": false,
-            "inNav": false
+            "cardId": "crd68168999b9674033ca725d33",
+            "isHome": false
           }
         },
         "userConfig": {
@@ -118,15 +110,13 @@
                 "stack": "sans"
               },
               "sans": {
-                "family": "Plus+Jakarta+Sans",
                 "stack": "sans"
               },
               "body": {
-                "family": "Lora",
                 "stack": "sans"
               },
               "serif": {
-                "family": "Lora",
+                "family": "lora",
                 "stack": "serif"
               },
               "highlight": {
@@ -137,7 +127,7 @@
           }
         },
         "org": {
-          "orgName": "Workspace"
+          "orgName": "No Organization"
         },
         "pages": [
           {
@@ -148,42 +138,38 @@
             "isHome": true,
             "cards": [
               {
-                "parentId": "crd67fb1bad42c2690cce5b9171",
+                "parentId": "crd68168999ca1fc986a807174c",
                 "templateId": "cardProfileV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1bad3e6ac2dd7e91d79d",
+                "cardId": "crd681689994bc54e60d3dabe16",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bad42c2690cce5b9171",
+                "parentId": "crd68168999ca1fc986a807174c",
                 "templateId": "cardBentoV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1badaa7d469bc22b32eb",
+                "cardId": "crd68168999a1a47378265424aa",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bad42c2690cce5b9171",
+                "parentId": "crd68168999ca1fc986a807174c",
                 "templateId": "cardQuotesV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1badf1b39f104eb6691d",
+                "cardId": "crd6816899978e739c53881cb9b",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1bad42c2690cce5b9171",
-            "inNav": false
+            "cardId": "crd68168999ca1fc986a807174c"
           },
           {
             "templateId": "cardPageWrapV1",
@@ -191,331 +177,19 @@
             "slug": "blog",
             "cards": [
               {
-                "parentId": "crd67fb1bad290c306627d44aad",
-                "templateId": "cardPostsMagazineV1",
-                "userConfig": {
-                  "index": {
-                    "featuredCount": 3,
-                    "showAuthors": true,
-                    "showExcerpts": true,
-                    "showReadTime": true
-                  },
-                  "posts": {
-                    "format": "local",
-                    "entries": [
-                      {
-                        "title": "The Hidden Story in Your Data",
-                        "subTitle": "Unlock the narrative power hiding in your numbers",
-                        "slug": "data-storytelling",
-                        "authors": [
-                          {
-                            "fullName": "Marcus Lee",
-                            "title": "Data Journalist",
-                            "email": "marcus@example.com",
-                            "avatar": {
-                              "alt": "Example Image",
-                              "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441014/arpowers_minimal_stock_background_for_profile_photo_professiona_43973f4e-64f7-4db6-9dce-8debb2752090_vywbzt.png",
-                              "tags": [
-                                "annotated",
-                                "aspect:portrait",
-                                "color:warm",
-                                "person",
-                                "silhouette",
-                                "woman",
-                                "image"
-                              ],
-                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_43973f4e-64f7-4db6-9dce-8debb2752090_vywbzt"
-                            }
-                          }
-                        ],
-                        "content": "\n        <article>\n          <p><em>Close your eyes and imagine</em> your data coming to life, each number transforming into a compelling story that captivates your readers. What if your charts could speak directly to your audience's deepest concerns?</p>\n\n          <h2>When Numbers Tell Tales</h2>\n          <p>Think about the last time a statistic genuinely moved you. What made it memorable? Was it the number itself, or the story it told? Let's discover how to create these moments for your readers.</p>\n\n          <div >\n            <h2>Your Data Storytelling Journey</h2>\n            <ol style=\"margin: 20px 0;\">\n              <li>\n                <h3>Find the Heart of Your Data</h3>\n                <p>Notice how raw numbers feel cold until you connect them to human experience? Start by asking: \"Why would my reader care about this?\"</p>\n              </li>\n              <li>\n                <h3>Build the Bridge</h3>\n                <p>What if you could connect your data directly to your readers' lives? Look for the personal impact in every statistic.</p>\n              </li>\n              <li>\n                <h3>Create the Aha Moment</h3>\n                <p>Remember the last time you had a sudden insight? That's what we want to create for your readers.</p>\n              </li>\n            </ol>\n          </div>\n\n          <aside >\n            <h3>Visualization Secrets Revealed</h3>\n            <ul>\n              <li>\n                <strong>Choose Your Story Type:</strong>\n                <p>See how different charts evoke different emotional responses? Match your visualization to your narrative.</p>\n              </li>\n              <li>\n                <strong>Simplify for Impact:</strong>\n                <p>Ever notice how the clearest charts often have the strongest impact?</p>\n              </li>\n              <li>\n                <strong>Guide the Eye:</strong>\n                <p>What catches your attention first in a visualization? Use this natural tendency to lead your readers through the data.</p>\n              </li>\n            </ul>\n          </aside>\n\n          <blockquote>\n            \"The goal isn't to tell your readers about data—it's to show them what matters. Imagine the moment they finally see what you see.\"\n            <footer style=\"margin-top: 8px;\">\n              <cite>— Marcus Lee</cite>\n            </footer>\n          </blockquote>\n\n          <p>Ready to transform your data from forgettable figures into unforgettable stories? Let's begin your journey into data storytelling mastery.</p>\n        </article>\n      ",
-                        "excerpt": "Transform dry statistics into compelling narratives that your readers can't resist. Discover the storyteller hiding in your spreadsheets.",
-                        "categories": [
-                          "Analytics"
-                        ],
-                        "tags": [
-                          "data",
-                          "storytelling",
-                          "visualization"
-                        ],
-                        "media": {
-                          "alt": "Example Image",
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724550017/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5811ac26-6ab8-4125-b62f-7e8800e5bbd2_kro9o1.png",
-                          "tags": [
-                            "annotated",
-                            "color:warm",
-                            "image",
-                            "object",
-                            "aspect:wide"
-                          ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_5811ac26-6ab8-4125-b62f-7e8800e5bbd2_kro9o1"
-                        },
-                        "dateAt": "2024-03-18T00:00:00.000Z"
-                      },
-                      {
-                        "title": "Why Your SEO Isn't Working (And How to Fix It)",
-                        "subTitle": "Discover the human side of search engine optimization",
-                        "slug": "seo-content-guide",
-                        "authors": [
-                          {
-                            "fullName": "Priya Sharma",
-                            "title": "SEO Strategist",
-                            "email": "priya@example.com",
-                            "avatar": {
-                              "alt": "Example Image",
-                              "format": "video",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724638265/replicate-prediction-dvsj342gbhrj60chhhpajeqwa0_mwsqxd.mp4",
-                              "tags": [
-                                "aspect:landscape",
-                                "man",
-                                "person",
-                                "video"
-                              ],
-                              "slug": "replicate-prediction-dvsj342gbhrj60chhhpajeqwa0_mwsqxd"
-                            }
-                          }
-                        ],
-                        "content": "\n        <article>\n          <p><em>Remember the last time</em> you searched for something important? That feeling of finding exactly what you needed? That's not luck—it's strategic SEO at work. Let's make your content the answer people are searching for.</p>\n\n          <section>\n            <h2>The Truth About Modern SEO</h2>\n            <p>Forget everything you think you know about SEO. Imagine if ranking well was less about technical tricks and more about genuinely understanding your readers. Let's explore how this shift changes everything.</p>\n\n            <div >\n              <div>\n                <h3>What Search Engines See</h3>\n                <ul>\n                  <li>\n                    <strong>Clear Structure</strong>\n                    <p>Notice how well-organized content ranks better? It's not coincidence.</p>\n                  </li>\n                  <li>\n                    <strong>Natural Language</strong>\n                    <p>What if your keywords flowed as naturally as a conversation?</p>\n                  </li>\n                  <li>\n                    <strong>Valuable Links</strong>\n                    <p>Think of links as virtual handshakes—they build trust.</p>\n                  </li>\n                </ul>\n              </div>\n\n              <div>\n                <h3>What Readers Experience</h3>\n                <ul>\n                  <li>\n                    <strong>Instant Relevance</strong>\n                    <p>Feel that moment when content perfectly matches your need?</p>\n                  </li>\n                  <li>\n                    <strong>Easy Navigation</strong>\n                    <p>Imagine finding everything you need without trying.</p>\n                  </li>\n                  <li>\n                    <strong>Complete Answers</strong>\n                    <p>What if every search led to a satisfying conclusion?</p>\n                  </li>\n                </ul>\n              </div>\n            </div>\n          </section>\n\n          <aside >\n            <h3>Your SEO Transformation Checklist</h3>\n            <p>Watch how your content changes when you focus on these elements:</p>\n            <ol>\n              <li>Is your content answering real questions?</li>\n              <li>Could a friend understand your headlines?</li>\n              <li>Does your page structure feel natural?</li>\n              <li>Are you using terms your audience uses?</li>\n            </ol>\n          </aside>\n\n          <div>\n            <h3>The Secret Most SEO Experts Won't Tell You</h3>\n            <p>The best SEO strategy is creating content so good, so useful, that people can't help but share it. Imagine your content becoming the go-to resource in your field.</p>\n          </div>\n\n          <p>Ready to see your content climb the rankings while genuinely helping your readers? Let's make your SEO work for both search engines and humans.</p>\n        </article>\n      ",
-                        "excerpt": "Stop fighting algorithms and start connecting with readers. Discover how human-centered SEO transforms your search rankings.",
-                        "categories": [
-                          "SEO"
-                        ],
-                        "tags": [
-                          "optimization",
-                          "search",
-                          "content strategy"
-                        ],
-                        "media": {
-                          "alt": "Example Image",
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725062/arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_70f59d52-1d22-42c3-8408-d12af87deaae_zgtllj.png",
-                          "tags": [
-                            "aspect:landscape",
-                            "color:warm",
-                            "image",
-                            "object",
-                            "annotated"
-                          ],
-                          "slug": "arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_70f59d52-1d22-42c3-8408-d12af87deaae_zgtllj"
-                        },
-                        "dateAt": "2024-03-17T00:00:00.000Z"
-                      },
-                      {
-                        "title": "The Art of Compelling Headlines",
-                        "subTitle": "Transform your ordinary titles into attention-grabbing headlines",
-                        "slug": "headline-writing-guide",
-                        "authors": [
-                          {
-                            "fullName": "Sarah Chen",
-                            "title": "Content Strategy Lead",
-                            "email": "sarah@example.com",
-                            "avatar": {
-                              "alt": "Example Image",
-                              "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441018/arpowers_minimal_stock_background_for_profile_photo_professiona_44e70af0-20d2-4ac2-9227-72bdcc4141c2_vghenq.png",
-                              "tags": [
-                                "annotated",
-                                "aspect:landscape",
-                                "color:warm",
-                                "man",
-                                "person",
-                                "wideshot",
-                                "woman",
-                                "image"
-                              ],
-                              "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_44e70af0-20d2-4ac2-9227-72bdcc4141c2_vghenq"
-                            }
-                          }
-                        ],
-                        "content": "\n        <article>\n          <p><em>Picture this:</em> Your brilliant article sits unread while others get all the attention. The difference? Often it's just the headline. Let's transform your headlines from forgotten to unforgettable.</p>\n\n          <h2>The 4 U's That Make Headlines Irresistible</h2>\n\n          <p>Notice how great headlines seem to pull you in effortlessly? Here's the framework behind that magic:</p>\n\n          <ul style=\"margin: 24px 0;\">\n            <li>\n              <h3>Useful</h3>\n              <p>Imagine your reader asking \"What's in it for me?\" Your headline should answer that instantly.</p>\n            </li>\n            <li>\n              <h3>Urgent</h3>\n              <p>Feel that slight anxiety when you might miss out on something important? That's urgency at work.</p>\n            </li>\n            <li>\n              <h3>Unique</h3>\n              <p>What would it feel like if your headline stood out from thousands of others? That's the power of uniqueness.</p>\n            </li>\n            <li>\n              <h3>Ultra-specific</h3>\n              <p>See how detailed headlines build instant credibility? They promise—and deliver—clear value.</p>\n            </li>\n          </ul>\n\n          <h2>Transform Your Headlines Today</h2>\n\n          <aside >\n            <p><strong>Try this exercise:</strong> Take your last three blog titles and rewrite each one using the 4 U's. Watch how they transform from basic statements into compelling invitations.</p>\n          </aside>\n\n          <p>Have you ever noticed how some blogs seem to consistently capture attention while others struggle? The secret often lies in their headlines. Let's unlock that secret together.</p>\n\n          <blockquote>\n            \"The headlines which work best are those that promise a story the audience already cares about. Now imagine how powerful your writing becomes when you master this art.\"\n            <footer>\n              <cite>— John Caples, Advertising Legend</cite>\n            </footer>\n          </blockquote>\n\n          <p>Ready to see your engagement numbers transform? Your next great headline is waiting to be written. Let's create it together.</p>\n        </article>\n      ",
-                        "excerpt": "Discover the secrets of headlines that don't just attract clicks—they compel action. Transform your titles from skippable to unforgettable.",
-                        "categories": [
-                          "Writing"
-                        ],
-                        "tags": [
-                          "headlines",
-                          "copywriting",
-                          "engagement"
-                        ],
-                        "media": {
-                          "alt": "Example Image",
-                          "format": "video",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724638588/replicate-prediction-jevb9nw2tdrj20chhhtbkat29g_ucxc1y.mp4",
-                          "tags": [
-                            "aspect:landscape",
-                            "object",
-                            "video"
-                          ],
-                          "slug": "replicate-prediction-jevb9nw2tdrj20chhhtbkat29g_ucxc1y"
-                        },
-                        "dateAt": "2024-03-20T00:00:00.000Z"
-                      },
-                      {
-                        "title": "Visual Hierarchy in Blog Design",
-                        "subTitle": "Master the invisible force that guides your readers' journey",
-                        "slug": "visual-hierarchy-guide",
-                        "authors": [
-                          {
-                            "fullName": "Alex Rivera",
-                            "title": "UX Design Director",
-                            "email": "alex@example.com",
-                            "avatar": {
-                              "alt": "Example Image",
-                              "format": "video",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724637812/replicate-prediction-e42s7rjkp1rj00chhhks5benkc_npfs6e.mp4",
-                              "tags": [
-                                "aspect:landscape",
-                                "person",
-                                "video",
-                                "woman"
-                              ],
-                              "slug": "replicate-prediction-e42s7rjkp1rj00chhhks5benkc_npfs6e"
-                            }
-                          }
-                        ],
-                        "content": "\n        <article>\n          <p><em>Imagine</em> your readers flowing effortlessly through your content, intuitively knowing where to look next. That's not magic—it's visual hierarchy at work. Let's explore how to create this seamless experience for your readers.</p>\n\n          <h2>The Secret Language of Visual Design</h2>\n\n          <p>Have you ever wondered why some blog posts feel professional while others seem amateur? The difference often lies in the subtle art of visual hierarchy. Let's decode this visual language together.</p>\n\n          <div>\n            <section>\n              <h3>Size & Scale</h3>\n              <p>Watch how your eye naturally moves to larger elements first. Notice how this natural behavior creates a visual journey through your content. What if you could harness this power to guide your readers exactly where you want them to go?</p>\n            </section>\n\n            <section>\n              <h3>Color & Contrast</h3>\n              <p>Feel the pull of contrasting elements, the way they catch your attention and direct your focus. Imagine using this powerful tool to highlight your most important messages.</p>\n            </section>\n          </div>\n\n          <aside>\n            <h3 style=\"margin-top: 0;\">Designer's Secret Weapon</h3>\n            <p>Picture your perfect reader skimming your content. Where do their eyes go first? Second? By understanding this journey, you can craft a visual experience that feels both natural and engaging.</p>\n          </aside>\n\n          <h2>Transform Your Blog's Visual Appeal</h2>\n\n          <ol >\n            <li>\n              <h4>Establish Clear Hierarchy</h4>\n              <p>See how different heading sizes create natural breakpoints in your content?</p>\n            </li>\n            <li>\n              <h4>Use White Space Strategically</h4>\n              <p>Notice how breathing room around elements makes them feel more important?</p>\n            </li>\n            <li>\n              <h4>Create Visual Patterns</h4>\n              <p>What if your design elements worked together to create a cohesive reading experience?</p>\n            </li>\n          </ol>\n\n          <div >\n            <h3 >Pro Tip That Changes Everything</h3>\n            <p>Always test your design with real content. Notice how beautiful typography with poor content hierarchy still fails to engage readers? That's why we always start with content strategy.</p>\n          </div>\n\n          <p>Ready to transform your blog's visual impact? Let's take your first step toward a more engaging design today.</p>\n        </article>\n      ",
-                        "excerpt": "Master the invisible forces that guide your readers through your content. Transform your blog from chaotic to captivating through strategic visual design.",
-                        "categories": [
-                          "Design"
-                        ],
-                        "tags": [
-                          "visual design",
-                          "typography",
-                          "layout"
-                        ],
-                        "media": {
-                          "alt": "Example Image",
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556374/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_beda1d16-a6d3-46af-9fa5-6508f8d3ce52_oc8s3f.png",
-                          "tags": [
-                            "annotated",
-                            "aspect:portrait",
-                            "aspect:square",
-                            "color:warm",
-                            "object",
-                            "image"
-                          ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_beda1d16-a6d3-46af-9fa5-6508f8d3ce52_oc8s3f"
-                        },
-                        "dateAt": "2024-03-19T00:00:00.000Z"
-                      },
-                      {
-                        "title": "Write Like a Master Storyteller",
-                        "subTitle": "Weave psychological triggers into your narratives",
-                        "slug": "storytelling-psychology",
-                        "authors": [
-                          {
-                            "fullName": "Maya Patel",
-                            "title": "Narrative Psychologist",
-                            "email": "maya@example.com",
-                            "avatar": {
-                              "alt": "Example Image",
-                              "format": "image",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440967/arpowers_minimal_stock_background_for_profile_photo_mid_shot_pr_69a37edd-207f-44a5-9076-d4a4797ce76a_nnwjah.png",
-                              "tags": [
-                                "annotated",
-                                "aspect:portrait",
-                                "color:warm",
-                                "person",
-                                "silhouette",
-                                "woman",
-                                "image"
-                              ],
-                              "slug": "arpowers_minimal_stock_background_for_profile_photo_mid_shot_pr_69a37edd-207f-44a5-9076-d4a4797ce76a_nnwjah"
-                            }
-                          }
-                        ],
-                        "content": "\n        <article>\n          <p><em>What if</em> every piece you wrote could hold readers spellbound until the very last word? The ancient art of storytelling isn't just for novelists—it's a powerful tool for anyone sharing ideas.</p>\n\n          <h2>The Hidden Structure of Captivating Writing</h2>\n          <p>Notice how certain passages seem to pull you through them effortlessly? This isn't accident—it's psychology at work.</p>\n\n          <h3>The Three Pillars of Magnetic Writing</h3>\n          <ol>\n            <li>\n              <h4>Tension and Release</h4>\n              <p>Feel how your mind leans forward when a question is posed? Watch how master writers create tiny mysteries throughout their work, leading you paragraph by paragraph.</p>\n            </li>\n            <li>\n              <h4>Sensory Bridges</h4>\n              <p>Remember the last time a piece of writing made you feel like you were actually there? That's the power of engaging multiple senses in your descriptions.</p>\n            </li>\n            <li>\n              <h4>Emotional Resonance</h4>\n              <p>Have you noticed how the most memorable writing makes you feel something? Let's explore how to weave emotion into every paragraph.</p>\n            </li>\n          </ol>\n\n          <h3>Transform Your Next Piece</h3>\n          <p>Imagine starting your next article not with facts, but with a scene that pulls readers into your world:</p>\n\n          <blockquote>\n            <p>\"The cursor blinked accusingly on the empty screen. You know that feeling—when you have something important to say, but the words seem just out of reach...\"</p>\n          </blockquote>\n\n          <h3>The Psychology Behind the Magic</h3>\n          <ul>\n            <li>Pattern interrupts that wake up the reader's mind</li>\n            <li>Strategic curiosity gaps that pull readers forward</li>\n            <li>Memory hooks that make your ideas stick</li>\n            <li>Narrative arcs that satisfy the brain's need for completion</li>\n          </ul>\n\n          <p>What powerful story are you ready to tell? Let's make your next piece of writing unforgettable.</p>\n        </article>\n      ",
-                        "excerpt": "Master the psychological principles that make readers hang on your every word. Transform your writing from merely informative to utterly captivating.",
-                        "categories": [
-                          "Writing"
-                        ],
-                        "tags": [
-                          "psychology",
-                          "storytelling",
-                          "writing"
-                        ],
-                        "media": {
-                          "alt": "Example Image",
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556491/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_4204a6c6-a682-4414-9774-45f24245030c_sauqhy.png",
-                          "tags": [
-                            "annotated",
-                            "aspect:tall",
-                            "color:warm",
-                            "man",
-                            "object",
-                            "image"
-                          ],
-                          "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_4204a6c6-a682-4414-9774-45f24245030c_sauqhy"
-                        },
-                        "dateAt": "2024-03-14T00:00:00.000Z"
-                      },
-                      {
-                        "title": "The Science of Memorable Ideas",
-                        "subTitle": "Why some concepts spread while others fade",
-                        "slug": "idea-memorability",
-                        "authors": [
-                          {
-                            "fullName": "David Zhang",
-                            "title": "Cognitive Science Researcher",
-                            "email": "david@example.com",
-                            "avatar": {
-                              "alt": "Example Image",
-                              "format": "video",
-                              "url": "https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1724640529/replicate-prediction-sy5xxeb90xrj00chhj9vb5qzt0_ck4oi4.mp4",
-                              "tags": [
-                                "aspect:landscape",
-                                "person",
-                                "video",
-                                "woman"
-                              ],
-                              "slug": "replicate-prediction-sy5xxeb90xrj00chhj9vb5qzt0_ck4oi4"
-                            }
-                          }
-                        ],
-                        "content": "\n        <article>\n          <p><em>Consider</em> the last idea that stayed with you for days. What made it stick? The science of memorable ideas isn't about being clever—it's about understanding how the human mind processes and retains information.</p>\n\n          <h2>The Architecture of Memorable Ideas</h2>\n          <p>Watch how your mind naturally gravitates toward certain concepts while others slip away. Let's decode this fascinating process.</p>\n\n          <h3>Core Elements of Sticky Ideas</h3>\n          <ul>\n            <li>\n              <h4>The Concrete Principle</h4>\n              <p>Notice how abstract concepts become clearer when anchored to tangible examples? That's your brain's preference for the concrete over the abstract.</p>\n            </li>\n            <li>\n              <h4>The Pattern Effect</h4>\n              <p>What happens when you recognize a familiar pattern in a new context? Your brain suddenly lights up with understanding.</p>\n            </li>\n            <li>\n              <h4>The Emotion Gateway</h4>\n              <p>Remember how ideas connected to strong emotions seem to write themselves directly into your memory?</p>\n            </li>\n          </ul>\n\n          <h3>Making Your Ideas Unforgettable</h3>\n          <ol>\n            <li>\n              <h4>The Velcro Method</h4>\n              <p>Imagine your idea as a hook looking for loops in your reader's mind. What existing knowledge can you connect to?</p>\n            </li>\n            <li>\n              <h4>The Curiosity Bridge</h4>\n              <p>Feel that slight tension when a story is left unfinished? That's your brain's natural desire for completion—use it.</p>\n            </li>\n            <li>\n              <h4>The Echo Chamber</h4>\n              <p>What if your idea could replay itself in your reader's mind, getting stronger with each iteration?</p>\n            </li>\n          </ol>\n\n          <blockquote>\n            <p>\"The most memorable ideas aren't just understood—they're felt, seen, and experienced.\"</p>\n            <footer>\n              <cite>— Dr. Eleanor Hughes, Memory Researcher</cite>\n            </footer>\n          </blockquote>\n\n          <h3>Transform Your Next Idea</h3>\n          <p>Before you share your next big concept, ask yourself:</p>\n          <ul>\n            <li>Could a child understand this?</li>\n            <li>Does it connect to something people already know?</li>\n            <li>Will it make them feel something?</li>\n            <li>Can they see it in action?</li>\n          </ul>\n\n          <p>Ready to make your ideas impossible to forget? Let's build something memorable together.</p>\n        </article>\n      ",
-                        "excerpt": "Discover why some ideas stick while others slip away. Learn the cognitive science behind creating concepts that lodge themselves in memory.",
-                        "categories": [
-                          "Psychology"
-                        ],
-                        "tags": [
-                          "cognition",
-                          "memory",
-                          "communication"
-                        ],
-                        "media": {
-                          "alt": "Example Image",
-                          "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556178/arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_adba25a1-2233-4126-abba-ea937263df12_tcxnnk.png",
-                          "tags": [
-                            "annotated",
-                            "color:warm",
-                            "image",
-                            "object",
-                            "aspect:tall"
-                          ],
-                          "slug": "arpowers_minimal_midshot_photo_of_object_incredible_light_and_s_adba25a1-2233-4126-abba-ea937263df12_tcxnnk"
-                        },
-                        "dateAt": "2024-03-13T00:00:00.000Z"
-                      }
-                    ]
-                  }
-                },
+                "parentId": "crd68168999f5dbad5963b28b7f",
+                "templateId": "cardBlogV1",
+                "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1badc7eea72263e1a875",
+                "cardId": "crd681689991d72362a4394fb70",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1bad290c306627d44aad",
-            "isHome": false,
-            "inNav": false
+            "cardId": "crd68168999f5dbad5963b28b7f",
+            "isHome": false
           },
           {
             "templateId": "cardPageWrapV1",
@@ -523,7 +197,7 @@
             "slug": "contact",
             "cards": [
               {
-                "parentId": "crd67fb1bada9aab61deb97e827",
+                "parentId": "crd68168999d475371e9b3a7c2f",
                 "templateId": "cardHeroV1",
                 "userConfig": {
                   "items": [
@@ -541,25 +215,23 @@
                   ]
                 },
                 "regionId": "main",
-                "cardId": "crd67fb1badc67aef7b09935bea",
+                "cardId": "crd6816899911979fb2d48c5b39",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bada9aab61deb97e827",
+                "parentId": "crd68168999d475371e9b3a7c2f",
                 "templateId": "cardContactV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1bada333f9c204abdcb8",
+                "cardId": "crd681689995879a00dd27432ab",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bada9aab61deb97e827",
+                "parentId": "crd68168999d475371e9b3a7c2f",
                 "templateId": "cardMapsV1",
                 "userConfig": {
                   "standard": {
@@ -587,17 +259,15 @@
                   ]
                 },
                 "regionId": "main",
-                "cardId": "crd67fb1bad56b7516d01d0034c",
+                "cardId": "crd681689991d6151167cc0c610",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1bada9aab61deb97e827",
-            "isHome": false,
-            "inNav": false
+            "cardId": "crd68168999d475371e9b3a7c2f",
+            "isHome": false
           }
         ]
       },
@@ -614,7 +284,8 @@
         "cardLogosV1",
         "cardShowcaseGalleryV1",
         "cardPostsListV1",
-        "cardPostsMagazineV1",
+        "cardBlogV1",
+        "cardSinglePostV1",
         "cardStepsV1",
         "cardFaqV1",
         "cardTimelineV1",
@@ -627,8 +298,8 @@
         "cardPageWrapV1",
         "cardPageAreaV1",
         "cardSiteNavV1",
-        "cardFaqV1",
         "cardFooterProV1",
+        "cardStandardFooterV1",
         "cardMarqueeV1",
         "cardOverlaySliderV1",
         "cardTickerV1",
@@ -658,85 +329,77 @@
             "userConfig": {},
             "cards": [
               {
-                "parentId": "crd67fb1bad0773e3958ef4b422",
+                "parentId": "crd681689999c3ae5979e0b78ef",
                 "templateId": "cardSiteNavV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1bad80a397629c18702d",
+                "cardId": "crd681689992d61c815cc7437b5",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1bad0773e3958ef4b422",
-            "isHome": false,
-            "inNav": false
+            "cardId": "crd681689999c3ae5979e0b78ef",
+            "isHome": false
           },
           "footer": {
             "templateId": "cardPageWrapV1",
             "userConfig": {},
             "cards": [
               {
-                "parentId": "crd67fb1bad2d9d6921eb9392c3",
-                "templateId": "cardFooterProV1",
+                "parentId": "crd68168999fd4207be5bb635ee",
+                "templateId": "cardStandardFooterV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1badc34b89f82a041ee0",
+                "cardId": "crd681689992ae64010b145e2f4",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1bad2d9d6921eb9392c3",
-            "isHome": false,
-            "inNav": false
+            "cardId": "crd68168999fd4207be5bb635ee",
+            "isHome": false
           },
           "hidden": {
             "templateId": "cardPageWrapV1",
             "userConfig": {},
             "cards": [
               {
-                "parentId": "crd67fb1bad52d036e2c20d898c",
+                "parentId": "crd68168999f61f2b013f48492d",
                 "templateId": "cardModalMediaV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1bad7f4f5a05c5a2ae6e",
+                "cardId": "crd68168999f506c3ad6348e234",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bad52d036e2c20d898c",
+                "parentId": "crd68168999f61f2b013f48492d",
                 "templateId": "cardTextEffectV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1bad3878f1505c071271",
+                "cardId": "crd68168999b5d6b360df25b1da",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bad52d036e2c20d898c",
+                "parentId": "crd68168999f61f2b013f48492d",
                 "templateId": "cardCaptureV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1badcebf2153e55ef013",
+                "cardId": "crd681689991fd5fe5b49297822",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1bad52d036e2c20d898c",
-            "isHome": false,
-            "inNav": false
+            "cardId": "crd68168999f61f2b013f48492d",
+            "isHome": false
           }
         },
         "userConfig": {
@@ -755,15 +418,13 @@
                 "stack": "sans"
               },
               "sans": {
-                "family": "Plus+Jakarta+Sans",
                 "stack": "sans"
               },
               "body": {
-                "family": "Lora",
                 "stack": "sans"
               },
               "serif": {
-                "family": "Lora",
+                "family": "lora",
                 "stack": "serif"
               },
               "highlight": {
@@ -777,7 +438,7 @@
           }
         },
         "org": {
-          "orgName": "Workspace"
+          "orgName": "No Organization"
         },
         "pages": [
           {
@@ -787,7 +448,7 @@
             "isHome": true,
             "cards": [
               {
-                "parentId": "crd67fb1bad1ef026b706b1f72d",
+                "parentId": "crd68168999f69635a3f595d684",
                 "templateId": "cardOverlaySliderV1",
                 "userConfig": {
                   "autoSlide": true,
@@ -798,16 +459,18 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440997/arpowers_incredibly_beautiful_profile_photo_of_woman_business_a_f766e1d7-f5fc-482e-9087-44e3cff07d66_pldzlt.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443251/arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_dcf90573-20b3-4e04-81f0-148536257f1a_baqmvj.png",
                         "tags": [
                           "annotated",
                           "aspect:landscape",
-                          "color:cool",
+                          "aspect:square",
+                          "color:warm",
+                          "midshot",
                           "person",
                           "woman",
-                          "aspect:square"
+                          "image"
                         ],
-                        "slug": "arpowers_incredibly_beautiful_profile_photo_of_woman_business_a_f766e1d7-f5fc-482e-9087-44e3cff07d66_pldzlt"
+                        "slug": "arpowers_minimal_midshot_photo_stylistic_attire_1990s_style_fut_dcf90573-20b3-4e04-81f0-148536257f1a_baqmvj"
                       },
                       "textBlend": "difference"
                     },
@@ -817,18 +480,17 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443236/arpowers_minimal_headshot_photo_met_gala_ancient_greek_beauty_c_9e26b69d-68f5-49f3-927b-7fd0192118b4_mzneoa.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440967/arpowers_minimal_stock_background_for_profile_photo_mid_shot_pr_69a37edd-207f-44a5-9076-d4a4797ce76a_nnwjah.png",
                         "tags": [
                           "annotated",
-                          "aspect:square",
+                          "aspect:portrait",
                           "color:warm",
-                          "headshot",
-                          "man",
                           "person",
-                          "realistic",
-                          "woman"
+                          "silhouette",
+                          "woman",
+                          "image"
                         ],
-                        "slug": "arpowers_minimal_headshot_photo_met_gala_ancient_greek_beauty_c_9e26b69d-68f5-49f3-927b-7fd0192118b4_mzneoa"
+                        "slug": "arpowers_minimal_stock_background_for_profile_photo_mid_shot_pr_69a37edd-207f-44a5-9076-d4a4797ce76a_nnwjah"
                       },
                       "textBlend": "difference"
                     },
@@ -838,32 +500,30 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440976/arpowers_minimal_stock_background_for_profile_photo_professiona_63facb31-584d-410e-9b14-62ab9d55f79b_zepla8.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1725686138/profile-woman-6_gnqhni.png",
                         "tags": [
                           "annotated",
-                          "aspect:portrait",
+                          "aspect:square",
                           "color:warm",
                           "headshot",
-                          "person",
-                          "silhouette",
+                          "realistic",
                           "woman",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_63facb31-584d-410e-9b14-62ab9d55f79b_zepla8"
+                        "slug": "profile-woman-6_gnqhni"
                       },
                       "textBlend": "difference"
                     }
                   ]
                 },
                 "regionId": "main",
-                "cardId": "crd67fb1badc4c92d9542c8caf6",
+                "cardId": "crd6816899937a15fa66f4c578d",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bad1ef026b706b1f72d",
+                "parentId": "crd68168999f69635a3f595d684",
                 "templateId": "cardFeaturesV1",
                 "userConfig": {
                   "standard": {
@@ -907,14 +567,13 @@
                   }
                 },
                 "regionId": "main",
-                "cardId": "crd67fb1bad6114a4495ccea5bf",
+                "cardId": "crd68168999d8d3783f0ac3310f",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bad1ef026b706b1f72d",
+                "parentId": "crd68168999f69635a3f595d684",
                 "templateId": "cardHeroV1",
                 "userConfig": {
                   "items": [
@@ -962,14 +621,13 @@
                   ]
                 },
                 "regionId": "main",
-                "cardId": "crd67fb1bad7a539fd0d3c5be03",
+                "cardId": "crd68168999a2f7596bc57517e2",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bad1ef026b706b1f72d",
+                "parentId": "crd68168999f69635a3f595d684",
                 "templateId": "cardMetricsV1",
                 "userConfig": {
                   "standard": {
@@ -999,14 +657,13 @@
                   ]
                 },
                 "regionId": "main",
-                "cardId": "crd67fb1bad594f0ee9d689ab03",
+                "cardId": "crd68168999f9ac1e128d08dd19",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bad1ef026b706b1f72d",
+                "parentId": "crd68168999f69635a3f595d684",
                 "templateId": "CardParallaxScrollV1",
                 "userConfig": {
                   "standard": {
@@ -1030,16 +687,15 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556103/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_427e4e07-b84a-40d1-9222-6b5a7a3d7352_xus1tx.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725066/arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_12401039-7649-4181-b070-c01767c3a9e9_v3x3s3.png",
                         "tags": [
-                          "annotated",
+                          "aspect:landscape",
                           "color:warm",
                           "image",
-                          "man",
                           "object",
-                          "aspect:wide"
+                          "annotated"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_427e4e07-b84a-40d1-9222-6b5a7a3d7352_xus1tx"
+                        "slug": "arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_12401039-7649-4181-b070-c01767c3a9e9_v3x3s3"
                       },
                       "parallaxStrength": 0.4,
                       "action": {
@@ -1057,16 +713,15 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556315/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_a2a285ab-ee34-4037-9236-9e7a1c55e23d_nefprh.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556468/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_4d1cfb56-61be-4c49-bc18-9c3c60df0be9_sfprm8.png",
                         "tags": [
                           "annotated",
-                          "aspect:portrait",
-                          "aspect:square",
+                          "aspect:tall",
                           "color:warm",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_a2a285ab-ee34-4037-9236-9e7a1c55e23d_nefprh"
+                        "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_4d1cfb56-61be-4c49-bc18-9c3c60df0be9_sfprm8"
                       },
                       "parallaxStrength": 0.6,
                       "action": {
@@ -1084,16 +739,15 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556288/arpowers_minimal_midshot_photo_of_object_2030s_futuristic_ancie_3c00d98d-2cb1-49cf-8563-43c43573ea53_ixbak5.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556400/arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_5147ed2e-36e9-4284-bde9-d5455731a5d0_ydkvo4.png",
                         "tags": [
                           "annotated",
-                          "aspect:portrait",
                           "aspect:square",
                           "color:warm",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_2030s_futuristic_ancie_3c00d98d-2cb1-49cf-8563-43c43573ea53_ixbak5"
+                        "slug": "arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_5147ed2e-36e9-4284-bde9-d5455731a5d0_ydkvo4"
                       },
                       "parallaxStrength": 0.5,
                       "action": {
@@ -1108,14 +762,13 @@
                   ]
                 },
                 "regionId": "main",
-                "cardId": "crd67fb1baded728279861816f7",
+                "cardId": "crd68168999f726da2f4b69ce9b",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bad1ef026b706b1f72d",
+                "parentId": "crd68168999f69635a3f595d684",
                 "templateId": "cardPostsListV1",
                 "userConfig": {
                   "standard": {
@@ -1129,16 +782,14 @@
                   }
                 },
                 "regionId": "main",
-                "cardId": "crd67fb1bad2f3338f43d5b3571",
+                "cardId": "crd68168999a00d3d05436fd511",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1bad1ef026b706b1f72d",
-            "inNav": false
+            "cardId": "crd68168999f69635a3f595d684"
           },
           {
             "templateId": "cardPageWrapV1",
@@ -1146,7 +797,7 @@
             "slug": "work",
             "cards": [
               {
-                "parentId": "crd67fb1bad0105a8d32310d87d",
+                "parentId": "crd68168999cad96b75f8afc089",
                 "templateId": "cardHeroV1",
                 "userConfig": {
                   "items": [
@@ -1188,14 +839,13 @@
                   ]
                 },
                 "regionId": "main",
-                "cardId": "crd67fb1badb0bea575310b67cb",
+                "cardId": "crd68168999b1e1d470d47d95ae",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bad0105a8d32310d87d",
+                "parentId": "crd68168999cad96b75f8afc089",
                 "templateId": "cardBentoV1",
                 "userConfig": {
                   "items": [
@@ -1209,15 +859,15 @@
                       "bg": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556458/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_7ef4b834-a13a-4b7d-a3b8-1a5018444fd7_dtpcns.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556405/arpowers_close-up_photo_of_art_deco_statue_ancient_greek_ideal__95cb200f-30a0-478a-9737-f4846d630dde_kjx4qm.png",
                         "tags": [
                           "annotated",
-                          "aspect:tall",
-                          "color:cool",
+                          "aspect:square",
+                          "color:warm",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_7ef4b834-a13a-4b7d-a3b8-1a5018444fd7_dtpcns"
+                        "slug": "arpowers_close-up_photo_of_art_deco_statue_ancient_greek_ideal__95cb200f-30a0-478a-9737-f4846d630dde_kjx4qm"
                       },
                       "cols": 6,
                       "rows": 2,
@@ -1238,15 +888,15 @@
                       "bg": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556400/arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_5147ed2e-36e9-4284-bde9-d5455731a5d0_ydkvo4.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556084/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal__66907fac-c53d-414e-883d-6e729aa4bf4c_2_shvx2h.png",
                         "tags": [
                           "annotated",
-                          "aspect:square",
                           "color:warm",
+                          "image",
                           "object",
-                          "image"
+                          "aspect:wide"
                         ],
-                        "slug": "arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_5147ed2e-36e9-4284-bde9-d5455731a5d0_ydkvo4"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal__66907fac-c53d-414e-883d-6e729aa4bf4c_2_shvx2h"
                       },
                       "cols": 3,
                       "rows": 2,
@@ -1258,15 +908,15 @@
                       "bg": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556431/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gr_73a93aad-b34c-4328-8ef9-6a90f4ac55bd_3_cgpasf.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725062/arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_70f59d52-1d22-42c3-8408-d12af87deaae_zgtllj.png",
                         "tags": [
-                          "annotated",
-                          "aspect:tall",
+                          "aspect:landscape",
                           "color:warm",
+                          "image",
                           "object",
-                          "image"
+                          "annotated"
                         ],
-                        "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gr_73a93aad-b34c-4328-8ef9-6a90f4ac55bd_3_cgpasf"
+                        "slug": "arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_70f59d52-1d22-42c3-8408-d12af87deaae_zgtllj"
                       },
                       "cols": 3,
                       "rows": 2,
@@ -1282,16 +932,16 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556293/arpowers_minimal_midshot_photo_of_object_2030s_futuristic_ancie_a797e9d2-5c50-4e55-a1f6-815dd167d8fc_cvorkh.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556187/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_15f06b6c-8492-4d3a-9c0b-57a9b18e839d_zoq8og.png",
                         "tags": [
                           "annotated",
-                          "aspect:portrait",
+                          "aspect:landscape",
                           "aspect:square",
                           "color:warm",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_2030s_futuristic_ancie_a797e9d2-5c50-4e55-a1f6-815dd167d8fc_cvorkh"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_15f06b6c-8492-4d3a-9c0b-57a9b18e839d_zoq8og"
                       },
                       "cols": 4,
                       "rows": 3,
@@ -1303,15 +953,17 @@
                       "bg": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725068/arpowers_Minimalist_futuristic_interpretation_of_an_zeus_elegan_ce9febc4-733e-49e2-976f-8e1f321407c4_fhmivm.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724555823/arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_71a0138f-a4e3-4893-9be0-6ceba235df26_bqholx.png",
                         "tags": [
-                          "aspect:landscape",
-                          "color:warm",
-                          "image",
+                          "annotated",
+                          "aspect:square",
+                          "color:cool",
+                          "nature",
                           "object",
-                          "annotated"
+                          "people",
+                          "image"
                         ],
-                        "slug": "arpowers_Minimalist_futuristic_interpretation_of_an_zeus_elegan_ce9febc4-733e-49e2-976f-8e1f321407c4_fhmivm"
+                        "slug": "arpowers_minimal_close_photo_of_object_ancient_greek_ideal_beau_71a0138f-a4e3-4893-9be0-6ceba235df26_bqholx"
                       },
                       "cols": 4,
                       "rows": 3,
@@ -1323,15 +975,15 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556283/arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_5ef92f82-5327-4bbf-8446-05d855c08abc_yvhufx.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556422/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_198efc44-5a6f-4e44-8086-198356fe7544_kle0os.png",
                         "tags": [
                           "annotated",
-                          "aspect:portrait",
-                          "color:cool",
+                          "aspect:square",
+                          "color:warm",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_5ef92f82-5327-4bbf-8446-05d855c08abc_yvhufx"
+                        "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_198efc44-5a6f-4e44-8086-198356fe7544_kle0os"
                       },
                       "verticalPosition": "top",
                       "cols": 4,
@@ -1341,14 +993,13 @@
                   ]
                 },
                 "regionId": "main",
-                "cardId": "crd67fb1bad22e959e0669291b0",
+                "cardId": "crd6816899921b089bf1cc07865",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bad0105a8d32310d87d",
+                "parentId": "crd68168999cad96b75f8afc089",
                 "templateId": "cardPhotoGalleryV1",
                 "userConfig": {
                   "standard": {
@@ -1364,15 +1015,16 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556422/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_198efc44-5a6f-4e44-8086-198356fe7544_kle0os.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556298/arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_b50e9db3-34e6-4089-be9a-5fd1584c9ebd_z61gqa.png",
                         "tags": [
                           "annotated",
+                          "aspect:portrait",
                           "aspect:square",
                           "color:warm",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_198efc44-5a6f-4e44-8086-198356fe7544_kle0os"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_1990s_style_futuristic_b50e9db3-34e6-4089-be9a-5fd1584c9ebd_z61gqa"
                       },
                       "cols": "2",
                       "theme": "blue"
@@ -1383,15 +1035,15 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556197/arpowers_minimal_wideshot_photo_of_object_light_and_shadows_anc_6ac8046d-d5da-4b49-a050-21a22e220176_whdppw.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556395/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_860343f3-74d7-4592-b697-4f9b23532186_noz30f.png",
                         "tags": [
                           "annotated",
-                          "aspect:landscape",
+                          "aspect:square",
                           "color:warm",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_wideshot_photo_of_object_light_and_shadows_anc_6ac8046d-d5da-4b49-a050-21a22e220176_whdppw"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_860343f3-74d7-4592-b697-4f9b23532186_noz30f"
                       },
                       "cols": "2",
                       "theme": "emerald"
@@ -1402,16 +1054,15 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556355/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_189de993-3771-4a77-8b5a-6e080ca07673_qwcrkh.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556266/arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_c5bee5e5-78dd-4613-ae89-0df0c483f02a_coxsq3.png",
                         "tags": [
                           "annotated",
                           "aspect:portrait",
-                          "aspect:square",
-                          "color:warm",
+                          "color:cool",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_189de993-3771-4a77-8b5a-6e080ca07673_qwcrkh"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_futuristic_ancient_gre_c5bee5e5-78dd-4613-ae89-0df0c483f02a_coxsq3"
                       },
                       "cols": "2",
                       "theme": "violet"
@@ -1422,15 +1073,15 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556369/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_3fc526bb-bc7b-4f2d-ac11-7ca9a1de5f19_l0dqer.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556449/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_ab26cfca-1bda-41cc-851f-5ebf4e60fe29_tvavol.png",
                         "tags": [
                           "annotated",
+                          "aspect:tall",
                           "color:warm",
-                          "image",
                           "object",
-                          "aspect:wide"
+                          "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_3fc526bb-bc7b-4f2d-ac11-7ca9a1de5f19_l0dqer"
+                        "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_ab26cfca-1bda-41cc-851f-5ebf4e60fe29_tvavol"
                       },
                       "cols": "2",
                       "theme": "indigo"
@@ -1441,15 +1092,16 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556338/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal__55376da2-811e-4ef3-ac72-d11e2d38c691_2_faph5o.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556206/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_c954fed0-a698-4b95-8470-e8a0541b0b55_qkrjxn.png",
                         "tags": [
                           "annotated",
-                          "aspect:wide",
-                          "color:warm",
+                          "aspect:landscape",
+                          "aspect:square",
+                          "color:cool",
                           "object",
                           "image"
                         ],
-                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal__55376da2-811e-4ef3-ac72-d11e2d38c691_2_faph5o"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_c954fed0-a698-4b95-8470-e8a0541b0b55_qkrjxn"
                       },
                       "cols": "2",
                       "theme": "cyan"
@@ -1460,15 +1112,15 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556445/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_fa5deba3-358d-4d98-9bd2-798d155aee7a_ddlyns.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556121/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_74812b55-2326-482e-a6a0-e40d8e2a3772_igfm1h.png",
                         "tags": [
                           "annotated",
-                          "aspect:square",
                           "color:warm",
+                          "image",
                           "object",
-                          "image"
+                          "aspect:wide"
                         ],
-                        "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_fa5deba3-358d-4d98-9bd2-798d155aee7a_ddlyns"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_74812b55-2326-482e-a6a0-e40d8e2a3772_igfm1h"
                       },
                       "cols": "2",
                       "theme": "rose"
@@ -1486,17 +1138,15 @@
                   }
                 },
                 "regionId": "main",
-                "cardId": "crd67fb1bad15b68eb1a618bffe",
+                "cardId": "crd68168999e38b94ea2ec9c804",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1bad0105a8d32310d87d",
-            "isHome": false,
-            "inNav": false
+            "cardId": "crd68168999cad96b75f8afc089",
+            "isHome": false
           },
           {
             "templateId": "cardPageWrapV1",
@@ -1504,7 +1154,7 @@
             "slug": "about",
             "cards": [
               {
-                "parentId": "crd67fb1badca18f25287afd9d2",
+                "parentId": "crd681689992218aae54e9f401f",
                 "templateId": "cardStoryV1",
                 "userConfig": {
                   "standard": {
@@ -1520,20 +1170,19 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441033/arpowers_incredibly_beautiful_profile_photo_of_man_business_att_33cac797-9273-49d6-bc1c-d9abaf2dd7ce_s0awqr.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556346/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_8b17dc54-1507-49d5-a510-bb773a01043f_d9gbkp.png",
                         "tags": [
                           "annotated",
-                          "aspect:landscape",
+                          "aspect:portrait",
                           "aspect:square",
-                          "color:cool",
+                          "color:warm",
                           "man",
                           "nature",
+                          "object",
                           "people",
-                          "person",
-                          "silhouette",
                           "image"
                         ],
-                        "slug": "arpowers_incredibly_beautiful_profile_photo_of_man_business_att_33cac797-9273-49d6-bc1c-d9abaf2dd7ce_s0awqr"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_8b17dc54-1507-49d5-a510-bb773a01043f_d9gbkp"
                       }
                     },
                     {
@@ -1564,32 +1213,30 @@
                       "media": {
                         "alt": "Example Image",
                         "format": "image",
-                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441023/arpowers_interesting_stock_profile_photo_professional_attire_Si_33bdce91-45d3-4e0e-8848-bb5eada19423_oq02a1.png",
+                        "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556341/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_12401694-bb22-4f7b-9617-4e52872c0a66_jpfqrt.png",
                         "tags": [
                           "annotated",
+                          "aspect:portrait",
                           "aspect:square",
                           "color:warm",
-                          "headshot",
                           "nature",
+                          "object",
                           "people",
-                          "person",
-                          "woman",
                           "image"
                         ],
-                        "slug": "arpowers_interesting_stock_profile_photo_professional_attire_Si_33bdce91-45d3-4e0e-8848-bb5eada19423_oq02a1"
+                        "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_12401694-bb22-4f7b-9617-4e52872c0a66_jpfqrt"
                       }
                     }
                   ]
                 },
                 "regionId": "main",
-                "cardId": "crd67fb1bad376411b40c0c6219",
+                "cardId": "crd68168999a68038d1dd29d1fe",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1badca18f25287afd9d2",
+                "parentId": "crd681689992218aae54e9f401f",
                 "templateId": "cardTimelineV1",
                 "userConfig": {
                   "standard": {
@@ -1642,14 +1289,13 @@
                   ]
                 },
                 "regionId": "main",
-                "cardId": "crd67fb1bad9b3d9be71e4b47d7",
+                "cardId": "crd6816899992f95561dc3309bb",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1badca18f25287afd9d2",
+                "parentId": "crd681689992218aae54e9f401f",
                 "templateId": "cardQuotesV1",
                 "userConfig": {
                   "standard": {
@@ -1667,17 +1313,17 @@
                         "media": {
                           "alt": "Example Image",
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441002/arpowers_incredibly_beautiful_headshot_of_man_business_attire_S_2b47b3d1-e625-46bf-8036-d6943b78037c_nsc3nj.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440966/arpowers_minimal_stock_background_for_profile_photo_professiona_62a15087-100b-4880-8932-1bf4f2375052_sio7al.png",
                           "tags": [
                             "annotated",
-                            "aspect:landscape",
-                            "aspect:square",
+                            "aspect:portrait",
                             "color:warm",
                             "man",
+                            "midshot",
                             "person",
                             "image"
                           ],
-                          "slug": "arpowers_incredibly_beautiful_headshot_of_man_business_attire_S_2b47b3d1-e625-46bf-8036-d6943b78037c_nsc3nj"
+                          "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_62a15087-100b-4880-8932-1bf4f2375052_sio7al"
                         }
                       }
                     },
@@ -1689,18 +1335,16 @@
                         "media": {
                           "alt": "Example Image",
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724443244/arpowers_minimal_headshot_photo_met_gala_ancient_greek_beauty_c_8432815e-fa1f-48da-aad4-3bbe5f197826_dhiadn.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441024/arpowers_interesting_profile_photo_business_attire_creative_pos_f48aa512-1c55-4d48-b536-1c10de1078d8_txkt1l.png",
                           "tags": [
                             "annotated",
                             "aspect:square",
                             "color:warm",
-                            "headshot",
                             "person",
-                            "realistic",
                             "woman",
                             "image"
                           ],
-                          "slug": "arpowers_minimal_headshot_photo_met_gala_ancient_greek_beauty_c_8432815e-fa1f-48da-aad4-3bbe5f197826_dhiadn"
+                          "slug": "arpowers_interesting_profile_photo_business_attire_creative_pos_f48aa512-1c55-4d48-b536-1c10de1078d8_txkt1l"
                         }
                       }
                     },
@@ -1712,33 +1356,34 @@
                         "media": {
                           "alt": "Example Image",
                           "format": "image",
-                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556481/arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_9f27056f-238e-4e4b-a760-7347e0ad5877_pqtxij.png",
+                          "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441622/arpowers_minimal_stock_background_for_mid_shot_profile_photo_Si_dd1a1ffb-2f07-41c4-92e8-d622217be765_qfecff.png",
                           "tags": [
                             "annotated",
-                            "aspect:wide",
-                            "color:warm",
+                            "aspect:landscape",
+                            "aspect:square",
+                            "color:cool",
+                            "headshot",
                             "man",
-                            "object",
+                            "person",
+                            "silhouette",
                             "image"
                           ],
-                          "slug": "arpowers_minimal_wide_shot_photo_of_every_day_item_ancient_gree_9f27056f-238e-4e4b-a760-7347e0ad5877_pqtxij"
+                          "slug": "arpowers_minimal_stock_background_for_mid_shot_profile_photo_Si_dd1a1ffb-2f07-41c4-92e8-d622217be765_qfecff"
                         }
                       }
                     }
                   ]
                 },
                 "regionId": "main",
-                "cardId": "crd67fb1bad25d6ff147d66dbba",
+                "cardId": "crd681689996c30c05e4c02ce32",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1badca18f25287afd9d2",
-            "isHome": false,
-            "inNav": false
+            "cardId": "crd681689992218aae54e9f401f",
+            "isHome": false
           },
           {
             "templateId": "cardPageWrapV1",
@@ -1746,21 +1391,19 @@
             "slug": "blog",
             "cards": [
               {
-                "parentId": "crd67fb1bade4f235f6a277c274",
-                "templateId": "cardPostsMagazineV1",
+                "parentId": "crd68168999b004453db9e61110",
+                "templateId": "cardBlogV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1bad496022e466142eb4",
+                "cardId": "crd6816899909543c5454690ebf",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1bade4f235f6a277c274",
-            "isHome": false,
-            "inNav": false
+            "cardId": "crd68168999b004453db9e61110",
+            "isHome": false
           },
           {
             "templateId": "cardPageWrapV1",
@@ -1768,43 +1411,39 @@
             "slug": "contact",
             "cards": [
               {
-                "parentId": "crd67fb1bad4679dee206bfcc40",
+                "parentId": "crd681689992f17c193e62c7ca9",
                 "templateId": "cardHeroV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1badc29f1225269d25d1",
+                "cardId": "crd681689990a3a6153ba3d7652",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bad4679dee206bfcc40",
+                "parentId": "crd681689992f17c193e62c7ca9",
                 "templateId": "cardContactV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1badb599db49579aa8ed",
+                "cardId": "crd6816899925785189cbe04b98",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bad4679dee206bfcc40",
+                "parentId": "crd681689992f17c193e62c7ca9",
                 "templateId": "cardMapsV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1bad1926ca591d02a4f7",
+                "cardId": "crd68168999c53a89569dc52597",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1bad4679dee206bfcc40",
-            "isHome": false,
-            "inNav": false
+            "cardId": "crd681689992f17c193e62c7ca9",
+            "isHome": false
           }
         ]
       },
@@ -1821,7 +1460,8 @@
         "cardLogosV1",
         "cardShowcaseGalleryV1",
         "cardPostsListV1",
-        "cardPostsMagazineV1",
+        "cardBlogV1",
+        "cardSinglePostV1",
         "cardStepsV1",
         "cardFaqV1",
         "cardTimelineV1",
@@ -1834,8 +1474,8 @@
         "cardPageWrapV1",
         "cardPageAreaV1",
         "cardSiteNavV1",
-        "cardFaqV1",
         "cardFooterProV1",
+        "cardStandardFooterV1",
         "cardMarqueeV1",
         "cardOverlaySliderV1",
         "cardTickerV1",
@@ -1861,85 +1501,77 @@
             "userConfig": {},
             "cards": [
               {
-                "parentId": "crd67fb1bada89e887f67c2931f",
+                "parentId": "crd68168999de18b03d88ef347c",
                 "templateId": "cardSiteNavV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1bad35dbeaf52aca62c7",
+                "cardId": "crd6816899919a8033d75bad18c",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1bada89e887f67c2931f",
-            "isHome": false,
-            "inNav": false
+            "cardId": "crd68168999de18b03d88ef347c",
+            "isHome": false
           },
           "footer": {
             "templateId": "cardPageWrapV1",
             "userConfig": {},
             "cards": [
               {
-                "parentId": "crd67fb1bade603188da6383a03",
-                "templateId": "cardFooterProV1",
+                "parentId": "crd681689990227f667814356ad",
+                "templateId": "cardStandardFooterV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1bad136a8b002362070d",
+                "cardId": "crd68168999f9ffa7daa5a60b66",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1bade603188da6383a03",
-            "isHome": false,
-            "inNav": false
+            "cardId": "crd681689990227f667814356ad",
+            "isHome": false
           },
           "hidden": {
             "templateId": "cardPageWrapV1",
             "userConfig": {},
             "cards": [
               {
-                "parentId": "crd67fb1bad5c9753b59c051874",
+                "parentId": "crd6816899945688ecb1f32302e",
                 "templateId": "cardModalMediaV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1badc0c55376bb003910",
+                "cardId": "crd681689991e5b42706cebfef0",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bad5c9753b59c051874",
+                "parentId": "crd6816899945688ecb1f32302e",
                 "templateId": "cardTextEffectV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1bad1308d76b54c48fed",
+                "cardId": "crd6816899943c2dacb178c9e16",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               },
               {
-                "parentId": "crd67fb1bad5c9753b59c051874",
+                "parentId": "crd6816899945688ecb1f32302e",
                 "templateId": "cardCaptureV1",
                 "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1bad2e968f3b95edb494",
+                "cardId": "crd68168999fbb5e92a22ef4a02",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1bad5c9753b59c051874",
-            "isHome": false,
-            "inNav": false
+            "cardId": "crd6816899945688ecb1f32302e",
+            "isHome": false
           }
         },
         "userConfig": {
@@ -1958,15 +1590,13 @@
                 "stack": "sans"
               },
               "sans": {
-                "family": "Plus+Jakarta+Sans",
                 "stack": "sans"
               },
               "body": {
-                "family": "Lora",
                 "stack": "sans"
               },
               "serif": {
-                "family": "Lora",
+                "family": "lora",
                 "stack": "serif"
               },
               "highlight": {
@@ -1977,7 +1607,7 @@
           }
         },
         "org": {
-          "orgName": "Workspace"
+          "orgName": "No Organization"
         },
         "pages": [
           {
@@ -1985,29 +1615,21 @@
             "userConfig": {},
             "slug": "home",
             "isHome": true,
+            "nav": "show",
             "cards": [
               {
-                "parentId": "crd67fb1badffe6109ceaf92929",
-                "templateId": "cardHeroV1",
-                "userConfig": {
-                  "items": [
-                    {
-                      "title": "Hello World",
-                      "subTitle": "Welcome to your new site"
-                    }
-                  ]
-                },
+                "parentId": "crd68168999bcdf142161cc1cf8",
+                "templateId": "cardBlogV1",
+                "userConfig": {},
                 "regionId": "main",
-                "cardId": "crd67fb1badb3aad8d479492480",
+                "cardId": "crd681689994635d5137ff666f2",
                 "cards": [],
                 "isHome": false,
-                "inNav": false,
                 "depth": 1
               }
             ],
             "regionId": "main",
-            "cardId": "crd67fb1badffe6109ceaf92929",
-            "inNav": false
+            "cardId": "crd68168999bcdf142161cc1cf8"
           }
         ]
       },
@@ -2024,7 +1646,8 @@
         "cardLogosV1",
         "cardShowcaseGalleryV1",
         "cardPostsListV1",
-        "cardPostsMagazineV1",
+        "cardBlogV1",
+        "cardSinglePostV1",
         "cardStepsV1",
         "cardFaqV1",
         "cardTimelineV1",
@@ -2037,8 +1660,8 @@
         "cardPageWrapV1",
         "cardPageAreaV1",
         "cardSiteNavV1",
-        "cardFaqV1",
         "cardFooterProV1",
+        "cardStandardFooterV1",
         "cardMarqueeV1",
         "cardOverlaySliderV1",
         "cardTickerV1",

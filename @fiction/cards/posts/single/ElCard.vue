@@ -5,10 +5,7 @@ import { useService, vue } from '@fiction/core'
 import { useSSRData } from '@fiction/core/utils/ssr'
 import { Post } from '@fiction/posts'
 import { getPost } from '@fiction/posts/utils/post'
-import XButton from '@fiction/ui/buttons/XButton.vue'
 import PostSingle from '@fiction/ui/posts/PostSingle.vue'
-import XWidgetAbout from '@fiction/ui/posts/XWidgetAbout.vue'
-import XWidgetPosts from '@fiction/ui/posts/XWidgetPosts.vue'
 import CardWrap from '../../CardWrap.vue'
 
 const { card } = defineProps<{ card: Card }>()

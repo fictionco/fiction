@@ -2,7 +2,7 @@ import type { Card } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
-import { ActionAreaSchema, MediaBasicSchema, SuperTitleSchema, vue } from '@fiction/core'
+import { ActionAreaSchema, MediaBasicSchema, SuperTitleSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
 

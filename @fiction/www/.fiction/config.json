@@ -1,8 +1,8 @@
 {
   "endpoints": [
     {
-      "key": "CheckUsername",
-      "path": "/api/utils/db/CheckUsername"
+      "key": "CheckHandle",
+      "path": "/api/utils/db/CheckHandle"
     },
     {
       "key": "ManageUser",
@@ -101,8 +101,20 @@
       "path": "/api/stripe-checkout/:action"
     },
     {
-      "key": "hostnameVerify",
-      "path": "/api/direct-domain-verify"
+      "key": "ManageContact",
+      "path": "/api/subscribe/ManageContact"
+    },
+    {
+      "key": "SubscriptionAnalytics",
+      "path": "/api/subscribe/SubscriptionAnalytics"
+    },
+    {
+      "key": "OrgMembers",
+      "path": "/api/fiction-team/OrgMembers"
+    },
+    {
+      "key": "TeamInvite",
+      "path": "/api/fiction-team/TeamInvite"
     },
     {
       "key": "CardQuery",
@@ -125,14 +137,6 @@
       "path": "/api/fiction-sites/ManageDomain"
     },
     {
-      "key": "OrgMembers",
-      "path": "/api/fiction-team/OrgMembers"
-    },
-    {
-      "key": "TeamInvite",
-      "path": "/api/fiction-team/TeamInvite"
-    },
-    {
       "key": "ManageForm",
       "path": "/api/forms/ManageForm"
     },
@@ -141,24 +145,20 @@
       "path": "/api/forms/ManageSubmission"
     },
     {
-      "key": "ManageContact",
-      "path": "/api/subscribe/ManageContact"
-    },
-    {
-      "key": "SubscriptionAnalytics",
-      "path": "/api/subscribe/SubscriptionAnalytics"
-    },
-    {
       "key": "ManagePost",
       "path": "/api/fiction-posts/ManagePost"
     },
     {
-      "key": "emailTrackingEndpoint",
-      "path": "/api/email-tracking/:action?"
+      "key": "PostComments",
+      "path": "/api/fiction-posts/PostComments"
     },
     {
-      "key": "ManageBrandGuide",
-      "path": "/api/send/ManageBrandGuide"
+      "key": "PostLikes",
+      "path": "/api/fiction-posts/PostLikes"
+    },
+    {
+      "key": "emailTrackingEndpoint",
+      "path": "/api/email-tracking/:action?"
     },
     {
       "key": "posts",

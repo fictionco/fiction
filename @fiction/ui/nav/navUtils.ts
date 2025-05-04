@@ -1,8 +1,3 @@
-import type { FictionAdmin } from '@fiction/admin'
-import type { FictionUser } from '@fiction/core'
-import type { Site } from '@fiction/site'
-import { getFictionAuthUrl } from '@fiction/admin'
-
 // export function getFictionNavItems(args: { fictionAdmin: FictionAdmin, fictionUser: FictionUser, site?: Site }) {
 //   const { fictionAdmin, fictionUser, site } = args
 //   const urls = fictionAdmin.urls()

@@ -31,16 +31,19 @@ vue.onMounted(async () => {
 })
 
 async function loadDomains() {
-  if (!orgId.value) return
+  if (!orgId.value)
+    return
 
   busy.value = 'list'
   error.value = ''
 
   try {
     await domainAction({ _action: 'list' })
-  } catch {
+  }
+  catch {
     error.value = 'Failed to load domains'
-  } finally {
+  }
+  finally {
     busy.value = ''
   }
 }
@@ -83,7 +86,7 @@ async function addDomain() {
     return
   }
 
-  if (await domainAction({_action: 'create', fields: { hostname, isPrimary: domains.value.length === 0 }})) {
+  if (await domainAction({ _action: 'create', fields: { hostname, isPrimary: domains.value.length === 0 } })) {
     newHostname.value = ''
     addNew.value = false
   }
@@ -128,7 +131,7 @@ function deleteDomain(domain: TableDomainConfig) {
       <div v-for="domain in domains" :key="domain.domainId || domain.hostname" class="flex gap-2">
         <InputText class="grow select-all" rounding="md" readonly :value="domain.hostname" />
 
-       <div class="flex gap-2">
+        <div class="flex gap-2">
           <span v-if="domain.isVerified" class="text-emerald-500 flex items-center">
             <span class="i-tabler-check-circle size-4" />
           </span>
@@ -150,12 +153,12 @@ function deleteDomain(domain: TableDomainConfig) {
             icon="i-tabler-trash"
             theme="default"
             design="ghost"
-             rounding="md"
+            rounding="md"
             :loading="busy === 'delete'"
             :disabled="!!busy"
             @click="deleteDomain(domain)"
           />
-       </div>
+        </div>
       </div>
     </div>
 
@@ -202,7 +205,7 @@ function deleteDomain(domain: TableDomainConfig) {
           design="ghost"
           :disabled="!!busy"
           @click="addNew = false"
-           rounding="md"
+          rounding="md"
         />
       </div>
     </div>

@@ -9,8 +9,6 @@ import ProseEditor from '@fiction/ui/prose/editor/ProseEditor.vue'
 import ProseEditorToolbar from '@fiction/ui/prose/editor/ProseEditorToolbar.vue'
 import PostOverview from './PostOverview.vue'
 
-import { postEditController } from './tools/tools.js'
-
 defineOptions({ name: 'PostEditor' })
 
 const { post, card, location } = defineProps<{

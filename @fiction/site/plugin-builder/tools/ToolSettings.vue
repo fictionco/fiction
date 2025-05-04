@@ -6,7 +6,6 @@ import type { ToolKeys } from './tools'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
 import { vue } from '@fiction/core'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
-import TabbedOptions from '@fiction/ui/inputs/TabbedOptions.vue'
 import { updateSite } from '../../utils/site'
 import { getSiteOptions } from './utils'
 

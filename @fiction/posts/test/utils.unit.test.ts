@@ -5,7 +5,7 @@ import { snap } from '@fiction/core/test-utils'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, describe, expect, it } from 'vitest'
 import { FictionPosts, Post } from '..'
-import { managePost, managePostIndex } from '../utils'
+import { managePostIndex } from '../utils'
 
 describe('post utils', async () => {
   const testUtils = await createSiteTestUtils()

@@ -4,10 +4,8 @@ import type { Card } from '@fiction/site'
 import { vue } from '@fiction/core'
 import { Post as PostModel } from '@fiction/posts'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import XIcon from '@fiction/ui/media/XIcon.vue'
 import { getDemoPosts } from './index.js'
 import PostSingle from './PostSingle.vue'
-import SidebarWidget from './SidebarWidget.vue'
 
 defineOptions({ name: 'DemoPostSingle' })
 

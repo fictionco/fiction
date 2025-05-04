@@ -3,7 +3,6 @@ import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import type { FictionContact } from '@fiction/plugins/plugin-contact'
 import type { FictionPosts, TablePostConfig } from '@fiction/posts'
 import type { Card, Site } from '@fiction/site'
-import type { InputOption } from '@fiction/ui'
 import type { Post } from '../../post'
 import type { ToolKeys } from './tools'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
@@ -13,7 +12,6 @@ import { getPostEmailRecipientCount } from '@fiction/posts/utils/email'
 import { createOption } from '@fiction/ui'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import { TablePostSchema as schema, t } from '../../schema'
-import InputAudienceFilter from '../InputAudienceFilter.vue'
 
 const { site, post, tool, card } = defineProps<{
   site: Site

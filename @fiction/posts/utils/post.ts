@@ -1,11 +1,9 @@
 import type { ComplexDataFilter, IndexMeta } from '@fiction/core'
-import type { FictionPosts, Post, PostHandlingObject, TablePostConfig } from '@fiction/posts'
+import type { FictionPosts, PostHandlingObject, TablePostConfig } from '@fiction/posts'
 import type { Card, Site } from '@fiction/site'
 import type { SiteContentPath } from '@fiction/site/load'
 
 import type { WherePost } from '../endpoint'
-import { getSiteContentPaths } from '@fiction/site/load'
-import { manageSiteIndex } from '@fiction/site/utils/manage'
 
 export type LoadPostsResult = {
   posts: TablePostConfig[]

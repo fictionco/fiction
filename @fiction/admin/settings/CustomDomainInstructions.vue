@@ -18,7 +18,8 @@ const copyText = vue.ref('Copy')
 const copyEffect = vue.ref(false)
 
 async function handleCopy(): Promise<void> {
-  if (!navigator.clipboard) return
+  if (!navigator.clipboard)
+    return
   try {
     await navigator.clipboard.writeText(props.destination)
     copyText.value = 'Copied!'
@@ -27,7 +28,8 @@ async function handleCopy(): Promise<void> {
       copyText.value = 'Copy'
       copyEffect.value = false
     }, 2000)
-  } catch (err) {
+  }
+  catch (err) {
     console.error('Failed to copy:', err)
   }
 }

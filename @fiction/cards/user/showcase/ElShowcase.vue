@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { MediaObject } from '@fiction/core'
 import type { FictionPosts, Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './config'

@@ -34,21 +34,22 @@ const hasMedia = vue.computed(() => {
 
 // Width based on uiSize (only applied when fullWidth is false)
 const widthClass = vue.computed(() => {
-  if (props.fullWidth) return 'w-full'
+  if (props.fullWidth)
+    return 'w-full'
 
-  const sizes = { xxs: 'w-24', xs: 'w-32', sm: 'w-40', md: 'w-48', lg: 'w-56', xl: 'w-64', '2xl': 'w-72' }
+  const sizes = { 'xxs': 'w-24', 'xs': 'w-32', 'sm': 'w-40', 'md': 'w-48', 'lg': 'w-56', 'xl': 'w-64', '2xl': 'w-72' }
   return sizes[props.uiSize || 'md']
 })
 
-
-
 function openMediaSelector() {
-  if (!props.disabled) vis.value = true
+  if (!props.disabled)
+    vis.value = true
 }
 
 function clearMedia(event: MouseEvent) {
   event.stopPropagation()
-  if (confirm('Remove this media?')) emit('update:modelValue', {})
+  if (confirm('Remove this media?'))
+    emit('update:modelValue', {})
 }
 
 function handleMediaUpdate(newValue: MediaObject) {
@@ -60,13 +61,12 @@ function handleMediaUpdate(newValue: MediaObject) {
   <div data-test-id="media-input" >
     <!-- Media display or empty placeholder -->
     <div
-      class="@container/media-input"
+      class="@container/media-input border rounded-md overflow-hidden relative"
       :class="[
         aspectClass || 'aspect-[1.618/1]',
         widthClass,
-        'border rounded-md overflow-hidden relative',
         disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer',
-        !hasMedia && 'border-dashed border-theme-300 dark:border-theme-600 hover:border-theme-400 dark:hover:border-theme-500'
+        !hasMedia && 'border-dashed border-theme-300 dark:border-theme-600 hover:border-theme-400 dark:hover:border-theme-500',
       ]"
       @click.stop="openMediaSelector"
     >

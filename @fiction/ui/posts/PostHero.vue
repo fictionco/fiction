@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import type { Post } from '@fiction/posts'
-import { dayjs, vue } from '@fiction/core'
-import { countWords } from '@fiction/core/utils/wordCount'
 import XLink from '@fiction/ui/common/XLink.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import PostItemMeta from './PostItemMeta.vue'

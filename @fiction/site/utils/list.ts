@@ -17,7 +17,6 @@ export function getSiteIndexItemList(sites: Site[], parentCard: Card): SiteListI
   }
 
   const rows = sites.map((site) => {
-
     const editLink = siteLink({ site: parentCard.site, location: { path: '/edit-site', query: { siteId: site.settings.siteId } } })
     const out: SiteListItem = {
       label: site.settings.title || 'Untitled',

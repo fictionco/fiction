@@ -1,8 +1,6 @@
 import type { IconName } from '@fiction/ui/lib/systemIcons.js'
 import type { vue } from '../utils/libraries.js'
 import { z } from 'zod'
-import { UserSchema } from '../plugin-user/schema.js'
-import { OrFilterGroupSchema } from '../types/endpoint.js'
 import { ColorScaleSchema, colorThemeUser, colorThemeWithInvert } from '../utils/colors.js'
 
 export const PostStatusSchema = z.enum([

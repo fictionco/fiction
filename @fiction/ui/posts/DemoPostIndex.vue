@@ -6,8 +6,6 @@ import { Post as PostModel } from '@fiction/posts'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import { getDemoPosts } from './index.js'
 import PostIndexLayout from './PostIndexLayout.vue'
-import SidebarMediaItem from './SidebarMediaItem.vue'
-import SidebarWidget from './SidebarWidget.vue'
 
 defineOptions({ name: 'PostIndexDemo' })
 

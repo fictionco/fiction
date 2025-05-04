@@ -5,7 +5,7 @@ export const templateId = 'cardMarqueeV1'
 
 export const template = cardTemplate({
   templateId,
-  tags: ['media','slider'],
+  tags: ['media', 'slider'],
   frequency: 'niche',
   title: 'Media Marquee',
   description: 'Create engaging, animated media showcases with smooth scrolling effects. Perfect for portfolios, product galleries, or featured content that captures attention through fluid motion.',

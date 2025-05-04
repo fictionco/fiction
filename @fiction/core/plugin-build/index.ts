@@ -173,7 +173,6 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
         '@fiction/ui',
         '@fiction/plugin-notify',
         '@fiction/plugin-stripe',
-        '@fiction/plugin-highlight-code',
         '@kaption/client',
         'vue',
         'vite',

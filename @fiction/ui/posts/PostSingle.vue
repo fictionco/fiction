@@ -2,7 +2,7 @@
 import type { Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import SiteText from '@fiction/cards/SiteText.vue'
-import { dayjs, pathCheck, PostSchema as schema, vue } from '@fiction/core'
+import { pathCheck, PostSchema as schema, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import El404 from '@fiction/ui/page/El404.vue'
