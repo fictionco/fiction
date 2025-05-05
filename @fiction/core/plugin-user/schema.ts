@@ -1,7 +1,7 @@
 import type { OnboardSettings, Plan, PushSubscriptionDetail, SocialAccounts, StreetAddress, UserCompany } from './types.js'
 import { z } from 'zod'
 import { Col, FictionDbTable } from '../plugin-db/index.js'
-import { MediaDisplaySchema } from '../schemas/schemas.js'
+import { ColorThemeUserSchema, MediaDisplaySchema } from '../schemas/schemas.js'
 import { createTableSchema, standardTable as t } from '../tbl.js'
 import { GeoDataSchema } from '../utils/geo.js'
 import { convertKeyCase } from '../utils/index.js'
@@ -65,9 +65,9 @@ export const orgColumns = [
   new Col({ key: 'icon', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }), // icon (logo or icon)
   new Col({ key: 'companyName', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'streetAddress', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
-  new Col({ key: 'primaryColor', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'primaryColor', sec: 'setting', sch: () => ColorThemeUserSchema, make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'googleAnalyticsId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
-
+  new Col({ key: 'accounts', sec: 'setting', sch: () => z.any() as z.Schema<SocialAccounts>, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'orgStatus', sec: 'setting', sch: () => EntityStatusEnum, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('active') }),
   new Col({ key: 'createdByUserId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
 

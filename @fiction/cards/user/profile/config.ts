@@ -83,13 +83,13 @@ const options = [
 ]
 
 // Default content with instructional copy
-async function getUserConfig(args: { factory: CardFactory, stock: StockMedia }): Promise<UserConfig & StandardUserConfig> {
+async function getDefaultConfig(args: { factory: CardFactory, stock: StockMedia }): Promise<UserConfig & StandardUserConfig> {
   const { stock } = args
 
   return {
-    superTitle: { text: 'Your Professional Role' },
-    title: 'Your Professional Story',
-    content: `<p>A well-structured bio can capture attention instantly... Start with your most compelling achievements or unique value proposition.</p>`,
+    superTitle: { text: '[@name]' },
+    title: `[@headline]`,
+    content: `[@about]`,
 
     mediaItems: [
       { media: stock.getRandomByTags(['aspect:portrait']) },
@@ -98,7 +98,7 @@ async function getUserConfig(args: { factory: CardFactory, stock: StockMedia }):
 
     action: {
       buttons: [
-        { label: 'Message on X', href: '#', icon: { iconId: 'brand-x' } },
+        { label: 'Follow on X', href: '[@social_url src=x]', icon: { iconId: 'brand-x' } },
       ],
     },
   }
@@ -187,7 +187,7 @@ export async function getConfig(args: { factory: CardFactory, templateId: string
   return {
     schema,
     options,
-    userConfig: await getUserConfig({ ...args, stock }),
+    userConfig: await getDefaultConfig({ ...args, stock }),
     demoPage: {
       cards: (await getDemoUserConfig({ ...args, stock })).map(userConfig => ({ templateId, userConfig })),
     },

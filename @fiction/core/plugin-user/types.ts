@@ -84,18 +84,25 @@ export type User = Partial<ColType<typeof userColumns>> & {
 }
 
 export type SocialAccounts = Partial<{
-  githubUrl?: string
-  xUrl?: string
-  linkedinUrl?: string
-  facebookUrl?: string
-  crunchbaseUrl?: string
-  angellistUrl?: string
-  instagramUrl?: string
-  youtubeUrl?: string
-  pinterestUrl?: string
-  snapchatUrl?: string
-  tiktokUrl?: string
-  calendarUrl?: string
+  github?: string
+  x?: string
+  linkedin?: string
+  facebook?: string
+  crunchbase?: string
+  instagram?: string
+  youtube?: string
+  pinterest?: string
+  snapchat?: string
+  tiktok?: string
+  calendar?: string
+  discord?: string
+  reddit?: string
+  twitch?: string
+  patreon?: string
+  substack?: string
+  medium?: string
+  whatsapp?: string
+  telegram?: string
 }>
 
 export type UserCompany = Partial<{

@@ -32,10 +32,11 @@ const emit = defineEmits<{
 const attrs = vue.useAttrs()
 const textEl = vue.ref<HTMLElement>()
 
-const data = vue.computed(() => card.fullConfig.value)
+const clientData = vue.computed(() => card.fullConfig.value)
+const editorData = vue.computed(() => card.userConfig.value)
 
 function getNewUserConfig(v: string) {
-  return setNested({ data: data.value, path, value: v })
+  return setNested({ data: editorData.value, path, value: v })
 }
 
 function onValue(v: string) {
@@ -49,7 +50,7 @@ function onInput(v: string) {
 }
 
 const value = vue.computed(() => {
-  return getNested({ path, data: data.value }) as string
+  return getNested({ path, data: clientData.value }) as string
 })
 
 const isContentEditable = vue.computed(() => card.site?.isEditable.value)

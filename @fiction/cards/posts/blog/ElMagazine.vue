@@ -13,7 +13,7 @@ import CardWrap from '../../CardWrap.vue'
 const { card } = defineProps<{ card: Card<UserConfig> }>()
 const { fictionPosts } = useService<{ fictionPosts: FictionPosts }>()
 
-const uc = vue.computed(() => card.userConfig.value || {})
+const uc = vue.computed(() => card.fullConfig.value || {})
 const indexMeta = vue.ref<IndexMeta>({
   offset: 0,
   limit: uc.value.posts?.limit || 12,
@@ -63,7 +63,8 @@ const org = vue.computed(() => {
       :posts
       :index-meta="indexMeta"
       :loading
-      :headline="org?.headline"
+      :headline="uc.headline"
+      :featured-count="+(uc.featuredCount ?? 1)"
       @update:index-meta="indexMeta = $event"
     />
   </CardWrap>

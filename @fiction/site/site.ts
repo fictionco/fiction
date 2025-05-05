@@ -1,4 +1,4 @@
-import type { FictionRouter, FontFamily } from '@fiction/core'
+import type { FictionRouter, FontFamily, Organization, SocialAccounts } from '@fiction/core'
 import type { Contact } from '@fiction/plugins/plugin-contact/schema.js'
 import type { Card, CardTemplate } from './card.js'
 import type { FictionSites, ThemeConfig } from './index.js'
@@ -202,7 +202,14 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   shortcodes = new Shortcodes({
     fictionEnv: this.fictionSites.fictionEnv,
     shortcodes: [
-      { shortcode: 'brand_name', handler: () => this.org.value?.orgName || '' },
+      { shortcode: 'name', handler: () => this.org.value?.orgName || '' },
+      { shortcode: 'handle', handler: () => this.org.value?.handle || '' },
+      { shortcode: 'headline', handler: () => this.org.value?.headline || '' },
+      { shortcode: 'about', handler: () => this.org.value?.about || '' },
+      { shortcode: 'social_url', handler: ({ attributes }) => {
+        const src = attributes?.src as keyof SocialAccounts | undefined
+        return (src && this.org.value?.accounts?.[src || '']) || ''
+      } },
     ],
   })
 

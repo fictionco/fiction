@@ -13,10 +13,10 @@ export async function apolloResponseToUser({ data }: { data: ApolloApiResponse }
     headline: person.headline,
     websiteUrl: o?.website_url,
     accounts: {
-      githubUrl: person.github_url || undefined,
-      xUrl: person.twitter_url || undefined,
-      linkedinUrl: person.linkedin_url || undefined,
-      facebookUrl: person.facebook_url || undefined,
+      github: person.github_url || undefined,
+      x: person.twitter_url || undefined,
+      linkedin: person.linkedin_url || undefined,
+      facebook: person.facebook_url || undefined,
     },
     company: {
       name: o?.name || undefined,
@@ -30,9 +30,9 @@ export async function apolloResponseToUser({ data }: { data: ApolloApiResponse }
       keywords: o?.keywords?.filter(Boolean) as string[] || [],
       founded: o?.founded_year?.toString(),
       accounts: {
-        xUrl: o.twitter_url || undefined,
-        linkedinUrl: o.linkedin_url || undefined,
-        facebookUrl: o.facebook_url || undefined,
+        x: o.twitter_url || undefined,
+        linkedin: o.linkedin_url || undefined,
+        facebook: o.facebook_url || undefined,
       },
       address: {
         street: o?.street_address || undefined,

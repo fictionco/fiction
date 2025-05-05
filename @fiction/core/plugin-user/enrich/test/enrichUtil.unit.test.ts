@@ -15,12 +15,12 @@ describe('apolloResponseToUser', () => {
     expect(user.title).toBe(exampleResponse.person.title || undefined)
     expect(user.headline).toBe(exampleResponse.person.headline || undefined)
     expect(user.websiteUrl).toBe(exampleResponse.person.organization.website_url || undefined)
-    expect(user.accounts?.githubUrl).toBe(exampleResponse.person.github_url || undefined)
+    expect(user.accounts?.github).toBe(exampleResponse.person.github_url || undefined)
 
-    expect(user.accounts?.xUrl).toMatchInlineSnapshot(`"https://www.x.com/arpowers"`)
-    expect(user.accounts?.xUrl).toBe(exampleResponse.person.twitter_url || undefined)
-    expect(user.accounts?.linkedinUrl).toBe(exampleResponse.person.linkedin_url || undefined)
-    expect(user.accounts?.facebookUrl).toBe(exampleResponse.person.facebook_url || undefined)
+    expect(user.accounts?.x).toMatchInlineSnapshot(`"https://www.x.com/arpowers"`)
+    expect(user.accounts?.x).toBe(exampleResponse.person.twitter_url || undefined)
+    expect(user.accounts?.linkedin).toBe(exampleResponse.person.linkedin_url || undefined)
+    expect(user.accounts?.facebook).toBe(exampleResponse.person.facebook_url || undefined)
 
     expect(user.company?.name).toBe(exampleResponse.person.organization.name || undefined)
     expect(user.company?.role).toBe(exampleResponse.person.title || undefined)
@@ -33,10 +33,10 @@ describe('apolloResponseToUser', () => {
     expect(user.company?.keywords).toEqual(exampleResponse.person.organization.keywords || undefined)
     expect(user.company?.founded).toBe(exampleResponse.person.organization.founded_year.toString() || undefined)
 
-    expect(user.company?.accounts?.githubUrl).toBe(exampleResponse.person.github_url || undefined)
-    expect(user.company?.accounts?.xUrl).toBe(exampleResponse.person.organization.twitter_url || undefined)
-    expect(user.company?.accounts?.linkedinUrl).toBe(exampleResponse.person.organization.linkedin_url || undefined)
-    expect(user.company?.accounts?.facebookUrl).toBe(exampleResponse.person.organization.facebook_url || undefined)
+    expect(user.company?.accounts?.github).toBe(exampleResponse.person.github_url || undefined)
+    expect(user.company?.accounts?.x).toBe(exampleResponse.person.organization.twitter_url || undefined)
+    expect(user.company?.accounts?.linkedin).toBe(exampleResponse.person.organization.linkedin_url || undefined)
+    expect(user.company?.accounts?.facebook).toBe(exampleResponse.person.organization.facebook_url || undefined)
 
     expect(user.company?.address?.street).toBe(exampleResponse.person.organization.street_address || undefined)
     expect(user.company?.address?.city).toBe(exampleResponse.person.organization.city || undefined)

@@ -19,7 +19,7 @@ const { card } = defineProps<{
 }>()
 
 const uc = vue.computed(() => {
-  return card.userConfig.value || {}
+  return card.fullConfig.value || {}
 })
 
 const mediaItems = vue.computed(() => {
@@ -79,12 +79,11 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
         </div>
       </div>
       <div class="md:w-[70%] lg:w-[50%] mt-6 md:mt-0 flex items-center">
-        <div class="flex flex-col h-full justify-between gap-3 2xl:gap-8 max-w-full" :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
-          <div class="details">
+        <div class="flex flex-col h-full justify-center gap-4 md:gap-12 max-w-full" :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
+          <div class="details grow flex flex-col gap-4 justify-center">
             <SuperTitle
               v-if="uc.superTitle"
               :card
-              class="mb-6"
               base-path="superTitle"
               :super-title="uc.superTitle"
               size="lg"
@@ -101,7 +100,7 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
               <CardText
                 tag="div"
                 :card
-                class="sub-heading mt-6"
+                class="sub-heading text-theme-300"
                 path="content"
                 animate="rise"
               />

@@ -56,7 +56,7 @@ const renderCards = vue.computed(() => {
         class="relative group/engine"
         :class="[
           card?.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300 dark:outline-theme-600' : '',
-          isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 dark:hover:outline-blue-600 cursor-pointer  transition-all' : '',
+          isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-primary-300 dark:hover:outline-primary-600 cursor-pointer  transition-all' : '',
         ]"
         @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
       >

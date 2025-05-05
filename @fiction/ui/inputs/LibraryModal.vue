@@ -61,7 +61,7 @@ const allOptions = [
     icon: { class: 'i-tabler-library-photo' },
     schema,
     options: [
-      createOption({ key: '*', label: 'Media Library', input: LibraryMediaGallery, schema }),
+      createOption({ key: '*', input: LibraryMediaGallery, schema }),
     ],
   }),
   createOption({
@@ -71,7 +71,7 @@ const allOptions = [
     icon: { class: 'i-tabler-icons' },
     schema,
     options: [
-      createOption({ key: '*', label: 'Icon Library', input: LibraryIcon, schema }),
+      createOption({ key: '*', input: LibraryIcon, schema }),
     ],
   }),
   createOption({
@@ -81,7 +81,7 @@ const allOptions = [
     icon: { class: 'i-tabler-background' },
     schema,
     options: [
-      createOption({ key: '*', label: 'Background', input: LibraryBackground, schema }),
+      createOption({ key: '*', input: LibraryBackground, schema }),
     ],
   }),
   createOption({

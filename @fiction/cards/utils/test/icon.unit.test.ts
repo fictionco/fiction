@@ -1,3 +1,4 @@
+import type { Organization } from '@fiction/core'
 import type { Site } from '@fiction/site'
 import fictionFaviconSvg from '@fiction/ui/brand/favicon.svg'
 import fictionIcon from '@fiction/ui/brand/icon.png'
@@ -7,7 +8,7 @@ import { getDefaultIconUrl, getHeadIconConfig, getSiteIcons } from '../icon'
 describe('icon Utils', () => {
   const mockSite = {
     title: { value: 'Test Site' },
-    fullConfig: {
+    org: {
       value: {
         favicon: { url: 'custom-favicon.png' },
         icon: { url: 'custom-icon.png' },
@@ -19,14 +20,14 @@ describe('icon Utils', () => {
 
   describe('getDefaultIconUrl', () => {
     it('returns fiction icon when no site is provided', () => {
-      const result = getDefaultIconUrl({ site: undefined })
+      const result = getDefaultIconUrl()
       expect(result).toBe(fictionIcon)
     })
   })
 
   describe('getSiteIcons', () => {
     it('returns fiction icon for all variants when no site provided', () => {
-      const icons = getSiteIcons({ site: undefined })
+      const icons = getSiteIcons()
       expect(icons.favicon).toBe(fictionFaviconSvg)
       expect(icons.appleTouchIcon).toBe(fictionIcon)
       expect(icons.msTileIcon).toBe(fictionIcon)
@@ -36,7 +37,7 @@ describe('icon Utils', () => {
 
   describe('getHeadIconConfig', () => {
     it('uses custom icons when provided', () => {
-      const config = getHeadIconConfig({ site: mockSite })
+      const config = getHeadIconConfig({ org: mockSite })
 
       expect(config.faviconUrl).toBe('custom-favicon.png')
       expect(config.appleTouchIconUrl).toBe('custom-icon.png')
@@ -50,7 +51,7 @@ describe('icon Utils', () => {
         fullConfig: { value: { brand: {} } },
       } as any
 
-      const config = getHeadIconConfig({ site: siteMock })
+      const config = getHeadIconConfig({ org: siteMock })
 
       expect(config).toMatchInlineSnapshot(`
         {
@@ -77,20 +78,18 @@ describe('icon Utils', () => {
       ]
 
       tests.forEach(({ ext, expected }) => {
-        const siteMock = {
-          title: { value: 'Test Site' },
-          fullConfig: {
-            value: { favicon: { url: `icon.${ext}` } } satisfies Site['fullConfig']['value'],
-          },
-        } as Site
+        const orgMock = {
+          orgName: 'Test Org',
+          icon: { url: `icon.${ext}` },
+        } as Organization
 
-        const config = getHeadIconConfig({ site: siteMock })
+        const config = getHeadIconConfig({ org: orgMock })
         expect(config.faviconType).toBe(expected)
       })
     })
 
     it('handles missing site gracefully', () => {
-      const config = getHeadIconConfig({ site: undefined })
+      const config = getHeadIconConfig({ org: undefined })
       expect(config).toMatchInlineSnapshot(`
         {
           "appleTouchIconUrl": "/@fiction/ui/brand/icon.png",

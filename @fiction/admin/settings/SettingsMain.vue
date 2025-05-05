@@ -66,6 +66,5 @@ const panels = [
       title: 'Settings',
       subTitle: 'Manage your workspace, team, and personal preferences',
     }"
-    theme="green"
   />
 </template>

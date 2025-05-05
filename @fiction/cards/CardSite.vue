@@ -87,27 +87,25 @@ const page = vue.computed(() => site.value?.currentPage.value)
 const pageConfig = vue.computed(() => page.value?.fullConfig.value || {})
 const siteConfig = vue.computed(() => site.value?.fullConfig.value || {})
 
+const org = vue.computed(() => site.value?.org.value)
+
 function getTitleTag() {
   const seoConfig = page.value?.userConfig.value.standard
   if (seoConfig?.title)
     return seoConfig.title
 
   const titleTemplate = siteConfig.value.titleTemplate || '{{pageTitle}}'
-  const siteTitle = site.value?.title?.value || ''
+  const siteTitle = org.value?.orgName || ''
   const pageTitle = page.value?.title?.value || toLabel(page.value?.slug?.value) || ''
 
   return simpleHandlebarsParser(titleTemplate, { pageTitle, siteTitle })
 }
 
-const iconUrls = vue.computed(() => getHeadIconConfig({ site: site.value }))
+const iconUrls = vue.computed(() => getHeadIconConfig({ org: org.value }))
 
 const colors = vue.computed(() => {
-  const config = site.value?.fullConfig.value || {}
-  const siteStandardConfig = siteConfig.value.standard || {}
-  const cardUserConfig = config.standard || {}
-
-  const primaryColor = cardUserConfig.primaryColor || siteStandardConfig.primaryColor || 'blue'
-  const themeColor = cardUserConfig.themeColor || siteStandardConfig.themeColor || 'gray'
+  const primaryColor = org.value?.primaryColor || 'blue'
+  const themeColor = 'gray'
 
   return {
     primary: getColorScheme(primaryColor),
@@ -127,9 +125,6 @@ unhead.useHead({
     { name: 'description', content: () => pageConfig.value.standard?.description || page.value?.description.value || '' },
     { name: 'robots', content: () => siteConfig.value?.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
     { name: 'theme-color', content: () => colors.value.themeHex[900] },
-    // Social media tags
-    { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:site', content: '@fiction_com' },
     { property: 'og:type', content: 'website' },
     { property: 'og:title', content: getTitleTag },
     { property: 'og:url', content: () => site.value?.url.value },

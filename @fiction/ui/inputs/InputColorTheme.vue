@@ -16,15 +16,15 @@ const emit = defineEmits<{
 }>()
 
 const list = vue.computed(() => {
-  if (mode === 'bright')
-    return colorThemeBright
+  const out = [{ label: 'Select', value: '' }]
 
-  return [
-    ...onlyUserColorTheme,
-    ...colorTheme,
-  ]
+  if (mode === 'bright') {
+    return [...out, ...colorThemeBright]
+  }
+  else {
+    return [...out, ...onlyUserColorTheme, ...colorTheme]
+  }
 })
-
 const colorScheme = vue.computed(() => {
   if (!modelValue)
     return ''

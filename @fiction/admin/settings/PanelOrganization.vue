@@ -67,7 +67,7 @@ const opts = vue.computed(() => {
       label: 'Essentials',
       key: 'group.essentials',
       input: 'group',
-      icon: { class: 'i-tabler-settings-2' },
+      icon: { class: 'i-tabler-north-star' },
       options: [
         createOption({
           schema,
@@ -94,15 +94,6 @@ const opts = vue.computed(() => {
           props: { table: 'fiction_org', columns: [{ name: 'handle' }] },
           description: 'A unique identifier for your profile, used in URLs and mentions.',
         }),
-      ],
-    }),
-    createOption({
-      schema,
-      key: 'group.brand',
-      label: 'Brand',
-      input: 'group',
-      icon: { class: 'i-tabler-north-star' },
-      options: [
         createOption({
           schema,
           key: 'headline',
@@ -149,9 +140,10 @@ const opts = vue.computed(() => {
         }),
       ],
     }),
+
     createOption({
       schema,
-      key: 'site.publish',
+      key: 'group.domain',
       label: 'Domain',
       input: 'group',
       icon: { class: 'i-tabler-world-upload' },
@@ -186,6 +178,22 @@ const opts = vue.computed(() => {
           },
         }),
 
+      ],
+    }),
+    createOption({
+      key: 'group.social',
+      label: 'Social',
+      input: 'group',
+      icon: { class: 'i-tabler-social' },
+      options: [
+        createOption({ schema, key: 'accounts.x', label: 'X / Twitter URL', input: 'InputUrl', placeholder: 'https://www.x.com/username' }),
+        createOption({ schema, key: 'accounts.instagram', label: 'Instagram URL', input: 'InputUrl', placeholder: 'https://www.instagram.com/username' }),
+        createOption({ schema, key: 'accounts.linkedin', label: 'LinkedIn URL', input: 'InputUrl', placeholder: 'https://www.linkedin.com/in/username' }),
+        createOption({ schema, key: 'accounts.facebook', label: 'Facebook URL', input: 'InputUrl', placeholder: 'https://www.facebook.com/username' }),
+        createOption({ schema, key: 'accounts.github', label: 'GitHub URL', input: 'InputUrl', placeholder: 'https://www.github.com/username' }),
+        createOption({ schema, key: 'accounts.youtube', label: 'YouTube URL', input: 'InputUrl', placeholder: 'https://www.youtube.com/channel/username' }),
+        createOption({ schema, key: 'accounts.pinterest', label: 'Pinterest URL', input: 'InputUrl', placeholder: 'https://www.pinterest.com/username' }),
+        createOption({ schema, key: 'accounts.tiktok', label: 'TikTok URL', input: 'InputUrl', placeholder: 'https://www.tiktok.com/@username' }),
       ],
     }),
     createOption({

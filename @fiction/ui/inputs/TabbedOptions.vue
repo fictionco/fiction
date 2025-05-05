@@ -102,17 +102,16 @@ function updateValue(update: Record<string, any>) {
     <div class="grow min-h-0 overflow-scroll no-scrollbar">
       <slot name="preview" />
 
-      <div class="flex-1 w-full max-w-screen-sm mx-auto">
+      <div class="flex-1 w-full">
         <div>
           <FormEngine
-            class="my-4"
             state-key="optionsEngine"
             :model-value="currentValue"
             ui-size="md"
             :options="options"
             :disable-group-hide="true"
             :input-props="inputProps"
-
+            :classes="{ groupPad: 'mx-auto max-w-[600px]' }"
             @update:model-value="updateValue($event)"
           />
         </div>

@@ -114,12 +114,7 @@ const textFormatItemsPrimary = vue.computed<NavListItem[]>(() => [
     icon: { class: 'i-tabler-link' },
     onClick: () => openLinkInput(),
   },
-  {
-    label: 'Inline Code',
-    isActive: editor.isActive('code'),
-    icon: { class: 'i-tabler-code' },
-    onClick: () => editor.chain().focus(null, { scrollIntoView: false }).toggleCode().run(),
-  },
+
   {
     label: 'Image Upload',
     isActive: editor.isActive('image'),
@@ -195,6 +190,12 @@ const headingItems = vue.computed<NavListItem[]>(() => [
 ])
 
 const listItems = vue.computed<NavListItem[]>(() => [
+  {
+    label: 'Inline Code',
+    isActive: editor.isActive('code'),
+    icon: { class: 'i-tabler-code' },
+    onClick: () => editor.chain().focus(null, { scrollIntoView: false }).toggleCode().run(),
+  },
   {
     label: 'Strike',
     isActive: editor.isActive('strike'),
@@ -328,14 +329,13 @@ const dropdownProps = vue.computed(() => {
     </XDropDown>
 
     <!-- Lists -->
-    <XDropDown :items="listItems" v-bind="dropdownProps">
+    <XDropDown :items="listItems" v-bind="dropdownProps" dropdown-alignment="end">
       <template #default="{ isActive }">
         <XButton
           class="block"
           size="xs"
           :theme="isActive ? 'primary' : 'default'"
           icon="i-tabler-dots"
-          icon-after="i-tabler-chevron-down"
           rounding="md"
           design="ghost"
           title="Lists"

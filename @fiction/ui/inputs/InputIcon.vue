@@ -77,7 +77,7 @@ const sizeMap = vue.computed(() => {
     <LibraryModal
       v-model:vis="vis"
       :model-value="v"
-      :tools="['icons', 'media', 'html']"
+      :tools="['icons']"
       default-tool="icons"
       title="Icon Selector"
       @update:model-value="handleIconUpdate"

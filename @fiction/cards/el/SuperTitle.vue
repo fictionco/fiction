@@ -11,7 +11,7 @@ defineOptions({ name: 'SuperTitle' })
 const {
   card,
   basePath,
-  theme = 'default',
+  theme = 'primary',
   size = 'md',
   superTitle,
 } = defineProps<{
@@ -27,7 +27,7 @@ const sup = vue.computed(() => {
 })
 
 const colorStyle = vue.computed(() => {
-  const colorTheme = sup.value.theme || theme || 'default'
+  const colorTheme = sup.value.theme || theme
   const styles = getColorThemeStyles(colorTheme)
   return {
     icon: [styles?.bg, styles?.text, styles?.border].join(' '),
@@ -70,7 +70,7 @@ const sizeClasses = vue.computed(() => {
     <CardText
       tag="h3"
       :card
-      class="font-sans font-medium"
+      class="font-sans"
       :class="sizeClasses.text"
       :path="`${basePath}.text`"
       placeholder="Super Title"

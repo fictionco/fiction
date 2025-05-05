@@ -203,7 +203,7 @@ const themeColors = vue.computed(() => {
     padding: 0.2em 0.4em;
     border-radius: 0.3em;
     font-size: 0.875em;
-    background: rgba(60, 60, 60, 0.7);
+    background: rgba(var(--theme-600) / .5);
     color: rgba(240, 240, 240, 1);
     font-family: var(--font-family-mono, monospace);
   }

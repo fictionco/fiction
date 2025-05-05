@@ -66,7 +66,7 @@ function selectIcon(iconId: IconName) {
 
     <!-- Icons Grid -->
     <div
-      class="p-4 grid grid-cols-8 gap-4 max-h-[200px] overflow-y-auto rounded-lg border border-theme-200 dark:border-theme-800"
+      class="p-4 grid grid-cols-8 gap-4 max-h-[300px] overflow-y-auto rounded-lg border border-theme-200 dark:border-theme-800 no-scrollbar"
     >
       <button
         v-for="iconId in filteredIcons"
