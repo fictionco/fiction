@@ -10,7 +10,7 @@ defineProps({
 </script>
 
 <template>
-  <CardWrap v-if="card.site" :card>
+  <CardWrap v-if="card.site" content-width="full" :card>
     <ElEngine tag="main" :card />
   </CardWrap>
 </template>

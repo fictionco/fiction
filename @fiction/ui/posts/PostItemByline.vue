@@ -2,7 +2,7 @@
 import type { Post } from '@fiction/posts'
 import { dayjs, vue } from '@fiction/core'
 
-defineOptions({ name: 'PostItemMeta' })
+defineOptions({ name: 'PostItemByline' })
 
 const props = defineProps<{
   post: Post

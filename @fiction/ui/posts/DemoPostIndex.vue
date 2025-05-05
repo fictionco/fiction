@@ -1,15 +1,17 @@
 <script lang="ts" setup>
 import type { Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
+import CardWrap from '@fiction/cards/CardWrap.vue'
 import { vue } from '@fiction/core'
 import { Post as PostModel } from '@fiction/posts'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import { getDemoPosts } from './index.js'
 import PostIndexLayout from './PostIndexLayout.vue'
+import { h } from 'vue'
 
 defineOptions({ name: 'PostIndexDemo' })
 
-const { card } = defineProps<{ card?: Card }>()
+const { card } = defineProps<{ card: Card }>()
 
 // Layout presets with minimal but useful options
 const presets = [
@@ -18,7 +20,7 @@ const presets = [
     config: {
       layout: 'blog',
       featuredCount: 1,
-      sidebar: 'none',
+      headline: 'Some of our latest articles',
     },
   },
   {
@@ -26,7 +28,7 @@ const presets = [
     config: {
       layout: 'magazine',
       featuredCount: 1,
-      sidebar: 'none',
+      headline: 'Built for testing the headline. This is a long headline to test the layout.',
     },
   },
   {
@@ -34,7 +36,6 @@ const presets = [
     config: {
       layout: 'blog',
       featuredCount: 3,
-      sidebar: 'none',
     },
   },
   {
@@ -42,7 +43,6 @@ const presets = [
     config: {
       layout: 'blog',
       featuredCount: 0,
-      sidebar: 'none',
     },
   },
   {
@@ -50,16 +50,11 @@ const presets = [
     config: {
       layout: 'magazine',
       featuredCount: 1,
-      sidebar: 'none',
     },
   },
 ] as const
 
-// Sample about content
-const aboutContent = {
-  title: 'About This Blog',
-  content: 'Join our community of readers and stay updated with the latest insights and stories.',
-}
+
 
 const activePreset = vue.ref(0)
 const currentConfig = vue.computed(() => presets[activePreset.value].config)
@@ -92,33 +87,35 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div class="space-y-8 max-w-screen-lg mx-auto px-4 py-6" :class="card?.classes.value.contentWidth">
+  <CardWrap :card vertical-spacing="sm">
     <!-- Controls -->
-    <div class="border border-theme-200 dark:border-theme-700 rounded-lg p-6 space-y-4">
-      <div class="flex flex-wrap gap-2">
-        <XButton
-          v-for="(preset, index) in presets"
-          :key="preset.name"
-          :theme="activePreset === index ? 'primary' : 'theme'"
-          design="solid"
-          size="sm"
-          @click="activePreset = index"
-        >
-          {{ preset.name }}
-        </XButton>
+    <div class="space-y-16">
+      <div class="border border-theme-200 dark:border-theme-700 rounded-lg p-6 space-y-4">
+        <div class="flex flex-wrap gap-2">
+          <XButton
+            v-for="(preset, index) in presets"
+            :key="preset.name"
+            :theme="activePreset === index ? 'primary' : 'theme'"
+            design="solid"
+            size="sm"
+            @click="activePreset = index"
+          >
+            {{ preset.name }}
+          </XButton>
+        </div>
+
+        <!-- Configuration display -->
+        <pre class="text-xs font-mono border border-theme-200 dark:border-theme-700 p-3 rounded-md overflow-auto mt-4 text-theme-700 dark:text-theme-300">{{ JSON.stringify(currentConfig, null, 2) }}</pre>
       </div>
 
-      <!-- Configuration display -->
-      <pre class="text-xs font-mono border border-theme-200 dark:border-theme-700 p-3 rounded-md overflow-auto mt-4 text-theme-700 dark:text-theme-300">{{ JSON.stringify(currentConfig, null, 2) }}</pre>
+      <!-- Blog layout with current configuration -->
+      <PostIndexLayout
+        :posts="posts"
+        :loading="loading"
+        title="Latest Articles"
+        v-bind="currentConfig"
+        :card
+      />
     </div>
-
-    <!-- Blog layout with current configuration -->
-    <PostIndexLayout
-      :posts="posts"
-      :loading="loading"
-      title="Latest Articles"
-      :about="aboutContent"
-      :config="currentConfig"
-    />
-  </div>
+  </CardWrap>
 </template>

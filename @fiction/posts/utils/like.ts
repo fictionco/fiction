@@ -3,98 +3,69 @@ import type { Post } from '../post'
 import { localRef, vue } from '@fiction/core'
 
 /**
- * Utility class for managing post likes with localStorage
+ * Minimal post like manager with optimistic updates
  */
 export class PostLike {
   private post: Post
-  private localStorageKey = 'fiction_liked_posts'
-  likedPosts = localRef<string[]>({ key: this.localStorageKey, def: [] })
-
-  // Reactive state for like status
-  isLiked = vue.computed(() => {
-    return this.likedPosts.value.includes(this.post.postId)
-  })
+  likedPosts = localRef<string[]>({ key: 'fiction_liked_posts', def: [] })
+  isLiked = vue.computed(() => this.likedPosts.value.includes(this.post.postId))
 
   constructor(post: Post) {
     this.post = post
   }
 
-  async toggle(args: { optimistic?: boolean } = {}): Promise<boolean> {
-    const { optimistic = true } = args
-    const currentlyLiked = this.isLiked.value
-    const likedPosts = this.likedPosts.value
+  async toggle(): Promise<boolean> {
+    const fictionPosts = this.post.settings.fictionPosts
+    const { fictionAdmin } = fictionPosts?.settings || {}
 
-    // Toggle local state first
-    if (currentlyLiked) {
-      // Unlike: Remove from localStorage
-      const newLikedPosts = likedPosts.filter(id => id !== this.post.postId)
-      this.likedPosts.value = newLikedPosts
+    const loggedIn = await fictionAdmin?.redirectIfLoggedOut()
 
-      // Update count optimistically
-      if (optimistic) {
-        this.post.likeCount.value = Math.max(0, this.post.likeCount.value - 1)
-      }
-    }
-    else {
-      // Like: Add to localStorage
-      const newLikedPosts = [...likedPosts, this.post.postId]
-      this.likedPosts.value = newLikedPosts
-
-      // Update count optimistically
-      if (optimistic) {
-        this.post.likeCount.value = this.post.likeCount.value + 1
-      }
+    if (!loggedIn) {
+      return false
     }
 
-    // Update server if fictionPosts is available
-    if (this.post.settings.fictionPosts) {
-      try {
-        // Get orgId from the post settings
-        const orgId = this.post.settings.orgId
+    const currentLiked = this.isLiked.value
+    const origLikes = [...this.likedPosts.value]
+    const origCount = this.post.likeCount.value
+    const newLiked = !currentLiked
 
-        if (!orgId) {
-          throw new Error('Missing orgId for post like operation')
-        }
+    this.post.likeCount.value = newLiked
+      ? origCount + 1
+      : Math.max(0, origCount - 1)
 
-        // Call the appropriate endpoint based on new like status
-        const action = !currentlyLiked ? 'like' : 'unlike'
-
-        const response = await this.post.settings.fictionPosts.requests.PostLikes.request({
-          _action: action,
-          where: {
-            postId: this.post.postId,
-            orgId,
-          },
-        })
-
-        // Update like count from response if not using optimistic updates
-        if (!optimistic && response.meta?.likeCount !== undefined) {
-          this.post.likeCount.value = response.meta.likeCount
-        }
+    try {
+      // Skip API call if not available
+      if (!fictionPosts || !this.post.settings.orgId) {
+        throw new Error('API not available')
       }
-      catch (error) {
-        // Revert local changes on error
-        if (currentlyLiked) {
-          // Revert unlike
-          this.likedPosts.value = likedPosts
-          if (optimistic) {
-            this.post.likeCount.value = this.post.likeCount.value + 1
-          }
-        }
-        else {
-          // Revert like
-          this.likedPosts.value = likedPosts.filter(id => id !== this.post.postId)
-          if (optimistic) {
-            this.post.likeCount.value = Math.max(0, this.post.likeCount.value - 1)
-          }
-        }
 
-        console.error('Error toggling post like status:', error)
-        throw error
+      // Call API
+      const response = await fictionPosts.requests.PostLikes.request({
+        _action: currentLiked ? 'unlike' : 'like',
+        where: {
+          postId: this.post.postId,
+          orgId: this.post.settings.orgId,
+        },
+      })
+
+      // Revert on error status
+      if (response.status === 'error') {
+        this.post.likeCount.value = origCount
+        return currentLiked
       }
+      else {
+        // Apply optimistic update
+        this.likedPosts.value = newLiked
+          ? [...origLikes, this.post.postId]
+          : origLikes.filter(id => id !== this.post.postId)
+      }
+
+      return newLiked
     }
-
-    // Return new like status
-    return !currentlyLiked
+    catch (error) {
+      this.post.likeCount.value = origCount
+      console.error('Error toggling like:', error)
+      throw error
+    }
   }
 }

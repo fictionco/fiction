@@ -52,7 +52,7 @@ export class QueryPostLikes extends PostsQuery {
       .first()
 
     if (existingLike) {
-      return { status: 'success', message: 'Post already liked', data: [] }
+      return { status: 'success', data: [] }
     }
 
     // Create the like
@@ -104,7 +104,7 @@ export class QueryPostLikes extends PostsQuery {
       .returning('*')
 
     if (!deleted || deleted.length === 0) {
-      return { status: 'error', message: 'Like not found' }
+      return { status: 'success' }
     }
 
     // Get updated like count
@@ -123,7 +123,6 @@ export class QueryPostLikes extends PostsQuery {
 
     return {
       status: 'success',
-      message: 'Post unliked',
       data: deleted,
       meta: {
         likeCount,

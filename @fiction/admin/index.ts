@@ -60,6 +60,24 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
     }
   }
 
+  async redirectIfLoggedOut() {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    const { fictionUser } = this.settings
+
+    const u = await fictionUser.userInitialized({ caller: 'FictionAdmin' })
+
+    if (!u) {
+      window.location.href = `${this.urls().auth}?redirect=${encodeURIComponent(window.location.href)}`
+      return false
+    }
+    else {
+      return true
+    }
+  }
+
   admin() {
     const widgets = getWidgets(this.settings)
 

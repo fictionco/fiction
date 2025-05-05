@@ -4,15 +4,14 @@ import { vue } from '@fiction/core'
 import XLink from '@fiction/ui/common/XLink.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import XIcon from '../media/XIcon.vue'
-import PostItemByline from './PostItemByline.vue'
 import PostItemMeta from './PostItemMeta.vue'
 
 defineOptions({ name: 'PostItem' })
 
 const props = defineProps<{
   post: Post
-  config: {
-    imagePosition?: 'top' | 'right' | 'left' | 'cover' | 'none'
+  config?: {
+    imagePosition?: 'right' | 'left'
   }
   featured?: boolean
 }>()
@@ -23,46 +22,22 @@ const publishDate = vue.computed(() => props.post.dateAt?.value || '')
 const modifiedDate = vue.computed(() => props.post.updatedAt?.value || publishDate.value)
 const categories = vue.computed(() => props.post.categories?.value || [])
 const tags = vue.computed(() => props.post.tags?.value || [])
-const isCoverLayout = vue.computed(() => props.config.imagePosition === 'cover')
-const hasMedia = vue.computed(() => !!props.post.media?.value?.url && props.config.imagePosition !== 'none')
+const hasMedia = vue.computed(() => !!props.post.media?.value?.url)
 
 // Helper for layout position classes
-const positionClasses = vue.computed(() => {
-  const position = props.config.imagePosition || 'top'
+// const positionClasses = vue.computed(() => {
+//   const position = props.config?.imagePosition || 'top'
 
-  if (position === 'cover') {
-    return {
-      article: 'relative rounded-lg overflow-hidden min-h-[280px] @sm/post-item:min-h-[340px] @lg/post-item:min-h-[380px]',
-      contentWrapper: 'z-10 relative h-full flex flex-col justify-end p-5 @sm/post-item:p-6 @lg/post-item:p-7',
-      title: 'text-white mb-2 @sm/post-item:mb-3',
-      excerpt: 'text-white/85 line-clamp-2 mb-3',
-      meta: 'text-white/75',
-    }
-  }
-
-  if (position === 'left' || position === 'right') {
-    return {
-      article: '',
-      contentWrapper: `flex gap-5 @sm/post-item:gap-6 @lg/post-item:gap-7 ${position === 'left' ? '' : 'flex-row-reverse'}`,
-      imageWrapper: 'flex-shrink-0 w-28 @sm/post-item:w-36 @lg/post-item:w-40',
-      content: 'flex-grow min-w-0 py-1 flex flex-col',
-      title: 'line-clamp-3',
-      excerpt: 'text-theme-600 dark:text-theme-300 mb-auto',
-      meta: 'text-theme-500',
-    }
-  }
-
-  // Default (top)
-  return {
-    article: '',
-    contentWrapper: '',
-    imageWrapper: 'w-full',
-    content: 'flex-grow pt-4 min-w-0 flex flex-col gap-2',
-    title: '',
-    excerpt: 'text-theme-600 dark:text-theme-300 mb-auto',
-    meta: 'text-theme-500',
-  }
-})
+//   return {
+//     article: '',
+//     contentWrapper: ` ${position === 'left' ? '' : 'flex-row-reverse'}`,
+//     imageWrapper: '',
+//     content: 'flex-grow min-w-0 py-1 flex flex-col justify-between gap-2',
+//     title: 'line-clamp-3',
+//     excerpt: 'text-theme-600 dark:text-theme-300 mb-auto',
+//     meta: 'text-theme-500',
+//   }
+// })
 </script>
 
 <template>
@@ -70,8 +45,7 @@ const positionClasses = vue.computed(() => {
     itemscope
     itemtype="https://schema.org/BlogPosting"
     class="@container/post-item h-full group/post-item transition-opacity duration-300 text-theme-800 dark:text-theme-100 hover:opacity-95"
-    :class="positionClasses.article"
-    :data-image-position="props.config.imagePosition"
+    :data-image-position="props.config?.imagePosition"
     :data-featured="props.featured"
     :data-post-id="post.postId"
   >
@@ -96,57 +70,10 @@ const positionClasses = vue.computed(() => {
       <meta v-for="(tag, index) in tags" :key="`tag-${index}`" itemprop="keywords" :content="tag">
     </div>
 
-    <!-- Cover layout with media -->
-    <template v-if="isCoverLayout">
-      <!-- Media background -->
-      <div class="absolute inset-0 overflow-hidden">
-        <XMedia
-          v-if="hasMedia"
-          :media="post.media.value"
-          class="w-full h-full object-cover transition-transform duration-500 group-hover/post-item:scale-105"
-          itemprop="image"
-        />
-        <div v-else class="w-full h-full bg-theme-800/80 flex items-center justify-center">
-          <XIcon :media="{ class: 'i-tabler-article' }" class="size-12 text-theme-500" />
-        </div>
-
-        <!-- Gradient overlay for legibility -->
-        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-      </div>
-
-      <!-- Content -->
-      <div :class="positionClasses.contentWrapper">
-        <h2 class="x-font-title font-semibold md:text-pretty text-lg tracking-tight @sm/post-item:text-xl @lg/post-item:text-2xl" :class="positionClasses.title">
-          <XLink :href="post.href.value" itemprop="headline">
-            {{ post.title.value || '(No Title)' }}
-          </XLink>
-        </h2>
-
-        <p
-          v-if="post.subTitle?.value"
-          class="text-sm @sm/post-item:text-base @lg/post-item:text-lg leading-relaxed line-clamp-3 max-w-prose"
-          :class="positionClasses.excerpt"
-          itemprop="description"
-        >
-          {{ post.subTitle.value }}
-        </p>
-
-        <PostItemByline
-          :post="post"
-          :classes="{
-            color: positionClasses.meta,
-          }"
-        />
-        <PostItemMeta :post />
-      </div>
-    </template>
-
     <!-- Standard layouts (top, left, right) -->
-    <div v-else :class="positionClasses.contentWrapper">
-      <!-- Media or placeholder -->
+    <div class="text-base h-full @[600px]/post-item:text-[1.1em] @[700px]/post-item:text-[1.2em] flex flex-col gap-6 @[500px]/post-item:gap-12 @[500px]/post-item:flex-row-reverse">
       <div
-        v-if="props.config.imagePosition !== 'none'"
-        :class="positionClasses.imageWrapper"
+        class="flex-shrink-0 w-full @[500px]/post-item:w-[33%]"
       >
         <XLink
           :href="post.href.value"
@@ -169,33 +96,27 @@ const positionClasses = vue.computed(() => {
       </div>
 
       <!-- Content -->
-      <div :class="positionClasses.content">
-        <h2
-          class="x-font-title font-semibold md:text-pretty text-lg line-clamp-2 @sm/post-item:text-xl @lg/post-item:text-2xl"
-          :class="positionClasses.title"
-        >
-          <XLink :href="post.href.value" itemprop="headline" class="hover:opacity-90 transition-opacity duration-100">
-            {{ post.title.value || '(No Title)' }}
-          </XLink>
-        </h2>
+      <div class="flex-grow min-w-0 flex flex-col justify-between gap-6">
+        <div class="flex flex-col gap-[.1em]">
+          <h2
+            class="line-clamp-3 leading-[1.3] @[700px]/post-item:leading-[1.4] x-font-title font-semibold text-[1.4em]"
+          >
+            <XLink :href="post.href.value" itemprop="headline" class="hover:opacity-90 transition-opacity duration-100">
+              {{ post.title.value || '(No Title)' }}
+            </XLink>
+          </h2>
 
-        <p
-          v-if="post.subTitle?.value"
-          class="text-sm @sm/post-item:text-base @lg/post-item:text-lg leading-relaxed line-clamp-3 max-w-prose"
-          :class="positionClasses.excerpt"
-          itemprop="description"
-        >
-          {{ post.subTitle.value }}
-        </p>
+          <p
+            v-if="post.subTitle?.value"
+            class="text-[1.1em] leading-relaxed line-clamp-3 text-theme-600 dark:text-theme-300 mb-auto"
+            itemprop="description"
+          >
+            {{ post.subTitle.value }}
+          </p>
+        </div>
 
         <div class="flex gap-6 items-center flex-wrap">
-          <PostItemByline
-            :post="post"
-            :classes="{
-              color: positionClasses.meta,
-            }"
-          />
-          <PostItemMeta :post />
+          <PostItemMeta :post class="text-theme-500 text-sm " />
         </div>
       </div>
     </div>

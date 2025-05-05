@@ -45,21 +45,21 @@ const relatedPosts = vue.computed(() => {
     <!-- Post Content -->
     <article v-else-if="post" class="mx-auto text-sm @[350px]/post:text-base @[700px]/post:text-[1.4em] @[900px]/post:text-[1.6em]">
       <div>
-        <div class="space-y-1 mb-[1.5em]">
+        <div class="space-y-[.5em] mb-[1.5em]">
           <SiteText
             v-model="post.config.value"
             :card
             tag="h1"
             :path="pathCheck('title', schema)"
             :post="post"
-            class="text-3xl @[600px]/post:text-[2em] @[800px]/post:text-[2.2em] font-semibold x-font-title md:text-pretty !leading-[1.3]"
+            class="text-3xl @[600px]/post:text-[1.8em] @[800px]/post:text-[2em] font-semibold x-font-title md:text-pretty !leading-[1.3] tracking-tight"
           />
           <SiteText
             v-model="post.config.value"
             :card
             tag="h2"
             :path="pathCheck('subTitle', schema)"
-            class="text-lg @[600px]/post:text-[1.2em] @[800px]/post:text-[1.3em] text-theme-500 dark:text-theme-400 md:text-pretty !leading-[1.3]"
+            class="text-lg @[600px]/post:text-[1.2em] @[800px]/post:text-[1.2em] text-theme-500 dark:text-theme-400 md:text-pretty !leading-[1.3]"
           />
         </div>
 

@@ -1,76 +1,65 @@
 <script lang="ts" setup>
 import type { Post } from '@fiction/posts'
-import { vue } from '@fiction/core'
-import XButton from '../buttons/XButton.vue'
+import { dayjs, vue } from '@fiction/core'
+import XIcon from '../media/XIcon.vue'
 
 defineOptions({ name: 'PostItemMeta' })
 
 const props = defineProps<{
   post: Post
-  items?: ('like' | 'comment' | 'share')[]
 }>()
 
-const emit = defineEmits<{
-  (e: 'update:like'): void
-  (e: 'comment'): void
-}>()
-
-// Default to showing all items if not specified
-const displayItems = vue.computed(() =>
-  props.items || ['like', 'share'],
+// Format the date nicely
+const formattedDate = vue.computed(() =>
+  props.post.dateAt?.value ? dayjs(props.post.dateAt.value).format('MMM D') : '',
 )
 
-// Action buttons for the bottom row
-const actionButtons = vue.computed(() => [
+// Get author information
+const author = vue.computed(() => {
+  const authors = props.post.authors?.value || []
+  return authors.length ? authors[0].fullName : ''
+})
+
+const items = vue.computed(() => [
+  {
+    key: 'author',
+    label: author.value,
+    show: !!author.value,
+  },
+  {
+    key: 'date',
+    label: formattedDate.value,
+    show: !!formattedDate.value,
+  },
   {
     key: 'like',
-    show: displayItems.value.includes('like'),
-    label: props.post.likeCount.value || 'Like',
-    icon: props.post.like.isLiked.value ? 'i-tabler-heart-filled' : 'i-tabler-heart',
-    action: handleLike,
+    label: props.post.likeCount.value || '',
+    icon: { class: props.post.like.isLiked.value ? 'i-tabler-heart-filled' : 'i-tabler-heart' },
+    className: `cursor-pointer hover:opacity-80 ${props.post.like.isLiked.value ? 'text-primary-400' : ''}`,
+    action: () => props.post.like.toggle(),
     active: props.post.like.isLiked.value,
+    show: true,
   },
-  {
-    key: 'comment',
-    show: displayItems.value.includes('comment'),
-    label: props.post.commentCount.value || '',
-    icon: 'i-tabler-message-circle-2',
-    action: () => emit('comment'),
-  },
-  {
-    key: 'share',
-    show: displayItems.value.includes('share'),
-    icon: 'i-tabler-upload',
-    action: () => props.post.copyLinkToClipboard(),
-  },
-].filter(btn => btn.show))
-
-async function handleLike() {
-  try {
-    await props.post.like.toggle()
-    emit('update:like')
-  }
-  catch (error) {
-    console.error('Error toggling like status', error)
-  }
-}
+].filter(item => item.show))
 </script>
 
 <template>
   <div
-    v-if="actionButtons.length"
-    class="flex items-center gap-4"
+    v-if="items.length"
+    class="flex items-center justify-between gap-[.8em]"
   >
-    <XButton
-      v-for="btn in actionButtons"
-      :key="btn.key"
-      :theme="btn.active ? 'primary' : 'default'"
-      :icon="btn.icon"
-      design="link"
-      size="sm"
-      @click.prevent="btn.action"
-    >
-      {{ btn.label }}
-    </XButton>
+    <template v-for="(item, i) in items" :key="item.key">
+      <div
+        design="link"
+        :icon="item.icon"
+        class="flex items-center gap-0.5"
+        :class="item.className"
+        @click="item.action?.()"
+      >
+        <XIcon v-if="item.icon" class="size-[1em]" :media="item.icon" />
+        <span class=" whitespace-nowrap truncate select-none">{{ item.label }}</span>
+      </div>
+      <span v-if="i < items.length - 1" class="opacity-80">·</span>
+    </template>
   </div>
 </template>

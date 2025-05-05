@@ -6,11 +6,11 @@ import ElAvatar from '../common/ElAvatar.vue'
 import SidebarWidget from './SidebarWidget.vue'
 
 const { card } = defineProps<{
-  card: Card
+  card?: Card
 }>()
 
 const org = vue.computed(() => {
-  return card.site?.org.value
+  return card?.site?.org.value
 })
 
 const headline = vue.computed(() => {
@@ -29,7 +29,7 @@ const about = vue.computed(() => {
         <ElAvatar v-if="org.avatar?.url" class="size-14" :org />
         <div class="space-y-0.5">
           <div class="font-semibold text-lg md:text-xl">
-            {{ org?.orgName || '' }}
+            {{ org?.orgName || 'no name' }}
           </div>
           <div class="text-base md:text-lg text-theme-500">
             {{ headline }}
