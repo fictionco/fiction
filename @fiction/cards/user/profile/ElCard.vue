@@ -44,8 +44,8 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
 
 <template>
   <CardWrap :card class="minimal-profile">
-    <div class="lg:flex gap-10 md:gap-12 xl:gap-24" :class="uc.layout === 'right' ? 'md:flex-row-reverse' : ''">
-      <div class="w-full max-w-sm xl:max-w-full xl:w-[50%] mb-8 ">
+    <div class="flex flex-col md:flex-row gap-10 md:gap-12 xl:gap-24" :class="uc.layout === 'right' ? 'md:flex-row-reverse' : ''">
+      <div class="w-full md:w-[30%] lg:w-[50%] shrink-0">
         <div class="relative">
           <EffectGlare class="rounded-[20px]">
             <AnimClipPath
@@ -78,8 +78,8 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
           />
         </div>
       </div>
-      <div class="lg:w-[60%] xl:w-[50%] mt-6 md:mt-0 flex items-center">
-        <div class="flex flex-col justify-center gap-3 2xl:gap-8 max-w-full" :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
+      <div class="md:w-[70%] lg:w-[50%] mt-6 md:mt-0 flex items-center">
+        <div class="flex flex-col h-full justify-between gap-3 2xl:gap-8 max-w-full" :class="isVisible ? 'translate-y-0' : 'translate-y-[100px]'">
           <div class="details">
             <SuperTitle
               v-if="uc.superTitle"
@@ -94,7 +94,7 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
               tag="h1"
               path="title"
               animate="rise"
-              class="heading font-semibold text-3xl lg:text-4xl x-font-title lg:leading-[1.3] lg:text-pretty"
+              class="heading font-semibold text-4xl x-font-title lg:leading-[1.3] lg:text-pretty"
             />
 
             <XEntry class="">

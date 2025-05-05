@@ -391,7 +391,7 @@ export class AiImage extends QueryAi {
     try {
       const response = await openAi.images.generate({ model: 'dall-e-3', prompt, n: 1, size })
 
-      const url = response.data[0].url
+      const url = response.data?.[0].url
 
       if (!url)
         throw abort('no image url returned')

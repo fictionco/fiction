@@ -1,16 +1,13 @@
 <script lang="ts" setup>
 import type { Post } from '@fiction/posts'
+import type { Card } from '@fiction/site'
 import { vue } from '@fiction/core'
 import PostFeature from './PostFeature.vue'
 import PostItem from './PostItem.vue'
-import XWidgetAbout from './XWidgetAbout.vue'
-import type { Card } from '@fiction/site'
-import XButton from '../buttons/XButton.vue'
-import ElAvatar from '../common/ElAvatar.vue'
 
 defineOptions({ name: 'PostLayout' })
 
-const { posts, featuredCount = 1, layout = 'magazine', sortBy = 'latest',  headline } = defineProps<{
+const { posts, featuredCount = 1, layout = 'magazine', sortBy = 'latest', headline } = defineProps<{
   posts: Post[]
   loading?: boolean
   sortBy?: 'latest' | 'popular'
@@ -57,17 +54,16 @@ function getTabClasses(tabType: 'latest' | 'popular' | 'archive') {
       : 'border-transparent text-theme-500 hover:text-theme-700 dark:text-theme-400 dark:hover:text-theme-300',
   ].join(' ')
 }
-
 </script>
 
 <template>
   <div
     class="post-layout grid grid-cols-1 gap-12 xl:gap-16"
   >
-    <div class="grid grid-cols-12 justify-between items-center" v-if="headline">
+    <div v-if="headline" class="grid grid-cols-12 justify-between items-center">
       <div class="col-span-9">
         <h1 class="text-3xl md:text-5xl lg:text-6xl leading-[1.3] font-semibold text-pretty">
-          {{headline}}
+          {{ headline }}
         </h1>
       </div>
     </div>
@@ -110,7 +106,7 @@ function getTabClasses(tabType: 'latest' | 'popular' | 'archive') {
         </div>
       </div>
       <div class="grid grid-cols-12 gap-12" :class="layout === 'magazine' ? 'pt-12' : ''">
-        <div class="w-full @container/post-list grow col-span-12" >
+        <div class="w-full @container/post-list grow col-span-12">
           <div
             v-if="regularPosts.length > 0"
             class="grid"

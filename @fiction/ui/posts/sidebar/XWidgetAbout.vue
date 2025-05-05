@@ -2,7 +2,7 @@
 import type { Card } from '@fiction/site'
 import { vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import ElAvatar from '../common/ElAvatar.vue'
+import ElAvatar from '../../common/ElAvatar.vue'
 import SidebarWidget from './SidebarWidget.vue'
 
 const { card } = defineProps<{

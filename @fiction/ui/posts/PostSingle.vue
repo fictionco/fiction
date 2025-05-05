@@ -119,7 +119,6 @@ const relatedPosts = vue.computed(() => {
               v-for="relatedPost in relatedPosts"
               :key="relatedPost.postId"
               :post="relatedPost"
-              :config="{ imagePosition: 'top' }"
             />
           </div>
         </div>

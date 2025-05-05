@@ -56,8 +56,6 @@ const props = defineProps<{
             hoverOnly: 'opacity-0 group-hover/post-item:opacity-100',
             textSize: 'text-xs @sm/post-item:text-sm',
           }"
-          :like-count="123"
-          :comment-count="23"
         />
       </div>
     </div>

@@ -401,7 +401,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     const targetOrgId = this.org.value.orgId
     if (!targetOrgId) {
-      throw new Error('Organization ID is not available')
+      this.log.error('No orgId found')
+      return
     }
 
     const response = await fictionContact?.requests.ManageContact.request({ _action: 'current', targetOrgId }, { caller: 'getCurrentContact' })

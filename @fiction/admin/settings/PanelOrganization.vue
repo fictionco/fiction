@@ -143,6 +143,9 @@ const opts = vue.computed(() => {
           input: 'InputColorTheme',
           placeholder: 'Default',
           description: 'A defining color shaping your visual theme and consistency.',
+          props: {
+            mode: 'bright',
+          },
         }),
       ],
     }),

@@ -7,7 +7,6 @@ import { Post as PostModel } from '@fiction/posts'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import { getDemoPosts } from './index.js'
 import PostIndexLayout from './PostIndexLayout.vue'
-import { h } from 'vue'
 
 defineOptions({ name: 'PostIndexDemo' })
 
@@ -53,8 +52,6 @@ const presets = [
     },
   },
 ] as const
-
-
 
 const activePreset = vue.ref(0)
 const currentConfig = vue.computed(() => presets[activePreset.value].config)
