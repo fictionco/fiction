@@ -16,12 +16,23 @@ const { site, controller } = defineProps<{
 }>()
 
 const loading = vue.ref(false)
+
+const pageTemplates = vue.computed(() => {
+  return site.theme.value.settings.getPageTemplates?.()
+})
+
 const options = vue.computed<InputOption[]>(() => {
-  const optionGroups = getPageOptions({ site })
+  const optionGroups = getPageOptions({ site, editMode: 'new', pageTemplates: pageTemplates.value })
   return [optionGroups.basic]
 })
 
-const page = vue.ref<CardConfigPortable>({ title: '', slug: '', cards: [{ templateId: 'cardHeroV1' }], nav: 'show' })
+const page = vue.ref<CardConfigPortable>({
+  title: '',
+  slug: '',
+  cards: [{ templateId: 'cardHeroV1' }],
+  nav: 'show',
+  pageTemplateId: '',
+})
 
 vue.onMounted(() => {
   /**
@@ -41,6 +52,15 @@ vue.onMounted(() => {
 
 async function save() {
   loading.value = true
+
+  const pg = page.value
+
+  if (pg.pageTemplateId) {
+    const t = pageTemplates.value?.find(tpl => tpl.pageTemplateId === pg.pageTemplateId)
+
+    pg.cards = await t?.getCards?.({ site }) ?? []
+  }
+
   await requestManagePage({
     site,
     _action: 'upsert',

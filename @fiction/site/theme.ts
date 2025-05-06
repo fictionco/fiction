@@ -1,9 +1,9 @@
 import type { FictionAdmin } from '@fiction/admin/index.js'
-import type { ColorThemeBright, CoreServices, FictionEnv, Organization, ServiceList } from '@fiction/core'
+import type { ColorThemeBright, CoreServices, FictionEnv, MediaObject, Organization, ServiceList } from '@fiction/core'
 import type { CardTemplate } from './card.js'
 import type { SiteGlobalUserConfig } from './schema.js'
 import type { SiteSettings } from './site.js'
-import type { TableCardConfig } from './tables.js'
+import type { CardConfigPortable, TableCardConfig } from './tables.js'
 import { cardConfig } from '@fiction/cards/index.js'
 import { deepMerge, FictionObject, toLabel, vue } from '@fiction/core'
 import { CardFactory } from './cardFactory.js'
@@ -41,9 +41,18 @@ export type ThemeMeta = {
   isPublic?: boolean
 }
 
+export type PageTemplate = {
+  pageTemplateId: string
+  title: string
+  description: string
+  icon?: MediaObject
+  getCards: (args: { site: Site }) => Promise<CardConfigPortable[]>
+}
+
 export type ThemeSettings<T extends Record<string, unknown> = Record<string, unknown>> = {
 
   getTemplates?: (args: { site: Site }) => Promise<CardTemplate<any>[]>
+  getPageTemplates?: () => PageTemplate[]
   getBaseConfig?: () => Partial<ThemeConfig> & { userConfig: T }
   getConfig: (args: ThemeConfigArgs) => Promise<ThemeConfig>
 

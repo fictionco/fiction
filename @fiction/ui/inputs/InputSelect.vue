@@ -12,6 +12,7 @@ const props = defineProps({
   suffix: { type: String, default: '' },
   inputClass: { type: String, default: '' },
   uiSize: { type: String as vue.PropType<StandardSize>, default: 'md' },
+  placeholder: { type: String, default: '' },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -29,6 +30,7 @@ const parsedList = vue.computed<ListItem[]>(() => {
 
 <template>
   <div>
+    {{ modelValue }}
     <select
       :value="modelValue"
       :class="textInputClasses({ inputClass, uiSize })"
@@ -36,7 +38,7 @@ const parsedList = vue.computed<ListItem[]>(() => {
       @input="emit('update:modelValue', ($event.target as HTMLSelectElement).value)"
     >
       <option value>
-        {{ attrs.placeholder || "Select" }}
+        {{ placeholder || "Select" }}
       </option>
       <template v-for="s in parsedList" :key="s.value">
         <option v-if="s.value === 'divider'" disabled>

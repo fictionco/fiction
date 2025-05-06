@@ -1,6 +1,7 @@
 import { getCardTemplates } from '@fiction/cards/index.js'
 import { safeDirname } from '@fiction/core'
 import { Theme } from '@fiction/site/theme.js'
+import { getPageTemplates } from './pages/index.js'
 
 export const theme = new Theme({
   root: safeDirname(import.meta.url),
@@ -18,6 +19,7 @@ export const theme = new Theme({
 
   isPublic: true,
   getTemplates: () => getCardTemplates({ caller: 'baseTheme' }),
+  getPageTemplates: () => getPageTemplates(),
   getConfig: async (args) => {
     const { getConfig } = await import('./config')
 

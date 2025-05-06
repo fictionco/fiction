@@ -1,4 +1,4 @@
-import type { Card, CardConfigPortable, Site } from '@fiction/site'
+import type { Card, CardConfigPortable, PageTemplate, Site } from '@fiction/site'
 import { toLabel, vue } from '@fiction/core'
 import { TablePageSchema as PageSchema, TableSiteSchema as SiteSchema } from '@fiction/site/tables'
 import { createOption } from '@fiction/ui'
@@ -117,8 +117,14 @@ export function getSiteOptions(args: { card: Card }) {
   }
 }
 
-export function getPageOptions(args: { site: Site, page?: CardConfigPortable, temp?: CardConfigPortable, includeHomeOption?: boolean }) {
-  const { site, page, temp, includeHomeOption } = args
+export function getPageOptions(args: {
+  site: Site
+  page?: CardConfigPortable
+  temp?: CardConfigPortable
+  editMode: 'new' | 'edit'
+  pageTemplates?: PageTemplate[]
+}) {
+  const { site, page, temp, editMode, pageTemplates } = args
 
   const basicOptions = [
     createOption({
@@ -161,7 +167,7 @@ export function getPageOptions(args: { site: Site, page?: CardConfigPortable, te
     }),
   ]
 
-  if (includeHomeOption) {
+  if (editMode === 'edit') {
     basicOptions.push(
       createOption({
         schema: PageSchema,
@@ -175,6 +181,21 @@ export function getPageOptions(args: { site: Site, page?: CardConfigPortable, te
         },
       }),
     )
+  }
+  else {
+    if (pageTemplates?.length) {
+      const list = pageTemplates.map(p => ({ value: p.pageTemplateId, label: p.title, description: p.description }))
+      basicOptions.push(
+        createOption({
+          schema: PageSchema,
+          key: 'pageTemplateId',
+          label: 'Create from Template',
+          input: 'InputSelect',
+          list,
+          placeholder: 'Default',
+        }),
+      )
+    }
   }
 
   return {
