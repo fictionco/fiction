@@ -468,15 +468,7 @@ export async function getPages(args: SectionArgs) {
       ],
     }),
 
-    // Contact page
-    cardConfig({
-      slug: 'contact',
-      cards: [
-        cardConfig({ templateId: 'cardHeroV1' }),
-        cardConfig({ templateId: 'cardContactV1' }),
-        cardConfig({ templateId: 'cardMapsV1' }),
-      ],
-    }),
+
   ]
 }
 

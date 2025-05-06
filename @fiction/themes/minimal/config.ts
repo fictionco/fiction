@@ -31,36 +31,7 @@ export async function getPages(args: SectionArgs) {
         }),
       ],
     }),
-    cardConfig({
-      slug: 'contact',
-      cards: [
-        cardConfig({
-          templateId: 'cardHeroV1',
-          userConfig: {
-            items: [
-              {
-                title: 'Contact Us',
-                subTitle: `We'll get back to you as soon as possible.`,
-                superTitle: { text: 'Get in Touch', icon: { class: 'i-tabler-phone' }, theme: 'orange' },
-              },
-            ],
-          },
-        }),
-        cardConfig({ templateId: 'cardContactV1', userConfig: {
 
-        } }),
-        cardConfig({ templateId: 'cardMapsV1', userConfig: {
-          standard: {
-            headers: {
-              title: 'Company Location',
-              subTitle: 'Visit us at our headquarters',
-            },
-
-          },
-          maps: [{ ...defaultMap, aspectRatio: 'ultrawide' }],
-        } }),
-      ],
-    }),
   ]
 }
 
