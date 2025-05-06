@@ -8,7 +8,6 @@ import { apiRoot, AppRoute, FictionApp, FictionAws, FictionCache, FictionDb, Fic
 import { FictionDevRestart } from '@fiction/core/plugin-env/restart'
 import { FictionTeam } from '@fiction/core/plugin-team/index.js'
 import { getEnvVars } from '@fiction/core/utils/index.js'
-import { FictionForms } from '@fiction/forms'
 import { FictionAi } from '@fiction/plugin-ai'
 import { FictionContact } from '@fiction/plugin-contact/index.js'
 import { FictionMonitor } from '@fiction/plugin-monitor/index.js'
@@ -197,11 +196,10 @@ const fictionSites = new FictionSites({
   themes,
 })
 const fictionCards = new FictionCards({ ...s, fictionSites })
-const fictionForms = new FictionForms({ ...s, fictionSites })
 
 const fictionPosts = new FictionPosts({ fictionContact, fictionSites, ...s })
 
-const baseService = { ...s, fictionForms, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionContact, fictionPosts }
+const baseService = { ...s, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionContact, fictionPosts }
 
 export type SpecificService = typeof baseService
 

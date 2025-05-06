@@ -13,7 +13,6 @@ import { log } from '../plugin-log/index.js'
 import { FictionPlugin } from '../plugin.js'
 import { QueryManageMedia, QueryMediaIndex, QuerySaveMedia } from './queries.js'
 import { mediaTable } from './tables.js'
-import { relativeMedia } from './utils.js'
 
 export * from './utils.js'
 export type { TableMediaConfig }
@@ -126,10 +125,5 @@ export class FictionMedia extends FictionPlugin<FictionMediaSettings> {
     const r = await this.requests.SaveMedia.upload({ data: formData, params: { caller } })
 
     return r
-  }
-
-  async relativeMedia(args: { url: string, orgId?: string, userId?: string }): Promise<TableMediaConfig> {
-    const orgId = args.orgId || this.settings.fictionEnv?.meta.orgId
-    return relativeMedia({ fictionMedia: this, cache: this.cache, orgId, ...args })
   }
 }

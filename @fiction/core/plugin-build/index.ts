@@ -205,7 +205,6 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
         'front-matter',
         'remove-markdown',
         'validator',
-        'highlight.js',
       ],
     }
   }

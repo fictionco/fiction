@@ -10,11 +10,9 @@ export async function getEmailForPost(args: {
   previewMode?: 'dark' | 'light' | ''
 }): Promise<EmailSendConfig> {
   const { postConfig, fictionPosts, withDefaults = false, org, previewMode } = args
-  const { fictionEmail, fictionEnv, fictionMedia } = fictionPosts.settings
+  const { fictionEmail, fictionEnv } = fictionPosts.settings
   const isTest = fictionEnv?.isTest.value
   const env = fictionEnv.isProd.value ? 'prod' : isTest ? 'test' : 'dev'
-
-  const img = await fictionEmail?.emailImages({ fictionMedia })
 
   const senderName = org.orgName
   const senderEmail = org.orgEmail
@@ -40,7 +38,6 @@ export async function getEmailForPost(args: {
       href: websiteUrl,
     },
     mediaFeatured: postConfig?.media,
-    mediaFooter: { url: img.footer.url },
     poweredByFiction: true,
     streetAddress,
     companyName,

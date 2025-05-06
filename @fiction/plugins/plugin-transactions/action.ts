@@ -115,7 +115,7 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface> exte
     if (!fictionMedia)
       throw abort('no fictionMedia provided')
 
-    const emailImages = await fictionEmail?.emailImages({ fictionMedia })
+    const emailImages = await fictionEmail?.emailImages()
     const app = fictionEnv?.meta || {}
     return {
       senderName: app.name || '',

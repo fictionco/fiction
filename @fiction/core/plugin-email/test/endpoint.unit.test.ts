@@ -23,18 +23,12 @@ describe('transactional email', async () => {
 
   const v = getEnvVars(testUtils.fictionEnv, ['AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'AWS_BUCKET_MEDIA'] as const)
 
-  const { awsAccessKey, awsAccessKeySecret, awsBucketMedia } = v
-
-  const fictionAws = new FictionAws({ ...testUtils, awsAccessKey, awsAccessKeySecret })
-  const fictionMedia = new FictionMedia({ ...testUtils, fictionAws, awsBucketMedia })
-
   const { orgId, user } = await testUtils.init()
 
   afterAll(async () => testUtils.close())
 
   describe('sends a transactional email', async () => {
-    const superImage = await fictionMedia.relativeMedia({ url: new URL('../img/fiction-icon.png', import.meta.url).href, orgId })
-    const footerImage = await fictionMedia.relativeMedia({ url: new URL('../img/fiction-email-footer.png', import.meta.url).href, orgId })
+    const superImage = await testUtils.fictionEmail.emailImages().icon
     const confirmEmail: EmailSendConfig = {
       to: 'arpowers@gmail.com',
       senderName: 'Fiction.com',
@@ -59,7 +53,6 @@ describe('transactional email', async () => {
         { label: 'View Website', href: 'https://www.fiction.com' },
       ],
       theme: 'rose',
-      mediaFooter: { url: footerImage.url },
       companyName: 'Fiction Company, Inc.',
       streetAddress: '1234 Fiction St, Fiction City, FI 12345',
       poweredByFiction: true,

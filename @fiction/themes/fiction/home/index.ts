@@ -34,7 +34,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                 {
                   superTitle: {
                     text: 'Join over 2000+ leaders',
-                    theme: 'orange',
+                    theme: 'emerald',
                     icon: { class: 'i-tabler-rocket' },
                   },
                   title: `It all starts with [@text_effect type=squiggle]your story[/@text_effect].`,

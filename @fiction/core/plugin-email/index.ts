@@ -1,7 +1,5 @@
 import type { ViteDevServer } from 'vite'
-import type { FictionMedia } from '../plugin-media'
 import type { FictionPluginSettings } from '../plugin.js'
-import type { MediaObject } from '../schemas/schemas'
 import type { EndpointMeta } from '../utils/index.js'
 
 import type { EmailSendConfig } from './util'
@@ -129,18 +127,11 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
     return this.queries.TransactionEmail.serve({ _action: 'send', fields }, { server: true, ...meta })
   }
 
-  async emailImages({ fictionMedia }: { fictionMedia: FictionMedia }) {
+  emailImages() {
     const images = {
-      icon: 'img/fiction-icon.png',
-      footer: 'img/fiction-email-footer.png',
+      icon: { format: 'image', url: 'https://media.fiction.com/_assets/fiction-icon.png' },
     }
-    const results = await Promise.all(
-      Object.entries(images).map(async ([key, path]) => [
-        key,
-        await fictionMedia.relativeMedia({ url: new URL(path, import.meta.url).href }),
-      ]),
-    )
 
-    return Object.fromEntries(results) as { [K in keyof typeof images]: MediaObject }
+    return images
   }
 }
