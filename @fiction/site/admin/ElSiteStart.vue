@@ -8,7 +8,6 @@ import ElModal from '@fiction/ui/ElModal.vue'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import { requestManageSite } from '../load'
-import ElThemeSelect from './ElThemeSelect.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -55,20 +54,21 @@ const stepConfig: StepConfig = {
 
       {
         title: 'Create a New Site',
-        subTitle: 'What should we call it?',
+        subTitle: 'Give it a name.',
         placeholder: 'Enter a site name',
         key: 'name',
         class: 'max-w-lg',
-      },
-      {
-        title: `Select Your Theme`,
-        subTitle: 'This is the starting point - you can customize everything later.',
-        key: 'theme',
-        class: 'max-w-screen-xl',
-        isLoading: isLoading.value,
         onClick: async () => requestCreateSite(),
-        button: { label: 'Create Site' },
       },
+      // {
+      //   title: `Select Your Theme`,
+      //   subTitle: 'This is the starting point - you can customize everything later.',
+      //   key: 'theme',
+      //   class: 'max-w-screen-xl',
+      //   isLoading: isLoading.value,
+
+      //   button: { label: 'Create Site' },
+      // },
     ]
 
     return out

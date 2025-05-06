@@ -3,6 +3,7 @@ import type { NavCardUserConfig } from '@fiction/admin'
 import SettingsBoard from '@fiction/admin/settings/SettingsBoard.vue'
 import { vue } from '@fiction/core'
 import { Card } from '@fiction/site'
+import ManageIndex from './ManageIndex.vue'
 
 const { card } = defineProps<{ card: Card }>()
 
@@ -22,18 +23,7 @@ const panels = [
 </script>
 
 <template>
-  <SettingsBoard
-    :card
-    :panels="panels"
-    base-path="/sites"
-    :panel-props="{ card }"
-    :header="{
-      title: 'Sites',
-      subTitle: 'Customizable websites and landing pages.',
-      media: { class: 'i-tabler-browser' },
-      action: {},
-      theme: 'primary',
-    }"
-    theme="primary"
-  />
+  <div class="max-w-[920px] mx-auto py-12">
+    <ManageIndex :card />
+  </div>
 </template>

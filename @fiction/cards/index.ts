@@ -71,7 +71,6 @@ const templateGroups = [
     description: 'Turn visitors into connections',
     templates: [
       () => import('./standard/capture'),
-      () => import('./user/contact'),
       () => import('./pro/pricing'),
       () => import('./user/maps'),
     ],

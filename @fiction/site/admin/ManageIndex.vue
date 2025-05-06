@@ -118,7 +118,7 @@ function getActions(location: 'top' | 'zero') {
                 </div>
               </div>
 
-              <ElSitePreviewFrame :item class="aspect-[16/9]  border-b border-theme-200 dark:border-theme-700" />
+              <ElSitePreviewFrame :item class="aspect-square lg:aspect-[1.61/1]  border-b border-theme-200 dark:border-theme-700" />
             </div>
           </div>
         </template>

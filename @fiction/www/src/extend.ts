@@ -16,11 +16,11 @@ export async function getThemes(args: {
   fictionAdmin: FictionAdmin
 }): Promise<Theme[]> {
   const themes = Promise.all([
+    themeBase.theme,
     themeFiction.theme,
     themeMinimal.theme,
     themeAdmin.theme,
     themePrestige.theme,
-    themeBase.theme,
   ])
 
   return themes

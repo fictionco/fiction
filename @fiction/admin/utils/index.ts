@@ -36,7 +36,7 @@ export function getFictionNavItems(args: { fictionAdmin: FictionAdmin, fictionUs
   return isLoggedIn
     ? [
         { label: 'Dashboard', href: urls.dashboard, icon: { class: 'i-tabler-tools' } },
-        { label: 'Account Settings', href: urls.settings, icon: { class: 'i-tabler-user' } },
+        { label: 'User Settings', href: urls.settings, icon: { class: 'i-tabler-user' } },
         { label: 'Sign Out', href: '/?_logout=1', icon: { class: 'i-tabler-arrow-down-left' } },
       ]
     : [

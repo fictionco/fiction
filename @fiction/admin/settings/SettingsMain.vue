@@ -18,7 +18,7 @@ const panels = [
   }),
   new Card<NavCardUserConfig>({
     slug: 'account',
-    title: 'Account Settings',
+    title: 'User Settings',
     description: 'Manage your login info',
     el: vue.defineAsyncComponent(async () => import('../settings/PanelAccount.vue')),
     userConfig: { isNavItem: true, navIcon: 'i-tabler-user-circle', navIconAlt: 'i-tabler-user-cog' },

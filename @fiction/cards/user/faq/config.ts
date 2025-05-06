@@ -70,33 +70,18 @@ const options: InputOption[] = [
         ],
       }),
       createOption({
-        key: 'support',
-        label: 'Support Section',
-        input: 'group',
-        options: [
-          createOption({
-            key: 'support.text',
-            label: 'Support Text',
-            input: 'InputText',
-            props: { placeholder: 'Need additional help?' },
-            schema,
-          }),
-          createOption({
-            key: 'support.action',
-            label: 'Action Area',
-            input: 'InputActionArea',
-            schema,
-          }),
-        ],
+        key: 'support.text',
+        label: 'Additional Text',
+        input: 'InputText',
+        props: { placeholder: 'Need additional help?' },
+        schema,
       }),
-    ],
-  }),
-  createOption({
-    key: 'group.settings',
-    label: 'Settings',
-    input: 'group',
-    icon: { class: 'i-tabler-settings' },
-    options: [
+      createOption({
+        key: 'support.action.buttons',
+        label: 'Buttons',
+        input: 'InputActions',
+        schema,
+      }),
       createOption({
         key: 'layout',
         label: 'Layout Style',
@@ -109,8 +94,8 @@ const options: InputOption[] = [
         ],
       }),
     ],
-
   }),
+
 
 ]
 

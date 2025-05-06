@@ -47,7 +47,7 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
     schema,
     userConfig: {
       featuredCount: 1,
-      headline: '[@brand_headline]',
+      headline: '[@headline]',
     },
   }
 }

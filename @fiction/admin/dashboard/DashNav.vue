@@ -78,13 +78,13 @@ const cls = {
             :data-test-id="`dashboard-nav-${sub.testId}`"
             @click="handleClick($event, sub)"
           >
-            <div>
+            <div class="flex items-center justify-start gap-3">
               <ElIndexItemMedia
                 v-if="sub.media"
                 :media="sub.media"
                 class="size-9 shrink-0"
               />
-              <XIcon v-else-if="sub.icon" :media="sub.icon" :class="cls.icon" />
+              <XIcon v-else-if="sub.icon" class="size-9 shrink-0" :media="sub.icon" :class="[cls.icon, sub.isActive ? 'text-primary-700 dark:text-primary-300' : 'text-theme-500 dark:text-theme-400']" />
             </div>
             <div class="pt-0.5 min-w-0 truncate">
               <div class="font-semibold truncate leading-[1.3]" v-html="toLabel(sub.label)" />
