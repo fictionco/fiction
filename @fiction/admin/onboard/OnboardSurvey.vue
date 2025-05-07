@@ -75,6 +75,7 @@ const stepConfig: StepConfig = {
         superTitle: {
           text: 'Welcome to Fiction',
           icon: { class: 'i-tabler-north-star' },
+          theme: 'primary'
         },
         title: 'First, what\'s your LinkedIn URL?',
         subTitle: 'Used to set up your account',
