@@ -9,7 +9,7 @@ type OnboardSettings = FictionAdminSettings & {
 }
 
 // Types
-interface LinkedInExperience {
+type LinkedInExperience = {
   company?: string
   title?: string
   description?: string
@@ -17,13 +17,13 @@ interface LinkedInExperience {
   ends_at?: { year?: number, month?: number, day?: number } | null
 }
 
-interface LinkedInEducation {
+type LinkedInEducation = {
   school?: string
   degree_name?: string
   field_of_study?: string
 }
 
-interface LinkedInProfile {
+type LinkedInProfile = {
   public_identifier?: string
   profile_pic_url?: string
   full_name?: string
@@ -37,14 +37,14 @@ interface LinkedInProfile {
   interests?: string[]
 }
 
-interface AiEnhancement {
+type AiEnhancement = {
   headline: string
   about: string
   interests: string[]
   influences: string[]
 }
 
-interface ProfileData {
+export type ProfileData = {
   name?: string
   handle?: string
   avatar?: { url?: string }
@@ -52,16 +52,18 @@ interface ProfileData {
   about?: string
   interests?: string[]
   influences?: string[]
+  linkedinUrl?: string
+  needsOnboarding?: boolean
 }
 
 export type OnboardRequest =
-  | { _action: 'enrichFromLinkedIn', linkedinUrl: string, userId: string, orgId: string }
+  | { _action: 'enrichFromLinkedIn', userId: string, orgId: string, profile: Partial<ProfileData> }
   | { _action: 'updateProfile', userId: string, orgId: string, profile: Partial<ProfileData> }
 
 // Schemas
 const AiEnhancementSchema = z.object({
   headline: z.string().min(5).max(160).describe('Concise 3-5 word tagline capturing unique value'),
-  about: z.string().min(10).max(500).describe('Authentic bio showcasing expertise and personality'),
+  about: z.string().min(10).max(300).describe('Short bio showcasing story, expertise, and personality'),
   interests: z.array(z.string()).min(1).max(10).describe('Key professional topics and passions'),
   influences: z.array(z.string()).min(0).max(5).describe('Role models, styles, motifs, shaping professional voice and style'),
 })
@@ -105,7 +107,12 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
     params: Extract<OnboardRequest, { _action: 'enrichFromLinkedIn' }>,
     meta: EndpointMeta,
   ): Promise<EndpointResponse<ProfileData>> {
-    const { linkedinUrl, userId, orgId } = params
+    const { userId, orgId } = params
+
+    const linkedinUrl = params.profile.linkedinUrl
+
+    if (!linkedinUrl)
+      return { status: 'error', message: 'LinkedIn URL is required' }
 
     LinkedInUrlSchema.parse(linkedinUrl)
     const linkedinData = await this.fetchLinkedInProfile(linkedinUrl)
@@ -208,7 +215,7 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
           tone: 'Clear, engaging, and genuine',
           instructions: `
             - Create a 3-5 word headline that uniquely captures their professional value, avoiding generic terms like "expert" or "leader".
-            - Write a concise bio that highlights specific achievements and personality, steering clear of buzzwords like "passionate" or "innovative".
+            - Write a short 10 to 30 word bio in HTML that highlights specific achievements and personality, steering clear of buzzwords like "passionate" or "innovative".
             - Identify 1-10 specific professional interests based on skills and experience, ensuring relevance to their field.
             - Suggest 0-5 role models (public figures or industry leaders) whose style or approach aligns with the user's profile, to shape their brand voice.
           `,

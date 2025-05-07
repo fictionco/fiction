@@ -6,7 +6,7 @@ import { getColorThemeStyles } from '@fiction/ui/utils'
 import XText from './XText.vue'
 
 const {
-  theme = 'default',
+  theme = 'muted',
   size = 'md',
   superTitle,
 } = defineProps<{
@@ -20,7 +20,7 @@ const sup = vue.computed(() => {
 })
 
 const colorStyle = vue.computed(() => {
-  const colorTheme = sup.value.theme || theme || 'default'
+  const colorTheme = sup.value.theme || theme || 'muted'
   const styles = getColorThemeStyles(colorTheme)
   return {
     icon: [styles?.bg, styles?.text, styles?.border].join(' '),
@@ -62,7 +62,7 @@ const sizeClasses = vue.computed(() => {
     <XText
       tag="h3"
       :model-value="sup.text"
-      class="font-sans font-medium"
+      class="font-sans"
       :class="sizeClasses.text"
       placeholder="Super Title"
       animate="fade"

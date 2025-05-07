@@ -174,17 +174,9 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
 
     this.log.info('sending messages', { data: { generateArgs } })
 
-    const model = await anthropic('claude-3-5-sonnet-latest')
+    const model = await xai('grok-3')
 
     const { text } = await generateText({ model, ...generateArgs })
-
-    // const response = await openAi.chat.completions.create({
-    //   model: 'gpt-4-turbo-preview',
-    //   max_tokens: 1000,
-    //   n: 1,
-    //   messages,
-    //   response_format: { type: 'json_object' },
-    // })
 
     const rawCompletion = text
 

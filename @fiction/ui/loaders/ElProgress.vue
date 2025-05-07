@@ -1,9 +1,13 @@
 <script lang="ts" setup>
-defineProps({
-  percent: { type: [Number, String], default: 0 },
-  message: { type: String, required: true },
-  status: { type: String, default: undefined },
+defineOptions({
+  name: 'ElProgress',
 })
+
+const {percent = 0, message, status} = defineProps<{
+  percent: number | string
+  message: string
+  status?: string
+}>()
 </script>
 
 <template>

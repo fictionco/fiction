@@ -6,6 +6,7 @@ export type UiElementFormat = 'block' | 'spread' | 'inline'
 
 export function getColorThemeStyles(theme: ColorThemeUser = 'theme') {
   const cls = {
+    muted: { text: 'text-theme-500 dark:text-theme-400', bg: 'bg-theme-100 dark:bg-theme-400/20', ring: 'ring-theme-400/50 dark:ring-theme-500/40', border: 'border-theme-500/50 dark:border-theme-400/20', hover: 'hover:bg-theme-100 dark:hover:bg-theme-500/60', active: 'active:bg-theme-200 dark:active:bg-theme-400/20' },
     default: { text: 'text-theme-600 dark:text-theme-200', bg: 'bg-theme-100 dark:bg-theme-400/10', ring: 'ring-theme-400/50 dark:ring-theme-500/40', border: 'border-theme-500/50 dark:border-theme-400/20', hover: 'hover:bg-theme-100 dark:hover:bg-theme-500/60', active: 'active:bg-theme-200 dark:active:bg-theme-400/20' },
     naked: { text: 'text-theme-500', bg: '', ring: 'ring-transparent', border: 'border-transparent', hover: '', active: '' },
     theme: { text: 'text-theme-600 dark:text-theme-200', bg: 'bg-theme-100 dark:bg-theme-400/10', ring: 'ring-theme-400/50 dark:ring-theme-500/40', border: 'border-theme-500/50 dark:border-theme-400/20', hover: 'hover:bg-theme-100 dark:hover:bg-theme-500/60', active: 'active:bg-theme-200 dark:active:bg-theme-400/20' },

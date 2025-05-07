@@ -2,7 +2,7 @@ import type { ActionButton, SuperTitle } from '../schemas/schemas.js'
 import type { vue } from './libraries.js'
 
 export interface StepActions {
-  changeStep: (args: { dir: 'prev' | 'next', step?: string, index?: number, needsValidation?: boolean }) => Promise<void>
+  changeStep: (args: { dir?: 'prev' | 'next', step?: string, index?: number, needsValidation?: boolean }) => Promise<void>
 }
 
 export interface StepItem {

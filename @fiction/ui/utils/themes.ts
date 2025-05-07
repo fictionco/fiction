@@ -40,6 +40,39 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, {
       icon: 'text-theme-600 dark:text-theme-400',
     },
   },
+  muted: {
+    solid: {
+      base: 'bg-gray-100 dark:bg-gray-700/40 text-gray-900 dark:text-gray-50',
+      input: `bg-white dark:bg-gray-800/50
+            ring-gray-200 dark:ring-gray-600/70
+            focus:ring-gray-600 focus:bg-white
+            dark:focus:ring-gray-500 dark:focus:bg-gray-800
+            focus-within:ring-gray-600 dark:focus-within:ring-gray-500
+            text-gray-900 dark:text-gray-100
+            placeholder:text-gray-400 dark:placeholder:text-gray-500`,
+      border: 'border-gray-300/80 dark:border-gray-600',
+      hover: 'hover:border-gray-300 dark:hover:border-gray-500',
+      icon: 'text-gray-600 dark:text-gray-50',
+    },
+    ghost: {
+      base: 'bg-gray-100 dark:bg-gray-600/30 text-gray-700 dark:text-gray-50',
+      border: 'border-gray-100 dark:border-gray-800/20',
+      hover: 'hover:bg-gray-200 dark:hover:bg-gray-600/50',
+      icon: 'text-gray-500 dark:text-gray-500',
+    },
+    outline: {
+      base: 'bg-transparent text-gray-700 dark:text-gray-50',
+      border: 'border-gray-500 dark:border-gray-400',
+      hover: 'hover:opacity-70',
+      icon: 'text-gray-700 dark:text-gray-300',
+    },
+    link: {
+      base: 'bg-transparent text-gray-600 dark:text-gray-50',
+      border: 'border-transparent',
+      hover: 'hover:opacity-70',
+      icon: 'text-gray-600 dark:text-gray-400',
+    },
+  },
   overlay: {
     solid: {
       base: 'bg-white/100 text-black backdrop-blur-sm shadow-sm mix-blend-overlay [text-shadow:_0_1px_1px_rgb(255_255_255_/_100%)]',
@@ -761,6 +794,13 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, {
 export const inputTheme: Record<Partial<ColorThemeUser>, {
   input: string
 }> = {
+  muted: { input: `bg-white dark:bg-theme-800/50
+            ring-theme-200 dark:ring-theme-600/70
+            focus:ring-theme-600 focus:bg-white
+            dark:focus:ring-theme-500 dark:focus:bg-theme-800
+            focus-within:ring-theme-600 dark:focus-within:ring-theme-500
+            text-theme-900 dark:text-theme-100
+            placeholder:text-theme-400 dark:placeholder:text-theme-500` },
   default: { input: `bg-white dark:bg-theme-800/50
             ring-theme-200 dark:ring-theme-600/70
             focus:ring-theme-600 focus:bg-white

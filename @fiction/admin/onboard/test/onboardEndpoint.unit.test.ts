@@ -87,7 +87,7 @@ describe('queryManageOnboard endpoint', async () => {
   it('should enrich profile from LinkedIn URL', async () => {
     // Execute the query
     const result = await queryOnboard.serve(
-      { _action: 'enrichFromLinkedIn', linkedinUrl: testLinkedInUrl, userId, orgId },
+      { _action: 'enrichFromLinkedIn', profile: { linkedinUrl: testLinkedInUrl }, userId, orgId },
       { server: true },
     )
 
@@ -152,7 +152,7 @@ describe('queryManageOnboard endpoint', async () => {
     } as Response)
 
     const result = await queryOnboard.run(
-      { _action: 'enrichFromLinkedIn', linkedinUrl: testLinkedInUrl, userId, orgId },
+      { _action: 'enrichFromLinkedIn', profile: { linkedinUrl: testLinkedInUrl }, userId, orgId },
       { server: true },
     )
 
@@ -166,7 +166,7 @@ describe('queryManageOnboard endpoint', async () => {
 
   it('should validate LinkedIn URL format', async () => {
     const r = await queryOnboard.run(
-      { _action: 'enrichFromLinkedIn', linkedinUrl: 'https://invalid-url.com', userId, orgId },
+      { _action: 'enrichFromLinkedIn', profile: { linkedinUrl: 'https://invalid-url.com' }, userId, orgId },
       { server: true },
     )
 
@@ -241,7 +241,7 @@ describe('queryManageOnboard endpoint', async () => {
     })
 
     const result = await queryOnboard.run(
-      { _action: 'enrichFromLinkedIn', linkedinUrl: testLinkedInUrl, userId, orgId },
+      { _action: 'enrichFromLinkedIn', profile: { linkedinUrl: testLinkedInUrl }, userId, orgId },
       { server: true },
     )
 
