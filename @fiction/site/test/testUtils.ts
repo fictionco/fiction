@@ -54,12 +54,13 @@ export async function createSiteTestUtils(args: {
     'FLY_API_TOKEN',
     'OPENAI_API_KEY',
     'CLICKHOUSE_URL',
+    'PROXYCURL_API_KEY',
   ] as const
   const v = getEnvVars(testUtils.fictionEnv, envVarNames)
 
   const fictionEnv = testUtils.fictionEnv
 
-  const { awsAccessKey, awsAccessKeySecret, openaiApiKey, awsBucketMedia } = v
+  const { awsAccessKey, awsAccessKeySecret, openaiApiKey, awsBucketMedia, proxycurlApiKey } = v
 
   const routes = [new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FSite })]
 
@@ -84,7 +85,7 @@ export async function createSiteTestUtils(args: {
     create: !delaySiteRouterCreation,
   })
   out.fictionAppSites = new FictionApp({ port: sitePort, ...out, fictionRouter: out.fictionRouterSites, isTest: true, liveUrl: 'https://*.test.com', localHostname: '*.lan.com' })
-  out.fictionAdmin = new FictionAdmin({ ...(out as SiteTestUtils) })
+  out.fictionAdmin = new FictionAdmin({ ...(out as SiteTestUtils), proxycurlApiKey })
   out.fictionContact = new FictionContact({ ...(out as SiteTestUtils) })
 
   const themes = async () => Promise.all([

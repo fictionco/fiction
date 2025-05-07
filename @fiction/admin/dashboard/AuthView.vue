@@ -4,61 +4,27 @@ import type { Card } from '@fiction/site/card'
 import type { FictionAdmin } from '..'
 import TransactionView from '@fiction/cards/standard/transaction/TransactionView.vue'
 import TransactionWrap from '@fiction/cards/standard/transaction/TransactionWrap.vue'
-import { isValidEmail, unhead, useService, vue } from '@fiction/core'
+import { isValidEmail, toCamel, toKebab, unhead, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import EffectTransitionList from '@fiction/ui/effect/EffectTransitionList.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 
-// Types and interfaces
-export type UserConfig = { logo?: MediaObject, termsUrl?: string, privacyUrl?: string }
-export type OrgData = { orgId: string, orgName: string, primaryDomain?: string }
+// Types
+type UserConfig = { logo?: MediaObject, termsUrl?: string, privacyUrl?: string }
+type OrgData = { orgId: string, orgName: string, primaryDomain?: string }
 
-// Define props
+// Props
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-// Core services
+// Services and state
 const { fictionRouter, fictionAdmin, fictionEnv, fictionUser } = useService<{ fictionAdmin: FictionAdmin }>()
-
-// User configuration
 const userConfig = vue.computed(() => props.card.userConfig.value)
 const termsUrl = vue.computed(() => userConfig.value.termsUrl || fictionEnv.meta?.termsUrl)
 const privacyUrl = vue.computed(() => userConfig.value.privacyUrl || fictionEnv.meta?.privacyUrl)
-
-const userToken = vue.ref('')
-
-// Organization data state
-const orgData = vue.ref<OrgData | null>(null)
-const orgHandle = vue.computed(() => decodeURIComponent(fictionRouter.query.value.for as string | undefined || ''))
-const redirectUrl = vue.computed(() => decodeURIComponent(fictionRouter.query.value.redirect as string | undefined || ''))
-const emailQueryVars = vue.computed(() => {
-  const out: Record<string, string> = {}
-
-  if (orgHandle.value)
-    out.for = orgHandle.value
-  if (redirectUrl.value)
-    out.redirect = redirectUrl.value
-
-  return {}
-})
-const isLoadingOrg = vue.ref(false)
-
-// Auth flow states
-type AuthState =
-  | 'welcome' // Initial email entry screen
-  | 'verify-email' // Enter verification code
-  | 'verify-success' // Successfully verified
-  | 'email-link-sent' // Magic link sent
-  | 'login-password' // Password login
-  | 'reset-password' // Request password reset
-  | 'reset-password-sent' // Password reset sent
-  | 'set-new-password' // Set a new password
-  | 'password-updated' // Password updated successfully
-
-// Form state
-const fields = vue.ref({
+const form = vue.reactive({
   email: '',
   fullName: '',
   orgName: '',
@@ -66,205 +32,184 @@ const fields = vue.ref({
   passwordConfirm: '',
   oneTimeCode: '',
 })
-
-// UI state
-const sending = vue.ref(false)
-const formError = vue.ref('')
-const redirectCountdown = vue.ref(0)
-const redirectTimer = vue.ref<number | null>(null)
-
-// Auth flow configuration
-const authState = vue.computed<AuthState>(() => {
-  const val = (fictionRouter.params.value.itemId as AuthState) || 'welcome'
-  return isValidAuthState(val) ? val : 'welcome'
+const state = vue.reactive({
+  isLoadingOrg: false,
+  sending: false,
+  formError: '',
+  redirectCountdown: 0,
+  userToken: '',
+  orgData: null as OrgData | null,
+  redirectTimer: null as number | null,
 })
 
-type TransactionProps = InstanceType<typeof TransactionWrap>['$props']
+// Computed properties
+const orgHandle = vue.computed(() => decodeURIComponent(fictionRouter.query.value.for as string || ''))
+const redirectUrl = vue.computed(() => decodeURIComponent(fictionRouter.query.value.redirect as string || ''))
+const emailQueryVars = vue.computed(() => ({ for: orgHandle.value || '' }))
 
-// Screen configuration based on current auth state
-const screenConfig = vue.computed(() => {
-  const configs: Record<AuthState, TransactionProps> = {
-    'welcome': {
-      title: `Sign in to ${orgData.value?.orgName || 'Fiction'}`,
-      subTitle: `Enter your email to continue`,
-      icon: 'i-tabler-user-share',
-    },
-    'verify-email': {
-      title: `Confirm Code`,
-      subTitle: 'Enter the code we sent to your inbox',
-      icon: 'i-tabler-mail-check',
-    },
-    'verify-success': {
-      title: `Success!`,
-      subTitle: 'You are now logged in',
-      icon: 'i-tabler-user-check',
-      status: 'success',
-    },
-    'email-link-sent': {
-      title: `Check your inbox`,
-      subTitle: 'We sent a code to your email',
-      icon: 'i-tabler-mail',
-      status: 'success',
-    },
-    'reset-password': {
-      title: `Reset password`,
-      subTitle: 'Enter your email to continue',
-      icon: 'i-tabler-lock-open',
-    },
-    'login-password': {
-      title: `Login with Password`,
-      subTitle: 'Enter your password to continue',
-      icon: 'i-tabler-key',
-    },
-    'reset-password-sent': {
-      title: `Check your inbox`,
-      subTitle: 'We sent password reset instructions',
-      icon: 'i-tabler-mail',
-      status: 'success',
-    },
-    'set-new-password': {
-      title: `Create your password`,
-      subTitle: 'Use 8+ characters with a number and special character',
-      icon: 'i-tabler-key',
-    },
-    'password-updated': {
-      title: `Password updated!`,
-      subTitle: 'Your new password has been set',
-      icon: 'i-tabler-check',
-      status: 'success',
-    },
-  }
-
-  return configs[authState.value] || configs.welcome
-})
-
-// Page title
-const pageTitle = vue.computed(() => {
-  const orgPrefix = orgData.value ? `${orgData.value.orgName} - ` : ''
-  const authText = authState.value === 'welcome' ? 'Sign in' : 'Create account'
-  return `${orgPrefix}${authText} - ${fictionEnv.meta?.name}`
-})
-
-// Utility functions - can be extracted to a separate file
-function isValidAuthState(state: string): state is AuthState {
-  return [
-    'welcome',
-    'verify-email',
-    'verify-success',
-    'email-link-sent',
-    'login-password',
-    'reset-password',
-    'reset-password-sent',
-    'set-new-password',
-    'password-updated',
-  ].includes(state)
+// Auth state configuration
+interface AuthState {
+  title: string
+  subTitle?: string
+  icon: string
+  status?: 'success'
+  showEmailInput?: boolean
+  showPasswordInputs?: boolean
+  showCodeInput?: boolean
+  showTerms?: boolean
+  isSuccess?: boolean
+  onSubmit: () => Promise<void>
 }
 
-function getRedirectDestination(args: {
-  redirectUrl?: string
-  orgData?: OrgData | null
-  isNewUser?: boolean
-  token?: string
-}): { path: string, query: Record<string, string> } {
-  const { redirectUrl, orgData, isNewUser, token } = args
+type AuthStateKey = 'welcome' | 'verifyEmail' | 'verifySuccess' | 'emailLinkSent' | 'resetPassword' | 'loginPassword' | 'resetPasswordSent' | 'setNewPassword' | 'passwordUpdated'
 
-  const query: Record<string, string> = {}
-  if (token)
-    query._token = encodeURIComponent(token)
-  if (isNewUser)
-    query._isNewUser = '1'
-
-  // If redirect URL is provided, use it
-  if (redirectUrl) {
-    return { path: redirectUrl, query }
-  }
-
-  // If org data is available and has primaryDomain, redirect to org site
-  if (orgData?.primaryDomain) {
-    return { path: `https://${orgData.primaryDomain}`, query }
-  }
-
-  // Default: redirect to dashboard
-  return { path: '/', query }
+const states: Record<AuthStateKey, AuthState> = {
+  welcome: {
+    title: 'Sign in',
+    subTitle: 'Enter your email to continue',
+    icon: 'i-tabler-user-share',
+    showEmailInput: true,
+    showTerms: true,
+    onSubmit: () => sendOneTimeCode('emailLinkSent'),
+  },
+  verifyEmail: {
+    title: 'Confirm Code',
+    subTitle: 'Enter the code we sent to your inbox',
+    icon: 'i-tabler-mail-check',
+    showCodeInput: true,
+    onSubmit: () => verifyCode(response => navigateTo(!response.user?.hashedPassword ? 'setNewPassword' : 'verifySuccess')),
+  },
+  verifySuccess: {
+    title: 'Success!',
+    subTitle: 'You are now logged in',
+    icon: 'i-tabler-user-check',
+    status: 'success',
+    isSuccess: true,
+    onSubmit: redirectToDashboard,
+  },
+  emailLinkSent: {
+    title: 'Check your inbox',
+    subTitle: 'We sent a code to your email',
+    icon: 'i-tabler-mail',
+    status: 'success',
+    showCodeInput: true,
+    onSubmit: () => verifyCode(response => navigateTo(response.isNew || !response.user?.hashedPassword ? 'setNewPassword' : 'verifySuccess')),
+  },
+  resetPassword: {
+    title: 'Reset password',
+    subTitle: 'Enter your email to continue',
+    icon: 'i-tabler-lock-open',
+    showEmailInput: true,
+    onSubmit: () => sendOneTimeCode('resetPasswordSent'),
+  },
+  loginPassword: {
+    title: 'Login with Password',
+    subTitle: 'Enter your password to continue',
+    icon: 'i-tabler-key',
+    showEmailInput: true,
+    showPasswordInputs: true,
+    onSubmit: passwordLogin,
+  },
+  resetPasswordSent: {
+    title: 'Check your inbox',
+    subTitle: 'We sent password reset instructions',
+    icon: 'i-tabler-mail',
+    status: 'success',
+    showCodeInput: true,
+    onSubmit: () => verifyCode(() => navigateTo('setNewPassword')),
+  },
+  setNewPassword: {
+    title: 'Create your password',
+    icon: 'i-tabler-key',
+    showPasswordInputs: true,
+    onSubmit: setNewPassword,
+  },
+  passwordUpdated: {
+    title: 'Password updated!',
+    subTitle: 'Your new password has been set',
+    icon: 'i-tabler-check',
+    status: 'success',
+    isSuccess: true,
+    onSubmit: redirectToDashboard,
+  },
 }
+
+// Current state
+const authState = vue.computed<AuthStateKey>(() => {
+  const stateFromUrl = toCamel(fictionRouter.params.value.itemId as string || '')
+  return Object.keys(states).includes(stateFromUrl) ? stateFromUrl as AuthStateKey : 'welcome'
+})
+
+const currentState = vue.computed(() => {
+  const s = { ...states[authState.value] }
+  if (state.orgData?.orgName && s.title === 'Sign in') {
+    s.title = `Sign in to ${state.orgData.orgName}`
+  }
+  return s
+})
+
+const isCodeConfirmState = vue.computed(() => !!currentState.value.showCodeInput)
+const isSuccessState = vue.computed(() => !!currentState.value.isSuccess)
+const pageTitle = vue.computed(() =>
+  `${state.orgData ? `${state.orgData.orgName} - ` : ''}${authState.value === 'welcome' ? 'Sign in' : 'Create account'} - ${fictionEnv.meta?.name}`)
 
 // Lifecycle hooks
-vue.onMounted(async () => {
-  // Set page title
-  unhead.useHead({
-    title: () => pageTitle.value,
-    meta: [{ name: 'description', content: pageTitle.value }],
+vue.onMounted(() => {
+  unhead.useHead({ title: pageTitle, meta: [{ name: 'description', content: pageTitle }] })
+  handleQueryParams()
+  vue.watch(authState, () => {
+    state.formError = ''
+    if (isSuccessState.value)
+      startRedirectCountdown()
   })
+})
 
-  // Watch for query parameters
+vue.onBeforeUnmount(() => clearRedirectTimer())
+
+// Core functions
+async function handleQueryParams() {
   vue.watch(() => fictionRouter.query.value, async () => {
     const { email, code } = fictionRouter.query.value as { email?: string, code?: string }
-
     if (email)
-      fields.value.email = email
+      form.email = email
     if (code)
-      fields.value.oneTimeCode = code
-
-    // Load org data if handle is provided
-    if (orgHandle.value && !orgData.value) {
+      form.oneTimeCode = code
+    if (orgHandle.value && !state.orgData)
       await loadOrgData(orgHandle.value)
-    }
   }, { immediate: true })
+}
 
-  vue.watch(() => authState.value, () => {
-    if (['password-updated', 'verify-success'].includes(authState.value)) {
-      startRedirectCountdown()
-    }
-  })
-})
-
-vue.onBeforeUnmount(() => {
-  clearRedirectTimer()
-})
-
-vue.watch(() => authState.value, () => {
-  formError.value = ''
-})
-
-// Organization data loading
-async function loadOrgData(handle: string): Promise<void> {
-  isLoadingOrg.value = true
-
+async function loadOrgData(handle: string) {
+  state.isLoadingOrg = true
   try {
     const response = await fictionUser.requests.ManageOrganization.request({
       _action: 'read',
       where: { handle },
     }, { disableNotify: true })
-
     if (response.status === 'success' && response.data) {
-      orgData.value = response.data as OrgData
+      state.orgData = response.data as OrgData
     }
   }
   catch (error) {
     console.error('Failed to load organization data:', error)
   }
   finally {
-    isLoadingOrg.value = false
+    state.isLoadingOrg = false
   }
 }
 
-// Auth flow navigation
-async function navigateTo(state: AuthState) {
+async function navigateTo(nextState: AuthStateKey) {
   await fictionRouter.replace({
-    path: props.card.link(`/auth/${state}`),
+    path: props.card.link(`/auth/${toKebab(nextState)}`),
     query: fictionRouter.query.value,
   }, { caller: 'authCard' })
 }
 
-// Countdown and redirect
 function startRedirectCountdown(seconds = 2) {
-  redirectCountdown.value = seconds
+  state.redirectCountdown = seconds
   clearRedirectTimer()
-
-  redirectTimer.value = window.setInterval(() => {
-    redirectCountdown.value--
-
-    if (redirectCountdown.value <= 0) {
+  state.redirectTimer = window.setInterval(() => {
+    if (--state.redirectCountdown <= 0) {
       clearRedirectTimer()
       redirectToDashboard()
     }
@@ -272,383 +217,252 @@ function startRedirectCountdown(seconds = 2) {
 }
 
 function clearRedirectTimer() {
-  if (redirectTimer.value) {
-    window.clearInterval(redirectTimer.value)
-    redirectTimer.value = null
+  if (state.redirectTimer) {
+    window.clearInterval(state.redirectTimer)
+    state.redirectTimer = null
   }
 }
 
 async function redirectToDashboard(args?: { isNewUser?: boolean }) {
-  const destination = getRedirectDestination({
-    redirectUrl: redirectUrl.value,
-    orgData: orgData.value,
-    isNewUser: args?.isNewUser,
-    token: userToken.value,
-  })
+  const query: Record<string, string> = {}
+  if (state.userToken)
+    query._token = encodeURIComponent(state.userToken)
+  if (args?.isNewUser)
+    query._isNewUser = '1'
 
-  await props.card.goto(destination, { caller: 'authCard-redirect' })
+  let path = '/'
+  if (redirectUrl.value)
+    path = redirectUrl.value
+  else if (state.orgData?.primaryDomain)
+    path = `https://${state.orgData.primaryDomain}`
+
+  await props.card.goto({ path, query }, { caller: 'authCard-redirect' })
 }
 
-// Form submission handler
 async function handleFormSubmit() {
-  if (sending.value)
+  if (state.sending)
     return
-
-  formError.value = ''
-  sending.value = true
-
+  state.formError = ''
+  state.sending = true
   try {
-    const handlers: Record<AuthState, () => Promise<void>> = {
-      'welcome': () => sendOneTimeCode('email-link-sent'),
-      'login-password': passwordLogin,
-      'verify-email': () => verifyCode(),
-      'reset-password': () => sendOneTimeCode('reset-password-sent'),
-      'set-new-password': setNewPassword,
-      'email-link-sent': () => verifyCode(async response => navigateTo(response.isNew ? 'set-new-password' : 'verify-success')),
-      'verify-success': redirectToDashboard,
-      'password-updated': redirectToDashboard,
-      'reset-password-sent': () => verifyCode(() => navigateTo('set-new-password')),
-    }
-
-    const handler = handlers[authState.value]
-    if (handler) {
-      await handler()
-    }
-    else {
-      throw new Error(`No form handler for ${authState.value}`)
-    }
+    await currentState.value.onSubmit()
   }
   catch (error) {
-    if (error instanceof Error) {
-      formError.value = error.message
-    }
-    else {
-      formError.value = 'An unexpected error occurred'
-    }
+    state.formError = error instanceof Error ? error.message : 'An unexpected error occurred'
   }
   finally {
-    sending.value = false
+    state.sending = false
   }
 }
 
-// Auth methods
 async function verifyCode(callback: (response: EndpointResponse<User> & { isNew?: boolean }) => Promise<void> = async () => {}) {
-  const { email, oneTimeCode } = fields.value
-
-  if (oneTimeCode.length !== 6) {
+  if (form.oneTimeCode.length !== 6)
     throw new Error('Enter the 6-digit code from your email')
-  }
-
   const response = await fictionUser.requests.ManageUser.request({
     _action: 'loginWithCode',
-    where: { email },
-    code: oneTimeCode,
-    keepCode: authState.value === 'reset-password-sent',
+    where: { email: form.email },
+    code: form.oneTimeCode,
+    keepCode: ['resetPasswordSent', 'emailLinkSent', 'verifyEmail'].includes(authState.value),
   })
-
   if (response.status !== 'success') {
-    fields.value.oneTimeCode = ''
-    throw new Error(response.message || 'Invalid code. Please try again.')
+    form.oneTimeCode = ''
+    throw new Error(response.message || 'Invalid code')
   }
-
-  if (!response.token) {
-    throw new Error('No token received. Please try again.')
-  }
-
-  userToken.value = response.token
-
-  if (callback) {
-    await callback(response)
-  }
-  else {
-    await navigateTo('verify-success')
-  }
+  state.userToken = response.token || ''
+  await callback(response)
 }
 
 async function setNewPassword() {
-  const { email, password, passwordConfirm, oneTimeCode } = fields.value
-
-  if (password !== passwordConfirm) {
+  if (form.password !== form.passwordConfirm)
     throw new Error('Passwords do not match')
-  }
-
-  if (password.length < 8) {
+  if (form.password.length < 8)
     throw new Error('Password must be at least 8 characters')
-  }
-
   const response = await fictionUser.requests.ManageUser.request({
     _action: 'loginWithCode',
-    where: { email },
-    code: oneTimeCode,
-    newPassword: password,
+    where: { email: form.email },
+    code: form.oneTimeCode,
+    newPassword: form.password,
+    keepCode: false,
   })
-
-  if (response.status !== 'success') {
-    throw new Error(response.message || 'Could not update password. Please try again.')
-  }
-
-  await navigateTo('password-updated')
+  if (response.status !== 'success')
+    throw new Error(response.message || 'Could not update password')
+  if (response.token)
+    state.userToken = response.token
+  await navigateTo('passwordUpdated')
 }
 
-async function sendOneTimeCode(next: AuthState) {
-  const { email } = fields.value
-
-  if (!email) {
+async function sendOneTimeCode(next: AuthStateKey) {
+  if (!form.email)
     throw new Error('Please enter your email address')
-  }
-
-  if (!isValidEmail(email)) {
+  if (!isValidEmail(form.email))
     throw new Error('Please enter a valid email address')
-  }
-
-  const createUserFields: Partial<User> = {
-    ...fields.value,
-    email,
-    needsOnboarding: true,
-  }
-
   const response = await fictionAdmin.emailActions.magicLoginEmailAction.requestSend({
-    to: email,
-    createUserFields,
-    baseRoute: '/app',
-    queryVars: emailQueryVars.value,
+    to: form.email,
+    createUserFields: { ...form, needsOnboarding: true },
+    queryVars: emailQueryVars.value || {},
   })
-
-  if (response?.status !== 'success') {
-    throw new Error(response?.message || 'Could not send login link. Please try again.')
-  }
-
+  if (response?.status !== 'success')
+    throw new Error(response?.message || 'Could not send login link')
   await navigateTo(next)
 }
 
 async function passwordLogin() {
-  const { email, password } = fields.value
-
-  if (!email || !password) {
+  if (!form.email || !form.password)
     throw new Error('Please enter both email and password')
-  }
-
-  if (!isValidEmail(email)) {
+  if (!isValidEmail(form.email))
     throw new Error('Please enter a valid email address')
-  }
-
   const response = await fictionUser.requests.ManageUser.request({
     _action: 'login',
-    where: { email },
-    password,
+    where: { email: form.email },
+    password: form.password,
     createOnEmpty: true,
-    createUserFields: {
-      fullName: fields.value.fullName,
-      needsOnboarding: true,
-    },
+    createUserFields: { fullName: form.fullName, needsOnboarding: true },
   })
-
-  if (response?.status !== 'success') {
-    throw new Error(response?.message || 'Login failed. Please check your credentials.')
-  }
-
-  if (!response.user?.emailVerified) {
-    // Need to verify email
-
-    await sendOneTimeCode('verify-email')
-  }
-  else {
-    // Already verified, redirect
-    await navigateTo('verify-success')
-  }
+  if (response?.status !== 'success')
+    throw new Error(response?.message || 'Login failed')
+  await navigateTo(response.user?.emailVerified ? 'verifySuccess' : 'verifyEmail')
 }
-
-const isCodeConfirmState = vue.computed(() => ['verify-email', 'email-link-sent', 'reset-password-sent'].includes(authState.value))
 </script>
 
 <template>
   <TransactionView :card>
-    <TransactionWrap v-bind="{ logo: card.userConfig.value.logo, ...screenConfig }">
+    <TransactionWrap v-bind="{ logo: card.userConfig.value.logo, ...currentState }">
       <ElForm
         class="space-y-5"
-        data-test-id="form"
         :data-step="authState"
-        :data-value="JSON.stringify(fields)"
-        :notify="formError"
+        :notify="state.formError"
         @submit="handleFormSubmit()"
       >
         <EffectTransitionList>
-          <!-- Loading state for org data -->
-          <div v-if="isLoadingOrg" class="flex justify-center p-4">
-            <div class="animate-pulse text-center">
-              <div class="text-theme-500 dark:text-theme-400">
-                Loading organization...
-              </div>
+          <div v-if="state.isLoadingOrg" class="flex justify-center p-4">
+            <div class="animate-pulse text-center text-theme-500 dark:text-theme-400">
+              Loading organization...
             </div>
           </div>
-
-          <!-- Success states with redirect -->
-          <template v-else-if="['verify-success', 'password-updated'].includes(authState)">
+          <template v-else-if="isSuccessState">
             <div class="text-center space-y-4">
-              <p class="text-theme-500 dark:text-theme-400 text-sm text-pretty my-6">
-                Redirecting in {{ redirectCountdown }} seconds...
+              <p class="text-theme-500 dark:text-theme-400 text-sm my-6">
+                Redirecting in {{ state.redirectCountdown }} seconds...
               </p>
-
               <XButton
                 theme="primary"
                 design="solid"
                 size="lg"
                 icon-after="i-tabler-arrow-up-right"
-                data-test-id="continue-button"
                 @click.prevent="redirectToDashboard()"
               >
                 Complete
               </XButton>
             </div>
           </template>
-
-          <!-- Verification code entry -->
           <template v-else-if="isCodeConfirmState">
             <ElInput
-              v-model="fields.oneTimeCode"
-              data-test-id="input-one-time-code"
-              class="w-full"
+              v-model="form.oneTimeCode"
               label="Verification code"
               input="InputOneTimeCode"
               :input-props="{ required: true, placeholder: '6-digit code' }"
               ui-size="lg"
             />
-
             <XButton
               type="submit"
               format="block"
               theme="primary"
               design="solid"
               size="lg"
-              :loading="sending"
-              data-test-id="submit-button-verify"
+              :loading="state.sending"
               icon="i-tabler-check"
             >
               Verify Code
             </XButton>
-
             <div class="text-theme-500 dark:text-theme-400 text-xs text-center">
               <p>Didn't receive the code?</p>
               <XButton
                 size="xs"
                 design="link"
                 theme="default"
-                data-test-id="to-welcome-try-again"
                 @click.prevent="navigateTo('welcome')"
               >
                 Try again
               </XButton>
             </div>
           </template>
-
-          <!-- Main auth forms -->
           <template v-else>
-            <!-- Email input for most forms -->
             <ElInput
-              v-if="['welcome', 'login-password', 'reset-password'].includes(authState)"
-              v-model="fields.email"
-              data-test-id="input-email"
-              class="w-full"
+              v-if="currentState.showEmailInput"
+              v-model="form.email"
               label="Email"
               input="InputEmail"
               :input-props="{ autocomplete: 'email', required: true, placeholder: 'Enter your email' }"
               ui-size="lg"
             />
-
-            <!-- Password input for login -->
             <ElInput
-              v-if="authState === 'login-password'"
-              v-model="fields.password"
-              data-test-id="input-password"
+              v-if="authState === 'loginPassword'"
+              v-model="form.password"
               input="InputPassword"
               label="Password"
-              class="w-full"
               :input-props="{ autocomplete: 'current-password', required: true, placeholder: 'Your password' }"
               ui-size="lg"
             />
-
-            <!-- New password fields for reset -->
-            <template v-if="authState === 'set-new-password'">
+            <template v-if="authState === 'setNewPassword'">
               <ElInput
-                v-model="fields.password"
-                data-test-id="input-new-password"
+                v-model="form.password"
                 input="InputPassword"
                 label="New password"
-                class="w-full"
+                description="Use 8+ characters with a number and special character"
                 :input-props="{ autocomplete: 'new-password', required: true, placeholder: 'Create a password' }"
                 ui-size="lg"
               />
-
               <ElInput
-                v-model="fields.passwordConfirm"
-                data-test-id="input-new-password-confirm"
+                v-model="form.passwordConfirm"
                 input="InputPassword"
                 label="Confirm password"
-                class="w-full"
-                :input-props="{ autocomplete: 'new-password', required: true, placeholder: 'Enter same password again' }"
+                :input-props="{ autocomplete: 'new-password', required: true, placeholder: 'Confirm password' }"
                 ui-size="lg"
               />
             </template>
-
-            <!-- Action buttons -->
             <XButton
               type="submit"
               format="block"
               theme="primary"
               design="solid"
               size="lg"
-              :loading="sending"
-              :data-test-id="`submit-button-${authState}`"
-              :icon="authState === 'set-new-password' ? 'i-tabler-key' : undefined"
+              :loading="state.sending"
+              :icon="authState === 'setNewPassword' ? 'i-tabler-key' : undefined"
               :icon-after="authState === 'welcome' ? 'i-tabler-arrow-right' : undefined"
             >
-              <template v-if="authState === 'set-new-password'">
-                Set Password
-              </template>
-              <template v-else-if="authState === 'reset-password'">
-                Reset Password
-              </template>
-              <template v-else>
-                Continue
-              </template>
+              {{ authState === 'setNewPassword' ? 'Set Password' : authState === 'resetPassword' ? 'Reset Password' : 'Continue' }}
             </XButton>
-
-            <!-- Links for navigation between auth screens -->
-            <div class="text-theme-500 dark:text-theme-400 text-sm font-sans text-center space-y-6">
-              <div class="flex gap-5 justify-center flex-wrap items-center">
+            <div class="text-theme-500 dark:text-theme-400 text-sm text-center space-y-4">
+              <div class="flex gap-4 justify-center flex-wrap">
                 <XButton
-                  v-if="['login-password'].includes(authState) || isCodeConfirmState"
+                  v-if="['loginPassword', 'verifyEmail', 'emailLinkSent', 'resetPasswordSent'].includes(authState)"
                   size="sm"
                   design="link"
                   theme="default"
-                  data-test-id="to-welcome"
-                  @click.prevent="navigateTo(authState === 'reset-password' ? 'login-password' : 'welcome')"
+                  @click.prevent="navigateTo(authState === 'resetPassword' ? 'loginPassword' : 'welcome')"
                 >
                   {{ isCodeConfirmState ? 'Start Again' : 'Login with Email' }}
                 </XButton>
                 <XButton
-                  v-if="['login-password'].includes(authState)"
+                  v-if="authState === 'loginPassword'"
                   size="sm"
                   design="link"
                   theme="default"
-                  data-test-id="to-reset-password"
-                  @click.prevent="navigateTo('reset-password')"
+                  @click.prevent="navigateTo('resetPassword')"
                 >
                   Forgot password
                 </XButton>
                 <XButton
-                  v-else-if="['welcome', 'reset-password'].includes(authState)"
+                  v-else-if="['welcome', 'resetPassword'].includes(authState)"
                   size="sm"
                   design="link"
                   theme="default"
-                  data-test-id="to-login-password"
-                  @click.prevent="navigateTo('login-password')"
+                  @click.prevent="navigateTo('loginPassword')"
                 >
                   Login with Password
                 </XButton>
               </div>
-
-              <div v-if="['welcome'].includes(authState)" class="leading-normal text-xs px-4 text-pretty text-theme-500">
+              <div v-if="currentState.showTerms" class="text-xs px-4 text-pretty">
                 By continuing, you agree to the
                 <a class="underline hover:text-theme-600 dark:hover:text-theme-300" :href="termsUrl" target="_blank">Terms</a>
                 and

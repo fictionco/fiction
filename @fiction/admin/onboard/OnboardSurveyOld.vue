@@ -145,7 +145,6 @@ const stepConfig: StepConfig = {
       {
         superTitle: {
           text: 'Welcome to Fiction',
-          theme: 'blue',
           icon: { class: 'i-tabler-north-star' },
         },
         title: 'First, what\'s your full name?',
@@ -157,7 +156,6 @@ const stepConfig: StepConfig = {
       {
         superTitle: {
           text: 'Identity',
-          theme: 'violet',
           icon: { class: 'i-tabler-brush' },
         },
         title: 'What\'s your workspace name?',
@@ -169,7 +167,6 @@ const stepConfig: StepConfig = {
       {
         superTitle: {
           text: 'Vision',
-          theme: 'emerald',
           icon: { class: 'i-tabler-target' },
         },
         title: 'What do you want to achieve?',
@@ -181,7 +178,6 @@ const stepConfig: StepConfig = {
       {
         superTitle: {
           text: 'Personalize',
-          theme: 'rose',
           icon: { class: 'i-tabler-user' },
         },
         title: 'Which best describes you?',
@@ -217,7 +213,7 @@ const stepConfig: StepConfig = {
           icon: { class: 'i-tabler-bolt' },
         },
         title: `You\'re All Set${firstName.value ? ` ${firstName.value}` : ``}!`,
-        subTitle: 'Your incredible future awaits. Let\'s begin...',
+        subTitle: 'An incredible future awaits. Let\'s begin...',
         button: {
           label: 'Go to Dashboard',
           theme: 'primary',

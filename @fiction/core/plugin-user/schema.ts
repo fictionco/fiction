@@ -18,8 +18,8 @@ export const userColumns = [
   new Col({ key: 'email', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).notNullable().unique(), prepare: ({ value }) => (value).toLowerCase().trim() }),
   new Col({ key: 'handle', sec: 'setting', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).unique().notNullable().defaultTo(db.raw(`short_id(9)`)).index(), prepare: ({ value }) => (value).replaceAll(/[^\dA-Z]+/gi, '').toLowerCase() }),
   new Col({ key: 'fullName', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
-  new Col({ key: 'headline', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
   new Col({ key: 'about', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
+  new Col({ key: 'headline', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
   new Col({ key: 'avatar', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'hashedPassword', sec: 'authority', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'emailVerified', sec: 'settingAdmin', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).notNullable().defaultTo(false) }),
@@ -60,6 +60,8 @@ export const orgColumns = [
   new Col({ key: 'description', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
   new Col({ key: 'headline', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
   new Col({ key: 'about', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
+  new Col({ key: 'interests', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
+  new Col({ key: 'influences', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'logo', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }), // wide logo (full name)
   new Col({ key: 'avatar', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }), // avatar (image of person or icon)
   new Col({ key: 'icon', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }), // icon (logo or icon)

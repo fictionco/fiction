@@ -69,6 +69,7 @@ const envVarNames = [
   'REDIS_URL',
   'APOLLO_API_KEY',
   'CLICKHOUSE_URL',
+  'PROXYCURL_API_KEY',
 ] as const
 
 const v = getEnvVars(fictionEnv, envVarNames)
@@ -177,7 +178,7 @@ const fictionStripe = new FictionStripe({
   products: getStripeProductConfig(),
 })
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
-const fictionAdmin = new FictionAdmin({ ...basicService, fictionTransactions, fictionMedia })
+const fictionAdmin = new FictionAdmin({ ...basicService, fictionAi, fictionTransactions, fictionMedia, proxycurlApiKey: v.proxycurlApiKey })
 
 const s = { ...basicService, fictionAppSites, fictionStripe, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionTransactions, fictionAdmin }
 
