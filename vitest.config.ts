@@ -36,7 +36,7 @@ export default defineConfig({
 
     // added to fix a memory error 3.0.4 -> https://github.com/vitest-dev/vitest/issues/7288
     fakeTimers: {
-      toFake: ['Date', 'setTimeout', 'clearTimeout'],
+      toFake: ['Date', 'setTimeout', 'clearTimeout', 'setInterval', 'clearInterval'],
     },
     testTimeout: 60000,
     hookTimeout: 40000,

@@ -3,8 +3,9 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { ProgressTimer } from '../progress'
 
 describe('ProgressTimer', () => {
+  // Setup and teardown
   beforeEach(() => {
-    // Mock Date.now to control time
+    // Mock timers
     vi.useFakeTimers()
   })
 
@@ -14,182 +15,235 @@ describe('ProgressTimer', () => {
 
   it('should initialize with default settings', () => {
     const timer = new ProgressTimer()
-    expect(timer).toBeInstanceOf(ProgressTimer)
+    expect(timer.isRunning).toBe(false)
+    expect(timer['timer']).toBeNull()
+    expect(timer['startTime']).toBe(0)
+    expect(timer['elapsed']).toBe(0)
+    expect(timer['failed']).toBe(false)
   })
 
-  it('should use custom steps when provided', () => {
+  it('should initialize with custom settings', () => {
+    const customSteps = [
+      { percent: 20, message: 'Custom step 1' },
+      { percent: 80, message: 'Custom step 2' }
+    ]
+    const timer = new ProgressTimer('CustomTimer', { steps: customSteps, totalTime: 5000 })
+    expect(timer['settings'].steps).toEqual(customSteps)
+    expect(timer['settings'].totalTime).toBe(5000)
+  })
+
+  it('should start the timer and update progress', () => {
+    const onProgress = vi.fn()
+    const timer = new ProgressTimer('TestTimer', {
+      onProgress,
+      totalTime: 1000
+    })
+
+    timer.start()
+
+    // Initial update should happen immediately
+    expect(timer.isRunning).toBe(true)
+    expect(onProgress).toHaveBeenCalledWith(25, 'Starting process...')
+
+    // Advance 500ms (50% of total time)
+    vi.advanceTimersByTime(500)
+    expect(onProgress).toHaveBeenCalledWith(50, 'Processing data...')
+
+    // Advance another 250ms (75% of total time)
+    vi.advanceTimersByTime(350)
+    expect(onProgress).toHaveBeenCalledWith(75, 'Almost there...')
+
+    // Advance to completion
+    vi.advanceTimersByTime(650)
+    expect(onProgress).toHaveBeenCalledWith(100, 'Complete')
+    expect(timer.isRunning).toBe(false)
+  })
+
+  it('should handle custom steps correctly', () => {
     const onProgress = vi.fn()
     const steps = [
-      { percent: 10, message: 'Test step 1' },
-      { percent: 90, message: 'Test step 2' }
+      { percent: 10, message: 'Step 1' },
+      { percent: 60, message: 'Step 2' },
+      { percent: 90, message: 'Step 3' }
     ]
 
-    const timer = new ProgressTimer('test', {
+    const timer = new ProgressTimer('CustomSteps', {
       steps,
-      onProgress
-    }).start()
+      onProgress,
+      totalTime: 1000
+    })
 
-    // Should immediately report first step
-    expect(onProgress).toHaveBeenCalledWith(10, 'Test step 1')
+    timer.start()
 
-    timer.stop()
-  })
-
-  it('should progress based on elapsed time', () => {
-    const onProgress = vi.fn()
-    const timer = new ProgressTimer('test', {
-      totalTime: 1000, // 1 second
-      steps: [
-        { percent: 10, message: 'Step 1' },
-        { percent: 50, message: 'Step 2' },
-        { percent: 90, message: 'Step 3' }
-      ],
-      onProgress
-    }).start()
-
-    // Initial step
+    // Initial update should happen with first step
     expect(onProgress).toHaveBeenCalledWith(10, 'Step 1')
-    onProgress.mockClear()
 
-    // Advance to 40% of time
-    vi.advanceTimersByTime(400)
-    expect(onProgress).toHaveBeenCalledWith(40, 'Step 1')
-    onProgress.mockClear()
-
-    // Advance to 60% of time - should trigger step 2
-    vi.advanceTimersByTime(200)
+    // Advance to 60%
+    vi.advanceTimersByTime(600)
     expect(onProgress).toHaveBeenCalledWith(60, 'Step 2')
-    onProgress.mockClear()
 
-    // Advance to 95% of time - should trigger step 3
-    vi.advanceTimersByTime(350)
-    expect(onProgress).toHaveBeenCalledWith(95, 'Step 3')
-    onProgress.mockClear()
-
-    // Complete the timer
-    vi.advanceTimersByTime(50)
-    expect(onProgress).toHaveBeenCalledWith(100, 'Complete')
-
-    // Timer should stop automatically
-    expect(timer.isRunning).toBeFalsy()
+    // Advance to 90%
+    vi.advanceTimersByTime(300)
+    expect(onProgress).toHaveBeenCalledWith(90, 'Step 3')
   })
 
-  it('should call onComplete when finished', () => {
+  it('should call onComplete when timer completes', () => {
     const onComplete = vi.fn()
-    const timer = new ProgressTimer('test', {
-      totalTime: 1000,
-      onComplete,
-      completionMessage: 'All done!'
-    }).start()
+    const onProgress = vi.fn()
 
+    const timer = new ProgressTimer('CompletionTest', {
+      onComplete,
+      onProgress,
+      totalTime: 1000
+    })
+
+    timer.start()
     vi.advanceTimersByTime(1000)
 
-    expect(onComplete).toHaveBeenCalled()
+    expect(onComplete).toHaveBeenCalledTimes(1)
+    expect(timer.isRunning).toBe(false)
   })
 
-  it('should handle failure cases', () => {
+  it('should use custom completion message when provided', () => {
     const onProgress = vi.fn()
-    const onError = vi.fn()
+    const completionMessage = 'Custom completion message'
 
-    const timer = new ProgressTimer('test', {
-      totalTime: 1000,
+    const timer = new ProgressTimer('CustomMessage', {
       onProgress,
-      onError
-    }).start()
+      completionMessage,
+      totalTime: 1000
+    })
 
-    // Advance halfway
+    timer.start()
+    vi.advanceTimersByTime(1000)
+
+    expect(onProgress).toHaveBeenCalledWith(100, completionMessage)
+  })
+
+  it('should handle stop without triggering completion', () => {
+    const onComplete = vi.fn()
+    const onProgress = vi.fn()
+
+    const timer = new ProgressTimer('StopTest', {
+      onComplete,
+      onProgress,
+      totalTime: 1000
+    })
+
+    timer.start()
     vi.advanceTimersByTime(500)
-    onProgress.mockClear()
+    timer.stop(false)
 
-    // Cause failure
-    const errorMessage = 'Something went wrong'
+    expect(onComplete).not.toHaveBeenCalled()
+    expect(timer.isRunning).toBe(false)
+    expect(timer['timer']).toBeNull()
+  })
+
+  it('should handle stop with triggering completion', () => {
+    const onComplete = vi.fn()
+    const onProgress = vi.fn()
+
+    const timer = new ProgressTimer('StopWithCompletionTest', {
+      onComplete,
+      onProgress,
+      totalTime: 1000
+    })
+
+    timer.start()
+    vi.advanceTimersByTime(500)
+    timer.stop(true)
+
+    expect(onComplete).toHaveBeenCalledTimes(1)
+    expect(onProgress).toHaveBeenCalledWith(100, 'Complete')
+    expect(timer.isRunning).toBe(false)
+  })
+
+  it('should handle fail state correctly', () => {
+    const onError = vi.fn()
+    const onProgress = vi.fn()
+    const onComplete = vi.fn()
+
+    const timer = new ProgressTimer('FailTest', {
+      onError,
+      onProgress,
+      onComplete,
+      totalTime: 1000
+    })
+
+    timer.start()
+    vi.advanceTimersByTime(300)
+    const errorMessage = 'Custom error message'
     timer.fail(errorMessage)
 
-    // Should report error
-    expect(onProgress).toHaveBeenCalledWith(expect.any(Number), errorMessage)
-    expect(onError).toHaveBeenCalled()
-
-    // Timer should be stopped
-    expect(timer.isRunning).toBeFalsy()
+    expect(onError).toHaveBeenCalledWith(errorMessage)
+    expect(onProgress).toHaveBeenCalledWith(30, errorMessage)
+    expect(onComplete).not.toHaveBeenCalled()
+    expect(timer.isRunning).toBe(false)
+    expect(timer['failed']).toBe(true)
   })
 
-  it('should be stoppable', () => {
+  it('should not exceed 100% progress', () => {
     const onProgress = vi.fn()
-    const onComplete = vi.fn()
 
-    const timer = new ProgressTimer('test', {
-      totalTime: 1000,
+    const timer = new ProgressTimer('MaxProgressTest', {
       onProgress,
-      onComplete
-    }).start()
+      totalTime: 1000
+    })
 
-    vi.advanceTimersByTime(500)
-    onProgress.mockClear()
+    timer.start()
+    vi.advanceTimersByTime(1500) // Advance beyond total time
 
-    // Stop manually
-    timer.stop()
-
-    // Should report completion
-    expect(onProgress).toHaveBeenCalledWith(100, 'Complete')
-    expect(onComplete).toHaveBeenCalled()
-
-    // Timer should be stopped
-    expect(timer.isRunning).toBeFalsy()
-
-    // Advancing time further should not call progress again
-    onProgress.mockClear()
-    vi.advanceTimersByTime(1000)
-    expect(onProgress).not.toHaveBeenCalled()
+    // Progress should be capped at 100%
+    const lastCall = onProgress.mock.calls[onProgress.mock.calls.length - 2]
+    expect(lastCall[0]).toBe(100)
   })
 
-  it('should handle multiple start calls gracefully', () => {
-    // Setup spies for timeouts
-    const clearIntervalSpy = vi.spyOn(global, 'clearInterval')
-    const setIntervalSpy = vi.spyOn(global, 'setInterval')
+  it('should allow chaining of methods', () => {
+    const timer = new ProgressTimer()
 
-    const timer = new ProgressTimer('test')
+    const result = timer.start().stop().fail('Error').start()
 
-    // First start
-    timer.start()
-    expect(setIntervalSpy).toHaveBeenCalledTimes(1)
-
-    // Second start should clear previous interval
-    timer.start()
-    expect(clearIntervalSpy).toHaveBeenCalledTimes(1)
-    expect(setIntervalSpy).toHaveBeenCalledTimes(2)
-
-    timer.stop()
+    expect(result).toBe(timer)
   })
 
-  it('should calculate percentages correctly', () => {
+  it('should handle multiple start-stop cycles', () => {
     const onProgress = vi.fn()
 
-    // Create timer with uneven step distribution
-    const timer = new ProgressTimer('test', {
-      totalTime: 1000,
-      steps: [
-        { percent: 20, message: 'Step 1' },
-        { percent: 80, message: 'Step 2' }
-      ],
-      onProgress
-    }).start()
+    const timer = new ProgressTimer('CycleTest', {
+      onProgress,
+      totalTime: 1000
+    })
 
-    onProgress.mockClear()
+    // First cycle
+    timer.start()
+    vi.advanceTimersByTime(300)
+    timer.stop()
 
-    // At 10% time, should report something close to 10%
-    vi.advanceTimersByTime(100)
-    expect(onProgress).toHaveBeenCalledWith(10, 'Step 1')
-    onProgress.mockClear()
+    // Second cycle
+    timer.start()
+    vi.advanceTimersByTime(200)
 
-    // At 50% time, should report 50% but still on step 1
-    vi.advanceTimersByTime(400)
-    expect(onProgress).toHaveBeenCalledWith(50, 'Step 1')
-    onProgress.mockClear()
+    // Progress should have reset
+    expect(timer['elapsed']).toBe(200)
+    expect(timer.isRunning).toBe(true)
+  })
 
-    // At 85% time, should report 85% and be on step 2
-    vi.advanceTimersByTime(350)
-    expect(onProgress).toHaveBeenCalledWith(85, 'Step 2')
+  it('should not update progress after stopping', () => {
+    const onProgress = vi.fn()
+
+    const timer = new ProgressTimer('StopUpdateTest', {
+      onProgress,
+      totalTime: 1000
+    })
+
+    timer.start()
+    const initialCallCount = onProgress.mock.calls.length
 
     timer.stop()
+    vi.advanceTimersByTime(500)
+
+    // Only one more call for the completion
+    expect(onProgress.mock.calls.length).toBe(initialCallCount + 1)
   })
+
 })

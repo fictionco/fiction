@@ -1,4 +1,3 @@
-// ProgressTimer.ts
 import { FictionObject } from '../plugin.js'
 
 export type ProgressStep = {
@@ -11,104 +10,113 @@ export type ProgressTimerSettings = {
   totalTime?: number
   onProgress?: (percent: number, message: string) => void
   onComplete?: () => void
-  onError?: () => void
+  onError?: (error?: string) => void
   completionMessage?: string
 }
 
 export class ProgressTimer extends FictionObject<ProgressTimerSettings> {
   private timer: ReturnType<typeof setInterval> | null = null
-  private currentStep = 0
   private startTime = 0
+  private elapsed = 0
   private failed = false
   isRunning = false
+  private lastReportedPercent = 0
 
   constructor(name = 'ProgressTimer', settings: ProgressTimerSettings = {}) {
     super(name, settings)
   }
 
   start(): this {
-    this.stop()
+    // Clear any existing timer
+    this.stop(false)
 
     const steps = this.settings.steps || [
       { percent: 25, message: 'Starting process...' },
       { percent: 50, message: 'Processing data...' },
       { percent: 75, message: 'Almost there...' },
-      { percent: 95, message: 'Finalizing...' }
+      { percent: 100, message: 'Complete' }
     ]
 
-    const totalTime = this.settings.totalTime || 40000
-    this.currentStep = 0
     this.startTime = Date.now()
+    this.elapsed = 0
     this.failed = false
     this.isRunning = true
+    this.lastReportedPercent = 0
 
-    // Report initial progress
-    this.updateProgress(steps[0].percent, steps[0].message)
+    // Report initial step immediately
+    if (steps.length > 0) {
+      this.updateProgress(steps[0].percent, steps[0].message)
+    }
 
+    const totalTime = this.settings.totalTime || 40000
+    const interval = totalTime / 100 // Adjust interval to the total time
+
+    // Create the timer to update progress
     this.timer = setInterval(() => {
-      const elapsed = Date.now() - this.startTime
-      const percentComplete = Math.min(100, Math.floor((elapsed / totalTime) * 100))
+      if (!this.isRunning) return
 
-      // Find the appropriate step based on elapsed percentage
-      let stepIndex = 0
-      for (let i = 0; i < steps.length; i++) {
-        if (percentComplete >= steps[i].percent) {
-          stepIndex = i
-        } else {
-          break
+      this.elapsed += interval
+
+      // Calculate current percentage
+      const percentComplete = Math.min(100, Math.floor((this.elapsed / totalTime) * 100))
+
+      // Only report if the percentage has changed
+      if (percentComplete > this.lastReportedPercent) {
+        // Find the appropriate step based on percentage
+        let currentStep = steps[0]
+        for (const step of steps) {
+          if (percentComplete >= step.percent) {
+            currentStep = step
+          } else {
+            break
+          }
+        }
+
+        this.updateProgress(currentStep.percent, currentStep.message)
+        this.lastReportedPercent = currentStep.percent
+
+        // Check if complete
+        if (percentComplete >= 100) {
+          this.stop()
         }
       }
-
-      // Update if we've moved to a new step
-      if (stepIndex !== this.currentStep) {
-        this.currentStep = stepIndex
-        this.updateProgress(steps[stepIndex].percent, steps[stepIndex].message)
-      }
-
-      // Check if process is complete
-      if (percentComplete >= 100 || elapsed >= totalTime) {
-        this.stop()
-      } else {
-        // Update progress for intermediate points
-        this.updateProgress(percentComplete, steps[this.currentStep].message)
-      }
-    }, 250)
+    }, interval)
 
     return this
   }
 
-  stop(): this {
+  stop(triggerCompletion = true): this {
     if (this.timer) {
       clearInterval(this.timer)
       this.timer = null
-
-      if (!this.failed) {
-        this.updateProgress(100, this.settings.completionMessage || 'Complete')
-        this.settings.onComplete?.()
-      }
-      this.isRunning = false
     }
+
+    if (this.isRunning && triggerCompletion && !this.failed) {
+      const completionMessage = this.settings.completionMessage || 'Complete'
+      this.updateProgress(100, completionMessage)
+      this.settings.onComplete?.()
+    }
+
+    this.isRunning = false
     return this
   }
 
   fail(message = 'Process failed'): this {
     this.failed = true
-    this.updateProgress(
-      Math.min(95, this.calculateCurrentPercent()),
-      message
-    )
-    this.settings.onError?.()
-    this.stop()
+
+    // Calculate current percent
+    const totalTime = this.settings.totalTime || 40000
+    const percentComplete = Math.min(95, Math.floor((this.elapsed / totalTime) * 100))
+
+    this.updateProgress(percentComplete, message)
+    this.settings.onError?.(message)
+    this.stop(false)
     return this
   }
 
   private updateProgress(percent: number, message: string): void {
-    this.settings.onProgress?.(percent, message)
-  }
-
-  private calculateCurrentPercent(): number {
-    const totalTime = this.settings.totalTime || 40000
-    const elapsed = Date.now() - this.startTime
-    return Math.min(100, Math.floor((elapsed / totalTime) * 100))
+    if (this.settings.onProgress) {
+      this.settings.onProgress(percent, message)
+    }
   }
 }
