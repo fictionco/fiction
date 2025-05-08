@@ -17,6 +17,7 @@ export interface StepItem {
   isLoading?: boolean
   isJumped?: boolean
   noButton?: boolean
+  onLoad?: (args: StepActions) => Promise<void>
   onClick?: (args: StepActions) => Promise<void>
   button?: ActionButton
   allowSkip?: boolean

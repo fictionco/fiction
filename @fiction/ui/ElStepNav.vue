@@ -6,9 +6,10 @@ import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElStep from './ElStep.vue'
 
-const { stepConfig, classes = { step: '' } } = defineProps<{
+const { stepConfig, classes = { step: '' }, nextDisabled } = defineProps<{
   stepConfig: StepConfig
   classes?: { step?: string }
+  nextDisabled?: boolean
 }>()
 
 const { fictionRouter } = useService<{
@@ -54,6 +55,9 @@ const currentStep = vue.computed(() => {
   return steps.value[stepIndex.value]
 })
 
+// Track if a step load is in progress
+const isStepLoadInProgress = vue.ref(false)
+
 function checkValid() {
   const form = document.querySelector('#stepForm') as
     | HTMLFormElement
@@ -66,6 +70,7 @@ function checkValid() {
 
   return valid
 }
+
 function getStepIndex(args: { dir?: 'prev' | 'next', step?: string }) {
   const { dir, step } = args
 
@@ -98,6 +103,7 @@ function setStepIndex(index: number, options?: { backOnly?: boolean }) {
 
   queryStep.value = steps.value[index]?.key || ''
 }
+
 function setStepKey(key: string) {
   queryStep.value = key
 }
@@ -111,6 +117,10 @@ async function changeStep(args: {
   clearHistory?: boolean
 }) {
   const { dir, step, index, needsValidation, backOnly, clearHistory } = args
+
+  // Don't proceed if a step load is in progress
+  if (isStepLoadInProgress.value)
+    return
 
   const _nextIndex = index ?? getStepIndex({ dir })
 
@@ -148,6 +158,23 @@ async function changeStep(args: {
   }
 }
 
+// Watch for step changes to execute onLoad
+vue.watch(
+  () => currentStep.value,
+  async (newStep, oldStep) => {
+    if (newStep && newStep.onLoad && newStep.key !== oldStep?.key) {
+      isStepLoadInProgress.value = true
+      try {
+        await newStep.onLoad({ changeStep })
+      }
+      finally {
+        isStepLoadInProgress.value = false
+      }
+    }
+  },
+  { immediate: true },
+)
+
 // Watch for index changes to update history and transition
 vue.watch(
   () => stepIndex.value,
@@ -169,6 +196,10 @@ vue.onBeforeUnmount(async () => {
 
 const hasBack = vue.computed(() => {
   return stepIndex.value > 0 && stepHistory.value.length > 0 && stepIndex.value !== steps.value.length - 1
+})
+
+const isNextButtonDisabled = vue.computed(() => {
+  return isStepLoadInProgress.value || currentStep.value.isLoading || nextDisabled
 })
 </script>
 
@@ -208,6 +239,7 @@ const hasBack = vue.computed(() => {
               class="step-submit"
               :loading="step.isLoading"
               :animate="true"
+              :disabled="isNextButtonDisabled"
               data-test-el="step-submit"
               :data-test-id="`step-button-${step.key}`"
               icon-after="i-tabler-arrow-right"
@@ -244,49 +276,3 @@ const hasBack = vue.computed(() => {
     />
   </ElForm>
 </template>
-
-<style lang="less">
-.steps {
-  --input-x: 0.7em;
-  --input-y: 0.5em;
-  --input-max-width: 100%;
-  --input-size: 1.4em;
-  --input-bg: theme("colors.theme.50");
-}
-
-.alist-item {
-  transition: all 0.5s ease;
-}
-
-.alist-enter-active {
-  animation: aListIn 0.5s;
-  animation-delay: var(--delay);
-}
-
-.alist-leave-active {
-  animation: aListOut 0.5s;
-  animation-delay: var(--delay);
-}
-
-@keyframes aListIn {
-  0% {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes aListOut {
-  0% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-}
-</style>
