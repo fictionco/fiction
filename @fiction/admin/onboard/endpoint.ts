@@ -120,7 +120,7 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
     if (!linkedinData)
       return { status: 'error', message: 'Failed to fetch LinkedIn profile' }
 
-    const profile = await this.buildProfile(linkedinData, userId, orgId)
+    const profile = await this.buildProfileFr(linkedinData, userId, orgId)
     await this.updateProfileData(profile, userId, orgId, meta)
 
     return { status: 'success', message: 'Profile enriched', data: profile }
@@ -181,7 +181,7 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
     // }
   }
 
-  private async buildProfile(linkedinData: LinkedInProfile, userId: string, orgId: string): Promise<ProfileData> {
+  private async buildProfileFr(linkedinData: LinkedInProfile, userId: string, orgId: string): Promise<ProfileData> {
     const name = linkedinData.full_name || ''
     const handle = linkedinData.public_identifier || createHandle(name)
     const avatarUrl = linkedinData.profile_pic_url || ''
@@ -204,13 +204,13 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
     const schemaJson = zodToJsonSchema(AiEnhancementSchema)
 
     try {
-      const aiResponse = await this.settings.fictionAi.queries.AiCompletion.serve({
+      const aiResponse = await this.settings.fictionAi.queries.QueryAi.serve({
         _action: 'completion',
-        runPrompt: `Enhance this LinkedIn profile: ${JSON.stringify(linkedinData)}`,
+        prompt: `Create account profile based on this data: ${JSON.stringify(linkedinData)}`,
         orgId: 'system',
         userId: 'system',
         format: 'websiteCopy',
-        outputFormat: schemaJson,
+        schemaJson,
         objectives: {
           goal: 'Craft authentic professional profile content',
           tone: 'Clear, engaging, and genuine',

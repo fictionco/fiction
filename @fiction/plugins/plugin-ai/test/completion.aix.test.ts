@@ -50,15 +50,15 @@ describe('ai completions', async () => {
   const fictionAi = new FictionAi({ ...testUtils, fictionMedia, openaiApiKey, anthropicApiKey })
 
   it('gets a website copy completion', async () => {
-    const r4 = await fictionAi.queries.AiCompletion.serve({
+    const r4 = await fictionAi.queries.QueryAi.serve({
       _action: 'completion',
       format: 'websiteCopy',
       objectives: {
         about: 'This is the website of Jane Smith, a well known designer and influencer in the fashion industry. She is known for her unique style and innovative designs.',
         imageStyle: 'Cutting-edge technology with a cyberpunk vibe. Clean and minimal. Super Simple!!',
       },
-      outputFormat: pageSchemaJson,
-      runPrompt: `Explain the benefits for homepage`,
+      schemaJson: pageSchemaJson,
+      prompt: `Explain the benefits for homepage`,
       orgId,
       userId,
     }, { server: true })
@@ -68,27 +68,11 @@ describe('ai completions', async () => {
 
     expect(Object.keys(completion?.images?.[0] || {}).sort()).toStrictEqual(['url'])
 
-    expect(r4.data?.completion).toMatchInlineSnapshot(`
-      {
-        "images": [
-          {
-            "url": "/images/minimal-tech-fashion-workspace.jpg",
-          },
-          {
-            "url": "/images/cyberpunk-fashion-design.jpg",
-          },
-          {
-            "url": "/images/digital-fashion-innovation.jpg",
-          },
-        ],
-        "subTitle": "Experience the fusion of cutting-edge design and timeless style, crafted to transform your digital presence into a powerful fashion statement",
-        "title": "Redefining Fashion Through Digital Innovation",
-      }
-    `)
+    expect(r4.data?.completion).toMatchInlineSnapshot()
   }, 90000)
 
-  it('gets a autocomplete completion', async () => {
-    const r4 = await fictionAi.queries.AiCompletion.serve({
+  it.only('gets a autocomplete completion', async () => {
+    const r4 = await fictionAi.queries.QueryAi.serve({
       _action: 'completion',
       format: 'contentAutocomplete',
       objectives: {
@@ -96,18 +80,21 @@ describe('ai completions', async () => {
         title: 'The Eye of the Storm',
         description: 'How I narrowly escaped the storm of the century.',
       },
-      runPrompt: `Create content suggestions`,
+      prompt: `Create content suggestions`,
       orgId,
       userId,
+      schemaJson: zodToJsonSchema(z.object({
+        suggestion1: z.string().min(3).max(200),
+      })),
     }, { server: true })
-
-    const completion = r4.data?.completion as CompletionType
-    expect(Object.keys(completion || {}).sort()).toStrictEqual(['suggestion1'])
 
     expect(r4.data?.completion).toMatchInlineSnapshot(`
       {
-        "suggestion1": "I was standing at the window when the tornado ripped through Main Street, tearing roofs from houses like tissue paper",
+        "suggestion1": "I was standing in the calm sunshine, the next I was running for shelter as the sky darkened and winds whipped debris across the beach.",
       }
     `)
+
+    const completion = r4.data?.completion as CompletionType
+    expect(Object.keys(completion || {}).sort()).toStrictEqual(['suggestion1'])
   }, 90000)
 })

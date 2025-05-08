@@ -9,12 +9,12 @@ export async function getCardCompletion<T extends Record<string, unknown> = Reco
     if (!objectives || !outputFormat)
       throw new Error(' objectives required')
 
-    const result = await site.fictionSites.settings.fictionAi?.requests.AiCompletion.projectRequest({
+    const result = await site.fictionSites.settings.fictionAi?.requests.QueryAi.projectRequest({
       _action: 'completion',
       format: 'websiteCopy',
       objectives,
-      runPrompt,
-      outputFormat,
+      prompt: runPrompt,
+      schemaJson: outputFormat,
     })
 
     if (result?.status === 'success' && result.data?.completion)

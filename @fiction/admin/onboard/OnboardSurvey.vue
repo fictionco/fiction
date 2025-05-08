@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { EndpointResponse, FictionUser, StepConfig, StepItem } from '@fiction/core'
+import type { EndpointResponse, FictionUser, StepActions, StepConfig, StepItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionAdmin } from '..'
 import type { ProfileData } from './endpoint'
@@ -9,7 +9,6 @@ import { useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
-import InputMedia from '@fiction/ui/inputs/InputMedia.vue'
 import XProgress from '@fiction/ui/loaders/XProgress.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import { localMedia } from '@fiction/ui/stock/localMedia'
@@ -30,9 +29,12 @@ const profile = vue.ref<ProfileData>({
   avatar: undefined,
 })
 
-const isLoading = vue.ref<'enrich' | 'account' | 'ready' | ''>('')
+type StepKey = 'linkedin' | 'account' | 'profile' | 'interests' | 'ready' | 'enrich'
+
+const isLoading = vue.ref<StepKey | ''>('')
 const progressRef = vue.ref<InstanceType<typeof XProgress> | null>(null)
 const showProgress = vue.ref(false)
+const enrichmentError = vue.ref<string | null>(null)
 
 // Save function to update both user and org records
 async function save(): Promise<EndpointResponse> {
@@ -73,13 +75,72 @@ const linkedInEnrichmentSteps = [
   { percent: 100, message: 'Profile enrichment complete!' },
 ]
 
-const stepConfig: StepConfig = {
+async function performLinkedInEnrichment(args: StepActions<StepKey>) {
+  const { changeStep } = args
+
+  if (!profile.value.linkedinUrl) {
+    // If no URL is provided, go back to the first step
+    changeStep({ step: 'linkedin' })
+    return
+  }
+
+  enrichmentError.value = null
+  isLoading.value = 'linkedin'
+  showProgress.value = true
+
+  // Start the progress indicator
+  vue.nextTick(() => {
+    progressRef.value?.start()
+  })
+
+  try {
+    const r = await fictionAdmin.requests.ManageOnboard.projectRequest({
+      _action: 'enrichFromLinkedIn',
+      profile: profile.value,
+    }, { disableNotify: true })
+
+    if (r?.status === 'success' && r.data) {
+      // Update profile with enriched data
+      Object.assign(profile.value, r.data)
+
+      // Allow time for progress to complete visually
+      setTimeout(() => {
+        showProgress.value = false
+        isLoading.value = ''
+        // Automatically proceed to account step
+        changeStep({ step: 'account' })
+      }, 1000)
+    }
+    else {
+      enrichmentError.value = 'There was a problem'
+      progressRef.value?.fail('Failed to enrich profile')
+      setTimeout(() => {
+        showProgress.value = false
+        isLoading.value = ''
+        // Go back to the LinkedIn URL step
+        changeStep({ step: 'linkedin' })
+      }, 2000)
+    }
+  }
+  catch (error) {
+    enrichmentError.value = 'An error occurred'
+    progressRef.value?.fail('An error occurred')
+    setTimeout(() => {
+      showProgress.value = false
+      isLoading.value = ''
+      // Go back to the LinkedIn URL step
+      changeStep({ step: 'linkedin' })
+    }, 2000)
+  }
+}
+
+const stepConfig: StepConfig<StepKey> = {
   onComplete: async () => {
     // This will be called when all steps are completed
   },
   form: profile,
-  steps: vue.computed<StepItem[]>(() => {
-    const out: StepItem[] = [
+  steps: vue.computed<StepItem<StepKey>[]>(() => {
+    const out: StepItem<StepKey>[] = [
       {
         superTitle: {
           text: 'Welcome to Fiction',
@@ -87,57 +148,22 @@ const stepConfig: StepConfig = {
           theme: 'primary',
         },
         title: 'What\'s your LinkedIn URL?',
-        key: 'linkedinUrl',
+        subTitle: 'We\'ll use this to create your Fiction profile',
+        key: 'linkedin',
         class: 'max-w-md',
         allowSkip: false,
         isLoading: isLoading.value === 'enrich',
-        onClick: async (args) => {
-          const { changeStep } = args
-
-          if (!profile.value.linkedinUrl) {
-            return
-          }
-
-          isLoading.value = 'enrich'
-          showProgress.value = true
-
-          // Start the progress indicator
-          vue.nextTick(() => {
-            progressRef.value?.start()
-          })
-
-          try {
-            const r = await fictionAdmin.requests.ManageOnboard.projectRequest({
-              _action: 'enrichFromLinkedIn',
-              profile: profile.value,
-            }, { disableNotify: true })
-
-            if (r?.status === 'success' && r.data) {
-              // Update profile with enriched data
-              Object.assign(profile.value, r.data)
-
-              // Allow time for progress to complete visually even if the API returns quickly
-              setTimeout(() => {
-                showProgress.value = false
-                isLoading.value = ''
-                changeStep({ dir: 'next' })
-              }, 1000)
-            }
-            else {
-              progressRef.value?.fail('Failed to enrich profile')
-              setTimeout(() => {
-                showProgress.value = false
-                isLoading.value = ''
-              }, 2000)
-            }
-          }
-          catch (error) {
-            progressRef.value?.fail('An error occurred')
-            setTimeout(() => {
-              showProgress.value = false
-              isLoading.value = ''
-            }, 2000)
-          }
+      },
+      {
+        key: 'enrich',
+        title: 'Loading your profile',
+        subTitle: 'We\'re creating your Fiction profile based on your LinkedIn data',
+        class: 'max-w-md',
+        noButton: true,
+        isLoading: true,
+        // This runs when the loading step is displayed
+        onLoad: async (args) => {
+          await performLinkedInEnrichment(args)
         },
       },
       {
@@ -241,13 +267,14 @@ const stepConfig: StepConfig = {
       <div
         class="flex min-h-full flex-col items-center justify-center p-4 sm:items-center sm:p-0"
       >
+        <!-- @vue-generic {StepKey} -->
         <ElStepNav
           v-slot="{ step }"
           :step-config="stepConfig"
           data-test-id="onboardingSurvey"
         >
           <!-- LinkedIn URL step -->
-          <div v-if="step.key === 'linkedinUrl'" class="space-y-6">
+          <div v-if="step.key === 'linkedin'" class="space-y-6">
             <ElInput
               v-model="profile.linkedinUrl"
               input="InputText"
@@ -257,27 +284,31 @@ const stepConfig: StepConfig = {
               :input-props="{ autofocus: true }"
             />
 
-            <!-- Progress component for LinkedIn enrichment -->
-            <div v-if="showProgress || true" class="mt-4 w-full">
+            <div v-if="enrichmentError" class="mt-4 p-3  text-red-700 rounded-md">
+              {{ enrichmentError }}
+            </div>
+          </div>
+
+          <!-- Loading step -->
+          <div v-if="step.key === 'enrich'" class="space-y-6">
+            <div class="mt-4 w-full">
               <XProgress
                 ref="progressRef"
                 :steps="linkedInEnrichmentSteps"
                 :total-time="40000"
-                completion-message="Profile enrichment complete!"
-                :auto-start="true"
+                completion-message="Setup complete!"
               />
             </div>
           </div>
 
           <!-- Account details step -->
           <div v-if="step.key === 'account'" class="space-y-6">
-            <div class="flex justify-center mb-6">
-              <InputMedia
-                v-model="profile.avatar"
-                class="w-24 h-24 rounded-full overflow-hidden"
-                :image-props="{ class: 'w-full h-full object-cover' }"
-              />
-            </div>
+            <ElInput
+              v-model="profile.avatar"
+              input="InputMedia"
+              label="Avatar"
+              required
+            />
 
             <ElInput
               v-model="profile.name"
@@ -294,7 +325,7 @@ const stepConfig: StepConfig = {
               placeholder="handle"
               description="Used to identify you on Fiction"
               required
-              v-bind="{
+              :input-props="{
                 beforeInput: 'https://',
                 afterInput: '.fiction.com',
                 table: 'fiction_org',

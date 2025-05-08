@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="T = string">
 import type { FictionRouter, FictionUser, StepConfig } from '@fiction/core/index.js'
 import NavDots from '@fiction/cards/el/NavDots.vue'
 import { useService, vue } from '@fiction/core'
@@ -7,7 +7,7 @@ import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElStep from './ElStep.vue'
 
 const { stepConfig, classes = { step: '' }, nextDisabled } = defineProps<{
-  stepConfig: StepConfig
+  stepConfig: StepConfig<T>
   classes?: { step?: string }
   nextDisabled?: boolean
 }>()
@@ -27,20 +27,20 @@ const stepHistory = vue.ref<number[]>([])
 // Track transition direction
 const transitionDirection = vue.ref<'next' | 'prev'>('next')
 
-const queryStep = vue.computed({
+const queryStep = vue.computed<T>({
   get: () => {
     const routeStep = fictionRouter.vars.value.step as string | undefined
     const s = steps.value
     const defaultStep = s[0].key
 
     return routeStep && s.find(step => step.key === routeStep)
-      ? routeStep
-      : defaultStep
+      ? routeStep as T
+      : defaultStep as T
   },
-  set: async (value: string) => {
+  set: async (value: T) => {
     const s = steps.value
     const step = !value || !s.find(step => step.key === value) ? null : value
-    await fictionRouter.replace({ query: { step } })
+    await fictionRouter.replace({ query: { step: step as string } })
   },
 })
 
@@ -101,16 +101,16 @@ function setStepIndex(index: number, options?: { backOnly?: boolean }) {
   if (index === currentIndex || (backOnly && index > currentIndex))
     return
 
-  queryStep.value = steps.value[index]?.key || ''
+  queryStep.value = steps.value[index]?.key
 }
 
-function setStepKey(key: string) {
+function setStepKey(key: T) {
   queryStep.value = key
 }
 
 async function changeStep(args: {
   dir?: 'prev' | 'next'
-  step?: string
+  step?: T
   index?: number
   needsValidation?: boolean
   backOnly?: boolean
@@ -139,7 +139,7 @@ async function changeStep(args: {
   if (dir) {
     const num = getStepIndex({ dir })
     if (num !== -1) {
-      setStepKey(steps.value[num]?.key || '')
+      setStepKey(steps.value[num]?.key)
     }
 
     if (dir === 'prev') {
@@ -205,6 +205,7 @@ const isNextButtonDisabled = vue.computed(() => {
 
 <template>
   <ElForm id="stepForm" class="h-full py-[10vh] md:px-12 relative w-full">
+    <!-- @vue-generic {T} -->
     <ElStep
       :steps
       :current-index="stepIndex"

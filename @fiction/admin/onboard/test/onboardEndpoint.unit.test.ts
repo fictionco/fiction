@@ -49,7 +49,7 @@ describe('queryManageOnboard endpoint', async () => {
     } as Response)
 
     // Mock AI completion response
-    vi.spyOn(fictionAi.queries.AiCompletion, 'serve').mockResolvedValue({
+    vi.spyOn(fictionAi.queries.QueryAi, 'serve').mockResolvedValue({
       status: 'success',
       data: { completion: mockAiCompletion },
     })
@@ -102,7 +102,7 @@ describe('queryManageOnboard endpoint', async () => {
     )
 
     // Verify AI enhancement was called
-    expect(fictionAi.queries.AiCompletion.serve).toHaveBeenCalledWith(
+    expect(fictionAi.queries.QueryAi.serve).toHaveBeenCalledWith(
       expect.objectContaining({
         _action: 'completion',
         runPrompt: expect.stringContaining('Enhance this LinkedIn profile'),
@@ -235,7 +235,7 @@ describe('queryManageOnboard endpoint', async () => {
 
   it('should handle AI enhancement failures', async () => {
     // Mock AI failure
-    vi.spyOn(fictionAi.queries.AiCompletion, 'serve').mockResolvedValue({
+    vi.spyOn(fictionAi.queries.QueryAi, 'serve').mockResolvedValue({
       status: 'error',
       message: 'AI service unavailable',
     })

@@ -52,7 +52,8 @@ export class ContentCommand {
       outputFormat,
       guidelines: `
   <role>
-    You are a billionaire copywriter, and marketer, and expert in creating sharp, concise, persuasive content. Your goal is to craft compelling, customer-centric copy using neurolinguistic programming principles to address user pain points and present effective solutions.
+    You are a billionaire copywriter, and marketer, and expert in creating sharp, concise, persuasive content.
+    Your goal is to craft compelling, customer-centric copy using neurolinguistic programming principles to address user pain points and present effective solutions.
   </role>
 
   <output_format>
@@ -141,16 +142,6 @@ export class ContentCommand {
 </autocomplete_assistant>`,
     }
   }
-
-  private readonly IMAGE_INSTRUCTION = `
-  <image_guidelines>
-    <guideline>Image style should not affect text content.</guideline>
-    <guideline>For image URLs, use shortcodes in the following format:
-      [@stock_img search="image_prompt" orientation="(portrait, landscape, or squarish)" subject="(person, object)" description="(JSON schema field description)"]
-    </guideline>
-    <guideline>Replace "image_prompt" with a 3-10 word image generation prompt designed to create a contextual image in the specified style.</guideline>
-    <guideline>Set the description attribute to the schema description for the schema parent group and the field itself, preferring more specific descriptions.</guideline>
-  </image_guidelines>`
 
   private getObjectivesInstruction(objectives: Objectives): string {
     const os = Object.entries(objectives)

@@ -265,9 +265,6 @@ importers:
       '@fiction/core':
         specifier: workspace:*
         version: link:../core
-      '@fiction/forms':
-        specifier: workspace:*
-        version: link:../forms
       '@fiction/plugin-ai':
         specifier: workspace:*
         version: link:../plugins/plugin-ai
@@ -392,6 +389,9 @@ importers:
       '@vue/server-renderer':
         specifier: ^3.5.13
         version: 3.5.13(vue@3.5.13(typescript@5.8.3))
+      add:
+        specifier: ^2.0.6
+        version: 2.0.6
       autoprefixer:
         specifier: ^10.4.21
         version: 10.4.21(postcss@8.5.3)
@@ -551,6 +551,9 @@ importers:
       json-schema-to-typescript:
         specifier: ^15.0.4
         version: 15.0.4
+      json-schema-to-zod:
+        specifier: ^2.6.1
+        version: 2.6.1
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
@@ -897,9 +900,15 @@ importers:
       '@pinecone-database/pinecone':
         specifier: ^5.1.2
         version: 5.1.2
+      add:
+        specifier: ^2.0.6
+        version: 2.0.6
       ai:
         specifier: ^4.3.13
         version: 4.3.13(react@19.1.0)(zod@3.24.3)
+      json-schema-to-zod:
+        specifier: ^2.6.1
+        version: 2.6.1
       openai:
         specifier: ^4.97.0
         version: 4.97.0(encoding@0.1.13)(ws@8.18.2)(zod@3.24.3)
@@ -1310,7 +1319,7 @@ importers:
         version: 5.0.0
       lucide-vue-next:
         specifier: latest
-        version: 0.507.0(vue@3.5.13(typescript@5.8.3))
+        version: 0.508.0(vue@3.5.13(typescript@5.8.3))
       monaco-editor:
         specifier: ^0.52.2
         version: 0.52.2
@@ -1356,9 +1365,6 @@ importers:
       '@fiction/core':
         specifier: workspace:*
         version: link:../core
-      '@fiction/forms':
-        specifier: workspace:*
-        version: link:../forms
       '@fiction/plugin-ai':
         specifier: workspace:*
         version: link:../plugins/plugin-ai
@@ -6980,6 +6986,10 @@ packages:
     engines: {node: '>=16.0.0'}
     hasBin: true
 
+  json-schema-to-zod@2.6.1:
+    resolution: {integrity: sha512-uiHmWH21h9FjKJkRBntfVGTLpYlCZ1n98D0izIlByqQLqpmkQpNTBtfbdP04Na6+43lgsvrShFh2uWLkQDKJuQ==}
+    hasBin: true
+
   json-schema-traverse@0.4.1:
     resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
 
@@ -7249,8 +7259,8 @@ packages:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
 
-  lucide-vue-next@0.507.0:
-    resolution: {integrity: sha512-n0AZRmez4xq5vu5ZOfnrhC5wKBpu5tpwDHA6Ue2+sKyJv3USAPxqIerXLbdYbkHRW1tVZ3U9GE1MACsu6X/Z7Q==}
+  lucide-vue-next@0.508.0:
+    resolution: {integrity: sha512-ZPO/Kh1gz7RU2/hd8FWw3SjLVMUIm/TJAhOGV9CbM1zvNwiJ8DK6W33LFWxtlZZ1IUPOXAny0pbttY+yyOsjKg==}
     peerDependencies:
       vue: '>=3.0.1'
 
@@ -16674,6 +16684,8 @@ snapshots:
       prettier: 3.5.3
       tinyglobby: 0.2.13
 
+  json-schema-to-zod@2.6.1: {}
+
   json-schema-traverse@0.4.1: {}
 
   json-schema-traverse@1.0.0: {}
@@ -16934,7 +16946,7 @@ snapshots:
     dependencies:
       yallist: 4.0.0
 
-  lucide-vue-next@0.507.0(vue@3.5.13(typescript@5.8.3)):
+  lucide-vue-next@0.508.0(vue@3.5.13(typescript@5.8.3)):
     dependencies:
       vue: 3.5.13(typescript@5.8.3)
 

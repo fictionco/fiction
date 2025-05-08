@@ -6,6 +6,8 @@ import { onBrowserEvent } from '@fiction/core/utils/eventBrowser'
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import { z } from 'zod'
+import { zodToJsonSchema } from 'zod-to-json-schema'
 import { generateAutocompleteObjectives, shouldSuggest } from '../../utils/editor'
 
 const logger = log.contextLogger('AutocompleteExtension')
@@ -59,15 +61,16 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
 
         const supplementalObjectives = generateAutocompleteObjectives(supplemental)
 
-        const r = await fictionAi?.requests.AiCompletion.projectRequest({
+        const r = await fictionAi?.requests.QueryAi.projectRequest({
           _action: 'completion',
           objectives: {
             nextText: `[cursor] is followed by: "${args.nextText}"`,
             previousText: `[cursor] is preceeded by: "${previousText}"`,
             ...supplementalObjectives,
           },
-          runPrompt: `Autocomplete based on location of [cursor] in the following "${previousText}[cursor]${nextText}"`,
+          prompt: `Autocomplete based on location of [cursor] in the following "${previousText}[cursor]${nextText}"`,
           format: 'contentAutocomplete',
+          schemaJson: zodToJsonSchema(z.object({ suggestion1: z.string().min(3).max(200) })),
         })
 
         if (r?.status === 'success' && r.data?.completion) {

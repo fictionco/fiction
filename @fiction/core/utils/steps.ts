@@ -1,13 +1,13 @@
 import type { ActionButton, SuperTitle } from '../schemas/schemas.js'
 import type { vue } from './libraries.js'
 
-export interface StepActions {
-  changeStep: (args: { dir?: 'prev' | 'next', step?: string, index?: number, needsValidation?: boolean }) => Promise<void>
+export interface StepActions<T = string> {
+  changeStep: (args: { dir?: 'prev' | 'next', step?: T, index?: number, needsValidation?: boolean }) => Promise<void>
 }
 
-export interface StepItem {
+export interface StepItem<T = string> {
   testId?: string
-  key: string
+  key: T
   el?: vue.Component
   superTitle?: SuperTitle
   title: string
@@ -17,15 +17,15 @@ export interface StepItem {
   isLoading?: boolean
   isJumped?: boolean
   noButton?: boolean
-  onLoad?: (args: StepActions) => Promise<void>
-  onClick?: (args: StepActions) => Promise<void>
+  onLoad?: (args: StepActions<T>) => Promise<void>
+  onClick?: (args: StepActions<T>) => Promise<void>
   button?: ActionButton
   allowSkip?: boolean
   skipButton?: ActionButton
 }
 
-export interface StepConfig {
+export interface StepConfig<T = string> {
   onComplete: () => Promise<void>
-  steps: vue.ComputedRef<StepItem[]>
+  steps: vue.ComputedRef<StepItem<T>[]>
   form: vue.Ref<Record<string, unknown>>
 }

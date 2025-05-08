@@ -1,6 +1,6 @@
 import type { FictionDb, FictionMedia, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import { EnvVar, FictionPlugin, safeDirname, vars, vue } from '@fiction/core'
-import { AiCompletion, AiImage, QueryManageVectors } from './endpoint'
+import { QueryAi } from './endpoint'
 
 vars.register(() => [
   new EnvVar({ name: 'PINECONE_API_KEY' }),
@@ -35,9 +35,7 @@ export class FictionAi extends FictionPlugin<FictionAiSettings> {
   loading = vue.ref(false)
   root = safeDirname(import.meta.url)
   queries = {
-    ManageVectors: new QueryManageVectors({ ...this.settings, fictionAi: this }),
-    AiCompletion: new AiCompletion({ ...this.settings, fictionAi: this }),
-    AiImage: new AiImage({ ...this.settings, fictionAi: this }),
+    QueryAi: new QueryAi({ ...this.settings, fictionAi: this }),
   }
 
   requests = this.createRequests({

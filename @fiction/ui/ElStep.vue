@@ -1,10 +1,10 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="T = string">
 import type { StepItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import XSuperTitle from './common/XSuperTitle.vue'
 
 const { steps = [], currentIndex, transit = 'next' } = defineProps<{
-  steps: StepItem[]
+  steps?: StepItem<T>[]
   currentIndex: number
   transit?: 'next' | 'prev'
 }>()
@@ -30,7 +30,7 @@ const step = vue.computed(() => {
   <transition :name="transit" mode="out-in">
     <div
       v-if="step"
-      :key="steps[currentIndex]?.key"
+      :key="(steps[currentIndex]?.key as string)"
       class="relative z-10 mx-auto w-full p-4 md:p-10 rounded-xl shadow-xl"
       :class="step.class"
     >
@@ -43,10 +43,10 @@ const step = vue.computed(() => {
             :super-title="step.superTitle"
           />
           <div class="space-y-1">
-            <h1 class="x-font-title text-xl font-bold antialiased">
+            <h1 class="x-font-title text-xl font-semibold antialiased">
               {{ step.title }}
             </h1>
-            <div class="text-theme-500 dark:text-theme-400 text-lg antialiased">
+            <div class="text-theme-500 dark:text-theme-400 text-base antialiased">
               {{ step.subTitle }}
             </div>
           </div>
