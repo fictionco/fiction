@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { EndpointResponse, FictionUser, MediaObject, StepConfig, StepItem } from '@fiction/core'
+import type { EndpointResponse, FictionUser, StepConfig, StepItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionAdmin } from '..'
 import type { ProfileData } from './endpoint'
@@ -7,12 +7,10 @@ import type { ProfileData } from './endpoint'
 import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import { useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save'
-import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import InputMedia from '@fiction/ui/inputs/InputMedia.vue'
-import InputText from '@fiction/ui/inputs/InputText.vue'
-import InputTextarea from '@fiction/ui/inputs/InputTextarea.vue'
+import XProgress from '@fiction/ui/loaders/XProgress.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import { localMedia } from '@fiction/ui/stock/localMedia'
 
@@ -33,6 +31,8 @@ const profile = vue.ref<ProfileData>({
 })
 
 const isLoading = vue.ref<'enrich' | 'account' | 'ready' | ''>('')
+const progressRef = vue.ref<InstanceType<typeof XProgress> | null>(null)
+const showProgress = vue.ref(false)
 
 // Save function to update both user and org records
 async function save(): Promise<EndpointResponse> {
@@ -60,9 +60,18 @@ const saveUtil = new AutosaveUtility({
 })
 
 // Watch for form changes and trigger autosave
-vue.watch(() => ({ ...profile.value }), () => {
+vue.watch(() => profile.value, () => {
   saveUtil.autosave({ caller: 'watchForm' })
 }, { deep: true })
+
+const linkedInEnrichmentSteps = [
+  { percent: 10, message: 'Fetching your LinkedIn profile...' },
+  { percent: 30, message: 'Analyzing data...' },
+  { percent: 50, message: 'Extracting highlights...' },
+  { percent: 70, message: 'Creating your Fiction profile...' },
+  { percent: 90, message: 'Finalizing account setup...' },
+  { percent: 100, message: 'Profile enrichment complete!' },
+]
 
 const stepConfig: StepConfig = {
   onComplete: async () => {
@@ -75,10 +84,9 @@ const stepConfig: StepConfig = {
         superTitle: {
           text: 'Welcome to Fiction',
           icon: { class: 'i-tabler-north-star' },
-          theme: 'primary'
+          theme: 'primary',
         },
-        title: 'First, what\'s your LinkedIn URL?',
-        subTitle: 'Used to set up your account',
+        title: 'What\'s your LinkedIn URL?',
         key: 'linkedinUrl',
         class: 'max-w-md',
         allowSkip: false,
@@ -91,6 +99,12 @@ const stepConfig: StepConfig = {
           }
 
           isLoading.value = 'enrich'
+          showProgress.value = true
+
+          // Start the progress indicator
+          vue.nextTick(() => {
+            progressRef.value?.start()
+          })
 
           try {
             const r = await fictionAdmin.requests.ManageOnboard.projectRequest({
@@ -101,11 +115,28 @@ const stepConfig: StepConfig = {
             if (r?.status === 'success' && r.data) {
               // Update profile with enriched data
               Object.assign(profile.value, r.data)
-              changeStep({ dir: 'next' })
+
+              // Allow time for progress to complete visually even if the API returns quickly
+              setTimeout(() => {
+                showProgress.value = false
+                isLoading.value = ''
+                changeStep({ dir: 'next' })
+              }, 1000)
+            }
+            else {
+              progressRef.value?.fail('Failed to enrich profile')
+              setTimeout(() => {
+                showProgress.value = false
+                isLoading.value = ''
+              }, 2000)
             }
           }
-          finally {
-            isLoading.value = ''
+          catch (error) {
+            progressRef.value?.fail('An error occurred')
+            setTimeout(() => {
+              showProgress.value = false
+              isLoading.value = ''
+            }, 2000)
           }
         },
       },
@@ -225,6 +256,17 @@ const stepConfig: StepConfig = {
               required
               :input-props="{ autofocus: true }"
             />
+
+            <!-- Progress component for LinkedIn enrichment -->
+            <div v-if="showProgress || true" class="mt-4 w-full">
+              <XProgress
+                ref="progressRef"
+                :steps="linkedInEnrichmentSteps"
+                :total-time="40000"
+                completion-message="Profile enrichment complete!"
+                :auto-start="true"
+              />
+            </div>
           </div>
 
           <!-- Account details step -->

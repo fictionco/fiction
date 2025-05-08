@@ -34,7 +34,7 @@ export class ProgressTimer extends FictionObject<ProgressTimerSettings> {
       { percent: 25, message: 'Starting process...' },
       { percent: 50, message: 'Processing data...' },
       { percent: 75, message: 'Almost there...' },
-      { percent: 100, message: 'Complete' }
+      { percent: 100, message: 'Complete' },
     ]
 
     this.startTime = Date.now()
@@ -49,11 +49,12 @@ export class ProgressTimer extends FictionObject<ProgressTimerSettings> {
     }
 
     const totalTime = this.settings.totalTime || 40000
-    const interval = totalTime / 100 // Adjust interval to the total time
+    const interval = Math.max(50, totalTime / 100) // At least 50ms to avoid excessive updates
 
     // Create the timer to update progress
     this.timer = setInterval(() => {
-      if (!this.isRunning) return
+      if (!this.isRunning)
+        return
 
       this.elapsed += interval
 
@@ -67,7 +68,8 @@ export class ProgressTimer extends FictionObject<ProgressTimerSettings> {
         for (const step of steps) {
           if (percentComplete >= step.percent) {
             currentStep = step
-          } else {
+          }
+          else {
             break
           }
         }

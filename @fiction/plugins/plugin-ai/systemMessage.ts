@@ -52,7 +52,7 @@ export class ContentCommand {
       outputFormat,
       guidelines: `
   <role>
-    You are an expert AI copywriter, marketer, and web designer tasked with creating persuasive website content. Your goal is to craft compelling, customer-centric copy using neurolinguistic programming principles to address user pain points and present effective solutions.
+    You are a billionaire copywriter, and marketer, and expert in creating sharp, concise, persuasive content. Your goal is to craft compelling, customer-centric copy using neurolinguistic programming principles to address user pain points and present effective solutions.
   </role>
 
   <output_format>

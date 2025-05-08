@@ -65,7 +65,7 @@ const AiEnhancementSchema = z.object({
   headline: z.string().min(5).max(160).describe('Concise 3-5 word tagline capturing unique value'),
   about: z.string().min(10).max(300).describe('Short bio showcasing story, expertise, and personality'),
   interests: z.array(z.string()).min(1).max(10).describe('Key professional topics and passions'),
-  influences: z.array(z.string()).min(0).max(5).describe('Role models, styles, motifs, shaping professional voice and style'),
+  influences: z.array(z.string()).min(0).max(5).describe('Role models, characters, styles, motifs, shaping professional voice and style'),
 })
 
 const LinkedInUrlSchema = z.string().url().refine(url => url.includes('linkedin.com/in/'), {
@@ -86,6 +86,7 @@ function parseLinkedInHandle(url: string): string {
 
 // Main Query Class
 export class QueryManageOnboard extends Query<OnboardSettings> {
+  enrichCount = 0
   async run(params: OnboardRequest, meta: EndpointMeta): Promise<EndpointResponse<ProfileData>> {
     try {
       switch (params._action) {
@@ -131,53 +132,53 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
   ): Promise<EndpointResponse<ProfileData>> {
     const { userId, orgId, profile } = params
 
-    if (profile.avatar) {
-      profile.avatar = await this.processAvatar(profile.avatar, orgId, userId)
-      delete profile.avatar
-    }
-
     await this.updateProfileData(profile, userId, orgId, meta)
-    const updatedOrg = await this.settings.fictionUser.queries.ManageOrganization.serve(
+    const o = await this.settings.fictionUser.queries.ManageOrganization.serve(
       { _action: 'read', where: { orgId } },
       { ...meta, server: true },
     ).then(res => res.data)
 
-    if (!updatedOrg)
+    if (!o)
       return { status: 'error', message: 'Organization not found' }
+
+    const { orgName: name, handle, headline, about, interests, influences, avatar } = o
 
     return {
       status: 'success',
       message: 'Profile updated',
       data: {
-        name: updatedOrg.orgName || '',
-        handle: updatedOrg.handle,
-        headline: updatedOrg.headline,
-        about: updatedOrg.about,
-        interests: updatedOrg.interests?.split(', ') || [],
-        influences: updatedOrg.influences?.split(', ') || [],
-        avatar: updatedOrg.avatar,
+        name,
+        handle,
+        headline,
+        about,
+        interests: interests?.split(', ') || [],
+        influences: influences?.split(', ') || [],
+        avatar,
       },
     }
   }
 
   private async fetchLinkedInProfile(url: string): Promise<LinkedInProfile> {
-    if (!this.settings.proxycurlApiKey)
+    this.enrichCount++
+    this.log.info('Fetching LinkedIn profile', { url, enrichCount: this.enrichCount })
+    if (true || !this.settings.proxycurlApiKey)
       return this.getMockLinkedInData(url)
 
-    try {
-      const response = await fetch(
-        `https://nubela.co/proxycurl/api/v2/linkedin?linkedin_profile_url=${encodeURIComponent(url)}&extra=include&skills=include`,
-        { headers: { Authorization: `Bearer ${this.settings.proxycurlApiKey}` } },
-      )
+    // try {
 
-      if (!response.ok)
-        throw new Error(`API error: ${response.status}`)
-      return await response.json() as LinkedInProfile
-    }
-    catch (error) {
-      this.log.error('LinkedIn API error', { error })
-      return this.getMockLinkedInData(url)
-    }
+    //   const response = await fetch(
+    //     `https://nubela.co/proxycurl/api/v2/linkedin?linkedin_profile_url=${encodeURIComponent(url)}&extra=include&skills=include`,
+    //     { headers: { Authorization: `Bearer ${this.settings.proxycurlApiKey}` } },
+    //   )
+
+    //   if (!response.ok)
+    //     throw new Error(`API error: ${response.status}`)
+    //   return await response.json() as LinkedInProfile
+    // }
+    // catch (error) {
+    //   this.log.error('LinkedIn API error', { error })
+    //   return this.getMockLinkedInData(url)
+    // }
   }
 
   private async buildProfile(linkedinData: LinkedInProfile, userId: string, orgId: string): Promise<ProfileData> {
@@ -216,8 +217,8 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
           instructions: `
             - Create a 3-5 word headline that uniquely captures their professional value, avoiding generic terms like "expert" or "leader".
             - Write a short 10 to 30 word bio in HTML that highlights specific achievements and personality, steering clear of buzzwords like "passionate" or "innovative".
-            - Identify 1-10 specific professional interests based on skills and experience, ensuring relevance to their field.
-            - Suggest 0-5 role models (public figures or industry leaders) whose style or approach aligns with the user's profile, to shape their brand voice.
+            - Identify 1-5 specific professional interests based on skills and experience, ensuring relevance to their field.
+            - Suggest 0-5 influences (role models, characters or styles) across disciplines that have influenced their professional voice and style.
           `,
         },
       }, { server: true })
@@ -239,7 +240,7 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
     }
   }
 
-  private async processAvatar(avatar: MediaObject, orgId: string, userId: string): Promise<TableMediaConfig | undefined> {
+  private async processAvatar(avatar: MediaObject, orgId: string, userId: string): Promise<MediaObject | undefined> {
     if (!avatar?.url)
       return undefined
 
@@ -251,7 +252,14 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
         fields: { sourceImageUrl: avatar.url },
       }, { server: true })
 
-      return response.data?.[0]
+      const m = response.data?.[0]
+
+      return {
+        format: 'image',
+        url: m?.url,
+        width: m?.width,
+        height: m?.height,
+      }
     }
     catch (error) {
       this.log.error('Avatar processing failed', { error })

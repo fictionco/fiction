@@ -11,7 +11,7 @@ export interface StepItem {
   el?: vue.Component
   superTitle?: SuperTitle
   title: string
-  subTitle: string
+  subTitle?: string
   placeholder?: string
   class?: string
   isLoading?: boolean

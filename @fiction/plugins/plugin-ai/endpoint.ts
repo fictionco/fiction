@@ -172,9 +172,9 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
       temperature: 0.7,
     }
 
-    this.log.info('sending messages', { data: { generateArgs } })
+    this.log.debug('sending messages', { data: { generateArgs } })
 
-    const model = await xai('grok-3')
+    const model = await anthropic('claude-3-7-sonnet-20250219')
 
     const { text } = await generateText({ model, ...generateArgs })
 
@@ -223,7 +223,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
     //   return mediaItem.url
     // })
 
-    this.log.info('parsing raw completion', { data: { rawCompletion } })
+    this.log.debug('parsing raw completion', { data: { rawCompletion } })
 
     let completion
     try {

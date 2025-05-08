@@ -276,7 +276,7 @@ export class QueryManageOrganization extends OrgQuery {
       table: t.org,
     })
 
-    this.log.info('updateOrganization', { data: { where, updatedFields, fields } })
+    this.log.debug('updateOrganization', { data: { where, updatedFields, fields } })
 
     const [responseOrg] = await this.db()
       .update(updatedFields)

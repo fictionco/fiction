@@ -309,7 +309,7 @@ export class QueryManageUser extends UserBaseQuery {
       },
     })
 
-    this.log.info('updating user', { data: { where, insertFields, fields } })
+    this.log.debug('updating user', { data: { where, insertFields, fields } })
 
     const [user] = await db(t.user).update(insertFields).where(where).returning<User[]>('*')
 

@@ -10,7 +10,7 @@ import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import InputCheckbox from '@fiction/ui/inputs/InputCheckbox.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 import InputToggle from '@fiction/ui/inputs/InputToggle.vue'
-import ElProgress from '@fiction/ui/loaders/ElProgress.vue'
+import XProgress from '@fiction/ui/loaders/XProgress.vue'
 import { CardGeneration } from '../generation'
 import GeneratedContentDisplay from './GeneratedContentDisplay.vue'
 
@@ -233,7 +233,7 @@ async function applyChanges() {
           </div>
         </ElForm>
       </div>
-      <ElProgress v-else :percent="genUtil?.progress.value.percent" :status="genUtil?.progress.value.status" message="Generating Content" />
+      <XProgress v-else :percent="genUtil?.progress.value.percent" :status="genUtil?.progress.value.status" message="Generating Content" />
     </ElModal>
   </div>
 </template>
