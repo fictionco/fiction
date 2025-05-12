@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ActionArea, ButtonDesign, ColorThemeUser, StandardSize } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
-import { getNested, vue } from '@fiction/core'
+import { getNested, vue } from '@fiction/core/utils'
 
 import CardButtons from '../el/CardButtons.vue'
 
