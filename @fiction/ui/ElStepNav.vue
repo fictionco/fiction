@@ -125,11 +125,6 @@ async function changeStep(args: {
       return
   }
 
-  if (dir === 'next' && currentStep.value.onClick) {
-    await currentStep.value.onClick({ changeStep })
-    return
-  }
-
   if (dir) {
     const num = getStepIndex({ dir })
     if (num !== -1) {
@@ -240,7 +235,7 @@ const isNextButtonDisabled = vue.computed(() => {
               data-test-el="step-submit"
               :data-test-id="`step-button-${step.key}`"
               icon-after="i-tabler-arrow-right"
-              @click.prevent="changeStep({ dir: 'next', needsValidation: true })"
+              @click.prevent="step.onClick ? step.onClick({ changeStep }) : changeStep({ dir: 'next', needsValidation: true })"
             >
               {{ step.button?.label || "Next" }}
             </XButton>

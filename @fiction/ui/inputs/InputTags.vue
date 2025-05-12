@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ColorThemeUser, StandardSize } from '@fiction/core'
-import { debounce, toSlug, useService, vue, waitFor } from '@fiction/core'
+import { debounce, toLabel, toSlug, useService, vue, waitFor } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import EffectDraggableSort from '@fiction/ui/effect/EffectDraggableSort.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
@@ -177,7 +177,7 @@ async function handleSort(sorted: string[]) {
 const containerClasses = vue.computed(() =>
   textInputClasses({
     uiSize: props.uiSize,
-    inputClass: `flex flex-wrap items-center ${sizeClasses.value.wrap}`,
+    inputClass: `flex flex-wrap items-center ${sizeClasses.value.wrap} overflow-hidden p-1`,
   }),
 )
 
@@ -190,7 +190,7 @@ const tagInput = vue.ref<HTMLInputElement>()
       <!-- Main input -->
       <div :class="containerClasses" @click.self="tagInput?.focus()">
         <EffectDraggableSort
-          class="inline-flex gap-2 flex-wrap items-center"
+          class="inline-flex gap-1 flex-wrap items-center"
           :allow-horizontal="true"
           @update:sorted="handleSort"
         >
@@ -202,14 +202,14 @@ const tagInput = vue.ref<HTMLInputElement>()
               :size="(sizeClasses.button as StandardSize)"
               :theme="theme || 'default'"
               rounding="full"
-              design="outline"
+              design="solid"
               class="group"
               hover="none"
               :classes="{ button: 'cursor-grab' }"
               @click.stop
             >
               <span class="flex items-center" :class="sizeClasses.buttonContent">
-                <span>{{ item }}</span>
+                <span>{{ toLabel(item) }}</span>
                 <span
                   class="i-tabler-x opacity-50 hover:opacity-100 cursor-pointer"
                   @click.stop="removeItem(item)"

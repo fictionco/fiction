@@ -136,7 +136,7 @@ const cls = vue.computed(() => inputClasses({ uiSize: props.uiSize }))
     >
       <div
         v-if="beforeInput"
-        class="whitespace-nowrap select-none cursor-pointer"
+        class="whitespace-nowrap select-none cursor-pointer text-theme-300"
       >
         {{ beforeInput }}
       </div>
@@ -154,7 +154,7 @@ const cls = vue.computed(() => inputClasses({ uiSize: props.uiSize }))
       >
       <div
         v-if="afterInput"
-        class="select-none"
+        class="select-none text-theme-300"
       >
         {{ afterInput }}
       </div>

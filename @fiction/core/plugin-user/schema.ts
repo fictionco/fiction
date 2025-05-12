@@ -60,8 +60,9 @@ export const orgColumns = [
   new Col({ key: 'description', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
   new Col({ key: 'headline', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
   new Col({ key: 'about', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
-  new Col({ key: 'interests', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
-  new Col({ key: 'influences', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'interests', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
+  new Col({ key: 'influences', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
+
   new Col({ key: 'logo', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }), // wide logo (full name)
   new Col({ key: 'avatar', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }), // avatar (image of person or icon)
   new Col({ key: 'icon', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }), // icon (logo or icon)

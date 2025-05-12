@@ -2,7 +2,7 @@
 import type { EndpointResponse, FictionUser, StepActions, StepConfig, StepItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { FictionAdmin } from '..'
-import type { ProfileData } from './endpoint'
+import type { ProfileData } from './util'
 
 import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import { useService, vue } from '@fiction/core'
@@ -12,6 +12,7 @@ import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import XProgress from '@fiction/ui/loaders/XProgress.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import { localMedia } from '@fiction/ui/stock/localMedia'
+import { profileFromAccount } from './util'
 
 const { card } = defineProps<{ card: Card }>()
 
@@ -19,7 +20,7 @@ const { fictionUser, fictionAdmin } = useService<{ fictionUser: FictionUser, fic
 
 const profile = vue.ref<ProfileData>({
   needsOnboarding: true,
-  linkedinUrl: '',
+  linkedinHandle: '',
   name: '',
   handle: '',
   headline: '',
@@ -27,6 +28,20 @@ const profile = vue.ref<ProfileData>({
   interests: [],
   influences: [],
   avatar: undefined,
+})
+
+vue.onMounted(async () => {
+  await fictionUser.userInitialized({ caller: 'onboardSurvey' })
+
+  const p = profileFromAccount({ user: fictionUser.activeUser.value, org: fictionUser.activeOrganization.value })
+
+  const routeLinkedinHandle = card.site?.siteRouter.query.value.li as string || undefined
+
+  profile.value = {
+    ...profile.value,
+    ...p,
+    linkedinHandle: routeLinkedinHandle || p.linkedinHandle,
+  }
 })
 
 type StepKey = 'linkedin' | 'account' | 'profile' | 'interests' | 'ready' | 'enrich'
@@ -79,7 +94,7 @@ const linkedInEnrichmentSteps = [
 async function performLinkedInEnrichment(args: StepActions<StepKey>) {
   const { changeStep } = args
 
-  if (!profile.value.linkedinUrl) {
+  if (!profile.value.linkedinHandle) {
     console.warn('No LinkedIn URL provided')
     // If no URL is provided, go back to the first step
     changeStep({ step: 'linkedin' })
@@ -204,6 +219,22 @@ const stepConfig: StepConfig<StepKey> = {
         },
       },
       {
+        superTitle: {
+          text: 'Interests',
+          icon: { class: 'i-tabler-heart' },
+        },
+        title: 'What inspires you?',
+        subTitle: 'Your professional interests and influences',
+        key: 'interests',
+        class: 'max-w-md',
+        allowSkip: false,
+        onClick: async (args) => {
+          const { changeStep } = args
+          await saveUtil.forceSync()
+          changeStep({ dir: 'next' })
+        },
+      },
+      {
         key: 'ready',
         superTitle: {
           text: 'Ready',
@@ -264,7 +295,7 @@ const stepConfig: StepConfig<StepKey> = {
           <!-- LinkedIn URL step -->
           <div v-if="step.key === 'linkedin'" class="space-y-6">
             <ElInput
-              v-model="profile.linkedinUrl"
+              v-model="profile.linkedinHandle"
               input="InputHandle"
               placeholder="username"
               ui-size="lg"
@@ -272,7 +303,7 @@ const stepConfig: StepConfig<StepKey> = {
               :input-props="{ autofocus: true, beforeInput: 'linkedin.com/in/' }"
             />
 
-            <div v-if="enrichmentError" class="mt-4 p-3  text-red-700 rounded-md">
+            <div v-if="enrichmentError" class=" text-rose-700 rounded-md text-xs text-center font-medium">
               {{ enrichmentError }}
             </div>
           </div>
@@ -318,7 +349,6 @@ const stepConfig: StepConfig<StepKey> = {
               description="Used to identify you on Fiction"
               required
               :input-props="{
-                beforeInput: 'https://',
                 afterInput: '.fiction.com',
                 table: 'fiction_org',
                 columns: [{ name: 'handle' }],
@@ -343,7 +373,8 @@ const stepConfig: StepConfig<StepKey> = {
               placeholder="A brief description of yourself"
               :input-props="{ rows: 5 }"
             />
-
+          </div>
+          <div v-if="step.key === 'interests'" class="space-y-6">
             <ElInput
               v-model="profile.interests"
               input="InputTags"
@@ -359,18 +390,6 @@ const stepConfig: StepConfig<StepKey> = {
               placeholder="Add influences"
               description="People, characters, or systems that inspire your style"
             />
-          </div>
-
-          <!-- Ready step -->
-          <div v-if="step.key === 'ready'" class="space-y-6 text-center">
-            <div class="flex justify-center mb-4">
-              <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center">
-                <span class="i-tabler-check text-white text-4xl" />
-              </div>
-            </div>
-            <p class="text-theme-400">
-              You're set up and ready to go. You can edit these details later.
-            </p>
           </div>
         </ElStepNav>
       </div>
