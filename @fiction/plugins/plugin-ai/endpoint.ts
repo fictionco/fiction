@@ -27,6 +27,8 @@ export type AiRequest =
     schema?: z.ZodType<any>
     schemaJson?: Record<string, unknown>
     referenceInfo?: string
+    orgId?: string
+    userId?: string
   }
 
 // Response types

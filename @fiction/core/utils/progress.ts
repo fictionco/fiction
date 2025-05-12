@@ -15,13 +15,13 @@ export type ProgressTimerSettings = {
 }
 
 export class ProgressTimer extends FictionObject<ProgressTimerSettings> {
-  private timer: ReturnType<typeof setInterval> | null = null
-  private startTime = 0
-  private elapsed = 0
-  private failed = false
+  timer: ReturnType<typeof setInterval> | null = null
+  startTime = 0
+  elapsed = 0
+  failed = false
   isRunning = false
-  private lastReportedPercent = 0
-  private currentStepIndex = 0
+  lastReportedPercent = 0
+  currentStepIndex = 0
 
   constructor(name = 'ProgressTimer', settings: ProgressTimerSettings = {}) {
     super(name, settings)

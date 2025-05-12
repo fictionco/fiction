@@ -16,7 +16,7 @@ describe('queryManageOnboard endpoint', async () => {
 
   const userId = initialized.user.userId
   const orgId = initialized.org.orgId
-  const testLinkedInUrl = 'https://linkedin.com/in/johndoe'
+  const testLinkedInHandle = 'johndoe'
 
   if (!userId || !orgId)
     throw new Error('userId or orgId is not defined')
@@ -69,8 +69,8 @@ describe('queryManageOnboard endpoint', async () => {
         handle: 'johndoe',
         headline: 'Creative Product Strategist',
         about: 'I transform complex challenges into elegant solutions.',
-        interests: 'Product Design, UX Research, Design Systems, Innovation Strategy',
-        influences: 'Dieter Rams, Don Norman',
+        interests: ['Product Design', 'UX Research', 'Design Systems', 'Innovation Strategy'],
+        influences: ['Dieter Rams', 'Don Norman'],
         avatar: { url: 'https://processed-image-url.jpg' },
       },
     })
@@ -87,7 +87,7 @@ describe('queryManageOnboard endpoint', async () => {
   it('should enrich profile from LinkedIn URL', async () => {
     // Execute the query
     const result = await queryOnboard.serve(
-      { _action: 'enrichFromLinkedIn', profile: { linkedinUrl: testLinkedInUrl }, userId, orgId },
+      { _action: 'enrichFromLinkedIn', profile: { linkedinHandle: testLinkedInHandle }, userId, orgId },
       { server: true },
     )
 
@@ -152,7 +152,7 @@ describe('queryManageOnboard endpoint', async () => {
     } as Response)
 
     const result = await queryOnboard.run(
-      { _action: 'enrichFromLinkedIn', profile: { linkedinUrl: testLinkedInUrl }, userId, orgId },
+      { _action: 'enrichFromLinkedIn', profile: { linkedinHandle: testLinkedInHandle }, userId, orgId },
       { server: true },
     )
 
@@ -166,7 +166,7 @@ describe('queryManageOnboard endpoint', async () => {
 
   it('should validate LinkedIn URL format', async () => {
     const r = await queryOnboard.run(
-      { _action: 'enrichFromLinkedIn', profile: { linkedinUrl: 'https://invalid-url.com' }, userId, orgId },
+      { _action: 'enrichFromLinkedIn', profile: { linkedinHandle: 'https://invalid-url.com' }, userId, orgId },
       { server: true },
     )
 
@@ -241,7 +241,7 @@ describe('queryManageOnboard endpoint', async () => {
     })
 
     const result = await queryOnboard.run(
-      { _action: 'enrichFromLinkedIn', profile: { linkedinUrl: testLinkedInUrl }, userId, orgId },
+      { _action: 'enrichFromLinkedIn', profile: { linkedinHandle: testLinkedInHandle }, userId, orgId },
       { server: true },
     )
 
