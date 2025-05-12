@@ -23,8 +23,6 @@ export type AiRequest =
     _action: 'completion'
     format: ContentFormat
     prompt: string
-    orgId: string
-    userId: string
     objectives: Record<string, string>
     schema?: z.ZodType<any>
     schemaJson?: Record<string, unknown>

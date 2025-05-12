@@ -193,7 +193,7 @@ const stepConfig: StepConfig<StepKey> = {
           icon: { class: 'i-tabler-brush' },
         },
         title: 'Tell us about yourself',
-        subTitle: 'Your headline and professional bio',
+        subTitle: 'Your headline and bio',
         key: 'profile',
         class: 'max-w-md',
         allowSkip: false,
@@ -265,11 +265,11 @@ const stepConfig: StepConfig<StepKey> = {
           <div v-if="step.key === 'linkedin'" class="space-y-6">
             <ElInput
               v-model="profile.linkedinUrl"
-              input="InputText"
-              placeholder="https://www.linkedin.com/in/yourname"
+              input="InputHandle"
+              placeholder="username"
               ui-size="lg"
               required
-              :input-props="{ autofocus: true }"
+              :input-props="{ autofocus: true, beforeInput: 'linkedin.com/in/' }"
             />
 
             <div v-if="enrichmentError" class="mt-4 p-3  text-red-700 rounded-md">
@@ -342,6 +342,22 @@ const stepConfig: StepConfig<StepKey> = {
               label="About"
               placeholder="A brief description of yourself"
               :input-props="{ rows: 5 }"
+            />
+
+            <ElInput
+              v-model="profile.interests"
+              input="InputTags"
+              label="Interests"
+              placeholder="Add interests"
+              description="Topics you're passionate about (e.g., Design, Marketing, AI, Politics)"
+            />
+
+            <ElInput
+              v-model="profile.influences"
+              input="InputTags"
+              label="Influences"
+              placeholder="Add influences"
+              description="People, characters, or systems that inspire your style"
             />
           </div>
 

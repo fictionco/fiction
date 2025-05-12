@@ -14,7 +14,7 @@ const props = defineProps({
   beforeInput: { type: String, default: '' },
   afterInput: { type: String, default: '' },
   inputClass: { type: String, default: '' },
-  table: { type: String, required: true },
+  table: { type: String, default: '' },
   columns: { type: Array as vue.PropType<CheckColumnValue[]>, default: () => [] },
   maxLength: { type: Number, default: 100 },
   minLength: { type: Number, default: 4 },
@@ -29,7 +29,7 @@ const { fictionDb } = useService()
 const initialValue = vue.ref(props.modelValue)
 const status = vue.ref<ResponseStatus>(props.modelValue ? 'success' : 'unknown')
 const reason = vue.ref<ValidationReason>(props.modelValue ? 'current' : 'unknown')
-const validEl = vue.ref<HTMLInputElement>()
+const inputRef = vue.ref<HTMLInputElement>()
 const isValid = vue.ref(-1)
 const reasonText = vue.computed(() => {
   const r = {
@@ -61,7 +61,7 @@ async function handleEmit(target: EventTarget | null) {
     status.value = 'unknown'
     reason.value = 'unknown'
     isValid.value = -1
-    validEl.value?.setCustomValidity('')
+    inputRef.value?.setCustomValidity('')
     return
   }
 
@@ -98,13 +98,17 @@ async function handleEmit(target: EventTarget | null) {
   }
 
   if (status.value === 'success') {
-    validEl.value?.setCustomValidity('')
+    inputRef.value?.setCustomValidity('')
     isValid.value = 1
   }
   else {
-    validEl.value?.setCustomValidity(reasonText.value)
+    inputRef.value?.setCustomValidity(reasonText.value)
     isValid.value = 0
   }
+}
+
+function focusInput() {
+  inputRef.value?.focus()
 }
 
 const icon = vue.computed(() => {
@@ -124,12 +128,20 @@ const cls = vue.computed(() => inputClasses({ uiSize: props.uiSize }))
 
 <template>
   <div :class="[cls.textSize]">
-    <div class="flex items-center space-x-2" :class="[cls.base, cls.border, cls.focus, cls.padX, cls.bg]" tabindex="-1">
-      <div v-if="beforeInput" class="text-theme-400 dark:text-theme-600 whitespace-nowrap" :class="cls.padY">
+    <div
+      class="flex items-center space-x-1 cursor-text"
+      :class="[cls.base, cls.border, cls.focus, cls.padX, cls.bg]"
+      tabindex="-1"
+      @click="focusInput"
+    >
+      <div
+        v-if="beforeInput"
+        class="whitespace-nowrap select-none cursor-pointer"
+      >
         {{ beforeInput }}
       </div>
       <input
-        ref="validEl"
+        ref="inputRef"
         class="grow px-0 leading-[1] min-w-0 w-full"
         :class="[cls.padY, cls.reset]"
         :style="{ fontSize: 'inherit' }"
@@ -140,14 +152,17 @@ const cls = vue.computed(() => inputClasses({ uiSize: props.uiSize }))
         :data-is-valid="isValid"
         @input="handleEmit($event.target)"
       >
-      <div v-if="afterInput" class="text-theme-400 dark:text-theme-600" :class="cls.padY">
+      <div
+        v-if="afterInput"
+        class="select-none"
+      >
         {{ afterInput }}
       </div>
-      <ElTooltip :content="reasonText" class="flex items-center" direction="top">
+      <ElTooltip v-if="table" :content="reasonText" class="flex items-center" direction="top">
         <div class="text-[1.3em] shrink-0" :class="[icon.color, icon.icon]" />
       </ElTooltip>
     </div>
-    <div v-if="reasonText" class="mt-1.5 text-[.7em] font-sans text-theme-400">
+    <div v-if="table" class="mt-1.5 text-[.7em] font-sans text-theme-400" :class="reasonText ? 'opacity-100' : 'opacity-0'">
       {{ reasonText }}
     </div>
   </div>

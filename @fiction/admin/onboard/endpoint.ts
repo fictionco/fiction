@@ -120,7 +120,7 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
     if (!linkedinData)
       return { status: 'error', message: 'Failed to fetch LinkedIn profile' }
 
-    const profile = await this.buildProfileFr(linkedinData, userId, orgId)
+    const profile = await this.buildProfileFromLinkedinData(linkedinData, userId, orgId)
     await this.updateProfileData(profile, userId, orgId, meta)
 
     return { status: 'success', message: 'Profile enriched', data: profile }
@@ -161,33 +161,32 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
   private async fetchLinkedInProfile(url: string): Promise<LinkedInProfile> {
     this.enrichCount++
     this.log.info('Fetching LinkedIn profile', { url, enrichCount: this.enrichCount })
-    if (true || !this.settings.proxycurlApiKey)
+    if (!this.settings.proxycurlApiKey)
       return this.getMockLinkedInData(url)
 
-    // try {
+    try {
+      const response = await fetch(
+        `https://nubela.co/proxycurl/api/v2/linkedin?linkedin_profile_url=${encodeURIComponent(url)}&extra=include&skills=include`,
+        { headers: { Authorization: `Bearer ${this.settings.proxycurlApiKey}` } },
+      )
 
-    //   const response = await fetch(
-    //     `https://nubela.co/proxycurl/api/v2/linkedin?linkedin_profile_url=${encodeURIComponent(url)}&extra=include&skills=include`,
-    //     { headers: { Authorization: `Bearer ${this.settings.proxycurlApiKey}` } },
-    //   )
-
-    //   if (!response.ok)
-    //     throw new Error(`API error: ${response.status}`)
-    //   return await response.json() as LinkedInProfile
-    // }
-    // catch (error) {
-    //   this.log.error('LinkedIn API error', { error })
-    //   return this.getMockLinkedInData(url)
-    // }
+      if (!response.ok)
+        throw new Error(`API error: ${response.status}`)
+      return await response.json() as LinkedInProfile
+    }
+    catch (error) {
+      this.log.error('LinkedIn API error', { error })
+      return this.getMockLinkedInData(url)
+    }
   }
 
-  private async buildProfileFr(linkedinData: LinkedInProfile, userId: string, orgId: string): Promise<ProfileData> {
+  private async buildProfileFromLinkedinData(linkedinData: LinkedInProfile, userId: string, orgId: string): Promise<ProfileData> {
     const name = linkedinData.full_name || ''
     const handle = linkedinData.public_identifier || createHandle(name)
     const avatarUrl = linkedinData.profile_pic_url || ''
 
     const aiEnhancement = await this.enhanceProfileWithAi(linkedinData)
-    const avatar = avatarUrl ? await this.processAvatar({ url: avatarUrl }, orgId, userId) : undefined
+    const avatar = avatarUrl ? await this.processAvatarToMedia({ url: avatarUrl }, orgId, userId) : undefined
 
     return {
       name,
@@ -207,9 +206,7 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
       const aiResponse = await this.settings.fictionAi.queries.QueryAi.serve({
         _action: 'completion',
         prompt: `Create account profile based on this data: ${JSON.stringify(linkedinData)}`,
-        orgId: 'system',
-        userId: 'system',
-        format: 'websiteCopy',
+        format: 'accountSetup',
         schemaJson,
         objectives: {
           goal: 'Craft authentic professional profile content',
@@ -217,8 +214,8 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
           instructions: `
             - Create a 3-5 word headline that uniquely captures their professional value, avoiding generic terms like "expert" or "leader".
             - Write a short 10 to 30 word bio in HTML that highlights specific achievements and personality, steering clear of buzzwords like "passionate" or "innovative".
-            - Identify 1-5 specific professional interests based on skills and experience, ensuring relevance to their field.
-            - Suggest 0-5 influences (role models, characters or styles) across disciplines that have influenced their professional voice and style.
+            - Identify 0-3 specific professional interests based on skills and experience, ensuring relevance to their field.
+            - Suggest 0-3 influences (role models, characters or styles) across disciplines that have influenced their professional voice and style.
           `,
         },
       }, { server: true })
@@ -240,7 +237,7 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
     }
   }
 
-  private async processAvatar(avatar: MediaObject, orgId: string, userId: string): Promise<MediaObject | undefined> {
+  private async processAvatarToMedia(avatar: MediaObject, orgId: string, userId: string): Promise<MediaObject | undefined> {
     if (!avatar?.url)
       return undefined
 
