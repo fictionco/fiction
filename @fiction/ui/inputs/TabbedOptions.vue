@@ -111,7 +111,7 @@ function updateValue(update: Record<string, any>) {
             :options="options"
             :disable-group-hide="true"
             :input-props="inputProps"
-            :classes="{ groupPad: 'mx-auto max-w-[600px]' }"
+            :classes="{ groupPad: 'mx-auto max-w-[600px] pt-8 pb-12' }"
             @update:model-value="updateValue($event)"
           />
         </div>

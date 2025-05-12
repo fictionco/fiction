@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ProgressStep } from '@fiction/core/utils/progress'
+import { vue } from '@fiction/core'
 import { ProgressTimer } from '@fiction/core/utils/progress'
-import { onMounted, onUnmounted, ref } from 'vue'
 
 defineOptions({
   name: 'XProgress',
@@ -19,13 +19,13 @@ const emit = defineEmits<{
   (e: 'complete'): void
 }>()
 
-const percent = ref(0)
-const message = ref('')
-const status = ref('')
-let progressTimer: ProgressTimer | null = null
+const percent = vue.ref(0)
+const message = vue.ref('')
+const status = vue.ref('')
+const progressTimer = vue.shallowRef<ProgressTimer | undefined>(undefined)
 
-onMounted(() => {
-  progressTimer = new ProgressTimer('component-progress', {
+vue.onMounted(() => {
+  progressTimer.value = new ProgressTimer('component-progress', {
     steps: props.steps,
     totalTime: props.totalTime,
     completionMessage: props.completionMessage,
@@ -43,26 +43,19 @@ onMounted(() => {
       status.value = errorMessage || 'An error occurred'
     },
   })
-
   if (props.autoStart) {
-    progressTimer.start()
+    progressTimer.value.start()
   }
 })
 
-onUnmounted(() => {
-  if (progressTimer) {
-    progressTimer.stop(false)
+vue.onUnmounted(() => {
+  if (progressTimer.value) {
+    progressTimer.value.stop(false)
   }
 })
-
-const start = () => progressTimer?.start()
-const stop = () => progressTimer?.stop()
-const fail = (errorMessage?: string) => progressTimer?.fail(errorMessage)
 
 defineExpose({
-  start,
-  stop,
-  fail,
+  progressTimer,
   percent,
   message,
   status,

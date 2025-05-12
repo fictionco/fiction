@@ -132,13 +132,13 @@ const cls = vue.computed(() => {
   const configs = {
     md: {
       groupHeader: 'py-1.5 px-2 text-xs',
-      groupPad: 'p-4 @[350px]:px-6 @[500px]:px-8 @[700px]:px-10',
+      groupPad: 'p-4 @[350px]:px-6 @[500px]:px-8 @[700px]:px-10 pt-6',
       inputGap: 'gap-5 @sm:gap-7 @xl:gap-10',
       tab: 'py-2 px-4 text-xs font-normal',
     },
     lg: {
       groupHeader: 'py-2.5 px-3 text-sm',
-      groupPad: 'px-8 lg:px-10 @xl:px-12 py-8 pb-10',
+      groupPad: 'px-8 lg:px-10 @xl:px-12 py-8 pb-10  pt-10',
       inputGap: 'gap-7',
       tab: 'py-3 px-4 text-sm font-normal',
     },
@@ -281,7 +281,7 @@ function handleTabChange(index: number) {
     <div v-if="groupOptions.length > 0">
       <!-- Tabs for groups when enabled -->
       <div v-if="useTabsForGroups" class="overflow-x-auto no-scrollbar border-b border-theme-200 dark:border-theme-600/60 sticky top-0 z-10 pt-2 bg-theme-0 dark:bg-theme-900">
-        <div class="flex px-1">
+        <div class="flex px-1.5">
           <button
             v-for="(opt, i) in groupOptions"
             :key="i"
@@ -347,7 +347,7 @@ function handleTabChange(index: number) {
             </TransitionSlide>
 
             <!-- Group content without transition (for tabbed version) -->
-            <div v-if="useTabsForGroups && i === activeTabIndex" :class="getGroupClasses(opt)" class="pt-6">
+            <div v-if="useTabsForGroups && i === activeTabIndex" :class="getGroupClasses(opt)">
               <FormEngine
                 :state-key="stateKey"
                 :ui-size="uiSize"

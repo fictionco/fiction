@@ -406,9 +406,9 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       throw new Error('FictionContact is not available')
     }
 
-    const targetOrgId = this.org.value.orgId
+    const targetOrgId = this.org.value.orgId || this.settings.orgId
     if (!targetOrgId) {
-      this.log.error('No orgId found')
+      this.log.error('No site orgId found for active contact', { data: { site: this.toConfig() } })
       return
     }
 

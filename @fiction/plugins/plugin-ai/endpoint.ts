@@ -1,4 +1,4 @@
-import type { EndpointMeta, EndpointResponse, TableMediaConfig } from '@fiction/core'
+import type { EndpointMeta, EndpointResponse } from '@fiction/core'
 import type { z } from 'zod'
 import type { FictionAi, FictionAiSettings } from '.'
 import { abort, Query } from '@fiction/core'
@@ -15,6 +15,7 @@ export type ContentFormat =
   | 'websiteCopy'
   | 'contentAutocomplete'
   | 'brandVoice'
+  | 'accountSetup' // Added new format
 
 // Request types
 export type AiRequest =
@@ -29,6 +30,7 @@ export type AiRequest =
     schemaJson?: Record<string, unknown>
     referenceInfo?: string
   }
+
 // Response types
 interface AiCompletionResult {
   completion?: Record<string, unknown>
@@ -74,8 +76,9 @@ export class QueryAi extends Query<QueryAiSettings> {
     })
 
     try {
+      const { generateText } = await import('ai')
       // Generate completion
-      const { text } = await this.generateText({
+      const { text } = await generateText({
         model,
         system: messages.map(m => `${m.role}: ${m.content}`).join('\n'),
         prompt,
@@ -125,16 +128,6 @@ export class QueryAi extends Query<QueryAiSettings> {
     }
   }
 
-  private async generateText(args: {
-    model: any
-    system: string
-    prompt: string
-    temperature: number
-  }) {
-    const { generateText } = await import('ai')
-    return generateText(args)
-  }
-
   private parseJsonFromCompletion(text: string): Record<string, unknown> {
     try {
       // Extract JSON content from possible code blocks or raw JSON
@@ -180,6 +173,9 @@ export class QueryAi extends Query<QueryAiSettings> {
         break
       case 'brandVoice':
         formatGuidelines = this.getBrandVoiceGuidelines()
+        break
+      case 'accountSetup':
+        formatGuidelines = this.getAccountSetupGuidelines()
         break
       default:
         throw abort(`Unsupported format: ${format}`)
@@ -293,6 +289,46 @@ You are a top brand strategist who develops unique, authentic brand voices.
 </brand_strategist>`
   }
 
+  // New account setup guidelines
+  private getAccountSetupGuidelines(): string {
+    return `<profile_specialist>
+You are an expert identity consultant who helps professionals craft authentic, impactful digital presences.
+
+<core_principles>
+- Emphasize genuine expertise and unique perspectives
+- Balance professionalism with distinct personality traits
+- Transform vague generalities into specific, memorable details
+- Capture voice and character in minimal word count
+- Identify and highlight true differentiators
+</core_principles>
+
+<writing_approach>
+- Use concrete details instead of abstract claims
+- Create tight sentences with purposeful structure
+- Choose unexpected verbs and precise nouns
+- Integrate subtle narrative elements that create interest
+- Focus on genuine achievements rather than self-promotion
+</writing_approach>
+
+<avoid>
+- LinkedIn-style corporate buzzwords
+- Generic professional clichés (e.g., "passionate", "dedicated")
+- Personality trait lists without supporting context
+- Overused intro formulas and empty phrases
+- Self-designated expertise without evidence
+- Alignment with obvious industry values everyone shares
+</avoid>
+
+<output_aims>
+- Create descriptions people immediately recognize as "sounding like them but better"
+- Develop bios that stand out in crowded professional spaces
+- Balance being distinctive with relevant industry expectations
+- Find fresh approaches to standard profile elements
+- Craft content that feels simultaneously authentic and aspirational
+</output_aims>
+</profile_specialist>`
+  }
+
   private getObjectivesInstruction(objectives: Record<string, string>): string {
     const objectivesList = Object.entries(objectives)
       .map(([key, value]) => `<${key}>${value}</${key}>`)
@@ -307,73 +343,5 @@ You are a top brand strategist who develops unique, authentic brand voices.
       apiKey: this.settings.openaiApiKey,
       dangerouslyAllowBrowser: true,
     })
-  }
-
-  private async handleImageGeneration(
-    params: Extract<AiRequest, { _action: 'generateImage' }>,
-    meta: EndpointMeta,
-  ): Promise<EndpointResponse<TableMediaConfig>> {
-    const { prompt, orientation, orgId, userId } = params
-
-    const fictionMedia = this.settings.fictionMedia
-    if (!fictionMedia)
-      throw abort('fictionMedia required')
-
-    try {
-      const openAi = await this.getOpenAiApi()
-
-      // Configure image size based on orientation
-      const sizes = {
-        landscape: '1792x1024',
-        portrait: '1024x1792',
-        squarish: '1024x1024',
-      } as const
-
-      const size = sizes[orientation] || sizes.squarish
-
-      // Generate image
-      const response = await openAi.images.generate({
-        model: 'dall-e-3',
-        prompt,
-        n: 1,
-        size,
-      })
-
-      const url = response.data?.[0].url
-      if (!url)
-        throw abort('No image URL returned')
-
-      // Save image to media library
-      const result = await fictionMedia.queries.ManageMedia.serve(
-        {
-          _action: 'createFromUrl',
-          orgId,
-          userId,
-          fields: {
-            prompt,
-            sourceImageUrl: url,
-          },
-        },
-        meta,
-      )
-
-      if (result?.status !== 'success')
-        throw abort('Failed to save image')
-
-      const mediaConfig = result.data?.[0]
-
-      return {
-        status: 'success',
-        data: mediaConfig,
-      }
-    }
-    catch (error) {
-      const message = `Error generating image: ${(error as Error).message}`
-      this.log.error(message, { error })
-      return {
-        status: 'error',
-        message,
-      }
-    }
   }
 }

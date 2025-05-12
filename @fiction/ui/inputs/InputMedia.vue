@@ -37,7 +37,7 @@ const widthClass = vue.computed(() => {
   if (props.fullWidth)
     return 'w-full'
 
-  const sizes = { 'xxs': 'w-24', 'xs': 'w-32', 'sm': 'w-40', 'md': 'w-48', 'lg': 'w-56', 'xl': 'w-64', '2xl': 'w-72' }
+  const sizes = { 'xxs': 'w-16', 'xs': 'w-24', 'sm': 'w-32', 'md': 'w-40', 'lg': 'w-48', 'xl': 'w-56', '2xl': 'w-64' }
   return sizes[props.uiSize || 'md']
 })
 
@@ -58,7 +58,7 @@ function handleMediaUpdate(newValue: MediaObject) {
 </script>
 
 <template>
-  <div data-test-id="media-input" >
+  <div data-test-id="media-input">
     <!-- Media display or empty placeholder -->
     <div
       class="@container/media-input border rounded-md overflow-hidden relative"

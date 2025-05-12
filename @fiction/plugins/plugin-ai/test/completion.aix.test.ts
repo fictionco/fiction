@@ -90,7 +90,7 @@ describe('ai completions', async () => {
 
     expect(r4.data?.completion).toMatchInlineSnapshot(`
       {
-        "suggestion1": "I was standing in the calm sunshine, the next I was running for shelter as the sky darkened and winds whipped debris across the beach.",
+        "suggestion1": "we were battling hurricane-force winds, the next we found ourselves in the eerie calm of the eye.",
       }
     `)
 

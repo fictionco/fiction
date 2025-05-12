@@ -1,7 +1,7 @@
 <script lang="ts" setup generic="T = string">
 import type { FictionRouter, FictionUser, StepConfig } from '@fiction/core/index.js'
 import NavDots from '@fiction/cards/el/NavDots.vue'
-import { useService, vue } from '@fiction/core'
+import { useService, vue, waitFor } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElStep from './ElStep.vue'
@@ -118,12 +118,6 @@ async function changeStep(args: {
 }) {
   const { dir, step, index, needsValidation, backOnly, clearHistory } = args
 
-  // Don't proceed if a step load is in progress
-  if (isStepLoadInProgress.value)
-    return
-
-  const _nextIndex = index ?? getStepIndex({ dir })
-
   if (needsValidation) {
     const valid = checkValid()
 
@@ -165,6 +159,8 @@ vue.watch(
     if (newStep && newStep.onLoad && newStep.key !== oldStep?.key) {
       isStepLoadInProgress.value = true
       try {
+        // wait for transition and mounting
+        await waitFor(600)
         await newStep.onLoad({ changeStep })
       }
       finally {

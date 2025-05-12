@@ -5,7 +5,7 @@ import type { FictionAdmin } from '..'
 import type { ProfileData } from './endpoint'
 
 import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
-import { useService, vue } from '@fiction/core'
+import { useService, vue, waitFor } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
@@ -33,6 +33,7 @@ type StepKey = 'linkedin' | 'account' | 'profile' | 'interests' | 'ready' | 'enr
 
 const isLoading = vue.ref<StepKey | ''>('')
 const progressRef = vue.ref<InstanceType<typeof XProgress> | null>(null)
+const progressTimer = vue.computed(() => progressRef.value?.progressTimer)
 const showProgress = vue.ref(false)
 const enrichmentError = vue.ref<string | null>(null)
 
@@ -67,10 +68,10 @@ vue.watch(() => profile.value, () => {
 }, { deep: true })
 
 const linkedInEnrichmentSteps = [
-  { percent: 10, message: 'Fetching your LinkedIn profile...' },
-  { percent: 30, message: 'Analyzing data...' },
-  { percent: 50, message: 'Extracting highlights...' },
-  { percent: 70, message: 'Creating your Fiction profile...' },
+  { percent: 5, message: 'Fetching your LinkedIn profile...' },
+  { percent: 10, message: 'Analyzing data...' },
+  { percent: 30, message: 'Extracting highlights...' },
+  { percent: 50, message: 'Creating your Fiction profile...' },
   { percent: 90, message: 'Finalizing account setup...' },
   { percent: 100, message: 'Profile enrichment complete!' },
 ]
@@ -79,6 +80,7 @@ async function performLinkedInEnrichment(args: StepActions<StepKey>) {
   const { changeStep } = args
 
   if (!profile.value.linkedinUrl) {
+    console.warn('No LinkedIn URL provided')
     // If no URL is provided, go back to the first step
     changeStep({ step: 'linkedin' })
     return
@@ -88,10 +90,12 @@ async function performLinkedInEnrichment(args: StepActions<StepKey>) {
   isLoading.value = 'linkedin'
   showProgress.value = true
 
-  // Start the progress indicator
-  vue.nextTick(() => {
-    progressRef.value?.start()
-  })
+  await vue.nextTick()
+
+  if (!progressTimer.value?.start)
+    throw new Error('Progress ref start is not defined')
+
+  progressTimer.value?.start()
 
   try {
     const r = await fictionAdmin.requests.ManageOnboard.projectRequest({
@@ -113,7 +117,7 @@ async function performLinkedInEnrichment(args: StepActions<StepKey>) {
     }
     else {
       enrichmentError.value = 'There was a problem'
-      progressRef.value?.fail('Failed to enrich profile')
+      progressTimer.value?.fail('Failed to enrich profile')
       setTimeout(() => {
         showProgress.value = false
         isLoading.value = ''
@@ -124,7 +128,7 @@ async function performLinkedInEnrichment(args: StepActions<StepKey>) {
   }
   catch (error) {
     enrichmentError.value = 'An error occurred'
-    progressRef.value?.fail('An error occurred')
+    progressTimer.value?.fail('An error occurred')
     setTimeout(() => {
       showProgress.value = false
       isLoading.value = ''
@@ -191,22 +195,6 @@ const stepConfig: StepConfig<StepKey> = {
         title: 'Tell us about yourself',
         subTitle: 'Your headline and professional bio',
         key: 'profile',
-        class: 'max-w-md',
-        allowSkip: false,
-        onClick: async (args) => {
-          const { changeStep } = args
-          await saveUtil.forceSync()
-          changeStep({ dir: 'next' })
-        },
-      },
-      {
-        superTitle: {
-          text: 'Interests',
-          icon: { class: 'i-tabler-heart' },
-        },
-        title: 'What inspires you?',
-        subTitle: 'Your professional interests and influences',
-        key: 'interests',
         class: 'max-w-md',
         allowSkip: false,
         onClick: async (args) => {
@@ -295,7 +283,7 @@ const stepConfig: StepConfig<StepKey> = {
               <XProgress
                 ref="progressRef"
                 :steps="linkedInEnrichmentSteps"
-                :total-time="40000"
+                :total-time="25000"
                 completion-message="Setup complete!"
               />
             </div>
@@ -307,6 +295,10 @@ const stepConfig: StepConfig<StepKey> = {
               v-model="profile.avatar"
               input="InputMedia"
               label="Avatar"
+              :input-props="{
+                aspectClass: 'aspect-[1/1]',
+                uiSize: 'xxs',
+              }"
               required
             />
 
@@ -350,25 +342,6 @@ const stepConfig: StepConfig<StepKey> = {
               label="About"
               placeholder="A brief description of yourself"
               :input-props="{ rows: 5 }"
-            />
-          </div>
-
-          <!-- Interests and influences step -->
-          <div v-if="step.key === 'interests'" class="space-y-6">
-            <ElInput
-              v-model="profile.interests"
-              input="InputTags"
-              label="Professional Interests"
-              placeholder="Add interests"
-              description="Topics you're passionate about (e.g., UX Design, Marketing)"
-            />
-
-            <ElInput
-              v-model="profile.influences"
-              input="InputTags"
-              label="Professional Influences"
-              placeholder="Add influences"
-              description="People or styles that inspire your work"
             />
           </div>
 
