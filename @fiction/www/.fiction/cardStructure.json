@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2025-05-03T21:24:41.514Z",
+  "generatedAt": "2025-05-12T17:15:41.900Z",
   "templates": [
     {
       "templateId": "cardHeroV1",
@@ -235,19 +235,6 @@
       "classification": {},
       "icon": "i-tabler-player-play",
       "colorTheme": "pink",
-      "isPublic": true
-    },
-    {
-      "templateId": "cardContactV1",
-      "title": "Contact & Support",
-      "description": "Create professional contact pages with integrated forms and multiple contact methods.\nFeatures customizable layouts, notification settings, and social media integration. Perfect for\ncustomer support, sales inquiries, or general contact information.",
-      "subTitle": "Connect with visitors through customizable contact forms and support channels",
-      "category": [
-        "form"
-      ],
-      "classification": {},
-      "icon": "i-tabler-mail-fast",
-      "colorTheme": "blue",
       "isPublic": true
     },
     {

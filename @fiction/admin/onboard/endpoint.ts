@@ -1,4 +1,4 @@
-import type { EndpointMeta, EndpointResponse, MediaObject, TableMediaConfig } from '@fiction/core'
+import type { EndpointMeta, EndpointResponse, MediaObject } from '@fiction/core'
 import type { FictionAdmin, FictionAdminSettings } from '..'
 import { abort, Query } from '@fiction/core'
 import { z } from 'zod'

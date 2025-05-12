@@ -1,4 +1,4 @@
-import type { FictionRouter, FontFamily, Organization, SocialAccounts } from '@fiction/core'
+import type { FictionRouter, FontFamily, SocialAccounts } from '@fiction/core'
 import type { Contact } from '@fiction/plugins/plugin-contact/schema.js'
 import type { Card, CardTemplate } from './card.js'
 import type { FictionSites, ThemeConfig } from './index.js'

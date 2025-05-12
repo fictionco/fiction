@@ -1,5 +1,4 @@
 import type { Organization } from '@fiction/core'
-import type { Site } from '@fiction/site'
 import fictionFaviconSvg from '@fiction/ui/brand/favicon.svg'
 import fictionIcon from '@fiction/ui/brand/icon.png'
 

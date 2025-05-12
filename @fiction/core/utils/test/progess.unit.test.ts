@@ -1,8 +1,8 @@
 // ProgressTimer.test.ts
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { ProgressTimer } from '../progress'
 
-describe('ProgressTimer', () => {
+describe('progressTimer', () => {
   // Setup and teardown
   beforeEach(() => {
     // Mock timers
@@ -16,27 +16,27 @@ describe('ProgressTimer', () => {
   it('should initialize with default settings', () => {
     const timer = new ProgressTimer()
     expect(timer.isRunning).toBe(false)
-    expect(timer['timer']).toBeNull()
-    expect(timer['startTime']).toBe(0)
-    expect(timer['elapsed']).toBe(0)
-    expect(timer['failed']).toBe(false)
+    expect(timer.timer).toBeNull()
+    expect(timer.startTime).toBe(0)
+    expect(timer.elapsed).toBe(0)
+    expect(timer.failed).toBe(false)
   })
 
   it('should initialize with custom settings', () => {
     const customSteps = [
       { percent: 20, message: 'Custom step 1' },
-      { percent: 80, message: 'Custom step 2' }
+      { percent: 80, message: 'Custom step 2' },
     ]
     const timer = new ProgressTimer('CustomTimer', { steps: customSteps, totalTime: 5000 })
-    expect(timer['settings'].steps).toEqual(customSteps)
-    expect(timer['settings'].totalTime).toBe(5000)
+    expect(timer.settings.steps).toEqual(customSteps)
+    expect(timer.settings.totalTime).toBe(5000)
   })
 
   it('should start the timer and update progress', () => {
     const onProgress = vi.fn()
     const timer = new ProgressTimer('TestTimer', {
       onProgress,
-      totalTime: 1000
+      totalTime: 1000,
     })
 
     timer.start()
@@ -64,13 +64,13 @@ describe('ProgressTimer', () => {
     const steps = [
       { percent: 10, message: 'Step 1' },
       { percent: 60, message: 'Step 2' },
-      { percent: 90, message: 'Step 3' }
+      { percent: 90, message: 'Step 3' },
     ]
 
     const timer = new ProgressTimer('CustomSteps', {
       steps,
       onProgress,
-      totalTime: 1000
+      totalTime: 1000,
     })
 
     timer.start()
@@ -94,7 +94,7 @@ describe('ProgressTimer', () => {
     const timer = new ProgressTimer('CompletionTest', {
       onComplete,
       onProgress,
-      totalTime: 1000
+      totalTime: 1000,
     })
 
     timer.start()
@@ -111,7 +111,7 @@ describe('ProgressTimer', () => {
     const timer = new ProgressTimer('CustomMessage', {
       onProgress,
       completionMessage,
-      totalTime: 1000
+      totalTime: 1000,
     })
 
     timer.start()
@@ -127,7 +127,7 @@ describe('ProgressTimer', () => {
     const timer = new ProgressTimer('StopTest', {
       onComplete,
       onProgress,
-      totalTime: 1000
+      totalTime: 1000,
     })
 
     timer.start()
@@ -136,7 +136,7 @@ describe('ProgressTimer', () => {
 
     expect(onComplete).not.toHaveBeenCalled()
     expect(timer.isRunning).toBe(false)
-    expect(timer['timer']).toBeNull()
+    expect(timer.timer).toBeNull()
   })
 
   it('should handle stop with triggering completion', () => {
@@ -146,7 +146,7 @@ describe('ProgressTimer', () => {
     const timer = new ProgressTimer('StopWithCompletionTest', {
       onComplete,
       onProgress,
-      totalTime: 1000
+      totalTime: 1000,
     })
 
     timer.start()
@@ -167,7 +167,7 @@ describe('ProgressTimer', () => {
       onError,
       onProgress,
       onComplete,
-      totalTime: 1000
+      totalTime: 1000,
     })
 
     timer.start()
@@ -179,7 +179,7 @@ describe('ProgressTimer', () => {
     expect(onProgress).toHaveBeenCalledWith(30, errorMessage)
     expect(onComplete).not.toHaveBeenCalled()
     expect(timer.isRunning).toBe(false)
-    expect(timer['failed']).toBe(true)
+    expect(timer.failed).toBe(true)
   })
 
   it('should not exceed 100% progress', () => {
@@ -187,7 +187,7 @@ describe('ProgressTimer', () => {
 
     const timer = new ProgressTimer('MaxProgressTest', {
       onProgress,
-      totalTime: 1000
+      totalTime: 1000,
     })
 
     timer.start()
@@ -211,7 +211,7 @@ describe('ProgressTimer', () => {
 
     const timer = new ProgressTimer('CycleTest', {
       onProgress,
-      totalTime: 1000
+      totalTime: 1000,
     })
 
     // First cycle
@@ -224,7 +224,7 @@ describe('ProgressTimer', () => {
     vi.advanceTimersByTime(200)
 
     // Progress should have reset
-    expect(timer['elapsed']).toBe(200)
+    expect(timer.elapsed).toBe(200)
     expect(timer.isRunning).toBe(true)
   })
 
@@ -233,7 +233,7 @@ describe('ProgressTimer', () => {
 
     const timer = new ProgressTimer('StopUpdateTest', {
       onProgress,
-      totalTime: 1000
+      totalTime: 1000,
     })
 
     timer.start()
@@ -245,5 +245,4 @@ describe('ProgressTimer', () => {
     // Only one more call for the completion
     expect(onProgress.mock.calls.length).toBe(initialCallCount + 1)
   })
-
 })

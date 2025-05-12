@@ -71,7 +71,7 @@ describe('ai completions', async () => {
     expect(r4.data?.completion).toMatchInlineSnapshot()
   }, 90000)
 
-  it.only('gets a autocomplete completion', async () => {
+  it('gets a autocomplete completion', async () => {
     const r4 = await fictionAi.queries.QueryAi.serve({
       _action: 'completion',
       format: 'contentAutocomplete',

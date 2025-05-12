@@ -596,7 +596,7 @@ describe('manageSite query', async () => {
         expect(response.message).toContain('Site not found')
       })
 
-      it.only('should retrieve site by custom domain hostname', async () => {
+      it('should retrieve site by custom domain hostname', async () => {
         const response = await testUtils.fictionSites.queries.ManageSite.serve(
           { _action: 'retrieve', where: { hostname: testingDomain }, orgId, caller: 'test' },
           { server: true },

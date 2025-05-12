@@ -10,7 +10,6 @@
         "DashWrap.vue": null,
         "ElAvatarOrg.vue": null,
         "ElPanelSettings.vue": null,
-        "OnboardSurvey.vue": null,
         "PreLaunch.vue": null,
         "UtilDeleteOrg.vue": null,
         "ViewBillingSuccess.vue": null,
@@ -39,6 +38,14 @@
       },
       "hooks.ts": null,
       "index.ts": null,
+      "onboard": {
+        "OnboardSurvey.vue": null,
+        "OnboardSurveyOld.vue": null,
+        "endpoint.ts": null,
+        "test": {
+          "onboardEndpoint.unit.test.ts": null
+        }
+      },
       "package.json": null,
       "settings": {
         "CustomDomain.vue": null,
@@ -328,15 +335,6 @@
           },
           "index.ts": null,
           "utils.ts": null
-        },
-        "contact": {
-          "ElCard.vue": null,
-          "config.ts": null,
-          "img": {
-            "screen-dark.svg": null,
-            "screen-light.svg": null
-          },
-          "index.ts": null
         },
         "faq": {
           "ElCard.vue": null,
@@ -704,7 +702,6 @@
         "tables.ts": null,
         "test": {
           "endpoint.unit.test.ts": null,
-          "relativeMedia.unit.test.ts": null,
           "resize.unit.test.ts": null,
           "test.jpg": null,
           "test.pdf": null,
@@ -905,6 +902,7 @@
         "obj.ts": null,
         "priv.ts": null,
         "processors.ts": null,
+        "progress.ts": null,
         "save.ts": null,
         "schemas.ts": null,
         "serverHealth.ts": null,
@@ -949,6 +947,7 @@
           "number.unit.test.ts": null,
           "object.unit.test.ts": null,
           "processor.unit.test.ts": null,
+          "progess.unit.test.ts": null,
           "save.unit.test.ts": null,
           "snapshot.unit.test.ts": null,
           "socket.unit.test.ts": null,
@@ -972,61 +971,18 @@
         "index.ts": null
       }
     },
-    "forms": {
-      "deck": {
-        "CardForm.vue": null,
-        "FormLoading.vue": null,
-        "FormProgressBar.vue": null,
-        "InputWrap.vue": null
-      },
-      "embed": {
-        "ElCloseButton.vue": null,
-        "EmbedModal.vue": null,
-        "EmbedPopover.vue": null,
-        "EmbedSlideOver.vue": null,
-        "EmbedWrap.vue": null,
-        "index.ts": null,
-        "keyboard.ts": null,
-        "tag.ts": null,
-        "test": {
-          "app": {
-            "App.vue": null,
-            "entry.ts": null,
-            "index.html": null,
-            "index.ts": null
-          }
-        },
-        "util.ts": null
-      },
-      "endpoint.ts": null,
-      "form.ts": null,
-      "formTemplates.ts": null,
-      "index.ts": null,
-      "logic.ts": null,
-      "package.json": null,
-      "schema.ts": null,
-      "templates.ts": null,
-      "test": {
-        "endpointForms.unit.test.ts": null,
-        "endpointSubmissions.unit.test.ts": null,
-        "form.unit.test.ts": null
-      },
-      "utils": {
-        "load.ts": null
-      }
-    },
     "platform": {
       "index.ts": null,
       "package.json": null
     },
     "plugins": {
       "plugin-ai": {
+        "__systemMessage.ts": null,
         "basePrompts.ts": null,
         "endpoint.ts": null,
         "index.ts": null,
         "package.json": null,
         "splitter.ts": null,
-        "systemMessage.ts": null,
         "tables.ts": null,
         "test": {
           "completion.aix.test.ts": null,
@@ -1191,10 +1147,10 @@
       "admin": {
         "ElSitePreviewFrame.vue": null,
         "ElSiteStart.vue": null,
-        "ElThemeSelect.vue": null,
         "ManageAnalytics.vue": null,
         "ManageIndex.vue": null,
         "ViewManage.vue": null,
+        "__ElThemeSelect.vue": null,
         "widgets": {
           "WidgetSites.vue": null,
           "WidgetTest.vue": null,
@@ -1331,7 +1287,11 @@
           "light-desktop.png": null
         },
         "index.ts": null,
-        "package.json": null
+        "package.json": null,
+        "pages": {
+          "index.ts": null,
+          "landing.ts": null
+        }
       },
       "fiction": {
         "affiliate": {
@@ -1687,10 +1647,10 @@
       },
       "loaders": {
         "ElLoading.vue": null,
-        "ElProgress.vue": null,
         "ElProgressLine.vue": null,
         "ElSpinner.vue": null,
-        "LoadingVeil.vue": null
+        "LoadingVeil.vue": null,
+        "XProgress.vue": null
       },
       "media": {
         "ElLightbox.vue": null,
@@ -1725,19 +1685,19 @@
         "DemoPostSingle.vue": null,
         "PostFeature.vue": null,
         "PostHero.vue": null,
-        "PostIndex.vue": null,
         "PostIndexLayout.vue": null,
         "PostItem.vue": null,
-        "PostItemByline.vue": null,
         "PostItemMeta.vue": null,
         "PostSingle.vue": null,
-        "PostWidget.vue": null,
-        "SidebarMediaItem.vue": null,
-        "SidebarWidget.vue": null,
         "XPostAuthor.vue": null,
-        "XWidgetAbout.vue": null,
-        "XWidgetPosts.vue": null,
-        "index.ts": null
+        "__PostIndex.vue": null,
+        "index.ts": null,
+        "sidebar": {
+          "SidebarMediaItem.vue": null,
+          "SidebarWidget.vue": null,
+          "XWidgetAbout.vue": null,
+          "XWidgetPosts.vue": null
+        }
       },
       "prose": {
         "XEntry.vue": null,

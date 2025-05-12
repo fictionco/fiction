@@ -96,7 +96,6 @@ const options: InputOption[] = [
     ],
   }),
 
-
 ]
 
 function getDefaultConfig(args: { stock: StockMedia }): UserConfig {

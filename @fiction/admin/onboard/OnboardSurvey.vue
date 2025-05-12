@@ -5,7 +5,7 @@ import type { FictionAdmin } from '..'
 import type { ProfileData } from './endpoint'
 
 import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
-import { useService, vue, waitFor } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'

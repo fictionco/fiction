@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { NavCardUserConfig } from '@fiction/admin'
-import SettingsBoard from '@fiction/admin/settings/SettingsBoard.vue'
 import { vue } from '@fiction/core'
 import { Card } from '@fiction/site'
 import ManageIndex from './ManageIndex.vue'

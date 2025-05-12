@@ -69,16 +69,8 @@
       "path": "/api/fiction-transactions/EmailAction"
     },
     {
-      "key": "ManageVectors",
-      "path": "/api/fiction-ai/ManageVectors"
-    },
-    {
-      "key": "AiCompletion",
-      "path": "/api/fiction-ai/AiCompletion"
-    },
-    {
-      "key": "AiImage",
-      "path": "/api/fiction-ai/AiImage"
+      "key": "QueryAi",
+      "path": "/api/fiction-ai/QueryAi"
     },
     {
       "key": "ManageCustomer",
@@ -99,6 +91,10 @@
     {
       "key": "oAuthEndpoint",
       "path": "/api/stripe-checkout/:action"
+    },
+    {
+      "key": "ManageOnboard",
+      "path": "/api/user/ManageOnboard"
     },
     {
       "key": "ManageContact",
@@ -135,14 +131,6 @@
     {
       "key": "ManageDomain",
       "path": "/api/fiction-sites/ManageDomain"
-    },
-    {
-      "key": "ManageForm",
-      "path": "/api/forms/ManageForm"
-    },
-    {
-      "key": "ManageSubmission",
-      "path": "/api/forms/ManageSubmission"
     },
     {
       "key": "ManagePost",

@@ -13,12 +13,12 @@ describe('manageDomain', async () => {
   const { orgId } = await testUtils.init()
   const { fictionSites, fictionDb, fictionUser } = testUtils
 
-  afterAll(() => testUtils.close())
-
   // Clear all domains before each test to ensure domain limit tests work properly
   beforeEach(async () => {
     await fictionDb.client()(t.domains).where({ orgId }).delete()
   })
+
+  afterAll(() => testUtils.close())
 
   // Utility functions
   const createTestDomain = async (fields?: TableDomainConfig) => {
