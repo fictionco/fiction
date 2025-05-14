@@ -22,21 +22,26 @@ export class ProgressTimer extends FictionObject<ProgressTimerSettings> {
   isRunning = false
   lastReportedPercent = 0
   currentStepIndex = 0
+  steps = this.settings.steps || [
+    { percent: 25, message: 'Starting process...' },
+    { percent: 50, message: 'Processing data...' },
+    { percent: 75, message: 'Almost there...' },
+    { percent: 100, message: 'Complete' },
+  ]
+
+  totalTime = this.settings.totalTime || 40000
 
   constructor(name = 'ProgressTimer', settings: ProgressTimerSettings = {}) {
     super(name, settings)
   }
 
-  start(): this {
+  start(args?: { steps?: ProgressStep[], totalTime?: number }): this {
+    const { steps, totalTime } = args || {}
+    this.steps = steps || this.steps
+    this.totalTime = totalTime || this.totalTime
+
     // Clear any existing timer
     this.stop(false)
-
-    const steps = this.settings.steps || [
-      { percent: 25, message: 'Starting process...' },
-      { percent: 50, message: 'Processing data...' },
-      { percent: 75, message: 'Almost there...' },
-      { percent: 100, message: 'Complete' },
-    ]
 
     this.startTime = Date.now()
     this.elapsed = 0
@@ -46,12 +51,11 @@ export class ProgressTimer extends FictionObject<ProgressTimerSettings> {
     this.currentStepIndex = 0
 
     // Report initial step immediately
-    if (steps.length > 0) {
-      this.updateProgress(0, steps[0].message)
+    if (this.steps.length > 0) {
+      this.updateProgress(0, this.steps[0].message)
     }
 
-    const totalTime = this.settings.totalTime || 40000
-    const interval = Math.max(50, totalTime / 100) // At least 50ms to avoid excessive updates
+    const interval = Math.max(50, this.totalTime / 100) // At least 50ms to avoid excessive updates
 
     // Create the timer to update progress
     this.timer = setInterval(() => {
@@ -61,20 +65,20 @@ export class ProgressTimer extends FictionObject<ProgressTimerSettings> {
       this.elapsed += interval
 
       // Calculate current percentage based on elapsed time
-      const percentComplete = Math.min(100, Math.floor((this.elapsed / totalTime) * 100))
+      const percentComplete = Math.min(100, Math.floor((this.elapsed / this.totalTime) * 100))
 
       // Only update if percentage has changed
       if (percentComplete > this.lastReportedPercent) {
         // Find the appropriate message based on current percentage
-        let message = steps[0].message
+        let message = this.steps[0].message
 
         // Check if we need to move to the next step
-        while (this.currentStepIndex < steps.length - 1
-          && percentComplete >= steps[this.currentStepIndex + 1].percent) {
+        while (this.currentStepIndex < this.steps.length - 1
+          && percentComplete >= this.steps[this.currentStepIndex + 1].percent) {
           this.currentStepIndex++
         }
 
-        message = steps[this.currentStepIndex].message
+        message = this.steps[this.currentStepIndex].message
 
         // Report the actual percentage while keeping the message from the step
         this.updateProgress(percentComplete, message)

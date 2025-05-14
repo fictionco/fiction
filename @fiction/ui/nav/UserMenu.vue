@@ -16,12 +16,14 @@ const { card, nav } = defineProps<{ card: Card, nav?: NavListItem[] }>()
 const { fictionUser, fictionAdmin } = useService<{ fictionAdmin: FictionAdmin }>()
 const user = vue.computed(() => fictionUser.activeUser?.value)
 const mobileMenuVisible = vue.ref(false)
+
+const isEditable = vue.computed(() => card.site?.isEditable.value)
 </script>
 
 <template>
   <div class="flex items-center relative gap-4">
     <XButton
-      v-if="card.site?.activeContact.value?.status !== 'active'"
+      v-if="card.site?.activeContact.value?.status !== 'active' && !isEditable"
       theme="primary"
 
       icon-after="i-tabler-arrow-up-right"
@@ -30,9 +32,10 @@ const mobileMenuVisible = vue.ref(false)
       Subscribe
     </XButton>
     <XButton
-      v-if="!user"
+      v-if="!user || isEditable"
       class="hidden md:block"
       :href="getFictionAuthUrl({ fictionAdmin, site: card.site })"
+      icon-after="i-tabler-arrow-up-right"
     >
       Sign In
     </XButton>

@@ -12,6 +12,7 @@
     "@fiction/plugin-transactions": "workspace:*",
     "@fiction/posts": "workspace:*",
     "@fiction/site": "workspace:*",
+    "@fiction/onboard": "workspace:*",
     "@fiction/theme-fiction": "workspace:*",
     "@fiction/theme-minimal": "workspace:*",
     "@fiction/theme-prestige": "workspace:*",

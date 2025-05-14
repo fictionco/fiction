@@ -4,6 +4,7 @@ import type { AdminTemplates } from '@fiction/admin/theme'
 import type { FictionAnalytics } from '@fiction/analytics'
 import type { FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, FictionRevision, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionContact } from '@fiction/plugin-contact'
+import type { FictionAi } from '@fiction/plugins/plugin-ai'
 import type { FictionSites } from '@fiction/site'
 import { cardConfig } from '@fiction/cards'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
@@ -30,6 +31,7 @@ export type FictionPostsSettings = {
   fictionRouter: FictionRouter
   fictionContact: FictionContact
   fictionSites: FictionSites
+  fictionAi: FictionAi
 } & FictionPluginSettings
 
 export * from './schema'

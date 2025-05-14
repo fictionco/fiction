@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from '@fiction/posts'
+import type { Card } from '@fiction/site'
 import { vue } from '@fiction/core'
 import XLink from '@fiction/ui/common/XLink.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
@@ -8,8 +9,9 @@ import PostItemMeta from './PostItemMeta.vue'
 
 defineOptions({ name: 'PostFeature' })
 
-const { post } = defineProps<{
+const { post, card } = defineProps<{
   post: Post
+  card?: Card
 }>()
 
 // Image aspect ratio using golden ratio proportions
@@ -34,8 +36,9 @@ const contextTitle = vue.computed(() => {
   <article class="post-feature relative @container/feature">
     <div class="grid grid-cols-12 lg:gap-12 md:gap-8 gap-6">
       <!-- Image container with golden ratio proportions -->
-      <div class="col-span-7">
+      <div class="col-span-6">
         <XLink
+          :card
           :href="post.href.value"
           class="block h-full overflow-hidden rounded-lg transition-transform duration-300 hover:brightness-105"
         >
@@ -55,22 +58,23 @@ const contextTitle = vue.computed(() => {
       </div>
 
       <!-- Content container with golden ratio spacing -->
-      <div class="col-span-5 flex flex-col gap-8 justify-between text-base @[600px]/post-feature:text-[1.1em] @[700px]/post-feature:text-[1.2em]">
+      <div class="col-span-6 flex flex-col gap-8 justify-center text-base @[600px]/post-feature:text-[1.1em] @[700px]/post-feature:text-[1.2em]">
         <div class="flex flex-col gap-[.7em]">
           <!-- Category/tag if available -->
           <div
             v-if="contextTitle"
-            class="text-sm text-theme-600 dark:text-theme-500 flex gap-2"
+            class="text-md text-theme-600 dark:text-theme-500 flex gap-2"
           >
             <template v-for="(item, index) in contextTitle" :key="index">
               <span>{{ item }}</span>
               <span v-if="index < contextTitle.length - 1">·</span>
             </template>
           </div>
-          <h2 class="!leading-[1.2] x-font-title font-semibold text-[1.84em] line-clamp-2 sm:text-pretty">
+          <h2 class="!leading-[1.2] x-font-title font-semibold text-[2.2em] line-clamp-4 sm:text-pretty">
             <XLink
+              :card
               :href="post.href.value"
-              class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+              class="hover:text-theme-600 dark:hover:text-theme-200 transition-colors"
             >
               {{ post.title.value }}
             </XLink>

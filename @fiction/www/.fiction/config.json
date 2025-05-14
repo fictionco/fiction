@@ -93,10 +93,6 @@
       "path": "/api/stripe-checkout/:action"
     },
     {
-      "key": "ManageOnboard",
-      "path": "/api/user/ManageOnboard"
-    },
-    {
       "key": "ManageContact",
       "path": "/api/subscribe/ManageContact"
     },
@@ -147,6 +143,10 @@
     {
       "key": "emailTrackingEndpoint",
       "path": "/api/email-tracking/:action?"
+    },
+    {
+      "key": "ManageOnboard",
+      "path": "/api/onboard/ManageOnboard"
     },
     {
       "key": "posts",

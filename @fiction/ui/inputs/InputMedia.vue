@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { MediaObject, StandardSize } from '@fiction/core'
 import { determineMediaFormat, removeUndefined, vue } from '@fiction/core'
+import { SITE_INJECTION_KEY } from '@fiction/site'
 import XMedia from '../media/XMedia.vue'
 import LibraryModal from './LibraryModal.vue'
 
@@ -19,6 +20,8 @@ const props = defineProps<{
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: MediaObject): void
 }>()
+
+const site = vue.inject(SITE_INJECTION_KEY, vue.computed(() => undefined))
 
 const vis = vue.ref(false)
 const value = vue.computed(() => {

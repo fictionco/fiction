@@ -91,7 +91,7 @@ export const pageCols = [
   new Col({ key: 'regionId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('main') }),
   new Col({ key: 'layoutId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('default') }),
   new Col({ key: 'templateId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).notNullable() }),
-  new Col({ key: 'pageTemplateId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).notNullable() }),
+  new Col({ key: 'pageTemplateId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'slug', sec: 'setting', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).defaultTo(db.raw(`short_id(5)`)).index(), prepare: ({ value }) => (value).replaceAll(/\s+/g, '-').replaceAll(/[^\w-]+/g, '').toLowerCase() }),
   new Col({ key: 'title', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).defaultTo('') }),
   new Col({ key: 'description', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k).defaultTo('') }),

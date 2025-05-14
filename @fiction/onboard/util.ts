@@ -5,12 +5,26 @@ export type ProfileData = {
   name?: string
   handle?: string
   avatar?: { url?: string }
+
+  linkedinHandle?: string
+  linkedinFollowers?: number
+
+  city?: string
+  state?: string
+  country?: string
+
   headline?: string
   about?: string
   interests?: string[]
   influences?: string[]
-  linkedinHandle?: string
+  industry?: string
+  pillars?: string[]
+  postTitles?: string[]
+
+  clout?: number
+
   needsOnboarding?: boolean
+
 }
 
 export type LinkedInEnrichmentProfile = {
@@ -20,7 +34,11 @@ export type LinkedInEnrichmentProfile = {
   headline?: string
   summary?: string
   industry?: string
-  location_name?: string
+  country?: string
+  city?: string
+  state?: string
+  follower_count?: number
+  connections?: number
   experiences?: {
     company?: string
     title?: string

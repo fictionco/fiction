@@ -206,6 +206,9 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       { shortcode: 'handle', handler: () => this.org.value?.handle || '' },
       { shortcode: 'headline', handler: () => this.org.value?.headline || '' },
       { shortcode: 'about', handler: () => this.org.value?.about || '' },
+      { shortcode: 'avatar', handler: () => {
+        return this.org.value?.avatar?.url || ''
+      } },
       { shortcode: 'social_url', handler: ({ attributes }) => {
         const src = attributes?.src as keyof SocialAccounts | undefined
         return (src && this.org.value?.accounts?.[src || '']) || ''

@@ -1,6 +1,5 @@
 <script lang="ts" setup generic="T = string">
 import type { FictionRouter, FictionUser, StepConfig } from '@fiction/core/index.js'
-import NavDots from '@fiction/cards/el/NavDots.vue'
 import { useService, vue, waitFor } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
@@ -17,9 +16,7 @@ const { fictionRouter } = useService<{
   fictionUser: FictionUser
 }>()
 
-const steps = vue.computed(() => {
-  return stepConfig.steps.value.filter(s => !s.isJumped)
-})
+const steps = vue.computed(() => stepConfig.steps.value.filter(s => !s.isJumped))
 
 // Track step history
 const stepHistory = vue.ref<number[]>([])
@@ -258,13 +255,13 @@ const isNextButtonDisabled = vue.computed(() => {
         </div>
       </template>
     </ElStep>
-    <NavDots
+    <!-- <NavDots
       class="mt-16 z-20 justify-center relative pointer-events-auto"
       :items="steps"
       :active-item="stepIndex"
       wrap-selector="#stepForm"
       @click.stop
       @update:active-item="changeStep({ index: $event, backOnly: true, clearHistory: true })"
-    />
+    /> -->
   </ElForm>
 </template>

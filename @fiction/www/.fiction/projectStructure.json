@@ -38,14 +38,6 @@
       },
       "hooks.ts": null,
       "index.ts": null,
-      "onboard": {
-        "OnboardSurvey.vue": null,
-        "OnboardSurveyOld.vue": null,
-        "endpoint.ts": null,
-        "test": {
-          "onboardEndpoint.unit.test.ts": null
-        }
-      },
       "package.json": null,
       "settings": {
         "CustomDomain.vue": null,
@@ -593,6 +585,10 @@
       "inject.ts": null,
       "obj.ts": null,
       "package.json": null,
+      "plugin-accounts": {
+        "index.ts": null,
+        "linkedin.ts": null
+      },
       "plugin-app": {
         "ElRoot.vue": null,
         "hooks.ts": null,
@@ -971,6 +967,16 @@
         "index.ts": null
       }
     },
+    "onboard": {
+      "OnboardSurvey.vue": null,
+      "endpoint.ts": null,
+      "index.ts": null,
+      "package.json": null,
+      "test": {
+        "onboardEndpoint.unit.test.ts": null
+      },
+      "util.ts": null
+    },
     "platform": {
       "index.ts": null,
       "package.json": null
@@ -1143,7 +1149,6 @@
       }
     },
     "site": {
-      "__endpoint-domains.ts": null,
       "admin": {
         "ElSitePreviewFrame.vue": null,
         "ElSiteStart.vue": null,

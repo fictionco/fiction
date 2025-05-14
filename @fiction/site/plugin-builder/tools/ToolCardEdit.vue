@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { AdminEditorController } from '@fiction/admin'
 import type { InputOption } from '@fiction/ui'
-import type { FictionSites } from '../..'
+import type { Card, FictionSites } from '../..'
 import type { Site } from '../../site'
 import type { TableCardConfig } from '../../tables'
 import type { ToolKeys } from './tools'
@@ -9,19 +9,22 @@ import ElTool from '@fiction/admin/tools/ElTool.vue'
 import ElToolBanner from '@fiction/admin/tools/ElToolBanner.vue'
 import { useService, vue } from '@fiction/core'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
+import { SITE_INJECTION_KEY } from '../../site'
 import { getCardOptionConfig } from '../../utils/cardHelpers'
 
-const props = defineProps({
-  site: { type: Object as vue.PropType<Site>, default: undefined },
-  controller: { type: Object as vue.PropType<AdminEditorController<{ toolIds: ToolKeys }>>, required: true },
-})
+const props = defineProps<{
+  site: Site
+  card?: Card
+  controller: AdminEditorController<{ toolIds: ToolKeys }>
+}>()
+
 useService<{ fictionSites: FictionSites }>()
 
 const tool = { toolId: 'settings', icon: { class: 'i-tabler-settings' }, title: 'Settings' }
 
 const options = vue.shallowRef<InputOption[]>([])
 
-vue.provide('site', props.site)
+vue.provide(SITE_INJECTION_KEY, vue.computed(() => props.site))
 
 const activeCard = vue.computed(() => props.site?.activeCard.value)
 

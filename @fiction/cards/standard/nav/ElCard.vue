@@ -3,10 +3,10 @@ import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { UserConfig } from './config'
 import { toLabel, useService, vue } from '@fiction/core'
+import XLink from '@fiction/ui/common/XLink.vue'
 import XLogoType from '@fiction/ui/media/XLogoType.vue'
 import UserMenu from '@fiction/ui/nav/UserMenu.vue'
 import CardWrap from '../../CardWrap.vue'
-import CardLink from '../../el/CardLink.vue'
 import { processNavItems } from '../../utils/nav'
 
 const { card } = defineProps<{ card: Card<UserConfig> }>()
@@ -42,8 +42,8 @@ const nav = vue.computed(() => {
         <div class="relative">
           <nav class="" aria-label="Global">
             <div class="relative flex items-center justify-between gap-8">
-              <div class="inline-flex justify-start">
-                <CardLink
+              <div class="inline-flex justify-start basis-0 grow">
+                <XLink
                   :card
                   href="/"
                   class="flex items-end group"
@@ -58,24 +58,23 @@ const nav = vue.computed(() => {
                     data-test-id="page-nav-logo"
                     :org="card.site?.org.value"
                   />
-                </CardLink>
+                </XLink>
               </div>
 
               <div
-                class="hidden md:flex gap-x-4 items-center grow justify-start"
+                class="hidden md:flex gap-x-6 items-center grow-0"
               >
-                <CardLink
+                <XLink
                   v-for="(item, i) in nav.primary"
                   :key="i"
                   :card
                   :href="item.href"
-                  class="py-1 px-4 text-sm font-sans inline-flex items-center rounded-lg  transition-all duration-200 font-medium"
-                  :class="[
-                    item.isActive ? 'bg-theme-700 text-theme-0' : 'hover:bg-theme-700 bg-theme-700/30 text-theme-200 hover:text-theme-0',
-                  ]"
+                  class="py-1 text-sm font-sans inline-flex items-center  transition-all duration-200 font-medium"
+                  effect="underline"
+                  :is-active="item.isActive"
                 >
                   {{ item.label }}
-                </CardLink>
+                </XLink>
               </div>
 
               <!-- Utility Navigation -->

@@ -1,10 +1,4 @@
-import type { template as TransactionTemplate } from '@fiction/cards/standard/transaction/index.js'
-import type { FictionServer } from '@fiction/core'
-import type { FictionApp } from '@fiction/core/plugin-app'
-import type { FictionEmail } from '@fiction/core/plugin-email'
-import type { FictionMedia } from '@fiction/core/plugin-media'
-import type { FictionRouter } from '@fiction/core/plugin-router'
-import type { FictionUser } from '@fiction/core/plugin-user'
+import type { FictionApp, FictionEmail, FictionMedia, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionPluginSettings } from '@fiction/core/plugin.js'
 import type { FictionStripe } from '@fiction/plugin-stripe/index.js'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
@@ -20,7 +14,6 @@ import { safeDirname, vue } from '@fiction/core/utils'
 import { cardTemplate } from '@fiction/site/index.js'
 import { createWidgetEndpoints } from './dashboard/util.js'
 import { getEmails } from './emails/index.js'
-import { QueryManageOnboard } from './onboard/endpoint.js'
 import { getWidgets } from './widgets/widgets'
 
 export * from './tools/tools.js'
@@ -53,16 +46,6 @@ export type WidgetFactoryEntry = { key: string, priority?: number }
 
 export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
   widgetRequests?: ReturnType<typeof createWidgetEndpoints>
-  queries = {
-    ManageOnboard: new QueryManageOnboard({ ...this.settings, fictionAdmin: this }),
-  }
-
-  requests = this.createRequests({
-    queries: this.queries,
-    basePath: '/user',
-    fictionServer: this.settings.fictionServer,
-    fictionUser: this.settings.fictionUser,
-  })
 
   constructor(settings: FictionAdminSettings) {
     super('FictionAdmin', { root: safeDirname(import.meta.url), ...settings })
@@ -130,14 +113,6 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
             await factory.fromTemplate({ templateId: 'tplSettingsPage' }),
           ],
         }),
-        await factory.fromTemplate<typeof TransactionTemplate>({
-          templateId: 'cardTransactionViewV1',
-          slug: 'onboard',
-          title: 'Onboard Survey',
-          cards: [
-            await factory.fromTemplate({ templateId: 'tplOnboardSurvey' }),
-          ],
-        }),
         await factory.fromTemplate<typeof dashTemplate>({
           templateId: 'dash',
           slug: 'welcome',
@@ -155,10 +130,7 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
             templateId: 'tplSettingsPage',
             el: vue.defineAsyncComponent(() => import('./settings/SettingsMain.vue')),
           }),
-          cardTemplate({
-            templateId: 'tplOnboardSurvey',
-            el: vue.defineAsyncComponent(() => import('./onboard/OnboardSurvey.vue')),
-          }),
+
           cardTemplate({
             templateId: 'tplDashboardWelcome',
             el: vue.defineAsyncComponent(() => import('./dashboard/ViewDashboard.vue')),

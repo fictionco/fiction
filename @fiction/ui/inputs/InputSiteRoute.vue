@@ -2,6 +2,7 @@
 import type { StandardSize } from '@fiction/core'
 import type { Site } from '@fiction/site'
 import { toLabel, vue } from '@fiction/core'
+import { SITE_INJECTION_KEY } from '@fiction/site'
 import { siteGoto } from '@fiction/site/utils/manage'
 import XButton from '../buttons/XButton.vue'
 import InputSelectCustom from './InputSelectCustom.vue'
@@ -21,8 +22,8 @@ const emit = defineEmits<{
   (e: 'navigate', path: string): void
 }>()
 
-const injectedSite = vue.inject('site') as Site | undefined
-const site = props.site || injectedSite
+const injectedSite = vue.inject(SITE_INJECTION_KEY, vue.computed(() => undefined))
+const site = props.site || injectedSite.value
 
 type RouteMode = 'url' | 'page' | 'media'
 

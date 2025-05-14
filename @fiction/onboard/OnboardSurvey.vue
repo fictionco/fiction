@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { EndpointResponse, FictionUser, StepActions, StepConfig, StepItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import type { FictionAdmin } from '..'
-import type { ProfileData } from './util'
+import type { FictionOnboard } from '.'
 
+import type { ProfileData } from './util'
 import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import { useService, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save'
@@ -16,7 +16,7 @@ import { profileFromAccount } from './util'
 
 const { card } = defineProps<{ card: Card }>()
 
-const { fictionUser, fictionAdmin } = useService<{ fictionUser: FictionUser, fictionAdmin: FictionAdmin }>()
+const { fictionUser, fictionOnboard, fictionEnv } = useService<{ fictionUser: FictionUser, fictionOnboard: FictionOnboard }>()
 
 const profile = vue.ref<ProfileData>({
   needsOnboarding: true,
@@ -25,6 +25,7 @@ const profile = vue.ref<ProfileData>({
   handle: '',
   headline: '',
   about: '',
+  postTitles: [],
   interests: [],
   influences: [],
   avatar: undefined,
@@ -44,112 +45,118 @@ vue.onMounted(async () => {
   }
 })
 
-type StepKey = 'linkedin' | 'account' | 'profile' | 'interests' | 'ready' | 'enrich'
+type StepKey = 'linkedin' | 'account' | 'profile' | 'interests' | 'content' | 'generate' | 'ready' | 'enrich'
 
 const isLoading = vue.ref<StepKey | ''>('')
-const progressRef = vue.ref<InstanceType<typeof XProgress> | null>(null)
-const progressTimer = vue.computed(() => progressRef.value?.progressTimer)
-const showProgress = vue.ref(false)
-const enrichmentError = vue.ref<string | null>(null)
+const enrichProgressRef = vue.ref<InstanceType<typeof XProgress> | null>(null)
+const timer = vue.computed(() => enrichProgressRef.value?.progressTimer)
 
 // Save function to update both user and org records
 async function save(): Promise<EndpointResponse> {
-  const { orgId } = fictionUser.activeOrganization.value || {}
-  if (!orgId)
-    return { status: 'error' }
-
-  try {
-    // Save org settings
-    await fictionAdmin.requests.ManageOnboard.projectRequest({
-      _action: 'updateProfile',
-      profile: profile.value,
-    }, { disableNotify: true })
-
-    return { status: 'success' }
-  }
-  catch (error) {
-    console.error('Error saving onboarding data:', error)
-    return { status: 'error' }
-  }
+  return await fictionOnboard.requests.ManageOnboard.projectRequest({ _action: 'updateProfile', profile: profile.value }, { disableNotify: true })
 }
 
-const saveUtil = new AutosaveUtility({
-  onSave: () => save(),
-})
+const saveUtil = new AutosaveUtility({ onSave: () => save() })
 
 // Watch for form changes and trigger autosave
-vue.watch(() => profile.value, () => {
-  saveUtil.autosave({ caller: 'watchForm' })
-}, { deep: true })
+vue.watch(() => profile.value, () => { saveUtil.autosave({ caller: 'watchForm' }) }, { deep: true })
 
-const linkedInEnrichmentSteps = [
-  { percent: 5, message: 'Fetching your LinkedIn profile...' },
-  { percent: 10, message: 'Analyzing data...' },
-  { percent: 30, message: 'Extracting highlights...' },
-  { percent: 50, message: 'Creating your Fiction profile...' },
-  { percent: 90, message: 'Finalizing account setup...' },
-  { percent: 100, message: 'Profile enrichment complete!' },
-]
+function resetOnboard(args: { message: string, data: unknown, stepActions: StepActions<StepKey>, step?: StepKey }) {
+  const { message, data, stepActions, step = 'linkedin' } = args
+  const { changeStep } = stepActions
+  fictionEnv.events.emit('notify', { type: 'error', message })
+  timer.value?.fail(message)
+  console.error('Error:', message, data)
+  setTimeout(() => {
+    isLoading.value = ''
+    // Go back to the LinkedIn URL step
+    changeStep({ step })
+  }, 2000)
+}
 
 async function performLinkedInEnrichment(args: StepActions<StepKey>) {
   const { changeStep } = args
 
-  if (!profile.value.linkedinHandle) {
-    console.warn('No LinkedIn URL provided')
-    // If no URL is provided, go back to the first step
-    changeStep({ step: 'linkedin' })
-    return
+  isLoading.value = 'linkedin'
+
+  const p = profile.value
+
+  if (!p.linkedinHandle) {
+    return resetOnboard({ message: 'No LinkedIn URL provided', data: p, stepActions: args })
   }
 
-  enrichmentError.value = null
-  isLoading.value = 'linkedin'
-  showProgress.value = true
-
-  await vue.nextTick()
-
-  if (!progressTimer.value?.start)
+  if (!timer.value?.start)
     throw new Error('Progress ref start is not defined')
 
-  progressTimer.value?.start()
+  timer.value?.start({ steps: [
+    { percent: 5, message: 'Fetching your LinkedIn profile...' },
+    { percent: 10, message: 'Analyzing data...' },
+    { percent: 30, message: 'Extracting highlights...' },
+    { percent: 50, message: 'Creating your Fiction profile...' },
+    { percent: 90, message: 'Finalizing account setup...' },
+    { percent: 100, message: 'Profile enrichment complete!' },
+  ], totalTime: 20000 })
 
   try {
-    const r = await fictionAdmin.requests.ManageOnboard.projectRequest({
-      _action: 'enrichFromLinkedIn',
-      profile: profile.value,
-    }, { disableNotify: true })
+    const r = await fictionOnboard.requests.ManageOnboard.projectRequest({ _action: 'enrichFromLinkedIn', profile: p }, { disableNotify: true })
 
     if (r?.status === 'success' && r.data) {
       // Update profile with enriched data
       Object.assign(profile.value, r.data)
+      timer.value?.stop()
 
       // Allow time for progress to complete visually
       setTimeout(() => {
-        showProgress.value = false
         isLoading.value = ''
         // Automatically proceed to account step
         changeStep({ step: 'account' })
       }, 1000)
     }
     else {
-      enrichmentError.value = 'There was a problem'
-      progressTimer.value?.fail('Failed to enrich profile')
-      setTimeout(() => {
-        showProgress.value = false
-        isLoading.value = ''
-        // Go back to the LinkedIn URL step
-        changeStep({ step: 'linkedin' })
-      }, 2000)
+      resetOnboard({ message: 'There was a problem', data: r, stepActions: args })
     }
   }
   catch (error) {
-    enrichmentError.value = 'An error occurred'
-    progressTimer.value?.fail('An error occurred')
-    setTimeout(() => {
-      showProgress.value = false
-      isLoading.value = ''
-      // Go back to the LinkedIn URL step
-      changeStep({ step: 'linkedin' })
-    }, 2000)
+    resetOnboard({ message: 'An error occurred', data: error, stepActions: args })
+  }
+}
+
+async function performContentGeneration(args: StepActions<StepKey>) {
+  const { changeStep } = args
+
+  isLoading.value = 'generate'
+
+  if (!timer.value?.start)
+    throw new Error('Progress ref start is not defined')
+
+  timer.value?.start({ steps: [
+    { percent: 10, message: 'Analyzing your profile...' },
+    { percent: 30, message: 'Creating content...' },
+    { percent: 50, message: 'Generating posts...' },
+    { percent: 90, message: 'Content generation complete!' },
+  ], totalTime: 30000 })
+
+  try {
+    const r = await fictionOnboard.requests.ManageOnboard.projectRequest({ _action: 'createDefaultContent', profile: profile.value }, { disableNotify: true })
+
+    if (r?.status === 'success' && r.data) {
+      // Update profile with generated content
+      Object.assign(profile.value, r.data)
+      timer.value?.stop()
+
+      // Allow time for progress to complete visually
+      setTimeout(() => {
+        isLoading.value = ''
+        // Automatically proceed to ready step
+        changeStep({ step: 'ready' })
+      }, 1000)
+    }
+    else {
+      resetOnboard({ message: 'There was a problem', data: r, stepActions: args, step: 'content' })
+    }
+  }
+  catch (error) {
+    resetOnboard({ message: 'An error occurred', data: error, stepActions: args })
   }
 }
 
@@ -235,6 +242,23 @@ const stepConfig: StepConfig<StepKey> = {
         },
       },
       {
+        key: 'generate',
+        superTitle: {
+          text: 'Content',
+          icon: { class: 'i-tabler-file-text' },
+        },
+        title: 'Initial Content',
+        subTitle: 'We\'re creating some initial content for you',
+        class: 'max-w-md',
+        noButton: true,
+        isLoading: true,
+        // This runs when the loading step is displayed
+        onLoad: async (args) => {
+          await performContentGeneration(args)
+        },
+      },
+
+      {
         key: 'ready',
         superTitle: {
           text: 'Ready',
@@ -302,21 +326,12 @@ const stepConfig: StepConfig<StepKey> = {
               required
               :input-props="{ autofocus: true, beforeInput: 'linkedin.com/in/' }"
             />
-
-            <div v-if="enrichmentError" class=" text-rose-700 rounded-md text-xs text-center font-medium">
-              {{ enrichmentError }}
-            </div>
           </div>
 
           <!-- Loading step -->
-          <div v-if="step.key === 'enrich'" class="space-y-6">
+          <div v-if="step.key === 'enrich' || step.key === 'generate'" class="space-y-6">
             <div class="mt-4 w-full">
-              <XProgress
-                ref="progressRef"
-                :steps="linkedInEnrichmentSteps"
-                :total-time="25000"
-                completion-message="Setup complete!"
-              />
+              <XProgress ref="enrichProgressRef" />
             </div>
           </div>
 

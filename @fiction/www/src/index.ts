@@ -8,6 +8,7 @@ import { apiRoot, AppRoute, FictionApp, FictionAws, FictionCache, FictionDb, Fic
 import { FictionDevRestart } from '@fiction/core/plugin-env/restart'
 import { FictionTeam } from '@fiction/core/plugin-team/index.js'
 import { getEnvVars } from '@fiction/core/utils/index.js'
+import { FictionOnboard } from '@fiction/onboard'
 import { FictionAi } from '@fiction/plugin-ai'
 import { FictionContact } from '@fiction/plugin-contact/index.js'
 import { FictionMonitor } from '@fiction/plugin-monitor/index.js'
@@ -178,7 +179,7 @@ const fictionStripe = new FictionStripe({
   products: getStripeProductConfig(),
 })
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
-const fictionAdmin = new FictionAdmin({ ...basicService, fictionAi, fictionTransactions, fictionMedia, proxycurlApiKey: v.proxycurlApiKey })
+const fictionAdmin = new FictionAdmin({ ...basicService, fictionAi, fictionTransactions, fictionMedia })
 
 const s = { ...basicService, fictionAppSites, fictionStripe, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionTransactions, fictionAdmin }
 
@@ -200,7 +201,9 @@ const fictionCards = new FictionCards({ ...s, fictionSites })
 
 const fictionPosts = new FictionPosts({ fictionContact, fictionSites, ...s })
 
-const baseService = { ...s, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionContact, fictionPosts }
+const fictionOnboard = new FictionOnboard({ ...s, fictionPosts, fictionSites, proxycurlApiKey: v.proxycurlApiKey })
+
+const baseService = { ...s, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionContact, fictionPosts, fictionOnboard }
 
 export type SpecificService = typeof baseService
 

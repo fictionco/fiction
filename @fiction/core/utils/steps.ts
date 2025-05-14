@@ -16,6 +16,7 @@ export interface StepItem<T = string> {
   class?: string
   isLoading?: boolean
   isJumped?: boolean
+  noNav?: boolean
   noButton?: boolean
   onLoad?: (args: StepActions<T>) => Promise<void>
   onClick?: (args: StepActions<T>) => Promise<void>

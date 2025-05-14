@@ -2,6 +2,8 @@
 import type { Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import { vue } from '@fiction/core'
+import XText from '../common/XText.vue'
+import EffectFitText from '../effect/EffectFitText.vue'
 import PostFeature from './PostFeature.vue'
 import PostItem from './PostItem.vue'
 
@@ -60,12 +62,16 @@ function getTabClasses(tabType: 'latest' | 'popular' | 'archive') {
   <div
     class="post-layout grid grid-cols-1 gap-12 xl:gap-16"
   >
-    <div v-if="headline" class="grid grid-cols-12 justify-between items-center">
-      <div class="col-span-9">
-        <h1 class="text-3xl md:text-5xl lg:text-6xl leading-[1.3] font-semibold text-pretty">
-          {{ headline }}
-        </h1>
-      </div>
+    <div v-if="headline" class=" ">
+      <EffectFitText :content="headline" :min-size="80" :max-size="160" :lines="1">
+        <XText
+          :card
+          tag="span"
+          :model-value="headline"
+          animate="rise"
+          class="block leading-tight font-bold x-font-title text-center"
+        />
+      </EffectFitText>
     </div>
     <div
       v-if="featuredPosts.length > 0"
@@ -74,6 +80,7 @@ function getTabClasses(tabType: 'latest' | 'popular' | 'archive') {
       <PostFeature
         v-for="post in featuredPosts"
         :key="`featured-${post.postId}`"
+        :card
         :post="post"
       />
     </div>
@@ -90,6 +97,7 @@ function getTabClasses(tabType: 'latest' | 'popular' | 'archive') {
             Latest
           </button>
           <button
+            class="hidden"
             :class="getTabClasses('popular')"
             @click="emit('update:sortBy', 'popular')"
           >

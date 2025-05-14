@@ -126,7 +126,7 @@ async function resetToPublished() {
     </div>
 
     <template v-else>
-      <ViewEditor :tool-props="{ site }" :controller="site?.editorController" :card>
+      <ViewEditor :tool-props="{ site, card }" :controller="site?.editorController" :card>
         <template #headerLeft>
           <div>
             <CardButton

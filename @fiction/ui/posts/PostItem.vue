@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { Post } from '@fiction/posts'
+import type { Card } from '@fiction/site'
 import { vue } from '@fiction/core'
 import XLink from '@fiction/ui/common/XLink.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
@@ -14,6 +15,7 @@ const props = defineProps<{
     imagePosition?: 'right' | 'left'
   }
   featured?: boolean
+  card?: Card
 }>()
 
 // Get author information and SEO data
@@ -71,7 +73,7 @@ const hasMedia = vue.computed(() => !!props.post.media?.value?.url)
     </div>
 
     <!-- Standard layouts (top, left, right) -->
-    <div class="text-base h-full @[600px]/post-item:text-[1.1em] @[700px]/post-item:text-[1.2em] flex flex-col gap-6 @[500px]/post-item:gap-12 @[500px]/post-item:flex-row-reverse">
+    <div class="text-base h-full @[600px]/post-item:text-[1.1em] @[700px]/post-item:text-[1.2em] flex flex-col gap-4 @[500px]/post-item:gap-12 @[500px]/post-item:flex-row-reverse">
       <div
         class="flex-shrink-0 w-full @[500px]/post-item:w-[33%]"
       >
@@ -79,6 +81,7 @@ const hasMedia = vue.computed(() => !!props.post.media?.value?.url)
           :href="post.href.value"
           class="block aspect-[1.618/1] rounded-lg overflow-hidden hover:opacity-90 transition-opacity duration-100"
           aria-hidden="true"
+          :card
         >
           <XMedia
             v-if="hasMedia"
@@ -101,7 +104,7 @@ const hasMedia = vue.computed(() => !!props.post.media?.value?.url)
           <h2
             class="line-clamp-3 leading-[1.3] @[700px]/post-item:leading-[1.4] x-font-title font-semibold text-[1.4em]"
           >
-            <XLink :href="post.href.value" itemprop="headline" class="hover:opacity-90 transition-opacity duration-100">
+            <XLink :href="post.href.value" :card itemprop="headline" class="hover:opacity-90 transition-opacity duration-100">
               {{ post.title.value || '(No Title)' }}
             </XLink>
           </h2>

@@ -1,20 +1,19 @@
 import type { EndpointMeta, EndpointResponse, MediaObject } from '@fiction/core'
-import type { FictionAdmin, FictionAdminSettings } from '..'
+import type { FictionOnboardSettings } from '.'
 import type { LinkedInEnrichmentProfile, ProfileData } from './util'
 import { abort, Query } from '@fiction/core'
 import { z } from 'zod'
 import zodToJsonSchema from 'zod-to-json-schema'
-import { accountFromProfile, createHandle, getMockLinkedInData } from './util'
-
-type OnboardSettings = FictionAdminSettings & {
-  fictionAdmin: FictionAdmin
-}
+import { accountFromProfile, createHandle, getMockLinkedInData, profileFromAccount } from './util'
 
 const AiEnhancementSchema = z.object({
   headline: z.string().min(5).max(160).describe('Concise 3-5 word tagline suitable for hero headline, social media bio, and email signature'),
   about: z.string().min(10).max(400).describe('Short bio suitable for personal brand, blog about section, and professional profiles'),
   interests: z.array(z.string()).min(1).max(10).describe('Areas of interest (e.g., history, ai, ux-design, pottery, ecommerce)'),
   influences: z.array(z.string()).min(0).max(5).describe('Specific people, characters influencing voice and style (e.g, steve-jobs, johnny-depp, cicero)'),
+  pillars: z.array(z.string()).min(0).max(5).describe('Niche topics for content creation (e.g., ai, mobile ux-design, ai-ecommerce)'),
+  postTitles: z.array(z.string()).min(0).max(5).describe('1-3 suggested 5 to 10 word post titles on topics related but not specific to profile, strong hook, make people curious. Open loops.'),
+  clout: z.number().min(0).max(100).describe('Estimated score based on positions at known companies, education quality, location (US and wealthy countries higher), influence (followers, etc): 0(spam), 10(average), to 100(extremely influential)'),
 })
 
 type AiEnhancement = z.infer<typeof AiEnhancementSchema>
@@ -22,9 +21,13 @@ type AiEnhancement = z.infer<typeof AiEnhancementSchema>
 export type OnboardRequest =
   | { _action: 'enrichFromLinkedIn', userId: string, orgId: string, profile: Partial<ProfileData> }
   | { _action: 'updateProfile', userId: string, orgId: string, profile: Partial<ProfileData> }
+  | { _action: 'createDefaultContent', userId: string, orgId: string, profile: Partial<ProfileData> }
 
-export class QueryManageOnboard extends Query<OnboardSettings> {
+export class QueryManageOnboard extends Query<FictionOnboardSettings> {
   enrichCount = 0
+  ManageUser = this.settings.fictionUser.queries.ManageUser
+  ManageOrganization = this.settings.fictionUser.queries.ManageOrganization
+
   async run(params: OnboardRequest, meta: EndpointMeta): Promise<EndpointResponse<ProfileData>> {
     try {
       switch (params._action) {
@@ -32,6 +35,8 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
           return await this.handleEnrichFromLinkedIn(params, meta)
         case 'updateProfile':
           return await this.handleUpdateProfile(params, meta)
+        case 'createDefaultContent':
+          return await this.handleCreateDefaultContent(params, meta)
         default:
           throw abort('Invalid action')
       }
@@ -39,6 +44,63 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
     catch (error) {
       this.log.error(`Error in ${params._action}`, { error })
       return { status: 'error', message: (error as Error).message }
+    }
+  }
+
+  private async handleCreateDefaultContent(
+    params: Extract<OnboardRequest, { _action: 'createDefaultContent' }>,
+    meta: EndpointMeta,
+  ): Promise<EndpointResponse<ProfileData>> {
+    const { userId, orgId, profile } = params
+
+    if (!userId || !orgId) {
+      throw abort('userId and orgId are required')
+    }
+
+    const { fictionPosts, fictionSites } = this.settings
+
+    // Get selected post titles from profile
+    const { postTitles = [] } = profile
+
+    if (postTitles.length === 0) {
+      return { status: 'success', message: 'No post titles to create' }
+    }
+
+    try {
+      const _promises: Promise<any>[] = postTitles.map((title) => {
+        return fictionPosts.queries.ManagePost.serve({
+          _action: 'create',
+          fields: {
+            title,
+            status: 'draft',
+            content: `<p>This is a draft post about "${title}".</p>`,
+            media: {},
+          },
+          orgId,
+          userId,
+        }, { server: true, ...meta })
+      })
+
+      _promises.push(
+        fictionSites.queries.ManageSite.serve({
+          _action: 'create',
+          orgId,
+          userId,
+          fields: {
+            title: 'My Fiction Site',
+            isPrimary: true,
+          },
+          caller: 'createDefaultContent',
+        }, { server: true, ...meta }),
+      )
+
+      const results = await Promise.all(_promises)
+
+      return { status: 'success', data: profile as ProfileData, results }
+    }
+    catch (error) {
+      this.log.error('Failed to create default content', { error })
+      throw error
     }
   }
 
@@ -55,7 +117,9 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
       return { status: 'error', message: 'Failed to fetch LinkedIn profile' }
 
     const returnProfile = await this.buildProfileFromLinkedinData(linkedinData, userId, orgId)
-    await this.updateProfileData(profile, userId, orgId, meta)
+    await this.updateProfileData({ profile, userId, orgId }, meta)
+
+    this.log.info('Profile enriched', { data: returnProfile })
 
     return { status: 'success', message: 'Profile enriched', data: returnProfile }
   }
@@ -66,21 +130,13 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
   ): Promise<EndpointResponse<ProfileData>> {
     const { userId, orgId, profile } = params
 
-    await this.updateProfileData(profile, userId, orgId, meta)
-    const o = await this.settings.fictionUser.queries.ManageOrganization.serve(
-      { _action: 'read', where: { orgId } },
-      { ...meta, server: true },
-    ).then(res => res.data)
-
-    if (!o)
-      return { status: 'error', message: 'Organization not found' }
-
-    const { orgName: name, handle, headline, about, interests, influences, avatar } = o
+    const { org, user } = await this.updateProfileData({ profile, userId, orgId }, meta)
 
     return {
       status: 'success',
       message: 'Profile updated',
-      data: { name, handle, headline, about, interests, influences, avatar },
+      data: profileFromAccount({ user, org }),
+      user,
     }
   }
 
@@ -93,8 +149,10 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
 
     this.enrichCount++
     this.log.info('Fetching LinkedIn profile', { url, enrichCount: this.enrichCount })
-    if (!this.settings.proxycurlApiKey)
+    if (!this.settings.proxycurlApiKey) {
+      this.log.warn('ProxyCurl API key is missing, using mock data')
       return getMockLinkedInData(url)
+    }
 
     try {
       const response = await fetch(
@@ -123,11 +181,14 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
     return {
       name,
       handle,
-      headline: aiEnhancement.headline,
-      about: aiEnhancement.about,
-      interests: aiEnhancement.interests,
-      influences: aiEnhancement.influences,
+      industry: linkedinData.industry,
+      city: linkedinData?.city,
+      state: linkedinData?.state,
+      country: linkedinData?.country,
       avatar,
+      linkedinFollowers: linkedinData.follower_count,
+      linkedinHandle: linkedinData.public_identifier,
+      ...aiEnhancement,
     }
   }
 
@@ -148,6 +209,9 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
             - Write a short 10 to 30 word bio in HTML that highlights specific achievements and personality, steering clear of buzzwords like "passionate" or "innovative".
             - If discernable: 1-3 standard content interests based on hobbies, experience and background.
             - If discernable: 1-3 specific influences (specific people, characters) impacting tone and style (steve-jobs, johnny-depp, art-deco, minimalism, stoicism).
+            - If discernable: 1-3 content pillars: niche topics for content creation (ai, mobile ux-design, ai-ecommerce).
+            - 0-100 clout score based on positions at known companies, education quality, location (US and wealthy countries higher), influence (followers, etc): 0(spam), 10(average global), 30(average US), 50(influential) to 100(extremely influential).
+            - 2-3 suggested post titles based on profile, influences, interests and pillars. Hook target audience in. Create open loops. SEO.
           `,
         },
       }, { server: true })
@@ -165,6 +229,9 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
         about: linkedinData.summary || 'Subscribe to stay updated on my latest projects and insights.',
         interests: linkedinData.skills?.slice(0, 5).map(s => s.name) || ['Innovation', 'Technology'],
         influences: [],
+        pillars: [],
+        postTitles: [],
+        clout: 0,
       }
     }
   }
@@ -182,13 +249,9 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
       }, { server: true })
 
       const m = response.data?.[0]
+      const { width, height, url } = m || {}
 
-      return {
-        format: 'image',
-        url: m?.url,
-        width: m?.width,
-        height: m?.height,
-      }
+      return { format: 'image', url, width, height }
     }
     catch (error) {
       this.log.error('Avatar processing failed', { error })
@@ -196,18 +259,18 @@ export class QueryManageOnboard extends Query<OnboardSettings> {
     }
   }
 
-  private async updateProfileData(profile: Partial<ProfileData>, userId: string, orgId: string, meta: EndpointMeta): Promise<void> {
-    const { orgFields, userFields } = accountFromProfile(profile)
+  private async updateProfileData(args: { userId: string, orgId: string, profile: Partial<ProfileData> }, meta: EndpointMeta) {
+    const { userId, orgId, profile } = args
+    const { orgFields = {}, userFields = {} } = accountFromProfile(profile)
 
-    await Promise.all([
-      Object.keys(orgFields).length && this.settings.fictionUser.queries.ManageOrganization.serve(
-        { _action: 'update', where: { orgId }, fields: orgFields },
-        { ...meta, server: true },
-      ),
-      Object.keys(userFields).length && this.settings.fictionUser.queries.ManageUser.serve(
-        { _action: 'update', where: { userId }, fields: userFields },
-        { ...meta, server: true },
-      ),
+    const [orgResult, userResult] = await Promise.all([
+      this.ManageOrganization.serve({ _action: 'update', where: { orgId }, fields: orgFields }, { ...meta, server: true }),
+      this.ManageUser.serve({ _action: 'update', where: { userId }, fields: userFields }, { ...meta, server: true }),
     ])
+
+    return {
+      org: orgResult?.data,
+      user: userResult?.data,
+    }
   }
 }

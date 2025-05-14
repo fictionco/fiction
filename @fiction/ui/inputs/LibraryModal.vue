@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
 import { determineMediaFormat, MediaDisplaySchema as schema, vue } from '@fiction/core'
+import { SITE_INJECTION_KEY } from '@fiction/site'
 import { createOption } from '.'
 import XButton from '../buttons/XButton.vue'
 import ElModal from '../ElModal.vue'
@@ -10,7 +11,6 @@ import LibraryBackground from './LibraryBackground.vue'
 import LibraryIcon from './LibraryIcon.vue'
 import LibraryMediaGallery from './LibraryMediaGallery.vue'
 import TabbedOptions from './TabbedOptions.vue'
-
 // Define valid tool options
 type ToolOptionKey = 'upload' | 'media' | 'icons' | 'background' | 'html'
 
@@ -29,6 +29,8 @@ const emit = defineEmits<{
   (event: 'update:vis', payload: boolean): void
 }>()
 
+const site = vue.inject(SITE_INJECTION_KEY, vue.computed(() => undefined))
+
 const currentSelection = vue.ref<MediaObject>({})
 const activeOptionId = vue.ref<string>('')
 
@@ -36,7 +38,7 @@ vue.watch(
   () => props.modelValue,
   (newValue) => {
     if (newValue) {
-      selectMedia(newValue)
+      setMediaData(newValue)
     }
   },
   { immediate: true },
@@ -115,9 +117,11 @@ vue.watch(options, (newOptions) => {
 }, { immediate: true })
 
 // Select media based on the model value
-function selectMedia(media: MediaObject) {
-  const format = determineMediaFormat(media)
-  currentSelection.value = { ...currentSelection.value, format, ...media }
+function setMediaData(media: MediaObject) {
+  const mediaData = site.value ? site.value.shortcodes.parseObjectSync(media) : media
+
+  const format = determineMediaFormat(mediaData)
+  currentSelection.value = { ...currentSelection.value, format, ...mediaData }
 }
 
 function hasMedia() {
@@ -129,7 +133,7 @@ function clearMedia() {
 }
 
 function applyChanges(value: MediaObject) {
-  selectMedia(value)
+  setMediaData(value)
   emit('update:modelValue', currentSelection.value)
   emit('update:vis', false)
 }
@@ -147,7 +151,7 @@ function applyChanges(value: MediaObject) {
       :model-value="currentSelection"
       :active-option-id="activeOptionId"
       @update:model-value="applyChanges($event)"
-      @update:temp-value="selectMedia($event)"
+      @update:temp-value="setMediaData($event)"
       @update:active-option-id="activeOptionId = $event"
       @cancel="emit('update:vis', false)"
     >
