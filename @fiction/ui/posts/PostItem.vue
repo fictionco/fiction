@@ -81,7 +81,6 @@ const hasMedia = vue.computed(() => !!props.post.media?.value?.url)
           :href="post.href.value"
           class="block aspect-[1.618/1] rounded-lg overflow-hidden hover:opacity-90 transition-opacity duration-100"
           aria-hidden="true"
-          :card
         >
           <XMedia
             v-if="hasMedia"
@@ -104,7 +103,7 @@ const hasMedia = vue.computed(() => !!props.post.media?.value?.url)
           <h2
             class="line-clamp-3 leading-[1.3] @[700px]/post-item:leading-[1.4] x-font-title font-semibold text-[1.4em]"
           >
-            <XLink :href="post.href.value" :card itemprop="headline" class="hover:opacity-90 transition-opacity duration-100">
+            <XLink :href="post.href.value" itemprop="headline" class="hover:opacity-90 transition-opacity duration-100">
               {{ post.title.value || '(No Title)' }}
             </XLink>
           </h2>

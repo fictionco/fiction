@@ -162,7 +162,7 @@ async function resetToPublished() {
               data-test-id="viewSiteButton"
               :href="`${site.url.value}?_scope=draft`"
             >
-              Preview
+              View Site
             </CardButton>
           </div>
           <CardButton

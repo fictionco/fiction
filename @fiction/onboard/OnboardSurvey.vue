@@ -127,15 +127,17 @@ async function performContentGeneration(args: StepActions<StepKey>) {
 
   isLoading.value = 'generate'
 
-  if (!timer.value?.start)
-    throw new Error('Progress ref start is not defined')
+  if (!timer.value?.start) {
+    console.error('Progress ref start is not defined')
+    return
+  }
 
   timer.value?.start({ steps: [
     { percent: 10, message: 'Analyzing your profile...' },
     { percent: 30, message: 'Creating content...' },
     { percent: 50, message: 'Generating posts...' },
     { percent: 90, message: 'Content generation complete!' },
-  ], totalTime: 40000 })
+  ], totalTime: 80000 })
 
   try {
     const r = await fictionOnboard.requests.ManageOnboard.projectRequest({ _action: 'createDefaultContent', profile: profile.value }, { disableNotify: true })

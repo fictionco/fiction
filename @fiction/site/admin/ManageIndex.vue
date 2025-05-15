@@ -97,7 +97,6 @@ function getActions(location: 'top' | 'zero') {
                     <h3 class="font-semibold text-lg">
                       {{ item.label }}
                     </h3>
-
                   </div>
                 </div>
 
@@ -115,7 +114,7 @@ function getActions(location: 'top' | 'zero') {
                 </div>
               </div>
 
-              <ElSitePreviewFrame :item class="aspect-square border-b border-theme-200 dark:border-theme-700" />
+              <ElSitePreviewFrame :url="item.stagingUrl" class="aspect-square border-b border-theme-200 dark:border-theme-700" />
             </XLink>
           </div>
         </template>

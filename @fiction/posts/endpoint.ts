@@ -627,6 +627,7 @@ export class QueryManagePost extends PostsQuery {
       const generationParams = getGenerationParams({ org, mode, post: fields })
       const generatedFields = await this.settings.fictionAi.queries.QueryAi.serve({
         orgId,
+        userId,
         _action: 'completion',
         ...generationParams,
       }, { server: true }).then(r => (r.data?.completion || {}) as TablePostConfig)

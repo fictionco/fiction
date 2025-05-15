@@ -47,16 +47,9 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
 
     const { fictionPosts, fictionSites } = this.settings
 
-    // Get selected post titles from profile
-    const { postTitles = [] } = profile
-
-    if (postTitles.length === 0) {
-      return { status: 'success', message: 'No post titles to create' }
-    }
-
     try {
-      const _promises: Promise<any>[] = postTitles.map((title) => {
-        return fictionPosts.queries.ManagePost.serve({ _action: 'generate', mode: 'full', fields: { title }, orgId, userId }, { server: true, ...meta })
+      const _promises: Promise<any>[] = Array.from({ length: 3 }).fill({}).map(() => {
+        return fictionPosts.queries.ManagePost.serve({ _action: 'generate', mode: 'full', fields: {}, orgId, userId }, { server: true, ...meta })
       })
       _promises.push(
         fictionSites.queries.ManageSite.serve({
@@ -190,7 +183,6 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
         interests: skills?.slice(0, 5).map(s => s.name) || ['Innovation', 'Technology'],
         influences: [],
         pillars: [],
-        postTitles: [],
         clout: 0,
         goal: 'Build a personal brand.',
       }

@@ -334,7 +334,7 @@ export class QueryMediaIndex extends MediaQuery {
 type WhereMedia = { mediaId?: string, orgId?: string, url?: string, hash?: string }
 
 type MediaCreate = {
-  fields: Partial<TableMediaConfig>
+  fields?: Partial<TableMediaConfig>
   storageKeyPath?: string
   storageGroupPath?: string
   crop?: CropSettings
@@ -344,6 +344,7 @@ type MediaCreate = {
 export type ManageMediaRequest =
   | { _action: 'create', orgId: string, userId?: string } & MediaCreate
   | { _action: 'createFromUrl', orgId: string, userId?: string, fields: { sourceImageUrl: string } & Partial<TableMediaConfig> } & MediaCreate
+  | { _action: 'createFromBase64', orgId: string, userId?: string, base64Data: string & Partial<TableMediaConfig> } & MediaCreate
   | { _action: 'checkAndCreate', orgId: string, userId?: string } & MediaCreate
   | { _action: 'list', orgId: string, where?: Partial<TableMediaConfig>, limit?: number, offset?: number, page?: number }
   | { _action: 'count', orgId: string, filters?: ComplexDataFilter[] }
@@ -367,6 +368,10 @@ export class QueryManageMedia extends MediaQuery {
       case 'createFromUrl':
         r = await this.handleCreateFromUrl(params, meta)
         break
+      case 'createFromBase64':
+        r = await this.createMediaFromBase64(params, meta)
+        break
+
       case 'checkAndCreate':
         r = await this.handleCheckAndCreate(params, meta)
         break
@@ -409,6 +414,39 @@ export class QueryManageMedia extends MediaQuery {
 
     const { orgId, userId, fields, storageGroupPath } = params
     const media = await this.createMediaFromUrl({ orgId, userId, fields, storageGroupPath }, meta)
+
+    if (!media)
+      return { status: 'error', data: undefined }
+
+    return { status: 'success', data: [media] }
+  }
+
+  async createMediaFromBase64(params: MediaParams & { _action: 'createFromBase64' }, meta: EndpointMeta): Promise<EndpointResponse<TableMediaConfig[]>> {
+    const { orgId, userId, fields, storageGroupPath, base64Data } = params
+    if (!base64Data)
+      throw new Error('No base64Data provided')
+
+    const matches = base64Data.match(/^data:([A-Za-z-+/]+);base64,(.+)$/)
+    if (!matches || matches.length !== 3) {
+      this.log.error('Invalid base64 format', { data: { base64Data: base64Data.slice(0, 100) } })
+      throw new Error('Invalid base64 format')
+    }
+
+    const [, mime, content] = matches
+    if (!this.supportedMimeTypes.has(mime))
+      throw abort(`Unsupported type: ${mime}`, { expected: meta.expectError })
+
+    const Buffer = await getNodeBuffer()
+    const buffer = Buffer.from(content, 'base64')
+
+    // Create a virtual file object that mimics Express.Multer.File
+    const file = {
+      buffer,
+      originalname: `image.${mime.split('/')[1]}`,
+      mimetype: mime,
+    } as Express.Multer.File
+
+    const media = await this.createAndSaveMedia({ file, orgId, userId, fields, storageGroupPath }, meta)
 
     if (!media)
       return { status: 'error', data: undefined }

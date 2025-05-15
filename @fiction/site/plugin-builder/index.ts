@@ -1,7 +1,6 @@
 import type { FictionAdmin } from '@fiction/admin'
 import type { FictionSites, SitesPluginSettings } from '..'
 import { FictionPlugin, safeDirname } from '@fiction/core'
-import { getWidgets } from '../admin/widgets/index.js'
 
 export type FictionSiteBuilderSettings = {
   fictionSites: FictionSites
@@ -19,9 +18,9 @@ export class FictionSiteBuilder extends FictionPlugin<FictionSiteBuilderSettings
 
   admin() {
     const { fictionAdmin } = this.settings
-    const widgets = getWidgets()
-    const w = Object.values(widgets)
-    fictionAdmin.widgetRegister.value.push(...w)
-    fictionAdmin.addToWidgetArea('homeMain', w.map(widget => ({ key: widget.key, priority: widget.settings.priority })))
+    // const widgets = getWidgets()
+    // const w = Object.values(widgets)
+    // fictionAdmin.widgetRegister.value.push(...w)
+    // fictionAdmin.addToWidgetArea('homeMain', w.map(widget => ({ key: widget.key, priority: widget.settings.priority })))
   }
 }

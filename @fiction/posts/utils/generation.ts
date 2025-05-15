@@ -13,7 +13,8 @@ export function getGenerationParams(args: {
 
 ${post.content ? `Existing: ${post.content.substring(0, 200)}${post.content.length > 200 ? '...' : ''}` : ''}
 
-Context:
+Brand Context:
+${org.goal ? `Brand Goal: ${org.goal}` : ''}
 ${org.headline ? `Tagline: ${org.headline}` : ''}
 ${org.about ? `Voice: ${org.about}` : ''}
 ${org.interests?.length ? `Interests: ${org.interests.join(', ')}` : ''}
@@ -35,18 +36,26 @@ CRITICAL STYLE GUIDE:
 - Include subtle controversy and personality quirks
 - Avoid AI hallmarks: balance, lists, political correctness
 - Inject humor, idiosyncratic observations, and subtle NLP patterns
-- Sound like a real expert with strong opinions, not an algorithm`
+- Sound like a real expert with strong opinions, not an algorithm
+
+IMAGES:
+- When creating image URLs use the format [@image_url subject="3 to 10 word description of subject" orientation=landscape|squarish|portrait]
+- For subject, use specific characters, objects, or scenes that are relevant to the post. Keep positive, and vary the subject. Creative analogies, simple concepts.
+- Add style information in subject if it helps clarify the point.
+- Generally, keep images positive, emotive, engaging, creative, non-cliche, favor abstract, surreal, or conceptual over literal.
+- Avoid vague terms that are hard to visualize, instead use specific nouns and adjectives to demonstrate a relevant point`
 
   const schema = mode === 'full'
     ? z.object({
-        content: z.string().min(1).max(10000).describe('Generate HTML content for the post. Use standard entry HTML formatting (h1, h2, p, etc.).'),
+        title: z.string().min(5).max(100).describe('3 to 8 word catchy, sharp, intriguing title for post. Open loops, NLP, curiosity gaps, and SEO-friendly phrasing.'),
+        content: z.string().min(1).max(500).describe('Generate HTML content for the post. Use standard entry HTML formatting (h1, h2, p, etc.).'),
         media: z.object({
-          url: z.string().url().describe(`Return a shortcode for URL [@image_url subject=image description] that will be replaced with the actual url.`),
+          url: z.string().url().describe(`Return a shortcode for URL [@image_url subject="3 to 10 word description of subject" orientation=landscape|squarish|portrait] that will be replaced with the actual url.`),
           type: z.enum(['image']).describe('Type of media to be used in the post.'),
-        }).optional().describe('Featured media for the post.'),
-      })
+        }).optional().describe('Featured media for the post, typically landscape'),
+      }).describe('Generate full post based on the provided context and guidelines.')
     : z.object({
         content: z.string().min(1).max(1000).describe('Create 3 to 7 short headings and subheadings for the post. Use standard HTML, generally H2, H3. Keep headings sharp, interesting and concise.'),
-      })
+      }).describe('Generate outline for the post based on the provided context and guidelines.')
   return { prompt, schema }
 }

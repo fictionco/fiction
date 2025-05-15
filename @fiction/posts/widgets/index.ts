@@ -14,5 +14,5 @@ export function getWidgets(service: PostsQuerySettings) {
     layoutHandling: 'chart',
   })
 
-  return { recentPosts }
+  return {   }
 }

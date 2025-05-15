@@ -1,4 +1,4 @@
-import type { EndpointMeta, EndpointResponse } from '@fiction/core'
+import type { EndpointMeta, EndpointResponse, MediaObject } from '@fiction/core'
 import type { z } from 'zod'
 import type { FictionAi, FictionAiSettings } from '.'
 import { abort, Query, Shortcodes } from '@fiction/core'
@@ -58,11 +58,19 @@ export class QueryAi extends Query<QueryAiSettings> {
     }
   }
 
+  private async getOpenAiApi() {
+    const { default: OpenAI } = await import('openai')
+    return new OpenAI({
+      apiKey: this.settings.openaiApiKey,
+      dangerouslyAllowBrowser: true,
+    })
+  }
+
   private async handleCompletion(
     params: Extract<AiRequest, { _action: 'completion' }>,
     _meta: EndpointMeta,
   ): Promise<EndpointResponse<AiCompletionResult>> {
-    const { format, prompt, objectives, schema, schemaJson, referenceInfo } = params
+    const { format, prompt, objectives, schema, schemaJson, referenceInfo, orgId, userId } = params
 
     // Get model and system messages
     const { model } = await this.setupModel()
@@ -78,18 +86,23 @@ export class QueryAi extends Query<QueryAiSettings> {
 
     try {
       const { generateText } = await import('ai')
+
+      this.log.info('Generating completion', {
+        data: { prompt: prompt.slice(0, 300), format },
+      })
       // Generate completion
       const { text } = await generateText({
         model,
         system: messages.map(m => `${m.role}: ${m.content}`).join('\n'),
         prompt,
-        temperature: 0.7,
+        temperature: 1,
+        seed: Math.floor(Math.random() * 1000),
       })
 
       // Parse completion as JSON
       const rawCompletionObject = this.parseJsonFromCompletion(text)
 
-      const completion = await this.parseShortcodes(rawCompletionObject)
+      const completion = await this.parseShortcodes({ completion: rawCompletionObject, orgId, userId })
 
       this.log.info('Completion successful', {
         data: { format, hasResult: !!completion },
@@ -113,94 +126,36 @@ export class QueryAi extends Query<QueryAiSettings> {
     }
   }
 
-  shortcodes = new Shortcodes<{
-    image_url: {
-      orientation?: 'portrait' | 'landscape' | 'squarish'
-      subject?: string
-    }
-  }>({
-    fictionEnv: this.settings.fictionEnv,
-    shortcodes: [
-      { shortcode: 'image_url', handler: async (args) => {
-        const { attributes } = args
+  private async parseShortcodes(args: { completion: Record<string, unknown>, orgId?: string, userId?: string }): Promise<Record<string, unknown>> {
+    const { completion, orgId, userId } = args
+    const stock = await createStockMediaHandler()
+    const sc = new Shortcodes<{
+      image_url: { orientation?: 'portrait' | 'landscape' | 'squarish', subject?: string }
+    }>({
+      fictionEnv: this.settings.fictionEnv,
+      shortcodes: [
+        { shortcode: 'image_url', handler: async (args) => {
+          const { attributes } = args
 
-        const orientation = attributes?.orientation || 'squarish'
-        const subject = attributes?.subject || 'person'
+          const orientation = attributes?.orientation || 'squarish'
+          const s = attributes?.subject || 'person'
 
-        const stock = await createStockMediaHandler()
+          const prompt = [
+            `Prompt: ${s}`,
+            `Subject: ${s}`,
+            `Constraints: make SURE the image has no text, logos, or watermarks on it.`,
+            `Style: Golden ratio, extremely minimalist, high contrast, sharp focus, single subject. White space. Clean.`,
 
-        const mediaItem = stock.getRandomByAspectRatio(orientation, { tags: ['object', 'image'] })
+          ].filter(Boolean).join('\n')
 
-        //  const search = attributes?.search || ''
-        // const description = attributes?.description || ''
-        // const _prompt = [
-        //   `Prompt: ${search}`,
-        //   `Format: ${description || 'none'}`,
-        //   `Constraints: make SURE the image has no text, logos, or watermarks on it.`,
-        //   `Style: ${objectives.imageStyle}.`,
+          const mediaItem = await this.generateImage({ prompt, orientation, orgId, userId })
 
-        // ].filter(Boolean).join('\n')
+          return mediaItem.url || stock.getRandomByAspectRatio(orientation, { tags: ['object', 'image'] }).url
+        } },
 
-        // const start = Date.now()
-        // this.log.info('creating image', { data: { prompt, orientation, orgId, userId } })
-        // const r = await this.settings.fictionAi.queries.AiImage.serve({ _action: 'createImage', prompt, orientation, orgId, userId }, { server: true })
-
-        // if (r.status === 'error' || !r.data) {
-        //   message = 'There was a "safety" API error during image generation. Try again, change image style if needed.'
-        //   more = 'This happens when images are similar to trademarked works, etc...'
-        //   throw new Error(message)
-        // }
-
-        // this.log.info(`created image in ${Math.round((Date.now() - start) / 1000)}s`, { data: { r } })
-        return mediaItem.url
-      } },
-
-    ],
-  })
-
-  private async parseShortcodes(rawCompletion: Record<string, unknown>) {
-    const shortcodes = new Shortcodes({ fictionEnv: this.settings.fictionEnv })
-
-    shortcodes.addShortcode<{
-      search?: string
-      description?: string
-      orientation?: 'portrait' | 'landscape' | 'squarish'
-      subject?: 'person' | 'object'
-    }>({ shortcode: 'image_url', handler: async (args) => {
-      const { attributes } = args
-
-      const orientation = attributes?.orientation || 'squarish'
-      const subject = attributes?.subject || 'person'
-
-      const stock = await createStockMediaHandler()
-
-      const mediaItem = stock.getRandomByAspectRatio(orientation, { tags: ['object', 'image'] })
-
-      //  const search = attributes?.search || ''
-      // const description = attributes?.description || ''
-      // const _prompt = [
-      //   `Prompt: ${search}`,
-      //   `Format: ${description || 'none'}`,
-      //   `Constraints: make SURE the image has no text, logos, or watermarks on it.`,
-      //   `Style: ${objectives.imageStyle}.`,
-
-      // ].filter(Boolean).join('\n')
-
-      // const start = Date.now()
-      // this.log.info('creating image', { data: { prompt, orientation, orgId, userId } })
-      // const r = await this.settings.fictionAi.queries.AiImage.serve({ _action: 'createImage', prompt, orientation, orgId, userId }, { server: true })
-
-      // if (r.status === 'error' || !r.data) {
-      //   message = 'There was a "safety" API error during image generation. Try again, change image style if needed.'
-      //   more = 'This happens when images are similar to trademarked works, etc...'
-      //   throw new Error(message)
-      // }
-
-      // this.log.info(`created image in ${Math.round((Date.now() - start) / 1000)}s`, { data: { r } })
-      return mediaItem.url
-    } })
-
-    return await shortcodes.parseObject(rawCompletion)
+      ],
+    })
+    return await sc.parseObject(completion)
   }
 
   // Helper methods
@@ -255,24 +210,6 @@ export class QueryAi extends Query<QueryAiSettings> {
       outputFormat = schemaJson
     }
 
-    // // Get appropriate system message based on format
-    // switch (format) {
-    //   case 'websiteCopy':
-    //     formatGuidelines = this.getWebsiteCopyGuidelines()
-    //     break
-    //   case 'contentAutocomplete':
-    //     formatGuidelines = this.getAutocompleteGuidelines()
-    //     break
-    //   case 'brandVoice':
-    //     formatGuidelines = this.getBrandVoiceGuidelines()
-    //     break
-    //   case 'accountSetup':
-    //     formatGuidelines = this.getAccountSetupGuidelines()
-    //     break
-    //   default:
-    //     throw abort(`Unsupported format: ${format}`)
-    // }
-
     // Build messages array
     const messages: CommandMessage[] = [
       {
@@ -311,113 +248,165 @@ export class QueryAi extends Query<QueryAiSettings> {
     return messages
   }
 
-  // System message templates
-  private getWebsiteCopyGuidelines(): string {
-    return `<expert_copywriter>
-You are an elite copywriter with 20+ years of experience creating sharp, concise marketing copy.
-Your goal is to craft compelling, customer-centric content that converts.
+  async generateImage(args: {
+    prompt: string
+    orientation?: 'portrait' | 'landscape' | 'squarish'
+    orgId?: string
+    userId?: string
+  }): Promise<MediaObject> {
+    const { prompt, orientation = 'landscape', orgId, userId } = args
 
-<principles>
-- Write with precision and clarity - every word must earn its place
-- Focus on customer pain points and practical solutions
-- Use direct language that builds credibility and trust
-- Employ neurolinguistic patterns that motivate action
-- Create copy that's both SEO-effective and human-engaging
-</principles>
+    const stock = await createStockMediaHandler()
 
-<avoid>
-- Clichés, buzzwords, and marketing jargon
-- Excessive adjectives and adverbs
-- Hyperbole and unsubstantiated claims
-- Generic statements that could apply to any business
-- Redundancy and unnecessary words
-</avoid>
-</expert_copywriter>`
+    if (!orgId || !userId)
+      throw abort('Missing orgId or userId')
+
+    const start = Date.now()
+    this.log.info('Generating image', { data: { prompt, orientation } })
+
+    try {
+      // Use OpenAI's DALL-E API for image generation
+      const openai = await this.getOpenAiApi()
+
+      const size = orientation === 'portrait'
+        ? '1024x1536'
+        : orientation === 'landscape'
+          ? '1536x1024'
+          : '1024x1024'
+
+      const response = await openai.images.generate({
+        model: 'gpt-image-1',
+        prompt: `${prompt}. No text, logos, or watermarks.`,
+        n: 1,
+        size,
+        quality: 'medium',
+      })
+
+      const sourceImageB64 = response.data?.[0]?.b64_json
+
+      if (!sourceImageB64)
+        throw abort('No image URL returned from OpenAI')
+
+      const formattedBase64 = `data:image/png;base64,${sourceImageB64}`
+
+      const r = await this.settings.fictionMedia?.queries.ManageMedia.serve({
+        _action: 'createFromBase64',
+        orgId,
+        userId,
+        base64Data: formattedBase64,
+      }, { server: true })
+
+      this.log.info(`created image in ${Math.round((Date.now() - start) / 1000)}s`, { data: { r } })
+
+      return { url: r?.data?.[0]?.url || stock.getRandomByTags(['object']) } as MediaObject
+    }
+    catch (error) {
+      this.log.error('Image generation error', { error })
+
+      const mediaItem = stock.getRandomByAspectRatio(orientation, { tags: ['object', 'image'] })
+      return mediaItem as MediaObject
+    }
   }
 
-  private getAutocompleteGuidelines(): string {
-    return `<autocomplete_assistant>
-You are an elite writing assistant specializing in precise, engaging suggestions.
+  //   // System message templates
+  //   private getWebsiteCopyGuidelines(): string {
+  //     return `<expert_copywriter>
+  // You are an elite copywriter with 20+ years of experience creating sharp, concise marketing copy.
+  // Your goal is to craft compelling, customer-centric content that converts.
 
-<output_guidelines>
-- Provide concise, impactful completions (3-16 words)
-- Focus on strong nouns and active verbs
-- Avoid clichés and predictable phrases
-- Match the existing tone and flow
-- Add specific details, data points, or unexpected insights
-- Create natural transitions between ideas
-- Trim all unnecessary words
-</output_guidelines>
-</autocomplete_assistant>`
-  }
+  // <principles>
+  // - Write with precision and clarity - every word must earn its place
+  // - Focus on customer pain points and practical solutions
+  // - Use direct language that builds credibility and trust
+  // - Employ neurolinguistic patterns that motivate action
+  // - Create copy that's both SEO-effective and human-engaging
+  // </principles>
 
-  private getBrandVoiceGuidelines(): string {
-    return `<brand_strategist>
-You are a top brand strategist who develops unique, authentic brand voices.
+  // <avoid>
+  // - Clichés, buzzwords, and marketing jargon
+  // - Excessive adjectives and adverbs
+  // - Hyperbole and unsubstantiated claims
+  // - Generic statements that could apply to any business
+  // - Redundancy and unnecessary words
+  // </avoid>
+  // </expert_copywriter>`
+  //   }
 
-<voice_principles>
-- Create distinctive tonal patterns that stand out in the market
-- Balance brand authenticity with audience resonance
-- Develop language frameworks that convey brand values
-- Craft messaging that triggers emotional responses
-- Design verbal identity elements that enhance brand recognition
-</voice_principles>
+  //   private getAutocompleteGuidelines(): string {
+  //     return `<autocomplete_assistant>
+  // You are an elite writing assistant specializing in precise, engaging suggestions.
 
-<voice_components>
-- Word choice and vocabulary range
-- Sentence structure and rhythm
-- Storytelling approach and narrative framing
-- Use of metaphors, analogies and industry terminology
-- Balance of logical and emotional appeals
-</voice_components>
-</brand_strategist>`
-  }
+  // <output_guidelines>
+  // - Provide concise, impactful completions (3-16 words)
+  // - Focus on strong nouns and active verbs
+  // - Avoid clichés and predictable phrases
+  // - Match the existing tone and flow
+  // - Add specific details, data points, or unexpected insights
+  // - Create natural transitions between ideas
+  // - Trim all unnecessary words
+  // </output_guidelines>
+  // </autocomplete_assistant>`
+  //   }
 
-  // New account setup guidelines
-  private getAccountSetupGuidelines(): string {
-    return `<profile_specialist>
-You are an expert identity consultant who helps professionals craft authentic, impactful digital presences.
+  //   private getBrandVoiceGuidelines(): string {
+  //     return `<brand_strategist>
+  // You are a top brand strategist who develops unique, authentic brand voices.
 
-<core_principles>
-- Emphasize genuine expertise and unique perspectives
-- Balance professionalism with distinct personality traits
-- Transform vague generalities into specific, memorable details
-- Capture voice and character in minimal word count
-- Identify and highlight true differentiators
-</core_principles>
+  // <voice_principles>
+  // - Create distinctive tonal patterns that stand out in the market
+  // - Balance brand authenticity with audience resonance
+  // - Develop language frameworks that convey brand values
+  // - Craft messaging that triggers emotional responses
+  // - Design verbal identity elements that enhance brand recognition
+  // </voice_principles>
 
-<writing_approach>
-- Use concrete details instead of abstract claims
-- Create tight sentences with purposeful structure
-- Choose unexpected verbs and precise nouns
-- Integrate subtle narrative elements that create interest
-- Focus on genuine achievements rather than self-promotion
-</writing_approach>
+  // <voice_components>
+  // - Word choice and vocabulary range
+  // - Sentence structure and rhythm
+  // - Storytelling approach and narrative framing
+  // - Use of metaphors, analogies and industry terminology
+  // - Balance of logical and emotional appeals
+  // </voice_components>
+  // </brand_strategist>`
+  //   }
 
-<avoid>
-- LinkedIn-style corporate buzzwords
-- Generic professional clichés (e.g., "passionate", "dedicated")
-- Personality trait lists without supporting context
-- Overused intro formulas and empty phrases
-- Self-designated expertise without evidence
-- Alignment with obvious industry values everyone shares
-</avoid>
+  //   // New account setup guidelines
+  //   private getAccountSetupGuidelines(): string {
+  //     return `<profile_specialist>
+  // You are an expert identity consultant who helps professionals craft authentic, impactful digital presences.
 
-<output_aims>
-- Create descriptions people immediately recognize as "sounding like them but better"
-- Develop bios that stand out in crowded professional spaces
-- Balance being distinctive with relevant industry expectations
-- Find fresh approaches to standard profile elements
-- Craft content that feels simultaneously authentic and aspirational
-</output_aims>
-</profile_specialist>`
-  }
+  // <core_principles>
+  // - Emphasize genuine expertise and unique perspectives
+  // - Balance professionalism with distinct personality traits
+  // - Transform vague generalities into specific, memorable details
+  // - Capture voice and character in minimal word count
+  // - Identify and highlight true differentiators
+  // </core_principles>
 
-  private async getOpenAiApi() {
-    const { default: OpenAI } = await import('openai')
-    return new OpenAI({
-      apiKey: this.settings.openaiApiKey,
-      dangerouslyAllowBrowser: true,
-    })
-  }
+  // <writing_approach>
+  // - Use concrete details instead of abstract claims
+  // - Create tight sentences with purposeful structure
+  // - Choose unexpected verbs and precise nouns
+  // - Integrate subtle narrative elements that create interest
+  // - Focus on genuine achievements rather than self-promotion
+  // </writing_approach>
+
+  // <avoid>
+  // - LinkedIn-style corporate buzzwords
+  // - Generic professional clichés (e.g., "passionate", "dedicated")
+  // - Personality trait lists without supporting context
+  // - Overused intro formulas and empty phrases
+  // - Self-designated expertise without evidence
+  // - Alignment with obvious industry values everyone shares
+  // </avoid>
+
+  // <output_aims>
+  // - Create descriptions people immediately recognize as "sounding like them but better"
+  // - Develop bios that stand out in crowded professional spaces
+  // - Balance being distinctive with relevant industry expectations
+  // - Find fresh approaches to standard profile elements
+  // - Craft content that feels simultaneously authentic and aspirational
+  // </output_aims>
+  // </profile_specialist>`
+  //   }
 }

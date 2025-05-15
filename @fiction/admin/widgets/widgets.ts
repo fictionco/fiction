@@ -9,10 +9,7 @@ export function getWidgets(_service: FictionAdminSettings) {
     el: vue.defineAsyncComponent<vue.Component>(async () => import('./WidgetOnboard.vue')),
   })
 
-  const overviewWidget = new Widget({
-    key: 'overviewWidget',
-    el: vue.defineAsyncComponent<vue.Component>(async () => import('./WidgetOverview.vue')),
-  })
 
-  return { onboardWelcome, overviewWidget }
+
+  return { onboardWelcome }
 }
