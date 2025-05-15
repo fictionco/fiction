@@ -1,5 +1,6 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
+import { MediaBasicSchema } from '@fiction/core'
 import { PostHandlingSchema } from '@fiction/posts'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod'
@@ -8,7 +9,9 @@ import { z } from 'zod'
 export const schema = z.object({
   posts: PostHandlingSchema.optional().describe('Blog post configuration and handling'),
   featuredCount: z.number().optional().describe('Number of featured posts to display prominently'),
-  headline: z.string().optional().describe('Headline for the blog section'),
+  title: z.string().optional().describe('Title for the blog section'),
+  subTitle: z.string().optional().describe('Description for the blog section'),
+  media: MediaBasicSchema.optional().describe('Header media for the blog section'),
 })
 
 export type UserConfig = z.infer<typeof schema> & StandardUserConfig
@@ -30,10 +33,23 @@ const options = [
       }),
       createOption({
         schema,
-        key: 'headline',
-        label: 'Headline',
+        key: 'title',
+        label: 'Title',
         input: 'InputText',
-        placeholder: 'Add a headline',
+        placeholder: 'Enter a title',
+      }),
+      createOption({
+        schema,
+        key: 'subTitle',
+        label: 'Subtitle',
+        input: 'InputText',
+        placeholder: 'Enter a subtitle',
+      }),
+      createOption({
+        schema,
+        key: 'media',
+        label: 'Header Media',
+        input: 'InputMedia',
       }),
     ],
   }),
@@ -47,7 +63,12 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
     schema,
     userConfig: {
       featuredCount: 1,
-      headline: '[@headline]',
+      title: '[@name]',
+      subTitle: '[@headline]',
+      media: {
+        type: 'image',
+        url: '[@avatar]',
+      },
     },
   }
 }

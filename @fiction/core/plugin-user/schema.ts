@@ -60,6 +60,7 @@ export const orgColumns = [
   new Col({ key: 'description', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
   new Col({ key: 'headline', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
   new Col({ key: 'about', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
+  new Col({ key: 'goal', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
 
   new Col({ key: 'interests', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
   new Col({ key: 'influences', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),

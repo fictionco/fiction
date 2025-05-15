@@ -1,7 +1,8 @@
 import type { EndpointMeta, EndpointResponse } from '@fiction/core'
 import type { z } from 'zod'
 import type { FictionAi, FictionAiSettings } from '.'
-import { abort, Query } from '@fiction/core'
+import { abort, Query, Shortcodes } from '@fiction/core'
+import { createStockMediaHandler } from '@fiction/ui/stock'
 
 // Types
 type QueryAiSettings = { fictionAi: FictionAi } & FictionAiSettings
@@ -21,9 +22,9 @@ export type ContentFormat =
 export type AiRequest =
   | {
     _action: 'completion'
-    format: ContentFormat
+    format?: ContentFormat
     prompt: string
-    objectives: Record<string, string>
+    objectives?: Record<string, string>
     schema?: z.ZodType<any>
     schemaJson?: Record<string, unknown>
     referenceInfo?: string
@@ -86,7 +87,9 @@ export class QueryAi extends Query<QueryAiSettings> {
       })
 
       // Parse completion as JSON
-      const completion = this.parseJsonFromCompletion(text)
+      const rawCompletionObject = this.parseJsonFromCompletion(text)
+
+      const completion = await this.parseShortcodes(rawCompletionObject)
 
       this.log.info('Completion successful', {
         data: { format, hasResult: !!completion },
@@ -108,6 +111,96 @@ export class QueryAi extends Query<QueryAiSettings> {
         data: { messages },
       }
     }
+  }
+
+  shortcodes = new Shortcodes<{
+    image_url: {
+      orientation?: 'portrait' | 'landscape' | 'squarish'
+      subject?: string
+    }
+  }>({
+    fictionEnv: this.settings.fictionEnv,
+    shortcodes: [
+      { shortcode: 'image_url', handler: async (args) => {
+        const { attributes } = args
+
+        const orientation = attributes?.orientation || 'squarish'
+        const subject = attributes?.subject || 'person'
+
+        const stock = await createStockMediaHandler()
+
+        const mediaItem = stock.getRandomByAspectRatio(orientation, { tags: ['object', 'image'] })
+
+        //  const search = attributes?.search || ''
+        // const description = attributes?.description || ''
+        // const _prompt = [
+        //   `Prompt: ${search}`,
+        //   `Format: ${description || 'none'}`,
+        //   `Constraints: make SURE the image has no text, logos, or watermarks on it.`,
+        //   `Style: ${objectives.imageStyle}.`,
+
+        // ].filter(Boolean).join('\n')
+
+        // const start = Date.now()
+        // this.log.info('creating image', { data: { prompt, orientation, orgId, userId } })
+        // const r = await this.settings.fictionAi.queries.AiImage.serve({ _action: 'createImage', prompt, orientation, orgId, userId }, { server: true })
+
+        // if (r.status === 'error' || !r.data) {
+        //   message = 'There was a "safety" API error during image generation. Try again, change image style if needed.'
+        //   more = 'This happens when images are similar to trademarked works, etc...'
+        //   throw new Error(message)
+        // }
+
+        // this.log.info(`created image in ${Math.round((Date.now() - start) / 1000)}s`, { data: { r } })
+        return mediaItem.url
+      } },
+
+    ],
+  })
+
+  private async parseShortcodes(rawCompletion: Record<string, unknown>) {
+    const shortcodes = new Shortcodes({ fictionEnv: this.settings.fictionEnv })
+
+    shortcodes.addShortcode<{
+      search?: string
+      description?: string
+      orientation?: 'portrait' | 'landscape' | 'squarish'
+      subject?: 'person' | 'object'
+    }>({ shortcode: 'image_url', handler: async (args) => {
+      const { attributes } = args
+
+      const orientation = attributes?.orientation || 'squarish'
+      const subject = attributes?.subject || 'person'
+
+      const stock = await createStockMediaHandler()
+
+      const mediaItem = stock.getRandomByAspectRatio(orientation, { tags: ['object', 'image'] })
+
+      //  const search = attributes?.search || ''
+      // const description = attributes?.description || ''
+      // const _prompt = [
+      //   `Prompt: ${search}`,
+      //   `Format: ${description || 'none'}`,
+      //   `Constraints: make SURE the image has no text, logos, or watermarks on it.`,
+      //   `Style: ${objectives.imageStyle}.`,
+
+      // ].filter(Boolean).join('\n')
+
+      // const start = Date.now()
+      // this.log.info('creating image', { data: { prompt, orientation, orgId, userId } })
+      // const r = await this.settings.fictionAi.queries.AiImage.serve({ _action: 'createImage', prompt, orientation, orgId, userId }, { server: true })
+
+      // if (r.status === 'error' || !r.data) {
+      //   message = 'There was a "safety" API error during image generation. Try again, change image style if needed.'
+      //   more = 'This happens when images are similar to trademarked works, etc...'
+      //   throw new Error(message)
+      // }
+
+      // this.log.info(`created image in ${Math.round((Date.now() - start) / 1000)}s`, { data: { r } })
+      return mediaItem.url
+    } })
+
+    return await shortcodes.parseObject(rawCompletion)
   }
 
   // Helper methods
@@ -143,15 +236,14 @@ export class QueryAi extends Query<QueryAiSettings> {
   }
 
   private async buildSystemMessages(args: {
-    format: ContentFormat
-    objectives: Record<string, string>
+    format?: ContentFormat
+    objectives?: Record<string, string>
     schema?: z.ZodType<any>
     schemaJson?: Record<string, unknown>
     referenceInfo?: string
   }): Promise<CommandMessage[]> {
-    const { format, objectives, schema, schemaJson, referenceInfo } = args
+    const { schema, schemaJson, referenceInfo } = args
 
-    let formatGuidelines: string
     let outputFormat: Record<string, unknown> = {}
 
     // Add schema if provided
@@ -163,48 +255,40 @@ export class QueryAi extends Query<QueryAiSettings> {
       outputFormat = schemaJson
     }
 
-    // Get appropriate system message based on format
-    switch (format) {
-      case 'websiteCopy':
-        formatGuidelines = this.getWebsiteCopyGuidelines()
-        break
-      case 'contentAutocomplete':
-        formatGuidelines = this.getAutocompleteGuidelines()
-        break
-      case 'brandVoice':
-        formatGuidelines = this.getBrandVoiceGuidelines()
-        break
-      case 'accountSetup':
-        formatGuidelines = this.getAccountSetupGuidelines()
-        break
-      default:
-        throw abort(`Unsupported format: ${format}`)
-    }
+    // // Get appropriate system message based on format
+    // switch (format) {
+    //   case 'websiteCopy':
+    //     formatGuidelines = this.getWebsiteCopyGuidelines()
+    //     break
+    //   case 'contentAutocomplete':
+    //     formatGuidelines = this.getAutocompleteGuidelines()
+    //     break
+    //   case 'brandVoice':
+    //     formatGuidelines = this.getBrandVoiceGuidelines()
+    //     break
+    //   case 'accountSetup':
+    //     formatGuidelines = this.getAccountSetupGuidelines()
+    //     break
+    //   default:
+    //     throw abort(`Unsupported format: ${format}`)
+    // }
 
     // Build messages array
     const messages: CommandMessage[] = [
       {
         role: 'system',
-        content: formatGuidelines,
-      },
-      {
-        role: 'system',
         content: `<output_format_instructions>
-  1. You MUST return ONLY valid JSON that EXACTLY follows the schema provided below.
-  2. You MUST use the EXACT property names as specified in the schema.
-  3. You MUST NOT add additional properties not defined in the schema.
-  4. You MUST NOT rename or modify the property names under any circumstances.
-  5. The output MUST be parseable as JSON.
-  6. Return NOTHING except valid JSON conforming to this schema:
+  - You MUST return ONLY valid JSON that EXACTLY follows the schema provided below.
+  - You MUST use the EXACT property names as specified in the schema.
+  - You MUST NOT add additional properties not defined in the schema.
+  - You MUST NOT rename or modify the property names under any circumstances.
+  - The output MUST be parseable as JSON.
+  - Return NOTHING except valid JSON conforming to this schema:
 
   ${JSON.stringify(outputFormat, null, 2)}
 
-  This is a strict requirement. Using incorrect property names will cause system failures.
+  This is a strict requirement Using incorrect property names will cause system failures.
   </output_format_instructions>`,
-      },
-      {
-        role: 'system',
-        content: this.getObjectivesInstruction(objectives),
       },
     ]
 
@@ -327,14 +411,6 @@ You are an expert identity consultant who helps professionals craft authentic, i
 - Craft content that feels simultaneously authentic and aspirational
 </output_aims>
 </profile_specialist>`
-  }
-
-  private getObjectivesInstruction(objectives: Record<string, string>): string {
-    const objectivesList = Object.entries(objectives)
-      .map(([key, value]) => `<${key}>${value}</${key}>`)
-      .join('\n')
-
-    return `<objectives>${objectivesList}</objectives>`
   }
 
   private async getOpenAiApi() {

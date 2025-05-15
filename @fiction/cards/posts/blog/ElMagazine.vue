@@ -63,7 +63,7 @@ const org = vue.computed(() => {
       :posts
       :index-meta="indexMeta"
       :loading
-      :headline="uc.headline"
+      :header="uc"
       :featured-count="+(uc.featuredCount ?? 1)"
       @update:index-meta="indexMeta = $event"
     />

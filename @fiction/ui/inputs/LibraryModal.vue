@@ -37,9 +37,7 @@ const activeOptionId = vue.ref<string>('')
 vue.watch(
   () => props.modelValue,
   (newValue) => {
-    if (newValue) {
-      setMediaData(newValue)
-    }
+    setMediaData(newValue)
   },
   { immediate: true },
 )
@@ -117,12 +115,22 @@ vue.watch(options, (newOptions) => {
 }, { immediate: true })
 
 // Select media based on the model value
-function setMediaData(media: MediaObject) {
-  const mediaData = site.value ? site.value.shortcodes.parseObjectSync(media) : media
+function setMediaData(media?: MediaObject) {
+  if (!media) {
+    currentSelection.value = {}
+    return
+  }
+
+  const mediaData = media
 
   const format = determineMediaFormat(mediaData)
   currentSelection.value = { ...currentSelection.value, format, ...mediaData }
 }
+
+const mediaPreview = vue.computed(() => {
+  const media = currentSelection.value
+  return site.value ? site.value.shortcodes.parseObjectSync(media) : media
+})
 
 function hasMedia() {
   return currentSelection.value.url || currentSelection.value.html || currentSelection.value.iconId
@@ -135,6 +143,10 @@ function clearMedia() {
 function applyChanges(value: MediaObject) {
   setMediaData(value)
   emit('update:modelValue', currentSelection.value)
+  closeModal()
+}
+
+function closeModal() {
   emit('update:vis', false)
 }
 </script>
@@ -153,7 +165,7 @@ function applyChanges(value: MediaObject) {
       @update:model-value="applyChanges($event)"
       @update:temp-value="setMediaData($event)"
       @update:active-option-id="activeOptionId = $event"
-      @cancel="emit('update:vis', false)"
+      @cancel="closeModal()"
     >
       <template #header>
         <div class="flex gap-4">
@@ -181,15 +193,15 @@ function applyChanges(value: MediaObject) {
         <div class="p-4 border-b border-theme-200 dark:border-theme-700 h-[200px] bg-theme-50 dark:bg-theme-800">
           <div class="relative h-full">
             <div class="w-full h-full flex items-center justify-center text-center">
-              <template v-if="currentSelection.format || currentSelection.gradient?.stops?.length || currentSelection.backgroundColor">
+              <template v-if="mediaPreview.format || mediaPreview.gradient?.stops?.length || mediaPreview.backgroundColor">
                 <XLogo
-                  v-if="['iconId', 'iconClass', 'typography'].includes(currentSelection.format || '')"
-                  :media="currentSelection"
+                  v-if="['iconId', 'iconClass', 'typography'].includes(mediaPreview.format || '')"
+                  :media="mediaPreview"
                   class="max-h-full h-[80%]"
                 />
                 <XMedia
                   v-else
-                  :media="currentSelection"
+                  :media="mediaPreview"
                   class="max-h-full object-contain w-full h-full"
                   image-mode="contain"
                 />

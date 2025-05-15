@@ -207,16 +207,15 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
 
     const mediaId = objectId({ prefix: 'med' })
     const basePath = `${storageGroupPath}/${mediaId}`
-    const filePath = storageKeyPath || `${basePath}-${cleanFileName}`
+    const filePath = storageKeyPath || `${basePath}--${cleanFileName}`
     const thumbFilePath = `${basePath}-thumb-${baseFileName}.png`
-    const rasterFilePath = `${basePath}-raster-${baseFileName}.png`
 
     this.log.info('creating media', { data: { filePath, bucket } })
 
     const sizeOptions = { main: { width: maxSide, height: maxSide }, thumbnail: { width: 80, height: 80 }, crop } as const
     const r = await createImageVariants({ fileSource, sizeOptions, fileMime })
 
-    const { mainBuffer, thumbnailBuffer, metadata, blurhash, rasterBuffer } = r
+    const { mainBuffer, thumbnailBuffer, metadata, blurhash } = r
 
     const hash = args.hash || await hashFile({ filePath: sourceFilePath, buffer: file?.buffer, settings: { crop } })
 
@@ -224,7 +223,6 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
       const uploadPromises = [
         fictionAws.uploadS3({ data: mainBuffer, filePath, mime: fileMime, bucket }),
         thumbnailBuffer && fictionAws.uploadS3({ data: thumbnailBuffer, filePath: thumbFilePath, mime: 'image/png', bucket }),
-        rasterBuffer && fictionAws.uploadS3({ data: rasterBuffer, filePath: rasterFilePath, mime: 'image/png', bucket }),
       ]
 
       const [mainData, thumbData] = await Promise.all(uploadPromises)

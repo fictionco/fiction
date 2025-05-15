@@ -13,6 +13,7 @@ export type ProfileData = {
   state?: string
   country?: string
 
+  goal?: string
   headline?: string
   about?: string
   interests?: string[]
@@ -98,6 +99,7 @@ export function accountFromProfile(profile: ProfileData): {
     influences: profile.influences?.map(i => toSlug(i)),
     avatar: profile.avatar,
     needsOnboarding: profile.needsOnboarding,
+    goal: profile.goal,
   }
 
   return { userFields, orgFields }

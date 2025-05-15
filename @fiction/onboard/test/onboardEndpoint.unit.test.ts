@@ -1,15 +1,20 @@
+import { FictionPosts } from '@fiction/posts'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { FictionOnboard } from '..'
 
 describe('queryManageOnboard endpoint', async () => {
   const testUtils = await createSiteTestUtils()
   const initialized = await testUtils.init()
-  const fictionAdmin = testUtils.fictionAdmin
   const fictionUser = testUtils.fictionUser
   const fictionMedia = testUtils.fictionMedia
   const fictionAi = testUtils.fictionAi
 
-  const queryOnboard = fictionAdmin.queries.ManageOnboard
+  const fictionPosts = new FictionPosts(testUtils)
+
+  const fictionOnboard = new FictionOnboard({ ...testUtils, fictionPosts })
+
+  const queryOnboard = fictionOnboard.queries.ManageOnboard
 
   // Mock the fetch function for LinkedIn API calls
   globalThis.fetch = vi.fn()

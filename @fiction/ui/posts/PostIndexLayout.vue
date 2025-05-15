@@ -1,20 +1,21 @@
 <script lang="ts" setup>
+import type { PostObject } from '@fiction/core'
 import type { Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import { vue } from '@fiction/core'
 import XText from '../common/XText.vue'
 import EffectFitText from '../effect/EffectFitText.vue'
+import XMedia from '../media/XMedia.vue'
 import PostFeature from './PostFeature.vue'
 import PostItem from './PostItem.vue'
 
 defineOptions({ name: 'PostLayout' })
 
-const { posts, featuredCount = 1, layout = 'magazine', sortBy = 'latest', headline } = defineProps<{
+const { posts, featuredCount = 1, layout = 'magazine', sortBy = 'latest', header } = defineProps<{
   posts: Post[]
   loading?: boolean
   sortBy?: 'latest' | 'popular'
-  title?: string
-  headline?: string
+  header?: PostObject
   layout?: 'magazine' | 'blog'
   featuredCount?: number
   hasSidebar?: boolean
@@ -62,16 +63,48 @@ function getTabClasses(tabType: 'latest' | 'popular' | 'archive') {
   <div
     class="post-layout grid grid-cols-1 gap-12 xl:gap-16"
   >
-    <div v-if="headline" class=" ">
-      <EffectFitText :content="headline" :min-size="80" :max-size="160" :lines="1">
+    <div v-if="header?.title" class="flex gap-16 xl:gap-24 items-center">
+      <!-- Content section -->
+      <div class="flex-1">
+        <!-- Headline with fit text -->
+        <div v-if="header?.title">
+          <EffectFitText
+            :content="header.title"
+            :min-size="80"
+            :max-size="160"
+            :lines="1"
+          >
+            <XText
+              :card
+              tag="span"
+              :model-value="header.title"
+              animate="rise"
+              class="block font-bold x-font-title"
+            />
+          </EffectFitText>
+        </div>
+
+        <!-- Subheading text -->
         <XText
+          v-if="header?.subTitle"
           :card
-          tag="span"
-          :model-value="headline"
+          :model-value="header.subTitle"
           animate="rise"
-          class="block leading-tight font-bold x-font-title text-center"
+          class="text-theme-400 text-2xl"
         />
-      </EffectFitText>
+      </div>
+
+      <!-- Featured image - responsive approach -->
+      <div
+        v-if="header?.media?.url"
+        class="w-24 sm:w-28 flex-shrink-0"
+      >
+        <XMedia
+          :media="header?.media"
+          class="aspect-square w-full rounded-full overflow-hidden ring-2 xl:ring-4 ring-white"
+          itemprop="image"
+        />
+      </div>
     </div>
     <div
       v-if="featuredPosts.length > 0"

@@ -39,6 +39,7 @@ export type ManagePostParamsRequest =
   | { _action: 'deletePosts', selectedIds?: string[], orgId: string, userId: string }
   | { _action: 'restoreFromRevision', where: WherePost, revisionId: string }
   | { _action: 'emailSendTest', where: WherePost, testEmails: string[], maxEmails?: number }
+  | { _action: 'generate', where?: WherePost, mode: 'outline' | 'full', fields: Partial<TablePostConfig>, orgId: string }
 
 export type ManagePostParams = ManagePostParamsRequest & {
   userId?: string
@@ -86,6 +87,9 @@ export class QueryManagePost extends PostsQuery {
         break
       case 'emailSendTest':
         r = await this.emailSendTest(params, meta)
+        break
+      case 'generate':
+        r = await this.generatePostContent(params, meta)
         break
       default:
         return { status: 'error', message: 'Invalid action' }
@@ -596,6 +600,51 @@ export class QueryManagePost extends PostsQuery {
       userId,
       caller: 'restoreRevision',
     }, meta)
+  }
+
+  private async generatePostContent(params: ManagePostParams & { _action: 'generate' }, meta: EndpointMeta): Promise<EndpointResponse<TablePostConfig[]>> {
+    const { where, mode, fields, orgId, userId } = params
+
+    // Get org data and existing post if applicable
+    const [org, existingPost] = await Promise.all([
+      this.settings.fictionUser.queries.ManageOrganization.serve({ _action: 'read', where: { orgId } }, { server: true }).then(r => r.data),
+      where?.postId || where?.slug ? this.getPost({ _action: 'get', where, orgId }, meta).then(r => r.data?.[0]) : null,
+    ])
+
+    // Create new post (requires userId)
+    if (!userId)
+      throw abort('userId required for new post', meta)
+
+    if (!org)
+      throw abort('org not found', meta)
+
+    if (where && !existingPost)
+      throw abort('Post not found', meta)
+
+    try {
+      // Generate content
+      const { getGenerationParams } = await import('./utils/generation')
+      const generationParams = getGenerationParams({ org, mode, post: fields })
+      const generatedFields = await this.settings.fictionAi.queries.QueryAi.serve({
+        orgId,
+        _action: 'completion',
+        ...generationParams,
+      }, { server: true }).then(r => (r.data?.completion || {}) as TablePostConfig)
+
+      // Create new post or update existing one
+      if (existingPost && where) {
+        const content = existingPost?.content ? `${existingPost?.content || ''}\n\n${generatedFields.content}` : generatedFields.content
+        const f = { ...fields, ...generatedFields, content }
+        return await this.updatePost({ _action: 'update', where, orgId, userId, fields: f }, meta)
+      }
+      else {
+        const f = { ...fields, ...generatedFields }
+        return await this.createPost({ _action: 'create', fields: f, orgId, userId }, meta)
+      }
+    }
+    catch (error) {
+      return { status: 'error', message: `Generation failed: ${(error as Error).message}` }
+    }
   }
 
   private async emailSendTest(params: ManagePostParams & { _action: 'emailSendTest' }, meta: EndpointMeta): Promise<ManagePostResponse> {

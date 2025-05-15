@@ -25,6 +25,7 @@ const profile = vue.ref<ProfileData>({
   handle: '',
   headline: '',
   about: '',
+  goal: '',
   postTitles: [],
   interests: [],
   influences: [],
@@ -390,6 +391,13 @@ const stepConfig: StepConfig<StepKey> = {
             />
           </div>
           <div v-if="step.key === 'interests'" class="space-y-6">
+            <ElInput
+              v-model="profile.goal"
+              input="InputText"
+              label="Headline"
+              placeholder="Leader and innovator."
+              description="A concise description of what you do"
+            />
             <ElInput
               v-model="profile.interests"
               input="InputTags"

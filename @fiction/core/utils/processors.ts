@@ -83,20 +83,43 @@ export class ObjectProcessor {
   }
 }
 
-type ShortcodeAttributes = Record<string, string | number>
-export type ShortcodeMatch<T extends ShortcodeAttributes = ShortcodeAttributes> = { shortcode: string, content: string, attributes: T, fullMatch: string }
-export type ShortcodeHandler<T extends ShortcodeAttributes = ShortcodeAttributes> = (args: { content?: string, attributes?: T, fullMatch: string }) => string | Promise<string>
-export type ShortcodeLoader<T extends ShortcodeAttributes = ShortcodeAttributes> = { shortcode: string, handler: ShortcodeHandler<T> }
+// Base attribute type
+type BaseShortcodeAttributes = Record<string, string | number>
 
-type ShortcodeSettings = {
-  fictionEnv?: FictionEnv
-  shortcodes?: ShortcodeLoader[]
+// Define a mapped type for shortcode configurations
+export type ShortcodeConfig = Record<string, BaseShortcodeAttributes>
+
+// ShortcodeMatch now accepts a generic that extends BaseShortcodeAttributes
+export type ShortcodeMatch<T extends BaseShortcodeAttributes = BaseShortcodeAttributes> = {
+  shortcode: string
+  content: string
+  attributes: T
+  fullMatch: string
 }
-export class Shortcodes extends FictionObject<ShortcodeSettings> {
+
+// Handler accepts a generic type for attributes
+export type ShortcodeHandler<T extends BaseShortcodeAttributes = BaseShortcodeAttributes> =
+  (args: { content?: string, attributes?: T, fullMatch: string }) => string | Promise<string>
+
+// Loader accepts a generic for the shortcode name and its attributes
+export type ShortcodeLoader<
+  TConfig extends ShortcodeConfig = ShortcodeConfig,
+  TName extends keyof TConfig = keyof TConfig,
+> = {
+  shortcode: string & TName
+  handler: ShortcodeHandler<TConfig[TName]>
+}
+
+type ShortcodeSettings<TConfig extends ShortcodeConfig = ShortcodeConfig> = {
+  fictionEnv?: FictionEnv
+  shortcodes?: ShortcodeLoader<TConfig>[]
+}
+
+export class Shortcodes<TConfig extends ShortcodeConfig = ShortcodeConfig> extends FictionObject<ShortcodeSettings<TConfig>> {
   private shortcodes: Record<string, ShortcodeHandler> = {}
   private hasAsyncShortcodes = false
 
-  constructor(settings: ShortcodeSettings = {}) {
+  constructor(settings: ShortcodeSettings<TConfig> = {}) {
     super('Shortcodes', settings)
     this.initializeDefaultShortcodes()
   }
@@ -108,20 +131,38 @@ export class Shortcodes extends FictionObject<ShortcodeSettings> {
   }
 
   private initializeDefaultShortcodes(): void {
-    this.addShortcode({ shortcode: 'cwd', handler: () => this.settings.fictionEnv?.cwd || '' })
-    this.addShortcode({ shortcode: 'date', handler: () => new Date().toLocaleDateString() })
-    this.addShortcode({ shortcode: 'time', handler: () => new Date().toLocaleTimeString() })
+    this.addShortcode<BaseShortcodeAttributes>({
+      shortcode: 'cwd',
+      handler: () => this.settings.fictionEnv?.cwd || '',
+    })
+    this.addShortcode<BaseShortcodeAttributes>({
+      shortcode: 'date',
+      handler: () => new Date().toLocaleDateString(),
+    })
+    this.addShortcode<BaseShortcodeAttributes>({
+      shortcode: 'time',
+      handler: () => new Date().toLocaleTimeString(),
+    })
 
     if (this.settings.shortcodes?.length) {
       this.settings.shortcodes.forEach(sc => this.addShortcode(sc))
     }
   }
 
-  public addShortcode<T extends ShortcodeAttributes = ShortcodeAttributes>(args: ShortcodeLoader<T>): void {
+  // Add shortcode with proper typing
+  public addShortcode<
+    TAttrs extends BaseShortcodeAttributes = BaseShortcodeAttributes,
+  >(args: {
+    shortcode: string
+    handler: ShortcodeHandler<TAttrs>
+  },
+  ): void {
     const { shortcode, handler } = args
     if (!shortcode.match(/^[\w\-@]+$/))
       throw new Error('Invalid shortcode name')
+
     this.shortcodes[shortcode] = handler as ShortcodeHandler
+
     if (handler.constructor.name === 'AsyncFunction') {
       this.hasAsyncShortcodes = true
     }
@@ -138,7 +179,8 @@ export class Shortcodes extends FictionObject<ShortcodeSettings> {
     return this.parseStringInternal(input, false) as { text: string, matches: ShortcodeMatch[] }
   }
 
-  private parseStringInternal(input: string, isAsync: boolean): { text: string, matches: ShortcodeMatch[] } | Promise<{ text: string, matches: ShortcodeMatch[] }> {
+  private parseStringInternal(input: string, isAsync: boolean):
+    { text: string, matches: ShortcodeMatch[] } | Promise<{ text: string, matches: ShortcodeMatch[] }> {
     const matches = this.parseToMatches(input)
     let result = ''
     let lastIndex = 0
@@ -213,11 +255,11 @@ export class Shortcodes extends FictionObject<ShortcodeSettings> {
       }))
   }
 
-  parseAttributes(attrString?: string): ShortcodeAttributes {
+  parseAttributes(attrString?: string): BaseShortcodeAttributes {
     if (!attrString)
       return {}
     const regex = /([\w\-@]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|(\S+))/g
-    const attributes: ShortcodeAttributes = {}
+    const attributes: BaseShortcodeAttributes = {}
     attrString.replace(/\\+"/g, '"').replace(/\\+'/g, '\'').replace(regex, (_, name, dq, sq, uq) => {
       let value = dq || sq || uq || ''
       // Convert to number if the string is numeric

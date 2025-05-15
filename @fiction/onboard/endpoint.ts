@@ -1,22 +1,10 @@
 import type { EndpointMeta, EndpointResponse, MediaObject } from '@fiction/core'
 import type { FictionOnboardSettings } from '.'
+import type { AiEnhancement } from './generation'
 import type { LinkedInEnrichmentProfile, ProfileData } from './util'
 import { abort, Query } from '@fiction/core'
-import { z } from 'zod'
-import zodToJsonSchema from 'zod-to-json-schema'
+import { AiEnhancementSchema, getGenerationParams } from './generation'
 import { accountFromProfile, createHandle, getMockLinkedInData, profileFromAccount } from './util'
-
-const AiEnhancementSchema = z.object({
-  headline: z.string().min(5).max(160).describe('Concise 3-5 word tagline suitable for hero headline, social media bio, and email signature'),
-  about: z.string().min(10).max(400).describe('Short bio suitable for personal brand, blog about section, and professional profiles'),
-  interests: z.array(z.string()).min(1).max(10).describe('Areas of interest (e.g., history, ai, ux-design, pottery, ecommerce)'),
-  influences: z.array(z.string()).min(0).max(5).describe('Specific people, characters influencing voice and style (e.g, steve-jobs, johnny-depp, cicero)'),
-  pillars: z.array(z.string()).min(0).max(5).describe('Niche topics for content creation (e.g., ai, mobile ux-design, ai-ecommerce)'),
-  postTitles: z.array(z.string()).min(0).max(5).describe('1-3 suggested 5 to 10 word post titles on topics related but not specific to profile, strong hook, make people curious. Open loops.'),
-  clout: z.number().min(0).max(100).describe('Estimated score based on positions at known companies, education quality, location (US and wealthy countries higher), influence (followers, etc): 0(spam), 10(average), to 100(extremely influential)'),
-})
-
-type AiEnhancement = z.infer<typeof AiEnhancementSchema>
 
 export type OnboardRequest =
   | { _action: 'enrichFromLinkedIn', userId: string, orgId: string, profile: Partial<ProfileData> }
@@ -68,19 +56,8 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
 
     try {
       const _promises: Promise<any>[] = postTitles.map((title) => {
-        return fictionPosts.queries.ManagePost.serve({
-          _action: 'create',
-          fields: {
-            title,
-            status: 'draft',
-            content: `<p>This is a draft post about "${title}".</p>`,
-            media: {},
-          },
-          orgId,
-          userId,
-        }, { server: true, ...meta })
+        return fictionPosts.queries.ManagePost.serve({ _action: 'generate', mode: 'full', fields: { title }, orgId, userId }, { server: true, ...meta })
       })
-
       _promises.push(
         fictionSites.queries.ManageSite.serve({
           _action: 'create',
@@ -193,28 +170,10 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
   }
 
   private async enhanceProfileWithAi(linkedinData: LinkedInEnrichmentProfile): Promise<AiEnhancement> {
-    const schemaJson = zodToJsonSchema(AiEnhancementSchema)
+    const params = getGenerationParams({ linkedinData })
 
     try {
-      const aiResponse = await this.settings.fictionAi.queries.QueryAi.serve({
-        _action: 'completion',
-        prompt: `Create account profile based on this data: ${JSON.stringify(linkedinData)}`,
-        format: 'accountSetup',
-        schemaJson,
-        objectives: {
-          goal: 'Craft authentic professional profile content. Minimize jargon, cliches, and buzzwords. Focus on simplicity, clarity and engagement.',
-          tone: 'Clear, engaging, and genuine',
-          instructions: `
-            - Create a simple 3-5 word headline that uniquely captures their professional value, avoiding jargon and generic terms like "expert" or "leader".
-            - Write a short 10 to 30 word bio in HTML that highlights specific achievements and personality, steering clear of buzzwords like "passionate" or "innovative".
-            - If discernable: 1-3 standard content interests based on hobbies, experience and background.
-            - If discernable: 1-3 specific influences (specific people, characters) impacting tone and style (steve-jobs, johnny-depp, art-deco, minimalism, stoicism).
-            - If discernable: 1-3 content pillars: niche topics for content creation (ai, mobile ux-design, ai-ecommerce).
-            - 0-100 clout score based on positions at known companies, education quality, location (US and wealthy countries higher), influence (followers, etc): 0(spam), 10(average global), 30(average US), 50(influential) to 100(extremely influential).
-            - 2-3 suggested post titles based on profile, influences, interests and pillars. Hook target audience in. Create open loops. SEO.
-          `,
-        },
-      }, { server: true })
+      const aiResponse = await this.settings.fictionAi.queries.QueryAi.serve({ _action: 'completion', ...params }, { server: true })
 
       if (aiResponse.status !== 'success' || !aiResponse.data?.completion) {
         throw new Error('AI enhancement failed')
@@ -224,14 +183,16 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     }
     catch (error) {
       this.log.error('AI enhancement failed', { error })
+      const { headline, summary = '', skills } = linkedinData
       return {
-        headline: linkedinData.headline || 'Innovative Tech Enthusiast',
-        about: linkedinData.summary || 'Subscribe to stay updated on my latest projects and insights.',
-        interests: linkedinData.skills?.slice(0, 5).map(s => s.name) || ['Innovation', 'Technology'],
+        headline: headline || 'Leader',
+        about: summary || 'An experienced professional with a passion for innovation.',
+        interests: skills?.slice(0, 5).map(s => s.name) || ['Innovation', 'Technology'],
         influences: [],
         pillars: [],
         postTitles: [],
         clout: 0,
+        goal: 'Build a personal brand.',
       }
     }
   }
