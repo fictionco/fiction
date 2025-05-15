@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 export const AndDataFilterSchema = z.object({
   field: z.string(),
-  value: z.union([z.string(), z.number(), z.array(z.union([z.string(), z.number()]))]),
+  value: z.union([z.string(), z.number(), z.boolean(), z.array(z.union([z.string(), z.number()]))]),
   operator: z.enum(['=', '!=', '>', '<', '>=', '<=', 'like', 'not like', 'in', 'not in']),
 })
 

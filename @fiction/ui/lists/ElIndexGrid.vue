@@ -80,7 +80,7 @@ async function paginate(dir: 'prev' | 'next') {
       </div>
       <div class="flex flex-col lg:gap-8 gap-4">
         <div class="w-full">
-          <div v-if="list.length" role="list" class="space-y-5">
+          <div v-if="list.length" role="list" class="space-y-8 xl:space-y-12">
             <template v-if="$slots.list">
               <slot name="list" :list />
             </template>

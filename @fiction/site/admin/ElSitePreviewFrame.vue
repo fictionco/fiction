@@ -1,25 +1,21 @@
 <script lang="ts" setup>
-import type { SiteListItem } from '../utils/list'
-import XLink from '@fiction/ui/common/XLink.vue'
-
 defineOptions({
   name: 'ManageIndex',
 })
 
 defineProps<{
-  item?: SiteListItem
+  url: string
 }>()
 </script>
 
 <template>
-  <XLink
-    v-if="item"
-    :href="item.href"
+  <div
+    v-if="url"
     class="relative w-full overflow-hidden bg-theme-50 dark:bg-theme-950 aspect-[16/9]"
   >
     <iframe
-      v-if="item.stagingUrl"
-      :src="item.stagingUrl"
+      v-if="url"
+      :src="url"
       class="absolute inset-0  w-[200%] h-[200%] transform scale-50 origin-top-left pointer-events-none"
       loading="lazy"
       title="Site preview"
@@ -35,5 +31,5 @@ defineProps<{
         <span class="i-tabler-edit text-lg" />
       </div>
     </div>
-  </XLink>
+  </div>
 </template>

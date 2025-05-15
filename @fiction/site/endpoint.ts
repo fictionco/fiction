@@ -533,6 +533,13 @@ export class ManageSite extends SitesQuery {
 
     const db = this.settings.fictionDb.client()
 
+    if (fields.isPrimary) {
+      await db(t.sites)
+        .where({ orgId })
+        .whereNot(selector)
+        .update({ isPrimary: false })
+    }
+
     let updatedSite: TableSiteConfig | undefined
 
     await db.transaction(async (trx) => {
@@ -1041,6 +1048,7 @@ export class ManageSites extends SitesQuery {
         .where(`${t.sites}.org_id`, orgId)
         .limit(limit)
         .offset(offset)
+        .orderBy('is_primary', 'desc') // Order by primary status first
         .orderBy('updatedAt', 'desc')
         .groupBy(`${t.sites}.site_id`)
 

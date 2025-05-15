@@ -64,7 +64,7 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
           orgId,
           userId,
           fields: {
-            title: 'My Fiction Site',
+            title: profile.name,
             isPrimary: true,
           },
           caller: 'createDefaultContent',

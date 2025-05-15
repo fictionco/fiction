@@ -7,6 +7,7 @@ import type { SiteListItem } from '../utils/list.js'
 import SettingsPanel from '@fiction/admin/settings/SettingsPanel.vue'
 import { dayjs, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
+import XLink from '@fiction/ui/common/XLink.vue'
 import ElIndexGrid from '@fiction/ui/lists/ElIndexGrid.vue'
 import { getSiteIndexItemList } from '../utils/list.js'
 import { manageSiteIndex } from '../utils/manage.js'
@@ -85,7 +86,8 @@ function getActions(location: 'top' | 'zero') {
       >
         <template #list>
           <div v-for="item in list" :key="item.key">
-            <div
+            <XLink
+              :card
               :href="item.href"
               class="group flex h-full overflow-hidden border border-theme-300/60 dark:border-theme-600/80 bg-white dark:bg-theme-800/40 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200"
             >
@@ -95,31 +97,26 @@ function getActions(location: 'top' | 'zero') {
                     <h3 class="font-semibold text-lg">
                       {{ item.label }}
                     </h3>
-                    <p class="text-xs text-theme-500 dark:text-theme-400">
-                      {{ item.description }}
-                    </p>
+
                   </div>
-                </div>
-                <div>
-                  <XButton
-                    :href="item.href"
-                    theme="green"
-                    design="outline"
-                    size="sm"
-                    icon="i-tabler-edit"
-                  >
-                    Edit Site
-                  </XButton>
                 </div>
 
                 <div class="mt-auto pt-3 flex items-center text-xs text-theme-400 dark:text-theme-500" title="Last updated">
-                  <span class="i-tabler-clock text-sm mr-1" />
-                  <span>{{ dayjs(item.dateAt).format('MMM DD, YY [at] h:mm A') }}</span>
+                  <XButton
+                    :href="item.href"
+                    :theme="item.isPrimary ? 'primary' : 'default'"
+                    design="solid"
+                    size="sm"
+                    :icon="item.isPrimary ? 'i-tabler-bolt' : 'i-tabler-code'"
+                    :test-id="item.testId"
+                  >
+                    {{ item.description }}
+                  </XButton>
                 </div>
               </div>
 
-              <ElSitePreviewFrame :item class="aspect-square lg:aspect-[1.61/1]  border-b border-theme-200 dark:border-theme-700" />
-            </div>
+              <ElSitePreviewFrame :item class="aspect-square border-b border-theme-200 dark:border-theme-700" />
+            </XLink>
           </div>
         </template>
       </ElIndexGrid>

@@ -19,6 +19,7 @@ const props = defineProps({
   maxLength: { type: Number, default: 100 },
   minLength: { type: Number, default: 4 },
   uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
+  required: { type: Boolean, default: false },
 })
 
 const emit = defineEmits<{
@@ -151,6 +152,7 @@ const cls = vue.computed(() => inputClasses({ uiSize: props.uiSize }))
         spellcheck="false"
         :data-is-valid="isValid"
         @input="handleEmit($event.target)"
+        :required="required ? 'true' : undefined"
       >
       <div
         v-if="afterInput"

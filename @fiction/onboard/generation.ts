@@ -3,13 +3,13 @@ import type { LinkedInEnrichmentProfile } from './util'
 import { z } from 'zod'
 
 export const AiEnhancementSchema = z.object({
-  headline: z.string().min(5).max(160).describe('Concise 3-5 word tagline suitable for hero headline, social media bio, and email signature'),
-  about: z.string().min(10).max(400).describe('Short bio suitable for personal brand, blog about section, and professional profiles'),
-  interests: z.array(z.string()).min(1).max(10).describe('Areas of interest (e.g., history, ai, ux-design, pottery, ecommerce)'),
-  influences: z.array(z.string()).min(0).max(5).describe('Specific people, characters influencing voice and style (e.g, steve-jobs, johnny-depp, cicero)'),
+  headline: z.string().min(5).max(160).describe('Concise 3-5 word tagline suitable for hero headline, social media bio, and email signature. Simple, catchy, and memorable.'),
+  about: z.string().min(10).max(400).describe('Short 10-30 word bio suitable for personal brand, blog about section, and professional profiles'),
+  interests: z.array(z.string()).min(1).max(5).describe('Areas of interest (e.g., history, ai, ux-design, pottery, ecommerce)'),
+  influences: z.array(z.string()).min(1).max(3).describe('Specific people, characters influencing voice and style (e.g, steve-jobs, johnny-depp, cicero)'),
   pillars: z.array(z.string()).min(0).max(5).describe('Niche topics for content creation (e.g., ai, mobile ux-design, ai-ecommerce)'),
-  postTitles: z.array(z.string()).min(0).max(5).describe('1-3 suggested 5 to 10 word post titles on topics related but not specific to profile, strong hook, make people curious. Open loops.'),
-  goal: z.string().min(10).max(200).describe('Specific, measurable objective for the personal brand, guiding content creation based on current project (e.g., "Build a personal brand as a movie producer that leverages experience as a CEO in the tech industry")'),
+  postTitles: z.array(z.string()).min(0).max(5).describe('1-3 suggested 4 to 8 word post titles on topics related but not specific to profile, strong hook, make people curious. Open loops.'),
+  goal: z.string().min(10).max(200).describe('Specific, 3-8 word measurable objective for the personal brand, guiding content creation based on current project (e.g., "Build a personal brand as a movie producer.")'),
   clout: z.number().min(0).max(100).describe('Estimated score based on positions at known companies, education quality, location (US and wealthy countries higher), influence (followers, etc): 0(spam), 10(average), to 100(extremely influential)'),
 })
 
@@ -32,6 +32,7 @@ Output Structure
 - Content Interests: 1-3 interests inferred from hobbies, experience, or background (e.g., sustainability, fitness, tech trends).
 - Influences: 1-3 specific figures or styles shaping tone (e.g., Elon Musk, Marie Forleo, Bauhaus, Stoicism). Base on profile cues or industry trends.
 - Content Pillars: 1-3 niche topics for content creation (e.g., AI ethics, fintech UX, green startups). Align with expertise and interests.
+- Goal: 3-8 word measurable objective for personal brand (e.g., "Build a personal brand as a movie producer"). Align with current projects or aspirations.
 - Clout Score: 0-100 based on:
     - Positions at notable companies (+10-20 for FAANG, Fortune 500).
     - Education quality (+5-15 for top-tier schools).

@@ -67,7 +67,7 @@ function getTabClasses(tabType: 'latest' | 'popular' | 'archive') {
       <!-- Content section -->
       <div class="flex-1">
         <!-- Headline with fit text -->
-        <div v-if="header?.title">
+        <div v-if="header?.title" class="relative z-10">
           <EffectFitText
             :content="header.title"
             :min-size="80"
@@ -79,7 +79,7 @@ function getTabClasses(tabType: 'latest' | 'popular' | 'archive') {
               tag="span"
               :model-value="header.title"
               animate="rise"
-              class="block font-bold x-font-title"
+              class="block font-bold x-font-title uppercase"
             />
           </EffectFitText>
         </div>
@@ -90,7 +90,7 @@ function getTabClasses(tabType: 'latest' | 'popular' | 'archive') {
           :card
           :model-value="header.subTitle"
           animate="rise"
-          class="text-theme-400 text-2xl"
+          class="text-theme-400 text-2xl xl:text-3xl mix-blend-difference z-0 relative mt-2"
         />
       </div>
 

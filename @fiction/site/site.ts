@@ -15,6 +15,7 @@ import { activeSiteFont } from './utils/fonts.js'
 import { SiteFrameTools } from './utils/frame.js'
 import { SiteHistory } from './utils/history.js'
 import { flattenCards, setLayoutOrder } from './utils/layout.js'
+import { siteLink } from './utils/manage.js'
 import { activePageIdByRoute, getPageById, getViewMap } from './utils/page.js'
 import { addNewCard, removeCard } from './utils/region.js'
 import { saveSite, scrollActiveCardIntoView, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
@@ -51,12 +52,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   siteRouter = this.settings.siteRouter
   siteMode = vue.ref(this.settings.siteMode || 'standard')
   editToggle = vue.ref(false)
-  isEditable = vue.computed(() => {
-    return ['editable', 'designer'].includes(this.siteMode.value) || false
-  })
-
+  isEditable = vue.computed(() => ['editable', 'designer'].includes(this.siteMode.value) || false)
   isPrimary = vue.ref(this.settings.isPrimary)
-
   isDesigner = vue.computed(() => ['designer', 'coding'].includes(this.siteMode.value) || false)
   frame = new SiteFrameTools({ site: this, relation: this.isDesigner.value ? 'parent' : 'child' })
   events = new TypedEventTarget<SiteEventMap>({ fictionEnv: this.fictionSites.fictionEnv })
@@ -64,7 +61,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   isProd = vue.ref(this.settings.isProd ?? this.fictionSites.fictionEnv?.isProd.value)
   title = vue.ref(this.settings.title)
   status = vue.ref(this.settings.status)
-
   handle = vue.ref(this.settings.handle)
   isAnimationDisabled = vue.ref(false)
   themeId = vue.ref(this.settings.themeId)

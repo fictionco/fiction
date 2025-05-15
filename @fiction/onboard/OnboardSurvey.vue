@@ -135,7 +135,7 @@ async function performContentGeneration(args: StepActions<StepKey>) {
     { percent: 30, message: 'Creating content...' },
     { percent: 50, message: 'Generating posts...' },
     { percent: 90, message: 'Content generation complete!' },
-  ], totalTime: 30000 })
+  ], totalTime: 40000 })
 
   try {
     const r = await fictionOnboard.requests.ManageOnboard.projectRequest({ _action: 'createDefaultContent', profile: profile.value }, { disableNotify: true })
@@ -177,15 +177,15 @@ const stepConfig: StepConfig<StepKey> = {
         title: 'What\'s your LinkedIn URL?',
         subTitle: 'We\'ll use this to create your Fiction profile',
         key: 'linkedin',
-        class: 'max-w-md',
+        class: 'max-w-lg',
         allowSkip: false,
         isLoading: isLoading.value === 'enrich',
       },
       {
         key: 'enrich',
         title: 'Loading your profile',
-        subTitle: 'We\'re creating your Fiction profile based on your LinkedIn data',
-        class: 'max-w-md',
+        subTitle: 'We\'re setting up your Fiction profile',
+        class: 'max-w-lg',
         noButton: true,
         isLoading: true,
         // This runs when the loading step is displayed
@@ -201,7 +201,7 @@ const stepConfig: StepConfig<StepKey> = {
         title: 'Confirm your details',
         subTitle: 'Your name, handle, and picture',
         key: 'account',
-        class: 'max-w-md',
+        class: 'max-w-lg',
         allowSkip: false,
         isLoading: isLoading.value === 'account',
         onClick: async (args) => {
@@ -218,7 +218,7 @@ const stepConfig: StepConfig<StepKey> = {
         title: 'Tell us about yourself',
         subTitle: 'Your headline and bio',
         key: 'profile',
-        class: 'max-w-md',
+        class: 'max-w-lg',
         allowSkip: false,
         onClick: async (args) => {
           const { changeStep } = args
@@ -234,7 +234,7 @@ const stepConfig: StepConfig<StepKey> = {
         title: 'What inspires you?',
         subTitle: 'Your professional interests and influences',
         key: 'interests',
-        class: 'max-w-md',
+        class: 'max-w-lg',
         allowSkip: false,
         onClick: async (args) => {
           const { changeStep } = args
@@ -250,7 +250,7 @@ const stepConfig: StepConfig<StepKey> = {
         },
         title: 'Initial Content',
         subTitle: 'We\'re creating some initial content for you',
-        class: 'max-w-md',
+        class: 'max-w-lg',
         noButton: true,
         isLoading: true,
         // This runs when the loading step is displayed
@@ -393,10 +393,10 @@ const stepConfig: StepConfig<StepKey> = {
           <div v-if="step.key === 'interests'" class="space-y-6">
             <ElInput
               v-model="profile.goal"
-              input="InputText"
-              label="Headline"
-              placeholder="Leader and innovator."
-              description="A concise description of what you do"
+              input="InputTextarea"
+              label="Goal"
+              placeholder="Write your goal"
+              description="In a few words, what do you want to achieve?"
             />
             <ElInput
               v-model="profile.interests"
