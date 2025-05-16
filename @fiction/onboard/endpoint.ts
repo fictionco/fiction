@@ -86,7 +86,7 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     if (!linkedinData)
       return { status: 'error', message: 'Failed to fetch LinkedIn profile' }
 
-    const returnProfile = await this.buildProfileFromLinkedinData(linkedinData, userId, orgId)
+    const returnProfile = await this.buildProfileFromLinkedinData({ linkedinData, userId, orgId })
     await this.updateProfileData({ profile, userId, orgId }, meta)
 
     this.log.info('Profile enriched', { data: returnProfile })
@@ -140,12 +140,13 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     }
   }
 
-  private async buildProfileFromLinkedinData(linkedinData: LinkedInEnrichmentProfile, userId: string, orgId: string): Promise<ProfileData> {
+  private async buildProfileFromLinkedinData(args: { linkedinData: LinkedInEnrichmentProfile, userId: string, orgId: string }): Promise<ProfileData> {
+    const { orgId, userId, linkedinData } = args
     const name = linkedinData.full_name || ''
     const handle = linkedinData.public_identifier || createHandle(name)
     const avatarUrl = linkedinData.profile_pic_url || ''
 
-    const aiEnhancement = await this.enhanceProfileWithAi(linkedinData)
+    const aiEnhancement = await this.enhanceProfileWithAi({ linkedinData, orgId, userId })
     const avatar = avatarUrl ? await this.processAvatarToMedia({ url: avatarUrl }, orgId, userId) : undefined
 
     return {
@@ -162,11 +163,12 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     }
   }
 
-  private async enhanceProfileWithAi(linkedinData: LinkedInEnrichmentProfile): Promise<AiEnhancement> {
+  private async enhanceProfileWithAi(args: { linkedinData: LinkedInEnrichmentProfile, orgId: string, userId: string }): Promise<AiEnhancement> {
+    const { orgId, userId, linkedinData } = args
     const params = getGenerationParams({ linkedinData })
 
     try {
-      const aiResponse = await this.settings.fictionAi.queries.QueryAi.serve({ _action: 'completion', ...params }, { server: true })
+      const aiResponse = await this.settings.fictionAi.queries.QueryAi.serve({ _action: 'completion', orgId, userId, ...params }, { server: true })
 
       if (aiResponse.status !== 'success' || !aiResponse.data?.completion) {
         throw new Error('AI enhancement failed')

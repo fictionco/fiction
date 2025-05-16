@@ -1,7 +1,7 @@
 import type { EndpointMeta, EndpointResponse, MediaObject } from '@fiction/core'
 import type { z } from 'zod'
 import type { FictionAi, FictionAiSettings } from '.'
-import { abort, Query, Shortcodes } from '@fiction/core'
+import { abort, getColorScheme, Query, Shortcodes } from '@fiction/core'
 import { createStockMediaHandler } from '@fiction/ui/stock'
 
 // Types
@@ -66,11 +66,24 @@ export class QueryAi extends Query<QueryAiSettings> {
     })
   }
 
+  getOrg(args: { orgId?: string }) {
+    const { orgId } = args
+    if (!orgId)
+      throw abort('Missing orgId')
+    if (!this.settings.fictionUser)
+      throw abort('Missing fictionUser')
+
+    return this.settings.fictionUser?.queries.ManageOrganization.serve({ _action: 'read', where: { orgId } }, { server: true }).then(r => r.data)
+  }
+
   private async handleCompletion(
     params: Extract<AiRequest, { _action: 'completion' }>,
     _meta: EndpointMeta,
   ): Promise<EndpointResponse<AiCompletionResult>> {
     const { format, prompt, objectives, schema, schemaJson, referenceInfo, orgId, userId } = params
+
+    if (!orgId || !userId)
+      throw abort('Missing orgId or userId')
 
     // Get model and system messages
     const { model } = await this.setupModel()
@@ -129,6 +142,10 @@ export class QueryAi extends Query<QueryAiSettings> {
   private async parseShortcodes(args: { completion: Record<string, unknown>, orgId?: string, userId?: string }): Promise<Record<string, unknown>> {
     const { completion, orgId, userId } = args
     const stock = await createStockMediaHandler()
+    const org = await this.getOrg({ orgId })
+
+    const primaryColor = org?.primaryColor ? getColorScheme(org?.primaryColor, { outputFormat: 'hex' }) : undefined
+
     const sc = new Shortcodes<{
       image_url: { orientation?: 'portrait' | 'landscape' | 'squarish', subject?: string }
     }>({
@@ -142,9 +159,9 @@ export class QueryAi extends Query<QueryAiSettings> {
 
           const prompt = [
             `Prompt: ${s}`,
-            `Subject: ${s}`,
             `Constraints: make SURE the image has no text, logos, or watermarks on it.`,
-            `Style: Golden ratio, extremely minimalist, high contrast, sharp focus, single subject. White space. Clean.`,
+            `Style: ${org?.promptImage || 'Golden ratio, extremely minimalist, high contrast, sharp focus, Clean.'}`,
+            `${primaryColor ? `Color: Brand primary color is ${org?.primaryColor} (${primaryColor[600]}). Optionally use this color and its compliments. Not required.` : ''}`,
 
           ].filter(Boolean).join('\n')
 
@@ -296,7 +313,7 @@ export class QueryAi extends Query<QueryAiSettings> {
         base64Data: formattedBase64,
       }, { server: true })
 
-      this.log.info(`created image in ${Math.round((Date.now() - start) / 1000)}s`, { data: { r } })
+      this.log.info(`created image in ${Math.round((Date.now() - start) / 1000)}s`)
 
       return { url: r?.data?.[0]?.url || stock.getRandomByTags(['object']) } as MediaObject
     }

@@ -1,4 +1,6 @@
 import type { LinkedInEnrichmentProfile } from './util'
+import { ColorThemeBrightSchema } from '@fiction/core'
+import { ArchetypeKeySchema, ImageStyleKeySchema } from '@fiction/core/schemas/motifs'
 
 import { z } from 'zod'
 
@@ -9,6 +11,9 @@ export const AiEnhancementSchema = z.object({
   influences: z.array(z.string()).min(1).max(3).describe('Specific people, characters influencing voice and style (e.g, steve-jobs, johnny-depp, cicero)'),
   pillars: z.array(z.string()).min(0).max(5).describe('Niche topics for content creation (e.g., ai, mobile ux-design, ai-ecommerce)'),
   goal: z.string().min(10).max(200).describe('Specific, 3-8 word measurable objective for the personal brand, guiding content creation based on current project (e.g., "Build a personal brand as a movie producer.")'),
+  promptImageKey: ImageStyleKeySchema.optional().describe('Image style for the brand, based on influences and interests'),
+  promptContentKey: ArchetypeKeySchema.optional().describe('Content style for the brand, based on influences and interests'),
+  primaryColor: ColorThemeBrightSchema.optional().describe('Primary color for the brand'),
   clout: z.number().min(0).max(100).describe('Estimated score based on positions at known companies, education quality, location (US and wealthy countries higher), influence (followers, etc): 0(spam), 10(average), to 100(extremely influential)'),
 })
 
@@ -38,7 +43,8 @@ Output Structure
     - Location (+5-10 for US/wealthy countries).
     - Influence (+5-20 for high followers/connections).
     - Scale: 0 (spam), 10 (global average), 30 (US average), 50 (influential), 100 (highly influential).
-- Post Titles: 1-3 engaging titles based on pillars, interests, and influences. Use open loops, curiosity gaps, and SEO-friendly phrasing (e.g., “Why AI's Next Leap Will Surprise You”).
+- Image Style Key: A visual style for the brand based on influences and interests
+- Content Style Key: A content style for the brand based on influences and interests
 Core Principles
 - Highlight genuine expertise with specific, verifiable details.
 - Balance professionalism with distinctive personality traits.

@@ -15,7 +15,6 @@ import { FictionPublish } from './publish'
 import { getRoutes } from './routes'
 import { tables } from './schema'
 import { createHelloWorldPost } from './utils/index.js'
-import { getWidgets } from './widgets'
 
 export * from './post'
 
@@ -50,7 +49,6 @@ function getTemplates() {
 type PostAdminTemplates = AdminTemplates & ReturnType<typeof getTemplates>
 
 export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
-  widgets = getWidgets({ fictionPosts: this, ...this.settings })
   queries = {
     ManagePost: new QueryManagePost({ fictionPosts: this, ...this.settings }),
     PostComments: new QueryPostComments({ fictionPosts: this, ...this.settings }),
@@ -91,9 +89,6 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
 
   adminUi() {
     const { fictionAdmin } = this.settings
-    const w = Object.values(this.widgets)
-    fictionAdmin.widgetRegister.value.push(...w)
-    fictionAdmin.addToWidgetArea('homeMain', w.map(widget => ({ key: widget.key })))
 
     fictionAdmin.addFeature({
       key: 'posts',

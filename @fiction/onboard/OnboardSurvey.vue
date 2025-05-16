@@ -6,6 +6,7 @@ import type { FictionOnboard } from '.'
 import type { ProfileData } from './util'
 import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import { useService, vue } from '@fiction/core'
+import { getArchetypesStyles, getImageStyles } from '@fiction/core/schemas/motifs'
 import { AutosaveUtility } from '@fiction/core/utils/save'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
@@ -30,6 +31,9 @@ const profile = vue.ref<ProfileData>({
   interests: [],
   influences: [],
   avatar: undefined,
+  promptImageKey: 'watercolor',
+  promptContentKey: 'hero',
+  primaryColor: 'blue',
 })
 
 vue.onMounted(async () => {
@@ -46,7 +50,7 @@ vue.onMounted(async () => {
   }
 })
 
-type StepKey = 'linkedin' | 'account' | 'profile' | 'interests' | 'content' | 'generate' | 'ready' | 'enrich'
+type StepKey = 'linkedin' | 'account' | 'profile' | 'interests' | 'content' | 'generate' | 'ready' | 'enrich' | 'branding'
 
 const isLoading = vue.ref<StepKey | ''>('')
 const enrichProgressRef = vue.ref<InstanceType<typeof XProgress> | null>(null)
@@ -218,7 +222,7 @@ const stepConfig: StepConfig<StepKey> = {
           icon: { class: 'i-tabler-brush' },
         },
         title: 'Tell us about yourself',
-        subTitle: 'Your headline and bio',
+        subTitle: 'You can change this later',
         key: 'profile',
         class: 'max-w-lg',
         allowSkip: false,
@@ -234,8 +238,24 @@ const stepConfig: StepConfig<StepKey> = {
           icon: { class: 'i-tabler-heart' },
         },
         title: 'What inspires you?',
-        subTitle: 'Your professional interests and influences',
+        subTitle: 'You can change this later',
         key: 'interests',
+        class: 'max-w-lg',
+        allowSkip: false,
+        onClick: async (args) => {
+          const { changeStep } = args
+          await saveUtil.forceSync()
+          changeStep({ dir: 'next' })
+        },
+      },
+      {
+        superTitle: {
+          text: 'Branding',
+          icon: { class: 'i-tabler-palette' },
+        },
+        title: 'Choose your style',
+        subTitle: 'You can change this later',
+        key: 'branding',
         class: 'max-w-lg',
         allowSkip: false,
         onClick: async (args) => {
@@ -414,6 +434,36 @@ const stepConfig: StepConfig<StepKey> = {
               label="Influences"
               placeholder="Add influences"
               description="People, characters, or systems that inspire your style"
+            />
+          </div>
+          <div v-if="step.key === 'branding'" class="space-y-6">
+            <ElInput
+              v-model="profile.primaryColor"
+              input="InputColorTheme"
+              label="Primary Color"
+              description="The main color for your brand"
+              :input-props="{
+                mode: 'bright',
+              }"
+              required
+            />
+
+            <ElInput
+              v-model="profile.promptImageKey"
+              input="InputSelectCustom"
+              label="Image Motif"
+              description="Used for generating images"
+              :input-props="{ list: getImageStyles() }"
+              required
+            />
+
+            <ElInput
+              v-model="profile.promptContentKey"
+              input="InputSelectCustom"
+              label="Content Archetype"
+              description="Used for generating content"
+              :input-props="{ list: getArchetypesStyles() }"
+              required
             />
           </div>
         </ElStepNav>

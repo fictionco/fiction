@@ -1,5 +1,8 @@
+import type { ColorThemeBright } from '@fiction/core'
 import type { Organization, User } from '@fiction/core/plugin-user'
+import type { ArchetypeKey, ImageStyleKey } from '@fiction/core/schemas/motifs'
 import { toSlug } from '@fiction/core'
+import { getArchetypesStyles, getImageStyles } from '@fiction/core/schemas/motifs'
 
 export type ProfileData = {
   name?: string
@@ -23,6 +26,10 @@ export type ProfileData = {
   postTitles?: string[]
 
   clout?: number
+
+  promptImageKey?: ImageStyleKey
+  promptContentKey?: ArchetypeKey
+  primaryColor?: ColorThemeBright | ''
 
   needsOnboarding?: boolean
 
@@ -100,6 +107,8 @@ export function accountFromProfile(profile: ProfileData): {
     avatar: profile.avatar,
     needsOnboarding: profile.needsOnboarding,
     goal: profile.goal,
+    promptContent: getArchetypesStyles().find(a => a.value === profile.promptContentKey)?.info || '',
+    promptImage: getImageStyles().find(a => a.value === profile.promptImageKey)?.info || '',
   }
 
   return { userFields, orgFields }

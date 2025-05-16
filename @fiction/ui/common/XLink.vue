@@ -14,7 +14,8 @@ const props = defineProps<{
 }>()
 
 const site = vue.inject(SITE_INJECTION_KEY, vue.computed(() => props.card?.site))
-const prevent = vue.computed(() => !!(site.value?.siteMode.value === 'editable' || props.shouldPrevent))
+const isEditable = vue.computed(() => site.value?.siteMode.value === 'editable')
+const prevent = vue.computed(() => !!(isEditable.value || props.shouldPrevent))
 const href = vue.computed(() => props.card ? props.card.link(props.href) : props.href)
 const linkProps = vue.computed(() => pathIsHref(href.value) ? { href: href.value } : { to: href.value })
 </script>
@@ -30,6 +31,7 @@ const linkProps = vue.computed(() => pathIsHref(href.value) ? { href: href.value
     ]"
     :data-effect="effect"
     :data-prevent="prevent"
+    :title="isEditable ? 'Links are disabled in edit mode' : undefined"
     @click="prevent ? $event.preventDefault() : undefined"
   >
     <slot />

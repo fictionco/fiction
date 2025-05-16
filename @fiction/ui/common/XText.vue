@@ -4,6 +4,8 @@ import { animateItemEnter, splitLetters, useElementVisible } from '../anim'
 
 export type InputModes = 'text' | 'markdown' | 'html' | 'number' | 'email' | 'url' | 'password' | 'phone' | 'date'
 
+defineOptions({ name: 'XText' })
+
 const {
   tag = 'div',
   placeholder = '',

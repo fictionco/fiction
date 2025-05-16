@@ -7,7 +7,8 @@ export const onlyUserColorTheme = ['primary', 'default', 'overlay', 'theme', 'mu
 export const colorThemeUser = [...onlyUserColorTheme, ...colorTheme] as const
 
 // Create a union type that includes both regular and inverted colors
-export type ColorThemeBright = (typeof colorThemeBright)[number]
+export const ColorThemeBrightSchema = z.enum(colorThemeBright)
+export type ColorThemeBright = z.infer<typeof ColorThemeBrightSchema>
 export type ColorTheme = (typeof colorTheme)[number]
 export type ColorThemeUser = (typeof colorThemeUser)[number]
 

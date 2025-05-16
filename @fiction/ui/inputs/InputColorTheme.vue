@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { ColorThemeUser } from '@fiction/core'
 import { colorTheme, colorThemeBright, getColorScheme, onlyUserColorTheme, vue } from '@fiction/core'
-import XButton from '../buttons/XButton.vue'
 import InputSelectCustom from './InputSelectCustom.vue'
 
 defineOptions({ name: 'InputColorTheme' })
@@ -19,44 +18,73 @@ const list = vue.computed(() => {
   const out = [{ label: 'Select', value: '' }]
 
   if (mode === 'bright') {
-    return [...out, ...colorThemeBright]
+    return [...out, ...colorThemeBright.map(color => ({
+      label: color,
+      value: color,
+      meta: { color }
+    }))]
   }
   else {
-    return [...out, ...onlyUserColorTheme, ...colorTheme]
+    return [
+      ...out,
+      ...onlyUserColorTheme.map(color => ({
+        label: color,
+        value: color,
+        meta: { color }
+      })),
+      ...colorTheme.map(color => ({
+        label: color,
+        value: color,
+        meta: { color }
+      }))
+    ]
   }
 })
-const colorScheme = vue.computed(() => {
+
+const selectedColor = vue.computed(() => {
   if (!modelValue)
-    return ''
+    return null
 
-  if (onlyUserColorTheme.includes(modelValue as typeof onlyUserColorTheme[number])) {
-    return ''
-  }
-
-  return getColorScheme(modelValue, { outputFormat: 'hex' })
+  return getColorScheme(modelValue, { outputFormat: 'hex' })?.[600] || null
 })
-
-const showPreview = vue.ref(false)
 </script>
 
 <template>
-  <div class="space-y-2">
+  <div>
     <InputSelectCustom
-      :list
+      :list="list"
       :model-value="modelValue"
       @update:model-value="emit('update:modelValue', $event as ColorThemeUser)"
-    />
-    <div v-if="colorScheme" class="flex gap-2 items-center">
-      <XButton class="shrink-0" design="link" size="xs" @click.prevent="showPreview = !showPreview">
-        Show Colors
-      </XButton>
-      <div
-        v-if="colorScheme && showPreview"
-        class="flex w-full rounded-md overflow-hidden h-5 "
-        :style="{ border: `1px solid ${colorScheme[500]}` }"
-      >
-        <div v-for="(clr, i) in colorScheme" :key="i" :title="String(i)" class="w-full" :style="{ background: clr }" />
-      </div>
-    </div>
+    >
+      <template #selected="{ item }">
+        <div class="flex items-center gap-2">
+          <div
+            v-if="item?.value"
+            class="w-4 h-4 rounded-sm border border-theme-300 dark:border-theme-0/40"
+            :style="{ background: getColorScheme(item.value as ColorThemeUser, { outputFormat: 'hex' })[600] }"
+          ></div>
+          <span>{{ item?.label || 'Select' }}</span>
+        </div>
+      </template>
+
+      <template #option="{ item }">
+        <div class="flex items-center gap-2">
+          <div
+            v-if="item?.value"
+            class="w-4 h-4 rounded-sm border border-theme-300 dark:border-theme-0/40"
+            :style="{ background: getColorScheme(item.value as ColorThemeUser, { outputFormat: 'hex' })[600] }"
+          ></div>
+          <span>{{ item?.label }}</span>
+        </div>
+      </template>
+
+      <template #trailing>
+        <div
+          v-if="selectedColor"
+          class="w-5 h-5 rounded-sm border border-theme-300 dark:border-theme-0/40"
+          :style="{ background: selectedColor }"
+        ></div>
+      </template>
+    </InputSelectCustom>
   </div>
 </template>

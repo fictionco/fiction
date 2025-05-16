@@ -179,10 +179,10 @@ function handlePageOrderUpdate(ids: string[]) {
           size="sm"
           rounding="md"
           design="ghost"
-          icon="i-tabler-layout-grid"
+          icon="i-tabler-files"
           @click.stop="site.editingPageId.value = ''"
         >
-          All Pages
+          Edit / Add Pages
         </XButton>
         <XButton
           size="sm"

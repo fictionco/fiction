@@ -161,28 +161,44 @@ function handleKeydown(event: KeyboardEvent) {
         @click="toggle()"
         @keydown="handleKeydown($event)"
       >
-        <input
-          data-input-type="select"
-          type="text"
+        <div
           :class="[
-            !search ? 'cursor-pointer' : 'cursor-text',
             themeClasses.buttonClasses.always,
             disabled ? themeClasses.buttonClasses.disabled : themeClasses.buttonClasses.regular,
+            !allowSearch ? 'cursor-pointer' : 'cursor-text',
           ]"
-          class="pr-[2em] truncate"
-          :title="disabled ? (typeof disabled === 'string' ? disabled : 'Disabled') : 'Select'"
-          :value="search ?? selectedItem?.name"
-          :placeholder="String(defaultValue) || defaultText || 'Select'"
-          :readonly="!props.allowSearch"
-          @input="setSearchTextValue(($event.target as HTMLInputElement)?.value)"
-          @focus="setFocused(true)"
-          @blur="setFocused(false)"
+          class="pr-[2em] truncate flex items-center min-h-[2.25rem]"
         >
+          <!-- Visible input (for display only) -->
+          <div class="flex-1 flex items-center">
+            <slot name="selected" v-bind:item="selectedItem">
+              {{ search ?? selectedItem?.name ?? (defaultText || 'Select') }}
+            </slot>
+          </div>
 
-        <div class="z-10 absolute right-0.5 top-0 h-full flex items-center px-1" :class="[themeClasses.selector.always, active ? themeClasses.selector.active : '']" @click.stop="toggle()">
+          <!-- Actual input for handling value (hidden but functional) -->
+          <input
+            data-input-type="select"
+            type="text"
+            class="absolute inset-0 opacity-0 w-full h-full"
+            :class="!allowSearch ? 'cursor-pointer' : 'cursor-text'"
+            :value="search ?? selectedItem?.name"
+            :placeholder="String(defaultValue) || defaultText || 'Select'"
+            :readonly="!allowSearch"
+            @input="setSearchTextValue(($event.target as HTMLInputElement)?.value)"
+            @focus="setFocused(true)"
+            @blur="setFocused(false)"
+          >
+        </div>
+
+        <div class="z-10 absolute right-0.5 top-0 h-full flex items-center px-1 cursor-pointer" :class="[themeClasses.selector.always, active ? themeClasses.selector.active : '']">
+          <!-- Trailing slot for color preview or custom content -->
+          <slot name="trailing"></slot>
+
           <div v-if="loading" class="i-ci-loading animate-spin text-[1.2em]" />
           <div v-else class="i-tabler-selector text-[1.2em]" />
         </div>
+
         <!-- For validation -->
         <input
           data-input-type="validation"
@@ -232,17 +248,20 @@ function handleKeydown(event: KeyboardEvent) {
                 :data-value="item.value"
                 @click="selectValue(item)"
               >
-                <div class="min-w-0 grow">
-                  <div class="shrink-0 font-medium truncate" :class="item.description || item.desc ? '' : 'w-full'">
-                    {{ item.label || item.name }} <span v-if="item.subLabel" class="text-[.9em] text-theme-500 dark:text-theme-400">{{ item.subLabel }}</span>
+                <!-- Use a slot for option rendering -->
+                <slot name="option" v-bind:item="item" v-bind:index="i" v-bind:isSelected="isSelected(item.value)">
+                  <div class="min-w-0 grow">
+                    <div class="shrink-0 font-medium truncate" :class="item.description || item.desc ? '' : 'w-full'">
+                      {{ item.label || item.name }} <span v-if="item.subLabel" class="text-[.9em] text-theme-500 dark:text-theme-400">{{ item.subLabel }}</span>
+                    </div>
+                    <div
+                      v-if="item.description || item.desc"
+                      class="text-[.9em] opacity-80"
+                    >
+                      {{ item.description || item.desc }}
+                    </div>
                   </div>
-                  <div
-                    v-if="item.description || item.desc"
-                    class="text-[.9em] opacity-80"
-                  >
-                    {{ item.description || item.desc }}
-                  </div>
-                </div>
+                </slot>
               </li>
             </template>
           </ul>

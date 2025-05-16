@@ -151,8 +151,9 @@ const cls = vue.computed(() => inputClasses({ uiSize: props.uiSize }))
         :placeholder="placeholder"
         spellcheck="false"
         :data-is-valid="isValid"
-        @input="handleEmit($event.target)"
         :required="required ? 'true' : undefined"
+        autocomplete="username"
+        @input="handleEmit($event.target)"
       >
       <div
         v-if="afterInput"

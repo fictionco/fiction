@@ -34,13 +34,13 @@ const config: Record<
 > = {
   'none': { width: '', pad: '' },
   'full': { width: 'w-full', pad: 'px-4 sm:px-6 lg:px-8' },
-  'xxs': { width: 'max-w-[480px]', pad: 'px-2 sm:px-4' },
-  'xs': { width: 'max-w-[640px]', pad: 'px-4 sm:px-6' },
-  'sm': { width: 'max-w-[768px]', pad: 'px-4 sm:px-8' },
-  'md': { width: 'max-w-[1152px]', pad: 'px-4 sm:px-8 lg:px-12' },
-  'lg': { width: 'max-w-[1408px]', pad: 'px-4 sm:px-10 lg:px-16' },
-  'xl': { width: 'max-w-[1792px]', pad: 'px-4 sm:px-12 lg:px-20' },
-  '2xl': { width: 'max-w-[2048px]', pad: 'px-4 sm:px-16 lg:px-24' },
+  'xxs': { width: 'max-w-[800px]', pad: 'px-2 sm:px-4' },
+  'xs': { width: 'max-w-[960px]', pad: 'px-4 sm:px-6' },
+  'sm': { width: 'max-w-[1100px]', pad: 'px-4 sm:px-8' },
+  'md': { width: 'max-w-[1300px]', pad: 'px-4 sm:px-8 lg:px-12' },
+  'lg': { width: 'max-w-[1500px]', pad: 'px-4 sm:px-10 lg:px-16' },
+  'xl': { width: 'max-w-[1800px]', pad: 'px-4 sm:px-12 lg:px-20' },
+  '2xl': { width: 'max-w-[2100px]', pad: 'px-4 sm:px-16 lg:px-24' },
 }
 
 /**

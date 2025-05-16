@@ -38,6 +38,7 @@ const contextTitle = vue.computed(() => {
       <!-- Image container with golden ratio proportions -->
       <div class="col-span-6">
         <XLink
+          :card
           :href="post.href.value"
           class="block h-full overflow-hidden rounded-lg transition-transform duration-300 hover:brightness-105"
         >
@@ -71,6 +72,7 @@ const contextTitle = vue.computed(() => {
           </div>
           <h2 class="!leading-[1.2] x-font-title font-semibold text-[2.2em] line-clamp-4 sm:text-pretty">
             <XLink
+              :card
               :href="post.href.value"
               class="hover:text-theme-600 dark:hover:text-theme-200 transition-colors"
             >
