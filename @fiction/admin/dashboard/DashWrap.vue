@@ -79,11 +79,9 @@ const bottomNav = vue.computed<NavListItem[]>(() => {
   const activeOrganization = fictionUser.activeOrganization.value
   return [
     {
-      label: activeOrganization?.orgName || 'Settings',
-      subLabel: 'Workspace',
+      label: 'Settings',
       href: `/settings`,
-      media: activeOrganization?.avatar,
-      icon: { class: 'i-tabler-circle' },
+      icon: { class: 'i-tabler-settings' },
       isActive: currentViewId === 'settings',
     },
   ] satisfies NavListItem[]

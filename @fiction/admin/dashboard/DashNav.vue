@@ -25,8 +25,8 @@ async function handleClick(event: MouseEvent, item: NavListItem): Promise<void> 
 const cls = {
   active: 'font-semibold bg-primary-100/60 text-primary-700 dark:bg-primary-800/50 ring-2 ring-primary-600/50 dark:ring-primary-800 dark:text-primary-0',
   inactive: 'font-normal text-theme-700 dark:text-theme-200 dark:hover:bg-theme-700 hover:text-theme-900 border-theme-0',
-  navItemWrap: 'group nav-item flex cursor-pointer items-center py-3 px-3 gap-3 truncate rounded-full font-sans text-base focus:outline-none transition-all duration-100',
-  icon: 'size-6 shrink-0',
+  navItemWrap: 'group nav-item flex cursor-pointer items-center py-3 px-4 gap-3 truncate rounded-full font-sans text-base xl:text-lg focus:outline-none transition-all duration-100',
+  icon: 'size-6 lg:size-8 shrink-0',
 }
 </script>
 
@@ -37,7 +37,7 @@ const cls = {
         <div class=" ">
           <div class="rounded-full flex items-center justify-start">
             <CardLink :card href="/" class="text-xl text-theme-700 hover:text-primary-500 dark:text-theme-0 dark:hover:text-primary-300 transition-all p-4 rounded-md">
-              <XMedia class="h-[21px]" :media="icon" />
+              <XMedia class="h-[21px] xl:h-[26px]" :media="icon" />
             </CardLink>
           </div>
         </div>
@@ -58,7 +58,7 @@ const cls = {
               @click="handleClick($event, sub)"
             >
               <XIcon v-if="sub.icon" :media="sub.icon" :class="cls.icon" />
-              <div class="pt-0.5 truncate" v-html="toLabel(sub.label)" />
+              <div class="truncate" v-html="toLabel(sub.label)" />
             </CardLink>
           </div>
         </div>
@@ -78,24 +78,8 @@ const cls = {
             :data-test-id="`dashboard-nav-${sub.testId}`"
             @click="handleClick($event, sub)"
           >
-            <div class="flex items-center justify-start gap-3">
-              <ElIndexItemMedia
-                v-if="sub.media"
-                :media="sub.media"
-                class="size-9 shrink-0"
-              />
-              <XIcon v-else-if="sub.icon" class="size-9 shrink-0" :media="sub.icon" :class="[cls.icon, sub.isActive ? 'text-primary-700 dark:text-primary-300' : 'text-theme-500 dark:text-theme-400']" />
-            </div>
-            <div class="pt-0.5 min-w-0 truncate">
-              <div class="font-semibold truncate leading-[1.3]" v-html="toLabel(sub.label)" />
-              <div
-                v-if="sub.subLabel"
-                class="text-xs "
-                :class="sub.isActive ? 'text-primary-700 dark:text-primary-300' : 'text-theme-500 dark:text-theme-400'"
-              >
-                {{ sub.subLabel }}
-              </div>
-            </div>
+            <XIcon v-if="sub.icon" :media="sub.icon" :class="cls.icon" />
+            <div class="truncate" v-html="toLabel(sub.label)" />
           </CardLink>
         </div>
       </div>
