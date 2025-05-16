@@ -109,6 +109,7 @@ export function accountFromProfile(profile: ProfileData): {
     goal: profile.goal,
     promptContent: getArchetypesStyles().find(a => a.value === profile.promptContentKey)?.info || '',
     promptImage: getImageStyles().find(a => a.value === profile.promptImageKey)?.info || '',
+    primaryColor: profile.primaryColor,
   }
 
   return { userFields, orgFields }

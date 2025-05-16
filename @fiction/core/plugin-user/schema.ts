@@ -83,7 +83,7 @@ export const orgColumns = [
   new Col({ key: 'icon', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }), // icon (logo or icon)
   new Col({ key: 'companyName', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
 
-  new Col({ key: 'primaryColor', sec: 'setting', sch: () => z.string() as z.Schema<ColorThemeBright>, make: ({ s, col }) => s.string(col.k) }),
+  new Col({ key: 'primaryColor', sec: 'setting', sch: () => z.string() as z.Schema<ColorThemeBright | ''>, make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'googleAnalyticsId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'accounts', sec: 'setting', sch: () => z.any() as z.Schema<SocialAccounts>, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'orgStatus', sec: 'setting', sch: () => EntityStatusEnum, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('active') }),
