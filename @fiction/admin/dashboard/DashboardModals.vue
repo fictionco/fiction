@@ -1,10 +1,30 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
+import type { Card } from '@fiction/site'
+import { vue } from '@fiction/core'
 import ElModal from '@fiction/ui/ElModal.vue'
+
+const { card } = defineProps<{
+  card: Card
+}>()
+
+type ModalValues = 'welcome' | 'share'
+
+const activeModal = vue.computed({
+  get: () => {
+    return card.site?.siteRouter.query.value._modal as ModalValues | null
+  },
+  set(value: ModalValues | null) {
+    if (card.site) {
+      card.site.siteRouter.replace({
+        query: { ...card.site.siteRouter.query.value, _modal: value },
+      })
+    }
+  },
+})
 </script>
 
 <template>
-  <ElModal>
+  <ElModal :vis="!!activeModal" @update:vis="activeModal = null">
     <div class="overflow-hidden rounded-b-md pt-3">
       <iframe
         width="100%"
