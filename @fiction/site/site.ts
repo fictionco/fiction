@@ -31,7 +31,7 @@ export type EditorState = {
 
 export type SiteSettings = {
   fictionSites: FictionSites
-  siteRouter: FictionRouter
+  siteRouter?: FictionRouter
   currentPath?: vue.Ref<string> | vue.WritableComputedRef<string>
   isEditable?: boolean
   siteMode?: SiteMode
@@ -49,7 +49,7 @@ export const SITE_INJECTION_KEY = Symbol('siteRef') as vue.InjectionKey<vue.Ref<
 
 export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T> {
   fictionSites = this.settings.fictionSites
-  siteRouter = this.settings.siteRouter
+  siteRouter = this.settings.siteRouter || this.fictionSites.settings.fictionRouterSites || this.fictionSites.settings.fictionRouter
   siteMode = vue.ref(this.settings.siteMode || 'standard')
   editToggle = vue.ref(false)
   isEditable = vue.computed(() => ['editable', 'designer'].includes(this.siteMode.value) || false)

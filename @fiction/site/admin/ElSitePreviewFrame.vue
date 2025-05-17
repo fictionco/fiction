@@ -16,7 +16,7 @@ defineProps<{
     <iframe
       v-if="url"
       :src="url"
-      class="absolute inset-0  w-[200%] h-[200%] transform scale-50 origin-top-left pointer-events-none"
+      class="absolute inset-0  w-[400%] h-[400%] transform scale-[25%] origin-top-left pointer-events-none"
       loading="lazy"
       title="Site preview"
     />

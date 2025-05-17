@@ -416,9 +416,10 @@ const stepConfig: StepConfig<StepKey> = {
             <ElInput
               v-model="profile.goal"
               input="InputTextarea"
-              label="Goal"
+              label="What's your professional goal? (in one sentence)"
               placeholder="Write your goal"
               description="In a few words, what do you want to achieve?"
+              :input-props="{ rows: 2 }"
             />
             <ElInput
               v-model="profile.interests"
@@ -431,7 +432,7 @@ const stepConfig: StepConfig<StepKey> = {
             <ElInput
               v-model="profile.influences"
               input="InputTags"
-              label="Influences"
+              label="Role Models"
               placeholder="Add influences"
               description="People, characters, or systems that inspire your style"
             />

@@ -1,4 +1,4 @@
-import { AnalyticsWidget } from '@fiction/admin/dashboard/widget'
+import { AnalyticsWidget } from '@fiction/admin/widgets/__widget'
 import { vue } from '@fiction/core'
 
 export function getWidgets() {

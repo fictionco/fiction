@@ -1,13 +1,12 @@
 import type { ContactEndpointSettings } from '../endpoint.js'
 
-import { AnalyticsWidget, Widget } from '@fiction/admin/dashboard/widget'
 import { vue } from '@fiction/core'
 import { SubscriptionAnalytics } from '../endpoint.js'
 
 export function getWidgets(service: ContactEndpointSettings) {
   const query = new SubscriptionAnalytics({ ...service })
 
-  const subscribers = new AnalyticsWidget({
+  const subscribers = {
     key: 'subscribers',
     title: 'Subscribers',
     description: 'New subscribers',
@@ -15,9 +14,9 @@ export function getWidgets(service: ContactEndpointSettings) {
     layoutHandling: 'chart',
     query,
     valueKey: 'subscriptions',
-  })
+  }
 
-  const unsubscribes = new AnalyticsWidget({
+  const unsubscribes = {
     key: 'unsubscribes',
     title: 'Unsubscribes',
     description: 'People who have unsubscribed',
@@ -25,23 +24,16 @@ export function getWidgets(service: ContactEndpointSettings) {
     layoutHandling: 'chart',
     query,
     valueKey: 'unsubscribes',
-  })
+  }
 
-  const cleaned = new AnalyticsWidget({
+  const cleaned = {
     key: 'cleaned',
     title: 'Cleaned',
     description: 'Bounced and dead emails',
     el: vue.defineAsyncComponent<vue.Component>(async () => import('./ChartSubs.vue')),
-    layoutHandling: 'chart',
     query,
     valueKey: 'cleaned',
-  })
+  }
 
-  const subscriberIntro = new Widget({
-    key: 'subscriberIntro',
-    title: 'Subscriber Intro',
-    el: vue.defineAsyncComponent<vue.Component>(async () => import('@fiction/admin/dashboard/WidgetVideo.vue')),
-  })
-
-  return { subscribers, unsubscribes, cleaned, subscriberIntro }
+  return { subscribers, unsubscribes, cleaned }
 }

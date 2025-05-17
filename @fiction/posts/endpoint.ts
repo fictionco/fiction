@@ -249,7 +249,13 @@ export class QueryManagePost extends PostsQuery {
       return { status: 'error', data: undefined }
 
     if (post.postId) {
-      post.authors = await db.select([`${t.user}.userId`, `${t.user}.email`, `${t.user}.fullName`, `${t.postAuthor}.priority`]).from(t.postAuthor).join(t.user, `${t.user}.user_id`, `=`, `${t.postAuthor}.user_id`).where(`${t.postAuthor}.post_id`, post.postId).orderBy(`${t.postAuthor}.priority`, 'asc')
+      post.authors = await db.select([
+        `${t.user}.userId`,
+        `${t.user}.email`,
+        `${t.user}.fullName`,
+        `${t.user}.avatar`,
+        `${t.postAuthor}.priority`,
+      ]).from(t.postAuthor).join(t.user, `${t.user}.user_id`, `=`, `${t.postAuthor}.user_id`).where(`${t.postAuthor}.post_id`, post.postId).orderBy(`${t.postAuthor}.priority`, 'asc')
     }
 
     if (loadDraft && post.draft)

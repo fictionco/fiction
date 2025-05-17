@@ -2,16 +2,6 @@ import type { QueryParams } from '@fiction/analytics/types'
 import type { Query } from '@fiction/core'
 import { FictionObject, vue } from '@fiction/core'
 
-export const layoutModes = {
-  list: { colSpan: 3, rowSpan: 1 },
-  chart: { colSpan: 6, rowSpan: 1 },
-  theater: { colSpan: 9, rowSpan: 2 },
-  full: { colSpan: 12, rowSpan: 1 },
-  fullShort: { colSpan: 12, rowSpan: 1 },
-  mini: { colSpan: 3, rowSpan: 1 },
-  panel: { colSpan: 3, rowSpan: 1 },
-}
-
 export type WidgetConfig = {
   key: string
   el: vue.Component

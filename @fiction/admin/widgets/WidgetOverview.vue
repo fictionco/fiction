@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import type { Widget } from '@fiction/admin/dashboard/widget'
 import type { DataPointChart, FictionAnalytics, MetricDisplayItem, MetricDisplayItemWithData } from '@fiction/analytics'
-import WidgetWrap from '@fiction/admin/dashboard/WidgetWrap.vue'
+import type { WidgetConfig } from '.'
 import { MetricDisplayFactory } from '@fiction/analytics/displayMetricFactory'
 import { dayjs, useService, vue } from '@fiction/core'
 import XNumber from '@fiction/ui/common/XNumber.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import SuperChart from './SuperChart.vue'
+import WidgetWrap from './WidgetWrap.vue'
 
-const { widget } = defineProps<{ widget: Widget }>()
+const { widget } = defineProps<{ widget: WidgetConfig }>()
 
 const service = useService<{ fictionAnalytics: FictionAnalytics }>()
 

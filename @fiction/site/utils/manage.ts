@@ -13,8 +13,7 @@ export async function manageSiteIndex(args: { fictionSites: FictionSites, params
 
   const r = await fictionSites.requests.ManageSites.projectRequest(params)
 
-  const siteRouter = fictionSites.settings.fictionRouterSites || fictionSites.settings.fictionRouter
-  const sitePromises = r.data ? r.data.map(async d => Site.create({ ...d, fictionSites, siteRouter, isEditable: false })) : []
+  const sitePromises = r.data ? r.data.map(async d => Site.create({ ...d, fictionSites, isEditable: false })) : []
 
   const sites = await Promise.all(sitePromises)
 

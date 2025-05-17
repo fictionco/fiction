@@ -47,7 +47,6 @@ export interface OnboardingItem {
   key: string
   status: ProgressStatus
   completedAt?: string
-  responses: { question: string, answer: string }[]
   data?: Record<string, unknown>
 }
 

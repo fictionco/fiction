@@ -1,15 +1,10 @@
 <script lang="ts" setup>
 import type { vue } from '@fiction/core'
-import type { Widget } from './widget'
-import WidgetWrap from './WidgetWrap.vue'
-
-const props = defineProps({
-  widget: { type: Object as vue.PropType<Widget>, required: true },
-})
+import ElModal from '@fiction/ui/ElModal.vue'
 </script>
 
 <template>
-  <WidgetWrap :widget>
+  <ElModal>
     <div class="overflow-hidden rounded-b-md pt-3">
       <iframe
         width="100%"
@@ -22,5 +17,5 @@ const props = defineProps({
         allowfullscreen
       />
     </div>
-  </WidgetWrap>
+  </ElModal>
 </template>

@@ -609,7 +609,7 @@ export const themes: Record<ColorThemeUser, Record<ButtonDesign, {
     solid: {
       base: 'bg-gray-100/50 dark:bg-white/90 text-gray-900 dark:text-black',
       border: 'border-gray-100 dark:border-white',
-      hover: 'hover:bg-gray-100/70 dark:hover:bg-gray-100',
+      hover: 'hover:bg-gray-100/70 dark:hover:bg-white',
       icon: 'text-black dark:text-black',
     },
     ghost: {

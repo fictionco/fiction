@@ -47,6 +47,29 @@ export abstract class SitesQuery extends Query<SitesQuerySettings> {
 
     return site
   }
+
+  async getOrg(args: { orgId?: string }) {
+    const { orgId } = args
+
+    if (!orgId)
+      throw abort('orgId required')
+
+    const orgResponse = await this.settings.fictionUser?.queries.ManageOrganization.serve(
+      {
+        _action: 'read',
+        where: { orgId },
+      },
+      { server: true },
+    )
+
+    const org = orgResponse?.data
+
+    if (!org) {
+      throw new Error('Organization data not found for site')
+    }
+
+    return org
+  }
 }
 
 type PageStandardFields = {
@@ -781,20 +804,7 @@ export class ManageSite extends SitesQuery {
     }
 
     try {
-      // Get organization details using ManageOrganization query
-      const orgResponse = await this.settings.fictionUser?.queries.ManageOrganization.serve(
-        {
-          _action: 'read',
-          where: { orgId: site.orgId },
-        },
-        { server: true },
-      )
-
-      const siteOrg = orgResponse?.data
-
-      if (!siteOrg) {
-        throw new Error('Organization data not found for site')
-      }
+      const siteOrg = await this.getOrg({ orgId: site.orgId })
 
       // Apply draft changes if needed
       if (scope === 'draft') {
@@ -817,13 +827,6 @@ export class ManageSite extends SitesQuery {
         ...omit(site, 'draft'), // Remove draft from base
         pages: pagesResponse.data || [],
         org: siteOrg, // Always include org, even if empty object
-      }
-
-      // Log warning if org data is missing
-      if (!orgResponse?.data) {
-        this.log.warn('Organization data not found for site', {
-          data: { siteId: site.siteId, orgId: site.orgId },
-        })
       }
 
       return siteData
@@ -1036,7 +1039,7 @@ export class ManageSites extends SitesQuery {
     const db = this.settings.fictionDb.client()
 
     const message: string | undefined = undefined
-    let data: TableSiteConfig[] | undefined
+    let sites: TableSiteConfig[] | undefined
 
     let count = 0
     if (_action === 'list') {
@@ -1056,7 +1059,7 @@ export class ManageSites extends SitesQuery {
 
       const rows = await baseQuery
 
-      data = rows
+      sites = rows
 
       const r = await db
         .count<{ count: string }>('*')
@@ -1066,6 +1069,10 @@ export class ManageSites extends SitesQuery {
 
       count = +(r?.count || 0)
     }
+
+    const org = await this.getOrg({ orgId })
+
+    const data = sites?.map(site => ({ ...omit(site, 'draft'), org }))
 
     return {
       status: 'success',

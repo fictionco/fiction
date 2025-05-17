@@ -76,16 +76,17 @@ const themeColors = vue.computed(() => {
   }
 
   h1 { font-size: 2em; margin: 1.2em 0 0.4em; }
-  h2 { font-size: 1.618em; margin: 1.1em 0 0.4em; }
-  h3 { font-size: 1.309em; margin: 1em 0 0.35em; }
-  h4 { font-size: 1.159em; margin: 0.9em 0 0.3em; }
-  h5 { font-size: 1.05em; margin: 0.8em 0 0.3em; }
+  h2 { font-size: 1.618em; margin: 1.1em 0 0.4em; line-height: 1.2; }
+  h3 { font-size: 1.309em; margin: 1em 0 0.35em; line-height: 1.4; }
+  h4 { font-size: 1.159em; margin: 0.9em 0 0.3em; line-height: 1.5; }
+  h5 { font-size: 1.05em; margin: 0.8em 0 0.3em; line-height: 1.6;}
   h6 {
     font-size: 1em;
     margin: 0.7em 0 0.3em;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.03em;
+    line-height: 1.6;
   }
 
   /* Remove top margin for first headings */

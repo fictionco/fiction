@@ -79,6 +79,7 @@ export function profileFromAccount(args: { user?: User, org?: Organization }): P
     influences: org?.influences || [],
     linkedinHandle: org?.accounts?.linkedin || user?.accounts?.linkedin,
     needsOnboarding: org?.needsOnboarding || user?.needsOnboarding,
+    primaryColor: org?.primaryColor,
   }
 }
 
@@ -102,8 +103,8 @@ export function accountFromProfile(profile: ProfileData): {
     handle: profile.handle,
     headline: profile.headline,
     about: profile.about,
-    interests: profile.interests?.map(i => toSlug(i)),
-    influences: profile.influences?.map(i => toSlug(i)),
+    interests: profile.interests,
+    influences: profile.influences,
     avatar: profile.avatar,
     needsOnboarding: profile.needsOnboarding,
     goal: profile.goal,

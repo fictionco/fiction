@@ -3,7 +3,7 @@ import type { Card } from '@fiction/site'
 import type { FictionAdmin } from '..'
 import type { WidgetLocation } from '../types'
 import { useService, vue } from '@fiction/core'
-import { getWidgetMap, runWidgetRequests } from './util'
+import { getWidgetMap, runWidgetRequests } from './__util'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -32,9 +32,7 @@ async function load() {
   }
 }
 
-vue.onMounted(async () => {
-  load()
-})
+vue.onMounted(async () => load())
 </script>
 
 <template>

@@ -38,13 +38,12 @@ Output Structure
 - Content Pillars: 1-3 niche topics for content creation (e.g., AI ethics, fintech UX, green startups). Align with expertise and interests.
 - Goal: 3-8 word measurable objective for personal brand (e.g., "Build a personal brand as a movie producer"). Align with current projects or aspirations.
 - Clout Score: 0-100 based on:
-    - Positions at notable companies (+10-20 for FAANG, Fortune 500).
+    - Positions at legit companies, high-level work (+10-20).
     - Education quality (+5-15 for top-tier schools).
     - Location (+5-10 for US/wealthy countries).
     - Influence (+5-20 for high followers/connections).
     - Scale: 0 (spam), 10 (global average), 30 (US average), 50 (influential), 100 (highly influential).
-- Image Style Key: A visual style for the brand based on influences and interests
-- Content Style Key: A content style for the brand based on influences and interests
+- Image Style, Content Style, Primary Color: Pick based on influences and interests, pick randomly if not clear.
 Core Principles
 - Highlight genuine expertise with specific, verifiable details.
 - Balance professionalism with distinctive personality traits.
@@ -88,10 +87,6 @@ Example Output
     - Influences: Satya Nadella, Blade Runner, minimalism
     - Content Pillars: AI scalability, tech ethics, developer productivity
     - Clout Score: 65 (Google role: +20, Stanford: +15, SF: +10, followers: +10, baseline: +10)
-Post Titles:
-- “Will AI Outsmart Us by 2030?”
-- “3 Coding Hacks Google Engineers Swear By”
-- “Why Ethical AI Needs You Now”
 Notes
 - If LinkedIn data is incomplete, make reasonable assumptions based on industry/location norms and flag uncertainties.
 - For ambiguous profiles, lean toward broad but plausible interests (e.g., tech → innovation, leadership).

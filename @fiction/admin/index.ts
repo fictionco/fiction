@@ -6,21 +6,16 @@ import type { FictionAi } from '@fiction/plugins/plugin-ai/index.js'
 import type { CardFactory } from '@fiction/site/cardFactory.js'
 import type { Card, CardTemplate, TableCardConfig } from '@fiction/site/index.js'
 import type { dashTemplate } from './dashboard/templates.js'
-import type { Widget } from './dashboard/widget.js'
-import type { WidgetLocation } from './types.js'
+import type { WidgetLoader } from './widgets/index.js'
 import { EnvVar, vars } from '@fiction/core'
 import { FictionPlugin } from '@fiction/core/plugin.js'
-import { safeDirname, vue } from '@fiction/core/utils'
+import { safeDirname, sortPriority, vue } from '@fiction/core/utils'
 import { cardTemplate } from '@fiction/site/index.js'
-import { createWidgetEndpoints } from './dashboard/util.js'
 import { getEmails } from './emails/index.js'
-import { getWidgets } from './widgets/widgets'
 
 export * from './tools/tools.js'
 export * from './types.js'
 export * from './utils/index.js'
-
-// envConfig.register({ name: 'ADMIN_UI_ROOT', onLoad: ({ fictionEnv }) => { fictionEnv.addUiRoot(safeDirname(import.meta.url)) } })
 
 vars.register(() => [
   new EnvVar({ name: 'PROXYCURL_API_KEY' }),
@@ -42,24 +37,14 @@ type PageLoader = (args: { factory: CardFactory }) => (Promise<TableCardConfig[]
 
 type AdminFeature = { key: string, getPages?: PageLoader, getTemplates?: () => Promise<CardTemplate<any>[]> }
 
-export type WidgetFactoryEntry = { key: string, priority?: number }
-
 export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
-  widgetRequests?: ReturnType<typeof createWidgetEndpoints>
-
   constructor(settings: FictionAdminSettings) {
     super('FictionAdmin', { root: safeDirname(import.meta.url), ...settings })
-
-    this.admin()
   }
 
   urls() {
     const appUrl = this.settings.fictionApp.appUrl.value
-    return {
-      auth: `${appUrl}/app/auth`,
-      dashboard: `${appUrl}/app`,
-      settings: `${appUrl}/app/settings`,
-    }
+    return { auth: `${appUrl}/app/auth`, dashboard: `${appUrl}/app`, settings: `${appUrl}/app/settings` }
   }
 
   async redirectIfLoggedOut() {
@@ -80,23 +65,24 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
     }
   }
 
-  admin() {
-    const widgets = getWidgets(this.settings)
-
-    this.widgetRegister.value.push(...Object.values(widgets))
-
-    this.addToWidgetArea('homeMain', [
-      { key: 'onboardWelcome', priority: 10 },
-    ])
-  }
-
   emailActions = getEmails({ fictionAdmin: this })
 
-  widgetRegister = vue.shallowRef<Widget[]>([])
-  widgetMapRaw = vue.shallowRef<Record<string, WidgetFactoryEntry[]>>({})
-  addToWidgetArea<T extends WidgetFactoryEntry[] = WidgetFactoryEntry[]>(widgetArea: WidgetLocation, widgetKeys: T) {
-    this.widgetMapRaw.value[widgetArea] = this.widgetMapRaw.value[widgetArea] ?? []
-    this.widgetMapRaw.value[widgetArea]?.push(...widgetKeys)
+  widgetLoaders = vue.shallowRef<WidgetLoader[]>([
+    {
+      key: 'overview',
+      loader: () => ({
+        el: vue.defineAsyncComponent(() => import('./widgets/overview/ElWidget.vue')),
+        title: 'Overview',
+        description: 'Overview of your dashboard',
+        priority: 0,
+      }),
+    },
+  ])
+
+  async getWidgets(args: { card: Card }) {
+    const { card } = args
+    const widgets = await Promise.all(this.widgetLoaders.value.map(async _ => _.loader({ fictionAdmin: this, card })))
+    return sortPriority(widgets, { centerNumber: 100 })
   }
 
   features = vue.shallowRef<AdminFeature[]>([
@@ -125,15 +111,8 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
       ],
       getTemplates: async () => {
         return [
-          cardTemplate({
-            templateId: 'tplSettingsPage',
-            el: vue.defineAsyncComponent(() => import('./settings/SettingsMain.vue')),
-          }),
-
-          cardTemplate({
-            templateId: 'tplDashboardWelcome',
-            el: vue.defineAsyncComponent(() => import('./dashboard/ViewDashboard.vue')),
-          }),
+          cardTemplate({ templateId: 'tplSettingsPage', el: vue.defineAsyncComponent(() => import('./settings/SettingsMain.vue')) }),
+          cardTemplate({ templateId: 'tplDashboardWelcome', el: vue.defineAsyncComponent(() => import('./dashboard/ViewDashboard.vue')) }),
         ]
       },
     },
@@ -153,10 +132,6 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
 
   addFeature(args: AdminFeature) {
     this.features.value.push(args)
-  }
-
-  override async setup() {
-    this.widgetRequests = createWidgetEndpoints({ fictionAdmin: this })
   }
 
   async onClientMounted(args: { card: Card }) {

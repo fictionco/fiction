@@ -5,7 +5,6 @@ import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, Fictio
 import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card.js'
-import { getWidgets } from './admin/widgets'
 import { getEmails } from './email'
 import { ManageContactQuery, SubscriptionAnalytics } from './endpoint'
 import { t, tables } from './schema'
@@ -24,7 +23,6 @@ export type FictionContactSettings = {
 } & FictionPluginSettings
 
 export class FictionContact extends FictionPlugin<FictionContactSettings> {
-  widgets = getWidgets({ fictionContact: this, ...this.settings })
   queries = {
     ManageContact: new ManageContactQuery({ fictionContact: this, ...this.settings }),
     SubscriptionAnalytics: new SubscriptionAnalytics({ fictionContact: this, ...this.settings }),
@@ -64,9 +62,9 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
   admin() {
     const { fictionAdmin } = this.settings
 
-    fictionAdmin.widgetRegister.value.push(...Object.values(this.widgets))
+    // fictionAdmin.widgetRegister.value.push(...Object.values(this.widgets))
 
-    fictionAdmin.addToWidgetArea('subscriberIndex', [{ key: 'subscribers' }, { key: 'unsubscribes' }, { key: 'cleaned' }])
+    // fictionAdmin.addToWidgetArea('subscriberIndex', [{ key: 'subscribers' }, { key: 'unsubscribes' }, { key: 'cleaned' }])
 
     fictionAdmin.addFeature({
       key: 'audience',
