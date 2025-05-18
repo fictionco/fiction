@@ -80,22 +80,6 @@ const viewModes = vue.computed(() => {
   return out
 })
 
-const location = vue.computed<EditorLocation>({
-  get: () => {
-    const r = service.fictionRouter
-    const location = r.query.value.location as EditorLocation | undefined
-
-    if (location && viewModes.value.some(v => v.value === location)) {
-      return location
-    }
-
-    return post.value?.status.value === 'draft' ? 'compose' : 'overview'
-  },
-  set: (value) => {
-    const r = service.fictionRouter
-    r.push({ query: { ...r.query.value, location: value } }, { caller: 'postEdit' })
-  },
-})
 const modal = vue.ref<ModalLocation>('')
 
 async function savePost(postConfig?: Partial<TablePostConfig>) {
@@ -167,41 +151,26 @@ const statusMap = vue.computed<NavListItem>(() => {
         </XButton>
       </template>
       <template #headerRight>
-        <template v-if="location !== 'overview'">
-          <ElSavingSignal
-            v-if="post"
-            :is-dirty="post.saveUtil.isDirty.value"
-            data-test-id="draft-control-dropdown"
-            ui-size="sm"
-            class="mr-2"
-          />
-          <XButton
-            theme="default"
-            target="_blank"
-            size="md"
-            icon="i-tabler-eye"
-            data-test-id="preview-post-button"
-            design="ghost"
-            @click.stop="modal = 'preview'"
-          >
-            Preview
-          </XButton>
-        </template>
+        <ElSavingSignal
+          v-if="post"
+          :is-dirty="post.saveUtil.isDirty.value"
+          data-test-id="draft-control-dropdown"
+          ui-size="sm"
+          class="mr-2"
+        />
+        <XButton
+          theme="default"
+          target="_blank"
+          size="md"
+          icon="i-tabler-eye"
+          data-test-id="preview-post-button"
+          design="ghost"
+          @click.stop="modal = 'preview'"
+        >
+          Preview
+        </XButton>
 
-        <template v-if="location === 'overview'">
-          <XButton
-            theme="primary"
-            design="solid"
-            size="md"
-            data-test-id="next-button-top"
-            icon-after="i-tabler-arrow-right"
-            @click.prevent="location = 'compose'"
-          >
-            Edit Post
-          </XButton>
-        </template>
-
-        <template v-else-if="post?.status && post?.status.value === 'draft'">
+        <template v-if="post?.status && post?.status.value === 'draft'">
           <XButton
             theme="primary"
             design="solid"
@@ -228,16 +197,6 @@ const statusMap = vue.computed<NavListItem>(() => {
           <template v-else>
             <XButton
               theme="primary"
-              design="outline"
-              size="md"
-              data-test-id="next-button-top"
-              icon="i-tabler-dashboard"
-              @click.prevent="location = 'overview'"
-            >
-              View Overview
-            </XButton>
-            <XButton
-              theme="primary"
               design="solid"
               size="md"
               data-test-id="next-button-top"
@@ -254,8 +213,6 @@ const statusMap = vue.computed<NavListItem>(() => {
           :post
           :card
           :view-modes="viewModes"
-          :location="location"
-          @update:location="location = $event"
         />
       </template>
     </ViewEditor>
@@ -264,10 +221,8 @@ const statusMap = vue.computed<NavListItem>(() => {
       :card
       :post
       :modal
-      :location
       @update:post="savePost($event)"
       @update:modal="modal = $event"
-      @update:location="location = $event"
     />
   </div>
 </template>

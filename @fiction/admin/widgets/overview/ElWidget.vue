@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { Card, FictionSites, Site } from '@fiction/site'
+import type { Organization } from '@fiction/core'
+import type { Card, Site } from '@fiction/site'
 import type { WidgetConfig } from '..'
-import { useService, vue } from '@fiction/core'
+import { vue } from '@fiction/core'
 import ElSitePreviewFrame from '@fiction/site/admin/ElSitePreviewFrame.vue'
-import { getPrimarySite } from '@fiction/site/utils/load'
 import { siteLink } from '@fiction/site/utils/manage'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
@@ -13,34 +13,14 @@ import Tasks from './Tasks.vue'
 const props = defineProps<{
   widget: WidgetConfig
   card: Card
+  primarySite: Site
+  loading: boolean
+  org: Organization
 }>()
 
-// Access user and organization data
-const { fictionUser, fictionSites } = useService<{ fictionSites: FictionSites }>()
-const org = vue.computed(() => fictionUser.activeOrganization.value)
-const loading = vue.ref(true)
-const primarySite = vue.shallowRef<Site>()
+const siteEditLink = vue.computed(() => siteLink({ site: props.card.site, location: { path: '/edit-site', query: { siteId: props.primarySite?.siteId } } }))
 
-vue.onMounted(async () => {
-  try {
-    await fictionUser.userInitialized({ caller: 'widget' })
-    const orgId = org.value?.orgId
-    primarySite.value = orgId ? await getPrimarySite({ fictionSites, orgId }) : undefined
-  }
-  finally {
-    loading.value = false
-  }
-})
-
-const siteEditLink = vue.computed(() =>
-  siteLink({ site: props.card.site, location: { path: '/edit-site', query: { siteId: primarySite.value?.siteId } } }),
-)
-
-const liveSiteUrl = vue.computed(() => {
-  if (!primarySite.value)
-    return ''
-  return primarySite.value.url.value
-})
+const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
 </script>
 
 <template>

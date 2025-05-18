@@ -1,22 +1,29 @@
 <script lang="ts" setup>
-import type { Card } from '@fiction/site'
+import type { Card, FictionSites, Site } from '@fiction/site'
 import type { FictionAdmin } from '../index'
 import type { WidgetConfig } from '../widgets/index'
 import { useService, vue } from '@fiction/core'
+import { getPrimarySite } from '@fiction/site/utils/load'
+import ViewDashboardModals from './ViewDashboardModals.vue'
 
 const { card } = defineProps<{
   card: Card
 }>()
 
-const service = useService<{ fictionAdmin: FictionAdmin }>()
+const { fictionAdmin, fictionUser, fictionSites } = useService<{ fictionAdmin: FictionAdmin, fictionSites: FictionSites }>()
 
-const loading = vue.ref(false)
+const org = vue.computed(() => fictionUser.activeOrganization.value)
+const loading = vue.ref(true)
 const widgets = vue.shallowRef<WidgetConfig[]>([])
+const primarySite = vue.shallowRef<Site>()
 
 async function load() {
   loading.value = true
   try {
-    widgets.value = await service.fictionAdmin.getWidgets({ card })
+    await fictionUser.userInitialized({ caller: 'widget' })
+    const r = await Promise.all([fictionAdmin.getWidgets({ card }), getPrimarySite({ fictionSites, orgId: org.value?.orgId })])
+    widgets.value = r[0]
+    primarySite.value = r[1]
   }
   catch (e) {
     console.error(e)
@@ -38,6 +45,10 @@ vue.onMounted(async () => load())
       :card
       :widget
       class="w-full"
+      :primary-site="primarySite"
+      :org
     />
+
+    <ViewDashboardModals :card :org :primary-site="primarySite" />
   </div>
 </template>

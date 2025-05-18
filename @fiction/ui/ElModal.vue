@@ -11,6 +11,7 @@ const {
   styleClass,
   fullScreen = false,
   hasClose = false,
+  title = '',
   transitionMode = 'modal',
 } = defineProps<{
   vis?: boolean
@@ -18,6 +19,7 @@ const {
   styleClass?: string
   fullScreen?: boolean
   hasClose?: boolean
+  title?: string
   transitionMode?: 'modal' | 'slideUp'
 }>()
 
@@ -149,8 +151,15 @@ export default {
               class="click-stop"
               @click.stop="resetUi({ scope: 'inputs', cause: `modalClick`, trigger: 'elementClick' })"
             >
-              <div v-if="hasClose" class="absolute top-0 right-0">
-                <ElClose data-test-id="close-modal" @click.stop="close({ reason: 'escape' })" />
+              <div
+                v-if="hasClose || title"
+                class=""
+                :class="!title && hasClose ? 'absolute top-0 right-0' : 'flex justify-between items-center border-b border-theme-200 dark:border-theme-700'"
+              >
+                <h2 v-if="title" class="text-xl x-font-title p-5">
+                  {{ title }}
+                </h2>
+                <ElClose class="relative" data-test-id="close-modal" @click.stop="close({ reason: 'escape' })" />
               </div>
               <slot />
             </div>

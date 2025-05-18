@@ -4,8 +4,6 @@ import type { FictionPosts } from '..'
 import type { Post } from '../post'
 import { useService, vue } from '@fiction/core'
 import UrlShare from '@fiction/ui/blocks/UrlShare.vue'
-import XButton from '@fiction/ui/buttons/XButton.vue'
-import InputText from '@fiction/ui/inputs/InputText.vue'
 
 const { post } = defineProps<{
   post: Post
@@ -13,9 +11,6 @@ const { post } = defineProps<{
 }>()
 
 const { fictionUser, fictionSites } = useService<{ fictionPosts: FictionPosts, fictionSites: FictionSites }>()
-
-const loading = vue.ref(false)
-const copied = vue.ref<string | null>(null)
 
 const url = vue.computed(() => {
   const href = post.href.value
@@ -27,27 +22,6 @@ const url = vue.computed(() => {
 
   return `${origin}${href}`
 })
-
-function copyToClipboard(url: string) {
-  navigator.clipboard.writeText(url)
-  copied.value = url
-  setTimeout(() => {
-    copied.value = null
-  }, 2000)
-}
-
-function shareTwitter() {
-  const text = `${post.title.value}`
-  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url.value)}`)
-}
-
-function shareLinkedIn() {
-  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url.value)}`)
-}
-
-function shareFacebook() {
-  window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url.value)}`)
-}
 </script>
 
 <template>

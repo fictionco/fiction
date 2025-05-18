@@ -17,10 +17,9 @@ import InputPostReview from './InputPostReview.vue'
 
 import PostPreview from './PostPreview.vue'
 
-const { post, card, location, modal } = defineProps<{
+const { post, card, modal } = defineProps<{
   post?: Post
   card: Card
-  location: EditorLocation
   modal: ModalLocation
 }>()
 

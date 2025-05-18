@@ -306,7 +306,7 @@ const stepConfig: StepConfig<StepKey> = {
             const r = await saveUtil.forceSync()
 
             if (r?.status === 'success') {
-              await card.goto('/?onboarded=true')
+              await card.goto('/?_view=welcome')
             }
           }
           finally {

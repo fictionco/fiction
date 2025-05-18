@@ -7,14 +7,13 @@ import XText from '@fiction/ui/common/XText.vue'
 import InputMedia from '@fiction/ui/inputs/InputMedia.vue'
 import ProseEditor from '@fiction/ui/prose/editor/ProseEditor.vue'
 import ProseEditorToolbar from '@fiction/ui/prose/editor/ProseEditorToolbar.vue'
-import PostOverview from './PostOverview.vue'
 
 defineOptions({ name: 'PostEditor' })
 
-const { post, card, location } = defineProps<{
+const { post, location = 'compose' } = defineProps<{
   post?: Post
   card: Card
-  location: EditorLocation
+  location?: 'compose'
 }>()
 
 const emit = defineEmits<{
@@ -35,7 +34,6 @@ function handleUpdate(args: { key: 'title' | 'subTitle' | 'content', value: stri
   emit('update:post', post)
 }
 
-const showMediaInput = vue.ref(false)
 const hasMedia = vue.computed(() => {
   const v = post?.media.value
   return !!(v?.url || v?.html)
@@ -46,10 +44,7 @@ const hasMedia = vue.computed(() => {
   <div v-if="post" class="h-full">
     <div class="space-y-4 flex flex-col h-full">
       <transition name="next" mode="out-in">
-        <div v-if="location === 'overview'">
-          <PostOverview :post :card :location @update:location="emit('update:location', $event)" />
-        </div>
-        <div v-else class="flex-grow flex flex-col gap-4 h-full min-h-0">
+        <div v-if="location === 'compose'" class="flex-grow flex flex-col gap-4 h-full min-h-0">
           <div
             class="h-full @container/editor overflow-hidden flex flex-col"
           >
