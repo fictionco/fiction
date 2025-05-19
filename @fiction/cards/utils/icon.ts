@@ -39,9 +39,11 @@ export function getHeadIconConfig(args: { org?: Organization }) {
   // Get configured icons or defaults
   const defaultIcons = getSiteIcons()
 
-  const faviconUrl = org?.icon?.url || defaultIcons.favicon
-  const iconUrl = org?.icon?.url || defaultIcons.appleTouchIcon
-  const msTileIconUrl = org?.icon?.url || defaultIcons.msTileIcon
+  const icon = org?.icon?.url || org?.avatar?.url
+
+  const faviconUrl = icon || defaultIcons.favicon
+  const iconUrl = icon || defaultIcons.appleTouchIcon
+  const msTileIconUrl = icon || defaultIcons.msTileIcon
   const ogImageUrl = '' // config.shareImage?.url || defaultIcons.ogImage
 
   // Get MIME type for favicon
