@@ -3,7 +3,6 @@ import type { MediaObject, NavListItem, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import CardLink from '@fiction/cards/el/CardLink.vue'
 import { toLabel } from '@fiction/core'
-import ElIndexItemMedia from '@fiction/ui/lists/ElIndexItemMedia.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 

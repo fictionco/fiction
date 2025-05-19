@@ -21,7 +21,7 @@ const list = vue.computed(() => {
     return [...out, ...colorThemeBright.map(color => ({
       label: color,
       value: color,
-      meta: { color }
+      meta: { color },
     }))]
   }
   else {
@@ -30,13 +30,13 @@ const list = vue.computed(() => {
       ...onlyUserColorTheme.map(color => ({
         label: color,
         value: color,
-        meta: { color }
+        meta: { color },
       })),
       ...colorTheme.map(color => ({
         label: color,
         value: color,
-        meta: { color }
-      }))
+        meta: { color },
+      })),
     ]
   }
 })

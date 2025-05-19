@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { vue } from '@fiction/core'
 import type { WidgetConfig } from '.'
 import DateChart from '@fiction/analytics/chart/DateChart.vue'
 import WidgetWrap from './WidgetWrap.vue'

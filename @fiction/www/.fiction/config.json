@@ -147,14 +147,6 @@
     {
       "key": "ManageOnboard",
       "path": "/api/onboard/ManageOnboard"
-    },
-    {
-      "key": "posts",
-      "path": "/api/widgets/posts"
-    },
-    {
-      "key": "SubscriptionAnalytics",
-      "path": "/api/widgets/SubscriptionAnalytics"
     }
   ]
 }

@@ -14,17 +14,12 @@
         "UtilDeleteOrg.vue": null,
         "ViewBillingSuccess.vue": null,
         "ViewDashboard.vue": null,
-        "WidgetArea.vue": null,
-        "WidgetChart.vue": null,
-        "WidgetVideo.vue": null,
-        "WidgetWrap.vue": null,
+        "ViewDashboardModals.vue": null,
         "img": {
           "pin.svg": null,
           "screenshot.jpg": null
         },
-        "templates.ts": null,
-        "util.ts": null,
-        "widget.ts": null
+        "templates.ts": null
       },
       "el": {
         "ElSavingSignal.vue": null,
@@ -36,7 +31,6 @@
         "VEmailVerify.vue": null,
         "index.ts": null
       },
-      "hooks.ts": null,
       "index.ts": null,
       "package.json": null,
       "settings": {
@@ -87,10 +81,15 @@
       },
       "widgets": {
         "SuperChart.vue": null,
-        "WidgetOnboard.vue": null,
+        "WidgetChart.vue": null,
         "WidgetOverview.vue": null,
-        "utils.ts": null,
-        "widgets.ts": null
+        "WidgetWrap.vue": null,
+        "index.ts": null,
+        "overview": {
+          "ElWidget.vue": null,
+          "Tasks.vue": null
+        },
+        "utils.ts": null
       }
     },
     "analytics": {
@@ -809,6 +808,7 @@
         "time-locale.ts": null
       },
       "schemas": {
+        "motifs.ts": null,
         "schemas.ts": null
       },
       "tbl.ts": null,
@@ -970,6 +970,7 @@
     "onboard": {
       "OnboardSurvey.vue": null,
       "endpoint.ts": null,
+      "generation.ts": null,
       "index.ts": null,
       "package.json": null,
       "test": {
@@ -1001,10 +1002,10 @@
           "ElAddContacts.vue": null,
           "ElAddContactsModal.vue": null,
           "ElSubscriberList.vue": null,
-          "ViewAnalytics.vue": null,
           "ViewIndex.vue": null,
           "ViewManage.vue": null,
           "ViewSingle.vue": null,
+          "__ViewAnalytics.vue": null,
           "test": {
             "import.unit.test.ts": null,
             "test.csv": null,
@@ -1137,15 +1138,12 @@
       "utils": {
         "analytics.ts": null,
         "email.ts": null,
+        "generation.ts": null,
         "index.ts": null,
         "like.ts": null,
         "links.ts": null,
         "post.ts": null,
         "tracking.ts": null
-      },
-      "widgets": {
-        "WidgetPosts.vue": null,
-        "index.ts": null
       }
     },
     "site": {
@@ -1155,12 +1153,7 @@
         "ManageAnalytics.vue": null,
         "ManageIndex.vue": null,
         "ViewManage.vue": null,
-        "__ElThemeSelect.vue": null,
-        "widgets": {
-          "WidgetSites.vue": null,
-          "WidgetTest.vue": null,
-          "index.ts": null
-        }
+        "__ElThemeSelect.vue": null
       },
       "ai": {
         "AiSettings.vue": null,
@@ -1251,7 +1244,6 @@
       "type-utils.ts": null,
       "util.ts": null,
       "utils": {
-        "__cert.ts": null,
         "ai.ts": null,
         "cardHelpers.ts": null,
         "demo.ts": null,
@@ -1262,6 +1254,7 @@
         "history.ts": null,
         "layout.ts": null,
         "list.ts": null,
+        "load.ts": null,
         "manage.ts": null,
         "optionSchema.ts": null,
         "page.ts": null,
@@ -1286,7 +1279,6 @@
     },
     "themes": {
       "base": {
-        "config.ts": null,
         "img": {
           "dark-desktop.png": null,
           "light-desktop.png": null
@@ -1495,6 +1487,9 @@
         "index.ts": null,
         "popupUtil.ts": null,
         "scrolling.ts": null
+      },
+      "blocks": {
+        "UrlShare.vue": null
       },
       "brand": {
         "FictionLogo.svg": null,

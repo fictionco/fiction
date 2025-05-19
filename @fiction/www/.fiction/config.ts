@@ -87,7 +87,6 @@ export interface CompiledServiceConfig {
     | 'TeamInvite'
     | 'emailTrackingEndpoint'
     | 'oAuthEndpoint'
-    | 'posts'
   tables: {
     fiction_user:
       | 'userId'
@@ -132,10 +131,13 @@ export interface CompiledServiceConfig {
       | 'description'
       | 'headline'
       | 'about'
+      | 'goal'
       | 'interests'
       | 'influences'
       | 'pillars'
       | 'clout'
+      | 'promptImage'
+      | 'promptContent'
       | 'industry'
       | 'experiences'
       | 'streetAddress'

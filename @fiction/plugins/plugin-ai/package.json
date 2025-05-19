@@ -5,10 +5,10 @@
     "@ai-sdk/xai": "^1.2.16",
     "@fiction/core": "workspace:*",
     "@pinecone-database/pinecone": "^5.1.2",
-    "ai": "^4.3.15",
-    "openai": "^4.98.0",
+    "ai": "^4.3.16",
+    "openai": "^4.100.0",
     "tailwindcss": "^3.4.17",
-    "vue": "^3.5.13"
+    "vue": "^3.5.14"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "MIT",

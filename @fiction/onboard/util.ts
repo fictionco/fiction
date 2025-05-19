@@ -1,7 +1,6 @@
 import type { ColorThemeBright } from '@fiction/core'
 import type { Organization, User } from '@fiction/core/plugin-user'
 import type { ArchetypeKey, ImageStyleKey } from '@fiction/core/schemas/motifs'
-import { toSlug } from '@fiction/core'
 import { getArchetypesStyles, getImageStyles } from '@fiction/core/schemas/motifs'
 
 export type ProfileData = {

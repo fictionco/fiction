@@ -7,11 +7,11 @@
   "main": "index.ts",
   "dependencies": {
     "@fiction/core": "workspace:*",
-    "@sentry/browser": "^9.18.0",
-    "@sentry/node": "^9.18.0",
-    "@sentry/vue": "^9.18.0",
+    "@sentry/browser": "^9.20.0",
+    "@sentry/node": "^9.20.0",
+    "@sentry/vue": "^9.20.0",
     "@slack/webhook": "^7.0.5",
-    "highlight.run": "^9.18.4"
+    "highlight.run": "^9.18.8"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "publishConfig": {

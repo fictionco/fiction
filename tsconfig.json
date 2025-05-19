@@ -44,7 +44,7 @@
     "./docs/**/*",
     "**/.fiction/*",
     "**/.fiction/*.json"
-, "@fiction/admin/.ref/__widget.ts", "@fiction/admin/.ref/__widgets.ts"  ],
+  ],
 
   "exclude": [
     "node_modules",

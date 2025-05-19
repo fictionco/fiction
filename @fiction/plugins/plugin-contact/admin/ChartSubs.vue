@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { WidgetConfig } from '@fiction/admin/widgets'
-import type { FictionContact } from '..'
 import WidgetWrap from '@fiction/admin/widgets/WidgetWrap.vue'
 import DateChart from '@fiction/analytics/chart/DateChart.vue'
 
