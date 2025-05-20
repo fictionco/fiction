@@ -61,18 +61,6 @@ export interface RequestMeta {
 // https://stackoverflow.com/a/57103940/1858322
 type DistributiveOmit<T, K extends keyof any> = T extends any ? Omit<T, K> : never
 
-export type EndpointManageAction =
-  | 'create'
-  | 'retrieve'
-  | 'update'
-  | 'delete'
-  | 'list'
-  | 'cancel'
-  | 'restore'
-  | 'setDefault'
-  | 'attach'
-  | 'transfer'
-
 export type EndpointMap<T extends Record<string, Query>> = {
   [P in keyof T]: Endpoint<T[P]>
 }

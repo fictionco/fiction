@@ -5,7 +5,7 @@ import type { BrowserEventObject } from '../utils/eventBrowser.js'
 import type { HookType, UserNotification } from '../utils/index.js'
 import type { CliCommand } from './commands.js'
 import type { FictionEnvHookDictionary } from './hooks.js'
-import type { CliOptions, CliVars, ResetUiScope, ResetUiTrigger, ServerModuleDef, ServiceConfig, ServiceList } from './types.js'
+import type { CliOptions, CliVars, FictionAppEntry, ResetUiScope, ResetUiTrigger, ServerModuleDef, ServiceConfig, ServiceList } from './types.js'
 import type { ConfigFileGenerator } from './utils/generate.js'
 import path from 'node:path'
 import dotenv from 'dotenv'
@@ -13,7 +13,7 @@ import { version as fictionVersion } from '../package.json'
 import { FictionObject } from '../plugin.js'
 import { onBrowserEvent } from '../utils/eventBrowser.js'
 import { TypedEventTarget } from '../utils/eventTarget.js'
-import { crossVar, isApp, isCi, isDev, isNode, isTest, onResetUi, resetUi, runHooks, runHooksSync, safeDirname, shortId, toSnake, vue, waitFor } from '../utils/index.js'
+import { crossVar, HooksUtil, isApp, isCi, isDev, isNode, isTest, onResetUi, resetUi, runHooks, runHooksSync, safeDirname, shortId, toSnake, vue, waitFor } from '../utils/index.js'
 import { logMemoryUsage } from '../utils/nodeUtils.js'
 import { standardAppCommands } from './commands.js'
 import { compileApplication } from './entry.js'
@@ -36,12 +36,13 @@ export interface MetaAppDetails {
   streetAddress?: string
   termsUrl?: string
   privacyUrl?: string
+  systemOrgId?: string
+  admins?: string[] // email list
   siteId?: string // set dynamically
-  orgId?: string // set dynamically
   userId?: string // set dynamically
 }
 export interface FictionControlSettings {
-  hooks?: HookType<FictionEnvHookDictionary>[]
+  hooksOld?: HookType<FictionEnvHookDictionary>[]
   generators?: ConfigFileGenerator[]
   envFiles?: string[]
   envFilesProd?: string[]
@@ -84,6 +85,10 @@ export type EnvEventMap = {
   onNewOrganization: CustomEvent<{ org: Organization, userId: string, withDefaults?: boolean }>
 }
 
+export type EnvHookEvents = {
+  generate: () => Promise<void>
+}
+
 export class FictionEnv<
   S extends BaseCompiled = BaseCompiled,
 > extends FictionObject<FictionControlSettings> {
@@ -92,7 +97,8 @@ export class FictionEnv<
   events = new TypedEventTarget<EnvEventMap>({ fictionEnv: this })
   generatedConfig?: S
   commands = this.settings.commands || standardAppCommands
-  hooks = this.settings.hooks || []
+  hooks = new HooksUtil<EnvHookEvents>()
+  hooksOld = this.settings.hooksOld || []
   generators = this.settings.generators || []
   envFiles = this.settings.envFiles || []
   envFilesProd = this.settings.envFilesProd || []
@@ -151,15 +157,15 @@ export class FictionEnv<
   }
 
   async runHooks<T extends keyof FictionEnvHookDictionary>(hook: T, ...args: FictionEnvHookDictionary[T]['args']) {
-    return runHooks<FictionEnvHookDictionary, T>({ list: this.hooks, hook, args })
+    return runHooks<FictionEnvHookDictionary, T>({ list: this.hooksOld, hook, args })
   }
 
   runHooksSync<T extends keyof FictionEnvHookDictionary>(hook: T, ...args: FictionEnvHookDictionary[T]['args']) {
-    return runHooksSync<FictionEnvHookDictionary, T>({ list: this.hooks, hook, args })
+    return runHooksSync<FictionEnvHookDictionary, T>({ list: this.hooksOld, hook, args })
   }
 
   public addHook<T extends HookType<FictionEnvHookDictionary>>(hook: T): void {
-    this.hooks.push(hook)
+    this.hooksOld.push(hook)
   }
 
   constructor(settings: FictionControlSettings) {
@@ -202,21 +208,6 @@ export class FictionEnv<
 
     if (isNode())
       this.nodeInit()
-
-    this.addHook({
-      hook: 'staticSchema',
-      caller: 'envConfig',
-      context: 'cli',
-      callback: async (existing) => {
-        const commandKeys = this.commands?.map(_ => _.command).sort()
-        const envVarKeys = this.getVars().map(_ => _.name).sort()
-        return {
-          ...existing,
-          commands: { enum: commandKeys, type: 'string' },
-          vars: { enum: envVarKeys, type: 'string' },
-        }
-      },
-    })
 
     envConfig.list.forEach(c => c.onLoad({ fictionEnv: this }))
 
@@ -464,19 +455,6 @@ export class FictionEnv<
     await generateStaticConfig(this)
   }
 
-  onCommand(
-    commands: string[],
-    callback: (command: string, options: CliOptions) => Promise<void>,
-  ): void {
-    this.hooks.push({
-      hook: 'runCommand',
-      callback: async (command: string, opts: CliOptions) => {
-        if (commands.includes(command))
-          await callback(command, opts)
-      },
-    })
-  }
-
   /**
    * This runs on both server and app to ensure consistency
    * App vs Server behavior is guarded in actual extensions (isNode, window defined, etc. )
@@ -495,7 +473,7 @@ export class FictionEnv<
 
     const options = { command: cmd?.command, ...cmd?.options }
 
-    await runHooks({ list: this.hooks, hook: 'runCommand', args: [options.command || 'not_set', options] })
+    await runHooks({ list: this.hooksOld, hook: 'runCommand', args: [options.command || 'not_set', options] })
 
     if (serviceConfig?.runCommand)
       await serviceConfig.runCommand({ context, command: options.command || 'not_set', options, cliVars, runVars })

@@ -90,11 +90,9 @@ export class FictionRouter<
   routerBeforeEach: NavigationGuardWithThis<undefined> = async (to, from) => {
     this.loadingRoute.value = true
 
-    const result = await this.settings.fictionEnv.runHooks('routeBeforeEach', { to, from, navigate: true })
-
     const ar = this.routes.value.find(r => r.name === to.name)
 
-    let navigate: ReturnType<vueRouter.NavigationGuard> = result.navigate ?? true
+    let navigate: ReturnType<vueRouter.NavigationGuard> = true
     if (ar && ar.before)
       navigate = await ar.before({ fictionRouter: this, isSSR: this.fictionEnv?.isSSR.value || false, to, from, navigate })
 
@@ -103,7 +101,6 @@ export class FictionRouter<
 
   routerAfterEach: NavigationHookAfter = async (to, from) => {
     this.loadingRoute.value = false
-    await this.settings.fictionEnv.runHooks('routeAfterEach', { to, from })
 
     const ar = this.routes.value.find(r => r.name === to.name)
 

@@ -46,28 +46,6 @@ export class FictionServer extends FictionPlugin<FictionServerSettings> {
   fictionUser?: FictionUser
   constructor(settings: FictionServerSettings) {
     super('server', settings)
-
-    this.addConfig()
-  }
-
-  addConfig() {
-    if (this.fictionEnv) {
-      this.fictionEnv.addHook({
-        hook: 'staticSchema',
-        caller: 'serverConfig',
-        context: 'cli',
-        callback: async (existing) => {
-          return { ...existing, endpoints: { enum: this.endpoints?.map(_ => _.key).filter(Boolean).sort(), type: 'string' } }
-        },
-      })
-
-      this.fictionEnv.addHook({
-        hook: 'staticConfig',
-        caller: 'serverConfig',
-        context: 'cli',
-        callback: () => ({ endpoints: this.endpoints?.map(ep => ({ key: ep.key, path: ep.pathname() })) }),
-      })
-    }
   }
 
   addEndpoints(endpoints: Endpoint[]) {
@@ -140,7 +118,7 @@ export class FictionServer extends FictionPlugin<FictionServerSettings> {
     return this.server
   }
 
-  close() {
+  close(_args: { caller?: string }) {
     this.isInitialized = false
     if (this.server)
       this.server.close()

@@ -58,11 +58,8 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
       }
     })
 
-    this.settings.fictionEnv.hooks.push({
-      hook: 'beforeAppMounted',
-      callback: async (entry) => {
-        await this.installBrowserMonitoring(entry)
-      },
+    this.settings.fictionApp.hooks.on('beforeAppMounted', 'browser:monitoring', async ({ entry }) => {
+      await this.installBrowserMonitoring(entry)
     })
   }
 

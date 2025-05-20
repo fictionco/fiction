@@ -80,9 +80,9 @@ async function setMemberRelation(_action: 'update' | 'delete'): Promise<void> {
 
   const r = await fictionUser.requests.ManageMemberRelation.request(
     {
-      memberId: userId.value,
+      where: { userId: userId.value },
       orgId,
-      memberAccess: member.value?.memberAccess ?? 'observer',
+      fields: { memberAccess: member.value?.memberAccess ?? 'observer' },
       _action,
     },
     { debug: true },

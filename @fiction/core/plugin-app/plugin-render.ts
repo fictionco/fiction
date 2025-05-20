@@ -180,7 +180,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       plugins.unshift(visualizer({ filename: `stats.html`, emitFile: true }))
     }
 
-    let merge: vite.InlineConfig[] = [
+    const merge: vite.InlineConfig[] = [
       commonVite || {},
       {
         publicDir: this.publicFolder,
@@ -203,8 +203,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       appViteConfigFile || {},
     ]
 
-    merge = await this.settings.fictionEnv.runHooks('viteConfig', merge)
-
     const viteConfig = deepMergeAll(merge)
 
     return viteConfig
@@ -224,7 +222,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     const parts = await ssr.render({ runVars })
 
-    let { htmlBody, headTags } = parts
+    const { htmlBody, headTags } = parts
     const { htmlAttrs, bodyAttrs, bodyTagsOpen, bodyTags, initialState } = parts
 
     const mode = runVars.RUN_MODE || 'prod'
@@ -232,9 +230,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     if (!template)
       throw new Error('html template required')
-
-    headTags = await this.settings.fictionEnv.runHooks('headTags', headTags, { pathname })
-    htmlBody = await this.settings.fictionEnv.runHooks('htmlBody', htmlBody, { pathname })
 
     const debuggingInfo = `<!--${JSON.stringify({ renderedPathname: pathname, mode })}-->`
 
@@ -532,8 +527,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       }
       const staticFolders = this.getAndWatchStaticFolders()
       staticFolders.forEach(folder => expressApp.use('/__static', serveStatic(folder, { index: false })))
-
-      await this.fictionEnv?.runHooks('expressApp', { expressApp, mode })
 
       const ssr = await this.getSSR(mode)
 

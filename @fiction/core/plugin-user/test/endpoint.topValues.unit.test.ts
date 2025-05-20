@@ -33,11 +33,9 @@ describe('get top values', async () => {
 
     await testUtils.fictionUser.queries.ManageMemberRelation.serve(
       {
-        memberId: user.userId,
         orgId,
-        memberAccess: 'admin',
         _action: 'create',
-        tags,
+        fields: { userId: user.userId, memberAccess: 'admin', tags },
       },
       { server: true },
     )

@@ -170,54 +170,10 @@ export interface OrganizationMembership {
   userId: string
   memberAccess: MemberAccess
   memberStatus: MemberStatus
+  tags?: string[]
+  invitedById?: string
 }
 
 export const orgFields = ['orgId', 'orgName']
 
 export type TokenFields = Partial<User> & { userId: string, iat: number }
-
-/**
- * Publicly accessible user information
- */
-// export interface PublicUser {
-//   userId: string
-//   email: string
-//   createdAt?: string
-//   updatedAt?: string
-//   avatar?: string
-//   status?: string
-//   username?: string
-//   firstName?: string
-//   lastName?: string
-//   emailVerified?: boolean
-//   role?: UserRoles
-//   profile?: Record<string, any>
-//   settings?: Record<string, any>
-//   lastSeenAt?: string | number | Date
-// }
-/**
- * Information regarding a user profile (e.g. birthday, cover, tags)
- */
-// export interface UserMeta {
-//   calendarUrl?: string
-//   birthday?: Date | string
-//   gender?: 'male' | 'female' | 'other'
-//   about?: string
-//   tag?: string[]
-//   category?: string[]
-//   site?: string
-//   github?: string
-//   githubFollowers?: number
-//   twitter?: string
-//   twitterFollowers?: number
-//   linkedin?: string
-//   facebook?: string
-//   workName?: string
-//   workSeniority?: string
-//   workRole?: string
-//   workRoleSub?: string
-//   workTitle?: string
-//   workDomain?: string
-//   bio?: string
-//   location?: string
-// }

@@ -110,7 +110,7 @@ describe('server test', async () => {
 
     server = await fictionServer.createServer()
 
-    fictionServer.close()
+    fictionServer.close({ caller: 'serverTest' })
 
     server = await fictionServer.createServer({ useLocal: true })
 

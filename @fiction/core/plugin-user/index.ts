@@ -12,7 +12,7 @@ import { EnvVar, vars } from '../plugin-env/index.js'
 // likely fixed in TS 4.8
 import { FictionPlugin } from '../plugin.js'
 import { TypedEventTarget } from '../utils/eventTarget.js'
-import { isActualBrowser, isNode, safeDirname, vue } from '../utils/index.js'
+import { isActualBrowser, safeDirname, vue } from '../utils/index.js'
 import { createUserToken, decodeUserToken, manageClientUserToken } from '../utils/jwt.js'
 import { getAccessLevel, userCan, userCapabilities } from '../utils/priv.js'
 import * as priv from '../utils/priv.js'
@@ -21,6 +21,7 @@ import { QueryManageMemberRelation, QueryManageOrganization, QueryOrganizationsB
 import { GetTopValues } from './endpointTopValues.js'
 import { FictionUserEnrich } from './enrich/pluginEnrich.js'
 import { getAdminTables } from './schema.js'
+import { setupSystemOrg } from './utils/systemOrg.js'
 // https://github.com/microsoft/TypeScript/issues/48212
 import '../utils/endpoint'
 
@@ -108,6 +109,10 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       this.fictionUserEnrich = new FictionUserEnrich({ ...settings, fictionUser: this })
 
     this.initBrowser()
+
+    this.settings.fictionEnv.hooks.on('generate', 'setup:systemOrg', async () => {
+      await setupSystemOrg({ fictionUser: this })
+    })
   }
 
   serverHandling() {
@@ -223,32 +228,6 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
         await this?.updateUser(() => r.data, { reason: 'watchRouteUserChanges' })
       }
     }
-  }
-
-  async ensureUserAndOrganization(args: { email: string, orgName: string, orgId?: string }): Promise<{ user: User, org: Organization }> {
-    if (!isNode())
-      throw new Error('ensureUserAndOrganization only available on server')
-
-    const { email, orgName, orgId } = args
-
-    if (!email) {
-      throw new Error('no app email in app meta')
-    }
-    const r = await this.queries.ManageUser.serve({ _action: 'getCreate', where: { email }, createUserFields: { orgId, orgName, email, needsOnboarding: false } }, { server: true })
-
-    const user = r.data
-
-    if (!user) {
-      throw new Error('no user found')
-    }
-
-    const org = user.orgs?.[0]
-
-    if (!org) {
-      throw new Error('no org found')
-    }
-
-    return { user, org }
   }
 
   deleteCurrentUser(): void {
@@ -386,32 +365,4 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       org: new URL('img/org-avatar.png', import.meta.url).href,
     }
   }
-
-  // async ensureAppOrgId(args: { context?: 'node' | 'app', defaultId?: string }) {
-  //   const { context = 'node', defaultId = 'admin' } = args
-
-  //   if (context === 'node') {
-  //     const appOrgId = crossVar.get('FICTION_ORG_ID')
-  //     const { fictionEnv } = this.settings
-  //     if (!appOrgId) {
-  //       const { email, name } = fictionEnv.meta || {}
-
-  //       if (!email || !name)
-  //         throw new Error('No email or name for app')
-
-  //       const { org } = await this?.ensureUserAndOrganization({ orgName: name, email, orgId: defaultId })
-
-  //       if (!org.orgId)
-  //         throw new Error('No orgId')
-
-  //       crossVar.set('FICTION_ORG_ID', org.orgId)
-  //       fictionEnv.log.info(`Setting app FICTION_ORG_ID to '${org.orgId}'`)
-  //     }
-  //     else {
-  //       fictionEnv.log.info(`Setting app FICTION_ORG_ID to '${appOrgId}' (already set)`)
-  //     }
-  //   }
-
-  //   return crossVar.get('FICTION_ORG_ID')
-  // }
 }

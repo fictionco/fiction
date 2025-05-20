@@ -153,7 +153,6 @@ export class QueryTransactionalEmail extends EmailQuery {
       emailId = '',
       toUserId = '',
       fromOrgId = '',
-      fromSiteId = '',
       emailType = 'update',
       env = 'dev',
       caller = 'unknown',

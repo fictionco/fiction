@@ -1,5 +1,5 @@
 import type { RunVars } from '..'
-import type { EnvVar, ServiceList } from '../plugin-env'
+import type { EnvVar, MetaAppDetails, ServiceList } from '../plugin-env'
 import type { Organization, User } from '../plugin-user'
 import type { vue } from '../utils'
 import path from 'node:path'
@@ -202,7 +202,7 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
 
   const root = safeDirname(import.meta.url)
 
-  const meta = { version, app: { name: 'Test Fiction App', email: 'admin@fiction.com', url: 'https://testing.fiction.com', domain: 'fiction.com' } }
+  const meta: MetaAppDetails = { version, name: 'Test Fiction App', email: 'admin@fiction.com', url: 'https://testing.fiction.com', domain: 'fiction.com' }
   const mainFilePath = opts?.mainFilePath || path.join(root, './main.ts')
 
   const env = { ...defaultEnv, ...opts?.env }
@@ -250,7 +250,7 @@ export function createTestUtils(opts?: TestUtilSettings) {
     init: async (args: { userFields?: Partial<User> } = {}) => initializeTestUtils({ service, ...args }),
     initUser: async (args: { fields?: Partial<User> } = {}) => initializeTestUser({ ...service, ...args }),
     close: async () => {
-      service.fictionServer.close()
+      service.fictionServer.close({ caller: 'testUtilsClose' })
       await service.fictionDb.close()
       await service.fictionApp.close()
     },

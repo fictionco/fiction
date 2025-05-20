@@ -129,11 +129,9 @@ export class QueryTeamInvite extends TeamQuery {
 
       // Add user to organization with specified access level
       await fictionUser.queries.ManageMemberRelation.serve({
-        memberId: user.userId,
-        orgId,
-        memberAccess,
         _action: 'create',
-        invitedById,
+        fields: { userId: user.userId, memberAccess, invitedById },
+        orgId,
       }, meta)
 
       if (!code) {

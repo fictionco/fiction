@@ -123,31 +123,8 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
     await this.extend()
   }
 
-  override setup() {
-    this.addSchema()
-  }
-
   prep<T>(args: Omit<Parameters<typeof dbPrep<T>>[0], 'fictionDb'>): Partial<T> {
     return dbPrep<T>({ ...args, fictionDb: this })
-  }
-
-  addSchema() {
-    this.fictionEnv?.addHook({
-      hook: 'staticSchema',
-      caller: 'db',
-      context: 'cli',
-      callback: async (existing) => {
-        const list: Record<string, typebox.TSchema> = {}
-        this.tables.forEach((tbl) => {
-          const colKeys = tbl.cols.map(c => typebox.Type.Literal(c.key))
-          list[tbl.tableKey] = typebox.Type.Union(colKeys)
-        })
-
-        const tablesType = typebox.Type.Object(list)
-
-        return { ...existing, tables: tablesType }
-      },
-    })
   }
 
   addTables(tables: FictionDbTable[]) {
@@ -156,29 +133,6 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
 
   getTable(tableKey: string): FictionDbTable | undefined {
     return this.tables.find(t => t.tableKey === tableKey)
-  }
-
-  addColumns(
-    tableKey: string,
-    columns: Col[] | readonly Col[],
-  ) {
-    this.settings.fictionEnv.hooks.push({
-      hook: 'dbOnTables',
-      callback: (tables: FictionDbTable[]) => {
-        const tbl = tables.find(t => t.tableKey === tableKey)
-
-        if (tbl) {
-          tbl.cols.push(...columns)
-        }
-        else {
-          this.log.error(`could not find table ${tableKey}`, {
-            data: tables.map(t => t.tableKey),
-          })
-        }
-
-        return tables
-      },
-    })
   }
 
   getCols(tableKey: string): Col[] {
@@ -228,7 +182,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
       await extendDb(db)
 
       if (this.tables.length > 0) {
-        const tables = await this.settings.fictionEnv.runHooks('dbOnTables', this.tables)
+        const tables = this.tables
 
         for (const table of sortPriority(tables, { centerNumber: 100 })) {
           await table.create(db)
@@ -236,7 +190,6 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
       }
 
       this.log.info('extending db [done]')
-      await this.settings.fictionEnv.runHooks('dbOnConnected', this)
 
       const printUrl = this.connectionUrl.toString().replace(this.connectionUrl.password, '--password--')
       this.log.info('connected db [ready]', {

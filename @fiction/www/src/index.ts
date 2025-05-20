@@ -1,4 +1,4 @@
-import type { ServiceConfig } from '@fiction/core/index.js'
+import type { MetaAppDetails, ServiceConfig } from '@fiction/core/index.js'
 import path from 'node:path'
 import { FictionAdmin } from '@fiction/admin/index.js'
 import { FictionAnalytics } from '@fiction/analytics/index.js'
@@ -25,7 +25,7 @@ import { getStripeProductConfig } from './stripeProducts'
 const cwd = safeDirname(import.meta.url, '..')
 
 // Core configuration
-function META() {
+function META(): MetaAppDetails {
   return {
     version,
     name: 'Fiction',

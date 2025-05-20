@@ -6,10 +6,10 @@ import type { FictionAi } from '@fiction/plugin-ai'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { FictionContact } from '@fiction/plugins/plugin-contact/index.js'
 import type { Site } from './site.js'
-import type { TableSiteConfig } from './tables.js'
+import type { CardConfigPortable, TableSiteConfig } from './tables.js'
 import { initializeClientTag } from '@fiction/analytics/tag/entry.js'
 import { cardConfig } from '@fiction/cards/index.js'
-import { FictionPlugin, getAnonymousId, isNode, safeDirname, vue } from '@fiction/core'
+import { FictionPlugin, getAnonymousId, HooksUtil, isNode, safeDirname, vue } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import { cardTemplate } from './card.js'
 import { CardQueryHandler } from './cardQuery.js'
@@ -50,6 +50,10 @@ export type SitesPluginSettings = {
   fictionOrgId?: string
 } & FictionPluginSettings
 
+export type SiteHookEvents = {
+  setPages: (args: { cards: CardConfigPortable[], site: Site | undefined }) => Promise<void>
+}
+
 function getTemplates() {
   return [
     cardTemplate({ templateId: 'tplManageSite', el: vue.defineAsyncComponent(() => import('./admin/ViewManage.vue')) }),
@@ -62,6 +66,8 @@ type SiteAdminTemplates = AdminTemplates & ReturnType<typeof getTemplates>
 export class FictionSites extends FictionPlugin<SitesPluginSettings> {
   themes = vue.shallowRef<Theme[]>([])
   previewRoute = '/admin/preview'
+
+  hooks = new HooksUtil<SiteHookEvents>()
 
   builder = new FictionSiteBuilder({ ...this.settings, fictionSites: this })
 
@@ -86,7 +92,6 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     this.addSitemaps()
     this.admin()
     this.addStructureFile()
-    this.hooks()
   }
 
   hostname(args: { subDomain?: string }) {
@@ -99,15 +104,6 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     const hostname = this.hostname({ subDomain })
     const port = this.settings.fictionAppSites?.port.value
     return this.fictionEnv.isProd.value ? `https://${hostname}` : `http://${hostname}:${port}`
-  }
-
-  hooks() {
-    this.settings.fictionUser?.hooks.on('newOrg', 'sites:default', async (args) => {
-      const { org, withDefaults } = args
-      if (withDefaults) {
-        await this.queries.ManageSite.serve({ _action: 'create', fields: { title: org.orgName || 'Default Site', isPrimary: true }, caller: 'DefaultSite' }, { server: true })
-      }
-    })
   }
 
   addStructureFile() {

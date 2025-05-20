@@ -127,8 +127,7 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface> exte
       },
       streetAddress: app.streetAddress || '23807 Aliso Creek Rd Suite 100, Laguna Niguel, CA 92677',
       poweredByFiction: true,
-      fromOrgId: app.orgId,
-      fromSiteId: app.siteId,
+      fromOrgId: app.systemOrgId,
       caller: 'transactionalEmail',
     }
   }

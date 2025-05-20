@@ -14,7 +14,6 @@ import { QueryPostComments, QueryPostLikes } from './endpointMeta'
 import { FictionPublish } from './publish'
 import { getRoutes } from './routes'
 import { tables } from './schema'
-import { createHelloWorldPost } from './utils/index.js'
 
 export * from './post'
 
@@ -74,17 +73,6 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
 
     this.adminUi()
     this.settings.fictionRouter?.update(getRoutes())
-
-    this.hooks()
-  }
-
-  hooks() {
-    this.settings.fictionUser.hooks.on('newOrg', 'posts:defaults', async (args) => {
-      const { org, userId, withDefaults } = args
-      if (withDefaults && org.orgId) {
-        await createHelloWorldPost({ orgId: org.orgId, fictionPosts: this, userId })
-      }
-    })
   }
 
   adminUi() {
