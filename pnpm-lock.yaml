@@ -224,7 +224,7 @@ importers:
         version: 3.1.13
       zod-to-json-schema:
         specifier: ^3.24.5
-        version: 3.24.5(zod@3.25.6)
+        version: 3.24.5(zod@3.25.7)
 
   '@fiction/analytics':
     dependencies:
@@ -301,7 +301,7 @@ importers:
         version: 3.1.13
       zod-to-json-schema:
         specifier: ^3.24.5
-        version: 3.24.5(zod@3.25.6)
+        version: 3.24.5(zod@3.25.7)
 
   '@fiction/core':
     dependencies:
@@ -564,11 +564,11 @@ importers:
         specifier: ^0.30.17
         version: 0.30.17
       marked:
-        specifier: ^15.0.11
-        version: 15.0.11
+        specifier: ^15.0.12
+        version: 15.0.12
       marked-gfm-heading-id:
         specifier: ^4.1.1
-        version: 4.1.1(marked@15.0.11)
+        version: 4.1.1(marked@15.0.12)
       mime:
         specifier: ^4.0.7
         version: 4.0.7
@@ -702,11 +702,11 @@ importers:
         specifier: ^8.18.2
         version: 8.18.2
       zod:
-        specifier: ^3.25.6
-        version: 3.25.6
+        specifier: ^3.25.7
+        version: 3.25.7
       zod-to-json-schema:
         specifier: ^3.24.5
-        version: 3.24.5(zod@3.25.6)
+        version: 3.24.5(zod@3.25.7)
     devDependencies:
       '@playwright/test':
         specifier: ^1.52.0
@@ -848,7 +848,7 @@ importers:
         version: link:../ui
       zod-to-json-schema:
         specifier: ^3.24.5
-        version: 3.24.5(zod@3.25.6)
+        version: 3.24.5(zod@3.25.7)
 
   '@fiction/platform':
     dependencies:
@@ -878,13 +878,13 @@ importers:
     dependencies:
       '@ai-sdk/anthropic':
         specifier: ^1.2.11
-        version: 1.2.11(zod@3.25.6)
+        version: 1.2.11(zod@3.25.7)
       '@ai-sdk/openai':
         specifier: ^1.3.22
-        version: 1.3.22(zod@3.25.6)
+        version: 1.3.22(zod@3.25.7)
       '@ai-sdk/xai':
         specifier: ^1.2.16
-        version: 1.2.16(zod@3.25.6)
+        version: 1.2.16(zod@3.25.7)
       '@fiction/core':
         specifier: workspace:*
         version: link:../../core
@@ -893,10 +893,10 @@ importers:
         version: 5.1.2
       ai:
         specifier: ^4.3.16
-        version: 4.3.16(react@19.1.0)(zod@3.25.6)
+        version: 4.3.16(react@19.1.0)(zod@3.25.7)
       openai:
         specifier: ^4.100.0
-        version: 4.100.0(encoding@0.1.13)(ws@8.18.2)(zod@3.25.6)
+        version: 4.100.0(encoding@0.1.13)(ws@8.18.2)(zod@3.25.7)
       tailwindcss:
         specifier: ^3.4.17
         version: 3.4.17(ts-node@10.9.2(@swc/wasm@1.11.24)(@types/node@22.15.19)(typescript@5.8.3))
@@ -1021,7 +1021,7 @@ importers:
     dependencies:
       '@ai-sdk/vue':
         specifier: ^1.2.12
-        version: 1.2.12(vue@3.5.14(typescript@5.8.3))(zod@3.25.6)
+        version: 1.2.12(vue@3.5.14(typescript@5.8.3))(zod@3.25.7)
       '@fiction/admin':
         specifier: workspace:*
         version: link:../admin
@@ -1286,7 +1286,7 @@ importers:
         version: 2.0.6
       ai:
         specifier: ^4.3.16
-        version: 4.3.16(react@19.1.0)(zod@3.25.6)
+        version: 4.3.16(react@19.1.0)(zod@3.25.7)
       blurhash:
         specifier: ^2.0.5
         version: 2.0.5
@@ -1330,11 +1330,11 @@ importers:
         specifier: ^3.5.14
         version: 3.5.14(typescript@5.8.3)
       zod:
-        specifier: ^3.25.6
-        version: 3.25.6
+        specifier: ^3.25.7
+        version: 3.25.7
       zod-to-json-schema:
         specifier: ^3.24.5
-        version: 3.24.5(zod@3.25.6)
+        version: 3.24.5(zod@3.25.7)
 
   '@fiction/www':
     dependencies:
@@ -1606,8 +1606,8 @@ packages:
     resolution: {integrity: sha512-60vepv88RwcJtSHrD6MjIL6Ta3SOYbgfnkHb+ppAVK+o9mXprRtulx7VlRl3lN3bbvysAfCS7WMVfhUYemB0IQ==}
     engines: {node: '>= 16'}
 
-  '@asamuzakjp/css-color@3.1.7':
-    resolution: {integrity: sha512-Ok5fYhtwdyJQmU1PpEv6Si7Y+A4cYb8yNM9oiIJC9TzXPMuN9fvdonKJqcnz9TbFqV6bQ8z0giRq0iaOpGZV2g==}
+  '@asamuzakjp/css-color@3.2.0':
+    resolution: {integrity: sha512-K1A6z8tS3XsmCMM86xoWdn7Fkdn9m6RSVtocUrJYIwZnFVkng/PvkEoWtOWmP+Scc6saYWHWZYbndEEXxl24jw==}
 
   '@aws-crypto/crc32@5.2.0':
     resolution: {integrity: sha512-nLbCWqQNgUiwwtFsen1AdzAtvuLRsQS8rYgMuxCrdKf9kOssamGLuPwyTY9wyYblNr9+1XM8v6zoDTPPSIeANg==}
@@ -2573,8 +2573,8 @@ packages:
   '@iconify-json/logos@1.2.4':
     resolution: {integrity: sha512-XC4If5D/hbaZvUkTV8iaZuGlQCyG6CNOlaAaJaGa13V5QMYwYjgtKk3vPP8wz3wtTVNVEVk3LRx1fOJz+YnSMw==}
 
-  '@iconify-json/simple-icons@1.2.34':
-    resolution: {integrity: sha512-1FRWEA94hSl5zmBogRh6lQL36l7bVTfrl0n5+QJ+WmXmw70RccPT5phqeiSynwo3IhUWKoW2LiajyUMeweXW8g==}
+  '@iconify-json/simple-icons@1.2.35':
+    resolution: {integrity: sha512-PAHZZn6P5ToHMhmEeeh/O96E/Ep4PctN44N64dWYbDasEvbVoN6x62m+Doz8au0SVS4/zYEMAsDO6TdO9ep84Q==}
 
   '@iconify-json/svg-spinners@1.2.2':
     resolution: {integrity: sha512-DIErwfBWWzLfmAG2oQnbUOSqZhDxlXvr8941itMCrxQoMB0Hiv8Ww6Bln/zIgxwjDvSem2dKJtap+yKKwsB/2A==}
@@ -7270,8 +7270,8 @@ packages:
     peerDependencies:
       marked: '>=13 <16'
 
-  marked@15.0.11:
-    resolution: {integrity: sha512-1BEXAU2euRCG3xwgLVT1y0xbJEld1XOrmRJpUwRCcy7rxhSCwMrmEu9LXoPhHSCJG41V7YcQ2mjKRr5BA3ITIA==}
+  marked@15.0.12:
+    resolution: {integrity: sha512-8dD6FusOQSrpv9Z1rdNMdlSgQOIP880DHqnohobOmYLElGEqAL/JvxvuxZO16r4HtjTlfPRDC1hbvxC9dPN2nA==}
     engines: {node: '>= 18'}
     hasBin: true
 
@@ -9180,8 +9180,8 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
 
-  tapable@2.2.1:
-    resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
+  tapable@2.2.2:
+    resolution: {integrity: sha512-Re10+NauLTMCudc7T5WLFLAwDhQ0JWdrMK+9B2M8zR5hRExKmsRDCBA7/aV/pNJFltmBFO5BAMlQFi/vq3nKOg==}
     engines: {node: '>=6'}
 
   tar@6.2.1:
@@ -9937,8 +9937,8 @@ packages:
     peerDependencies:
       zod: ^3.24.1
 
-  zod@3.25.6:
-    resolution: {integrity: sha512-kA1wikWvfsP+z3L6mzUJJRQz1Y28BR0Bu/MTWeYbfaFJ8c+OLOt1Bb8d4V3Mk1480H+poPYG6BjS/I4kJ1U8WA==}
+  zod@3.25.7:
+    resolution: {integrity: sha512-YGdT1cVRmKkOg6Sq7vY7IkxdphySKnXhaUmFI4r4FcuFVNgpCb9tZfNwXbT6BPjD5oz0nubFsoo9pIqKrDcCvg==}
 
   zwitch@1.0.5:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
@@ -9948,68 +9948,68 @@ packages:
 
 snapshots:
 
-  '@ai-sdk/anthropic@1.2.11(zod@3.25.6)':
+  '@ai-sdk/anthropic@1.2.11(zod@3.25.7)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.6)
-      zod: 3.25.6
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.7)
+      zod: 3.25.7
 
-  '@ai-sdk/openai-compatible@0.2.14(zod@3.25.6)':
+  '@ai-sdk/openai-compatible@0.2.14(zod@3.25.7)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.6)
-      zod: 3.25.6
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.7)
+      zod: 3.25.7
 
-  '@ai-sdk/openai@1.3.22(zod@3.25.6)':
+  '@ai-sdk/openai@1.3.22(zod@3.25.7)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.6)
-      zod: 3.25.6
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.7)
+      zod: 3.25.7
 
-  '@ai-sdk/provider-utils@2.2.8(zod@3.25.6)':
+  '@ai-sdk/provider-utils@2.2.8(zod@3.25.7)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
       nanoid: 3.3.11
       secure-json-parse: 2.7.0
-      zod: 3.25.6
+      zod: 3.25.7
 
   '@ai-sdk/provider@1.1.3':
     dependencies:
       json-schema: 0.4.0
 
-  '@ai-sdk/react@1.2.12(react@19.1.0)(zod@3.25.6)':
+  '@ai-sdk/react@1.2.12(react@19.1.0)(zod@3.25.7)':
     dependencies:
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.6)
-      '@ai-sdk/ui-utils': 1.2.11(zod@3.25.6)
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.7)
+      '@ai-sdk/ui-utils': 1.2.11(zod@3.25.7)
       react: 19.1.0
       swr: 2.3.3(react@19.1.0)
       throttleit: 2.1.0
     optionalDependencies:
-      zod: 3.25.6
+      zod: 3.25.7
 
-  '@ai-sdk/ui-utils@1.2.11(zod@3.25.6)':
+  '@ai-sdk/ui-utils@1.2.11(zod@3.25.7)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.6)
-      zod: 3.25.6
-      zod-to-json-schema: 3.24.5(zod@3.25.6)
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.7)
+      zod: 3.25.7
+      zod-to-json-schema: 3.24.5(zod@3.25.7)
 
-  '@ai-sdk/vue@1.2.12(vue@3.5.14(typescript@5.8.3))(zod@3.25.6)':
+  '@ai-sdk/vue@1.2.12(vue@3.5.14(typescript@5.8.3))(zod@3.25.7)':
     dependencies:
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.6)
-      '@ai-sdk/ui-utils': 1.2.11(zod@3.25.6)
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.7)
+      '@ai-sdk/ui-utils': 1.2.11(zod@3.25.7)
       swrv: 1.1.0(vue@3.5.14(typescript@5.8.3))
     optionalDependencies:
       vue: 3.5.14(typescript@5.8.3)
     transitivePeerDependencies:
       - zod
 
-  '@ai-sdk/xai@1.2.16(zod@3.25.6)':
+  '@ai-sdk/xai@1.2.16(zod@3.25.7)':
     dependencies:
-      '@ai-sdk/openai-compatible': 0.2.14(zod@3.25.6)
+      '@ai-sdk/openai-compatible': 0.2.14(zod@3.25.7)
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.6)
-      zod: 3.25.6
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.7)
+      zod: 3.25.7
 
   '@algolia/autocomplete-core@1.17.7(@algolia/client-search@5.25.0)(algoliasearch@5.25.0)(search-insights@2.17.2)':
     dependencies:
@@ -10182,7 +10182,7 @@ snapshots:
       '@types/json-schema': 7.0.15
       js-yaml: 4.1.0
 
-  '@asamuzakjp/css-color@3.1.7':
+  '@asamuzakjp/css-color@3.2.0':
     dependencies:
       '@csstools/css-calc': 2.1.3(@csstools/css-parser-algorithms@3.0.4(@csstools/css-tokenizer@3.0.3))(@csstools/css-tokenizer@3.0.3)
       '@csstools/css-color-parser': 3.0.9(@csstools/css-parser-algorithms@3.0.4(@csstools/css-tokenizer@3.0.3))(@csstools/css-tokenizer@3.0.3)
@@ -11448,7 +11448,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/simple-icons@1.2.34':
+  '@iconify-json/simple-icons@1.2.35':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -13951,15 +13951,15 @@ snapshots:
     dependencies:
       humanize-ms: 1.2.1
 
-  ai@4.3.16(react@19.1.0)(zod@3.25.6):
+  ai@4.3.16(react@19.1.0)(zod@3.25.7):
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.6)
-      '@ai-sdk/react': 1.2.12(react@19.1.0)(zod@3.25.6)
-      '@ai-sdk/ui-utils': 1.2.11(zod@3.25.6)
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.25.7)
+      '@ai-sdk/react': 1.2.12(react@19.1.0)(zod@3.25.7)
+      '@ai-sdk/ui-utils': 1.2.11(zod@3.25.7)
       '@opentelemetry/api': 1.9.0
       jsondiffpatch: 0.6.0
-      zod: 3.25.6
+      zod: 3.25.7
     optionalDependencies:
       react: 19.1.0
 
@@ -14701,7 +14701,7 @@ snapshots:
 
   cssstyle@4.3.1:
     dependencies:
-      '@asamuzakjp/css-color': 3.1.7
+      '@asamuzakjp/css-color': 3.2.0
       rrweb-cssom: 0.8.0
 
   csstype@3.1.3: {}
@@ -14939,7 +14939,7 @@ snapshots:
   enhanced-resolve@5.18.1:
     dependencies:
       graceful-fs: 4.2.11
-      tapable: 2.2.1
+      tapable: 2.2.2
 
   enquirer@2.4.1:
     dependencies:
@@ -16870,12 +16870,12 @@ snapshots:
 
   markdown-table@3.0.4: {}
 
-  marked-gfm-heading-id@4.1.1(marked@15.0.11):
+  marked-gfm-heading-id@4.1.1(marked@15.0.12):
     dependencies:
       github-slugger: 2.0.0
-      marked: 15.0.11
+      marked: 15.0.12
 
-  marked@15.0.11: {}
+  marked@15.0.12: {}
 
   marked@7.0.4: {}
 
@@ -17747,7 +17747,7 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@4.100.0(encoding@0.1.13)(ws@8.18.2)(zod@3.25.6):
+  openai@4.100.0(encoding@0.1.13)(ws@8.18.2)(zod@3.25.7):
     dependencies:
       '@types/node': 18.19.101
       '@types/node-fetch': 2.6.12
@@ -17758,7 +17758,7 @@ snapshots:
       node-fetch: 2.7.0(encoding@0.1.13)
     optionalDependencies:
       ws: 8.18.2
-      zod: 3.25.6
+      zod: 3.25.7
     transitivePeerDependencies:
       - encoding
 
@@ -19185,7 +19185,7 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
-  tapable@2.2.1: {}
+  tapable@2.2.2: {}
 
   tar@6.2.1:
     dependencies:
@@ -19701,7 +19701,7 @@ snapshots:
     dependencies:
       '@docsearch/css': 3.8.2
       '@docsearch/js': 3.8.2(@algolia/client-search@5.25.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.2)
-      '@iconify-json/simple-icons': 1.2.34
+      '@iconify-json/simple-icons': 1.2.35
       '@shikijs/core': 2.5.0
       '@shikijs/transformers': 2.5.0
       '@shikijs/types': 2.5.0
@@ -20006,11 +20006,11 @@ snapshots:
 
   yoctocolors@2.1.1: {}
 
-  zod-to-json-schema@3.24.5(zod@3.25.6):
+  zod-to-json-schema@3.24.5(zod@3.25.7):
     dependencies:
-      zod: 3.25.6
+      zod: 3.25.7
 
-  zod@3.25.6: {}
+  zod@3.25.7: {}
 
   zwitch@1.0.5: {}
 

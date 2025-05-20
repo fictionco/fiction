@@ -634,7 +634,6 @@
         "dbExtend.ts": null,
         "endpoint.ts": null,
         "env.d.ts": null,
-        "hooks.ts": null,
         "index.ts": null,
         "objects.ts": null,
         "test": {
@@ -713,7 +712,6 @@
       },
       "plugin-router": {
         "appRoute.ts": null,
-        "hooks.d.ts": null,
         "index.ts": null,
         "test": {
           "ElTest.vue": null,
@@ -796,6 +794,7 @@
         "types.ts": null,
         "utils": {
           "index.ts": null,
+          "systemOrg.ts": null,
           "utils.unit.test.ts": null
         }
       },
@@ -867,7 +866,6 @@
         "geo.ts": null,
         "globalUtils.ts": null,
         "hook.ts": null,
-        "hooks.d.ts": null,
         "id.ts": null,
         "idb.ts": null,
         "index.ts": null,

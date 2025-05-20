@@ -99,7 +99,7 @@
     "knex-stringcase": "^1.5.5",
     "less": "^4.3.0",
     "magic-string": "^0.30.17",
-    "marked": "^15.0.11",
+    "marked": "^15.0.12",
     "marked-gfm-heading-id": "^4.1.1",
     "mime": "^4.0.7",
     "mime-types": "^2.1.35",
@@ -145,7 +145,7 @@
     "vue": "^3.5.14",
     "vue-router": "^4.5.1",
     "ws": "^8.18.2",
-    "zod": "^3.25.6",
+    "zod": "^3.25.7",
     "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {

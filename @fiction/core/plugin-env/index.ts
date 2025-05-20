@@ -5,7 +5,7 @@ import type { BrowserEventObject } from '../utils/eventBrowser.js'
 import type { HookType, UserNotification } from '../utils/index.js'
 import type { CliCommand } from './commands.js'
 import type { FictionEnvHookDictionary } from './hooks.js'
-import type { CliOptions, CliVars, FictionAppEntry, ResetUiScope, ResetUiTrigger, ServerModuleDef, ServiceConfig, ServiceList } from './types.js'
+import type { CliOptions, CliVars, ResetUiScope, ResetUiTrigger, ServerModuleDef, ServiceConfig, ServiceList } from './types.js'
 import type { ConfigFileGenerator } from './utils/generate.js'
 import path from 'node:path'
 import dotenv from 'dotenv'
@@ -194,7 +194,8 @@ export class FictionEnv<
 
     const flags = Object.entries(flagsList).map(([key, value]) => `${key}: ${value}`).join(', ')
 
-    this.meta = typeof this.settings.meta === 'function' ? this.settings.meta(this) : this.settings.meta || {}
+    const appMeta = typeof this.settings.meta === 'function' ? this.settings.meta(this) : this.settings.meta || {}
+    this.meta = { systemOrgId: 'system', ...appMeta }
 
     this.log.info(`[start] environment`, {
       data: {
@@ -453,6 +454,8 @@ export class FictionEnv<
 
   async generate() {
     await generateStaticConfig(this)
+
+    await this.hooks.run('generate')
   }
 
   /**

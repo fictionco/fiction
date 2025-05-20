@@ -34,6 +34,7 @@ function META(): MetaAppDetails {
     domain: 'fiction.com',
     termsUrl: 'https://docs.fiction.com/resources/terms.html',
     privacyUrl: 'https://docs.fiction.com/resources/privacy.html',
+    admins: ['arpowers@gmail.com'],
   }
 }
 

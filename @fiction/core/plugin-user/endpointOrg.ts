@@ -242,7 +242,7 @@ export class QueryManageMemberRelation extends OrgQuery {
 export type WhereOrg = { orgId: string } | { handle: string }
 
 export type ManageOrganizationParams =
-  | { _action: 'create', fields: Partial<Organization>, userId: string, withDefaults?: boolean }
+  | { _action: 'create', fields: Partial<Organization>, userId?: string, withDefaults?: boolean }
   | { _action: 'update', where: WhereOrg, fields: Partial<Organization> }
   | { _action: 'delete', where: WhereOrg }
   | { _action: 'read', where: WhereOrg }
@@ -297,24 +297,36 @@ export class QueryManageOrganization extends OrgQuery {
 
     const createFields = this.settings.fictionDb.prep({ type: meta.server ? 'internal' : 'insert', fields, meta, table: t.org })
 
-    const [responseOrg] = await this.db()
-      .insert({
-        orgId: orgId || objectId({ prefix: 'org' }),
-        orgName: orgName || defaultName,
-        createdByUserId: fields.createdByUserId || userId,
-        ...createFields,
-      })
-      .into(t.org)
-      .onConflict('org_id')
-      .ignore()
-      .returning<Organization[]>('*')
+    let responseOrg: Organization | undefined
+    const [existingOrg] = await this.db()
+      .select('*')
+      .from(t.org)
+      .where({ org_id: orgId || objectId({ prefix: 'org' }) })
+      .limit(1)
 
-    if (!responseOrg?.orgId)
-      throw new Error('Organization creation failed')
+    if (existingOrg) {
+      responseOrg = existingOrg
+    }
+    else {
+      const [newOrg] = await this.db()
+        .insert({
+          orgId: orgId || objectId({ prefix: 'org' }),
+          orgName: orgName || defaultName,
+          ...createFields,
+        })
+        .into(t.org)
+        .returning<Organization[]>('*')
 
-    await this.settings.fictionUser.hooks.run('newOrg', { org: responseOrg, userId, withDefaults })
+      responseOrg = newOrg
 
-    await this.manageMemberRelation({ userId, orgId: responseOrg.orgId, accessType: 'owner' }, { server: true, ...meta, caller: 'orgCreateMemberRelationCall' })
+      if (!responseOrg?.orgId)
+        throw new Error('Organization creation failed')
+
+      await this.settings.fictionUser.hooks.run('newOrg', { org: responseOrg, userId, withDefaults })
+
+      if (userId)
+        await this.manageMemberRelation({ userId, orgId: responseOrg.orgId, accessType: 'owner' }, { server: true, ...meta, caller: 'orgCreateMemberRelationCall' })
+    }
 
     if (!responseOrg)
       throw new Error('Organization creation failed')

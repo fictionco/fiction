@@ -101,7 +101,6 @@ export async function loadSiteById(args: { where: WhereSite, siteRouter: Fiction
 }
 
 export async function loadSiteFromTheme(args: {
-  fictionOrgId?: string
   themeId: string
   siteRouter: FictionRouter
   fictionSites: FictionSites
@@ -112,7 +111,7 @@ export async function loadSiteFromTheme(args: {
   const { themeId, siteRouter, fictionSites, siteMode, caller } = args
   const availableThemes = fictionSites.themes.value
   const theme = availableThemes.find(t => t.themeId === themeId)
-  const orgId = args.fictionOrgId || fictionSites.settings.fictionOrgId
+  const orgId = fictionSites.fictionEnv.meta.systemOrgId
   const fictionUser = fictionSites.settings.fictionUser
 
   if (!orgId) {

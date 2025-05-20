@@ -58,7 +58,7 @@ export type UserEventMap = {
 export type UserHookEvents = {
   newUser: (args: { user: User, params: ManageUserParams & { _action: 'create' } }) => Promise<void>
   updateUser: (args: { user: User, newEmail?: string }) => Promise<void>
-  newOrg: (args: { org: Organization, userId: string, withDefaults?: boolean }) => Promise<void>
+  newOrg: (args: { org: Organization, userId?: string, withDefaults?: boolean }) => Promise<void>
   updateOrg: (args: { org: Organization, userId: string }) => Promise<void>
 
 }

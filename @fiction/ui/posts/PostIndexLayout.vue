@@ -63,41 +63,40 @@ function getTabClasses(tabType: 'latest' | 'popular' | 'archive') {
   <div
     class="post-layout grid grid-cols-1 gap-12 xl:gap-16"
   >
-    <div v-if="header?.title" class="flex gap-16 xl:gap-24 items-center">
+    <div v-if="header?.title" class="flex gap-16 xl:gap-36 items-center">
       <!-- Content section -->
-      <div class="flex-1">
+      <div class="flex-1 space-y-2">
         <!-- Headline with fit text -->
-        <div v-if="header?.title" class="relative z-10">
+        <!-- Subheading text -->
+
+        <div v-if="header?.title" class="relative z-10 flex items-center gap-16 xl:gap-36 ">
           <EffectFitText
             :content="header.title"
-            :min-size="80"
+            :min-size="40"
             :max-size="160"
             :lines="1"
+            class="w-full"
           >
             <XText
               :card
               tag="span"
               :model-value="header.title"
               animate="rise"
-              class="block font-bold x-font-title uppercase"
+              class="block font-bold x-font-title  "
             />
           </EffectFitText>
         </div>
-
-        <!-- Subheading text -->
         <XText
           v-if="header?.subTitle"
           :card
           :model-value="header.subTitle"
           animate="rise"
-          class="text-theme-400 text-2xl xl:text-3xl mix-blend-difference z-0 relative mt-2"
+          class="text-theme-400 text-2xl xl:text-3xl mix-blend-difference z-0 relative"
         />
       </div>
-
-      <!-- Featured image - responsive approach -->
       <div
         v-if="header?.media?.url"
-        class="w-24 sm:w-28 flex-shrink-0"
+        class=" w-24 flex-shrink-0"
       >
         <XMedia
           :media="header?.media"
@@ -105,6 +104,8 @@ function getTabClasses(tabType: 'latest' | 'popular' | 'archive') {
           itemprop="image"
         />
       </div>
+
+      <!-- Featured image - responsive approach -->
     </div>
     <div
       v-if="featuredPosts.length > 0"

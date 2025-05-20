@@ -7,7 +7,6 @@ import type { FictionPluginSettings } from '../plugin.js'
 import type { Col, FictionDbTable } from './objects.js'
 import process from 'node:process'
 
-import * as typebox from '@sinclair/typebox'
 import knex from 'knex'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { FictionPlugin } from '../plugin.js'

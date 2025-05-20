@@ -2,11 +2,9 @@
  * @vitest-environment happy-dom
  */
 
-import { shortId, waitFor } from '@fiction/core'
+import { waitFor } from '@fiction/core'
 
-import { snapshotHtml } from '@fiction/core/utils/snapshot'
 import { afterAll, describe, expect, it } from 'vitest'
-import { requestManageSite } from '../load'
 import { createSiteTestUtils } from './testUtils'
 
 describe('sitePreview', async () => {
@@ -34,7 +32,7 @@ describe('sitePreview', async () => {
     await testUtils.close()
   })
 
-  it.only('should load siteId preview if siteId is in URL', async (ctx) => {
+  it('should load siteId preview if siteId is in URL', async (ctx) => {
     if (!testUtils)
       return
 
@@ -59,33 +57,33 @@ describe('sitePreview', async () => {
 
     await r.push(`${siteEdit}?siteId=554433`, { caller: ctx.task.name })
 
-    // expect(cur().query).toMatchInlineSnapshot(`
-    //   {
-    //     "siteId": "554433",
-    //   }
-    // `)
+    expect(cur().query).toMatchInlineSnapshot(`
+      {
+        "siteId": "554433",
+      }
+    `)
 
-    // expect(previewPath()).toMatchInlineSnapshot(`"/admin/preview/site/554433"`)
+    expect(previewPath()).toMatchInlineSnapshot(`"/admin/preview/site/554433"`)
 
-    // await r.push(`${siteEdit}?themeId=test`, { caller: ctx.task.name })
+    await r.push(`${siteEdit}?themeId=test`, { caller: ctx.task.name })
 
-    // expect(cur().query).toMatchInlineSnapshot(`
-    //   {
-    //     "themeId": "test",
-    //   }
-    // `)
+    expect(cur().query).toMatchInlineSnapshot(`
+      {
+        "themeId": "test",
+      }
+    `)
 
-    // expect(previewPath()).toMatchInlineSnapshot(`"/admin/preview/theme/test"`)
+    expect(previewPath()).toMatchInlineSnapshot(`"/admin/preview/theme/test"`)
 
-    // await r.push(`${siteEdit}?subDomain=test-sub-domain`, { caller: ctx.task.name })
+    await r.push(`${siteEdit}?subDomain=test-sub-domain`, { caller: ctx.task.name })
 
-    // expect(cur().query).toMatchInlineSnapshot(`
-    //   {
-    //     "subDomain": "test-sub-domain",
-    //   }
-    // `)
+    expect(cur().query).toMatchInlineSnapshot(`
+      {
+        "subDomain": "test-sub-domain",
+      }
+    `)
 
-    // expect(previewPath()).toMatchInlineSnapshot(`"/admin/preview/domain/test-sub-domain"`)
+    expect(previewPath()).toMatchInlineSnapshot(`"/admin/preview/domain/test-sub-domain"`)
   })
 
   // it('mounts correctly', async (ctx) => {
