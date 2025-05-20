@@ -180,6 +180,7 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
       this.log.error('AI enhancement failed', { error })
       const { headline, summary = '', skills } = linkedinData
       return {
+        promise: 'Grow Your Influence',
         headline: headline || 'Leader',
         about: summary || 'An experienced professional with a passion for innovation.',
         interests: skills?.slice(0, 5).map(s => s.name) || ['Innovation', 'Technology'],

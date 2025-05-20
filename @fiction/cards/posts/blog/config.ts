@@ -63,12 +63,7 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
     schema,
     userConfig: {
       featuredCount: 1,
-      title: '[@name]',
-      subTitle: '[@headline]',
-      media: {
-        type: 'image',
-        url: '[@avatar]',
-      },
+      title: '[@promise]',
     },
   }
 }

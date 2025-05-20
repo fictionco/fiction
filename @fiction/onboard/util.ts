@@ -17,6 +17,7 @@ export type ProfileData = {
 
   goal?: string
   headline?: string
+  promise?: string
   about?: string
   interests?: string[]
   influences?: string[]
@@ -72,6 +73,7 @@ export function profileFromAccount(args: { user?: User, org?: Organization }): P
     name: org?.orgName || user?.fullName,
     handle: org?.handle || user?.handle,
     headline: org?.headline,
+    promise: org?.promise,
     about: org?.about || user?.about,
     avatar: org?.avatar || user?.avatar,
     interests: org?.interests || [],
@@ -101,6 +103,7 @@ export function accountFromProfile(profile: ProfileData): {
     orgName: profile.name,
     handle: profile.handle,
     headline: profile.headline,
+    promise: profile.promise,
     about: profile.about,
     interests: profile.interests,
     influences: profile.influences,

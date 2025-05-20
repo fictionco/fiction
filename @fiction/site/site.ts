@@ -201,6 +201,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       { shortcode: 'handle', handler: () => this.org.value?.handle || '' },
       { shortcode: 'headline', handler: () => this.org.value?.headline || '' },
       { shortcode: 'about', handler: () => this.org.value?.about || '' },
+      { shortcode: 'promise', handler: () => this.org.value?.promise || this.org.value?.headline || '' },
       { shortcode: 'avatar', handler: () => {
         return this.org.value?.avatar?.url || ''
       } },

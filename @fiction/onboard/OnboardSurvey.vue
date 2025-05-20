@@ -31,7 +31,7 @@ const profile = vue.ref<ProfileData>({
   interests: [],
   influences: [],
   avatar: undefined,
-  promptImageKey: 'watercolor',
+  promptImageKey: 'swissPrecision',
   promptContentKey: 'hero',
   primaryColor: 'blue',
 })
@@ -414,12 +414,18 @@ const stepConfig: StepConfig<StepKey> = {
           </div>
           <div v-if="step.key === 'interests'" class="space-y-6">
             <ElInput
+              v-model="profile.promise"
+              input="InputText"
+              label="Your Promise Headline"
+              placeholder="Write your promise headline"
+              description="A 2-4 word value proposition for your audience"
+            />
+            <ElInput
               v-model="profile.goal"
-              input="InputTextarea"
-              label="What's your professional goal? (in one sentence)"
-              placeholder="Write your goal"
-              description="In a few words, what do you want to achieve?"
-              :input-props="{ rows: 2 }"
+              input="InputText"
+              label="Professional Goal"
+              placeholder="Write your professional goal"
+              description="A 2-4 word goal for your digital presence"
             />
             <ElInput
               v-model="profile.interests"
