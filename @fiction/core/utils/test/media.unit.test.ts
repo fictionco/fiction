@@ -8,8 +8,66 @@ import fs from 'fs-extra'
 import sharp from 'sharp'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { testImgPath, testSvgPath } from '../../test-utils'
-import { createBlurHash, createImageVariants, determineMediaFormat, getExtensionFromMimeType, getFileExtensionFromFetchResponse, getMimeType, hashFile } from '../media'
+import { createBlurHash, createImageVariants, determineMediaFormat, getExtensionFromMimeType, getFileExtensionFromFetchResponse, getMimeType, hashFile, parseDataUrl } from '../media'
 import { safeDirname } from '../utils'
+
+describe('parseDataUrl', () => {
+  it('should correctly parse a valid data URL', () => {
+    const result = parseDataUrl('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==')
+    expect(result).toEqual({
+      mime: 'image/png',
+      content: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+    })
+  })
+
+  it('should handle JPEG data URLs', () => {
+    const result = parseDataUrl('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQ==')
+    expect(result.mime).toBe('image/jpeg')
+    expect(result.content).toBe('/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQ==')
+  })
+
+  it('should throw error for missing data: prefix', () => {
+    expect(() => parseDataUrl('image/png;base64,ABCDEFG')).toThrow('Invalid data URL: missing data: prefix')
+  })
+
+  it('should throw error for missing content', () => {
+    expect(() => parseDataUrl('data:image/png;base64,')).toThrow('Invalid data URL: missing content')
+  })
+
+  it('should throw error for missing mime type', () => {
+    expect(() => parseDataUrl('data:;base64,ABCDEFG')).toThrow('Invalid data URL: missing mime type')
+  })
+
+  it('should throw error for unsupported encoding', () => {
+    expect(() => parseDataUrl('data:image/png;hex,ABCDEFG')).toThrow('Invalid data URL: only base64 encoding is supported')
+  })
+
+  it('should throw error for completely invalid format', () => {
+    expect(() => parseDataUrl('not-a-data-url')).toThrow('Invalid data URL: missing data: prefix')
+  })
+
+  it('should handle data URLs with complex mime types', () => {
+    const result = parseDataUrl('data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,UEsDBBQAAA==')
+    expect(result.mime).toBe('application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    expect(result.content).toBe('UEsDBBQAAA==')
+  })
+
+  it('should throw error for null input', () => {
+    // @ts-expect-error testing null input
+    expect(() => parseDataUrl(null)).toThrow('Invalid data URL: missing data: prefix')
+  })
+
+  it('should throw error for undefined input', () => {
+    // @ts-expect-error testing undefined input
+    expect(() => parseDataUrl(undefined)).toThrow('Invalid data URL: missing data: prefix')
+  })
+
+  it('should handle data URLs with parameters in mime type', () => {
+    const result = parseDataUrl('data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg==')
+    expect(result.mime).toBe('image/svg+xml;charset=utf-8')
+    expect(result.content).toBe('PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg==')
+  })
+})
 
 describe('determineMediaFormat', () => {
   it('should return the format if it is already set', () => {
@@ -87,6 +145,31 @@ describe('createBlurHash', () => {
  * IMAGE VARIANTS
  */
 describe('createImageVariants', () => {
+  it('converts raster images to AVIF/HEIF with correct dimensions', async () => {
+    const fileSource = fs.readFileSync(testImgPath)
+    const sizeOptions = { main: { width: 100, height: 100 }, thumbnail: { width: 50, height: 50 } }
+
+    const { mainBuffer, thumbnailBuffer, metadata } = await createImageVariants({
+      fileSource,
+      sizeOptions,
+      fileMime: 'image/jpeg',
+    })
+
+    // Check buffers exist
+    expect(mainBuffer).toBeInstanceOf(Buffer)
+    expect(thumbnailBuffer).toBeInstanceOf(Buffer)
+
+    // Verify formats and dimensions
+    const mainMeta = await sharp(mainBuffer).metadata()
+    const thumbMeta = await sharp(thumbnailBuffer).metadata()
+
+    // AVIF may be reported as 'heif' since AVIF is based on HEIF container format
+    expect(['avif', 'heif']).toContain(mainMeta.format)
+    expect(thumbMeta.format).toBe('webp')
+    expect(mainMeta.width).toBeLessThanOrEqual(100)
+    expect(thumbMeta.width).toBeLessThanOrEqual(50)
+  })
+
   it('should create main and thumbnail image variants', async () => {
     const fileMime = getMimeType(testImgPath)
     const fileSource = fs.readFileSync(testImgPath)
@@ -132,6 +215,10 @@ describe('createImageVariants', () => {
 
     expect(metadata).toMatchInlineSnapshot(`
       {
+        "autoOrient": {
+          "height": 604,
+          "width": 588,
+        },
         "channels": 4,
         "density": 300,
         "depth": "uchar",
@@ -139,6 +226,7 @@ describe('createImageVariants', () => {
         "hasAlpha": true,
         "hasProfile": false,
         "height": 604,
+        "isPalette": false,
         "isProgressive": false,
         "size": 742,
         "space": "srgb",
@@ -178,6 +266,20 @@ describe('createImageVariants', () => {
 
     if (thumbnailBuffer)
       fs.writeFileSync(`${safeDirname(import.meta.url)}/img/cropped-thumbnail-test.png`, thumbnailBuffer)
+  })
+
+  it('leaves non-image files unmodified', async () => {
+    const fileSource = Buffer.from('test data')
+
+    const { mainBuffer } = await createImageVariants({
+      fileSource,
+      sizeOptions: { main: { width: 100, height: 100 }, thumbnail: { width: 50, height: 50 } },
+      fileMime: 'text/plain',
+    })
+
+    // Should return original buffer for non-images
+    expect(mainBuffer).toBe(fileSource)
+    expect(mainBuffer.toString()).toBe('test data')
   })
 })
 

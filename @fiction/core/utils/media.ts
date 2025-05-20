@@ -5,6 +5,40 @@ import path from 'node:path'
 import fs from 'fs-extra'
 import { stringify } from './utils'
 
+/**
+ * Parses a base64 data URL string into its components
+ * @param base64Data The data URL string to parse
+ * @returns Object containing mime type and content
+ * @throws Error if the format is invalid
+ */
+export function parseDataUrl(base64Data: string): { mime: string, content: string } {
+  if (!base64Data?.startsWith('data:'))
+    throw new Error('Invalid data URL: missing data: prefix')
+
+  const commaIndex = base64Data.indexOf(',')
+  if (commaIndex === -1 || commaIndex === base64Data.length - 1)
+    throw new Error('Invalid data URL: missing content')
+
+  // Extract everything before the comma and after 'data:'
+  const formatPart = base64Data.substring(5, commaIndex)
+
+  // Look for the last semicolon which should separate encoding
+  const encodingIndex = formatPart.lastIndexOf(';base64')
+
+  if (encodingIndex === -1)
+    throw new Error('Invalid data URL: only base64 encoding is supported')
+
+  // Everything before the ;base64 is the mime type (which might include other parameters)
+  const mimeType = formatPart.substring(0, encodingIndex)
+  if (!mimeType)
+    throw new Error('Invalid data URL: missing mime type')
+
+  // Get content after the comma
+  const content = base64Data.substring(commaIndex + 1)
+
+  return { mime: mimeType, content }
+}
+
 export function determineMediaFormat(media?: MediaObject): MediaObject['format'] | undefined {
   if (!media)
     return undefined
@@ -128,7 +162,7 @@ export type CropSettings = { width: number, height: number, left: number, top: n
 
 export type ImageSizeOptions = {
   main: { width: number, height: number }
-  thumbnail: { width: number, height: number }
+  thumbnail?: { width: number, height: number }
   crop?: CropSettings
 }
 
@@ -142,10 +176,14 @@ export type ImageVariantStreams = {
   blurhash?: string
 }
 
-export async function createImageVariants(args: { fileSource: Buffer, sizeOptions: ImageSizeOptions, fileMime: string }): Promise<ImageVariantStreams> {
+export async function createImageVariants(args: {
+  fileSource: Buffer
+  sizeOptions: ImageSizeOptions
+  fileMime: string
+}): Promise<ImageVariantStreams> {
   const { fileSource, sizeOptions, fileMime } = args
 
-  const isRaster = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(fileMime)
+  const isRaster = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif'].includes(fileMime)
   const isSvg = fileMime === 'image/svg+xml'
   const isImage = isRaster || isSvg
 
@@ -158,31 +196,58 @@ export async function createImageVariants(args: { fileSource: Buffer, sizeOption
   const width = sizeOptions.main.width
   const height = sizeOptions.main.height
   const resizeOptions = { withoutEnlargement: true, fit: 'inside', kernel: sharp.kernel.nearest } as const
-  try {
-    if (isSvg) {
-      out.mainImage = sharp(fileSource, { density: 300 }).resize(width, height, { kernel: sharp.kernel.nearest, fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
 
-      out.rasterBuffer = await out.mainImage.toBuffer()
+  try {
+    // Determine optimal output format
+    const formatOptions = {
+      avif: { quality: 80, effort: 5 }, // Preferred for best compression/quality ratio
+      webp: { quality: 85 }, // Fallback format if needed
+    }
+
+    if (isSvg) {
+      // For SVGs, render at higher density and store as vector + rasterized version
+      out.mainImage = sharp(fileSource, { density: 300 })
+        .resize(width, height, {
+          kernel: sharp.kernel.nearest,
+          fit: 'contain',
+          background: { r: 0, g: 0, b: 0, alpha: 0 },
+        })
+
+      // Keep original SVG for main buffer but create raster for preview/processing
+      out.mainBuffer = fileSource
+      out.rasterBuffer = await out.mainImage.avif(formatOptions.avif).toBuffer()
     }
     else {
+      // For raster images, process and convert to avif
       let mainImage = sharp(fileSource).withMetadata()
+
+      // Apply cropping if specified
       if (sizeOptions.crop)
         mainImage = mainImage.extract(sizeOptions.crop)
 
-      out.mainImage = mainImage.resize(width, height, resizeOptions)
-      out.mainBuffer = await mainImage.toBuffer()
+      // Resize and convert to avif
+      out.mainImage = mainImage
+        .resize(width, height, resizeOptions)
+        .avif(formatOptions.avif)
+
+      out.mainBuffer = await out.mainImage.toBuffer()
     }
 
-    const baseImage = out.mainImage
-    if (baseImage) {
-      out.thumbnailImage = baseImage.clone().resize(sizeOptions.thumbnail.width, sizeOptions.thumbnail.height, resizeOptions).png()
+    const thumbnailSize = sizeOptions.thumbnail || { width: 200, height: 200 }
+
+    // Create thumbnail from the processed image
+    if (out.mainImage) {
+      out.thumbnailImage = out.mainImage.clone()
+        .resize(thumbnailSize.width, thumbnailSize.height, resizeOptions)
+        .webp(formatOptions.webp) // Use webp for thumbnails for broader compatibility
+
       const thumb = await out.thumbnailImage.toBuffer({ resolveWithObject: true })
       out.thumbnailBuffer = thumb.data
-
       out.blurhash = thumb.info ? await createBlurHash(out.thumbnailImage, thumb.info) : ''
     }
 
-    out.metadata = await out.mainImage.metadata()
+    // Store metadata for downstream processing
+    out.metadata = await (isSvg ? sharp(fileSource, { density: 300 }) : out.mainImage).metadata()
   }
   catch (error) {
     console.error('Error processing image:', error)
@@ -196,6 +261,7 @@ const mimeTypes: { [extension: string]: string } = {
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.svg': 'image/svg+xml',
+  '.avif': 'image/avif',
   '.gif': 'image/gif',
   '.bmp': 'image/bmp',
   '.tif': 'image/tiff',

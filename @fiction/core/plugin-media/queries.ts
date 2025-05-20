@@ -11,7 +11,7 @@ import { Query } from '../query.js'
 import { applyComplexFilters } from '../utils/db.js'
 import { abort } from '../utils/error.js'
 import { objectId } from '../utils/id.js'
-import { createImageVariants, getFileExtensionFromFetchResponse, getMimeType, hashFile } from '../utils/media.js'
+import { createImageVariants, getFileExtensionFromFetchResponse, getMimeType, hashFile, parseDataUrl } from '../utils/media.js'
 import { getNodeBuffer } from '../utils/nodeUtils.js'
 import { safeDirname } from '../utils/utils.js'
 import { isTest } from '../utils/vars.js'
@@ -36,6 +36,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     'image/png',
     'image/gif',
     'image/webp',
+    'image/avif',
     'image/svg+xml',
     // Videos
     'video/mp4',
@@ -108,7 +109,6 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
         orgId,
         userId,
         fields,
-        storageGroupPath,
 
       }, meta)
 
@@ -173,79 +173,76 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     fields?: TableMediaConfig
     orgId?: string
     userId?: string
-    storageKeyPath?: string
-    storageGroupPath?: string
     crop?: CropSettings
     hash?: string
   }, meta: EndpointMeta): Promise<TableMediaConfig> {
-    const cdnUrl = this.settings.fictionMedia.settings.cdnUrl
-    const bucket = this.settings.fictionMedia.settings.awsBucketMedia
-    const maxSide = this.maxSide
-    const fictionAws = this.settings.fictionAws
+  // Get configs and inputs
+    const { cdnUrl, awsBucketMedia: bucket } = this.settings.fictionMedia.settings
+    const { file, filePath: sourceFilePath, orgId, userId, fields, crop } = args
 
-    const { file, filePath: sourceFilePath, orgId, userId, fields, storageGroupPath = orgId, storageKeyPath, crop } = args
+    // Get file source
     const fileSource = file?.buffer || (sourceFilePath && fs.readFileSync(sourceFilePath))
-    const originalFileName = file?.originalname || (sourceFilePath && path.basename(sourceFilePath))
+    const fileName = file?.originalname || (sourceFilePath && path.basename(sourceFilePath))
 
-    if (!fileSource || !originalFileName) {
+    if (!fileSource || !fileName)
       throw new Error('No file provided')
-    }
 
-    const cleanFileName = this.cleanAndLimitFileName(originalFileName)
-    const baseFileName = path.parse(cleanFileName).name
-
-    // Add this check for file size
-    if (fileSource.length > this.maxFileSize) {
+    if (fileSource.length > this.maxFileSize)
       throw abort(`File size exceeds limit of ${this.maxFileSize / (1024 * 1024)}MB`, { expected: meta.expectError })
-    }
 
-    const fileMime = getMimeType(cleanFileName, file?.mimetype)
-
-    if (!this.supportedMimeTypes.has(fileMime)) {
+    // Get mime type and validate
+    const fileMime = getMimeType(fileName, file?.mimetype)
+    if (!this.supportedMimeTypes.has(fileMime))
       throw abort(`Unsupported file type: ${fileMime}`, { expected: meta.expectError })
-    }
 
+    // Determine if this is a raster image that should be converted to AVIF
+    const isRasterImage = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(fileMime)
+
+    // Create standardized paths
     const mediaId = objectId({ prefix: 'med' })
-    const basePath = `${storageGroupPath}/${mediaId}`
-    const filePath = storageKeyPath || `${basePath}--${cleanFileName}`
-    const thumbFilePath = `${basePath}-thumb-${baseFileName}.png`
+    const fileExt = isRasterImage ? 'avif' : fileMime.split('/')[1]
+    const filePath = `${orgId}/${mediaId}.${fileExt}`
 
-    this.log.info('creating media', { data: { filePath, bucket } })
+    // Process media
+    const sizeOptions = { main: { width: this.maxSide, height: this.maxSide }, crop }
+    const { mainBuffer, metadata, blurhash } = await createImageVariants({
+      fileSource,
+      sizeOptions,
+      fileMime,
+    })
 
-    const sizeOptions = { main: { width: maxSide, height: maxSide }, thumbnail: { width: 80, height: 80 }, crop } as const
-    const r = await createImageVariants({ fileSource, sizeOptions, fileMime })
-
-    const { mainBuffer, thumbnailBuffer, metadata, blurhash } = r
-
-    const hash = args.hash || await hashFile({ filePath: sourceFilePath, buffer: file?.buffer, settings: { crop } })
+    const hash = args.hash || await hashFile({
+      filePath: sourceFilePath,
+      buffer: file?.buffer,
+      settings: { crop },
+    })
 
     try {
-      const uploadPromises = [
-        fictionAws.uploadS3({ data: mainBuffer, filePath, mime: fileMime, bucket }),
-        thumbnailBuffer && fictionAws.uploadS3({ data: thumbnailBuffer, filePath: thumbFilePath, mime: 'image/png', bucket }),
-      ]
+    // Use original mime type for non-raster images and videos
+      const uploadMime = isRasterImage ? 'image/avif' : fileMime
 
-      const [mainData, thumbData] = await Promise.all(uploadPromises)
+      // Upload to S3
+      const mainData = await this.settings.fictionAws.uploadS3({
+        data: mainBuffer,
+        filePath,
+        mime: uploadMime,
+        bucket,
+      })
 
       this.log.info('media uploaded')
 
+      // Build URLs with blurhash
       const baseUrl = mainData?.url
+      const params = blurhash ? `?blurhash=${encodeURIComponent(blurhash)}` : ''
+      const originUrl = `${baseUrl}${params}`
+      const url = cdnUrl ? `${new URL(filePath, cdnUrl).toString()}${params}` : originUrl
 
-      const searchParams = new URLSearchParams({ blurhash: blurhash || '' }).toString()
-      const constructUrl = (base: string | undefined, path: string): string => `${base ? new URL(path, base).toString() : baseUrl}?${searchParams}`
-
-      const originUrl = `${baseUrl}?${searchParams}`
-      const thumbOriginUrl = `${thumbData?.url || baseUrl}?${searchParams}`
-      const url = constructUrl(cdnUrl, filePath)
-      const thumbUrl = constructUrl(cdnUrl, thumbFilePath)
-
-      const { ContentLength: size, ContentType: mime = fileMime } = mainData?.headObject || {}
-      const imageMetadata = metadata || {}
-
+      // Get metadata
+      const { ContentLength: size } = mainData?.headObject || {}
       const mediaMetadata = await this.getMediaMetadata(mainBuffer, fileMime)
-      const { width, height, duration } = { ...imageMetadata, ...mediaMetadata }
 
-      const mediaConfig: Partial<TableMediaConfig> = {
+      // Save to database
+      return await this.saveReferenceToDb({
         ...fields,
         orgId,
         userId,
@@ -254,25 +251,17 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
         blurhash,
         originUrl,
         url,
-        thumbOriginUrl,
-        thumbUrl,
-        mime,
+        mime: fileMime, // Preserve original mime type
         bucket,
         filePath,
         size,
-        width,
-        height,
-        duration,
-      }
-
-      const insertedMedia = await this.saveReferenceToDb(mediaConfig, meta)
-
-      return insertedMedia
+        ...(metadata || {}),
+        ...mediaMetadata,
+      }, meta)
     }
-    catch (e) {
-      const error = e as Error
+    catch (error) {
       this.log.error('Error uploading media', { error })
-      throw abort(`Failed to upload media: ${error.message}`, { expected: meta.expectError })
+      throw abort(`Failed to upload media: ${(error as Error).message}`, { expected: meta.expectError })
     }
   }
 }
@@ -426,36 +415,39 @@ export class QueryManageMedia extends MediaQuery {
     if (!base64Data)
       throw new Error('No base64Data provided')
 
-    const matches = base64Data.match(/^data:([A-Za-z-+/]+);base64,(.+)$/)
-    if (!matches || matches.length !== 3) {
-      this.log.error('Invalid base64 format', { data: { base64Data: base64Data.slice(0, 100) } })
-      throw new Error('Invalid base64 format')
+    try {
+    // Parse the data URL efficiently
+      const { mime, content } = parseDataUrl(base64Data)
+
+      // Validate mime type
+      if (!this.supportedMimeTypes.has(mime))
+        throw abort(`Unsupported type: ${mime}`, { expected: meta.expectError })
+
+      // Create buffer from content
+      const Buffer = await getNodeBuffer()
+      const buffer = Buffer.from(content, 'base64')
+
+      // Create file object
+      const file = {
+        buffer,
+        originalname: `image.${mime.split('/')[1] || 'png'}`,
+        mimetype: mime,
+      } as Express.Multer.File
+
+      const media = await this.createAndSaveMedia({ file, orgId, userId, fields }, meta)
+
+      return media
+        ? { status: 'success', data: [media] }
+        : { status: 'error', data: undefined }
     }
-
-    const [, mime, content] = matches
-    if (!this.supportedMimeTypes.has(mime))
-      throw abort(`Unsupported type: ${mime}`, { expected: meta.expectError })
-
-    const Buffer = await getNodeBuffer()
-    const buffer = Buffer.from(content, 'base64')
-
-    // Create a virtual file object that mimics Express.Multer.File
-    const file = {
-      buffer,
-      originalname: `image.${mime.split('/')[1]}`,
-      mimetype: mime,
-    } as Express.Multer.File
-
-    const media = await this.createAndSaveMedia({ file, orgId, userId, fields, storageGroupPath }, meta)
-
-    if (!media)
-      return { status: 'error', data: undefined }
-
-    return { status: 'success', data: [media] }
+    catch (error) {
+      this.log.error('Failed to process base64 data', { error })
+      throw error instanceof Error ? error : new Error(String(error))
+    }
   }
 
   async handleCheckAndCreate(params: MediaParams & { _action: 'checkAndCreate' }, meta: EndpointMeta): Promise<EndpointResponse<TableMediaConfig[]>> {
-    const { fields, noCache, crop, orgId, userId, storageKeyPath, storageGroupPath } = params
+    const { fields, noCache, crop, orgId, userId } = params
 
     if (!fields?.filePath)
       throw abort('File path is required for checkAndCreate action.', { expected: meta.expectError })
@@ -471,7 +463,7 @@ export class QueryManageMedia extends MediaQuery {
       }
     }
 
-    const media = await this.createAndSaveMedia({ filePath: fields.filePath, hash, orgId, userId, fields, storageKeyPath, storageGroupPath, crop }, meta)
+    const media = await this.createAndSaveMedia({ filePath: fields.filePath, hash, orgId, userId, fields, crop }, meta)
     return { status: 'success', data: [media] }
   }
 
