@@ -1,4 +1,4 @@
-import type { FictionRouter, FontFamily, SocialAccounts } from '@fiction/core'
+import type { EndpointResponse, FictionRouter, FontFamily, SocialAccounts } from '@fiction/core'
 import type { Contact } from '@fiction/plugins/plugin-contact/schema.js'
 import type { Card, CardTemplate } from './card.js'
 import type { FictionSites, ThemeConfig } from './index.js'
@@ -275,7 +275,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   saveTimeout: ReturnType<typeof setTimeout> | null = null // Store timeout reference
 
   saveUtil = new AutosaveUtility({
-    onSave: async () => this.save({ scope: 'draft' }),
+    onSave: async () => { this.save({ scope: 'draft' }) },
   })
 
   toConfig(args: { onlyKeys?: (keyof TableSiteConfig)[] | readonly (keyof TableSiteConfig)[] } = {}): { siteId: string } & Partial<TableSiteConfig> {
@@ -295,6 +295,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       subDomain: this.subDomain.value,
       isPrimary: this.isPrimary.value,
       userConfig: this.userConfig.value,
+      handle: this.handle.value,
       pages,
       sections,
     }

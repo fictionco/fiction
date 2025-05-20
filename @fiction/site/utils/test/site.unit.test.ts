@@ -173,7 +173,8 @@ describe('saveSite', async () => {
     const r2 = await saveSite({ site, onlyKeys: ['handle'], successMessage: 'Test Success' })
 
     expect(r2?.title).toBe('new title')
-    expect(r2?.subDomain).toBe(handle)
+
+    expect(r2?.handle).toBe(handle)
   })
 })
 
@@ -192,13 +193,13 @@ describe('updateSite / updatePages', async () => {
         userConfig: {
           locale: 'es',
         } satisfies Site['userConfig']['value'],
-        subDomain: 'newSub',
+        handle: 'newSub',
       },
     })
 
     expect(site.title.value).toBe('New Title')
     expect(site.userConfig.value?.locale).toBe('es')
-    expect(site.subDomain.value).toBe('newSub')
+    expect(site.subDomain.value).toBe('stage-newSub')
   })
 
   it('updates and initializes new partial regions', async () => {
