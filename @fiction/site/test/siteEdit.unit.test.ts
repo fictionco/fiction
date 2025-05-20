@@ -1153,9 +1153,14 @@ describe('site plugin tests', async () => {
     if (!responseSiteConfig?.themeId)
       throw new Error('no themeId')
 
-    expect(responseSiteConfig?.siteId).toBeTruthy()
+    const siteId = responseSiteConfig?.siteId
 
-    const responseSite = await Site.create({ ...responseSiteConfig, fictionSites: testUtils?.fictionSites, siteRouter: testUtils?.fictionRouterSites })
+    if (!siteId)
+      throw new Error('no siteId')
+
+    expect(siteId).toBeTruthy()
+
+    const responseSite = await Site.create({ ...responseSiteConfig, siteId, fictionSites: testUtils?.fictionSites, siteRouter: testUtils?.fictionRouterSites })
 
     expect(responseSite.pages.value.length).toBe(site.pages.value.length)
   })

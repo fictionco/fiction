@@ -36,7 +36,7 @@ export type SiteSettings = {
   siteMode?: SiteMode
   isProd?: boolean
   isStatic?: boolean
-} & Partial<TableSiteConfig> & { themeId: string, siteId: string }
+} & Partial<TableSiteConfig> & { themeId?: string, siteId: string }
 
 export type SiteEventMap = {
   addCard: CustomEvent<{ template: CardTemplate }>
@@ -62,7 +62,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   status = vue.ref(this.settings.status)
   handle = vue.ref(this.settings.handle)
   isAnimationDisabled = vue.ref(false)
-  themeId = vue.ref(this.settings.themeId)
+  themeId = vue.ref(this.settings.themeId || 'base')
   theme = vue.computed(() => {
     const themes = this.fictionSites.themes.value
     const found = themes.find(t => t.themeId === this.themeId.value)
