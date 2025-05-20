@@ -90,7 +90,7 @@ describe('getViewMap', async () => {
 
   it('should handle cases where slug is set to special', async () => {
     const pages = [
-      new Card({ cardId: 'id1', slug: '_home', title: 'Default Page', regionId: 'main', templateId: 'engine', isHome: true }),
+      new Card({ cardId: 'id1', slug: 'home', title: 'Default Page', regionId: 'main', templateId: 'engine', isHome: true }),
       new Card({ cardId: 'id2', slug: 'example', title: 'Example Page', regionId: 'main', templateId: 'engine' }),
       new Card({ cardId: 'id3', slug: '_404', title: 'Foo Page', regionId: 'main', templateId: 'engine' }),
     ]
@@ -98,7 +98,6 @@ describe('getViewMap', async () => {
     const map = getViewMap({ pages })
     expect(map).toEqual({
       _: 'id1',
-      _home: 'id1',
       example: 'id2',
       _404: 'id3',
     })
@@ -112,8 +111,7 @@ describe('getViewMap', async () => {
 
     const map = getViewMap({ pages })
     expect(map).toEqual({
-      _: undefined,
-      _home: undefined,
+      _: 'id1', // Default to the first page as home
       def: 'id1',
       example: 'id2',
       _404: '_special404',
@@ -135,7 +133,8 @@ describe('activePageId', async () => {
   const pages = [
     {
       cardId: 'id1',
-      slug: '_home',
+      slug: 'home',
+      isHome: true,
       title: 'Default Page',
       regionId: 'main',
       templateId: 'engine',

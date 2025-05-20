@@ -1,5 +1,6 @@
 import type { Site } from '../index.js'
 import type { CardConfigPortable } from '../tables.js'
+import { data } from '@fiction/analytics/chart/test/sampleData.js'
 import { log, vue } from '@fiction/core'
 import { Card } from '../card.js'
 
@@ -132,17 +133,19 @@ export function activePageIdByRoute(args: { site: Site }) {
     async set(cardId: string) {
       const pg = site.pages.value.find(_ => _.cardId === cardId)
 
+      let location: string
       if (!pg) {
-        logger.error('activePageIdByRoute: Page not found', { cardId })
-        return
+        logger.error('activePageIdByRoute: Page not found', { data: { cardId } })
+        location = '/not-found'
       }
+      else {
+        const viewId = !pg.isHome.value && pg.slug.value ? pg.slug.value : '_'
 
-      const viewId = !pg.isHome.value && pg.slug.value ? pg.slug.value : '_'
+        if (viewId === site.currentViewId.value)
+          return // Prevent re-push if already on the correct viewId
 
-      if (viewId === site.currentViewId.value)
-        return // Prevent re-push if already on the correct viewId
-
-      const location = viewId === '_' ? '/' : `/${viewId}`
+        location = viewId === '_' ? '/' : `/${viewId}`
+      }
 
       await site.siteRouter.push(location, { caller: 'activePageId' })
     },
