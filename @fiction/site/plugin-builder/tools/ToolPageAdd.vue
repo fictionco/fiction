@@ -17,9 +17,7 @@ const { site, controller } = defineProps<{
 
 const loading = vue.ref(false)
 
-const pageTemplates = vue.computed(() => {
-  return site.theme.value.settings.getPageTemplates?.()
-})
+const pageTemplates = vue.computed(() => site.theme.value.getPageTemplates())
 
 const options = vue.computed<InputOption[]>(() => {
   const optionGroups = getPageOptions({ site, editMode: 'new', pageTemplates: pageTemplates.value })
@@ -56,9 +54,9 @@ async function save() {
   const pg = page.value
 
   if (pg.pageTemplateId) {
-    const t = pageTemplates.value?.find(tpl => tpl.pageTemplateId === pg.pageTemplateId)
+    const pageTemplate = pageTemplates.value?.find(tpl => tpl.pageTemplateId === pg.pageTemplateId)
 
-    pg.cards = await t?.getCards?.({ site }) ?? []
+    pg.cards = await pageTemplate?.getCards?.({ site }) ?? []
   }
 
   await requestManagePage({

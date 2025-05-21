@@ -93,9 +93,9 @@ const options: InputOption[] = [
                 schema,
               }),
               createOption({
-                key: 'items.0.action',
+                key: 'items.0.action.buttons',
                 label: 'Actions',
-                input: 'InputActionArea',
+                input: 'InputActions',
                 schema,
               }),
             ],

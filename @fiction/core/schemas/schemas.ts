@@ -164,16 +164,13 @@ export const MediaFormat = z.enum(['url', 'image', 'video', 'iframe', 'html', 'c
 
 // MediaBasic schema
 export const MediaBasicSchema = z.object({
-  html: z.string().optional(),
-  url: z.string().optional(),
-  format: MediaFormat.optional(),
-  alt: z.string().optional(),
-
-  el: z.custom<vue.AsyncComponentLoader | vue.Component>((val) => {
-    return typeof val === 'function' || val instanceof Promise
-  }, { message: 'Must be an async component or Promise' }).optional(),
-  props: z.record(z.string(), z.any()).optional(),
-  aspect: AspectRatioSchema.optional(),
+  html: z.string().optional().describe('[@ai-ignore]'),
+  url: z.string().optional().describe('Return a shortcode for URL example: [@image_url subject="a boulder rolling down a hill" orientation="squarish"] that will be replaced with the actual url.'),
+  format: MediaFormat.optional().describe('Media format type, e.g. image, video'),
+  alt: z.string().optional().describe('Image alt text'),
+  el: z.custom<vue.AsyncComponentLoader | vue.Component>(val => typeof val === 'function' || val instanceof Promise, { message: 'Must be an async component or Promise' }).optional().describe('[@ai-ignore]'),
+  props: z.record(z.string(), z.any()).optional().describe('[@ai-ignore]'),
+  aspect: AspectRatioSchema.optional().describe('[@ai-ignore]'),
 }, { description: 'MediaBasicSchema' })
 
 export const MediaIconSchema = MediaBasicSchema.extend({
@@ -237,61 +234,62 @@ export const MediaDisplaySchema = MediaContentSchema.extend({
 export type MediaObject = z.infer<typeof MediaDisplaySchema & typeof MediaIconSchema>
 
 export const ActionButtonSchema = z.object({
-  key: z.string().optional().describe('Unique key for the button'),
-  label: z.string().optional().describe('Button text [@ai]'),
-  href: z.string().optional().describe('Button link URL or /path [@ai]'),
-  size: SizeSchema.optional().describe('Button size'),
-  theme: ButtonColorThemeSchema.optional().describe('Button color scheme [@ai]'),
-  design: ButtonDesignSchema.optional().describe('Button visual style [@ai]'),
-  format: ButtonFormatSchema.optional(),
-  rounding: ButtonRoundingSchema.optional(),
-  icon: z.union([z.string(), MediaIconSchema]).optional().describe('Button icon [@ai]'),
-  iconAfter: z.union([z.string(), MediaIconSchema]).optional(),
-  loading: z.boolean().optional(),
+  key: z.string().optional().describe('Unique key for the button [@ai-ignore]'),
+  label: z.string().optional().describe('Button text'),
+  href: z.string().optional().describe('Button link URL or /path'),
+  size: SizeSchema.optional().describe('Button size [@ai-ignore]'),
+  theme: ButtonColorThemeSchema.optional().describe('Button color scheme'),
+  design: ButtonDesignSchema.optional().describe('Button visual style'),
+  format: ButtonFormatSchema.optional().describe('[@ai-ignore]'),
+  rounding: ButtonRoundingSchema.optional().describe('[@ai-ignore]'),
+  icon: z.union([z.string(), MediaIconSchema]).optional().describe('[@ai-ignore]'),
+  iconAfter: z.union([z.string(), MediaIconSchema]).optional().describe('[@ai-ignore]'),
+  loading: z.boolean().optional().describe('[@ai-ignore]'),
   disabled: z.boolean().optional(),
-  onClick: ClickHandlerSchema.optional(),
-  testId: z.string().optional(),
-  target: z.enum(['_blank', '_self']).optional().describe('Link target [@ai]'),
+  onClick: ClickHandlerSchema.optional().describe('[@ai-ignore]'),
+  testId: z.string().optional().describe('[@ai-ignore]'),
+  target: z.enum(['_blank', '_self']).optional().describe('Link target'),
   hover: ButtonHoverSchema.optional(),
-  type: z.enum(['button', 'submit', 'reset']).optional(),
-  animate: z.boolean().optional().describe('Enable button animation'),
+  type: z.enum(['button', 'submit', 'reset']).optional().describe('[@ai-ignore]'),
+  animate: z.boolean().optional().describe('Enable button animation').describe('[@ai-ignore]'),
 
 }, { description: 'ActionButtonSchema' })
 
 export type ActionButton = z.infer<typeof ActionButtonSchema>
 
-export const ActionSubscribeSchema = z.object({
-  input: z.object({
-    placeholder: z.string().optional().describe('Email input placeholder [@ai]'),
-  }).optional(),
-  button: z.object({
-    label: z.string().optional().describe('Button text [@ai]'),
-    icon: MediaIconSchema.optional().describe('Button icon [@ai]'),
-  }).optional().describe('buttons [@ai]'),
-  success: z.object({
-    title: z.string().optional().describe('Success message title [@ai]'),
-    content: z.string().optional().describe('Success message content [@ai]'),
-  }).optional(),
-}, { description: 'ActionSubscribeSchema' })
+// export const ActionSubscribeSchema = z.object({
+//   input: z.object({
+//     placeholder: z.string().optional().describe('Email input placeholder [@ai]'),
+//   }).optional(),
+//   button: z.object({
+//     label: z.string().optional().describe('Button text [@ai]'),
+//     icon: MediaIconSchema.optional().describe('Button icon [@ai]'),
+//   }).optional().describe('buttons [@ai]'),
+//   success: z.object({
+//     title: z.string().optional().describe('Success message title [@ai]'),
+//     content: z.string().optional().describe('Success message content [@ai]'),
+//   }).optional(),
+// }, { description: 'ActionSubscribeSchema' })
 
-export type ActionSubscribe = z.infer<typeof ActionSubscribeSchema>
+// export type ActionSubscribe = z.infer<typeof ActionSubscribeSchema>
 
 export const ActionAreaSchema = z.object({
   title: z.string().optional().describe('Header text above actions [@ai]'),
-  variant: z.enum(['buttons', 'subscribe']).optional().describe('Action type format [@ai]'),
+
   buttons: z.array(ActionButtonSchema).optional().describe('Interactive buttons [@ai]'),
   size: SizeSchema.optional().describe('Component size'),
   theme: ButtonColorThemeSchema.optional().describe('Color scheme'),
   design: ButtonDesignSchema.optional().describe('Visual style'),
-  subscribe: ActionSubscribeSchema.optional().describe('Email capture settings [@ai]'),
-  proof: z.object({
-    community: z.object({
-      isEnabled: z.boolean().optional().describe('Show social proof'),
-      text: z.string().optional().describe('Social proof message '),
-      count: z.number().optional().describe('Community size'),
-      thumbCount: z.number().optional().describe('Avatar count to show'),
-    }).optional().describe('Social proof display'),
-  }).optional().describe('Trust indicators'),
+  // variant: z.enum(['buttons', 'subscribe']).optional().describe('Action type format [@ai]'),
+  // subscribe: ActionSubscribeSchema.optional().describe('Email capture settings [@ai]'),
+  // proof: z.object({
+  //   community: z.object({
+  //     isEnabled: z.boolean().optional().describe('Show social proof'),
+  //     text: z.string().optional().describe('Social proof message '),
+  //     count: z.number().optional().describe('Community size'),
+  //     thumbCount: z.number().optional().describe('Avatar count to show'),
+  //   }).optional().describe('Social proof display'),
+  // }).optional().describe('Trust indicators'),
 })
 
 export type ActionArea = z.infer<typeof ActionAreaSchema>

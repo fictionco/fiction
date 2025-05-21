@@ -81,7 +81,7 @@ const options = [
               createOption({ schema, key: 'items.0.org.href', label: 'Website', input: 'InputSiteRoute' }),
             ],
           }),
-          createOption({ schema, key: 'items.0.action', label: 'Actions', input: 'InputActionArea' }),
+          createOption({ schema, key: 'items.0.action.buttons', label: 'Actions', input: 'InputActions' }),
         ],
       }),
     ],

@@ -25,7 +25,7 @@ const uc = vue.computed(() => {
 })
 
 const hasActions = vue.computed(() => {
-  return uc.value?.buttons?.length || uc.value?.variant === 'subscribe'
+  return uc.value?.buttons?.length
 })
 </script>
 

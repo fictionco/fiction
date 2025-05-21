@@ -74,6 +74,10 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
     super('Theme', settings)
   }
 
+  getPageTemplates() {
+    return this.settings.getPageTemplates?.() || []
+  }
+
   async loadThemeTemplates(args: { site: Site }) {
     if (!this.templates.length)
       this.templates = await this.settings.getTemplates?.(args) || []

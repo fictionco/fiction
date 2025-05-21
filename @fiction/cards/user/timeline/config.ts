@@ -97,9 +97,9 @@ export function getOptions() {
             }),
             createOption({
               schema,
-              key: 'items.0.badges',
+              key: 'items.0.badges.buttons',
               label: 'Badges',
-              input: 'InputActionArea',
+              input: 'InputActions',
               props: { variants: ['buttons'] },
             }),
           ],
@@ -107,8 +107,8 @@ export function getOptions() {
 
         createOption({
           schema,
-          key: 'items.0.action',
-          input: 'InputActionArea',
+          key: 'items.0.action.buttons',
+          input: 'InputActions',
         }),
       ],
     }),
@@ -127,7 +127,6 @@ export function getDemoConfig(args: { stock: StockMedia }): UserConfig {
         content: 'Orchestrated successful launch of company\'s flagship analytics platform. Increased monthly recurring revenue by 127% and reduced customer onboarding time from 14 days to 48 hours.',
         icon: { iconId: 'rocket' },
         badges: {
-          variant: 'buttons',
           buttons: [
             { label: 'Tech Lead', theme: 'emerald' },
             { label: 'Launch', theme: 'blue' },
@@ -148,7 +147,6 @@ export function getDemoConfig(args: { stock: StockMedia }): UserConfig {
         content: 'Scaled engineering team from 4 to 15 while maintaining code quality. Implemented CI/CD pipeline reducing deployment time by 65% and cutting production incidents by half.',
         icon: { iconId: 'users-plus' },
         badges: {
-          variant: 'buttons',
           buttons: [
             { label: 'Leadership', theme: 'violet' },
             { label: 'DevOps', theme: 'amber' },

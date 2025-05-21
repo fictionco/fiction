@@ -18,7 +18,7 @@ const options: InputOption[] = [
   createOption({ key: 'logo', label: 'Logo', input: 'InputLogo', schema }),
   createOption({ key: 'href', label: 'Link', input: 'InputSiteRoute', schema }),
   createOption({ key: 'tagline', label: 'Tagline / Alt', input: 'InputText', schema }),
-  createOption({ key: 'action', input: 'InputActionArea', label: 'Action Area', isClosed: true, schema }),
+  createOption({ key: 'action.buttons', input: 'InputActions', label: 'Action Area', isClosed: true, schema }),
 ]
 </script>
 

@@ -11,6 +11,7 @@ import createDOMPurify from 'dompurify'
 import knex from 'knex'
 import * as vue from 'vue'
 import * as vueRouter from 'vue-router'
+import * as zod from 'zod/v4'
 import { log } from '../plugin-log'
 import { isSSR } from './vars'
 
@@ -67,4 +68,4 @@ export function def<T extends vue.Component>(loader: vue.AsyncComponentLoader<T>
   })
 }
 
-export { axios, chalk, clean, dayjs, knex, unhead, vue, vueRouter }
+export { axios, chalk, clean, dayjs, knex, unhead, vue, vueRouter, zod }

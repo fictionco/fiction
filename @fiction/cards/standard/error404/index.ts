@@ -18,7 +18,7 @@ async function getConfig() {
     createOption({ key: 'superTitle', label: 'Super Title', input: 'InputSuperTitle' }),
     createOption({ key: 'title', label: 'Title', input: 'InputTextarea' }),
     createOption({ key: 'subTitle', label: 'Sub Title', input: 'InputTextarea' }),
-    createOption({ key: 'action', label: 'Actions', input: 'InputActionArea' }),
+    createOption({ key: 'action.buttons', label: 'Actions', input: 'InputActions' }),
   ]
 
   return { schema, options, userConfig: {} }

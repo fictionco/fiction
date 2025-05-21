@@ -17,7 +17,7 @@ type AiShortcodeAttributes = { seconds?: number, label?: string }
 // remove shortcode from description
 shortcodes.addShortcode<AiShortcodeAttributes>({ shortcode: 'ai', handler: () => '' })
 
-export function parseDescription(text: string): { label?: string, description: string, attributes: AiShortcodeAttributes, hasTag: boolean } {
+export function parseSchemaDescriptionForTag(text: string): { label?: string, description: string, attributes: AiShortcodeAttributes, hasTag: boolean } {
   const result = shortcodes.parseStringSync(text)
 
   const description = result.text.trim()
@@ -58,7 +58,7 @@ export function generateJsonPropConfig({ jsonSchema, userPropConfig }: GenerateJ
   let cumulativeTime = 0
   const props = jsonSchema?.properties || {}
   return Object.fromEntries(Object.entries(props).map(([key, value]) => {
-    const { label, description, attributes, hasTag } = parseDescription(value.description || '')
+    const { label, description, attributes, hasTag } = parseSchemaDescriptionForTag(value.description || '')
 
     if (!hasTag) {
       return [key, undefined]

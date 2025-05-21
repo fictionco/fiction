@@ -76,8 +76,8 @@ function getOptions() {
             }),
             createOption({
               schema,
-              key: 'items.0.action',
-              input: 'InputActionArea',
+              key: 'items.0.action.buttons',
+              input: 'InputActions',
               label: 'Links / Actions',
             }),
           ],

@@ -35,13 +35,6 @@ export async function getCards(): Promise<CardConfigPortable[]> {
     cardConfig({
       templateId: 'cardFeaturesV1',
       userConfig: {
-        standard: {
-          headers: {
-            title: 'Core Offerings',
-            subTitle: 'Highlight your primary services or specialties here',
-            layout: 'left',
-          },
-        },
         items: [
           {
             title: 'Primary Service',

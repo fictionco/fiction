@@ -1,4 +1,5 @@
 import type { z } from 'zod'
+
 /**
  * Get object paths with support for deeper nesting levels
  * Handles array indices and nested objects within arrays

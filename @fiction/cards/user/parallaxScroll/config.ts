@@ -57,9 +57,9 @@ const options = [
       }),
       createOption({
         schema,
-        key: 'items.0.action',
+        key: 'items.0.action.buttons',
         label: 'Engagement Triggers',
-        input: 'InputActionArea',
+        input: 'InputActions',
         description: 'Create momentum with perfectly-timed calls to action',
       }),
       createOption({
