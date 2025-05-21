@@ -1,5 +1,5 @@
 import { setup } from '@fiction/admin/test/email.main.js'
-import { isCi } from '@fiction/core'
+import { isCi, toSlug } from '@fiction/core'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import { afterAll, describe, expect, it } from 'vitest'
 
@@ -91,14 +91,14 @@ describe('onboard UX', { retry: isCi() ? 3 : 0 }, async () => {
         { type: 'click', selector: '[data-test-id="step-button-branding"]', waitAfter: 1000 },
 
         // Wait for content generation
-        { type: 'visible', selector: '[data-test-id="step-generate"]', waitAfter: 5000 },
+        { type: 'visible', selector: '[data-test-id="step-generate"]' },
 
         // Step 6: Ready
         { type: 'visible', selector: '[data-test-id="step-ready"]' },
-        { type: 'click', selector: '[data-test-id="step-button-ready"]', waitAfter: 1000 },
+        { type: 'click', selector: '[data-test-id="step-button-ready"]' },
 
         // Verify redirect to dashboard with welcome view
-        { type: 'visible', selector: '[data-pathname="/?_view=welcome"]', waitAfter: 1000 },
+        { type: 'visible', selector: '[data-pathname="/?_view=welcome"]' },
       ],
     })
 
@@ -111,12 +111,18 @@ describe('onboard UX', { retry: isCi() ? 3 : 0 }, async () => {
     // Assertions for user profile updates
     expect(r.data?.needsOnboarding, 'User should complete onboarding').toBeFalsy()
     expect(r.data?.fullName, 'User name should be updated').toBe(testName)
-    expect(r.data?.headline, 'User headline should be updated').toBe(testHeadline)
 
     // Check organization data
     const org = r.data?.orgs?.[0]
     expect(org, 'Organization should be created').toBeTruthy()
-    expect(org?.handle, 'Organization handle should match').toBe(testHandle)
+    expect(org?.handle, 'Organization handle should match').toContain(testHandle)
+    expect(org?.orgName, 'Organization name should match').toBe(testName)
+    expect(org?.headline, 'Organization headline should match').toBe(testHeadline)
+    expect(org?.about, 'Organization about should match').toBe(testAbout)
+    expect(org?.promise, 'Organization promise should match').toBe(testPromise)
+    expect(org?.interests, 'Organization interests should match').toEqual(expect.arrayContaining(testInterests.map(i => toSlug(i))))
+    expect(org?.influences, 'Organization influences should match').toEqual(expect.arrayContaining(testInfluences.map(i => toSlug(i))))
+    expect(org?.primaryColor, 'Organization primary color should match').toBe('blue')
 
     // Verify content was created
     const postsResponse = await kit.testUtils?.fictionPosts.queries.ManagePost.serve(

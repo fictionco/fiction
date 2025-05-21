@@ -82,7 +82,7 @@ export async function generateCardStructure(args: {
   const site = await Site.create({
     fictionSites,
     siteRouter: fictionRouterSites,
-    themeId: 'minimal',
+    themeId: 'base',
     isProd: false,
     siteId: `generate-${shortId()}`,
   })

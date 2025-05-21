@@ -182,11 +182,13 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
       getConfig: async () => ({ userConfig: {}, pages: [], sections: {} }),
     })
 
+    const { theme: baseTheme } = await import('@fiction/theme-base/index.js')
+
     const addedThemes = await this.settings.themes()
 
     addedThemes.forEach(theme => this.fictionEnv.addUiRoot(theme.settings.root))
 
-    this.themes.value = [defaultTheme, ...addedThemes]
+    this.themes.value = [defaultTheme, baseTheme, ...addedThemes]
   }
 
   getQueryItemPreviewPath = vue.computed(() => {

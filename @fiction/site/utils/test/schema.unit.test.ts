@@ -8,7 +8,7 @@ describe('site and page schema', async () => {
   const common = {
     fictionSites: testUtils.fictionSites,
     siteRouter: testUtils.fictionRouterSites,
-    themeId: 'minimal',
+    themeId: 'base',
     siteId: `test-${shortId()}`,
     siteMode: 'designer' as const,
   }

@@ -215,7 +215,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   pages = vue.shallowRef([] as Card[])
   availableCards = vue.computed(() => flattenCards([this.currentPage.value, ...Object.values(this.sections.value)]))
   currentPath = vue.computed({
-    get: () => this.siteRouter.current.value.path,
+    get: () => this.siteRouter.current.value.fullPath,
     set: async v => this.siteRouter.push(v, { caller: 'currentPath' }),
   })
 

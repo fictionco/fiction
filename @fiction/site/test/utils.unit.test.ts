@@ -3,13 +3,13 @@ import { extractIdFromUrl } from '../util'
 
 describe('extractIdFromUrl', () => {
   it('extracts ids from a well-formed URL', () => {
-    const url = 'http://localhost:4444/admin/preview/theme-id/minimal/site-id/example-site'
+    const url = 'http://localhost:4444/admin/preview/theme-id/base/site-id/example-site'
     const ids = extractIdFromUrl(url)
-    expect(ids).toEqual({ themeId: 'minimal', siteId: 'example-site' })
+    expect(ids).toEqual({ themeId: 'base', siteId: 'example-site' })
   })
 
   it('ignores non-id parts of the URL', () => {
-    const url = 'http://localhost:4444/admin/preview/nonid/minimal/someotherid/example-site'
+    const url = 'http://localhost:4444/admin/preview/nonid/base/someotherid/example-site'
     const ids = extractIdFromUrl(url)
     expect(ids).toEqual({})
   })
@@ -27,9 +27,9 @@ describe('extractIdFromUrl', () => {
   })
 
   it('handles URLs with extra slashes', () => {
-    const url = 'http://localhost:4444/admin/preview///theme-id/minimal//site-id/example-site//'
+    const url = 'http://localhost:4444/admin/preview///theme-id/base//site-id/example-site//'
     const ids = extractIdFromUrl(url)
-    expect(ids).toEqual({ themeId: 'minimal', siteId: 'example-site' })
+    expect(ids).toEqual({ themeId: 'base', siteId: 'example-site' })
   })
 
   it('handles case sensitivity in ids', () => {

@@ -155,7 +155,7 @@ export async function loadSiteFromTheme(args: {
 export async function loadSiteFromCard(args: { cardId: string, siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode, caller?: string }): Promise<Site> {
   const { cardId } = args
   const normCardId = toCamel(cardId)
-  const site = await loadSiteFromTheme({ ...args, themeId: 'minimal' })
+  const site = await loadSiteFromTheme({ ...args, themeId: 'base' })
 
   const { createDemoPage } = await import('./utils/demo.js')
 
