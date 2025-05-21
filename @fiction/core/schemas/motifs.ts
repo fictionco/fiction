@@ -1,5 +1,40 @@
 import { z } from 'zod'
 
+export function getPersonalBrandingGoals() {
+  return [
+    {
+      value: 'portfolio',
+      label: 'Show My Work',
+      subLabel: 'Portfolio for clients and employers',
+    },
+    {
+      value: 'career',
+      label: 'Get Hired',
+      subLabel: 'Resume and professional profile',
+    },
+    {
+      value: 'business',
+      label: 'Find Clients',
+      subLabel: 'Services and contact info',
+    },
+    {
+      value: 'personal',
+      label: 'Share My Story',
+      subLabel: 'Blog and personal updates',
+    },
+    {
+      value: 'influence',
+      label: 'Build Influence',
+      subLabel: 'Ideas and thought leadership',
+    },
+    {
+      value: 'investments',
+      label: 'Attract Opportunities',
+      subLabel: 'Ventures, partnerships and investments',
+    },
+  ] as const
+}
+
 export function getArchetypesStyles() {
   return [
     {

@@ -617,26 +617,32 @@ export class QueryManagePost extends PostsQuery {
       where?.postId || where?.slug ? this.getPost({ _action: 'get', where, orgId }, meta).then(r => r.data?.[0]) : null,
     ])
 
-    // Create new post (requires userId)
+    // Check if this is a test organization or user
+    const isTestRun = org?.orgName?.toLowerCase().includes('testing')
+
     if (!userId)
       throw abort('userId required for new post', meta)
-
     if (!org)
       throw abort('org not found', meta)
-
     if (where && !existingPost)
       throw abort('Post not found', meta)
 
     try {
-      // Generate content
-      const { getGenerationParams } = await import('./utils/generation')
-      const generationParams = getGenerationParams({ org, mode, post: fields })
-      const generatedFields = await this.settings.fictionAi.queries.QueryAi.serve({
-        orgId,
-        userId,
-        _action: 'completion',
-        ...generationParams,
-      }, { server: true }).then(r => (r.data?.completion || {}) as TablePostConfig)
+      const { getGenerationParams, getSamplePost } = await import('./utils/generation')
+      let generatedFields: Partial<TablePostConfig>
+
+      if (isTestRun) {
+        generatedFields = getSamplePost({ mode, prefix: org.orgName || 'Test' })
+      }
+      else {
+        const generationParams = getGenerationParams({ org, mode, post: fields })
+        generatedFields = await this.settings.fictionAi.queries.QueryAi.serve({
+          orgId,
+          userId,
+          _action: 'completion',
+          ...generationParams,
+        }, { server: true }).then(r => (r.data?.completion || {}) as TablePostConfig)
+      }
 
       // Create new post or update existing one
       if (existingPost && where) {

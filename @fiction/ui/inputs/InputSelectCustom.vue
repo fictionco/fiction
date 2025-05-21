@@ -171,7 +171,7 @@ function handleKeydown(event: KeyboardEvent) {
         >
           <!-- Visible input (for display only) -->
           <div class="flex-1 flex items-center">
-            <slot name="selected" v-bind:item="selectedItem">
+            <slot name="selected" :item="selectedItem">
               {{ search ?? selectedItem?.name ?? (defaultText || 'Select') }}
             </slot>
           </div>
@@ -193,7 +193,7 @@ function handleKeydown(event: KeyboardEvent) {
 
         <div class="z-10 absolute right-0.5 top-0 h-full flex items-center px-1 cursor-pointer" :class="[themeClasses.selector.always, active ? themeClasses.selector.active : '']">
           <!-- Trailing slot for color preview or custom content -->
-          <slot name="trailing"></slot>
+          <slot name="trailing" />
 
           <div v-if="loading" class="i-ci-loading animate-spin text-[1.2em]" />
           <div v-else class="i-tabler-selector text-[1.2em]" />
@@ -249,7 +249,7 @@ function handleKeydown(event: KeyboardEvent) {
                 @click="selectValue(item)"
               >
                 <!-- Use a slot for option rendering -->
-                <slot name="option" v-bind:item="item" v-bind:index="i" v-bind:isSelected="isSelected(item.value)">
+                <slot name="option" :item="item" :index="i" :is-selected="isSelected(item.value)">
                   <div class="min-w-0 grow">
                     <div class="shrink-0 font-medium truncate" :class="item.description || item.desc ? '' : 'w-full'">
                       {{ item.label || item.name }} <span v-if="item.subLabel" class="text-[.9em] text-theme-500 dark:text-theme-400">{{ item.subLabel }}</span>

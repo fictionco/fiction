@@ -33,12 +33,7 @@ export const theme = new Theme({
               templateId: 'cardBlogV1',
               userConfig: {
                 featuredCount: 1,
-                title: '[@name]',
-                subTitle: '[@headline]',
-                media: {
-                  type: 'image',
-                  url: '[@avatar]',
-                },
+                title: '[@promise]',
               },
             }),
           ],

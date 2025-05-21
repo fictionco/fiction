@@ -6,9 +6,11 @@ import type { EndpointResponse } from '../types/index.js'
 import type { EndpointMeta } from '../utils/endpoint.js'
 import type { FictionUser, OnboardSettings, Organization } from './index.js'
 import type { User } from './types.js'
+import { id } from 'happy-dom/lib/PropertySymbol.js'
 import { Query } from '../query.js'
 import { standardTable as t } from '../tbl.js'
 import { getGeoFree } from '../utils/geo.js'
+import { ensureUniqueHandle } from '../utils/handle.js'
 import { abort, dayjs, getRequestIpAddress } from '../utils/index.js'
 import { checkPasswordIsComplicated, comparePassword, defaultOrgName, emailExists, getCode, hashPassword, validateNewEmail, verifyCode } from './utils/index.js'
 
@@ -309,6 +311,10 @@ export class QueryManageUser extends UserBaseQuery {
       },
     })
 
+    if (insertFields.handle && 'userId' in where) {
+      insertFields.handle = await ensureUniqueHandle({ db: this.db(), table: t.user, handle: insertFields.handle, excludeId: where.userId, idColumn: 'userId' })
+    }
+
     this.log.debug('updating user', { data: { where, insertFields, fields } })
 
     const [user] = await db(t.user).update(insertFields).where(where).returning<User[]>('*')
@@ -378,6 +384,10 @@ export class QueryManageUser extends UserBaseQuery {
       checkPasswordIsComplicated(password)
 
       fields.hashedPassword = await hashPassword(password)
+    }
+
+    if (fields.handle) {
+      fields.handle = await ensureUniqueHandle({ db: this.db(), table: t.user, handle: fields.handle, idColumn: 'userId' })
     }
 
     const exists = await emailExists({ email: fields.email, fictionUser })

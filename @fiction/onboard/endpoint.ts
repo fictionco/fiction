@@ -47,6 +47,11 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
 
     const { fictionPosts, fictionSites } = this.settings
 
+    if (!fictionPosts)
+      throw abort('fictionPosts is not available')
+    if (!fictionSites)
+      throw abort('fictionSites is not available')
+
     try {
       const _promises: Promise<any>[] = Array.from({ length: 3 }).fill({}).map(() => {
         return fictionPosts.queries.ManagePost.serve({ _action: 'generate', mode: 'full', fields: {}, orgId, userId }, { server: true, ...meta })
@@ -82,11 +87,17 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
 
     const { linkedinHandle } = params.profile
 
-    const linkedinData = await this.fetchLinkedInProfile(linkedinHandle)
+    if (!linkedinHandle)
+      throw abort('LinkedIn handle is required')
+
+    // Use mock data for test handles or when ProxyCurl API key is missing
+    const isTest = !!((linkedinHandle?.toLowerCase().includes('test') || !this.settings.proxycurlApiKey))
+
+    const linkedinData = await this.fetchLinkedInProfile({ linkedinHandle, isTest })
     if (!linkedinData)
       return { status: 'error', message: 'Failed to fetch LinkedIn profile' }
 
-    const returnProfile = await this.buildProfileFromLinkedinData({ linkedinData, userId, orgId })
+    const returnProfile = await this.buildProfileFromLinkedinData({ linkedinData, userId, orgId, isTest })
     await this.updateProfileData({ profile, userId, orgId }, meta)
 
     this.log.info('Profile enriched', { data: returnProfile })
@@ -110,19 +121,22 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     }
   }
 
-  private async fetchLinkedInProfile(linkedinHandle?: string): Promise<LinkedInEnrichmentProfile> {
+  private async fetchLinkedInProfile(args: { linkedinHandle?: string, isTest?: boolean }): Promise<LinkedInEnrichmentProfile> {
+    const { linkedinHandle, isTest } = args
     if (!linkedinHandle) {
       throw new Error('linkedin username is missing')
     }
 
     const url = linkedinHandle.includes('linkedin.com') ? linkedinHandle : `https://www.linkedin.com/in/${linkedinHandle}`
 
-    this.enrichCount++
-    this.log.info('Fetching LinkedIn profile', { url, enrichCount: this.enrichCount })
-    if (!this.settings.proxycurlApiKey) {
-      this.log.warn('ProxyCurl API key is missing, using mock data')
+    // Use mock data for test handles or when ProxyCurl API key is missing
+    if (isTest) {
+      this.log.info('Using mock data for test handle or missing API key', { handle: linkedinHandle })
       return getMockLinkedInData(url)
     }
+
+    this.enrichCount++
+    this.log.info('Fetching LinkedIn profile', { url, enrichCount: this.enrichCount })
 
     try {
       const response = await fetch(
@@ -140,13 +154,13 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     }
   }
 
-  private async buildProfileFromLinkedinData(args: { linkedinData: LinkedInEnrichmentProfile, userId: string, orgId: string }): Promise<ProfileData> {
-    const { orgId, userId, linkedinData } = args
+  private async buildProfileFromLinkedinData(args: { linkedinData: LinkedInEnrichmentProfile, userId: string, orgId: string, isTest?: boolean }): Promise<ProfileData> {
+    const { orgId, userId, linkedinData, isTest } = args
     const name = linkedinData.full_name || ''
     const handle = linkedinData.public_identifier || createHandle(name)
     const avatarUrl = linkedinData.profile_pic_url || ''
 
-    const aiEnhancement = await this.enhanceProfileWithAi({ linkedinData, orgId, userId })
+    const aiEnhancement = await this.enhanceProfileWithAi({ linkedinData, orgId, userId, isTest })
     const avatar = avatarUrl ? await this.processAvatarToMedia({ url: avatarUrl }, orgId, userId) : undefined
 
     return {
@@ -163,9 +177,28 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     }
   }
 
-  private async enhanceProfileWithAi(args: { linkedinData: LinkedInEnrichmentProfile, orgId: string, userId: string }): Promise<AiEnhancement> {
-    const { orgId, userId, linkedinData } = args
+  private async enhanceProfileWithAi(args: { linkedinData: LinkedInEnrichmentProfile, orgId: string, userId: string, isTest?: boolean }): Promise<AiEnhancement> {
+    const { orgId, userId, linkedinData, isTest } = args
     const params = getGenerationParams({ linkedinData })
+
+    const getDefaultData = () => {
+      const { headline, summary = '', skills } = linkedinData
+      return {
+        promise: 'Grow Your Influence',
+        headline: headline || 'Leader',
+        about: summary || 'An experienced professional with a passion for innovation.',
+        interests: skills?.slice(0, 5).map(s => s.name) || ['Innovation', 'Technology'],
+        influences: [],
+        pillars: [],
+        clout: 0,
+        goal: 'Build a personal brand.',
+      }
+    }
+
+    if (isTest) {
+      this.log.info('Using mock data for AI enhancement', { handle: linkedinData.public_identifier })
+      return getDefaultData()
+    }
 
     try {
       const aiResponse = await this.settings.fictionAi.queries.QueryAi.serve({ _action: 'completion', orgId, userId, ...params }, { server: true })
@@ -178,17 +211,7 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     }
     catch (error) {
       this.log.error('AI enhancement failed', { error })
-      const { headline, summary = '', skills } = linkedinData
-      return {
-        promise: 'Grow Your Influence',
-        headline: headline || 'Leader',
-        about: summary || 'An experienced professional with a passion for innovation.',
-        interests: skills?.slice(0, 5).map(s => s.name) || ['Innovation', 'Technology'],
-        influences: [],
-        pillars: [],
-        clout: 0,
-        goal: 'Build a personal brand.',
-      }
+      return getDefaultData()
     }
   }
 

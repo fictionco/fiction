@@ -53,13 +53,12 @@ const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
               dropdown-alignment="end"
             >
               <XButton
-                rounding="md"
-                size="sm"
-                design="solid"
+                size="md"
+                design="outline"
                 theme="primary"
                 icon-after="i-tabler-chevron-down"
               >
-                Select Action
+                Quick Actions
               </XButton>
             </XDropDown>
           </div>

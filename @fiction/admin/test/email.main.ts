@@ -20,7 +20,7 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
     new AppRoute({ name: 'dash', path: '/:viewId?/:itemId?', component, props: { siteRouter, themeId: 'admin' } }),
   ])
 
-  const fictionAdmin = new FictionAdmin({ ...testUtils })
+  // const fictionAdmin = new FictionAdmin({ ...testUtils })
   const fictionStripe = new FictionStripe({
     ...testUtils,
     secretKeyTest: testUtils.fictionEnv.var('STRIPE_SECRET_KEY_TEST'),
@@ -32,7 +32,7 @@ export async function setup(args: { context?: 'node' | 'app' } = {}) {
     }],
   })
 
-  const service = { ...testUtils, fictionAdmin, fictionStripe }
+  const service = { ...testUtils, fictionStripe }
 
   return {
     runVars: { },

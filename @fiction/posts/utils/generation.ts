@@ -1,5 +1,6 @@
 import type { Organization } from '@fiction/core'
 import type { PostConfig } from '../post'
+import type { TablePostConfig } from '../schema'
 import { z } from 'zod'
 
 export function getGenerationParams(args: {
@@ -21,7 +22,7 @@ ${post.title
 ${post.content ? `Existing: ${post.content.substring(0, 200)}${post.content.length > 200 ? '...' : ''}` : ''}
 
 Brand Context:
-${org.goal ? `Brand Goal: ${org.goal}` : ''}
+${org.promise ? `Content Promise: ${org.promise}` : ''}
 ${org.headline ? `Brand Headline: ${org.headline}` : ''}
 ${org.about ? `About Brand: ${org.about}` : ''}
 ${org.interests ? `Interests: ${org.interests.join(', ')}` : ''}
@@ -61,4 +62,34 @@ IMAGES:
       }).describe('Generate outline for the post based on the provided context and guidelines.')
 
   return { prompt, schema }
+}
+
+export function getSamplePost(args: {
+  mode?: 'outline' | 'full'
+  prefix?: string
+  count?: number
+} = {}): Partial<TablePostConfig> {
+  const { mode = 'full', prefix = 'Sample', count = 1 } = args
+  const now = new Date().toISOString()
+
+  const baseContent = {
+    title: `${prefix} Post ${count}`,
+    subTitle: 'A simple sample post for demonstration purposes',
+    dateAt: now,
+    updatedAt: now,
+    tags: ['sample', 'content'],
+    categories: ['Samples'],
+  }
+
+  if (mode === 'outline') {
+    return {
+      ...baseContent,
+      content: `<h2>Introduction</h2><p>This is a sample outline.</p><h2>Key Points</h2><ul><li>First point</li><li>Second point</li><li>Third point</li></ul><h2>Conclusion</h2><p>Sample conclusion.</p>`,
+    }
+  }
+
+  return {
+    ...baseContent,
+    content: `<h2>Introduction</h2><p>This is a sample post created for demonstration purposes.</p><h2>Main Content</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, vitae aliquam nisl nunc eu nisl. Sed vitae purus ac risus finibus feugiat.</p><p>Donec et ligula et libero lacinia volutpat sit amet non risus. Vestibulum imperdiet, eros ut pretium convallis, ipsum nisl tempor purus, sed consequat nibh tortor a dui.</p><h2>Conclusion</h2><p>Thank you for reading this sample post.</p>`,
+  }
 }

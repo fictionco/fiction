@@ -1,4 +1,5 @@
 import type { Knex } from 'knex'
+import type { table } from 'node:console'
 import type { EndpointResponse } from '../types/index.js'
 import type { EndpointMeta } from '../utils/endpoint.js'
 import type { FictionUser, OrganizationMember, UserPluginSettings } from './index.js'
@@ -6,6 +7,7 @@ import type { MemberAccess, Organization, OrganizationMembership, User } from '.
 import { Query } from '../query.js'
 import { standardTable as t } from '../tbl.js'
 import { abort } from '../utils/error.js'
+import { ensureUniqueHandle } from '../utils/handle.js'
 import { objectId } from '../utils/id.js'
 import { gravatarUrlSync } from '../utils/url.js'
 
@@ -308,6 +310,10 @@ export class QueryManageOrganization extends OrgQuery {
       responseOrg = existingOrg
     }
     else {
+      if (createFields.handle) {
+        createFields.handle = await ensureUniqueHandle({ db: this.db(), table: t.org, handle: createFields.handle, idColumn: 'orgId' })
+      }
+
       const [newOrg] = await this.db()
         .insert({
           orgId: orgId || objectId({ prefix: 'org' }),
@@ -344,6 +350,10 @@ export class QueryManageOrganization extends OrgQuery {
       meta,
       table: t.org,
     })
+
+    if (updatedFields.handle && 'orgId' in where) {
+      updatedFields.handle = await ensureUniqueHandle({ db: this.db(), table: t.org, handle: updatedFields.handle, excludeId: where.orgId, idColumn: 'orgId' })
+    }
 
     this.log.debug('updateOrganization', { data: { where, updatedFields, fields } })
 
