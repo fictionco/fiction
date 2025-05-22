@@ -7,11 +7,11 @@ import { z } from 'zod/v4'
 
 // Schema definition
 export const schema = z.object({
-  posts: PostHandlingSchema.optional().describe('Blog post configuration and handling'),
-  featuredCount: z.number().optional().describe('Number of featured posts to display prominently'),
-  title: z.string().optional().describe('Title for the blog section'),
-  subTitle: z.string().optional().describe('Description for the blog section'),
-  media: MediaBasicSchema.optional().describe('Header media for the blog section'),
+  posts: PostHandlingSchema.optional().meta({ description: 'Blog post configuration and handling' }),
+  featuredCount: z.number().optional().meta({ description: 'Number of featured posts to display prominently' }),
+  title: z.string().optional().meta({ description: 'Title for the blog section' }),
+  subTitle: z.string().optional().meta({ description: 'Description for the blog section' }),
+  media: MediaBasicSchema.optional().meta({ description: 'Header media for the blog section' }),
 })
 
 export type UserConfig = z.infer<typeof schema> & StandardUserConfig

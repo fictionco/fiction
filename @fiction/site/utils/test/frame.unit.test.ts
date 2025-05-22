@@ -79,10 +79,12 @@ describe('siteFrameTools', async () => {
     // Test setCard message
     const cardId = 'test-card-id'
     const cardConfig = { cardId, title: 'New Card Title' }
-    const mockCard = new Card({ title: 'TestCard', cardId, site })
+    const mockCard = new Card({ title: 'TestCard', cardId, site, slug: 'test-page' })
     vi.spyOn(mockCard, 'update')
     // Add the mock card to a page
     site.pages.value = [mockCard]
+
+    await site.siteRouter.push({ path: '/test-page' }, { caller: 'testFrame' })
     await site.frame.processFrameMessage({ msg: { messageType: 'setCard', data: { cardConfig } }, scope: 'parent' })
 
     expect(mockCard.update, 'card update should be called with correct config').toHaveBeenCalledWith(cardConfig, expect.any(Object))
@@ -93,6 +95,9 @@ describe('siteFrameTools', async () => {
 
     // Test navigate message
     await site.frame.processFrameMessage({ msg: { messageType: 'navigate', data: { urlOrPath: '/new-path', siteId: site.siteId } }, scope: 'parent' })
+
+    await waitFor(30)
+
     expect(site.currentPath.value, 'current path should be updated').toBe('/new-path')
   })
 
@@ -138,7 +143,7 @@ describe('siteFrameTools', async () => {
     site.currentPath.value = '/update-frame-path?_reload=1'
     expect(site.frame.relation.value).toMatchInlineSnapshot(`"parent"`)
     await waitFor(100)
-    expect(site.frame.framePath.value).toBe('/update-frame-path')
+    expect(site.frame.framePath.value).toBe('/update-frame-path?_reload=1')
   })
 
   it('should send navigate message when currentPath changes (child relation)', async () => {

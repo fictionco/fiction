@@ -228,7 +228,7 @@ export const MediaDisplaySchema = MediaContentSchema.extend({
   overlay: OverlaySettingSchema.optional().meta({ ai: false }),
   width: z.number().optional().meta({ ai: false }),
   height: z.number().optional().meta({ ai: false }),
-  tags: z.array(z.string()).optional().meta({ ai: true }),
+  tags: z.array(z.string()).optional().meta({ ai: false }),
   displayWidthPercent: z.number().optional().meta({ ai: false }),
   displayHeightPercent: z.number().optional().meta({ ai: false }),
   videoControls: VideoControlsSchema.optional().meta({ ai: false }),

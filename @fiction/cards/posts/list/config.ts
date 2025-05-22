@@ -7,19 +7,19 @@ import { getDemoPosts } from '@fiction/ui/posts/index'
 import z from 'zod/v4'
 
 export const displaySchema = z.object({
-  layout: z.enum(['grid', 'scroll']).optional(),
-  proportions: z.enum(['wide', 'standard', 'portrait', 'square', 'cinema']).optional(),
-  gap: SizeSchema.optional(),
-  showAuthor: z.boolean().optional(),
-  showDate: z.boolean().optional(),
-  showExcerpt: z.boolean().optional(),
-  itemsPerRow: z.number().min(1).max(6).optional(),
-  maxRows: z.number().min(1).max(6).optional(),
+  layout: z.enum(['grid', 'scroll']).optional().meta({ description: 'Post display layout format' }),
+  proportions: z.enum(['wide', 'standard', 'portrait', 'square', 'cinema']).optional().meta({ description: 'Image aspect ratio for posts' }),
+  gap: SizeSchema.optional().meta({ description: 'Spacing between post items' }),
+  showAuthor: z.boolean().optional().meta({ description: 'Display post author information' }),
+  showDate: z.boolean().optional().meta({ description: 'Display post publication date' }),
+  showExcerpt: z.boolean().optional().meta({ description: 'Display post excerpt text' }),
+  itemsPerRow: z.number().min(1).max(6).optional().meta({ description: 'Number of posts per row' }),
+  maxRows: z.number().min(1).max(6).optional().meta({ description: 'Maximum number of rows to display' }),
 })
 
 export const schema = z.object({
-  display: displaySchema.optional(),
-  posts: PostHandlingSchema.optional().describe('Posts configuration'),
+  display: displaySchema.optional().meta({ description: 'Display configuration settings' }),
+  posts: PostHandlingSchema.optional().meta({ description: 'Posts configuration' }),
 })
 
 export type UserConfig = z.infer<typeof schema> & StandardUserConfig

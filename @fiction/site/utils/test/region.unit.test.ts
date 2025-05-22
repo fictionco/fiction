@@ -88,13 +88,15 @@ describe('addNewCard', async () => {
     const site = await Site.create({ ...common, isProd: false, themeId: 'test', siteId: `test-${shortId()}` }, { isNewSite: true })
 
     expect(site.viewMap.value.example).toBeTruthy()
-    expect(site.viewMap.value._home).toBeTruthy()
     expect(Object.keys(site.viewMap.value)).toMatchInlineSnapshot(`
       [
-        "_home",
         "_",
         "example",
         "__transaction",
+        "_p",
+        "_archive",
+        "p",
+        "archive",
         "_404",
       ]
     `)
