@@ -77,12 +77,12 @@ describe('determineMediaFormat', () => {
 
   it('should return "iconId" for media with iconId', () => {
     const media: MediaObject = { iconId: 'plane' }
-    expect(determineMediaFormat(media)).toBe('iconId')
+    expect(determineMediaFormat(media)).toBe('icon')
   })
 
   it('should return "iconClass" for media with class', () => {
-    const media: MediaObject = { class: 'some-icon-class' }
-    expect(determineMediaFormat(media)).toBe('iconClass')
+    const media: MediaObject = { class: 'i-icon-class' }
+    expect(determineMediaFormat(media)).toBe('icon')
   })
 
   it('should return "html" for media with html content', () => {

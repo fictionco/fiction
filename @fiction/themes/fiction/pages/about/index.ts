@@ -21,7 +21,7 @@ export async function getAboutPage() {
           subTitle: `Create a perfect version of yourself online.`,
 
           media: {
-            format: 'url',
+            format: 'image',
             url: ImageOffice,
           },
           layout: 'justify',
@@ -44,7 +44,7 @@ export async function getAboutPage() {
           subTitle: `74% of professionals have no online presence. Clunky tools, tech overwhelm, and fear of looking unprofessional stop them cold.`,
 
           media: {
-            format: 'url',
+            format: 'image',
             url: ImageGirlComputer,
           },
           layout: 'left',
@@ -68,7 +68,7 @@ export async function getAboutPage() {
           subTitle: `You're not a tech expert, and you shouldn't have to be. Fiction lets you create a polished, authentic digital identity with ease—no coding, no stress.`,
 
           media: {
-            format: 'url',
+            format: 'image',
             url: ImagePro,
           },
           layout: 'right',
@@ -89,7 +89,7 @@ export async function getAboutPage() {
           subTitle: 'Co-Founder / CEO',
           content: 'Andrew obsesses over making Fiction intuitive, so you can focus on your story, not the tech.',
           media: {
-            format: 'url',
+            format: 'image',
             url: ImageAndrew,
           },
           action: {
@@ -106,7 +106,7 @@ export async function getAboutPage() {
           subTitle: 'Co-Founder / Sales',
           content: 'Morgan ensures your experience with Fiction is seamless, from start to stunning finish.',
           media: {
-            format: 'url',
+            format: 'image',
             url: ImageMorgan,
           },
           action: {

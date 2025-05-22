@@ -196,7 +196,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
       throw abort(`Unsupported file type: ${fileMime}`, { expected: meta.expectError })
 
     // Determine if this is a raster image that should be converted to AVIF
-    const isRasterImage = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(fileMime)
+    const isRasterImage = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/avif'].includes(fileMime)
 
     // Create standardized paths
     const mediaId = objectId({ prefix: 'med' })
@@ -205,31 +205,16 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
 
     // Process media
     const sizeOptions = { main: { width: this.maxSide, height: this.maxSide }, crop }
-    const { mainBuffer, metadata, blurhash } = await createImageVariants({
-      fileSource,
-      sizeOptions,
-      fileMime,
-    })
+    const { mainBuffer, metadata, blurhash } = await createImageVariants({ fileSource, sizeOptions, fileMime })
 
-    const hash = args.hash || await hashFile({
-      filePath: sourceFilePath,
-      buffer: file?.buffer,
-      settings: { crop },
-    })
+    const hash = args.hash || await hashFile({ filePath: sourceFilePath, buffer: file?.buffer, settings: { crop } })
 
     try {
     // Use original mime type for non-raster images and videos
-      const uploadMime = isRasterImage ? 'image/avif' : fileMime
+      const mime = isRasterImage ? 'image/avif' : fileMime
 
       // Upload to S3
-      const mainData = await this.settings.fictionAws.uploadS3({
-        data: mainBuffer,
-        filePath,
-        mime: uploadMime,
-        bucket,
-      })
-
-      this.log.info('media uploaded')
+      const mainData = await this.settings.fictionAws.uploadS3({ data: mainBuffer, filePath, mime, bucket })
 
       // Build URLs with blurhash
       const baseUrl = mainData?.url
@@ -241,8 +226,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
       const { ContentLength: size } = mainData?.headObject || {}
       const mediaMetadata = await this.getMediaMetadata(mainBuffer, fileMime)
 
-      // Save to database
-      return await this.saveReferenceToDb({
+      const entry = {
         ...fields,
         orgId,
         userId,
@@ -251,13 +235,20 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
         blurhash,
         originUrl,
         url,
-        mime: fileMime, // Preserve original mime type
+        mime,
         bucket,
         filePath,
         size,
         ...(metadata || {}),
         ...mediaMetadata,
-      }, meta)
+      }
+
+      // Save to database
+      const r = await this.saveReferenceToDb(entry, meta)
+
+      this.log.info('media uploaded')
+
+      return r
     }
     catch (error) {
       this.log.error('Error uploading media', { error })

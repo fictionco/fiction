@@ -47,7 +47,7 @@ describe('media upload/download tests', async () => {
     expect(result?.status).toBe('success')
     const media = result?.data?.[0]
     expect(media?.url).toContain('fiction-media')
-    expect(media?.mime).toBe('image/jpeg') // or the correct mime type
+    expect(media?.mime).toBe('image/avif') // or the correct mime type
 
     expect(Object.keys(media || {}).sort()).toMatchInlineSnapshot(`
       [
@@ -101,11 +101,11 @@ describe('media upload/download tests', async () => {
     if (!url)
       throw new Error('no url')
     expect(url).toContain('fiction-media')
-    expect(url).toContain('test.jpg')
-    expect(r?.data?.url).toContain('.jpg')
+    expect(url).toContain('.avif')
+    expect(r?.data?.url).toContain('.avif')
     expect(r?.message).toMatchInlineSnapshot('"uploaded successfully"')
-    expect(r?.data?.mime).toBe('image/jpeg')
-    expect(r?.data?.size).toMatchInlineSnapshot(`123812`)
+    expect(r?.data?.mime).toBe('image/avif')
+    expect(r?.data?.size).toMatchInlineSnapshot(`118043`)
     expect(r?.data?.userId).toBe(testUtils?.initialized?.user?.userId)
 
     const img = await fetch(url)
@@ -117,7 +117,7 @@ describe('media upload/download tests', async () => {
 
     expect(r?.data?.length).toBeGreaterThan(0)
     expect(r?.message).toBeFalsy()
-    expect(r?.data?.[0].url).toContain('.jpg')
+    expect(r?.data?.[0].url).toContain('.avif')
   })
 
   it('deletes a file', async () => {

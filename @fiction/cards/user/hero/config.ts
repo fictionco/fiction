@@ -13,10 +13,11 @@ const LayerMediaScheme = z.object({
 })
 
 export const HeroSchema = z.object({
+  superTitle: SuperTitleSchema.optional().meta({ ai: true, description: 'Small text above title' }),
   layout: z.enum(['justify', 'center', 'left', 'right']).optional().meta({ ai: false, description: 'Content alignment' }),
   title: z.string().optional().meta({ ai: true, description: 'Main headline (3-13 words)' }),
   subTitle: z.string().optional().meta({ ai: true, description: 'Supporting message (10-30 words)' }),
-  superTitle: SuperTitleSchema.optional().meta({ ai: true, description: 'Small text above title' }),
+
   media: MediaSchema.optional().meta({ ai: true, description: 'Primary visual' }),
   caption: z.string().optional().meta({ ai: false, description: 'Media description' }),
   action: ActionAreaSchema.optional().meta({ ai: true, description: 'Call-to-action buttons' }),
