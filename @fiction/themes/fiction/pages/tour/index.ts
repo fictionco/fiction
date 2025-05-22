@@ -8,6 +8,9 @@ import ImageFigMoney from './img/fig-money-alt-1.svg'
 import ImageSubscribe from './img/fig-subscribe-alt-1.svg'
 import ImageManSmiling from './img/man-smiling.png'
 import ImageMeeting from './img/meeting.png'
+import PersonBrene from './img/person-brene.webp'
+import PersonFerris from './img/person-ferris.webp'
+import PersonSimon from './img/person-simon.jpg'
 import ImageWebsite from './img/website.svg'
 
 export async function getTourPage(args: { factory: CardFactory, stock: StockMedia }) {
@@ -26,12 +29,12 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
             userConfig: {
               items: [{
                 superTitle: {
-                  text: 'Personal Branding for the AI Age',
+                  text: 'Your Digital Self',
                   theme: 'green',
                   icon: { class: 'i-tabler-arrow-up-right' },
                 },
-                title: `The Most Reliable Way to Improve Your [@text_effect type=squiggle]Results[/@text_effect]`,
-                subTitle: `The most effective way to drive new opportunities, and grow your business.`,
+                title: `Most People [@text_effect type=scribble]Secretly[/@text_effect] Research You!`,
+                subTitle: `Over 80% of people research you online before meeting with you. Fiction helps set your first impression.`,
 
                 action: {
                   buttons: [
@@ -56,11 +59,11 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   layout: 'right',
                   superTitle: {
                     icon: { iconId: 'browser' },
-                    text: 'Command Attention',
+                    text: 'Own the Spotlight',
                     theme: 'orange',
                   },
-                  title: 'A Professional Website for Your Aspirations',
-                  subTitle: `Over 80% of people research you online before meeting with you. Your professional avatar sets your first impression.`,
+                  title: `Like a Website, But Better`,
+                  subTitle: `Want a website but don't want the complexity? Fiction's AI creates a stunning, personalized site that showcases your expertise.`,
                   media: { url: ImageManSmiling },
                   overlays: [{ media: { url: ImageWebsite }, widthPercent: 50 }],
                   action: {},
@@ -69,11 +72,11 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   layout: 'left',
                   superTitle: {
                     icon: { iconId: 'trending-up' },
-                    text: 'Inbound Influence',
+                    text: 'Influence on Autopilot',
                     theme: 'rose',
                   },
-                  title: 'Content and Email Marketing made Simple',
-                  subTitle: `The best way to connect with leaders in your field is to build your personal brand and share your expertise.`,
+                  title: `Content that Connects`,
+                  subTitle: `Have a tough time creating content? Fiction enhances your ideas, making them engaging and shareable.`,
                   media: { url: ImageAudience },
                   overlays: [{ media: { url: ImageSubscribe } }],
                   action: {},
@@ -82,11 +85,11 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   layout: 'right',
                   superTitle: {
                     icon: { iconId: 'rocket' },
-                    text: 'Right Place, Right Time',
+                    text: 'Network Smarter',
                     theme: 'purple',
                   },
-                  title: 'Build Your Reputation Network',
-                  subTitle: `Invite and connect with leaders and colleagues across Fiction's network of sites.`,
+                  title: `Connections that Matter`,
+                  subTitle: `Stop relying on social media to connect. Fiction's AI helps you create an audience you own.`,
                   media: { url: ImageMeeting },
                   overlays: [{ media: { url: ImageFigMoney } }],
                   action: {},
@@ -95,11 +98,11 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   layout: 'left',
                   superTitle: {
                     icon: { iconId: 'chart-bar' },
-                    text: 'AI for Human Results',
+                    text: 'AI with Soul',
                     theme: 'yellow',
                   },
-                  title: 'AI-Enhanced Creation',
-                  subTitle: `Fiction tastefully integrates AI to enhance what makes you unique, help you stay focused, and execute on your vision.`,
+                  title: `Create with Clarity`,
+                  subTitle: `Overwhelmed by tech? Fiction’s AI enhances your vision, keeping you in control.`,
                   media: { url: ImageAi },
                   action: {},
                 },
@@ -145,7 +148,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                     label: 'Brené Brown',
                     media: {
                       format: 'image',
-                      url: new URL('img/person-brene.webp', import.meta.url).href,
+                      url: PersonBrene,
                     },
                     subLabel: 'Research Professor & Author',
                   },
@@ -157,7 +160,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   text: `<p>Every time someone Googles your name, they're making decisions about you. Are you controlling that narrative or leaving it to chance?</p>`,
                   author: {
                     label: 'Tim Ferris',
-                    media: { url: new URL('img/person-ferris.webp', import.meta.url).href },
+                    media: { url: PersonFerris },
                     subLabel: 'Author of The 4-Hour Workweek',
                   },
                   org: {
@@ -170,7 +173,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                     label: 'Simon Sinek',
                     media: {
                       format: 'image',
-                      url: new URL('img/person-simon.jpg', import.meta.url).href,
+                      url: PersonSimon,
                     },
                     subLabel: 'Leadership Expert & Best-Selling Author',
                   },
@@ -208,15 +211,15 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                 {
                   superTitle: {
                     icon: { iconId: 'rocket' },
-                    text: 'Feeling frustrated? The solution is here.',
+                    text: 'Stuck in the Shadows?',
                     theme: 'orange',
                   },
-                  title: `Your Story Is [@text_effect type=squiggle]Worth Telling[/@text_effect]`,
-                  subTitle: `Lots of people struggle to build a personal brand! Fiction simplifies the process, give it a try and see the difference.`,
+                  title: `Your Voice [@text_effect type=squiggle]Deserves[/@text_effect] to Lead`,
+                  subTitle: `Building a brand feels impossible? Fiction's AI makes it sharp, simple, and yours.`,
                   action: {
                     buttons: [
                       {
-                        label: 'Start Now',
+                        label: 'Claim Your Stage',
                         icon: 'i-tabler-rocket',
                         href: '/app/auth/register?_reload=1',
                         theme: 'primary',
