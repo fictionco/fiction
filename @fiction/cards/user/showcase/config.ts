@@ -2,7 +2,7 @@ import type { ActionButton } from '@fiction/core'
 import type { StandardUserConfig } from '@fiction/site/schema'
 import { PostHandlingSchema } from '@fiction/posts'
 import { createOption } from '@fiction/ui'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 const aspectOptions = [
   { value: 'square', label: 'Square (1:1)' },

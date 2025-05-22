@@ -1,5 +1,5 @@
 import type { AiCompletionSettings, CommandMessage } from './endpoint.js'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 type Objectives = Record<string, string>
 

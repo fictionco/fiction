@@ -12,7 +12,7 @@ import {
   SizeSchemaComplete,
   SuperTitleSchema,
 } from '@fiction/core'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export type SizeBasic = z.infer<typeof SizeSchemaComplete>
 export const prefersColorScheme = ['light', 'dark', 'auto', ''] as const
@@ -68,13 +68,6 @@ export const CardStandardSchema = z.object({
     title: z.string().optional(),
     subTitle: z.string().optional(),
   }).optional(),
-  ai: z.object({
-    prompt: z.string().optional(),
-    fields: z.record(z.object({
-      prompt: z.string().optional(),
-      isUserEnabled: z.boolean().optional(),
-    })).optional(),
-  }).optional(),
 })
 
 export const CardOptionsWithStandardSchema = z.object({
@@ -116,10 +109,6 @@ export const SiteSchema = z.object({
   customDomains: z.array(z.any()).optional(),
   status: z.enum(['pending', 'active', 'inactive']).optional().default('pending'),
   userConfig: siteGlobalConfigSchema.optional(),
-  userPrivate: z.record(z.unknown()).optional(),
-  editor: z.record(z.unknown()).optional(),
-  sections: z.record(z.unknown()).optional(),
-  draft: z.record(z.unknown()).optional(),
 }).strict()
 
 export const PageSchema = z.object({

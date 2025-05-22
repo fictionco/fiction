@@ -2,7 +2,7 @@ import type { User } from '@fiction/core'
 import type { ColType } from '@fiction/core/tbl'
 import { Col, FictionDbTable } from '@fiction/core'
 import { standardTable } from '@fiction/core/tbl'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export type TableSourceConfig = ColType<typeof sourceTableColumns> & { author?: User }
 

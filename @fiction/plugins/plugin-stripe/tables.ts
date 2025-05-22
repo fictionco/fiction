@@ -1,7 +1,7 @@
 import type { ColType } from '@fiction/core/tbl'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { standardTable } from '@fiction/core/tbl'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const tableNames = {
   usage: 'fiction_usage',

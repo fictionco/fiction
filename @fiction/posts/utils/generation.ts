@@ -1,7 +1,7 @@
 import type { Organization } from '@fiction/core'
 import type { PostConfig } from '../post'
 import type { TablePostConfig } from '../schema'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export function getGenerationParams(args: {
   post: PostConfig

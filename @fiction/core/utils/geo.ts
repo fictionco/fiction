@@ -1,5 +1,5 @@
 import type { UserGeolocation } from '../types/index.js'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 import { log } from '../plugin-log/index.js'
 
 import { fetchWithTimeout, getNetworkIp, isLocalhostIp } from '../utils/index.js'

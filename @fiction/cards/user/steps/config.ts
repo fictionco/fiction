@@ -2,7 +2,7 @@ import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
 import { MediaBasicSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 const pointSchema = z.object({
   content: z.string().optional().describe('Point text or description [@ai]'),

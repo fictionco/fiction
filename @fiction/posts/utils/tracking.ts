@@ -5,7 +5,7 @@ import type { FictionPublish } from '../publish'
 import type { TableEmailConfig } from '../schema'
 import { convertKeyCase } from '@fiction/core'
 
-import { z } from 'zod'
+import { z } from 'zod/v4'
 import { t } from '../schema'
 
 export const EmailTrackingActionsEnum = z.enum(['delivered', 'failed', 'opened', 'clicked', 'unsubscribed', 'complained', 'bounced'])

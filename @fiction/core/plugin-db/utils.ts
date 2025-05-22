@@ -1,7 +1,7 @@
 import type { EndpointMeta } from '../utils/endpoint'
 import type { FictionDb } from './index'
 import type { SecurityType } from './objects'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 import { removeUndefined } from '../utils/obj'
 
 type ScenarioType = 'internal' | 'update' | 'insert' | 'return'

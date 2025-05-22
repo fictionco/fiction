@@ -1,6 +1,6 @@
 /* server-only-file */
 import { dayjs } from '@fiction/core'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 import { standardUrl } from './plugin-beacon/utils/index.js'
 import { FictionAnalyticsCol, FictionAnalyticsTable } from './plugin-clickhouse/utils.js'
 

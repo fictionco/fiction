@@ -1,6 +1,6 @@
 import type { IconName } from '@fiction/ui/lib/systemIcons.js'
 import type { vue } from '../utils/libraries.js'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 import { ColorScaleSchema, colorThemeUser, colorThemeWithInvert } from '../utils/colors.js'
 
 export const PostStatusSchema = z.enum([
@@ -14,6 +14,14 @@ export const PostStatusSchema = z.enum([
   'active', // Alt to published
   'pending', // Awaiting approval
 ])
+
+export function functionSchema<T extends z.core.$ZodFunction>(schema: T) {
+  return z.custom<Parameters<T['implement']>[0]>(fn => schema.implement(fn))
+}
+
+export function createAsyncFunctionSchema<T extends z.core.$ZodFunction>(schema: T) {
+  return z.custom<Parameters<T['implementAsync']>[0]>(fn => schema.implementAsync(fn))
+}
 
 export const ProgressStatusSchema = z.enum(['pending', 'requested', 'processing', 'ready', 'error', 'cancelled', 'skipped'])
 export type ProgressStatus = z.infer<typeof ProgressStatusSchema>
@@ -59,7 +67,7 @@ export type ButtonBorder = z.infer<typeof ButtonBorderSchema>
 // So it works in node
 const MouseEventType = typeof MouseEvent !== 'undefined' ? MouseEvent : class {}
 
-export const ValidateCallbackSchema = z.function().args(z.object({ reportValidity: z.boolean().optional() })).returns(z.boolean())
+export const ValidateCallbackSchema = functionSchema(z.function({ input: z.object({ reportValidity: z.boolean().optional() }), output: z.boolean() }))
 
 export const ClickCallbackContextSchema = z.object({
   validate: ValidateCallbackSchema.optional(),
@@ -69,23 +77,22 @@ export type ClickCallbackContext = z.infer<typeof ClickCallbackContextSchema>
 
 export const ClickCallbackArgsSchema = z.object({
   event: z.instanceof(MouseEventType).optional(),
-  item: z.record(z.any()).optional(),
+  item: z.record(z.string(), z.any()).optional(),
   props: z.record(z.string(), z.any()).optional(),
   context: ClickCallbackContextSchema.optional(),
 })
 
 export type ClickCallbackArgs = z.infer<typeof ClickCallbackArgsSchema>
 
-const ClickHandlerSchema = z.function()
-  .args(
-    z.object({
-      event: z.instanceof(MouseEventType).optional(),
-      item: z.record(z.any()).optional(),
-      props: z.record(z.string(), z.any()).optional(),
-      context: ClickCallbackContextSchema.optional(),
-    }),
-  )
-  .returns(z.any())
+const ClickHandlerSchema = z.function({
+  input: z.object({
+    event: z.instanceof(MouseEventType).optional(),
+    item: z.record(z.string(), z.any()).optional(),
+    props: z.record(z.string(), z.any()).optional(),
+    context: ClickCallbackContextSchema.optional(),
+  }),
+  output: z.any(),
+})
 
 export const fontFamilySchema = z.object({
   family: z.string().optional(),
@@ -161,135 +168,106 @@ export const ImageFilterConfigSchema = z.object({
 export type ImageFilterConfig = z.infer<typeof ImageFilterConfigSchema>
 
 export const MediaFormat = z.enum(['url', 'image', 'video', 'iframe', 'html', 'component', 'iconId', 'iconClass', 'typography'])
-
 // MediaBasic schema
 export const MediaBasicSchema = z.object({
-  html: z.string().optional().describe('[@ai-ignore]'),
-  url: z.string().optional().describe('Return a shortcode for URL example: [@image_url subject="a boulder rolling down a hill" orientation="squarish"] that will be replaced with the actual url.'),
-  format: MediaFormat.optional().describe('Media format type, e.g. image, video'),
-  alt: z.string().optional().describe('Image alt text'),
-  el: z.custom<vue.AsyncComponentLoader | vue.Component>(val => typeof val === 'function' || val instanceof Promise, { message: 'Must be an async component or Promise' }).optional().describe('[@ai-ignore]'),
-  props: z.record(z.string(), z.any()).optional().describe('[@ai-ignore]'),
-  aspect: AspectRatioSchema.optional().describe('[@ai-ignore]'),
-}, { description: 'MediaBasicSchema' })
+  html: z.string().optional().meta({ ai: false, description: 'Raw HTML content' }),
+  url: z.string().optional().meta({ ai: true, description: 'Return a shortcode for URL example: [@image_url subject="a boulder rolling down a hill" orientation="squarish"] that will be replaced with the actual url.' }),
+  format: MediaFormat.optional().meta({ ai: false, description: 'Media format type, e.g. image, video' }),
+  alt: z.string().optional().meta({ ai: true, description: 'Image alt text' }),
+  el: z.custom<vue.AsyncComponentLoader | vue.Component>(val => typeof val === 'function' || val instanceof Promise, { message: 'Must be an async component or Promise' }).optional().meta({ ai: false, description: 'Vue component or async loader' }),
+  props: z.record(z.string(), z.any()).optional().meta({ ai: false, description: 'Component props' }),
+  aspect: AspectRatioSchema.optional().meta({ ai: false, description: 'Aspect ratio setting' }),
+})
 
 export const MediaIconSchema = MediaBasicSchema.extend({
-  iconId: z.string().optional().describe('iconId is common icon name (e.g. user, check, lock)') as z.Schema<IconName | undefined>,
-  class: z.string().optional().describe('tabler iconify class i-tabler-[icon-name]'),
+  iconId: z.string().optional().meta({ ai: true, description: 'iconId is common icon name (e.g. user, check, lock)' }) as z.ZodOptional<z.ZodType<IconName>>,
+  class: z.string().optional().meta({ ai: true, description: 'tabler iconify class i-tabler-[icon-name]' }),
 })
 
 export const typographySchema = z.object({
-  label: z.string().optional(),
-  weight: z.string().optional(),
-  lineHeight: z.string().optional(),
-  letterSpacing: z.string().optional(),
-  font: fontFamilySchema.optional(),
+  label: z.string().optional().meta({ ai: true }),
+  weight: z.string().optional().meta({ ai: false }),
+  lineHeight: z.string().optional().meta({ ai: false }),
+  letterSpacing: z.string().optional().meta({ ai: false }),
+  font: fontFamilySchema.optional().meta({ ai: false }),
 })
 
 export type TypographyObject = z.infer<typeof typographySchema>
 
 // MediaContent schema (includes MediaBasic)
 export const MediaContentSchema = MediaIconSchema.extend({
-
-  caption: z.string().optional(),
-  mime: z.string().optional(),
-  blurhash: z.string().optional(),
-  thumbUrl: z.string().optional(),
+  caption: z.string().optional().meta({ ai: true }),
+  mime: z.string().optional().meta({ ai: false }),
+  blurhash: z.string().optional().meta({ ai: false }),
+  thumbUrl: z.string().optional().meta({ ai: false }),
 })
 
 export const VideoControlsSchema = z.object({
-  playbackRate: z.number().min(0.1).max(16).optional(),
-  autoplay: z.boolean().optional(),
-  loop: z.boolean().optional(),
-  muted: z.boolean().optional(),
-  controls: z.boolean().optional(),
-  preload: z.enum(['none', 'metadata', 'auto']).optional(),
-  poster: z.string().optional(),
-  playsinline: z.boolean().optional(),
+  playbackRate: z.number().min(0.1).max(16).optional().meta({ ai: false }),
+  autoplay: z.boolean().optional().meta({ ai: false }),
+  loop: z.boolean().optional().meta({ ai: false }),
+  muted: z.boolean().optional().meta({ ai: false }),
+  controls: z.boolean().optional().meta({ ai: false }),
+  preload: z.enum(['none', 'metadata', 'auto']).optional().meta({ ai: false }),
+  poster: z.string().optional().meta({ ai: false }),
+  playsinline: z.boolean().optional().meta({ ai: false }),
   freeze: z.object({
-    time: z.number().optional().describe('Time in seconds to freeze video'),
-    playOnHover: z.boolean().optional().describe('Play on hover, freeze on blur'),
-  }).optional().describe('Video freeze settings'),
-}).describe('Video playback controls')
+    time: z.number().optional().meta({ ai: false, description: 'Time in seconds to freeze video' }),
+    playOnHover: z.boolean().optional().meta({ ai: false, description: 'Play on hover, freeze on blur' }),
+  }).optional().meta({ ai: false, description: 'Video freeze settings' }),
+}).meta({ description: 'Video playback controls' })
 
 // MediaDisplaySchema (extends MediaContent with display properties)
 export const MediaDisplaySchema = MediaContentSchema.extend({
-  backgroundColor: z.string().optional(),
-  backgroundRepeat: BackgroundRepeatSchema.optional(),
-  backgroundPosition: BackgroundPositionSchema.optional(),
-  backgroundSize: BackgroundSizeSchema.optional(),
-  gradient: GradientSettingSchema.optional(),
-  filters: z.array(ImageFilterConfigSchema).optional(),
-  overlay: OverlaySettingSchema.optional(),
-  width: z.number().optional(),
-  height: z.number().optional(),
-  tags: z.array(z.string()).optional(),
-  displayWidthPercent: z.number().optional(),
-  displayHeightPercent: z.number().optional(),
-  videoControls: VideoControlsSchema.optional(),
+  backgroundColor: z.string().optional().meta({ ai: false }),
+  backgroundRepeat: BackgroundRepeatSchema.optional().meta({ ai: false }),
+  backgroundPosition: BackgroundPositionSchema.optional().meta({ ai: false }),
+  backgroundSize: BackgroundSizeSchema.optional().meta({ ai: false }),
+  gradient: GradientSettingSchema.optional().meta({ ai: false }),
+  filters: z.array(ImageFilterConfigSchema).optional().meta({ ai: false }),
+  overlay: OverlaySettingSchema.optional().meta({ ai: false }),
+  width: z.number().optional().meta({ ai: false }),
+  height: z.number().optional().meta({ ai: false }),
+  tags: z.array(z.string()).optional().meta({ ai: true }),
+  displayWidthPercent: z.number().optional().meta({ ai: false }),
+  displayHeightPercent: z.number().optional().meta({ ai: false }),
+  videoControls: VideoControlsSchema.optional().meta({ ai: false }),
   modify: z.object({
-    flip: z.enum(['horizontal', 'vertical']).optional(),
-  }).optional(),
+    flip: z.enum(['horizontal', 'vertical']).optional().meta({ ai: false }),
+  }).optional().meta({ ai: false }),
 })
+
 export type MediaObject = z.infer<typeof MediaDisplaySchema & typeof MediaIconSchema>
 
 export const ActionButtonSchema = z.object({
-  key: z.string().optional().describe('Unique key for the button [@ai-ignore]'),
-  label: z.string().optional().describe('Button text'),
-  href: z.string().optional().describe('Button link URL or /path'),
-  size: SizeSchema.optional().describe('Button size [@ai-ignore]'),
-  theme: ButtonColorThemeSchema.optional().describe('Button color scheme'),
-  design: ButtonDesignSchema.optional().describe('Button visual style'),
-  format: ButtonFormatSchema.optional().describe('[@ai-ignore]'),
-  rounding: ButtonRoundingSchema.optional().describe('[@ai-ignore]'),
-  icon: z.union([z.string(), MediaIconSchema]).optional().describe('[@ai-ignore]'),
-  iconAfter: z.union([z.string(), MediaIconSchema]).optional().describe('[@ai-ignore]'),
-  loading: z.boolean().optional().describe('[@ai-ignore]'),
-  disabled: z.boolean().optional(),
-  onClick: ClickHandlerSchema.optional().describe('[@ai-ignore]'),
-  testId: z.string().optional().describe('[@ai-ignore]'),
-  target: z.enum(['_blank', '_self']).optional().describe('Link target'),
-  hover: ButtonHoverSchema.optional(),
-  type: z.enum(['button', 'submit', 'reset']).optional().describe('[@ai-ignore]'),
-  animate: z.boolean().optional().describe('Enable button animation').describe('[@ai-ignore]'),
-
-}, { description: 'ActionButtonSchema' })
+  key: z.string().optional().meta({ ai: false, description: 'Unique key for the button' }),
+  label: z.string().optional().meta({ ai: true, description: 'Button text' }),
+  href: z.string().optional().meta({ ai: true, description: 'Button link URL or /path' }),
+  size: SizeSchema.optional().meta({ ai: false, description: 'Button size' }),
+  theme: ButtonColorThemeSchema.optional().meta({ ai: true, description: 'Button color scheme' }),
+  design: ButtonDesignSchema.optional().meta({ ai: true, description: 'Button visual style' }),
+  format: ButtonFormatSchema.optional().meta({ ai: false }),
+  rounding: ButtonRoundingSchema.optional().meta({ ai: false }),
+  icon: z.union([z.string(), MediaIconSchema]).optional().meta({ ai: false }),
+  iconAfter: z.union([z.string(), MediaIconSchema]).optional().meta({ ai: false }),
+  loading: z.boolean().optional().meta({ ai: false }),
+  disabled: z.boolean().optional().meta({ ai: false }),
+  onClick: functionSchema(ClickHandlerSchema).optional().meta({ ai: false }),
+  testId: z.string().optional().meta({ ai: false }),
+  target: z.enum(['_blank', '_self']).optional().meta({ ai: true, description: 'Link target' }),
+  hover: ButtonHoverSchema.optional().meta({ ai: false }),
+  type: z.enum(['button', 'submit', 'reset']).optional().meta({ ai: false }),
+  animate: z.boolean().optional().meta({ ai: false, description: 'Enable button animation' }),
+})
 
 export type ActionButton = z.infer<typeof ActionButtonSchema>
 
-// export const ActionSubscribeSchema = z.object({
-//   input: z.object({
-//     placeholder: z.string().optional().describe('Email input placeholder [@ai]'),
-//   }).optional(),
-//   button: z.object({
-//     label: z.string().optional().describe('Button text [@ai]'),
-//     icon: MediaIconSchema.optional().describe('Button icon [@ai]'),
-//   }).optional().describe('buttons [@ai]'),
-//   success: z.object({
-//     title: z.string().optional().describe('Success message title [@ai]'),
-//     content: z.string().optional().describe('Success message content [@ai]'),
-//   }).optional(),
-// }, { description: 'ActionSubscribeSchema' })
-
-// export type ActionSubscribe = z.infer<typeof ActionSubscribeSchema>
-
 export const ActionAreaSchema = z.object({
-  title: z.string().optional().describe('Header text above actions [@ai]'),
-
-  buttons: z.array(ActionButtonSchema).optional().describe('Interactive buttons [@ai]'),
-  size: SizeSchema.optional().describe('Component size'),
-  theme: ButtonColorThemeSchema.optional().describe('Color scheme'),
-  design: ButtonDesignSchema.optional().describe('Visual style'),
-  // variant: z.enum(['buttons', 'subscribe']).optional().describe('Action type format [@ai]'),
-  // subscribe: ActionSubscribeSchema.optional().describe('Email capture settings [@ai]'),
-  // proof: z.object({
-  //   community: z.object({
-  //     isEnabled: z.boolean().optional().describe('Show social proof'),
-  //     text: z.string().optional().describe('Social proof message '),
-  //     count: z.number().optional().describe('Community size'),
-  //     thumbCount: z.number().optional().describe('Avatar count to show'),
-  //   }).optional().describe('Social proof display'),
-  // }).optional().describe('Trust indicators'),
+  title: z.string().optional().meta({ ai: true, description: 'Header text above actions' }),
+  buttons: z.array(ActionButtonSchema).optional().meta({ ai: true, description: 'Interactive buttons' }),
+  size: SizeSchema.optional().meta({ ai: false, description: 'Component size' }),
+  theme: ButtonColorThemeSchema.optional().meta({ ai: false, description: 'Color scheme' }),
+  design: ButtonDesignSchema.optional().meta({ ai: false, description: 'Visual style' }),
 })
 
 export type ActionArea = z.infer<typeof ActionAreaSchema>
@@ -302,84 +280,84 @@ const emphasisSchema = z.enum(['default', 'highlighted', 'muted'])
 // First define base schema without recursive parts
 const BaseNavListItemSchema = z.object({
   // Core content
-  key: z.string().optional().describe('Unique index key for the item'),
-  id: z.string().optional().describe('Globally unique identifier for the item'),
-  label: z.string().optional().describe('Primary text displayed for the item (e.g., "Products") [@ai]'),
-  srLabel: z.string().optional().describe('Screen reader label for accessibility [@ai]'),
-  subLabel: z.string().optional().describe('Secondary text shown below label for additional context [@ai]'),
-  value: z.union([z.string(), z.number()]).optional().describe('Value associated with the item [@ai]'),
-  description: z.string().optional().describe('Longer description or explanation of the item [@ai]'),
-  info: z.string().optional().describe('Tertiary text, often used for metadata like "5 min read" or counts'),
-  count: z.number().optional().describe('Numeric count or value associated with the item'),
-  className: z.string().optional().describe('Custom CSS class for styling the item'),
+  key: z.string().optional().meta({ ai: false, description: 'Unique index key for the item' }),
+  id: z.string().optional().meta({ ai: false, description: 'Globally unique identifier for the item' }),
+  label: z.string().optional().meta({ ai: true, description: 'Primary text displayed for the item (e.g., "Products")' }),
+  srLabel: z.string().optional().meta({ ai: true, description: 'Screen reader label for accessibility' }),
+  subLabel: z.string().optional().meta({ ai: true, description: 'Secondary text shown below label for additional context' }),
+  value: z.union([z.string(), z.number()]).optional().meta({ ai: true, description: 'Value associated with the item' }),
+  description: z.string().optional().meta({ ai: true, description: 'Longer description or explanation of the item' }),
+  info: z.string().optional().meta({ ai: false, description: 'Tertiary text, often used for metadata like "5 min read" or counts' }),
+  count: z.number().optional().meta({ ai: false, description: 'Numeric count or value associated with the item' }),
+  className: z.string().optional().meta({ ai: false, description: 'Custom CSS class for styling the item' }),
 
   // Visual
-  media: MediaDisplaySchema.optional().describe('Media content shown with the item'),
-  icon: MediaIconSchema.optional().describe('Leading icon shown before the label'),
-  iconAfter: MediaIconSchema.optional().describe('Trailing icon shown after the label'),
+  media: MediaDisplaySchema.optional().meta({ ai: true, description: 'Media content shown with the item' }),
+  icon: MediaIconSchema.optional().meta({ ai: true, description: 'Leading icon shown before the label' }),
+  iconAfter: MediaIconSchema.optional().meta({ ai: false, description: 'Trailing icon shown after the label' }),
   badge: z.object({
-    content: z.union([z.string(), z.number()]).optional(),
-    color: z.enum(colorThemeUser).optional(),
-  }).optional().describe('Badge shown near label (e.g., "New" or count)'),
+    content: z.union([z.string(), z.number()]).optional().meta({ ai: true }),
+    color: z.enum(colorThemeUser).optional().meta({ ai: false }),
+  }).optional().meta({ ai: false, description: 'Badge shown near label (e.g., "New" or count)' }),
 
   // Navigation behavior
-  href: z.string().optional().describe('Navigation URL - internal path or external link'),
-  target: z.enum(['_self', '_blank']).optional().describe('Link target - "_blank" opens in new tab'),
-  onClick: ClickHandlerSchema.optional().describe('Click handler - use for custom navigation or actions'),
+  href: z.string().optional().meta({ ai: true, description: 'Navigation URL - internal path or external link' }),
+  target: z.enum(['_self', '_blank']).optional().meta({ ai: true, description: 'Link target - "_blank" opens in new tab' }),
+  onClick: functionSchema(ClickHandlerSchema).optional().meta({ ai: false, description: 'Click handler - use for custom navigation or actions' }),
 
   // Visual & behavioral variants
   variant: z.enum([
     'default', // Standard link
     'button', // Button-like appearance
     'avatar', // User avatar display
-  ]).optional(),
+  ]).optional().meta({ ai: false }),
 
-  emphasis: emphasisSchema.optional(),
+  emphasis: emphasisSchema.optional().meta({ ai: false }),
 
-  theme: z.enum(colorThemeUser).optional().describe('Color theme for the item'),
-  design: ButtonDesignSchema.optional().describe('Design style for the item'),
+  theme: z.enum(colorThemeUser).optional().meta({ ai: true, description: 'Color theme for the item' }),
+  design: ButtonDesignSchema.optional().meta({ ai: false, description: 'Design style for the item' }),
 
-  action: ActionAreaSchema.optional().describe('Interactive buttons or subscribe form'),
-  dateAt: z.string().optional().describe('Date associated with the item'),
+  action: ActionAreaSchema.optional().meta({ ai: true, description: 'Interactive buttons or subscribe form' }),
+  dateAt: z.string().optional().meta({ ai: false, description: 'Date associated with the item' }),
 
   // State management
   onAuthState: z.enum([
     'loggedIn', // Only shown when user is logged in
     'loggedOut', // Only shown when user is logged out
     'all', // Always shown
-  ]).optional(),
+  ]).optional().meta({ ai: false }),
 
-  isActive: z.boolean().optional().describe('Marks the item as active or selected'),
-  isDisabled: z.boolean().optional().describe('Disables the item from interaction'),
-  isHidden: z.boolean().optional().describe('Hides the item from view'),
+  isActive: z.boolean().optional().meta({ ai: false, description: 'Marks the item as active or selected' }),
+  isDisabled: z.boolean().optional().meta({ ai: false, description: 'Disables the item from interaction' }),
+  isHidden: z.boolean().optional().meta({ ai: false, description: 'Hides the item from view' }),
 
   // Editing
-  basePath: z.string().optional(),
+  basePath: z.string().optional().meta({ ai: false }),
 
   // Organization
-  priority: z.number().optional().describe('Priority for sorting items default is 100. Less is higher priority'),
+  priority: z.number().optional().meta({ ai: false, description: 'Priority for sorting items default is 100. Less is higher priority' }),
 
   // Development
-  testId: z.string().optional(),
+  testId: z.string().optional().meta({ ai: false }),
   figure: z.object({
     el: z.custom<vue.AsyncComponentLoader | vue.Component>((val) => {
       return typeof val === 'function' || val instanceof Promise
-    }),
-    props: z.record(z.string(), z.any()).optional(),
-  }).optional(),
-}, { description: 'NavListItemSchema' })
+    }).meta({ ai: false }),
+    props: z.record(z.string(), z.any()).optional().meta({ ai: false }),
+  }).optional().meta({ ai: false }),
+})
 
 // Navigation list container
 export const NavListSchema = z.object({
-  title: z.string().optional().describe('Optional section/group title [@ai]'),
-  description: z.string().optional().describe('Optional section/group description [@ai]'),
-  items: z.array(z.record(z.string(), z.any())).optional().describe('Navigation items in this section [@ai]'),
-  variant: z.enum(['default', 'expanded']).optional().describe('Variant of the list'),
-}, { description: 'NavListSchema' })
+  title: z.string().optional().meta({ ai: true, description: 'Optional section/group title' }),
+  description: z.string().optional().meta({ ai: true, description: 'Optional section/group description' }),
+  items: z.array(z.record(z.string(), z.any())).optional().meta({ ai: true, description: 'Navigation items in this section' }),
+  variant: z.enum(['default', 'expanded']).optional().meta({ ai: false, description: 'Variant of the list' }),
+})
 
 // Full navigation item with recursive list support
 export const NavListItemSchema = BaseNavListItemSchema.extend({
-  list: z.lazy(() => NavListSchema).optional().describe('Nested navigation list (e.g., dropdown menu)'),
+  list: z.lazy(() => NavListSchema).optional().meta({ ai: true, description: 'Nested navigation list (e.g., dropdown menu)' }),
 })
 
 export type NavList = Omit<z.infer<typeof NavListSchema>, 'items'> & { items?: NavListItem[] }
@@ -394,17 +372,17 @@ export type NavListItem = z.infer<typeof BaseNavListItemSchema> & {
  */
 
 export const logoSchema = z.object({
-  variant: z.enum(['media', 'typography', 'brandLogo', 'brandName']).optional(),
-  media: MediaIconSchema.optional(),
-  typography: typographySchema.optional(),
-  scale: z.number().optional(),
+  variant: z.enum(['media', 'typography', 'brandLogo', 'brandName']).optional().meta({ ai: false }),
+  media: MediaIconSchema.optional().meta({ ai: true }),
+  typography: typographySchema.optional().meta({ ai: false }),
+  scale: z.number().optional().meta({ ai: false }),
 })
 
 export const brandSchema = z.object({
-  logo: logoSchema.optional(),
-  href: z.string().optional(),
-  tagline: z.string().optional(),
-  action: ActionAreaSchema.optional(),
+  logo: logoSchema.optional().meta({ ai: true }),
+  href: z.string().optional().meta({ ai: true }),
+  tagline: z.string().optional().meta({ ai: true }),
+  action: ActionAreaSchema.optional().meta({ ai: true }),
 })
 
 export type BrandObject = z.infer<typeof brandSchema>
@@ -412,10 +390,10 @@ export type BrandObject = z.infer<typeof brandSchema>
 export type LogoObject = z.infer<typeof logoSchema>
 
 export const SuperTitleSchema = z.object({
-  text: z.string().optional().describe('Short text above main title [@ai]'),
-  icon: MediaIconSchema.optional().describe('Visual indicator icon [@ai]'),
-  theme: z.enum(colorThemeUser).optional().describe('Color style'),
-  href: z.string().optional().describe('Link URL [@ai]'),
+  text: z.string().optional().meta({ ai: true, description: 'Short text above main title' }),
+  icon: MediaIconSchema.optional().meta({ ai: true, description: 'Visual indicator icon' }),
+  theme: z.enum(colorThemeUser).optional().meta({ ai: false, description: 'Color style' }),
+  href: z.string().optional().meta({ ai: true, description: 'Link URL' }),
 })
 
 export type SuperTitle = z.infer<typeof SuperTitleSchema>
@@ -425,58 +403,57 @@ export type SuperTitle = z.infer<typeof SuperTitleSchema>
  */
 
 export const PostSEOSchema = z.object({
-  title: z.string().optional().describe('Custom SEO title, defaults to post title if not specified'),
-  description: z.string().optional().describe('Meta description for search engines and social sharing'),
-}).describe('SEO metadata for the post')
+  title: z.string().optional().meta({ ai: true, description: 'Custom SEO title, defaults to post title if not specified' }),
+  description: z.string().optional().meta({ ai: true, description: 'Meta description for search engines and social sharing' }),
+}).meta({ description: 'SEO metadata for the post' })
 
 const PostUserConfigSchema = z.object({
-  seo: PostSEOSchema.optional().describe('Search engine and social media optimization settings'),
-  isContentCompletionDisabled: z.boolean().optional(),
+  seo: PostSEOSchema.optional().meta({ ai: false, description: 'Search engine and social media optimization settings' }),
+  isContentCompletionDisabled: z.boolean().optional().meta({ ai: false }),
 })
 
 export const AuthorSchema = z.object({
-  fullName: z.string().optional(),
-  email: z.string().optional(),
-  avatar: MediaBasicSchema.optional(),
-  title: z.string().optional(),
-  headline: z.string().optional(),
-  about: z.string().optional(),
-  websiteUrl: z.string().optional(),
+  fullName: z.string().optional().meta({ ai: true }),
+  email: z.string().optional().meta({ ai: false }),
+  avatar: MediaBasicSchema.optional().meta({ ai: true }),
+  title: z.string().optional().meta({ ai: true }),
+  headline: z.string().optional().meta({ ai: true }),
+  about: z.string().optional().meta({ ai: true }),
+  websiteUrl: z.string().optional().meta({ ai: false }),
 })
 
 export const PostSchema = z.object({
   // Core Content
-  title: z.string().optional().describe('Primary headline [@ai]'),
-  subTitle: z.string().optional().describe('Supporting headline [@ai]'),
-  superTitle: SuperTitleSchema.optional().describe('Small header text above title [@ai]'),
-  content: z.string().optional().describe('Main content in HTML/Markdown [@ai]'),
-  excerpt: z.string().optional().describe('Brief summary for previews [@ai]'),
+  title: z.string().optional().meta({ ai: true, description: 'Primary headline' }),
+  subTitle: z.string().optional().meta({ ai: true, description: 'Supporting headline' }),
+  superTitle: SuperTitleSchema.optional().meta({ ai: true, description: 'Small header text above title' }),
+  content: z.string().optional().meta({ ai: true, description: 'Main content in HTML/Markdown' }),
+  excerpt: z.string().optional().meta({ ai: true, description: 'Brief summary for previews' }),
 
   // Meta Information
-  status: PostStatusSchema.optional().describe('Publication state'),
-  emphasis: emphasisSchema.optional().describe('Display prominence level'),
-  dateAt: z.string().optional().describe('Publish date'),
-  publishAt: z.string().optional().describe('Scheduled publish date'),
+  status: PostStatusSchema.optional().meta({ ai: false, description: 'Publication state' }),
+  emphasis: emphasisSchema.optional().meta({ ai: false, description: 'Display prominence level' }),
+  dateAt: z.string().optional().meta({ ai: false, description: 'Publish date' }),
+  publishAt: z.string().optional().meta({ ai: false, description: 'Scheduled publish date' }),
 
   // Visual Elements
-  media: MediaDisplaySchema.optional().describe('Featured image/video [@ai]'),
-  icon: MediaIconSchema.optional().describe('List view icon [@ai]'),
-  theme: z.enum(colorThemeUser).optional().describe('Color theme [@ai]'),
+  media: MediaDisplaySchema.optional().meta({ ai: true, description: 'Featured image/video' }),
+  icon: MediaIconSchema.optional().meta({ ai: true, description: 'List view icon' }),
+  theme: z.enum(colorThemeUser).optional().meta({ ai: true, description: 'Color theme' }),
 
   // Taxonomy & Organization
-  slug: z.string().optional().describe('URL-friendly title'),
-  href: z.string().optional().describe('Content permalink'),
-  tags: z.array(z.string()).optional().describe('Topic labels [@ai]'),
-  categories: z.array(z.string()).optional().describe('Content groupings [@ai]'),
+  slug: z.string().optional().meta({ ai: false, description: 'URL-friendly title' }),
+  href: z.string().optional().meta({ ai: false, description: 'Content permalink' }),
+  tags: z.array(z.string()).optional().meta({ ai: true, description: 'Topic labels' }),
+  categories: z.array(z.string()).optional().meta({ ai: true, description: 'Content groupings' }),
 
   // Associated Data
-  authors: z.array(AuthorSchema).optional().describe('Content creators'),
-  action: ActionAreaSchema.optional().describe('Interactive buttons [@ai]'),
+  authors: z.array(AuthorSchema).optional().meta({ ai: false, description: 'Content creators' }),
+  action: ActionAreaSchema.optional().meta({ ai: true, description: 'Interactive buttons' }),
 
-  userConfig: PostUserConfigSchema.optional().describe('Custom settings'),
+  userConfig: PostUserConfigSchema.optional().meta({ ai: false, description: 'Custom settings' }),
 
-  testId: z.string().optional().describe('Test ID for automated testing'),
-
-}, { description: 'PostSchema' })
+  testId: z.string().optional().meta({ ai: false, description: 'Test ID for automated testing' }),
+})
 
 export type PostObject = z.infer<typeof PostSchema>

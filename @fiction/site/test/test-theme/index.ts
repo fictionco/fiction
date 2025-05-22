@@ -1,6 +1,6 @@
 import { cardConfig, getCardTemplates } from '@fiction/cards'
 import { safeDirname, vue } from '@fiction/core'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 import { cardTemplate } from '../../card.js'
 import { Theme } from '../../theme.js'
 import '@fiction/site'

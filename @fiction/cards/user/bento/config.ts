@@ -5,7 +5,7 @@ import type { InputOption } from '@fiction/ui'
 import type { StockMedia } from '@fiction/ui/stock/index.js'
 import { ActionAreaSchema, colorThemeUser, MediaDisplaySchema, SizeSchema, SuperTitleSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 const BentoItemSchema = z.object({
   // Content Elements

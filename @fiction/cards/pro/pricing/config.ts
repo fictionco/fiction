@@ -1,7 +1,7 @@
 import type { StandardUserConfig } from '@fiction/site/schema'
 import { MediaIconSchema, NavListItemSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 const pricingFeatureSchema = NavListItemSchema.pick({ label: true })
 

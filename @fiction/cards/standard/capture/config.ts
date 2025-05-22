@@ -1,5 +1,5 @@
 import { SuperTitleSchema } from '@fiction/core'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 const schema = z.object({
   superTitle: SuperTitleSchema.optional(),

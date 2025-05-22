@@ -8,7 +8,7 @@ import type { Site } from './site.js'
 import type { CardConfigPortable, TableCardConfig } from './tables.js'
 import type { ComponentConstructor } from './type-utils.js'
 import { deepMerge, FictionObject, objectId, setNested, toLabel, vue } from '@fiction/core'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 import { CardFactory } from './cardFactory.js'
 import { getContentWidthClass, getSpacingClass } from './styling.js'
 import { siteGoto, siteLink } from './utils/manage.js'
@@ -39,8 +39,8 @@ type MergeTypes<T, U> = T & Omit<U, keyof T>
 
 export type CardTemplateSurfaceDefault<T extends string = string> = Partial<{
   templateId: T
-  userConfig: Record<string, unknown>
-  schema: z.AnyZodObject
+  userConfig: any // Changed from Record<string, unknown> to any for flexibility
+  schema: z.ZodType<any>
   queries: Record<string, Query>
   component: ComponentConstructor
 }>
@@ -156,9 +156,32 @@ export class CardTemplate<
   }
 }
 
+// Updated cardTemplate function with proper constraint
 export function cardTemplate<
   TTemplateId extends string,
-  TSchema extends z.AnyZodObject,
+  TSchema extends z.ZodObject<any>,
+  TComponent extends ComponentConstructor,
+  TQueries extends Record<string, Query> = Record<string, Query>,
+>(settings: CardTemplateSettings<{
+  templateId: TTemplateId
+  component: TComponent
+  queries: TQueries
+  userConfig: z.infer<TSchema> // This will be properly inferred
+  schema: TSchema
+}>) {
+  return new CardTemplate<{
+    templateId: TTemplateId
+    userConfig: z.infer<TSchema>
+    schema: TSchema
+    queries: TQueries
+    component: TComponent
+  }>(settings)
+}
+
+// Alternative: More flexible version that accepts any ZodType
+export function cardTemplateFlexible<
+  TTemplateId extends string,
+  TSchema extends z.ZodType,
   TComponent extends ComponentConstructor,
   TQueries extends Record<string, Query> = Record<string, Query>,
 >(settings: CardTemplateSettings<{

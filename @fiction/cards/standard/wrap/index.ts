@@ -1,7 +1,7 @@
 import { vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card.js'
 import { InputOption } from '@fiction/ui'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const templateId = 'cardPageWrapV1'
 

@@ -1,7 +1,7 @@
 import type express from 'express'
 import type { ErrorCode } from '../utils/error.js'
 import type { UserRoles } from './roles.js'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const AndDataFilterSchema = z.object({
   field: z.string(),

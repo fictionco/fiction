@@ -1,6 +1,6 @@
 import type { ColorThemeBright } from '../utils/index.js'
 import type { OnboardSettings, Plan, PushSubscriptionDetail, SocialAccounts, StreetAddress, UserCompany } from './types.js'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 import { Col, FictionDbTable } from '../plugin-db/index.js'
 import { MediaDisplaySchema } from '../schemas/schemas.js'
 import { createTableSchema, standardTable as t } from '../tbl.js'

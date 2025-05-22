@@ -4,7 +4,7 @@ import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
 import { ActionAreaSchema, MediaBasicSchema, SuperTitleSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 const LayerMediaScheme = z.object({
   media: MediaBasicSchema.optional().describe('Layer image [@ai]'),

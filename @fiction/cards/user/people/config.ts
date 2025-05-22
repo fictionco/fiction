@@ -3,7 +3,7 @@ import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock/index.js'
 import { PostSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 // Schema definition with all fields optional
 const MemberSchema = PostSchema.pick({

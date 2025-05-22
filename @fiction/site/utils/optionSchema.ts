@@ -1,5 +1,5 @@
 import type { InputOption } from '@fiction/ui/index.js'
-import type { z } from 'zod'
+import type { z } from 'zod/v4'
 import type { JsonSchema7ObjectType, JsonSchema7Type } from 'zod-to-json-schema'
 
 type RefineOptionsResult = {

@@ -1,6 +1,6 @@
 import type { ActionButton, MediaObject, NavListItem } from '@fiction/core'
 import type { SchemaFields } from '@fiction/core/utils/schemas'
-import type { z } from 'zod'
+import type { z } from 'zod/v4'
 import { FictionObject, normList, removeUndefined, vue } from '@fiction/core'
 
 type InputEntry = { el: vue.Component, shape?: string[] }
@@ -14,7 +14,7 @@ export const inputs = {
   InputStandardSize: { el: def(() => import('./InputStandardSize.vue')) },
   InputBanner: { el: def(() => import('./InputBanner.vue')) },
   InputBrand: { el: def(() => import('./InputBrand.vue')), shape: ['action.*', 'logo.*', 'tagline', 'href'] },
-  //InputActionArea: { el: def(() => import('./InputActionArea.vue')), shape: ['buttons.*', 'subscribe.*', 'proof.*', 'design', 'size', 'theme', 'title', 'variant'] },
+  // InputActionArea: { el: def(() => import('./InputActionArea.vue')), shape: ['buttons.*', 'subscribe.*', 'proof.*', 'design', 'size', 'theme', 'title', 'variant'] },
   InputControl: { el: def(() => import('./InputControl.vue')) },
   InputProse: { el: def(() => import('./InputProse.vue')) },
   InputAuthors: { el: def(() => import('./InputAuthors.vue')) },

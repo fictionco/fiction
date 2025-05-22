@@ -1,7 +1,7 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
 import { deepMerge } from '@fiction/core'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export type UserConfig = StandardUserConfig
 

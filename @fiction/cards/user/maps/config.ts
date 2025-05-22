@@ -1,6 +1,6 @@
 import type { StandardUserConfig } from '@fiction/site/schema'
 import { createOption } from '@fiction/ui'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 // Define schema for map styling
 const mapStyles = [

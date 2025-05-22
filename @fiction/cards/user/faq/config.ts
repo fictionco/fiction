@@ -4,7 +4,7 @@ import type { InputOption } from '@fiction/ui'
 import type { StockMedia } from '@fiction/ui/stock'
 import { ActionAreaSchema, PostSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 const faqItemSchema = PostSchema.pick({
   title: true, // Adding descriptions to picked items

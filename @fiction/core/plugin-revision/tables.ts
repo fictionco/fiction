@@ -1,5 +1,5 @@
 import type { ColType } from '../tbl.js'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 import { Col, FictionDbTable } from '../plugin-db/objects.js'
 import { standardTable as t } from '../tbl.js'
 

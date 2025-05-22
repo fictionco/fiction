@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import { FictionAws, FictionMedia, getEnvVars } from '@fiction/core'
 import { createTestUtils, testEnvFile } from '@fiction/core/test-utils'
 import { afterAll, describe, expect, it } from 'vitest'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 import zodToJsonSchema from 'zod-to-json-schema'
 import { FictionAi } from '..'
 

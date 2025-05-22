@@ -6,8 +6,7 @@ import { onBrowserEvent } from '@fiction/core/utils/eventBrowser'
 import { Extension } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
-import { z } from 'zod'
-import { zodToJsonSchema } from 'zod-to-json-schema'
+import { toJSONSchema, z } from 'zod/v4'
 import { generateAutocompleteObjectives, shouldSuggest } from '../../utils/editor'
 
 const logger = log.contextLogger('AutocompleteExtension')
@@ -70,7 +69,7 @@ export const AutocompleteExtension = Extension.create<AutocompleteOptions>({
           },
           prompt: `Autocomplete based on location of [cursor] in the following "${previousText}[cursor]${nextText}"`,
           format: 'contentAutocomplete',
-          schemaJson: zodToJsonSchema(z.object({ suggestion1: z.string().min(3).max(200) })),
+          schemaJson: toJSONSchema(z.object({ suggestion1: z.string().min(3).max(200) })),
         })
 
         if (r?.status === 'success' && r.data?.completion) {

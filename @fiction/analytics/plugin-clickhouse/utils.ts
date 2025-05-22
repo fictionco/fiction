@@ -2,7 +2,7 @@ import type { ColDefaultValue, ColSettings, FictionDbTableSettings } from '@fict
 import type { FictionEvent } from '../typesTracking.js'
 import type { ClickHouseDatatype, FictionClickHouse } from './index.js'
 import { Col, FictionDbTable } from '@fiction/core'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 type ValueCallback = (params: {
   event: FictionEvent

@@ -4,7 +4,7 @@ import type { CardOptionsWithStandard, StandardUserConfig } from '@fiction/site/
 import type { StockMedia } from '@fiction/ui/stock'
 import { ActionAreaSchema, NavListItemSchema, SuperTitleSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 // Schema definitions
 const detailSchema = NavListItemSchema.pick({

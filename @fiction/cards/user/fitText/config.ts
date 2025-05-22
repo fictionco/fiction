@@ -1,7 +1,7 @@
 import type { StandardUserConfig } from '@fiction/site/schema'
 import { fontFamilySchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const schema = z.object({
   text: z.string().optional().describe('Text that dynamically adjusts to fill available space'),

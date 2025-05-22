@@ -1,7 +1,7 @@
 import type { ColType, MediaObject, SyndicateStatus, User } from '@fiction/core'
 import { standardTable } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const t = {
   contact: 'fiction_contact',

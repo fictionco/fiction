@@ -1,7 +1,7 @@
 import type { CardConfigPortable } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import { cardConfig } from '@fiction/cards'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 const cards = [
   cardConfig({

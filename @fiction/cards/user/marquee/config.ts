@@ -3,7 +3,7 @@ import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
 import { MediaDisplaySchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 const MarqueeItemSchema = z.object({
   title: z.string().optional().describe('Primary text shown on hover'),

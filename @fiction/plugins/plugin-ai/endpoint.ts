@@ -1,5 +1,5 @@
 import type { EndpointMeta, EndpointResponse, MediaObject } from '@fiction/core'
-import type { z } from 'zod'
+import type { z } from 'zod/v4'
 import type { FictionAi, FictionAiSettings } from '.'
 import { abort, getColorScheme, Query, Shortcodes } from '@fiction/core'
 import { createStockMediaHandler } from '@fiction/ui/stock'

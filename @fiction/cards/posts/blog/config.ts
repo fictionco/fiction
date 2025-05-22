@@ -3,7 +3,7 @@ import type { StandardUserConfig } from '@fiction/site/schema'
 import { MediaBasicSchema } from '@fiction/core'
 import { PostHandlingSchema } from '@fiction/posts'
 import { createOption } from '@fiction/ui'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 // Schema definition
 export const schema = z.object({

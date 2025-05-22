@@ -1,7 +1,7 @@
 import type { StandardUserConfig } from '@fiction/site/schema'
 import { fontFamilySchema, MediaIconSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
-import { z } from 'zod'
+import { z } from 'zod/v4'
 
 export const SchemaTicker = z.object({
   text: z.string().optional().describe('Text content to display'),
