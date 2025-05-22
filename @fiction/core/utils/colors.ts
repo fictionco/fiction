@@ -1,4 +1,4 @@
-import type { GradientSetting } from '../schemas/schemas.js'
+import type { GradientSetting } from '../schemas/index.js'
 import { z } from 'zod/v4'
 
 export const colorThemeBright = ['teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald'] as const

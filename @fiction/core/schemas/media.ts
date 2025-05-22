@@ -2,12 +2,13 @@ import type { IconName } from '@fiction/ui/lib/systemIcons.js'
 import type { vue } from '../utils/libraries.js'
 import { z } from 'zod/v4'
 import { ColorScaleSchema } from '../utils/colors.js'
-import { ColorThemeSchema } from './schemas.js'
+import { AspectRatioSchema, ColorThemeSchema } from './index.js'
 
 export const MediaFormatSchema = z.enum(['image', 'video', 'icon', 'html', 'component', 'iframe'])
-export const AspectRatioSchema = z.enum(['square', 'portrait', 'landscape', 'wide', 'tall', 'golden', 'cinema'])
+
 export const ImageFiltersSchema = z.enum(['brightness', 'opacity', 'contrast', 'blur', 'grayscale', 'sepia', 'saturate', 'invert', 'hue-rotate'])
-export const BlendModeSchema = z.enum(['normal', 'multiply', 'screen', 'overlay', 'darken', 'lighten'])
+export type ImageFilter = z.infer<typeof ImageFiltersSchema>
+export const BlendModeSchema = z.enum(['normal', 'multiply', 'screen', 'overlay', 'darken', 'lighten', 'color-dodge', 'color-burn', 'hard-light', 'soft-light', 'difference', 'exclusion', 'hue', 'saturation', 'color', 'luminosity'])
 export const BackgroundSizeSchema = z.enum(['cover', 'contain', 'auto'])
 export const BackgroundPositionSchema = z.enum(['center', 'top', 'bottom', 'left', 'right'])
 export const BackgroundRepeatSchema = z.enum(['repeat', 'no-repeat', 'repeat-x', 'repeat-y'])
@@ -40,12 +41,12 @@ export function getMediaSchema(args: { generate?: boolean, format?: GenerateType
 
   const aiImage = () => ({
     generate: !!generate && format === 'image',
-    description: '[@image_url subject="description"]',
+    description: 'output a shortcode describing image subject: [@image_url subject="description"]',
   })
 
   const aiVideo = () => ({
     generate: !!generate && format === 'video',
-    description: '[@video_url subject="description"]',
+    description: 'output a shortcode describing short video subject: [@video_url subject="description"]',
   })
 
   return z.object({

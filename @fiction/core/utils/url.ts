@@ -1,5 +1,5 @@
 import type { Organization } from '../plugin-user/types.js'
-import type { MediaObject } from '../schemas/schemas.js'
+import type { MediaObject } from '../schemas/index.js'
 import * as jsCrypto from 'js-sha256'
 
 export function incrementSlugId(slug?: string, options: { defaultSlug?: string, specialSlugRenameWord?: string } = {}): string {

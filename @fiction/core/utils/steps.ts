@@ -1,4 +1,4 @@
-import type { ActionButton, SuperTitle } from '../schemas/schemas.js'
+import type { ActionButton, SuperTitle } from '../schemas/index.js'
 import type { vue } from './libraries.js'
 
 export interface StepActions<T = string> {

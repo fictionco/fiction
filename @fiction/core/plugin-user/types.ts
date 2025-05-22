@@ -1,10 +1,10 @@
 import type stripe from 'stripe'
-import type { MediaObject, ProgressStatus } from '../schemas/schemas.js'
+import type { MediaObject, ProgressStatus } from '../schemas/index.js'
 import type { ColType } from '../tbl.js'
 import type { UserCapability } from '../utils/priv.js'
 import type { membersColumns, orgColumns, userColumns } from './schema.js'
 import { z } from 'zod/v4'
-import { MediaSchema } from '../schemas/schemas.js'
+import { MediaSchema } from '../schemas/index.js'
 
 export const EntityStatusEnum = z.enum(['active', 'inactive', 'suspended', 'pending'])
 export const UserRoleEnum = z.enum([

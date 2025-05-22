@@ -1,4 +1,4 @@
-import type { ImageFilter } from '../schemas/schemas.js'
+import type { ImageFilter } from '../schemas/index.js'
 
 export function getImageFilter(f: ImageFilter, a?: number): string {
   if (a === undefined)

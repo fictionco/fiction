@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ColorThemeUser } from '@fiction/core'
-import type { ActionButton } from '@fiction/core/schemas/schemas.js'
+import type { ActionButton } from '@fiction/core/schemas/index.js'
 import type { Card } from '@fiction/site'
 import type { UiElementSize } from '@fiction/ui/utils'
 import { shortId, vue } from '@fiction/core'

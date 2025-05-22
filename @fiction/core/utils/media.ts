@@ -1,6 +1,6 @@
 import type { Buffer } from 'node:buffer'
 import type sharp from 'sharp'
-import type { MediaObject } from '../schemas/schemas.js'
+import type { MediaObject } from '../schemas/index.js'
 import path from 'node:path'
 import fs from 'fs-extra'
 import { a } from 'vitest/dist/chunks/suite.d.FvehnV49.js'

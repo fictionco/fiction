@@ -1,5 +1,5 @@
 import type { colorList, ColorThemeBright } from '@fiction/core/utils/colors'
-import type { ActionButton, MediaObject, NavListItem, SuperTitle } from '../schemas/schemas'
+import type { ActionButton, MediaObject, NavListItem, SuperTitle } from '../schemas'
 import { z } from 'zod/v4'
 
 export const EmailTypeSchema = z.enum(['alert', 'update', 'digest', 'campaign'])

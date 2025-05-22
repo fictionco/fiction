@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Config as TailwindConfig } from 'tailwindcss'
 import type { PropType } from 'vue'
-import type { ActionButton } from '../../schemas/schemas.js'
+import type { ActionButton } from '../../schemas/index.js'
 import type { MediaItem } from '../../types'
 import { Body, Button, Column, Head, Heading, Hr, Html, Img, Markdown, Preview, Section, Style, Tailwind, Text } from '@vue-email/components'
 import { computed } from 'vue'

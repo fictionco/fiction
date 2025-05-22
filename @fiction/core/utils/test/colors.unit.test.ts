@@ -1,4 +1,4 @@
-import type { GradientSetting } from '../../schemas/schemas'
+import type { GradientSetting } from '../../schemas'
 import { describe, expect, it } from 'vitest'
 import { colorList, getColorScheme, getGradientCss, hexToRgbString, normalizeColor, tailwindVarColorScheme } from '../colors'
 

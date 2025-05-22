@@ -1,4 +1,4 @@
-import type { MediaObject } from '../../schemas/schemas.js'
+import type { MediaObject } from '../../schemas/index.js'
 import type { ImageSizeOptions } from '../media'
 import { Buffer } from 'node:buffer'
 import * as crypto from 'node:crypto'

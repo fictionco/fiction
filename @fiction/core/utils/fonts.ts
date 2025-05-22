@@ -1,4 +1,4 @@
-import type { FontFamily } from '../schemas/schemas.js'
+import type { FontFamily } from '../schemas/index.js'
 
 export const safeStacks = {
   monospace: `'Nimbus Mono PS', 'Courier New', monospace`,
