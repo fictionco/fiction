@@ -88,7 +88,7 @@ async function generateMediaObjects(): Promise<LogoObject[]> {
     {
       media: {
         iconId: 'brand-github',
-        format: 'iconId',
+        format: 'icon',
       },
     },
     // Image example

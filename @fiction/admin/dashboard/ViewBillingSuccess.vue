@@ -31,7 +31,7 @@ const proStatus = vue.computed(() => fictionStripe?.customerState.data.value)
         },
         title: 'Billing Success',
         subTitle: 'You have successfully upgraded your account.',
-        media: { format: 'iconClass', class: 'i-tabler-check-circle' },
+        media: { format: 'icon', class: 'i-tabler-check-circle' },
         action: {
           buttons: [
             {

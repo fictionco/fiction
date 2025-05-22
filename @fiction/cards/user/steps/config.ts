@@ -1,6 +1,6 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
-import { MediaBasicSchema } from '@fiction/core'
+import { MediaSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod/v4'
 
@@ -11,7 +11,7 @@ const pointSchema = z.object({
 export const schema = z.object({
   layout: z.enum(['default', 'left', 'right']).optional().meta({ ai: false, description: 'Content arrangement' }),
   title: z.string().optional().meta({ ai: true, description: 'Section headline' }),
-  media: MediaBasicSchema.optional().meta({ ai: true, description: 'Visual illustration' }),
+  media: MediaSchema.optional().meta({ ai: true, description: 'Visual illustration' }),
   items: z.array(pointSchema).optional().meta({ ai: true, description: 'List of points/steps' }),
 })
 

@@ -211,7 +211,7 @@ export function gravatarUrlSync(
   const { size = 200, default: d = 'initials', name, initials } = options
 
   if (!identifier) {
-    return { url: '', format: 'url', isDefaultImage: async () => true }
+    return { url: '', format: 'image', isDefaultImage: async () => true }
   }
 
   if (identifier.includes('@')) {
@@ -253,7 +253,7 @@ export function gravatarUrlSync(
     }
   }
 
-  return { format: 'url', url: gravatarUrl, isDefaultImage }
+  return { format: 'image', url: gravatarUrl, isDefaultImage }
 }
 
 export function getOrgAvatar(org: Organization, options: {

@@ -1,7 +1,7 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
 import type { InputOption } from '@fiction/ui'
-import { ActionAreaSchema, colorThemeUser, MediaIconSchema, SizeSchema } from '@fiction/core'
+import { ActionAreaSchema, colorThemeUser, MediaSchema, SizeSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod/v4'
 
@@ -10,7 +10,7 @@ const featureSchema = z.object({
   title: z.string().optional().meta({ ai: true, description: 'Feature name or headline' }),
   description: z.string().optional().meta({ ai: true, description: 'Feature explanation text' }),
   href: z.string().optional().meta({ ai: false, description: 'Link destination' }),
-  icon: MediaIconSchema.optional().meta({ ai: true, description: 'Visual representation' }),
+  icon: MediaSchema.optional().meta({ ai: true, description: 'Visual representation' }),
   color: z.enum(colorThemeUser).optional().meta({ ai: false, description: 'Feature color theme' }),
   action: ActionAreaSchema.optional().meta({ ai: true, description: 'Interactive buttons' }),
   columns: z.enum(['1', '2', '3', '4']).optional().meta({ ai: false, description: 'Width in masonry layout' }),

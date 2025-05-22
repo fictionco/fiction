@@ -1,5 +1,5 @@
 import type { StandardUserConfig } from '@fiction/site/schema'
-import { MediaIconSchema, NavListItemSchema } from '@fiction/core'
+import { MediaSchema, NavListItemSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod/v4'
 
@@ -12,12 +12,12 @@ const PriceSchema = z.object({
 
   features: z.array(pricingFeatureSchema).optional().describe('list of included features'),
   variant: z.enum(['default', 'highlighted', 'muted']).optional().describe('visual style - highlighted draws attention, muted reduces emphasis'),
-  icon: MediaIconSchema.optional().describe('plan icon - helps visually differentiate tiers'),
+  icon: MediaSchema.optional().describe('plan icon - helps visually differentiate tiers'),
   badge: z.string().optional().describe('optional badge text like "Most Popular" or "Best Value"'),
 
   button: z.object({
     label: z.string().optional().describe('call-to-action text'),
-    icon: MediaIconSchema.optional().describe('icon to display next to button text'),
+    icon: MediaSchema.optional().describe('icon to display next to button text'),
     href: z.string().optional().describe('link for monthly plan purchase'),
     hrefAnnual: z.string().optional().describe('link for annual plan purchase'),
   }).optional(),

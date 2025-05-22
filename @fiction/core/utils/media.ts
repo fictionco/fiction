@@ -3,6 +3,7 @@ import type sharp from 'sharp'
 import type { MediaObject } from '../schemas/schemas.js'
 import path from 'node:path'
 import fs from 'fs-extra'
+import { a } from 'vitest/dist/chunks/suite.d.FvehnV49.js'
 import { stringify } from './utils'
 
 /**
@@ -57,8 +58,7 @@ export function determineMediaFormat(media?: MediaObject): MediaObject['format']
   const getExtension = (url: string): string =>
     url.split('.').pop()?.toLowerCase() || ''
 
-  const isImageHost = (hostname: string): boolean =>
-    ['imgur', 'gravatar', 'flickr'].some(host => hostname.includes(host))
+  const isImageHost = (hostname: string): boolean => ['imgur', 'gravatar', 'flickr'].some(host => hostname.includes(host))
 
   const formatMap: Record<string, string> = {
     jpg: 'image',
@@ -66,6 +66,7 @@ export function determineMediaFormat(media?: MediaObject): MediaObject['format']
     png: 'image',
     gif: 'image',
     webp: 'image',
+    avif: 'image',
     svg: 'image',
     mp4: 'video',
     webm: 'video',
@@ -73,17 +74,12 @@ export function determineMediaFormat(media?: MediaObject): MediaObject['format']
     html: 'html',
   }
 
-  // Main logic
-  if (media.format !== 'url') {
-    if (media.format)
-      return media.format
-    if (media.iconId)
-      return 'iconId'
-    if (media.class)
-      return 'iconClass'
-    if (media.html)
-      return 'html'
-  }
+  if (media.format)
+    return media.format
+  if (media.iconId || media.class?.includes('i-'))
+    return 'icon'
+  if (media.html)
+    return 'html'
 
   if (media.url && isValidUrl(media.url)) {
     const url = new URL(media.url, 'http://dummybase.com')

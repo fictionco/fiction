@@ -2,12 +2,12 @@ import type { Card } from '@fiction/site'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
-import { ActionAreaSchema, MediaBasicSchema, SuperTitleSchema } from '@fiction/core'
+import { ActionAreaSchema, MediaSchema, SuperTitleSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod/v4'
 
 const LayerMediaScheme = z.object({
-  media: MediaBasicSchema.optional().meta({ ai: true, description: 'Layer image' }),
+  media: MediaSchema.optional().meta({ ai: true, description: 'Layer image' }),
   position: z.enum(['top', 'bottom', 'left', 'right', 'center', 'bottomRight', 'topRight', 'bottomLeft', 'topLeft']).optional().meta({ ai: false, description: 'Layer placement' }),
   widthPercent: z.number().optional().meta({ ai: false, description: 'Layer width %' }),
 })
@@ -17,7 +17,7 @@ export const HeroSchema = z.object({
   title: z.string().optional().meta({ ai: true, description: 'Main headline (3-13 words)' }),
   subTitle: z.string().optional().meta({ ai: true, description: 'Supporting message (10-30 words)' }),
   superTitle: SuperTitleSchema.optional().meta({ ai: true, description: 'Small text above title' }),
-  media: MediaBasicSchema.optional().meta({ ai: true, description: 'Primary visual' }),
+  media: MediaSchema.optional().meta({ ai: true, description: 'Primary visual' }),
   caption: z.string().optional().meta({ ai: false, description: 'Media description' }),
   action: ActionAreaSchema.optional().meta({ ai: true, description: 'Call-to-action buttons' }),
   overlays: z.array(LayerMediaScheme).optional().meta({ ai: false, description: 'Decorative image layers' }),

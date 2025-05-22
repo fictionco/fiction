@@ -6,9 +6,9 @@ import { svgList } from './img/svgList'
 export type LocalMediaKeys = keyof typeof localMedia
 
 export const localMedia = {
-  fictionShareImage: { format: 'url', url: new URL('../brand/shareImage.png', import.meta.url).href },
-  fictionFaviconSvg: { format: 'url', url: new URL('../brand/favicon.svg', import.meta.url).href },
-  fictionIcon: { format: 'url', url: new URL('../brand/icon.png', import.meta.url).href },
+  fictionShareImage: { format: 'image', url: new URL('../brand/shareImage.png', import.meta.url).href },
+  fictionFaviconSvg: { format: 'image', url: new URL('../brand/favicon.svg', import.meta.url).href },
+  fictionIcon: { format: 'image', url: new URL('../brand/icon.png', import.meta.url).href },
   fictionLogo: { format: 'html', html: FictionLogo, tags: ['brand', 'logo'] },
   fictionLogoComponent: {
     format: 'component',

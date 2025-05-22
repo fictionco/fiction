@@ -1,4 +1,4 @@
-import { MediaBasicSchema, vue } from '@fiction/core'
+import { MediaSchema, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card.js'
 import { z } from 'zod/v4'
 import DashWrap from './DashWrap.vue'
@@ -24,7 +24,7 @@ export const panelTemplate = cardTemplate({
 })
 
 export const AuthPageSchema = z.object({
-  logo: MediaBasicSchema.optional(),
+  logo: MediaSchema.optional(),
   homeUrl: z.string().optional(),
 })
 

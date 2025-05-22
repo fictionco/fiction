@@ -77,12 +77,12 @@ const validMediaUrl = vue.computed(() => {
 })
 
 const shouldAutoplay = vue.computed(() => {
-  const controls = media?.videoControls || {}
+  const videoSettings = media?.video || {}
   // Only autoplay if explicitly set to true, ignore hover settings on mobile
   if (isMobile.value) {
-    return controls.autoplay === true
+    return videoSettings.autoplay === true
   }
-  return controls.autoplay ?? (!controls.freeze?.playOnHover)
+  return videoSettings.autoplay ?? (!videoSettings.freeze?.playOnHover)
 })
 
 const shouldHandleHover = vue.computed(() => {
@@ -90,7 +90,7 @@ const shouldHandleHover = vue.computed(() => {
   if (isMobile.value) {
     return false
   }
-  return media?.videoControls?.freeze?.playOnHover
+  return media?.video?.freeze?.playOnHover
 })
 
 async function initVideoFirstFrame(video: HTMLVideoElement) {
@@ -170,10 +170,10 @@ const classes = vue.computed(() => {
   }
 })
 
-const filters = vue.computed(() => media?.filters || [])
+const filters = vue.computed(() => media?.effects?.filters || [])
 
 const videoAttrs = vue.computed(() => {
-  const controls = media?.videoControls || {}
+  const controls = media?.video || {}
 
   return removeUndefined({
     playbackRate: controls.playbackRate,
@@ -188,14 +188,14 @@ const videoAttrs = vue.computed(() => {
 
 const bgStyle = vue.computed(() => ({
   backgroundColor: media?.backgroundColor || undefined,
-  backgroundImage: media?.gradient ? getGradientCss(media.gradient) : undefined,
+  backgroundImage: media?.gradient ? getGradientCss(media?.gradient) : undefined,
   backgroundRepeat: media?.backgroundRepeat || undefined,
   backgroundPosition: media?.backgroundPosition || undefined,
   backgroundSize: media?.backgroundSize || undefined,
 }))
 
 const overlayStyle = vue.computed(() => {
-  const overlay = media?.overlay
+  const overlay = media?.effects?.overlay
   if (!overlay)
     return {}
 
@@ -207,7 +207,7 @@ const overlayStyle = vue.computed(() => {
 })
 
 const flipClass = vue.computed(() => {
-  const flip = media?.modify?.flip
+  const flip = media?.effects?.flip
   if (!flip)
     return ''
 
@@ -215,7 +215,7 @@ const flipClass = vue.computed(() => {
 })
 
 const filterStyle = vue.computed(() => ({
-  filter: filters.value.map(filter => `${filter.filter}(${filter.value ?? `${filter.percent}%`})`).join(' '),
+  filter: filters.value.map(filter => `${filter.type}(${filter.value}${filter.type === 'blur' ? 'px' : '%'})`).join(' '),
 }))
 
 const imageModeClass = vue.computed(() => imageMode === 'contain' ? 'object-contain' : 'object-cover')
@@ -349,7 +349,7 @@ function handleMediaClick(event: MouseEvent) {
       <slot />
     </div>
     <div
-      v-if="media?.overlay"
+      v-if="media?.effects?.overlay"
       class="absolute inset-[-1px] z-10 pointer-events-none"
       :style="overlayStyle"
     />

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MediaObject, vue } from '@fiction/core'
 import type { InputOption } from '.'
-import { MediaDisplaySchema as schema } from '@fiction/core'
+import { MediaSchema as schema } from '@fiction/core'
 import { createOption } from '.'
 import FormEngine from './FormEngine.vue'
 
@@ -59,20 +59,20 @@ const options: InputOption[] = [
     schema,
     options: [
       createOption({
-        key: 'overlay.gradient',
+        key: 'effects.overlay.gradient',
         label: 'Overlay Color',
         input: 'InputGradient',
         schema,
       }),
       createOption({
-        key: 'overlay.blendMode',
+        key: 'effects.overlay.blendMode',
         label: 'Blend Mode',
         input: 'InputSelect',
         list: blendModes,
         schema,
       }),
       createOption({
-        key: 'overlay.opacity',
+        key: 'effects.overlay.opacity',
         label: 'Overlay Opacity',
         input: 'InputRange',
         props: { min: 0, max: 1, step: 0.01 },

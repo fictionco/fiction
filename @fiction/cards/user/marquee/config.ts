@@ -1,7 +1,7 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
-import { MediaDisplaySchema } from '@fiction/core'
+import { MediaSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod/v4'
 
@@ -9,7 +9,7 @@ const MarqueeItemSchema = z.object({
   title: z.string().optional().meta({ description: 'Primary text shown on hover' }),
   subTitle: z.string().optional().meta({ description: 'Secondary text shown on hover' }),
   href: z.string().optional().meta({ description: 'Navigation link - use full URL for external links' }),
-  media: MediaDisplaySchema.optional().meta({ description: 'Background media for the item' }),
+  media: MediaSchema.optional().meta({ description: 'Background media for the item' }),
 })
 
 const schema = z.object({

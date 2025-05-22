@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { MediaObject } from '@fiction/core'
-import { determineMediaFormat, MediaDisplaySchema as schema, vue } from '@fiction/core'
+import { determineMediaFormat, MediaSchema as schema, vue } from '@fiction/core'
 import { SITE_INJECTION_KEY } from '@fiction/site'
 import { createOption } from '.'
 import XButton from '../buttons/XButton.vue'

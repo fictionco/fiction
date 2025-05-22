@@ -1,6 +1,6 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
-import { MediaBasicSchema } from '@fiction/core'
+import { MediaSchema } from '@fiction/core'
 import { PostHandlingSchema } from '@fiction/posts'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod/v4'
@@ -11,7 +11,7 @@ export const schema = z.object({
   featuredCount: z.number().optional().meta({ description: 'Number of featured posts to display prominently' }),
   title: z.string().optional().meta({ description: 'Title for the blog section' }),
   subTitle: z.string().optional().meta({ description: 'Description for the blog section' }),
-  media: MediaBasicSchema.optional().meta({ description: 'Header media for the blog section' }),
+  media: MediaSchema.optional().meta({ description: 'Header media for the blog section' }),
 })
 
 export type UserConfig = z.infer<typeof schema> & StandardUserConfig

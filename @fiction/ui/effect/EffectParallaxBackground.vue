@@ -25,7 +25,7 @@ const mediaComponent = vue.computed(() => {
 
 const mediaProps = vue.computed(() => {
   const commonProps = {
-    style: props.media.filters ? { filter: props.media.filters.join(' ') } : {},
+    style: props.media.effects?.filters ? { filter: props.media.effects?.filters.join(' ') } : {},
   }
   switch (props.media.format) {
     case 'video':

@@ -3,7 +3,8 @@ import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
 import type { InputOption } from '@fiction/ui'
 import type { StockMedia } from '@fiction/ui/stock/index.js'
-import { ActionAreaSchema, colorThemeUser, MediaDisplaySchema, SizeSchema, SuperTitleSchema } from '@fiction/core'
+import type { title } from 'node:process'
+import { ActionAreaSchema, colorThemeUser, MediaSchema, SizeSchema, SuperTitleSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod/v4'
 
@@ -12,12 +13,12 @@ const BentoItemSchema = z.object({
   superTitle: SuperTitleSchema.optional().meta({ ai: true, description: 'Short attention-grabbing text above title' }),
   title: z.string().optional().meta({ ai: true, description: 'Main headline for this content box' }),
   content: z.string().optional().meta({ ai: true, description: 'Supporting text that expands on your title - aim for 1-2 sentences' }),
-  media: MediaDisplaySchema.optional().meta({ ai: true, description: 'Visual content to display in this box' }),
+  media: MediaSchema.optional().meta({ ai: true, description: 'Visual content to display in this box' }),
   href: z.string().optional().meta({ ai: false, description: 'Make entire box clickable' }),
   action: ActionAreaSchema.optional().meta({ ai: true, description: 'Add buttons or interactive elements' }),
 
   // Visual Style
-  bg: MediaDisplaySchema.optional().meta({ ai: true, description: 'Background image or video' }),
+  bg: MediaSchema.optional().meta({ ai: true, description: 'Background image or video' }),
   theme: z.enum(colorThemeUser).optional().meta({ ai: false, description: 'Color theme for this box' }),
   themeMode: z.enum(['light', 'dark', 'auto']).optional().meta({ ai: false, description: 'Adjust content contrast against background' }),
 
@@ -170,7 +171,7 @@ export async function getUserConfig(args: { factory: CardFactory, templateId: st
         content: 'Add media or background images to create visual interest.',
         bg: {
           ...stock.getRandomByTags(['background']),
-          overlay: { opacity: 0.4 }, // Adjust overlay opacity: 0-1
+          effects: { overlay: { opacity: 0.4 } }, // Adjust overlay opacity: 0-1
         },
         verticalPosition: 'center', // Try: top, center, bottom
         horizontalPosition: 'center', // Try: left, center, right
@@ -200,7 +201,7 @@ export async function getDemoUserConfig(args: { factory: CardFactory, stock: Sto
         horizontalPosition: 'left',
         bg: {
           ...stock.getRandomByTags(['abstract', 'aspect:landscape']),
-          overlay: { opacity: 0.3 },
+          effects: { overlay: { opacity: 0.3 } },
         },
         action: {
           buttons: [
@@ -221,7 +222,7 @@ export async function getDemoUserConfig(args: { factory: CardFactory, stock: Sto
         themeMode: 'dark',
         bg: {
           ...stock.getRandomByTags(['object']),
-          overlay: { opacity: 0.4 },
+          effects: { overlay: { opacity: 0.4 } },
         },
       },
 
@@ -261,7 +262,7 @@ export async function getDemoUserConfig(args: { factory: CardFactory, stock: Sto
         themeMode: 'dark',
         bg: {
           ...stock.getRandomByTags(['technology']),
-          overlay: { opacity: 0.5 },
+          effects: { overlay: { opacity: 0.5 } },
         },
         action: {
           buttons: [
@@ -311,7 +312,7 @@ export async function getDemoUserConfig(args: { factory: CardFactory, stock: Sto
         horizontalPosition: 'left',
         bg: {
           ...stock.getRandomByTags(['abstract']),
-          overlay: { opacity: 0.4 },
+          effects: { overlay: { opacity: 0.4 } },
         },
       },
       {

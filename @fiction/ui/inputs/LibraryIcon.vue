@@ -37,7 +37,7 @@ const filteredIcons = vue.computed(() => {
 })
 
 function selectIcon(iconId: IconName) {
-  emit('update:modelValue', { iconId, format: 'iconId' })
+  emit('update:modelValue', { iconId, format: 'icon' })
 }
 </script>
 
@@ -76,7 +76,7 @@ function selectIcon(iconId: IconName) {
         @click="selectIcon(iconId)"
       >
         <XIcon
-          :media="{ format: 'iconId', iconId }"
+          :media="{ format: 'icon', iconId }"
           class="size-8 text-theme-600 group-hover:text-theme-900 dark:text-theme-400 dark:group-hover:text-theme-100 transition-colors"
         />
         <span

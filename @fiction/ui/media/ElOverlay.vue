@@ -4,7 +4,7 @@ import { getGradientCss, vue } from '@fiction/core'
 
 const props = defineProps({
   overlay: {
-    type: Object as vue.PropType<MediaObject['overlay']>,
+    type: Object as vue.PropType<NonNullable<MediaObject['effects']>['overlay']>,
     default: undefined,
   },
 })

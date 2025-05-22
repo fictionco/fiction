@@ -1,7 +1,7 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
 import type { StockMedia } from '@fiction/ui/stock'
-import { colorThemeUser, MediaBasicSchema } from '@fiction/core'
+import { colorThemeUser, MediaSchema } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import { z } from 'zod/v4'
 
@@ -10,7 +10,7 @@ const MediaItemSchema = z.object({
   title: z.string().optional().describe('Add a title to make your image more meaningful'),
   content: z.string().optional().describe('Tell the story behind this image'),
   href: z.string().optional().describe('Link to more details or related content'),
-  media: MediaBasicSchema.optional()
+  media: MediaSchema.optional()
     .describe('Choose an engaging image or video'),
   cols: z.enum(['1', '2', '3', '4']).optional().describe('Control how much horizontal space this item takes'),
   rows: z.enum(['1', '2', '3', '4']).optional().describe('Define the vertical presence of this item'),

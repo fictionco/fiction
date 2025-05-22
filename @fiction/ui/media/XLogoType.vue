@@ -104,7 +104,7 @@ const imageClass = vue.computed(() => {
     'duration-200',
   ]
 
-  if (mediaFormat.value === 'image' || mediaFormat.value === 'url') {
+  if (mediaFormat.value === 'image' || !mediaFormat.value) {
     cls.push('w-auto h-auto')
   }
 
@@ -186,7 +186,7 @@ vue.onMounted(() => {
   handleSvgContent()
 
   resizeObserver = new ResizeObserver(() => {
-    if (mediaFormat.value === 'image' || mediaFormat.value === 'url') {
+    if (mediaFormat.value === 'image' || !mediaFormat.value) {
       handleImageLoad()
     }
   })
@@ -211,7 +211,7 @@ vue.onBeforeUnmount(() => {
   >
     <!-- Image/URL Format -->
     <img
-      v-if="(mediaFormat === 'image' || mediaFormat === 'url') && media?.url"
+      v-if="(mediaFormat === 'image' || !mediaFormat) && media?.url"
       ref="imageRef"
       :src="media.url"
       :alt="alt || media?.alt || (org?.orgName ? `${org.orgName} logo` : 'Logo')"
@@ -246,7 +246,7 @@ vue.onBeforeUnmount(() => {
     </div>
 
     <!-- Icon Format -->
-    <div v-else-if="mediaFormat === 'iconId'" class="h-full">
+    <div v-else-if="mediaFormat === 'icon'" class="h-full">
       <XIcon
         v-if="media"
         :media="media"

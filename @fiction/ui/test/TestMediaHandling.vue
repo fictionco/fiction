@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import type { ImageFilterConfig, MediaObject } from '@fiction/core'
+import type { ImageFilterValueSchema, MediaObject } from '@fiction/core'
+import type { z } from 'zod/v4'
 import { vue } from '@fiction/core'
 import FictionLogo from '../brand/FictionLogo.vue'
 import XButton from '../buttons/XButton.vue'
@@ -62,12 +63,13 @@ const mediaObjects = vue.ref<MediaObject[]>([])
 async function refreshMedia() {
   mediaObjects.value = await generateMediaObjects()
 }
+type ImageFilterValue = z.infer<typeof ImageFilterValueSchema>
 
-const filters: ImageFilterConfig[] = [
-  { filter: 'brightness', percent: 150 },
-  { filter: 'contrast', percent: 200 },
-  { filter: 'grayscale', percent: 90 },
-  { filter: 'blur', value: '5px' },
+const filters: ImageFilterValue[] = [
+  { type: 'brightness', value: 150 },
+  { type: 'contrast', value: 200 },
+  { type: 'grayscale', value: 90 },
+  { type: 'blur', value: 5 },
 ] as const
 
 const overlays = [
@@ -136,13 +138,13 @@ vue.onMounted(async () => {
               Filters
             </h3>
             <div class="grid grid-cols-2 gap-4">
-              <div v-for="filter in filters" :key="filter.filter" class="space-y-1">
+              <div v-for="filter in filters" :key="filter.type" class="space-y-1">
                 <p class="text-xs text-theme-500 dark:text-theme-400">
-                  {{ filter.filter }}: {{ filter.percent || filter.value }}
+                  {{ filter.type }}: {{ filter.value }}
                 </p>
                 <div class="w-full h-32 bg-theme-100 dark:bg-theme-700 rounded relative overflow-hidden">
                   <XMedia
-                    :media="{ ...media, filters: [filter] }"
+                    :media="{ ...media, effects: { filters: [filter] } }"
                     image-mode="cover"
                     class="w-full h-full"
                   />
@@ -163,7 +165,7 @@ vue.onMounted(async () => {
                 </p>
                 <div class="w-full h-32 bg-theme-100 dark:bg-theme-700 rounded relative overflow-hidden">
                   <XMedia
-                    :media="{ ...media, overlay }"
+                    :media="{ ...media, effects: { overlay } }"
                     image-mode="cover"
                     class="w-full h-full"
                   />

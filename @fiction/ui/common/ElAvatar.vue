@@ -36,7 +36,7 @@ const mediaUrl = vue.computed(() => {
 const media = vue.computed<MediaObject>(() => {
   const url = mediaUrl.value
   if (url) {
-    return { format: 'url', url }
+    return { url }
   }
   else {
     return {

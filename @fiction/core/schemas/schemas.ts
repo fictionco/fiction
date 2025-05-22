@@ -2,6 +2,9 @@ import type { IconName } from '@fiction/ui/lib/systemIcons.js'
 import type { vue } from '../utils/libraries.js'
 import { z } from 'zod/v4'
 import { ColorScaleSchema, colorThemeUser, colorThemeWithInvert } from '../utils/colors.js'
+import { MediaSchema } from './media.js'
+
+export * from './media.js'
 
 export const PostStatusSchema = z.enum([
   'draft', // Initial state
@@ -109,80 +112,125 @@ export const fontStyleSchema = z.object({
   weight: FontWeightsSchema.optional(),
 })
 
-// For specifying a color point in the gradient with maximum flexibility
-export const GradientPointSchema = z.object({
-  // For direct hex/rgba colors
-  color: z.string().optional(),
+// // For specifying a color point in the gradient with maximum flexibility
+// export const GradientPointSchema = z.object({
+//   // For direct hex/rgba colors
+//   color: z.string().optional(),
 
-  // For using theme colors (e.g. 'blue', 'emerald')
-  theme: ColorThemeSchema.optional(),
+//   // For using theme colors (e.g. 'blue', 'emerald')
+//   theme: ColorThemeSchema.optional(),
 
-  // For theme color intensity (e.g. 500, 600)
-  scale: ColorScaleSchema.optional(),
+//   // For theme color intensity (e.g. 500, 600)
+//   scale: ColorScaleSchema.optional(),
 
-  // Position in gradient (0-100)
-  position: z.number().min(0).max(100).optional(),
+//   // Position in gradient (0-100)
+//   position: z.number().min(0).max(100).optional(),
 
-  // Opacity as 0-1 float
-  opacity: z.number().min(0).max(1).optional(),
-})
+//   // Opacity as 0-1 float
+//   opacity: z.number().min(0).max(1).optional(),
+// })
 
-export type GradientPoint = z.infer<typeof GradientPointSchema>
+// export type GradientPoint = z.infer<typeof GradientPointSchema>
 
-// Main gradient definition
-export const GradientSettingSchema = z.object({
-  // Angle in degrees
-  angle: z.number().min(0).max(360).optional(),
+// // Main gradient definition
+// export const GradientSettingSchema = z.object({
+//   // Angle in degrees
+//   angle: z.number().min(0).max(360).optional(),
 
-  // Array of color stops
-  stops: z.array(GradientPointSchema).optional(),
+//   // Array of color stops
+//   stops: z.array(GradientPointSchema).optional(),
 
-  // Type of gradient
-  type: z.enum(['linear', 'radial', 'conic']).optional(),
+//   // Type of gradient
+//   type: z.enum(['linear', 'radial', 'conic']).optional(),
 
-  // Pre-computed CSS (for caching/performance)
-  css: z.string().optional(),
-})
+//   // Pre-computed CSS (for caching/performance)
+//   css: z.string().optional(),
+// })
 
-export type GradientSetting = z.infer<typeof GradientSettingSchema>
+// export type GradientSetting = z.infer<typeof GradientSettingSchema>
 
-// For overlay effects
-export const OverlaySettingSchema = z.object({
-  // Full gradient definition
-  gradient: GradientSettingSchema.optional(),
+// // For overlay effects
+// export const OverlaySettingSchema = z.object({
+//   // Full gradient definition
+//   gradient: GradientSettingSchema.optional(),
 
-  // Overall opacity
-  opacity: z.number().min(0).max(100).optional(),
+//   // Overall opacity
+//   opacity: z.number().min(0).max(100).optional(),
 
-  // CSS blend mode
-  blendMode: BlendModesSchema.optional(),
+//   // CSS blend mode
+//   blendMode: BlendModesSchema.optional(),
 
-  // Solid color fallback
-  color: z.string().optional(),
-})
-export const ImageFilterConfigSchema = z.object({
-  filter: ImageFiltersSchema.optional(),
-  percent: z.number().min(0).max(100).optional(),
-  value: z.string().optional(),
-})
-export type ImageFilterConfig = z.infer<typeof ImageFilterConfigSchema>
+//   // Solid color fallback
+//   color: z.string().optional(),
+// })
+// export const ImageFilterConfigSchema = z.object({
+//   filter: ImageFiltersSchema.optional(),
+//   percent: z.number().min(0).max(100).optional(),
+//   value: z.string().optional(),
+// })
+// export type ImageFilterConfig = z.infer<typeof ImageFilterConfigSchema>
 
-export const MediaFormat = z.enum(['url', 'image', 'video', 'iframe', 'html', 'component', 'iconId', 'iconClass', 'typography'])
-// MediaBasic schema
-export const MediaBasicSchema = z.object({
-  html: z.string().optional().meta({ ai: false, description: 'Raw HTML content' }),
-  url: z.string().optional().meta({ ai: true, description: 'Return a shortcode for URL example: [@image_url subject="a boulder rolling down a hill" orientation="squarish"] that will be replaced with the actual url.' }),
-  format: MediaFormat.optional().meta({ ai: false, description: 'Media format type, e.g. image, video' }),
-  alt: z.string().optional().meta({ ai: true, description: 'Image alt text' }),
-  el: z.custom<vue.AsyncComponentLoader | vue.Component>(val => typeof val === 'function' || val instanceof Promise, { message: 'Must be an async component or Promise' }).optional().meta({ ai: false, description: 'Vue component or async loader' }),
-  props: z.record(z.string(), z.any()).optional().meta({ ai: false, description: 'Component props' }),
-  aspect: AspectRatioSchema.optional().meta({ ai: false, description: 'Aspect ratio setting' }),
-})
+// export const MediaFormat = z.enum(['url', 'image', 'video', 'iframe', 'html', 'component', 'iconId', 'iconClass', 'typography'])
+// // MediaBasic schema
+// export const MediaBasicSchema = z.object({
+//   html: z.string().optional().meta({ ai: false, description: 'Raw HTML content' }),
+//   url: z.string().optional().meta({ ai: true, description: 'Return a shortcode for URL example: [@image_url subject="a boulder rolling down a hill" orientation="squarish"] that will be replaced with the actual url.' }),
+//   format: MediaFormat.optional().meta({ ai: false, description: 'Media format type, e.g. image, video' }),
+//   alt: z.string().optional().meta({ ai: true, description: 'Image alt text' }),
+//   el: z.custom<vue.AsyncComponentLoader | vue.Component>(val => typeof val === 'function' || val instanceof Promise, { message: 'Must be an async component or Promise' }).optional().meta({ ai: false, description: 'Vue component or async loader' }),
+//   props: z.record(z.string(), z.any()).optional().meta({ ai: false, description: 'Component props' }),
+//   aspect: AspectRatioSchema.optional().meta({ ai: false, description: 'Aspect ratio setting' }),
+// })
 
-export const MediaIconSchema = MediaBasicSchema.extend({
-  iconId: z.string().optional().meta({ ai: true, description: 'iconId is common icon name (e.g. user, check, lock)' }) as z.ZodOptional<z.ZodType<IconName>>,
-  class: z.string().optional().meta({ ai: true, description: 'tabler iconify class i-tabler-[icon-name]' }),
-})
+// export const MediaIconSchema = MediaBasicSchema.extend({
+//   iconId: z.string().optional().meta({ ai: true, description: 'iconId is common icon name (e.g. user, check, lock)' }) as z.ZodOptional<z.ZodType<IconName>>,
+//   class: z.string().optional().meta({ ai: true, description: 'tabler iconify class i-tabler-[icon-name]' }),
+// })
+
+// // MediaContent schema (includes MediaBasic)
+// export const MediaContentSchema = MediaIconSchema.extend({
+//   caption: z.string().optional().meta({ ai: true }),
+//   mime: z.string().optional().meta({ ai: false }),
+//   blurhash: z.string().optional().meta({ ai: false }),
+//   thumbUrl: z.string().optional().meta({ ai: false }),
+// })
+
+// export const VideoControlsSchema = z.object({
+//   playbackRate: z.number().min(0.1).max(16).optional().meta({ ai: false }),
+//   autoplay: z.boolean().optional().meta({ ai: false }),
+//   loop: z.boolean().optional().meta({ ai: false }),
+//   muted: z.boolean().optional().meta({ ai: false }),
+//   controls: z.boolean().optional().meta({ ai: false }),
+//   preload: z.enum(['none', 'metadata', 'auto']).optional().meta({ ai: false }),
+//   poster: z.string().optional().meta({ ai: false }),
+//   playsinline: z.boolean().optional().meta({ ai: false }),
+//   freeze: z.object({
+//     time: z.number().optional().meta({ ai: false, description: 'Time in seconds to freeze video' }),
+//     playOnHover: z.boolean().optional().meta({ ai: false, description: 'Play on hover, freeze on blur' }),
+//   }).optional().meta({ ai: false, description: 'Video freeze settings' }),
+// }).meta({ description: 'Video playback controls' })
+
+// // MediaDisplaySchema (extends MediaContent with display properties)
+// export const MediaDisplaySchema = MediaContentSchema.extend({
+//   backgroundColor: z.string().optional().meta({ ai: false }),
+//   backgroundRepeat: BackgroundRepeatSchema.optional().meta({ ai: false }),
+//   backgroundPosition: BackgroundPositionSchema.optional().meta({ ai: false }),
+//   backgroundSize: BackgroundSizeSchema.optional().meta({ ai: false }),
+//   gradient: GradientSettingSchema.optional().meta({ ai: false }),
+//   filters: z.array(ImageFilterConfigSchema).optional().meta({ ai: false }),
+//   overlay: OverlaySettingSchema.optional().meta({ ai: false }),
+//   width: z.number().optional().meta({ ai: false }),
+//   height: z.number().optional().meta({ ai: false }),
+//   tags: z.array(z.string()).optional().meta({ ai: false }),
+//   displayWidthPercent: z.number().optional().meta({ ai: false }),
+//   displayHeightPercent: z.number().optional().meta({ ai: false }),
+//   videoControls: VideoControlsSchema.optional().meta({ ai: false }),
+//   modify: z.object({
+//     flip: z.enum(['horizontal', 'vertical']).optional().meta({ ai: false }),
+//   }).optional().meta({ ai: false }),
+// })
+
+// export type MediaObject = z.infer<typeof MediaDisplaySchema & typeof MediaIconSchema>
 
 export const typographySchema = z.object({
   label: z.string().optional().meta({ ai: true }),
@@ -194,51 +242,6 @@ export const typographySchema = z.object({
 
 export type TypographyObject = z.infer<typeof typographySchema>
 
-// MediaContent schema (includes MediaBasic)
-export const MediaContentSchema = MediaIconSchema.extend({
-  caption: z.string().optional().meta({ ai: true }),
-  mime: z.string().optional().meta({ ai: false }),
-  blurhash: z.string().optional().meta({ ai: false }),
-  thumbUrl: z.string().optional().meta({ ai: false }),
-})
-
-export const VideoControlsSchema = z.object({
-  playbackRate: z.number().min(0.1).max(16).optional().meta({ ai: false }),
-  autoplay: z.boolean().optional().meta({ ai: false }),
-  loop: z.boolean().optional().meta({ ai: false }),
-  muted: z.boolean().optional().meta({ ai: false }),
-  controls: z.boolean().optional().meta({ ai: false }),
-  preload: z.enum(['none', 'metadata', 'auto']).optional().meta({ ai: false }),
-  poster: z.string().optional().meta({ ai: false }),
-  playsinline: z.boolean().optional().meta({ ai: false }),
-  freeze: z.object({
-    time: z.number().optional().meta({ ai: false, description: 'Time in seconds to freeze video' }),
-    playOnHover: z.boolean().optional().meta({ ai: false, description: 'Play on hover, freeze on blur' }),
-  }).optional().meta({ ai: false, description: 'Video freeze settings' }),
-}).meta({ description: 'Video playback controls' })
-
-// MediaDisplaySchema (extends MediaContent with display properties)
-export const MediaDisplaySchema = MediaContentSchema.extend({
-  backgroundColor: z.string().optional().meta({ ai: false }),
-  backgroundRepeat: BackgroundRepeatSchema.optional().meta({ ai: false }),
-  backgroundPosition: BackgroundPositionSchema.optional().meta({ ai: false }),
-  backgroundSize: BackgroundSizeSchema.optional().meta({ ai: false }),
-  gradient: GradientSettingSchema.optional().meta({ ai: false }),
-  filters: z.array(ImageFilterConfigSchema).optional().meta({ ai: false }),
-  overlay: OverlaySettingSchema.optional().meta({ ai: false }),
-  width: z.number().optional().meta({ ai: false }),
-  height: z.number().optional().meta({ ai: false }),
-  tags: z.array(z.string()).optional().meta({ ai: false }),
-  displayWidthPercent: z.number().optional().meta({ ai: false }),
-  displayHeightPercent: z.number().optional().meta({ ai: false }),
-  videoControls: VideoControlsSchema.optional().meta({ ai: false }),
-  modify: z.object({
-    flip: z.enum(['horizontal', 'vertical']).optional().meta({ ai: false }),
-  }).optional().meta({ ai: false }),
-})
-
-export type MediaObject = z.infer<typeof MediaDisplaySchema & typeof MediaIconSchema>
-
 export const ActionButtonSchema = z.object({
   key: z.string().optional().meta({ ai: false, description: 'Unique key for the button' }),
   label: z.string().optional().meta({ ai: true, description: 'Button text' }),
@@ -248,8 +251,8 @@ export const ActionButtonSchema = z.object({
   design: ButtonDesignSchema.optional().meta({ ai: true, description: 'Button visual style' }),
   format: ButtonFormatSchema.optional().meta({ ai: false }),
   rounding: ButtonRoundingSchema.optional().meta({ ai: false }),
-  icon: z.union([z.string(), MediaIconSchema]).optional().meta({ ai: false }),
-  iconAfter: z.union([z.string(), MediaIconSchema]).optional().meta({ ai: false }),
+  icon: z.union([z.string(), MediaSchema]).optional().meta({ ai: false }),
+  iconAfter: z.union([z.string(), MediaSchema]).optional().meta({ ai: false }),
   loading: z.boolean().optional().meta({ ai: false }),
   disabled: z.boolean().optional().meta({ ai: false }),
   onClick: functionSchema(ClickHandlerSchema).optional().meta({ ai: false }),
@@ -291,9 +294,9 @@ const BaseNavListItemSchema = z.object({
   className: z.string().optional().meta({ ai: false, description: 'Custom CSS class for styling the item' }),
 
   // Visual
-  media: MediaDisplaySchema.optional().meta({ ai: true, description: 'Media content shown with the item' }),
-  icon: MediaIconSchema.optional().meta({ ai: true, description: 'Leading icon shown before the label' }),
-  iconAfter: MediaIconSchema.optional().meta({ ai: false, description: 'Trailing icon shown after the label' }),
+  media: MediaSchema.optional().meta({ ai: true, description: 'Media content shown with the item' }),
+  icon: MediaSchema.optional().meta({ ai: true, description: 'Leading icon shown before the label' }),
+  iconAfter: MediaSchema.optional().meta({ ai: false, description: 'Trailing icon shown after the label' }),
   badge: z.object({
     content: z.union([z.string(), z.number()]).optional().meta({ ai: true }),
     color: z.enum(colorThemeUser).optional().meta({ ai: false }),
@@ -372,7 +375,7 @@ export type NavListItem = z.infer<typeof BaseNavListItemSchema> & {
 
 export const logoSchema = z.object({
   variant: z.enum(['media', 'typography', 'brandLogo', 'brandName']).optional().meta({ ai: false }),
-  media: MediaIconSchema.optional().meta({ ai: true }),
+  media: MediaSchema.optional().meta({ ai: true }),
   typography: typographySchema.optional().meta({ ai: false }),
   scale: z.number().optional().meta({ ai: false }),
 })
@@ -390,7 +393,7 @@ export type LogoObject = z.infer<typeof logoSchema>
 
 export const SuperTitleSchema = z.object({
   text: z.string().optional().meta({ ai: true, description: 'Short text above main title' }),
-  icon: MediaIconSchema.optional().meta({ ai: true, description: 'Visual indicator icon' }),
+  icon: MediaSchema.optional().meta({ ai: true, description: 'Visual indicator icon' }),
   theme: z.enum(colorThemeUser).optional().meta({ ai: false, description: 'Color style' }),
   href: z.string().optional().meta({ ai: true, description: 'Link URL' }),
 })
@@ -414,7 +417,7 @@ const PostUserConfigSchema = z.object({
 export const AuthorSchema = z.object({
   fullName: z.string().optional().meta({ ai: true }),
   email: z.string().optional().meta({ ai: false }),
-  avatar: MediaBasicSchema.optional().meta({ ai: true }),
+  avatar: MediaSchema.optional().meta({ ai: true }),
   title: z.string().optional().meta({ ai: true }),
   headline: z.string().optional().meta({ ai: true }),
   about: z.string().optional().meta({ ai: true }),
@@ -436,8 +439,8 @@ export const PostSchema = z.object({
   publishAt: z.string().optional().meta({ ai: false, description: 'Scheduled publish date' }),
 
   // Visual Elements
-  media: MediaDisplaySchema.optional().meta({ ai: true, description: 'Featured image/video' }),
-  icon: MediaIconSchema.optional().meta({ ai: true, description: 'List view icon' }),
+  media: MediaSchema.optional().meta({ ai: true, description: 'Featured image/video' }),
+  icon: MediaSchema.optional().meta({ ai: true, description: 'List view icon' }),
   theme: z.enum(colorThemeUser).optional().meta({ ai: true, description: 'Color theme' }),
 
   // Taxonomy & Organization

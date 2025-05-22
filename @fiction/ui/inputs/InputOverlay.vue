@@ -6,13 +6,13 @@ defineOptions({ name: 'InputOverlay' })
 
 const props = defineProps({
   modelValue: {
-    type: Object as vue.PropType<MediaObject['overlay']>,
+    type: Object as vue.PropType<NonNullable<MediaObject['effects']>['overlay']>,
     default: undefined,
   },
 })
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', payload: MediaObject['overlay']): void
+  (event: 'update:modelValue', payload: NonNullable<MediaObject['effects']>['overlay']): void
 }>()
 
 const blendModes = [
@@ -34,7 +34,7 @@ const blendModes = [
   'luminosity',
 ].map(mode => ({ label: mode, value: mode }))
 
-async function updateValue(value: MediaObject['overlay']): Promise<void> {
+async function updateValue(value: NonNullable<MediaObject['effects']>['overlay']): Promise<void> {
   emit('update:modelValue', value)
 }
 
