@@ -73,15 +73,18 @@ export class ManageContactQuery extends SubscribeEndpoint {
       return { status: 'error', message: 'Invalid action' }
     }
 
-    // We only add index meta for certain actions
-    if (['list', 'count'].includes(_action)) {
-      return this.addIndexMeta(params as ManageContactParams & { _action: 'count' | 'list' }, r, meta)
-    }
 
-    return r
+    return this.addIndexMeta(params, r, meta)
   }
 
-  private async addIndexMeta(params: ManageContactParams & { _action: 'count' | 'list' }, r: ManageContactResponse, _meta?: EndpointMeta): Promise<ManageContactResponse> {
+  private async addIndexMeta(params: ManageContactParams, r: ManageContactResponse, _meta?: EndpointMeta): Promise<ManageContactResponse> {
+
+    const { _action } = params
+
+    if(_action === 'current') {
+      return r
+    }
+
     const { orgId } = params
     const { limit = this.limit, offset = this.offset, filters = [] } = params
 

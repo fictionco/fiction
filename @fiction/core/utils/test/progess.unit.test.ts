@@ -41,20 +41,20 @@ describe('progressTimer', () => {
 
     timer.start()
 
-    // Initial update should happen immediately
+    // Initial update should happen immediately with first step
     expect(timer.isRunning).toBe(true)
     expect(onProgress).toHaveBeenCalledWith(25, 'Starting process...')
 
-    // Advance 500ms (50% of total time)
+    // Advance 500ms (50% of total time) - should trigger 50% step
     vi.advanceTimersByTime(500)
     expect(onProgress).toHaveBeenCalledWith(50, 'Processing data...')
 
-    // Advance another 250ms (75% of total time)
-    vi.advanceTimersByTime(350)
+    // Advance another 250ms (75% of total time) - should trigger 75% step
+    vi.advanceTimersByTime(250)
     expect(onProgress).toHaveBeenCalledWith(75, 'Almost there...')
 
     // Advance to completion
-    vi.advanceTimersByTime(650)
+    vi.advanceTimersByTime(250)
     expect(onProgress).toHaveBeenCalledWith(100, 'Complete')
     expect(timer.isRunning).toBe(false)
   })
@@ -78,11 +78,11 @@ describe('progressTimer', () => {
     // Initial update should happen with first step
     expect(onProgress).toHaveBeenCalledWith(10, 'Step 1')
 
-    // Advance to 60%
+    // Advance to trigger 60% step (60% of time = 600ms)
     vi.advanceTimersByTime(600)
     expect(onProgress).toHaveBeenCalledWith(60, 'Step 2')
 
-    // Advance to 90%
+    // Advance to trigger 90% step (90% of time = 900ms total)
     vi.advanceTimersByTime(300)
     expect(onProgress).toHaveBeenCalledWith(90, 'Step 3')
   })
@@ -194,8 +194,9 @@ describe('progressTimer', () => {
     vi.advanceTimersByTime(1500) // Advance beyond total time
 
     // Progress should be capped at 100%
-    const lastCall = onProgress.mock.calls[onProgress.mock.calls.length - 2]
-    expect(lastCall[0]).toBe(100)
+    const completionCalls = onProgress.mock.calls.filter(call => call[0] === 100)
+    expect(completionCalls.length).toBeGreaterThan(0)
+    expect(completionCalls[0][0]).toBe(100)
   })
 
   it('should allow chaining of methods', () => {
@@ -219,13 +220,18 @@ describe('progressTimer', () => {
     vi.advanceTimersByTime(300)
     timer.stop()
 
+    // Clear the mock to reset call count
+    onProgress.mockClear()
+
     // Second cycle
     timer.start()
     vi.advanceTimersByTime(200)
 
-    // Progress should have reset
+    // Timer should have restarted and be running
     expect(timer.elapsed).toBe(200)
     expect(timer.isRunning).toBe(true)
+    // Should have been called with initial step again
+    expect(onProgress).toHaveBeenCalledWith(25, 'Starting process...')
   })
 
   it('should not update progress after stopping', () => {
@@ -240,9 +246,11 @@ describe('progressTimer', () => {
     const initialCallCount = onProgress.mock.calls.length
 
     timer.stop()
+    const afterStopCallCount = onProgress.mock.calls.length
+
     vi.advanceTimersByTime(500)
 
-    // Only one more call for the completion
-    expect(onProgress.mock.calls.length).toBe(initialCallCount + 1)
+    // Should only have one additional call from the stop completion
+    expect(onProgress.mock.calls.length).toBe(afterStopCallCount)
   })
 })

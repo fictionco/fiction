@@ -36,8 +36,8 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                     text: 'Join over 2000+ leaders',
                     icon: { class: 'i-tabler-rocket' },
                   },
-                  title: `It all starts with [@text_effect type=squiggle]your story[/@text_effect].`,
-                  subTitle: `Fiction is the easiest way to publish content, build your personal portfolio, and share your work online.`,
+                  title: `The storytelling platform [@text_effect type=squiggle]for leaders[/@text_effect].`,
+                  subTitle: `Fiction is the simplest way to tell your story, show your work, and build your authority.`,
 
                   action: {
                     buttons: [

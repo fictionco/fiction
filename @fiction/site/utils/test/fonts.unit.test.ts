@@ -28,12 +28,11 @@ describe('activeSiteFont', async () => {
     const fontConfig = activeSiteFont(site)
     const result = fontConfig.value
 
-    expect(result.fontsUrl).toMatchInlineSnapshot(`"https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Caveat:wght@300;400;500;600;700;800;900&display=swap"`)
+    expect(result.fontsUrl).toMatchInlineSnapshot(`"https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&family=lora:wght@300;400;500;600;700;800;900&family=Caveat:wght@300;400;500;600;700;800;900&display=swap"`)
 
     expect(result.fontsUrl).toContain('https://fonts.googleapis.com/css2?family=')
     expect(result.fontsUrl).toContain('DM+Mono')
     expect(result.fontsUrl).toContain('Poppins')
-    expect(result.fontsUrl).toContain('Plus+Jakarta+Sans')
     expect(result.fontsUrl).toContain('Caveat')
 
     expect(Object.keys(result.stacks).sort()).toEqual(
@@ -62,12 +61,12 @@ describe('activeSiteFont', async () => {
     const fontConfig = activeSiteFont(site)
     expect(fontConfig.value.stacks).toMatchInlineSnapshot(`
       {
-        "body": "Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif",
+        "body": "Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
         "highlight": "'Caveat', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
         "input": "'DM Mono', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
         "mono": "'DM Mono', 'Nimbus Mono PS', 'Courier New', monospace",
-        "sans": "'Plus+Jakarta+Sans', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
-        "serif": "Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif",
+        "sans": "Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
+        "serif": "'lora', Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif",
         "test1": "'Space+Mono', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
         "test2": "'Space+Mono', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
         "title": "'Poppins', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",

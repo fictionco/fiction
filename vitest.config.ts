@@ -43,7 +43,7 @@ export default defineConfig({
     env: {
       NODE_ENV: 'development',
     },
-    exclude: ['**/node_modules/**', '**/dist/**', '.git', '.cache', '**/.ref/**', '**/.ref-*/**'],
+    exclude: ['**/node_modules/**', '**/dist/**', '.git', '.cache', '**/.ref/**', '**/.ref-*/**', '**/__*/*'],
     globalSetup: [`${corePath}/setupGlobal.ts`],
     setupFiles: [`${corePath}/setupTest.ts`],
     environmentOptions: { jsdom },

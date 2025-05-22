@@ -18,7 +18,7 @@ export const template = cardTemplate({
   // Base configuration
   getBaseConfig: () => {
     return {
-      standard: { spaceSize: 'none' } as const,
+      standard: { spaceSize: 'none', widthSize: 'none' } as const,
     }
   },
 

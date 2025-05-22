@@ -44,12 +44,10 @@ const iconContent = vue.computed(() => {
       return 'i-tabler-check'
   }
 })
-
-const isIconClass = vue.computed(() => ['iconId', 'iconClass'].includes(mediaFormat.value || ''))
 </script>
 
 <template>
-  <span v-if="isIconClass" :class="iconContent" />
+  <span v-if="iconContent" :class="iconContent" />
   <img
     v-else-if="mediaFormat === 'image'"
     :src="iconContent"

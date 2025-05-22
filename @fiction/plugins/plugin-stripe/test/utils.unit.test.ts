@@ -10,6 +10,7 @@ import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { FictionStripe } from '..'
 import { checkoutEndpointHandler, getCheckoutConfig, getCheckoutUrl, getPortalUrl, processCustomerData } from '../utils'
+import   {mockStripeSubscription} from './stripeMocks'
 
 describe('processCustomerData', () => {
   const mockDate = '2023-03-24T00:00:00.000Z'
@@ -30,30 +31,12 @@ describe('processCustomerData', () => {
     { key: 'pro', tier: 2 },
   ]
 
-  const mockSubscription = {
-    id: 'sub_1MowQVLkdIwHu7ixeRlqHVzs',
-    status: 'active',
-    billing_cycle_anchor: dayjs(randomDate).unix(),
-    current_period_start: dayjs(randomDate).unix(),
-    current_period_end: dayjs(randomDate).add(1, 'month').unix(),
-    items: {
-      data: [{
-        price: {
-          id: 'price_1MowQULkdIwHu7ixraBm864M',
-          nickname: 'Basic Plan',
-          unit_amount: 1000,
-          recurring: {
-            interval: 'month',
-          },
-        },
-      }],
-    },
-  }
+
 
   it('processes an active subscription correctly', () => {
     const raw: RawCustomerData = {
       org: { orgId: 'org_123' },
-      subscriptions: [mockSubscription as any],
+      subscriptions: [mockStripeSubscription as any],
     }
 
     const result = processCustomerData({ raw, products: mockProducts })
@@ -68,13 +51,13 @@ describe('processCustomerData', () => {
   it('calculates billing cycle info correctly', () => {
     const raw: RawCustomerData = {
       org: { orgId: 'org_123' },
-      subscriptions: [mockSubscription as any],
+      subscriptions: [mockStripeSubscription as any],
     }
 
     const result = processCustomerData({ raw, products: mockProducts })
 
-    expect(result.cycleStartAtIso).toBe(dayjs.unix(mockSubscription.current_period_start).toISOString())
-    expect(result.cycleEndAtIso).toBe(dayjs.unix(mockSubscription.current_period_end).toISOString())
+    expect(result.cycleStartAtIso).toBe(dayjs.unix(mockStripeSubscription.items.data[0].current_period_start).toISOString())
+    expect(result.cycleEndAtIso).toBe(dayjs.unix(mockStripeSubscription.items.data[0].current_period_end).toISOString())
   })
 
   it('handles missing subscription', () => {
@@ -94,7 +77,7 @@ describe('processCustomerData', () => {
 
   it('handles trialing subscription', () => {
     const trialingSub = {
-      ...mockSubscription,
+      ...mockStripeSubscription,
       status: 'trialing',
       trial_end: 1682288167,
     }
@@ -114,7 +97,7 @@ describe('processCustomerData', () => {
   it('processes plan details correctly', () => {
     const raw: RawCustomerData = {
       org: { orgId: 'org_123' },
-      subscriptions: [mockSubscription as any],
+      subscriptions: [mockStripeSubscription as any],
     }
 
     const result = processCustomerData({ raw, products: mockProducts })
@@ -122,8 +105,8 @@ describe('processCustomerData', () => {
     expect(result.tier).toBe(1)
 
     expect(result.plan).toMatchObject({
-      id: 'price_1MowQULkdIwHu7ixraBm864M',
-      name: 'Basic Plan',
+      id: 'price_123',
+      name: 'Free',
       amount: 1000,
       interval: 'month',
     })
@@ -131,7 +114,7 @@ describe('processCustomerData', () => {
 
   it('handles past due subscription', () => {
     const pastDueSub = {
-      ...mockSubscription,
+      ...mockStripeSubscription,
       status: 'past_due',
     }
 
