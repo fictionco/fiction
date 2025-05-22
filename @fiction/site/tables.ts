@@ -1,6 +1,6 @@
 import type { ColType, Organization } from '@fiction/core'
 import type { CardGenerationConfig } from './generation.js'
-import type { SiteGlobalUserConfig, StandardUserConfig } from './schema.js'
+import type { SiteGlobalUserConfig, SiteNav, StandardUserConfig } from './schema.js'
 import type { EditorState } from './site.js'
 import { createTableSchema, standardTable } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
@@ -57,10 +57,11 @@ export const siteCols = [
   new Col({ key: 'subDomain', sec: 'setting', sch: () => z.string().min(1), make: ({ s, col, db }) => s.string(col.k).unique().notNullable().defaultTo(db.raw(`short_id(9)`)).index(), prepare: ({ value }) => (value).replaceAll(/[^\w-]+/g, '').toLowerCase() }),
   new Col({ key: 'handle', sec: 'setting', sch: () => z.string().min(1), make: ({ s, col, db }) => s.string(col.k).unique().notNullable().defaultTo(db.raw(`short_id(9)`)).index(), prepare: ({ value }) => (value).replaceAll(/[^\w-]+/g, '').toLowerCase() }),
   new Col({ key: 'status', sec: 'setting', sch: () => z.enum(['pending', 'active', 'inactive']), make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('pending') }),
-  new Col({ key: 'userConfig', sec: 'setting', sch: () => z.record(z.string(), z.unknown()) as z.Schema<SiteGlobalUserConfig & Record<string, unknown>>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'userConfig', sec: 'setting', sch: () => z.record(z.string(), z.unknown()) as z.ZodType<SiteGlobalUserConfig & Record<string, unknown>>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'userPrivate', sec: 'settingPrivate', sch: () => z.record(z.string(), z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
-  new Col({ key: 'editor', sec: 'setting', sch: () => z.record(z.string(), z.unknown()) as z.Schema<Partial<EditorState>>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
-  new Col({ key: 'sections', sec: 'setting', sch: () => z.record(z.string(), z.unknown()) as z.Schema<Record<string, CardConfigPortable>>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'nav', sec: 'setting', sch: () => z.record(z.string(), z.unknown()) as z.ZodType<SiteNav>, make: ({ s, col }) => s.jsonb(col.k).defaultTo([]), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'editor', sec: 'setting', sch: () => z.record(z.string(), z.unknown()) as z.ZodType<Partial<EditorState>>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'sections', sec: 'setting', sch: () => z.record(z.string(), z.unknown()) as z.ZodType<Record<string, CardConfigPortable>>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.string(), z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
 ] as const
 

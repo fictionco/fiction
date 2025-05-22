@@ -115,7 +115,7 @@ function handlePageOrderUpdate(ids: string[]) {
   // Apply the ordering to navigation
   if (props.site.userConfig && orderedPages.length) {
     // Get current navigation from site config or initialize if not exists
-    const navConfig = props.site.userConfig.value.navigation || {}
+    const navConfig = props.site.nav.value || {}
 
     // Preserve existing items that aren't pages (like external links or sections)
     // and filter out pages that will be reordered

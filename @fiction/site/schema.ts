@@ -43,10 +43,9 @@ const NavigationItemSchema = NavListItemSchema.extend({
 const NavigationSchema = z.object({
   primary: z.array(NavigationItemSchema).optional(),
   secondary: z.array(NavigationItemSchema).optional(),
-  footer: z.array(NavListSchema).optional(),
-  mobile: z.array(NavigationItemSchema).optional(),
-  utility: z.array(NavigationItemSchema).optional(),
 })
+
+export type SiteNav = z.infer<typeof NavigationSchema>
 
 // Main schema
 export const CardStandardSchema = z.object({
@@ -84,6 +83,8 @@ export const CardOptionsWithStandardSchema = z.object({
 export type CardStandardOptions = z.infer<typeof CardStandardSchema>
 export type CardOptionsWithStandard = z.infer<typeof CardOptionsWithStandardSchema>
 
+
+
 const siteGlobalConfigSchema = z.object({
   googleAnalyticsId: z.string().optional(),
   googleTagManagerId: z.string().optional(),
@@ -96,7 +97,7 @@ const siteGlobalConfigSchema = z.object({
   timezone: z.string().optional(),
   logo: logoSchema.optional(),
   standard: CardStandardSchema.optional(),
-  navigation: NavigationSchema.optional(), // Added navigation schema
+
 })
 
 export const StandardUserConfigSchema = z.object({
