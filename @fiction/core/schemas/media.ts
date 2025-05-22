@@ -2,7 +2,7 @@ import type { IconName } from '@fiction/ui/lib/systemIcons.js'
 import type { vue } from '../utils/libraries.js'
 import { z } from 'zod/v4'
 import { ColorScaleSchema } from '../utils/colors.js'
-import { AspectRatioSchema, ColorThemeSchema } from './index.js'
+import { AspectRatioSchema, ColorThemeSchema } from './standard.js'
 
 export const MediaFormatSchema = z.enum(['image', 'video', 'icon', 'html', 'component', 'iframe'])
 

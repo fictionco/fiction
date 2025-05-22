@@ -60,7 +60,6 @@
         },
         "email.main.ts": null,
         "emailVerify.uiux.test.ts": null,
-        "onboard.spot.test.ts": null,
         "settings.flow.test.ts": null,
         "signin.uiux.test.ts": null
       },
@@ -187,7 +186,6 @@
       "el": {
         "CardActionArea.vue": null,
         "CardActionAreaConfirmModal.vue": null,
-        "CardActionAreaSubscribe.vue": null,
         "CardActions.vue": null,
         "CardButtons.vue": null,
         "CardLink.vue": null,
@@ -198,6 +196,7 @@
         "StandardHeader.vue": null,
         "SubscribeButton.vue": null,
         "SuperTitle.vue": null,
+        "__CardActionAreaSubscribe.vue": null,
         "util.ts": null
       },
       "index.ts": null,
@@ -313,6 +312,7 @@
         }
       },
       "test": {
+        "generation.unit.test.ts": null,
         "inputOption.unit.test.ts": null,
         "tpl.unit.test.ts": null
       },
@@ -465,7 +465,6 @@
         },
         "profile": {
           "ElCard.vue": null,
-          "card.unit.test.ts": null,
           "config.ts": null,
           "img": {
             "screen-dark.svg": null,
@@ -563,7 +562,7 @@
         }
       },
       "utils": {
-        "generateStructure.ts": null,
+        "__generateStructure.ts": null,
         "head.ts": null,
         "icon.ts": null,
         "img": {
@@ -807,8 +806,15 @@
         "time-locale.ts": null
       },
       "schemas": {
+        "actions.ts": null,
+        "helpers.ts": null,
+        "index.ts": null,
+        "media.ts": null,
         "motifs.ts": null,
-        "schemas.ts": null
+        "navItem.ts": null,
+        "post.ts": null,
+        "standard.ts": null,
+        "typography.ts": null
       },
       "tbl.ts": null,
       "test": {
@@ -839,7 +845,6 @@
         "index.ts": null,
         "ops.ts": null,
         "roles.ts": null,
-        "status.ts": null,
         "templates.ts": null,
         "utils.ts": null
       },
@@ -865,6 +870,7 @@
         "fonts.ts": null,
         "geo.ts": null,
         "globalUtils.ts": null,
+        "handle.ts": null,
         "hook.ts": null,
         "id.ts": null,
         "idb.ts": null,
@@ -898,6 +904,7 @@
         "processors.ts": null,
         "progress.ts": null,
         "save.ts": null,
+        "schema2.ts": null,
         "schemas.ts": null,
         "serverHealth.ts": null,
         "snapshot.ts": null,
@@ -943,6 +950,7 @@
           "processor.unit.test.ts": null,
           "progess.unit.test.ts": null,
           "save.unit.test.ts": null,
+          "schemas.unit.test.ts": null,
           "snapshot.unit.test.ts": null,
           "socket.unit.test.ts": null,
           "store.unit.test.ts": null,
@@ -972,6 +980,7 @@
       "index.ts": null,
       "package.json": null,
       "test": {
+        "onboard.spot.test.ts": null,
         "onboardEndpoint.unit.test.ts": null
       },
       "util.ts": null
@@ -1242,6 +1251,8 @@
       "type-utils.ts": null,
       "util.ts": null,
       "utils": {
+        "__optionSchema.ts": null,
+        "__schema.ts": null,
         "ai.ts": null,
         "cardHelpers.ts": null,
         "demo.ts": null,
@@ -1254,19 +1265,15 @@
         "list.ts": null,
         "load.ts": null,
         "manage.ts": null,
-        "optionSchema.ts": null,
         "page.ts": null,
         "region.ts": null,
-        "schema.ts": null,
         "site.ts": null,
         "test": {
-          "__siteCert.deprecated copy.ts": null,
+          "__optionSchema.unit.test.ts": null,
           "fonts.unit.test.ts": null,
           "frame.unit.test.ts": null,
-          "generation.unit.test.ts": null,
           "history.unit.test.ts": null,
           "layout.unit.test.ts": null,
-          "optionSchema.unit.test.ts": null,
           "page.unit.test.ts": null,
           "region.unit.test.ts": null,
           "schema.unit.test.ts": null,
@@ -1285,7 +1292,10 @@
         "package.json": null,
         "pages": {
           "index.ts": null,
-          "landing.ts": null
+          "journey.ts": null,
+          "landing.ts": null,
+          "portfolio.ts": null,
+          "profile.ts": null
         }
       },
       "fiction": {
@@ -1561,13 +1571,11 @@
         "ElToolSep.vue": null,
         "FormEngine.vue": null,
         "FormEngineModal.vue": null,
-        "InputActionArea.vue": null,
         "InputActionList.vue": null,
         "InputActions.vue": null,
         "InputAuthors.vue": null,
         "InputBanner.vue": null,
         "InputBlockIp.vue": null,
-        "InputBrand.vue": null,
         "InputCheckbox.vue": null,
         "InputCheckboxMulti.vue": null,
         "InputChoice.vue": null,
@@ -1623,8 +1631,10 @@
         "LibraryIcon.vue": null,
         "LibraryMediaGallery.vue": null,
         "LibraryModal.vue": null,
-        "LibraryModalOld.vue": null,
         "TabbedOptions.vue": null,
+        "__InputActionArea.vue": null,
+        "__InputBrand.vue": null,
+        "__LibraryModalOld.vue": null,
         "index.ts": null,
         "test": {
           "InputArray.unit.test.ts": null,
