@@ -7,20 +7,20 @@ import { createOption } from '@fiction/ui'
 import { z } from 'zod/v4'
 
 const faqItemSchema = PostSchema.pick({
-  title: true, // Adding descriptions to picked items
+  title: true,
   content: true,
   icon: true,
   media: true,
-}).describe('FAQ item with question and answer [@ai]')
+}).meta({ ai: true, description: 'FAQ item with question and answer' })
 // Note: We can't add descriptions to picked items directly in .pick(), but including comments for clarity
 
 export const schema = z.object({
-  layout: z.enum(['accordion', 'toggle', 'visible']).optional().describe('Display format - accordion (single), toggle (multiple), or all visible'),
-  items: z.array(faqItemSchema).optional().describe('List of FAQ questions and answers [@ai]'),
+  layout: z.enum(['accordion', 'toggle', 'visible']).optional().meta({ ai: false, description: 'Display format - accordion (single), toggle (multiple), or all visible' }),
+  items: z.array(faqItemSchema).optional().meta({ ai: true, description: 'List of FAQ questions and answers' }),
   support: z.object({
-    text: z.string().optional().describe('Help text shown below FAQs [@ai]'),
-    action: ActionAreaSchema.optional().describe('Support actions like contact buttons [@ai]'),
-  }).optional().describe('Additional support section below FAQs [@ai]'),
+    text: z.string().optional().meta({ ai: true, description: 'Help text shown below FAQs' }),
+    action: ActionAreaSchema.optional().meta({ ai: true, description: 'Support actions like contact buttons' }),
+  }).optional().meta({ ai: true, description: 'Additional support section below FAQs' }),
 })
 
 export type UserConfig = z.infer<typeof schema> & StandardUserConfig

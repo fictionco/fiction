@@ -7,25 +7,19 @@ import { createOption } from '@fiction/ui'
 import { z } from 'zod/v4'
 
 // Schema definitions
-const detailSchema = NavListItemSchema.pick({
-  label: true,
-  value: true,
-  icon: true,
-  href: true,
-})
+const detailSchema = NavListItemSchema.pick({ label: true, value: true, icon: true, href: true })
 
-const mediaSchema = NavListItemSchema.pick({
-  media: true,
+const mediaSchema = NavListItemSchema.pick({ media: true,
 })
 
 export const schema = z.object({
-  title: z.string().optional().describe('Primary headline for profile 3 to 8 words [@ai]'),
-  content: z.string().optional().describe('Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs [@ai]'),
-  superTitle: SuperTitleSchema.optional(),
-  layout: z.enum(['left', 'right']).optional().describe('Media on left or right'),
-  mediaItems: z.array(mediaSchema).optional().describe('Splash pictures in portrait format'),
-  details: z.array(detailSchema).optional().describe('List of details with contact details, location, etc. [@ai]'),
-  action: ActionAreaSchema.optional().describe('List of social media links [@ai]'),
+  title: z.string().optional().meta({ ai: true, description: 'Primary headline for profile 3 to 8 words' }),
+  content: z.string().optional().meta({ ai: true, description: 'Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs' }),
+  superTitle: SuperTitleSchema.optional().meta({ ai: true, description: 'Small text above title' }),
+  layout: z.enum(['left', 'right']).optional().meta({ ai: false, description: 'Media on left or right' }),
+  mediaItems: z.array(mediaSchema).optional().meta({ ai: true, description: 'Splash pictures in portrait format' }),
+  details: z.array(detailSchema).optional().meta({ ai: true, description: 'List of details with contact details, location, etc.' }),
+  action: ActionAreaSchema.optional().meta({ ai: true, description: 'List of social media links' }),
 })
 
 export type UserConfig = z.infer<typeof schema> & CardOptionsWithStandard

@@ -5,14 +5,14 @@ import { createOption } from '@fiction/ui'
 import { z } from 'zod/v4'
 
 const pointSchema = z.object({
-  content: z.string().optional().describe('Point text or description [@ai]'),
+  content: z.string().optional().meta({ ai: true, description: 'Point text or description' }),
 })
 
 export const schema = z.object({
-  layout: z.enum(['default', 'left', 'right']).optional().describe('Content arrangement'),
-  title: z.string().optional().describe('Section headline [@ai]'),
-  media: MediaBasicSchema.optional().describe('Visual illustration'),
-  items: z.array(pointSchema).optional().describe('List of points/steps [@ai]'),
+  layout: z.enum(['default', 'left', 'right']).optional().meta({ ai: false, description: 'Content arrangement' }),
+  title: z.string().optional().meta({ ai: true, description: 'Section headline' }),
+  media: MediaBasicSchema.optional().meta({ ai: true, description: 'Visual illustration' }),
+  items: z.array(pointSchema).optional().meta({ ai: true, description: 'List of points/steps' }),
 })
 
 export type UserConfig = z.infer<typeof schema> & StandardUserConfig

@@ -6,15 +6,15 @@ import { createOption } from '@fiction/ui'
 import { z } from 'zod/v4'
 
 const TrekItemSchema = z.object({
-  title: z.string().optional().describe('Captivating headline that draws viewers into each section'),
-  content: z.string().optional().describe('Evocative story that creates an emotional connection'),
-  media: MediaBasicSchema.optional().describe('Stunning visuals that transport viewers into your world'),
-  action: ActionAreaSchema.optional().describe('conversion actions like buttons or forms'),
-  parallaxStrength: z.number().min(0).max(1).optional().describe('Visual depth intensity (0-1)'),
+  title: z.string().optional().meta({ ai: true, description: 'Captivating headline that draws viewers into each section' }),
+  content: z.string().optional().meta({ ai: true, description: 'Evocative story that creates an emotional connection' }),
+  media: MediaBasicSchema.optional().meta({ ai: true, description: 'Stunning visuals that transport viewers into your world' }),
+  action: ActionAreaSchema.optional().meta({ ai: false, description: 'conversion actions like buttons or forms' }),
+  parallaxStrength: z.number().min(0).max(1).optional().meta({ ai: false, description: 'Visual depth intensity (0-1)' }),
 })
 
 export const schema = z.object({
-  items: z.array(TrekItemSchema).optional().describe('Chapters in your visual story'),
+  items: z.array(TrekItemSchema).optional().meta({ ai: true, description: 'Chapters in your visual story' }),
 })
 
 type Chapter = z.infer<typeof TrekItemSchema>

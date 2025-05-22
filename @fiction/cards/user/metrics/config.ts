@@ -12,7 +12,7 @@ export const MetricSchema = NavListItemSchema.pick({
   emphasis: true,
 }).extend({
   format: z.enum(numberFormats).optional(),
-})
+}).meta({ description: 'Metric item with label, description, value, and icon' })
 
 export type MetricItem = z.infer<typeof MetricSchema>
 

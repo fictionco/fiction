@@ -6,20 +6,15 @@ import { createOption } from '@fiction/ui'
 import { z } from 'zod/v4'
 
 // Schema definition with all fields optional
-const MemberSchema = PostSchema.pick({
-  title: true,
-  subTitle: true,
-  content: true,
-  media: true,
-  action: true,
-})
+const MemberSchema = PostSchema.pick({ title: true, subTitle: true, content: true, media: true, action: true })
 
 export const schema = z.object({
-  layout: z.enum(['mediabox', 'grid']).optional().describe('Team display format'),
-  title: z.string().optional().describe('Team section title [@ai]'),
-  subTitle: z.string().optional().describe('Team description [@ai]'),
-  items: z.array(MemberSchema).optional().describe('Team member list [@ai]'),
+  layout: z.enum(['mediabox', 'grid']).optional().meta({ ai: false, description: 'Team display format' }),
+  title: z.string().optional().meta({ ai: true, description: 'Team section title' }),
+  subTitle: z.string().optional().meta({ ai: true, description: 'Team description' }),
+  items: z.array(MemberSchema).optional().meta({ ai: true, description: 'Team member list' }),
 })
+
 export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 type MemberConfig = z.infer<typeof MemberSchema>
 

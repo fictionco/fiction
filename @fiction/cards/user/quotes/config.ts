@@ -21,16 +21,16 @@ const OrganizationSchema = NavListItemSchema.pick({
 
 // Schema Definitions
 const QuoteSchema = z.object({
-  text: z.string().optional(),
-  author: AuthorSchema.optional(),
-  org: OrganizationSchema.optional(),
-  theme: z.enum(colorThemeUser).optional(),
-  action: ActionAreaSchema.optional(),
-  layout: z.enum(['standard', 'compact', 'featured']).optional(),
+  text: z.string().optional().meta({ ai: true, description: 'Quote or testimonial text' }),
+  author: AuthorSchema.optional().meta({ ai: true, description: 'Quote author information' }),
+  org: OrganizationSchema.optional().meta({ ai: true, description: 'Author organization details' }),
+  theme: z.enum(colorThemeUser).optional().meta({ ai: false, description: 'Quote color theme' }),
+  action: ActionAreaSchema.optional().meta({ ai: true, description: 'Interactive buttons or actions' }),
+  layout: z.enum(['standard', 'compact', 'featured']).optional().meta({ ai: false, description: 'Quote display format' }),
 })
 
 export const schema = z.object({
-  items: z.array(QuoteSchema).optional(),
+  items: z.array(QuoteSchema).optional().meta({ ai: true, description: 'Collection of quotes or testimonials' }),
 })
 
 export type Quote = z.infer<typeof QuoteSchema>

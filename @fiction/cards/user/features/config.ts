@@ -7,27 +7,27 @@ import { z } from 'zod/v4'
 
 // Individual feature schema
 const featureSchema = z.object({
-  title: z.string().optional().describe('Feature name or headline [@ai]'),
-  description: z.string().optional().describe('Feature explanation text [@ai]'),
-  href: z.string().optional().describe('Link destination'),
-  icon: MediaIconSchema.optional().describe('Visual representation [@ai]'),
-  color: z.enum(colorThemeUser).optional().describe('Feature color theme'),
-  action: ActionAreaSchema.optional().describe('Interactive buttons [@ai]'),
-  columns: z.enum(['1', '2', '3', '4']).optional().describe('Width in masonry layout'),
+  title: z.string().optional().meta({ ai: true, description: 'Feature name or headline' }),
+  description: z.string().optional().meta({ ai: true, description: 'Feature explanation text' }),
+  href: z.string().optional().meta({ ai: false, description: 'Link destination' }),
+  icon: MediaIconSchema.optional().meta({ ai: true, description: 'Visual representation' }),
+  color: z.enum(colorThemeUser).optional().meta({ ai: false, description: 'Feature color theme' }),
+  action: ActionAreaSchema.optional().meta({ ai: true, description: 'Interactive buttons' }),
+  columns: z.enum(['1', '2', '3', '4']).optional().meta({ ai: false, description: 'Width in masonry layout' }),
 })
 
 export const schema = z.object({
   layout: z.object({
-    style: z.enum(['grid', 'masonry', 'cards', 'carousel']).optional().describe('Display format'),
-    columns: z.enum(['1', '2', '3', '4']).optional().describe('Grid columns count'),
-    spacing: z.enum(['tight', 'normal', 'relaxed']).optional().describe('Gap between features'),
-    align: z.enum(['left', 'center']).optional().describe('Content alignment'),
-  }).optional().describe('Layout settings'),
-  items: z.array(featureSchema).optional().describe('Feature list items [@ai]'),
+    style: z.enum(['grid', 'masonry', 'cards', 'carousel']).optional().meta({ ai: false, description: 'Display format' }),
+    columns: z.enum(['1', '2', '3', '4']).optional().meta({ ai: false, description: 'Grid columns count' }),
+    spacing: z.enum(['tight', 'normal', 'relaxed']).optional().meta({ ai: false, description: 'Gap between features' }),
+    align: z.enum(['left', 'center']).optional().meta({ ai: false, description: 'Content alignment' }),
+  }).optional().meta({ ai: false, description: 'Layout settings' }),
+  items: z.array(featureSchema).optional().meta({ ai: true, description: 'Feature list items' }),
   style: z.object({
-    iconSize: SizeSchema.optional().describe('Icon dimensions'),
-    iconStyle: z.enum(['outline', 'solid', 'duotone']).optional().describe('Icon visual style'),
-  }).optional().describe('Visual preferences'),
+    iconSize: SizeSchema.optional().meta({ ai: false, description: 'Icon dimensions' }),
+    iconStyle: z.enum(['outline', 'solid', 'duotone']).optional().meta({ ai: false, description: 'Icon visual style' }),
+  }).optional().meta({ ai: false, description: 'Visual preferences' }),
 })
 
 export type FeatureConfig = z.infer<typeof featureSchema>

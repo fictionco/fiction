@@ -10,12 +10,12 @@ const SlideSchema = PostSchema.pick({
   subTitle: true,
   media: true,
 }).extend({
-  textBlend: z.enum(['normal', 'difference']),
+  textBlend: z.enum(['normal', 'difference']).meta({ ai: false, description: 'Text overlay blend mode' }),
 })
 
 export const schema = z.object({
-  autoSlide: z.boolean().optional().describe('Animate slide transition automatically'),
-  items: z.array(SlideSchema).optional().describe('Slides for slider with media, title, and subtitle [@ai seconds=12]'),
+  autoSlide: z.boolean().optional().meta({ ai: false, description: 'Animate slide transition automatically' }),
+  items: z.array(SlideSchema).optional().meta({ ai: true, description: 'Slides for slider with media, title, and subtitle', seconds: 12 }),
 })
 
 export type UserConfig = z.infer<typeof schema> & StandardUserConfig

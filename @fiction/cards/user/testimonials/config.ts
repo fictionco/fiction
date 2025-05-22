@@ -18,14 +18,14 @@ const TestimonialSchema = PostSchema.pick({
   href: true,
   media: true,
 }).extend({
-  user: UserSchema.optional(),
+  user: UserSchema.optional().meta({ ai: true, description: 'Testimonial author information' }),
 })
 
 export type Testimonial = z.infer<typeof TestimonialSchema>
 
 export const schema = z.object({
-  layout: z.enum(['slider', 'mega', 'masonry']).optional().describe('Choose how to showcase your testimonials:\n- Slider: Engaging horizontal storytelling\n- Mega: High-impact featured testimonial\n- Masonry: Rich visual collection'),
-  items: z.array(TestimonialSchema).optional(),
+  layout: z.enum(['slider', 'mega', 'masonry']).optional().meta({ ai: false, description: 'Choose how to showcase your testimonials' }),
+  items: z.array(TestimonialSchema).optional().meta({ ai: true, description: 'Collection of customer testimonials' }),
 })
 
 export type UserConfig = z.infer<typeof schema> & StandardUserConfig

@@ -4,41 +4,41 @@ import { createOption } from '@fiction/ui'
 import { z } from 'zod/v4'
 
 export const SchemaTicker = z.object({
-  text: z.string().optional().describe('Text content to display'),
-  href: z.string().optional().describe('Optional link URL'),
+  text: z.string().optional().meta({ ai: true, description: 'Text content to display' }),
+  href: z.string().optional().meta({ ai: false, description: 'Optional link URL' }),
 
   // Animation
-  speed: z.number().min(0).max(100).default(50).optional().describe('Base animation speed'),
-  direction: z.enum(['left', 'right']).default('left').optional().describe('Scroll direction'),
+  speed: z.number().min(0).max(100).default(50).optional().meta({ ai: false, description: 'Base animation speed' }),
+  direction: z.enum(['left', 'right']).default('left').optional().meta({ ai: false, description: 'Scroll direction' }),
 
   // Styling
-  font: fontFamilySchema.optional().describe('Custom font family'),
-  backgroundColor: z.string().optional().describe('Background color'),
-  backgroundColorLight: z.string().optional().describe('Background color in light mode'),
-  outline: z.boolean().default(false).optional().describe('Apply text outline effect'),
+  font: fontFamilySchema.optional().meta({ ai: false, description: 'Custom font family' }),
+  backgroundColor: z.string().optional().meta({ ai: false, description: 'Background color' }),
+  backgroundColorLight: z.string().optional().meta({ ai: false, description: 'Background color in light mode' }),
+  outline: z.boolean().default(false).optional().meta({ ai: false, description: 'Apply text outline effect' }),
 
   divider: z.object({
-    isEnabled: z.boolean().optional().describe('Enable divider'),
-    color: z.string().optional().describe('Divider color'),
-    icon: MediaIconSchema.optional().describe('Divider character'),
-    shouldRotate: z.boolean().optional().describe('Rotate divider'),
-  }).optional(),
+    isEnabled: z.boolean().optional().meta({ ai: false, description: 'Enable divider' }),
+    color: z.string().optional().meta({ ai: false, description: 'Divider color' }),
+    icon: MediaIconSchema.optional().meta({ ai: true, description: 'Divider character' }),
+    shouldRotate: z.boolean().optional().meta({ ai: false, description: 'Rotate divider' }),
+  }).optional().meta({ ai: false, description: 'Divider configuration' }),
 
   // 3D Transform
   transform: z.object({
-    rotateX: z.number().min(-30).max(30).default(0).optional().describe('3D rotation around X-axis'),
-    rotateY: z.number().min(-30).max(30).default(0).optional().describe('3D rotation around Y-axis'),
-    rotateZ: z.number().min(-30).max(30).default(0).optional().describe('3D rotation around Z-axis'),
-  }).default({}).optional(),
+    rotateX: z.number().min(-30).max(30).default(0).optional().meta({ ai: false, description: '3D rotation around X-axis' }),
+    rotateY: z.number().min(-30).max(30).default(0).optional().meta({ ai: false, description: '3D rotation around Y-axis' }),
+    rotateZ: z.number().min(-30).max(30).default(0).optional().meta({ ai: false, description: '3D rotation around Z-axis' }),
+  }).default({}).optional().meta({ ai: false, description: '3D transformation settings' }),
 })
 
 // Schema with improved organization and descriptions
 export const schema = z.object({
-  fontSize: z.number().min(5).max(15).optional().describe('Base font size in viewport width units'),
-  scrollEffect: z.boolean().default(true).optional().describe('Enable scroll-based animation speed effect'),
-  scrollIntensity: z.number().min(0).max(100).default(25).optional().describe('How much scroll position affects animation speed (%)'),
+  fontSize: z.number().min(5).max(15).optional().meta({ ai: false, description: 'Base font size in viewport width units' }),
+  scrollEffect: z.boolean().default(true).optional().meta({ ai: false, description: 'Enable scroll-based animation speed effect' }),
+  scrollIntensity: z.number().min(0).max(100).default(25).optional().meta({ ai: false, description: 'How much scroll position affects animation speed (%)' }),
 
-  items: z.array(SchemaTicker).default([]).describe('Array of ticker items [@ai label=Ticker Items]'),
+  items: z.array(SchemaTicker).default([]).meta({ ai: true, description: 'Array of ticker items', label: 'Ticker Items' }),
 })
 
 export type UserConfig = z.infer<typeof schema> & StandardUserConfig

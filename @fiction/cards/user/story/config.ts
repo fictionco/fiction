@@ -13,16 +13,16 @@ const fields = PostSchema.pick({
 
 const StorySectionSchema = z.object({
   ...fields,
-  title: fields.title.describe('Headline that captures this story section'),
-  content: fields.content.describe('2-3 engaging paragraphs that draw readers in'),
-  media: fields.media.describe('Visual element that enhances your story'),
-  action: fields.action.describe('Optional calls-to-action at key moments'),
+  title: fields.title.meta({ ai: true, description: 'Headline that captures this story section' }),
+  content: fields.content.meta({ ai: true, description: '2-3 engaging paragraphs that draw readers in' }),
+  media: fields.media.meta({ ai: true, description: 'Visual element that enhances your story' }),
+  action: fields.action.meta({ ai: true, description: 'Optional calls-to-action at key moments' }),
 })
 
 export const schema = z.object({
-  items: z.array(StorySectionSchema).optional().describe('Story sections that reveal as users scroll'),
-  layout: z.enum(['left', 'right']).optional().describe('Media on left or right'),
-  scrollHandling: z.enum(['sticky', 'scrolling']).optional().describe('Media behavior on scroll'),
+  items: z.array(StorySectionSchema).optional().meta({ ai: true, description: 'Story sections that reveal as users scroll' }),
+  layout: z.enum(['left', 'right']).optional().meta({ ai: false, description: 'Media on left or right' }),
+  scrollHandling: z.enum(['sticky', 'scrolling']).optional().meta({ ai: false, description: 'Media behavior on scroll' }),
 })
 
 export type UserConfig = z.infer<typeof schema> & StandardUserConfig

@@ -263,7 +263,6 @@ export const ActionButtonSchema = z.object({
 export type ActionButton = z.infer<typeof ActionButtonSchema>
 
 export const ActionAreaSchema = z.object({
-  title: z.string().optional().meta({ ai: true, description: 'Header text above actions' }),
   buttons: z.array(ActionButtonSchema).optional().meta({ ai: true, description: 'Interactive buttons' }),
   size: SizeSchema.optional().meta({ ai: false, description: 'Component size' }),
   theme: ButtonColorThemeSchema.optional().meta({ ai: false, description: 'Color scheme' }),

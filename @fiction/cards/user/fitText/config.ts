@@ -4,13 +4,13 @@ import { createOption } from '@fiction/ui'
 import { z } from 'zod/v4'
 
 export const schema = z.object({
-  text: z.string().optional().describe('Text that dynamically adjusts to fill available space'),
-  lines: z.number().optional().describe('Number of lines to display (1-5)'),
-  minFontSize: z.number().optional().describe('Minimum font size to maintain readability'),
-  maxFontSize: z.number().optional().describe('Maximum font size for visual impact'),
-  font: fontFamilySchema.optional().describe('Font family selection for brand personality'),
-  align: z.enum(['inherit', 'left', 'center', 'right']).optional().describe('Text alignment'),
-  weight: z.enum(['inherit', 'normal', 'medium', 'semibold', 'bold']).optional().describe('Font weight'),
+  text: z.string().optional().meta({ ai: true, description: 'Text that dynamically adjusts to fill available space' }),
+  lines: z.number().optional().meta({ ai: false, description: 'Number of lines to display (1-5)' }),
+  minFontSize: z.number().optional().meta({ ai: false, description: 'Minimum font size to maintain readability' }),
+  maxFontSize: z.number().optional().meta({ ai: false, description: 'Maximum font size for visual impact' }),
+  font: fontFamilySchema.optional().meta({ ai: false, description: 'Font family selection for brand personality' }),
+  align: z.enum(['inherit', 'left', 'center', 'right']).optional().meta({ ai: false, description: 'Text alignment' }),
+  weight: z.enum(['inherit', 'normal', 'medium', 'semibold', 'bold']).optional().meta({ ai: false, description: 'Font weight' }),
 })
 
 export type UserConfig = z.infer<typeof schema> & StandardUserConfig
