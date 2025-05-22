@@ -221,17 +221,17 @@ export class InputOption extends FictionObject<InputOptionSettings> {
 // Key validation based on input type and schema
 type ValidOptionKey<
   TInput extends InputComponent,
-  TSchema extends z.ZodObject<any> | undefined,
+  TSchema extends z.ZodType<any> | undefined,
 > = TInput extends 'group' | 'title' | 'InputControl'
   ? string
-  : TSchema extends z.ZodObject<any>
+  : TSchema extends z.ZodType<any>
     ? SchemaFields<TSchema> | '*'
     : string
 
 // Settings interface for createOption
 type CreateOptionSettings<
   TInput extends InputComponent,
-  TSchema extends z.ZodObject<any> | undefined = undefined,
+  TSchema extends z.ZodType<any> | undefined = undefined,
 > = {
   input: TInput
   key: ValidOptionKey<TInput, TSchema>
@@ -244,7 +244,7 @@ type CreateOptionSettings<
 // Main function with improved type handling
 export function createOption<
   TInput extends InputComponent,
-  TSchema extends z.ZodObject<any> | undefined = undefined,
+  TSchema extends z.ZodType<any> | undefined = undefined,
 >(settings: CreateOptionSettings<TInput, TSchema>): InputOption {
   const { schema, ...inputSettings } = settings
   const adjustedKey = inputSettings.key.split('.0.').pop() || inputSettings.key

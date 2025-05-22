@@ -771,7 +771,7 @@ export class ManageSite extends SitesQuery {
     return updatedResult
   }
 
-  private async updateSitePages(args: { siteId: string, fields: TableCardConfig[], userId?: string, orgId: string, scope: 'draft' | 'publish' }, meta: EndpointMeta) {
+  private async updateSitePages(args: { siteId: string, fields: CardConfigPortable[], userId?: string, orgId: string, scope: 'draft' | 'publish' }, meta: EndpointMeta) {
     const { siteId, fields, userId, orgId, scope } = args
     const result = this.settings.fictionSites.queries.ManagePage.serve({
       siteId,

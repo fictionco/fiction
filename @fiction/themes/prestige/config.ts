@@ -476,7 +476,7 @@ export async function getConfig(args: Omit<SectionArgs, 'stock'>): Promise<Theme
   const stock = await factory.getStockMedia()
   const a = { ...args, stock }
 
-  const [pages] = await Promise.all([getPages(a)])
+  const pages = await getPages(a)
 
   return {
     pages,

@@ -16,9 +16,11 @@ export const template = cardTemplate({
   el: vue.defineAsyncComponent(async () => import('./ElArea.vue')),
 
   // Base configuration
-  getBaseConfig: () => ({
-    standard: { spaceSize: 'none' },
-  }),
+  getBaseConfig: () => {
+    return {
+      standard: { spaceSize: 'none' } as const,
+    }
+  },
 
   // Config implementation
   getConfig: async (args) => {

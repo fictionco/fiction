@@ -68,6 +68,13 @@ export const CardStandardSchema = z.object({
     title: z.string().optional(),
     subTitle: z.string().optional(),
   }).optional(),
+  ai: z.object({
+    prompt: z.string().optional(),
+    fields: z.record(z.string(), z.object({
+      prompt: z.string().optional(),
+      isUserEnabled: z.boolean().optional(),
+    })).optional(),
+  }).optional(),
 })
 
 export const CardOptionsWithStandardSchema = z.object({

@@ -20,7 +20,7 @@ export const template = cardTemplate({
   // Base configuration before user customization
   getBaseConfig: () => ({
     standard: {
-      spaceSize: 'xs',
+      spaceSize: 'xs' as const,
     },
   }),
 

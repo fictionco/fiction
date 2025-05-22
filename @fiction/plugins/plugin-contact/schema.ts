@@ -35,8 +35,8 @@ export const contactColumns = [
   new Col({ key: 'tags', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
   new Col({ key: 'sourceCategory', sec: 'setting', sch: () => SourceCategorySchema, make: ({ s, col }) => s.string(col.k).defaultTo('') }),
   new Col({ key: 'sourceId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).defaultTo('') }),
-  new Col({ key: 'inlineUser', sec: 'setting', sch: () => z.record(z.unknown()).optional() as z.Schema<Partial<User>>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
-  new Col({ key: 'importDetail', sec: 'setting' as const, sch: () => z.record(z.unknown()).optional() as z.Schema<ImportDetail>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'inlineUser', sec: 'setting', sch: () => z.record(z.string(), z.unknown()).optional() as z.Schema<Partial<User>>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'importDetail', sec: 'setting' as const, sch: () => z.record(z.string(), z.unknown()).optional() as z.Schema<ImportDetail>, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
 ] as const
 
 export const tables = [

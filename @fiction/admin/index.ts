@@ -4,7 +4,7 @@ import type { FictionStripe } from '@fiction/plugin-stripe/index.js'
 import type { FictionTransactions } from '@fiction/plugin-transactions'
 import type { FictionAi } from '@fiction/plugins/plugin-ai/index.js'
 import type { CardFactory } from '@fiction/site/cardFactory.js'
-import type { Card, CardTemplate, TableCardConfig } from '@fiction/site/index.js'
+import type { Card, CardConfigPortable, CardTemplate, TableCardConfig } from '@fiction/site/index.js'
 import type { dashTemplate } from './dashboard/templates.js'
 import type { WidgetLoader } from './widgets/index.js'
 import { EnvVar, vars } from '@fiction/core'
@@ -33,7 +33,7 @@ export type FictionAdminSettings = {
   proxycurlApiKey?: string
 } & FictionPluginSettings
 
-type PageLoader = (args: { factory: CardFactory }) => (Promise<TableCardConfig[]> | TableCardConfig[])
+type PageLoader = (args: { factory: CardFactory }) => (Promise<CardConfigPortable[]> | CardConfigPortable[])
 
 type AdminFeature = { key: string, getPages?: PageLoader, getTemplates?: () => Promise<CardTemplate<any>[]> }
 

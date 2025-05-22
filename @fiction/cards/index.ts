@@ -5,7 +5,6 @@ import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
 import { envConfig, FictionPlugin, log, safeDirname, toKebab, toLabel, vue } from '@fiction/core'
 import { Card, cardTemplate } from '@fiction/site/card'
-import { generateCardStructure } from './utils/generateStructure'
 
 const logger = log.contextLogger('cardLoading')
 
@@ -328,21 +327,21 @@ export class FictionCards extends FictionPlugin<CardsPluginSettings> {
     super('FictionCards', s)
   }
 
-  override setup() {
-    this.addStructureFile()
-  }
+  // override setup() {
+  //   this.addStructureFile()
+  // }
 
-  addStructureFile() {
-    this.fictionEnv.generators.push(async () => {
-      const cardTemplates = await getCardTemplates({ caller: 'cardStructure' })
+  // addStructureFile() {
+  //   this.fictionEnv.generators.push(async () => {
+  //     const cardTemplates = await getCardTemplates({ caller: 'cardStructure' })
 
-      const results = await generateCardStructure({
-        templates: cardTemplates,
-        fictionSites: this.settings.fictionSites,
-        fictionRouterSites: this.settings.fictionRouterSites,
-      })
+  //     const results = await generateCardStructure({
+  //       templates: cardTemplates,
+  //       fictionSites: this.settings.fictionSites,
+  //       fictionRouterSites: this.settings.fictionRouterSites,
+  //     })
 
-      return { fileName: 'cardStructure.json', content: results.json }
-    })
-  }
+  //     return { fileName: 'cardStructure.json', content: results.json }
+  //   })
+  // }
 }

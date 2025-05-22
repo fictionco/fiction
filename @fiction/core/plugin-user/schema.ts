@@ -25,7 +25,6 @@ export const userColumns = [
   new Col({ key: 'hashedPassword', sec: 'authority', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'emailVerified', sec: 'settingAdmin', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).notNullable().defaultTo(false) }),
   new Col({ key: 'verify', sec: 'authority', sch: () => z.object({ code: z.string(), expiresAt: z.string(), context: z.string().optional() }) as z.Schema<VerificationCode>, make: ({ s, col }) => s.jsonb(col.k) }),
-
   new Col({ key: 'googleId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).unique() }),
   new Col({ key: 'status', sch: () => EntityStatusEnum, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('active') }),
   new Col({ key: 'invitedById', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.user}.user_id`) }),
@@ -38,7 +37,6 @@ export const userColumns = [
   new Col({ key: 'phone', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'address', sec: 'settingPrivate', sch: () => z.any() as z.Schema<StreetAddress>, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'title', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
-
   new Col({ key: 'websiteUrl', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'accounts', sec: 'setting', sch: () => z.any() as z.Schema<SocialAccounts>, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'company', sec: 'setting', sch: () => z.any() as z.Schema<UserCompany>, make: ({ s, col }) => s.jsonb(col.k) }),
@@ -63,33 +61,27 @@ export const orgColumns = [
   new Col({ key: 'promise', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
   new Col({ key: 'about', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
   new Col({ key: 'goal', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
-
   new Col({ key: 'interests', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
   new Col({ key: 'influences', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
   new Col({ key: 'pillars', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
   new Col({ key: 'clout', sec: 'setting', sch: () => z.number().min(0).max(100), make: ({ s, col }) => s.integer(col.k) }),
-
   new Col({ key: 'promptImage', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
   new Col({ key: 'promptContent', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k) }),
-
   new Col({ key: 'industry', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'experiences', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
   new Col({ key: 'streetAddress', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'city', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'state', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'country', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
-
   new Col({ key: 'logo', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }), // wide logo (full name)
   new Col({ key: 'avatar', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }), // avatar (image of person or icon)
   new Col({ key: 'icon', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k) }), // icon (logo or icon)
   new Col({ key: 'companyName', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
-
   new Col({ key: 'primaryColor', sec: 'setting', sch: () => z.string() as z.Schema<ColorThemeBright | ''>, make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'googleAnalyticsId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'accounts', sec: 'setting', sch: () => z.any() as z.Schema<SocialAccounts>, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'orgStatus', sec: 'setting', sch: () => EntityStatusEnum, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('active') }),
   new Col({ key: 'createdByUserId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
-
   new Col({ key: 'lastSeenAt', sec: 'setting', sch: () => z.string(), make: ({ s, col, db }) => s.dateTime(col.k).defaultTo(db.fn.now()) }),
   new Col({ key: 'apiSecret', sec: 'settingPrivate', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'timezone', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),

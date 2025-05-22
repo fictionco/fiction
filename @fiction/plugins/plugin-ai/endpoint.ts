@@ -3,6 +3,7 @@ import type { z } from 'zod/v4'
 import type { FictionAi, FictionAiSettings } from '.'
 import { abort, getColorScheme, Query, Shortcodes } from '@fiction/core'
 import { createStockMediaHandler } from '@fiction/ui/stock'
+import { toJSONSchema } from 'zod/v4'
 
 // Types
 type QueryAiSettings = { fictionAi: FictionAi } & FictionAiSettings
@@ -220,8 +221,7 @@ export class QueryAi extends Query<QueryAiSettings> {
 
     // Add schema if provided
     if (schema) {
-      const { default: zodToJsonSchema } = await import('zod-to-json-schema')
-      outputFormat = zodToJsonSchema(schema)
+      outputFormat = toJSONSchema(schema)
     }
     else if (schemaJson) {
       outputFormat = schemaJson

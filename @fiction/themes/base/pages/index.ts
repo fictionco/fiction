@@ -14,5 +14,17 @@ export function getPageTemplates(): PageTemplate[] {
       description: 'Showcase your profile with a hero, features, and call to action',
       getCards: () => import('./profile').then(m => m.getCards()),
     },
+    {
+      pageTemplateId: 'portfolio',
+      title: 'Portfolio Page',
+      description: 'Showcase your portfolio with a hero, features, and call to action',
+      getCards: () => import('./portfolio').then(m => m.getCards()),
+    },
+    {
+      pageTemplateId: 'journey',
+      title: 'Journey Page',
+      description: 'Great for showcasing milestones, projects, and a timeline of your work',
+      getCards: () => import('./journey').then(m => m.getCards()),
+    },
   ]
 }

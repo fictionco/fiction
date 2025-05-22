@@ -22,7 +22,7 @@ export const template = cardTemplate({
     return getConfig({ ...args, templateId })
   },
 
-  getBaseConfig: () => ({ standard: { spaceSize: 'sm' } }),
+  getBaseConfig: () => ({ standard: { spaceSize: 'sm' } as const }),
 
   screenshot: {
     light: new URL('img/screen-light.svg', import.meta.url).href,

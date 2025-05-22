@@ -2,8 +2,7 @@ import fs from 'node:fs'
 import { FictionAws, FictionMedia, getEnvVars } from '@fiction/core'
 import { createTestUtils, testEnvFile } from '@fiction/core/test-utils'
 import { afterAll, describe, expect, it } from 'vitest'
-import { z } from 'zod/v4'
-import zodToJsonSchema from 'zod-to-json-schema'
+import { toJSONSchema, z } from 'zod/v4'
 import { FictionAi } from '..'
 
 const pageSchema = z.object({
@@ -14,7 +13,7 @@ const pageSchema = z.object({
 
 type CompletionType = z.infer<typeof pageSchema>
 
-const pageSchemaJson = zodToJsonSchema(pageSchema)
+const pageSchemaJson = toJSONSchema(pageSchema)
 
 describe('ai completions', async () => {
   if (!fs.existsSync(testEnvFile))
@@ -83,7 +82,7 @@ describe('ai completions', async () => {
       prompt: `Create content suggestions`,
       orgId,
       userId,
-      schemaJson: zodToJsonSchema(z.object({
+      schemaJson: toJSONSchema(z.object({
         suggestion1: z.string().min(3).max(200),
       })),
     }, { server: true })

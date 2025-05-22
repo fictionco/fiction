@@ -26,7 +26,7 @@ export const template = cardTemplate({
       standard: {
         widthSize: 'none',
         spaceSize: 'sm',
-      },
+      } as const,
     }
   },
   screenshot: {

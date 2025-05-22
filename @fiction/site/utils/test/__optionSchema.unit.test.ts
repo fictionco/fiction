@@ -2,7 +2,7 @@ import { colorList, colorTheme, SuperTitleSchema } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import { describe, expect, it } from 'vitest'
 import { z } from 'zod/v4'
-import { collectKeysFromOptions, refineOptions, zodSchemaToDotPathRecord, zodToSimpleSchema } from '../optionSchema'
+import { collectKeysFromOptions, refineOptions, zodSchemaToDotPathRecord, zodToSimpleSchema } from '../__optionSchema'
 
 describe('schema tools', () => {
   const options: InputOption[] = [

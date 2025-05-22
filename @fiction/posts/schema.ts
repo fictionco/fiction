@@ -31,6 +31,8 @@ export type TablePostConfig = Partial<ColType<typeof postCols>> & {
   }
 }
 
+export const TablePostSchema = z.object() as z.ZodType<TablePostConfig>
+
 export type TableCommentConfig = Partial<ColType<typeof postCommentCols>> & {
   user?: User
   replies?: TableCommentConfig[]
@@ -105,9 +107,9 @@ export const postCols = [
   new Col({ key: 'content', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k).defaultTo('') }),
   new Col({ key: 'media', sec: 'setting', sch: () => MediaDisplaySchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'theme', sec: 'setting', sch: () => ColorThemeUserSchema, make: ({ s, col }) => s.string(col.k) }),
-  new Col({ key: 'userConfig', sec: 'setting', sch: () => z.record(z.unknown()) as z.Schema<PostUserConfig>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+  new Col({ key: 'userConfig', sec: 'setting', sch: () => z.record(z.string(), z.unknown()) as z.Schema<PostUserConfig>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'hasChanges', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
-  new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.string(), z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'tags', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
   new Col({ key: 'categories', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
   new Col({ key: 'visibility', sec: 'setting', sch: () => VisibilitySchema, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('public') }),
@@ -136,10 +138,6 @@ export const postCols = [
   new Col({ key: 'likeCount', sec: 'setting', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
   new Col({ key: 'commentCount', sec: 'setting', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
 ] as const
-
-export const TablePostSchema = createTableSchema(postCols).extend({
-  authors: z.array(z.object({ userId: z.string(), name: z.string(), email: z.string() })).optional().describe('Post authors') as z.Schema<User[] | undefined>,
-})
 
 export const postAuthorCols = [
   new Col({ key: 'postAuthorId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id()`)) }),
@@ -171,7 +169,7 @@ export const emailCols = [
   new Col({ key: 'openedAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
   new Col({ key: 'clickedAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
   new Col({ key: 'deliveredAt', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.timestamp(col.k) }),
-  new Col({ key: 'metadata', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+  new Col({ key: 'metadata', sec: 'setting', sch: () => z.record(z.string(), z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
 ] as const
 
 export const postLikeCols = [
@@ -223,7 +221,7 @@ export const PostHandlingSchema = z.object({
   format: z.enum(['standard', 'local']).optional().describe('Global or inline posts source'),
   limit: z.number().optional().describe('Max posts to show'),
   offset: z.number().optional().describe('Number of posts to skip'),
-  entries: z.array(TablePostSchema).optional().describe('Local post entries [@ai]'),
+  entries: z.array(z.object() as z.ZodType<TablePostConfig>).optional().describe('Local post entries [@ai]'),
   query: GlobalQuerySchema.optional().describe('Filter and sort options [@ai]'),
   viewSlug: z.string().optional().describe('Base URL for posts'),
 })

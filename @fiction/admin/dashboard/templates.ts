@@ -48,7 +48,7 @@ export const dashTemplate = cardTemplate({
   isPageCard: true,
   getBaseConfig: () => ({
     authRedirect: '/auth',
-    standard: { spaceSize: 'none' },
+    standard: { spaceSize: 'none' as const },
   }),
   getConfig: async () => ({ schema }),
 })

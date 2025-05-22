@@ -24,7 +24,7 @@ export const revisionCols = [
   new Col({ key: 'version', sec: 'setting', sch: () => z.number(), make: ({ s, col }) => s.integer(col.k).defaultTo(1) }),
   new Col({ key: 'itemType', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).notNullable().index() }),
   new Col({ key: 'itemId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).notNullable().index() }),
-  new Col({ key: 'itemData', sec: 'setting', sch: () => z.record(z.unknown()), make: ({ s, col }) => s.jsonb(col.k).notNullable(), prepare: ({ value }) => JSON.stringify(value) }),
+  new Col({ key: 'itemData', sec: 'setting', sch: () => z.record(z.string(), z.unknown()), make: ({ s, col }) => s.jsonb(col.k).notNullable(), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'priority', sec: 'setting', sch: () => z.number(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
 ] as const
 

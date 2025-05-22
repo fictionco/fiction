@@ -146,7 +146,6 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
   } as const
 
   return {
-    schema: z.object({}),
     options: [],
     userConfig: {},
     demoPage: {

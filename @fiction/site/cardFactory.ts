@@ -1,4 +1,4 @@
-import type { CardConfigPortable, PageRegion, Site, TableCardConfig } from './index.js'
+import type { CardConfigPortable, PageRegion, Site } from './index.js'
 import type { StandardUserConfig } from './schema.js'
 import type { ComponentConstructor } from './type-utils.js'
 import { FictionObject } from '@fiction/core'
@@ -58,7 +58,7 @@ export class CardFactory<U extends readonly CardTemplate<any>[] = readonly CardT
 
     // Base card properties
   } & BaseCardConfig,
-  ): Promise<TableCardConfig> {
+  ): Promise<CardConfigPortable> {
     const { tpl, el, userConfig, baseConfig } = args
 
     const templateId = args.templateId || (args.slug ? 'cardPageWrapV1' : 'cardPageAreaV1')
@@ -87,6 +87,6 @@ export class CardFactory<U extends readonly CardTemplate<any>[] = readonly CardT
       baseConfig,
     }, { factory: this })
 
-    return createdCard.toConfig() as TableCardConfig
+    return createdCard.toConfig() as CardConfigPortable
   }
 }

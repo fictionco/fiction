@@ -3,7 +3,7 @@ import type { ColorThemeBright, CoreServices, FictionEnv, MediaObject, Organizat
 import type { CardTemplate } from './card.js'
 import type { SiteGlobalUserConfig } from './schema.js'
 import type { SiteSettings } from './site.js'
-import type { CardConfigPortable, TableCardConfig } from './tables.js'
+import type { CardConfigPortable } from './tables.js'
 import { cardConfig } from '@fiction/cards/index.js'
 import { deepMerge, FictionObject, toLabel, vue } from '@fiction/core'
 import { CardFactory } from './cardFactory.js'
@@ -13,8 +13,8 @@ type ThemeCategory = 'blog' | 'portfolio' | 'business' | 'personal' | 'ecommerce
 
 export type ThemeConfig = {
   userConfig?: SiteGlobalUserConfig
-  pages?: TableCardConfig[]
-  sections?: Record<string, TableCardConfig>
+  pages?: CardConfigPortable[]
+  sections?: Record<string, CardConfigPortable>
   onMounted?: (args: { service: CoreServices }) => (void | Promise<void>)
   org?: Partial<Organization>
 }
