@@ -5,7 +5,7 @@ import { FictionAdmin } from '@fiction/admin'
 import { FictionAnalytics } from '@fiction/analytics/index.js'
 import FSite from '@fiction/cards/CardSite.vue'
 import { FictionCards } from '@fiction/cards/index.js'
-import { AppRoute, FictionApp, FictionAws, FictionMedia, FictionRouter, getEnvVars, randomBetween, shortId } from '@fiction/core'
+import { AppRoute, FictionApp, FictionAws, FictionMedia, FictionRouter, getEnvVars, randomBetween, shortId, waitFor } from '@fiction/core'
 import { runServicesSetup } from '@fiction/core/plugin-env/entry'
 import { testEnvFile } from '@fiction/core/test-utils'
 import { createTestUtils } from '@fiction/core/test-utils/init'
@@ -136,6 +136,7 @@ export async function createSiteTestUtils(args: {
   }
 
   out.close = async () => {
+    await waitFor(100)
     await out.fictionAnalytics?.close()
     await testUtils.close()
   }

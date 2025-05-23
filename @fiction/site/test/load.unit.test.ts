@@ -82,6 +82,7 @@ describe('getMountContext', () => {
     expect(result).toEqual({
       siteId: '123',
       siteMode: 'editor',
+      contextCacheKey: expect.any(String),
     })
   })
 
@@ -94,6 +95,7 @@ describe('getMountContext', () => {
     expect(result).toEqual({
       siteId: '123',
       siteMode: 'standard',
+      contextCacheKey: expect.any(String),
     })
   })
 
@@ -111,6 +113,7 @@ describe('getMountContext', () => {
     expect(result).toEqual({
       subDomain: 'xxx',
       siteMode: 'editable',
+      contextCacheKey: expect.any(String),
     })
   })
 
@@ -124,6 +127,7 @@ describe('getMountContext', () => {
     expect(result).toEqual({
       siteId: '789',
       siteMode: 'standard',
+      contextCacheKey: expect.any(String),
     })
   })
 
@@ -158,16 +162,17 @@ describe('getMountContext', () => {
     expect(result).toEqual({
       siteId: '123',
       siteMode: 'custom',
+      contextCacheKey: expect.any(String),
     })
   })
 })
 
 describe('site plugin tests', async () => {
   const testUtils = await createSiteTestUtils()
-  await testUtils.init()
+  const { user, orgId } = await testUtils.init()
 
   afterAll(() => testUtils.close())
-  const subDomain = `test-${shortId({ len: 6, withNumbers: false })}`
+  const handle = `test-${shortId({ len: 6, withNumbers: false })}`
   const hostname = `www.testing-${shortId({ len: 7 })}.com`
   const common = {
     fictionSites: testUtils.fictionSites,
@@ -179,13 +184,24 @@ describe('site plugin tests', async () => {
     fields: {
       title: 'test site',
       themeId: 'test',
-      subDomain,
+      handle,
+      isPrimary: true,
     },
     _action: 'create',
     caller: 'sitePluginTest',
-    isPublishingDomains: true,
     ...common,
   })
+
+  const customDomains = {
+    hostname,
+    isPrimary: true,
+  }
+
+  // Insert custom domain into the database
+  await testUtils.fictionSites.queries.ManageDomain.serve(
+    { _action: 'create', orgId, fields: customDomains, userId: user?.userId, caller: 'test' },
+    { server: true },
+  )
 
   const site = r.site as Site
 
@@ -207,7 +223,7 @@ describe('site plugin tests', async () => {
       ...common,
     })
 
-    const r = await requestManageSite({
+    const _r = await requestManageSite({
       fields: { },
       _action: 'update',
       caller: ctx.task.name,
@@ -260,16 +276,16 @@ describe('site plugin tests', async () => {
   })
 
   it('should load a site based on various parameters with loadSite', async () => {
-    if (!subDomain)
+    if (!handle)
       throw new Error('no sub domain')
 
-    const mountContext = getMountContext({ queryVars: { subDomain } })
+    const mountContext = getMountContext({ queryVars: { handle } })
 
     const loaded = await loadSite({ ...common, mountContext })
 
     expect(loaded).toBeDefined()
 
-    expect(loaded?.subDomain.value).toBe(subDomain)
+    expect(loaded?.handle.value).toBe(handle)
   })
 
   it('should load a site by themeId', async (ctx) => {

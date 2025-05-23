@@ -33,9 +33,11 @@ describe('site plugin tests', async () => {
 
     expect(site?.pages.value.map(_ => _.slug.value)).toMatchInlineSnapshot(`
       [
-        "_home",
+        "welcome",
         "example",
         "__transaction",
+        "_p",
+        "_archive",
       ]
     `)
 
@@ -49,12 +51,12 @@ describe('site plugin tests', async () => {
 
     await site.siteRouter.push('/', { caller: ctx.task.name })
 
-    expect(site?.currentPage.value?.slug.value).toBe('_home')
+    expect(site?.currentPage.value?.slug.value).toBe('welcome')
   })
 
   it('generates correct paths for site pages and cards', async () => {
     await site.update({ pages: [
-      { slug: '_home', cards: [{ templateId: 'hero' }] },
+      { slug: 'foo', isHome: true, cards: [{ templateId: 'hero' }] },
       { slug: 'blog', cards: [{ templateId: 'testBlog', userConfig: {
         posts: [{ slug: 'first-post' }, { slug: 'second-post' }],
       } }] },
@@ -68,6 +70,8 @@ describe('site plugin tests', async () => {
         "/blog",
         "/blog/first-post",
         "/blog/second-post",
+        "/_p",
+        "/_archive",
       ]
     `)
     const expectedPaths = [
@@ -75,6 +79,8 @@ describe('site plugin tests', async () => {
       '/blog',
       '/blog/first-post',
       '/blog/second-post',
+      '/_p',
+      '/_archive',
     ]
 
     expect(paths).toEqual(expectedPaths)
@@ -89,6 +95,8 @@ describe('site plugin tests', async () => {
         "/test/blog",
         "/test/blog/first-post",
         "/test/blog/second-post",
+        "/test/_p",
+        "/test/_archive",
       ]
     `)
   })

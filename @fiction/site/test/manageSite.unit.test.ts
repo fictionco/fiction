@@ -56,7 +56,7 @@ describe('getSiteSelector', async () => {
           isVerified: d.isVerified ?? false,
           isPrimary: d.isPrimary ?? false,
         })),
-      )
+      ).onConflict(['org_id', 'hostname']).ignore()
     }
 
     return siteId
@@ -353,7 +353,7 @@ describe('getSiteMetrics and trackSiteMetrics', async () => {
           "orgId": "[id:TRUTHY]",
           "timeEndAtIso": "[datetime:TRUTHY]",
           "timeStartAtIso": "[datetime:TRUTHY]",
-          "timeZone": "America/Denver",
+          "timeZone": "America/Los_Angeles",
         },
       }
     `)
@@ -373,8 +373,6 @@ describe('manageSite query', async () => {
 
   const createSiteFields = (title: string) => ({
     title,
-    themeId: 'test',
-    subDomain: `test-${objectId({ prefix: 'sub' })}`,
   })
 
   describe('site deletion', () => {
@@ -533,7 +531,8 @@ describe('manageSite query', async () => {
 
       // Create test site with pages
       const fields = {
-        ...createSiteFields('Retrieval Test Site'),
+        title: 'Retrieval Test Site',
+        isPrimary: true,
         pages: [
           {
             cardId: objectId({ prefix: 'crd' }),
@@ -617,7 +616,7 @@ describe('manageSite query', async () => {
             fields: {
               title: 'Draft Site Title',
               userConfig: {
-                site: { description: 'Draft description' },
+                standard: { description: 'Draft description' },
               } satisfies Site['userConfig']['value'],
             },
             orgId,
@@ -690,7 +689,7 @@ describe('manageSite query', async () => {
         )
 
         expect(response.status).toBe('success')
-        expect(response.data?.pages).toHaveLength(3)
+        expect(response.data?.pages).toHaveLength(2)
         expect(response.data?.pages.find(p => p.slug === 'test-page')).toMatchObject({
           title: 'Test Page',
           slug: 'test-page',
