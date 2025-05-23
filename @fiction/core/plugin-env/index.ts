@@ -410,11 +410,8 @@ export class FictionEnv<
     this.envFiles.forEach((envFile) => {
       const { error, parsed } = dotenv.config({ path: path.resolve(envFile) })
       if (parsed) {
-        this.log.info(`loaded envFile: ${envFile}`, {
-          data: {
-            keys: Object.entries(parsed || {}).map(([key, v]) => `${key}(${v.length})`).join(', '),
-          },
-        })
+        const keys = Object.entries(parsed || {}).map(([key, v]) => `${key}(${v.length})`).join(', ')
+        this.log.info(`loaded envFile: ${envFile}, keys: ${keys.length}`)
       }
       else if (error) {
         this.log.warn(`envFile does not exist`, { data: { envFile } })

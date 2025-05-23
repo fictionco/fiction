@@ -49,13 +49,7 @@ export async function requestManageSite(args: RequestManageSiteParams) {
 
   let scope: 'publish' | 'draft' = routeScope === 'draft' ? 'draft' : 'publish'
 
-  if (_action === 'create') {
-    const { fields } = args
-    const { themeId } = fields || {}
-    if (!themeId)
-      throw new Error('no themeId')
-  }
-  else if (['update', 'delete', 'retrieve'].includes(_action)) {
+  if (['update', 'delete', 'retrieve'].includes(_action)) {
     const { _action, where } = args
     if (!where || !Object.keys(where).length) {
       logger.error(`REQUEST SITE WHERE -> no siteId or subDomain ${_action}`)
