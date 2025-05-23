@@ -19,9 +19,8 @@ function createMockSite(overrides = {}) {
         value: 'https://example.com',
       },
     },
-    title: {
-      value: 'Test Site',
-    },
+    title: { value: 'Test Site' },
+    url: { value: 'https://example.com' },
     org: {
       value: {
         orgName: 'Test Org',
@@ -54,6 +53,9 @@ function createMockSite(overrides = {}) {
         },
         slug: {
           value: '/test-page',
+        },
+        isHome: {
+          value: false,
         },
       },
     },
@@ -165,8 +167,8 @@ describe('getStructuredData', () => {
         value: {
           title: { value: 'Home' },
           description: { value: 'Home description' },
-          slug: { value: '_home' },
-          isHome: true,
+          slug: { value: 'whatever' },
+          isHome: { value: true },
         },
       },
     })

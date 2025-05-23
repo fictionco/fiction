@@ -26,14 +26,14 @@ describe('siteLoading', async () => {
     if (!testUtils?.fictionSites)
       throw new Error('missing testUtils')
 
-    const subDomain = shortId()
+    const handle = shortId()
     const title = 'test'
     const themeId = 'test'
 
     const result = await requestManageSite(
       {
         _action: 'create',
-        fields: { title, themeId, subDomain },
+        fields: { title, themeId, handle },
         caller: ctx.task.name,
         ...common,
       },
@@ -55,13 +55,13 @@ describe('siteLoading', async () => {
 
     await testUtils.fictionUser.logout()
 
-    const { siteId, subDomain } = siteConfig
+    const { siteId, handle } = siteConfig
 
     const result = await requestManageSite({ _action: 'retrieve', where: { siteId }, caller: ctx.task.name, ...common })
 
     expect(result?.site?.siteId).toBeTruthy()
 
-    const result2 = await requestManageSite({ _action: 'retrieve', where: { subDomain }, caller: ctx.task.name + 2, ...common })
+    const result2 = await requestManageSite({ _action: 'retrieve', where: { handle }, caller: ctx.task.name + 2, ...common })
 
     expect(result2?.site?.siteId).toBeTruthy()
   })
