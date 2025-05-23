@@ -39,7 +39,7 @@ describe('createAndSaveMedia', async () => {
   })
 
   it('should create and save media WITHOUT cropping', async () => {
-    const fileMime = 'image/jpeg'
+    const fileMime = 'image/avif'
     const mediaConfig: TableMediaConfig = { orgId, userId, filePath: testImgPath, sourceImageUrl: '', mime: fileMime }
     const fields = mediaConfig
     const result = await testUtils.fictionMedia?.queries.ManageMedia.serve({ _action: 'checkAndCreate', noCache: true, fields, userId, orgId }, meta)
@@ -57,7 +57,7 @@ describe('createAndSaveMedia', async () => {
   })
 
   it('should create and save media WITH cropping', async () => {
-    const fileMime = 'image/jpeg'
+    const fileMime = 'image/avif'
 
     const mediaConfig: TableMediaConfig = { orgId, userId, filePath: testImgPath, sourceImageUrl: '', mime: fileMime }
 
@@ -91,7 +91,7 @@ describe('createAndSaveMedia', async () => {
   })
 
   it('should handle various image types', async () => {
-    const fileMime = 'image/jpeg' // Can change this to other MIME types for testing
+    const fileMime = 'image/avif' // Can change this to other MIME types for testing
 
     const mediaConfig: TableMediaConfig = {
       orgId,
@@ -134,7 +134,7 @@ describe('createAndSaveMedia', async () => {
 
   it('should handle very long filenames', async () => {
     const longFileName = `${'a'.repeat(200)}.jpg` // 200 characters plus extension
-    const fileMime = 'image/jpeg'
+    const fileMime = 'image/avif'
     const testDir = path.dirname(testImgPath)
     const longFileNamePath = path.join(testDir, longFileName)
 
@@ -186,7 +186,7 @@ describe('createAndSaveMedia', async () => {
       userId,
       filePath: largePath,
       sourceImageUrl: '',
-      mime: 'image/jpeg',
+      mime: 'image/avif',
     }
 
     const result = await testUtils.fictionMedia?.queries.ManageMedia.serve({
@@ -230,7 +230,7 @@ describe('createAndSaveMedia', async () => {
   })
 
   it('should handle duplicate uploads correctly', async () => {
-    const fileMime = 'image/jpeg'
+    const fileMime = 'image/avif'
     const mediaConfig: TableMediaConfig = {
       orgId,
       userId,
@@ -262,7 +262,7 @@ describe('createAndSaveMedia', async () => {
   })
 
   it('should handle network errors during upload', async () => {
-    const fileMime = 'image/jpeg'
+    const fileMime = 'image/avif'
     const mediaConfig: TableMediaConfig = {
       orgId,
       userId,
@@ -291,7 +291,7 @@ describe('createAndSaveMedia', async () => {
 
   it('should list media with pagination and filtering', async () => {
     // First, create some test media
-    const fileMime = 'image/jpeg'
+    const fileMime = 'image/avif'
     const mediaConfig: TableMediaConfig = { orgId, userId, filePath: testImgPath, sourceImageUrl: '', mime: fileMime }
     await testUtils.fictionMedia?.queries.ManageMedia.serve({ _action: 'checkAndCreate', noCache: true, fields: mediaConfig, userId, orgId }, meta)
 
@@ -315,7 +315,7 @@ describe('createAndSaveMedia', async () => {
     const countResult = await testUtils.fictionMedia?.queries.ManageMedia.serve({
       _action: 'count',
       orgId,
-      filters: [[{ field: 'mime', operator: '=', value: 'image/jpeg' }]],
+      filters: [[{ field: 'mime', operator: '=', value: 'image/avif' }]],
     }, meta)
 
     expect(countResult?.status).toBe('success')

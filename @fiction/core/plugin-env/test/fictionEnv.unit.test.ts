@@ -18,6 +18,7 @@ describe('fictionEnv', () => {
       cwd: '/test',
       envFiles: ['/test/.env'],
       meta: { name: 'TestApp' },
+      id: 'test-app',
     })
   })
 
