@@ -62,7 +62,7 @@ describe('siteRendering Tests', async () => {
     const serviceConfig = { fictionEnv: service.fictionEnv, service, runVars: { HOSTNAME: hostname } }
     const entry = await testUtils.fictionAppSites.mountApp({ mountEl, serviceConfig })
 
-    await waitFor(300)
+    await waitFor(500)
 
     const html = await snapshotHtml(mountEl.innerHTML, { hideTags: ['svg'], maskIds: false })
 

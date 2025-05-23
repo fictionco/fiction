@@ -1,5 +1,5 @@
 import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
-import type { InputOptionGeneration } from '../../site/utils/generation'
+import type { InputOptionGeneration } from '@fiction/site/utils/generation'
 import { shortId } from '@fiction/core'
 import { Card, Site } from '@fiction/site'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
