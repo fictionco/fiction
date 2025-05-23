@@ -22,6 +22,7 @@ describe('sitePreview', async () => {
 
   const { init: _, initialized: __, close: ___, ...service } = testUtils
   const mountEl = document.createElement('div')
+  window.document.body.appendChild(mountEl)
   mountEl.id = 'app'
   document.body.appendChild(mountEl)
   const serviceConfig = { fictionEnv: service.fictionEnv, service, runVars: {} }

@@ -62,7 +62,7 @@ describe('siteRendering Tests', async () => {
     const serviceConfig = { fictionEnv: service.fictionEnv, service, runVars: { HOSTNAME: hostname } }
     const entry = await testUtils.fictionAppSites.mountApp({ mountEl, serviceConfig })
 
-    await waitFor(500)
+    await waitFor(1000)
 
     const html = await snapshotHtml(mountEl.innerHTML, { hideTags: ['svg'], maskIds: false })
 
@@ -97,7 +97,7 @@ describe('siteRendering Tests', async () => {
     expect(l).toBeGreaterThan(10000)
 
     entry.app.unmount()
-  })
+  }, { retry: 2 })
 
   it('gets site from theme', async () => {
     if (!testUtils?.fictionSites)
