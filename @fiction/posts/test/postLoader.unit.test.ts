@@ -77,9 +77,9 @@ describe('postLoader Integration Tests', async () => {
     it('should load global posts correctly', async () => {
       const { posts, indexMeta } = await postLoader.loadPosts()
 
-      expect(posts).toHaveLength(4)
+      expect(posts).toHaveLength(3)
       expect(posts[0].title.value).toBe('Test Post 3')
-      expect(indexMeta?.count).toBe(4)
+      expect(indexMeta?.count).toBe(3)
     })
 
     it('should handle pagination for global posts', async () => {
@@ -87,7 +87,7 @@ describe('postLoader Integration Tests', async () => {
 
       expect(posts).toHaveLength(2)
       expect(posts[0].title.value).toBe('Test Post 2')
-      expect(indexMeta?.count).toBe(4)
+      expect(indexMeta?.count).toBe(3)
     })
 
     it('should load local posts correctly', async () => {

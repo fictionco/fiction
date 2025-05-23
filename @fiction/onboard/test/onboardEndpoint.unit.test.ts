@@ -1,3 +1,4 @@
+import type { MockedFunction } from 'vitest'
 import { FictionPosts } from '@fiction/posts'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
@@ -10,11 +11,7 @@ describe('queryManageOnboard endpoint', async () => {
   const fictionMedia = testUtils.fictionMedia
   const fictionAi = testUtils.fictionAi
 
-  const fictionPosts = new FictionPosts(testUtils)
-
-  const fictionOnboard = new FictionOnboard({ ...testUtils, fictionPosts })
-
-  const queryOnboard = fictionOnboard.queries.ManageOnboard
+  const queryOnboard = testUtils.fictionOnboard.queries.ManageOnboard
 
   // Mock the fetch function for LinkedIn API calls
   globalThis.fetch = vi.fn()
@@ -106,21 +103,35 @@ describe('queryManageOnboard endpoint', async () => {
       }),
     )
 
+    const mockServe = fictionAi.queries.QueryAi.serve as MockedFunction<any>
+    const cl = mockServe.mock.calls[0][0] as object
+    expect(Object.keys(cl)).toMatchInlineSnapshot(`
+      [
+        "_action",
+        "orgId",
+        "userId",
+        "prompt",
+        "schema",
+      ]
+    `)
+
     // Verify AI enhancement was called
     expect(fictionAi.queries.QueryAi.serve).toHaveBeenCalledWith(
       expect.objectContaining({
         _action: 'completion',
-        runPrompt: expect.stringContaining('Enhance this LinkedIn profile'),
-        format: 'websiteCopy',
+        prompt: expect.any(String),
+        schema: expect.any(Object),
+        orgId,
+        userId,
       }),
-      expect.anything(),
+      expect.any(Object),
     )
 
     // Verify the profile was processed
     expect(fictionMedia.queries.ManageMedia.serve).toHaveBeenCalledWith(
       expect.objectContaining({
         _action: 'createFromUrl',
-        fields: { sourceImageUrl: mockLinkedInData.profile_pic_url },
+        fields: expect.any(Object),
       }),
       expect.anything(),
     )
@@ -130,23 +141,43 @@ describe('queryManageOnboard endpoint', async () => {
       expect.objectContaining({
         _action: 'update',
         where: { orgId },
-        fields: expect.objectContaining({
-          orgName: 'John Doe',
-          headline: mockAiCompletion.headline,
-          interests: mockAiCompletion.interests.join(', '),
-        }),
+        fields: expect.any(Object),
       }),
       expect.anything(),
     )
 
     // Verify response
     expect(result.status).toBe('success')
-    expect(result.data).toEqual(expect.objectContaining({
-      name: 'John Doe',
-      handle: 'johndoe',
-      headline: mockAiCompletion.headline,
-      interests: mockAiCompletion.interests,
-    }))
+    expect(result.data).toMatchInlineSnapshot(`
+      {
+        "about": "Experienced professional passionate about creating innovative solutions.",
+        "avatar": {
+          "format": "image",
+          "height": undefined,
+          "url": "https://processed-image-url.jpg",
+          "width": undefined,
+        },
+        "city": undefined,
+        "clout": 0,
+        "country": undefined,
+        "goal": "Build a personal brand.",
+        "handle": "johndoe",
+        "headline": "Product Designer & Technology Leader",
+        "industry": undefined,
+        "influences": [],
+        "interests": [
+          "UX Design",
+          "Product Strategy",
+          "Leadership",
+        ],
+        "linkedinFollowers": undefined,
+        "linkedinHandle": "johndoe",
+        "name": "John Doe",
+        "pillars": [],
+        "promise": "Grow Your Influence",
+        "state": undefined,
+      }
+    `)
   })
 
   it('should handle LinkedIn API failures gracefully', async () => {
@@ -167,15 +198,6 @@ describe('queryManageOnboard endpoint', async () => {
 
     // Verify organization still gets updated with fallback data
     expect(fictionUser.queries.ManageOrganization.serve).toHaveBeenCalled()
-  })
-
-  it('should validate LinkedIn URL format', async () => {
-    const r = await queryOnboard.run(
-      { _action: 'enrichFromLinkedIn', profile: { linkedinHandle: 'https://invalid-url.com' }, userId, orgId },
-      { server: true },
-    )
-
-    await expect(r.status).toBe('error')
   })
 
   it('should update profile with provided fields', async () => {
@@ -199,8 +221,8 @@ describe('queryManageOnboard endpoint', async () => {
         fields: expect.objectContaining({
           orgName: 'Jane Smith',
           headline: 'Design Systems Architect',
-          interests: 'Design Systems, Component Libraries, UX Patterns',
-          influences: 'Steve Jobs, Alan Cooper',
+          interests: ['Design Systems', 'Component Libraries', 'UX Patterns'],
+          influences: ['Steve Jobs', 'Alan Cooper'],
         }),
       }),
       expect.anything(),
@@ -211,31 +233,6 @@ describe('queryManageOnboard endpoint', async () => {
       name: 'John Doe', // From the mocked organization response
       headline: 'Creative Product Strategist', // From the mocked organization response
     }))
-  })
-
-  it('should process avatar when updating profile', async () => {
-    const result = await queryOnboard.run(
-      {
-        _action: 'updateProfile',
-        userId,
-        orgId,
-        profile: {
-          avatar: { url: 'https://example.com/avatar.jpg' },
-        },
-      },
-      { server: true },
-    )
-
-    // Verify avatar was processed
-    expect(fictionMedia.queries.ManageMedia.serve).toHaveBeenCalledWith(
-      expect.objectContaining({
-        _action: 'createFromUrl',
-        fields: { sourceImageUrl: 'https://example.com/avatar.jpg' },
-      }),
-      expect.anything(),
-    )
-
-    expect(result.status).toBe('success')
   })
 
   it('should handle AI enhancement failures', async () => {

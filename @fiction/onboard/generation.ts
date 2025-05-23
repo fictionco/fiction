@@ -2,7 +2,7 @@ import type { LinkedInEnrichmentProfile } from './util'
 import { ColorThemeBrightSchema } from '@fiction/core'
 import { ArchetypeKeySchema, ImageStyleKeySchema } from '@fiction/core/schemas/motifs'
 
-import { z } from 'zod/v4'
+import { toJSONSchema, z } from 'zod/v4'
 
 export const AiEnhancementSchema = z.object({
   headline: z.string().min(5).max(160).describe('Concise 2-4 positioning statement. Tagline suitable for hero headline, social media bio, and email signature. Simple, catchy, and memorable. Avoid cliche words like "innovator", "expert" or "leader".'),
@@ -101,10 +101,7 @@ export function getGenerationParams(args: {
 }): { prompt: string, schema: z.ZodType<any> } {
   const { linkedinData } = args
   return {
-    prompt: `
-  - Create account profile based on this data: ${JSON.stringify(linkedinData)}
-  ${accountGenGuidelines}
-  `,
+    prompt: `- Create account profile based on this data: ${JSON.stringify(linkedinData)} ${accountGenGuidelines}`,
     schema: AiEnhancementSchema,
   }
 }

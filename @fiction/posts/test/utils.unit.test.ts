@@ -24,8 +24,11 @@ describe('post utils', async () => {
     expect(snap(post?.toConfig())).toMatchInlineSnapshot(`
       {
         "archiveAt": "null",
+        "audience": "all",
+        "audienceFilters": [],
         "authors": [
           {
+            "avatar": "null",
             "email": "[email:TRUTHY]",
             "fullName": "[name:TRUTHY]",
             "priority": "0",
@@ -33,28 +36,37 @@ describe('post utils', async () => {
           },
         ],
         "categories": [],
+        "commentCount": "0",
         "content": "hello world",
         "createdAt": "[datetime:TRUTHY]",
         "dateAt": "[datetime:TRUTHY]",
         "draft": {},
-        "excerpt": "",
+        "emailConfig": {},
+        "emailStatus": "draft",
         "hasChanges": "false",
-        "isSyndicated": "false",
+        "isFeatured": "false",
+        "likeCount": "0",
         "media": {},
         "orgId": "[id:TRUTHY]",
         "postId": "[id:TRUTHY]",
+        "preview": "",
+        "priority": "0",
         "publishAt": "null",
-        "sites": [],
+        "publishMode": "now",
+        "publishedAt": "null",
         "slug": "test",
-        "sourceMode": "standard",
         "status": "draft",
         "subTitle": "",
+        "subject": "",
         "tags": [],
+        "testEmails": [],
+        "theme": "primary",
         "title": "test",
         "type": "post",
         "updatedAt": "[datetime:TRUTHY]",
         "userConfig": {},
         "userId": "[id:TRUTHY]",
+        "visibility": "public",
         "wordCount": "3",
       }
     `)
@@ -65,6 +77,6 @@ describe('post utils', async () => {
 
   it('managePostIndex', async () => {
     const postIndex = await managePostIndex({ fictionPosts, params: { _action: 'list' }, caller: 'test-managePostIndex' })
-    expect(postIndex.length).toBe(2)
+    expect(postIndex.length).toBe(1)
   })
 })

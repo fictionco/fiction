@@ -90,8 +90,12 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     if (!linkedinHandle)
       throw abort('LinkedIn handle is required')
 
+    if (!this.settings.proxycurlApiKey) {
+      throw abort('ProxyCurl API key is required')
+    }
+
     // Use mock data for test handles or when ProxyCurl API key is missing
-    const isTest = !!((linkedinHandle?.toLowerCase().includes('test') || !this.settings.proxycurlApiKey))
+    const isTest = !!((linkedinHandle?.toLowerCase().includes('test')))
 
     const linkedinData = await this.fetchLinkedInProfile({ linkedinHandle, isTest })
     if (!linkedinData)
