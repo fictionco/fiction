@@ -2,10 +2,8 @@ import type { FictionAdmin } from '@fiction/admin'
 import type { dashTemplate } from '@fiction/admin/dashboard/templates'
 import type { FictionAnalytics } from '@fiction/analytics'
 import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
-import type { FictionTransactions } from '@fiction/plugin-transactions'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card.js'
-import { getEmails } from './email'
 import { ManageContactQuery, SubscriptionAnalytics } from './endpoint'
 import { t, tables } from './schema'
 
@@ -17,7 +15,6 @@ export type FictionContactSettings = {
   fictionEmail: FictionEmail
   fictionEnv: FictionEnv
   fictionUser: FictionUser
-  fictionTransactions: FictionTransactions
   fictionAdmin: FictionAdmin
   fictionAnalytics: FictionAnalytics
 } & FictionPluginSettings
@@ -34,8 +31,6 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
     fictionUser: this.settings.fictionUser,
     basePath: '/subscribe',
   })
-
-  transactions = getEmails({ fictionContact: this })
 
   cacheKey = vue.ref(0)
 
@@ -61,10 +56,6 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
 
   admin() {
     const { fictionAdmin } = this.settings
-
-    // fictionAdmin.widgetRegister.value.push(...Object.values(this.widgets))
-
-    // fictionAdmin.addToWidgetArea('subscriberIndex', [{ key: 'subscribers' }, { key: 'unsubscribes' }, { key: 'cleaned' }])
 
     fictionAdmin.addFeature({
       key: 'audience',
@@ -101,11 +92,7 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
 
   async createSubscription(args: { email: string, tags?: string[], orgId: string }) {
     const { email, tags, orgId } = args
-    const queryVars = { orgId, tags }
-    const r = await this.transactions.subscribe.requestSend({
-      to: email,
-      queryVars,
-    })
+    const r = await this.requests.ManageContact.request({ _action: 'sendVerifySubscribe', email, targetOrgId: orgId, tags })
 
     return r
   }

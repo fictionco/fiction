@@ -1,7 +1,7 @@
 import { toKebab } from '@fiction/core'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
 import { afterAll, describe, expect, it } from 'vitest'
-import { templateId } from './index.js'
+import { templateId } from '../index.js'
 
 describe('hero: card', async () => {
   const kit = await createSiteUiTestingKit({ headless: false, slowMo: 3000 })

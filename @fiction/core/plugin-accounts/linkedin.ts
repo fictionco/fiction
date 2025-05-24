@@ -1,6 +1,13 @@
-import type { FictionApp, FictionDb, FictionEnv, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
-import { Endpoint, FictionPlugin } from '@fiction/core'
-import { EnvVar, vars } from '@fiction/core/plugin-env'
+import type { FictionPluginSettings } from '../plugin'
+import type { FictionApp } from '../plugin-app'
+import type { FictionDb } from '../plugin-db'
+import type { FictionEnv } from '../plugin-env'
+import type { FictionRouter } from '../plugin-router'
+import type { FictionServer } from '../plugin-server'
+import type { FictionUser } from '../plugin-user'
+import { FictionPlugin } from '../plugin'
+import { EnvVar, vars } from '../plugin-env'
+import { Endpoint } from '../utils/endpoint.js'
 
 // Register environment variables
 vars.register(() => [

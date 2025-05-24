@@ -1,7 +1,6 @@
 import type { FictionApp, FictionEmail, FictionMedia, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionPluginSettings } from '@fiction/core/plugin.js'
 import type { FictionStripe } from '@fiction/plugin-stripe/index.js'
-import type { FictionTransactions } from '@fiction/plugin-transactions'
 import type { FictionAi } from '@fiction/plugins/plugin-ai/index.js'
 import type { CardFactory } from '@fiction/site/cardFactory.js'
 import type { Card, CardConfigPortable, CardTemplate, TableCardConfig } from '@fiction/site/index.js'
@@ -23,7 +22,6 @@ vars.register(() => [
 
 export type FictionAdminSettings = {
   fictionEmail: FictionEmail
-  fictionTransactions: FictionTransactions
   fictionUser: FictionUser
   fictionMedia: FictionMedia
   fictionApp: FictionApp

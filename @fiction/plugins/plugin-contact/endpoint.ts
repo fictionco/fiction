@@ -1,10 +1,11 @@
 import type { DataCompared, DataPointChart, QueryParamsRefined } from '@fiction/analytics/types'
-import type { ComplexDataFilter, EndpointMeta, EndpointResponse, FictionDb, IndexQuery, SyndicateStatus, User } from '@fiction/core'
+import type { ComplexDataFilter, EmailSendConfig, EndpointMeta, EndpointResponse, FictionDb, IndexQuery, SyndicateStatus, User } from '@fiction/core'
 import type { FictionContact } from '.'
 import type { FictionContactSettings } from './index'
 import type { Contact, TableContactConfig } from './schema'
 import { refineParams, refineTimelineData } from '@fiction/analytics/utils/refine'
 import { abort, applyComplexFilters, dayjs, deepMerge, Query, vue } from '@fiction/core'
+import { createEmailVars } from '@fiction/core/plugin-email/vars'
 import { t } from './schema'
 import { trackContactMetrics } from './utils/analytics'
 
@@ -24,6 +25,7 @@ export type WhereSubscription = { userId?: string, email?: string, contactId?: s
 export type ContactCreate = { email?: string, userId?: string } & Partial<TableContactConfig> & ({ userId: string } | { email: string })
 export type ManageContactRequest =
   | { _action: 'create', orgId: string, contact: ContactCreate }
+  | { _action: 'sendVerifySubscribe', email: string, targetOrgId: string, tags?: string[] }
   | { _action: 'bulkCreate', orgId: string, contacts: ContactCreate[] }
   | { _action: 'list', orgId: string, where?: Partial<TableContactConfig>, limit?: number, offset?: number, page?: number }
   | { _action: 'count', orgId: string, filters?: ComplexDataFilter[] }
@@ -47,6 +49,10 @@ export class ManageContactQuery extends SubscribeEndpoint {
       case 'create':
         r = await this.create(params, meta)
         break
+      case 'sendVerifySubscribe':
+        r = await this.sendVerifySubscribe(params, meta)
+        break
+
       case 'bulkCreate':
         r = await this.bulkCreate(params, meta)
         break
@@ -73,15 +79,13 @@ export class ManageContactQuery extends SubscribeEndpoint {
       return { status: 'error', message: 'Invalid action' }
     }
 
-
     return this.addIndexMeta(params, r, meta)
   }
 
   private async addIndexMeta(params: ManageContactParams, r: ManageContactResponse, _meta?: EndpointMeta): Promise<ManageContactResponse> {
-
     const { _action } = params
 
-    if(_action === 'current') {
+    if (_action === 'current' || _action === 'sendVerifySubscribe') {
       return r
     }
 
@@ -97,6 +101,46 @@ export class ManageContactQuery extends SubscribeEndpoint {
     r.indexMeta = { limit, offset, count: +count, ...r.indexMeta }
 
     return r
+  }
+
+  private async sendVerifySubscribe(params: ManageContactParams & { _action: 'sendVerifySubscribe' }, meta: EndpointMeta): Promise<ManageContactResponse> {
+    const { email, targetOrgId, tags = [] } = params
+
+    const org = await this.getOrganization(targetOrgId)
+    const emailVars = await createEmailVars({
+      email,
+      fictionUser: this.settings.fictionUser,
+      callbackPath: '__contact/subscribed',
+      queryVars: { tags: tags.join(','), targetOrgId },
+    })
+
+    const emailConfig: EmailSendConfig = {
+      ...await this.settings.fictionEmail?.defaultEmailConfig(),
+      subject: `${org.orgName}: Confirm your subscription`,
+      title: 'Confirm Your Subscription',
+      subTitle: 'Just click to complete',
+      content: `Click the button to confirm you'd like to follow <strong>${org.orgName}</strong>.`,
+      to: email,
+      senderName: org.orgName,
+      senderEmail: org.orgEmail,
+      emailType: 'alert' as const,
+      buttons: [{ label: 'Confirm', href: emailVars.callbackUrl, theme: 'primary' }],
+      superTitle: { text: org.orgName, icon: org.avatar },
+    }
+
+    await this.settings.fictionEmail?.renderAndSendEmail(emailConfig, { caller: 'subscribe', ...meta })
+    return { status: 'success', data: [] }
+  }
+
+  private async getOrganization(orgId: string) {
+    const response = await this.settings.fictionUser.queries.ManageOrganization.serve(
+      { _action: 'read', where: { orgId } },
+      { server: true, caller: 'subscribe' },
+    )
+
+    if (!response.data)
+      throw abort('Organization not found')
+    return response.data
   }
 
   private async getCurrentContact(params: ManageContactParams & { _action: 'current' }, meta: EndpointMeta): Promise<ManageContactResponse> {

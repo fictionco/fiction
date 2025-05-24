@@ -99,9 +99,6 @@ const stepConfig: StepConfig = {
           required
         />
       </div>
-      <div v-else-if="step.key === 'theme'">
-        <ElThemeSelect v-model="form.themeId" required :card />
-      </div>
     </ElStepNav>
   </ElModal>
 </template>

@@ -44,7 +44,7 @@
     "./docs/**/*",
     "**/.fiction/*",
     "**/.fiction/*.json"
-  ],
+, "@fiction/cards/standard/capture/.ref/captureCard.card-ui.test.ts"  ],
 
   "exclude": [
     "node_modules",

@@ -13,7 +13,6 @@ import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import { FictionOnboard } from '@fiction/onboard/index.js'
 import { FictionAi } from '@fiction/plugin-ai'
 import { FictionContact } from '@fiction/plugin-contact'
-import { FictionTransactions } from '@fiction/plugin-transactions'
 import { FictionPosts } from '@fiction/posts/index.js'
 import * as minimalTheme from '@fiction/theme-minimal'
 
@@ -31,7 +30,6 @@ export type SiteTestUtils = TestUtils & {
   fictionPosts: FictionPosts
   fictionAws: FictionAws
   fictionAi: FictionAi
-  fictionTransactions: FictionTransactions
   fictionContact: FictionContact
   fictionAdmin: FictionAdmin
   fictionOnboard: FictionOnboard
@@ -78,7 +76,6 @@ export async function createSiteTestUtils(args: {
   out.fictionAi = new FictionAi({ ...out, openaiApiKey })
   out.fictionAws = new FictionAws({ fictionEnv, awsAccessKey, awsAccessKeySecret })
   out.fictionMedia = new FictionMedia({ ...out, fictionAws: out.fictionAws, awsBucketMedia, cdnUrl })
-  out.fictionTransactions = new FictionTransactions({ ...out })
   out.fictionRouterSites = new FictionRouter({
     routerId: 'siteRouter',
     fictionEnv,

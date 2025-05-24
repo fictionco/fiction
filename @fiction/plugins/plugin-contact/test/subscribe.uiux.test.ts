@@ -1,4 +1,4 @@
-import type { EmailVars } from '@fiction/plugin-transactions/action.js'
+import type { EmailVars } from '@fiction/core/plugin-email/vars.js'
 import { isCi } from '@fiction/core'
 import { createTestUser } from '@fiction/core/test-utils/init.js'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit.js'
@@ -50,14 +50,14 @@ describe('subscribe uiux', { retry: isCi() ? 3 : 0 }, async () => {
 
     const emailContent = r.data?.html || ''
     expect(emailContent).toContain('Confirm')
-    expect(emailContent).toContain(vars.callbackUrl.replace(/&/g, '&amp;'))
-    expect(emailContent).not.toContain(vars.unsubscribeUrl.replace(/&/g, '&amp;'))
+    expect(emailContent).toContain(vars?.callbackUrl.replace(/&/g, '&amp;'))
+    expect(emailContent).not.toContain(vars?.unsubscribeUrl.replace(/&/g, '&amp;'))
 
     const r2 = await testUtils.fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { userId: user2.userId! } }, { server: true, returnAuthority: ['verify'] })
 
     expect(r2.data?.verify?.code).toBe(r.emailVars.code)
     const u = new URL(r.emailVars.callbackUrl)
-    expect(Object.keys(vars.queryVars || {})).toMatchInlineSnapshot(`
+    expect(Object.keys(vars?.queryVars || {})).toMatchInlineSnapshot(`
       [
         "orgId",
         "orgName",

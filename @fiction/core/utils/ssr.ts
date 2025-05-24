@@ -1,4 +1,4 @@
-import { vue } from '@fiction/core'
+import { vue } from './libraries'
 
 /**
  * Transform options for data serialization and deserialization

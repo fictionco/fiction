@@ -30,35 +30,34 @@ export async function setup(args: { context?: 'node' | 'app', mainFilePath?: str
 
   const service = { ...testUtils, fictionTransactions }
 
-  const actionId = 'testAction'
+  // const actionId = 'testAction'
 
-  const emailAction = new EmailAction({
-    actionId,
-    template: vue.defineAsyncComponent(async () => import('./ElTestAction.vue')),
-    fictionTransactions,
-    emailConfig: async (emailVars) => {
-      const emailConfig = {
-        emailVars,
-        subject: `${emailVars.appName}: Email Action Subject`,
-        title: 'Email Action Title',
-        subTitle: 'Email Action Subtitle',
-        content: `Email Action Body Markdown`,
-        to: `${emailVars.email}`,
-        buttons: [
-          {
-            label: 'Verify Email',
-            href: emailVars.callbackUrl,
-            theme: 'primary' as const,
-          },
-        ],
-      } satisfies EmailConfigResponse
+  // const emailAction = new EmailAction({
+  //   actionId,
+  //   fictionTransactions,
+  //   emailConfig: async (emailVars) => {
+  //     const emailConfig = {
+  //       emailVars,
+  //       subject: `${emailVars.appName}: Email Action Subject`,
+  //       title: 'Email Action Title',
+  //       subTitle: 'Email Action Subtitle',
+  //       content: `Email Action Body Markdown`,
+  //       to: `${emailVars.email}`,
+  //       buttons: [
+  //         {
+  //           label: 'Verify Email',
+  //           href: emailVars.callbackUrl,
+  //           theme: 'primary' as const,
+  //         },
+  //       ],
+  //     } satisfies EmailConfigResponse
 
-      return emailConfig
-    },
-  })
+  //     return emailConfig
+  //   },
+  // })
 
   return {
-    service: { ...service, emailAction },
+    service: { ...service },
     runVars: {},
     runCommand: async args => service.runApp(args),
     createMount: async args => service.fictionApp.mountApp(args),

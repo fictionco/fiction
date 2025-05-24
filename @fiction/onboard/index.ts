@@ -1,7 +1,6 @@
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { FictionApp, FictionEmail, FictionMedia, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionPluginSettings } from '@fiction/core/plugin.js'
-import type { FictionTransactions } from '@fiction/plugin-transactions'
 import type { FictionAi } from '@fiction/plugins/plugin-ai/index.js'
 import type { FictionPosts } from '@fiction/posts/index.js'
 import type { FictionSites } from '@fiction/site/index.js'
@@ -19,7 +18,6 @@ vars.register(() => [
 export type FictionOnboardSettings = {
   fictionAdmin: FictionAdmin
   fictionEmail: FictionEmail
-  fictionTransactions: FictionTransactions
   fictionUser: FictionUser
   fictionMedia: FictionMedia
   fictionApp: FictionApp

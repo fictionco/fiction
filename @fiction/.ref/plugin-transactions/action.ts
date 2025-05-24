@@ -2,7 +2,7 @@ import type { EmailSendConfig, EndpointMeta, EndpointResponse, MetaAppDetails, R
 import type { EmailResponse } from '@fiction/core/plugin-email/endpoint'
 import type { FictionTransactions } from '.'
 import { abort, deepMerge, FictionObject } from '@fiction/core'
-import { createEmailVars } from './utils'
+import { createEmailVars } from '../../core/plugin-email/vars'
 
 export type QueryVars<T extends Record<string, string> | undefined = Record<string, string> | undefined> = {
   code?: string
@@ -57,13 +57,6 @@ export type SendArgsRequest = {
   baseRoute?: string
 }
 
-// export type EmailConfigArgs<T extends Record<string, string> | undefined = Record<string, string> | undefined> =
-//   SendEmailArgs & {
-//     actionId: string
-//     fictionTransactions: FictionTransactions
-//     queryVars?: T
-//   }
-
 export type SendEmailArgs = {
   recipient: Partial<User>
   isNew?: boolean
@@ -108,12 +101,8 @@ export class EmailAction<T extends EmailActionSurface = EmailActionSurface> exte
 
   async defaultEmailConfig(): Promise<EmailSendConfig> {
     const fictionTransactions = this.fictionTransactions
-    const fictionMedia = fictionTransactions?.settings.fictionMedia
     const fictionEmail = fictionTransactions?.settings.fictionEmail
     const fictionEnv = fictionTransactions?.settings.fictionEnv
-
-    if (!fictionMedia)
-      throw abort('no fictionMedia provided')
 
     const emailImages = await fictionEmail?.emailImages()
     const app = fictionEnv?.meta || {}

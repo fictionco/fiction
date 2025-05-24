@@ -35,37 +35,37 @@ export class FictionTransactions extends FictionPlugin<FictionTransactionsSettin
   constructor(settings: FictionTransactionsSettings) {
     super('FictionTransactions', { root: safeDirname(import.meta.url), ...settings })
 
-    this.settings.fictionEnv.addHook({
-      hook: 'setPages',
-      caller: 'emailActions',
-      context: 'app',
-      callback: async (pages, site) => {
-        const theme = site?.theme.value
-        const transactionTemplateId = theme?.templateDefaults.value.transaction || 'cardPageWrapV1'
+    // this.settings.fictionEnv.addHook({
+    //   hook: 'setPages',
+    //   caller: 'emailActions',
+    //   context: 'app',
+    //   callback: async (pages, site) => {
+    //     const theme = site?.theme.value
+    //     const transactionTemplateId = theme?.templateDefaults.value.transaction || 'cardPageWrapV1'
 
-        if (!theme?.templates || !theme.templates.find(_ => _.settings.templateId === transactionTemplateId))
-          return pages
+    //     if (!theme?.templates || !theme.templates.find(_ => _.settings.templateId === transactionTemplateId))
+    //       return pages
 
-        const factory = new CardFactory({ templates: theme.templates, site, caller: 'setPages' })
+    //     const factory = new CardFactory({ templates: theme.templates, site, caller: 'setPages' })
 
-        return [
-          ...pages,
-          await factory.fromTemplate({
-            isSystem: true, // prevent saving
-            cardId: this.transactionSlug,
-            slug: this.transactionSlug,
-            templateId: transactionTemplateId,
-            cards: [
-              await factory.fromTemplate({
-                templateId: 'emailAction',
-                el: vue.defineAsyncComponent(async () => import('./ElEmailAction.vue')),
-                userConfig: { standard: { showOnSingle: true } },
-              }),
-            ],
-          }),
-        ]
-      },
-    })
+    //     return [
+    //       ...pages,
+    //       await factory.fromTemplate({
+    //         isSystem: true, // prevent saving
+    //         cardId: this.transactionSlug,
+    //         slug: this.transactionSlug,
+    //         templateId: transactionTemplateId,
+    //         cards: [
+    //           await factory.fromTemplate({
+    //             templateId: 'emailAction',
+    //             el: vue.defineAsyncComponent(async () => import('./ElEmailAction.vue')),
+    //             userConfig: { standard: { showOnSingle: true } },
+    //           }),
+    //         ],
+    //       }),
+    //     ]
+    //   },
+    // })
   }
 
   emailActions: Record<string, EmailAction> = {}

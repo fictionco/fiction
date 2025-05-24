@@ -13,7 +13,6 @@ import { FictionAi } from '@fiction/plugin-ai'
 import { FictionContact } from '@fiction/plugin-contact/index.js'
 import { FictionMonitor } from '@fiction/plugin-monitor/index.js'
 import { FictionStripe } from '@fiction/plugin-stripe/index.js'
-import { FictionTransactions } from '@fiction/plugin-transactions'
 import { FictionPosts } from '@fiction/posts'
 import { FictionSites } from '@fiction/site/index.js'
 import { FictionUi } from '@fiction/ui/index.js'
@@ -164,7 +163,6 @@ const basicService = { ...base, fictionRevision, fictionUser, fictionMonitor, fi
 
 const fictionAws = new FictionAws({ ...basicService, awsAccessKey, awsAccessKeySecret })
 const fictionMedia = new FictionMedia({ ...basicService, fictionAws, awsBucketMedia, cdnUrl: `https://media.fiction.com` })
-const fictionTransactions = new FictionTransactions({ ...basicService, fictionMedia })
 const fictionAi = new FictionAi({ ...basicService, fictionMedia, openaiApiKey, anthropicApiKey, xaiApiKey })
 const fictionStripe = new FictionStripe({
   ...basicService,
@@ -176,9 +174,9 @@ const fictionStripe = new FictionStripe({
   products: getStripeProductConfig(),
 })
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
-const fictionAdmin = new FictionAdmin({ ...basicService, fictionAi, fictionTransactions, fictionMedia })
+const fictionAdmin = new FictionAdmin({ ...basicService, fictionAi, fictionMedia })
 
-const s = { ...basicService, fictionAppSites, fictionStripe, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionTransactions, fictionAdmin }
+const s = { ...basicService, fictionAppSites, fictionStripe, fictionRouterSites, fictionAws, fictionMedia, fictionAi, fictionAdmin }
 
 const themes = async () => getThemes({ ...s, fictionStripe })
 
