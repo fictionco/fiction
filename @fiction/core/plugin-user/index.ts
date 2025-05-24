@@ -17,6 +17,7 @@ import { createUserToken, decodeUserToken, manageClientUserToken } from '../util
 import { getAccessLevel, userCan, userCapabilities } from '../utils/priv.js'
 import * as priv from '../utils/priv.js'
 import { QueryManageUser } from './endpoint.js'
+import { ManageUserEmail } from './endpointEmail.js'
 import { QueryManageMemberRelation, QueryManageOrganization, QueryOrganizationsByUserId } from './endpointOrg.js'
 import { GetTopValues } from './endpointTopValues.js'
 import { FictionUserEnrich } from './enrich/pluginEnrich.js'
@@ -78,6 +79,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   googleClientSecret = this.settings.googleClientSecret
   queries = {
     ManageUser: new QueryManageUser({ ...this.settings, fictionUser: this }),
+    ManageUserEmail: new ManageUserEmail({ ...this.settings, fictionUser: this }),
     ManageOrganization: new QueryManageOrganization({ ...this.settings, fictionUser: this }),
     ManageMemberRelation: new QueryManageMemberRelation({ ...this.settings, fictionUser: this }),
     OrganizationsByUserId: new QueryOrganizationsByUserId({ ...this.settings, fictionUser: this }),

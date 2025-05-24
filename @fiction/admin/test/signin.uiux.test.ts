@@ -1,6 +1,6 @@
 import { isCi, shortId } from '@fiction/core'
+import { emailActionSnapshot } from '@fiction/core/test-utils/email'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
-import { emailActionSnapshot } from '@fiction/plugin-transactions/test/utils'
 import { afterAll, describe, expect, it } from 'vitest'
 import { setup } from './email.main.js'
 
@@ -13,48 +13,34 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
 
   afterAll(async () => kit?.close())
 
-  const magicLinkAction = kit.testUtils?.fictionAdmin.emailActions.magicLoginEmailAction
-  const resetPasswordAction = kit.testUtils?.fictionAdmin.emailActions.passwordReset
+  const email = user.email
 
-  if (!user.email)
+
+  if (!email)
     throw new Error('missing user')
 
-  const to = user.email
 
-  it('sends magic link email successfully', async () => {
-    const browserRequest = await magicLinkAction.requestSend({
-      to,
+  it('sends one time code email successfully', async () => {
+    const browserRequest = await testUtils.fictionUser.requests.ManageUserEmail.request({
+      _action: 'oneTimeCode',
+      email,
       createUserFields: {},
       queryVars: {},
     })
+    const emailVars = browserRequest?.data
 
-    const recipient = browserRequest?.data?.recipient
+    if(!emailVars)
+      throw new Error('Failed to send otc email')
+
+    const recipient = emailVars?.recipient
     expect(recipient?.userId, 'User ID in magic link recipient should match').toBe(user.userId)
 
-    const r = await magicLinkAction.serveSend({ recipient: user, queryVars: {} }, { server: true })
-    const v = JSON.parse(emailActionSnapshot(JSON.stringify(r.emailVars), r.emailVars))
+    const v = JSON.parse(emailActionSnapshot(JSON.stringify(emailVars), emailVars))
 
-    expect(user.verify?.code, 'Verification code should match email vars').toBe(r.emailVars.code)
-    expect(v).toMatchSnapshot('Magic link email variables')
-
-    const replaced = r.data?.html || ''
-    expect(emailActionSnapshot(replaced, r.emailVars)).toMatchSnapshot('Magic link email HTML content')
+    expect(user.verify?.code, 'Verification code should match email vars').toBe(emailVars.code)
+    expect(emailVars.emailResponse?.html.length).toBeGreaterThan(100)
   })
 
-  it('navigates to magic link and redirects to dashboard', async () => {
-    const magicLinkResponse = await magicLinkAction.serveSend({ recipient: user, queryVars: {} }, { server: true })
-    const callbackUrl = magicLinkResponse.emailVars?.callbackUrl
-
-    expect(callbackUrl, 'Magic link callback URL should be defined').toBeTruthy()
-
-    await kit.performActions({
-      caller: 'magic-link-login',
-      path: callbackUrl || '',
-      actions: [
-        { type: 'visible', selector: '[data-pathname="/"]', wait: 10000 },
-      ],
-    })
-  })
 
   it('completes full registration and verification flow', async () => {
     const testEmail = `test-${shortId()}@example.com`
@@ -144,9 +130,12 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
 
     user = r.data || user
 
-    // Test the reset password link functionality
-    const resetResponse = await resetPasswordAction.serveSend({ recipient: user, queryVars: {} }, { server: true })
-    const resetCode = resetResponse.emailVars?.code
+    const resetResponse = await testUtils.fictionUser.requests.ManageUserEmail.request({
+      _action: 'passwordReset',
+      email,
+    })
+
+    const resetCode = resetResponse.data?.code
 
     expect(resetCode).toBe(user?.verify?.code)
 
@@ -155,7 +144,7 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
     // Simulate clicking the reset link in email
     await kit.performActions({
       caller: 'password-reset-completion',
-      path: `/auth/set-new-password?code=${resetCode}&email=${encodeURIComponent(to)}`,
+      path: `/auth/set-new-password?code=${resetCode}&email=${encodeURIComponent(email)}`,
       actions: [
         { type: 'visible', selector: '[data-test-id="input-new-password"]' },
         { type: 'visible', selector: '[data-test-id="input-new-password-confirm"]' },

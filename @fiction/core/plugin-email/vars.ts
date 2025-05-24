@@ -3,6 +3,7 @@ import type { FictionUser, User } from '../plugin-user'
 import type { EmailSendConfig } from './util'
 import { abort } from '../utils'
 import { createUserToken } from '../utils/jwt'
+import type {EmailResponse} from './endpoint'
 
 export type EmailVarsConfig<T extends Record<string, string> = Record<string, string>> = {
   email: string
@@ -18,15 +19,14 @@ export type EmailVars<T extends Record<string, string> = Record<string, string>>
   appName: string
   code: string
   token: string
-  email: string
-  userId: string
-  fullName: string
-  handle: string
+  recipient: User
   callbackUrl: string
   originUrl: string
   unsubscribeUrl: string
   redirect: string
   queryVars: T
+  masks?: Record<string, string> // mask variables for snapshots in testing
+  emailResponse?: EmailResponse
 }
 
 export type EmailConfigResponse = EmailSendConfig & { emailVars: EmailVars }
@@ -47,14 +47,11 @@ export async function createEmailVars<T extends Record<string, string> = Record<
   const authVars = createAuthVars({ recipient, tokenSecret, queryVars })
 
   return {
+    recipient,
     app: fictionEmail?.settings.fictionEnv.meta,
     appName: fictionEmail?.settings.fictionEnv.meta?.name || '',
     code: authVars.code,
     token: authVars.token,
-    email: recipient.email || '',
-    userId: recipient.userId || '',
-    fullName: recipient.fullName || '',
-    handle: recipient.handle || '',
     callbackUrl: `${urls.callback}?${new URLSearchParams(authVars).toString()}`,
     originUrl: urls.origin,
     unsubscribeUrl: urls.unsubscribe,
@@ -91,7 +88,7 @@ function buildUrls(args: { origin: string, callbackPath: string }) {
   return {
     origin,
     callback: joinPaths(origin, callbackPath),
-    unsubscribe: joinPaths(origin, '__contact', 'preferences'),
+    unsubscribe: joinPaths(origin, 'm', 'preferences'),
   }
 }
 

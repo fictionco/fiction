@@ -66,8 +66,10 @@ async function createSubscription() {
     if (!orgId.value)
       throw new Error('Organization is required')
 
-    const queryVars = { orgId: orgId.value }
-    const r = await service.fictionContact.transactions.subscribe.requestSend({ to: email.value, queryVars })
+    const r = await service.fictionContact.createSubscription({
+      email: email.value,
+      targetOrgId: orgId.value,
+    })
 
     if (r?.status === 'error')
       throw new Error(r.message || 'An error occurred')

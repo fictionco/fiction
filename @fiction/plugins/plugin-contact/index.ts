@@ -1,7 +1,7 @@
 import type { FictionAdmin } from '@fiction/admin'
 import type { dashTemplate } from '@fiction/admin/dashboard/templates'
 import type { FictionAnalytics } from '@fiction/analytics'
-import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
+import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser, User } from '@fiction/core'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card.js'
 import { ManageContactQuery, SubscriptionAnalytics } from './endpoint'
@@ -90,9 +90,10 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
     })
   }
 
-  async createSubscription(args: { email: string, tags?: string[], orgId: string }) {
-    const { email, tags, orgId } = args
-    const r = await this.requests.ManageContact.request({ _action: 'sendVerifySubscribe', email, targetOrgId: orgId, tags })
+  async createSubscription(args: { email: string, tags?: string[], targetOrgId: string, createUserFields?: Partial<User> }) {
+    const { email, tags, targetOrgId } = args
+    const fictionUser = this.settings.fictionUser
+    const r = await fictionUser.requests.ManageUserEmail.request({ _action: 'verifySubscribe', email, targetOrgId, tags })
 
     return r
   }

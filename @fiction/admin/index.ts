@@ -10,7 +10,6 @@ import { EnvVar, vars } from '@fiction/core'
 import { FictionPlugin } from '@fiction/core/plugin.js'
 import { safeDirname, sortPriority, vue } from '@fiction/core/utils'
 import { cardTemplate } from '@fiction/site/index.js'
-import { getEmails } from './emails/index.js'
 
 export * from './tools/tools.js'
 export * from './types.js'
@@ -62,8 +61,6 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
       return true
     }
   }
-
-  emailActions = getEmails({ fictionAdmin: this })
 
   widgetLoaders = vue.shallowRef<WidgetLoader[]>([
     {
