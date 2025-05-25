@@ -292,12 +292,14 @@ async function setNewPassword() {
 }
 
 async function sendOneTimeCode(next: AuthStateKey) {
-  if (!form.email)
+  const { email } = form
+  if (!email)
     throw new Error('Please enter your email address')
-  if (!isValidEmail(form.email))
+  if (!isValidEmail(email))
     throw new Error('Please enter a valid email address')
-  const response = await fictionAdmin.emailActions.magicLoginEmailAction.requestSend({
-    to: form.email,
+  const response = await fictionUser.requests.ManageUserEmail.request({
+    _action: 'oneTimeCode',
+    email,
     createUserFields: { ...form, needsOnboarding: true },
     queryVars: emailQueryVars.value || {},
   })

@@ -11,6 +11,7 @@ type EmailAction = 'verifyEmail' | 'passwordReset' | 'oneTimeCode' | 'verifySubs
 
 export type ManageUserEmailParams = {
   _action: EmailAction
+  userId?: string
   email: string
   targetOrgId?: string
   tags?: string[]
@@ -27,16 +28,9 @@ export type ManageUserEmailResponse = EndpointResponse<EmailVars>
 export class ManageUserEmail extends UserBaseQuery {
   async run(params: ManageUserEmailParams, meta: EndpointMeta): Promise<ManageUserEmailResponse> {
     try {
-      const result = await sendUserEmail({
-        ...params,
-        fictionUser: this.settings.fictionUser,
-      }, meta)
+      const result = await sendUserEmail({ ...params, fictionUser: this.settings.fictionUser }, meta)
 
-      return {
-        status: 'success',
-        data: result,
-        message: `Email sent: ${params._action}`,
-      }
+      return { status: 'success', data: result }
     }
     catch (error) {
       this.log.error('Failed to send email', { data: { params, error } })
@@ -49,7 +43,7 @@ export class ManageUserEmail extends UserBaseQuery {
 }
 
 export async function sendUserEmail(args: UserEmailArgs, meta: EndpointMeta) {
-  const { _action, email, fictionUser, targetOrgId, tags, queryVars = {}, createUserFields } = args
+  const { _action, email, userId, fictionUser, targetOrgId, tags, queryVars = {}, createUserFields } = args
 
   const fictionEmail = fictionUser.settings.fictionEmail
   if (!fictionEmail)
@@ -59,6 +53,7 @@ export async function sendUserEmail(args: UserEmailArgs, meta: EndpointMeta) {
 
   const emailVars = await createEmailVars({
     email,
+    userId,
     fictionUser,
     callbackPath: 'm',
     queryVars: {

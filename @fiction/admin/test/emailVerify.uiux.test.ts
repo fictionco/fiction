@@ -1,7 +1,7 @@
 /* eslint-disable no-irregular-whitespace */
 import { testEnvFile } from '@fiction/core/test-utils'
+import { emailActionSnapshot } from '@fiction/core/test-utils/email.js'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
-import { emailActionSnapshot } from '@fiction/plugin-transactions/test/utils'
 import fs from 'fs-extra'
 import { afterAll, describe, expect, it } from 'vitest'
 import { setup } from './email.main.js'
@@ -22,16 +22,18 @@ describe('email actions', async () => {
 
   afterAll(async () => kit.close())
 
-  testUtils.fictionTransactions.settings.fictionEmail.isTest = true
+  testUtils.fictionEmail.isTest = true
 
-  const action = testUtils.fictionAdmin.emailActions.verifyEmailAction
-  const actionId = action.settings.actionId
-
-  let r: Awaited<ReturnType<typeof action['serveSend']>> | undefined
+  let r: Awaited<ReturnType<typeof testUtils.fictionUser.queries.ManageUserEmail.serve>> | undefined
   it('sends email', async () => {
-    r = await action.serveSend({ recipient: user, queryVars: {} }, { server: true })
+    const email = user.email
 
-    expect(r.emailVars).toMatchInlineSnapshot(`
+    if (!email)
+      throw new Error('missing user')
+
+    r = await testUtils.fictionUser.queries.ManageUserEmail.serve({ _action: 'verifyEmail', email }, { server: true })
+
+    expect(r.data).toMatchInlineSnapshot(`
       {
         "actionId": "verifyEmail",
         "appName": "Test Fiction App",
@@ -54,7 +56,7 @@ describe('email actions', async () => {
       }
     `)
 
-    const replaced = r.data?.html || ''
+    const replaced = r.data?.emailResponse?.html || ''
     expect(emailActionSnapshot(replaced, r.emailVars)).toMatchInlineSnapshot(`
       "<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html id="__vue-email" lang="en" dir="ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Test Fiction App: Verify Your Email</title><meta name="description" content="Verify Your Email Click the Link Below"><style data-id="__vue-email-style"> tbody{font-size: 1rem; line-height: 1.65;} h1, h2{ line-height: 1.2; } h3, h4, h5{ line-height: 1.4; } h5, h6{font-weight: bold;} ol, ul, dd, dt{ font-size: 1rem; line-height: 1.65;} dt{font-weight: bold; margin-top: 0.5rem;} dd{margin-inline-start: 1.5rem;} ul, ol{padding-inline-start: 1.5rem;} img, figure{max-width: 100%; height: auto; } img[data-emoji]{display: inline;} figure img{border-radius: .5rem; display: block;} figcaption{font-size: 0.8rem; text-align: center; color: #666; margin-top: 0.5rem;} @media (prefers-color-scheme: dark) { } a{ transition: opacity 0.2s;} a:hover{opacity: 0.8;} </style></meta></meta></meta></meta><style>@media(prefers-color-scheme:dark){.dark\\:border-gray-700{border-color:undefined!important}@media(prefers-color-scheme:dark){.dark\\:border-gray-700{border-color:rgb(30,32,38)!important}}.dark\\:bg-blue-600{background-color:undefined!important}@media(prefers-color-scheme:dark){.dark\\:bg-blue-600{background-color:rgb(37,99,235)!important}}@media(prefers-color-scheme:dark){.dark\\:bg-blue-600{background-color:rgb(37,99,235)!important}}.dark\\:bg-gray-900{background-color:undefined!important}@media(prefers-color-scheme:dark){.dark\\:bg-gray-900{background-color:rgb(14,15,17)!important}}@media(prefers-color-scheme:dark){.dark\\:bg-gray-900{background-color:rgb(14,15,17)!important}}.dark\\:text-gray-300{color:undefined!important}@media(prefers-color-scheme:dark){.dark\\:text-gray-300{color:rgb(179,185,197)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-300{color:rgb(179,185,197)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-300{color:rgb(179,185,197)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-300{color:rgb(179,185,197)!important}}.dark\\:text-gray-500{color:undefined!important}@media(prefers-color-scheme:dark){.dark\\:text-gray-500{color:rgb(100,110,130)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-500{color:rgb(100,110,130)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-500{color:rgb(100,110,130)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-500{color:rgb(100,110,130)!important}}.dark\\:text-gray-600{color:undefined!important}@media(prefers-color-scheme:dark){.dark\\:text-gray-600{color:rgb(57,65,81)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-600{color:rgb(57,65,81)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-600{color:rgb(57,65,81)!important}}@media(prefers-color-scheme:dark){.dark\\:text-gray-600{color:rgb(57,65,81)!important}}.dark\\:text-white{color:undefined!important}@media(prefers-color-scheme:dark){.dark\\:text-white{color:rgb(255,255,255)!important}}@media(prefers-color-scheme:dark){.dark\\:text-white{color:rgb(255,255,255)!important}}@media(prefers-color-scheme:dark){.dark\\:text-white{color:rgb(255,255,255)!important}}@media(prefers-color-scheme:dark){.dark\\:text-white{color:rgb(255,255,255)!important}}}</style></head><div id="__vue-email-preview" style="display: none; overflow: hidden; line-height: 1px; opacity: 0; max-height: 0; max-width: 0">Verify Your Email Click the Link Below<div> ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿</div></div><body data-id="__vue-email-body" style="font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;; background-color: rgb(255,255,255); color: rgb(14,15,17);" class="dark:bg-gray-900 dark:text-white"><table align="center" width="100%" data-id="__vue-email-container" role="presentation" cellspacing="0" cellpadding="0" border="0" style="max-width:37.5em; padding-top: 2rem;
           padding-bottom: 2rem; padding-left: 1rem;
@@ -98,14 +100,4 @@ describe('email actions', async () => {
       }
     `)
   })
-
-  it('loads up ui associated with action', async () => {
-    await kit.performActions({
-      caller: 'emailVerify',
-      path: r?.emailVars?.callbackUrl || '/',
-      actions: [
-        { type: 'visible', selector: `[data-action-id="${actionId}"]` },
-      ],
-    })
-  }, { timeout: 80000 })
 })

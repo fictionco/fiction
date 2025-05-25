@@ -1,12 +1,13 @@
 import type { MetaAppDetails } from '../plugin-env'
 import type { FictionUser, User } from '../plugin-user'
+import type { EmailResponse } from './endpoint'
 import type { EmailSendConfig } from './util'
 import { abort } from '../utils'
 import { createUserToken } from '../utils/jwt'
-import type {EmailResponse} from './endpoint'
 
 export type EmailVarsConfig<T extends Record<string, string> = Record<string, string>> = {
   email: string
+  userId?: string
   fictionUser: FictionUser
   origin?: string
   callbackPath?: string
@@ -34,7 +35,7 @@ export type EmailConfigResponse = EmailSendConfig & { emailVars: EmailVars }
 export async function createEmailVars<T extends Record<string, string> = Record<string, string>>(
   config: EmailVarsConfig<T>,
 ): Promise<EmailVars<T>> {
-  const { email, fictionUser, origin, callbackPath = '/', createUserFields, queryVars = {} as T } = config
+  const { email, userId, fictionUser, origin, callbackPath = '/', createUserFields, queryVars = {} as T } = config
   const { fictionApp, fictionEmail, tokenSecret } = fictionUser.settings
 
   if (!tokenSecret)
@@ -42,7 +43,7 @@ export async function createEmailVars<T extends Record<string, string> = Record<
   if (!email)
     throw abort('Missing email')
 
-  const recipient = await getOrCreateUser({ email, fictionUser, createUserFields })
+  const recipient = await getOrCreateUser({ email, userId, fictionUser, createUserFields })
   const urls = buildUrls({ origin: origin || fictionApp?.appUrl.value || '', callbackPath })
   const authVars = createAuthVars({ recipient, tokenSecret, queryVars })
 
@@ -62,14 +63,17 @@ export async function createEmailVars<T extends Record<string, string> = Record<
 
 async function getOrCreateUser(args: {
   email: string
+  userId?: string
   fictionUser: FictionUser
   createUserFields?: Partial<User>
 }) {
-  const { email, fictionUser, createUserFields } = args
+  const { email, userId, fictionUser, createUserFields } = args
+
+  const where = userId ? { userId } : { email }
 
   const response = await fictionUser.queries.ManageUser.serve({
     _action: 'getCreate',
-    where: { email },
+    where,
     createUserFields,
     refreshCode: true,
   }, { server: true, returnAuthority: ['verify'] })
