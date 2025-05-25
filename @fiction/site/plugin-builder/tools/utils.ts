@@ -24,12 +24,19 @@ export function getSiteOptions(args: { card: Card }) {
         }),
         createOption({
           key: 'about',
-          label: 'Global Options',
+          label: 'Workspace Settings',
+          description: 'To customize branding, colors, and other settings for your workspace, please visit the workspace settings page.',
           input: 'InputActionList',
           props: {
             buttons: () => {
               return [
-                { href: card.link('/settings/org?tab=brand'), label: 'Global Settings', icon: 'i-tabler-settings', size: 'sm', theme: 'primary' },
+                {
+                  href: card.link('/settings/org?tab=brand'),
+                  label: 'Go to Workspace Settings',
+                  iconAfter: 'i-tabler-arrow-up-right',
+                  size: 'sm',
+                  theme: 'primary',
+                },
               ]
             },
           },
@@ -202,7 +209,7 @@ export function getPageOptions(args: {
     basic: createOption({
       schema: PageSchema,
       key: 'group.pageSetup',
-      label: 'Settings',
+      label: 'Page Settings',
       input: 'group',
       icon: { class: 'i-tabler-file-plus' },
       options: basicOptions,

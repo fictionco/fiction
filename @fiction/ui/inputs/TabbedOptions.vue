@@ -42,8 +42,7 @@ const currentValue = vue.ref<Record<string, any>>({})
 // Active option tracking
 const activeOptionId = vue.ref<string>('')
 
-// Observe options for intersection
-const optionsContainer = vue.ref<HTMLElement>()
+const testId = props.testId || 'options'
 
 // Update internal state when modelValue changes
 vue.watch(
@@ -134,6 +133,7 @@ function updateValue(update: Record<string, any>) {
 
       <slot name="footer-right">
         <XButton
+
           theme="primary"
           size="md"
           icon="i-tabler-check"

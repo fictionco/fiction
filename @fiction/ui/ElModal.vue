@@ -77,7 +77,7 @@ vue.onMounted(async () => {
 
   await waitFor(50)
   onResetUi((args) => {
-    if (args.scope === 'all')
+    if (args.scope === 'all' && vis)
       close({ reason: 'reset' })
   })
 })

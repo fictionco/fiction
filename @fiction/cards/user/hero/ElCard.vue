@@ -37,7 +37,7 @@ function getClasses(item: HeroConfig) {
     ],
     media: {
       wrap: [
-        isLeftOrRight ? 'lg:basis-1/2' : 'mt-12 mx-auto',
+        isLeftOrRight ? 'lg:basis-1/2' : 'mt-12 mx-auto max-w-screen-md',
         'relative',
       ],
     },

@@ -11,7 +11,7 @@ defineProps<{
 <template>
   <div
     v-if="url"
-    class="relative w-full overflow-hidden bg-theme-50 dark:bg-theme-950 aspect-[16/9]"
+    class="relative overflow-hidden bg-theme-50 dark:bg-theme-950 aspect-[1/1]"
   >
     <iframe
       v-if="url"

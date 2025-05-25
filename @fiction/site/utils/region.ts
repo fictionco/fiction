@@ -27,75 +27,49 @@ export async function requestManagePage(args: {
   site: Site
   _action: 'upsert' | 'delete'
   regionCard?: CardConfigPortable
-  delay: number
+  delay?: number
   successMessage?: string
   caller?: string
 }) {
   const { site, _action, regionCard, delay = 400, successMessage, caller = 'unknown' } = args
 
-  if (!site.siteId)
-    throw new Error('siteId is required.')
+  if (!site.siteId || !_action || !regionCard) {
+    throw new Error('siteId, action, and regionCard are required.')
+  }
 
-  if (!_action)
-    throw new Error('Action is required.')
-
-  if (!regionCard)
-    throw new Error('Region card is required.')
-
-  // set defaults
   const fields = new Card({ site, ...regionCard }).toConfig()
-
   logger.info(`${caller}: requesting region action: ${_action}`, { data: { fields, successMessage } })
 
-  const common = {
-    siteId: site.siteId,
-    scope: 'publish',
-    successMessage,
-    caller: `requestManagePage:${caller}:${_action}`,
-  } as const
+  const save = async () => {
+    // for testing, if loaded by theme
+    if (site.settings.isStatic)
+      return { status: 'success', data: [fields as TableCardConfig] }
 
-  let r: EndpointResponse<TableCardConfig[]>
-  if (_action === 'delete') {
-    if (!fields.cardId)
-      throw new Error('cardId is required for delete action.')
+    const common = { siteId: site.siteId, scope: 'publish', successMessage, caller: `requestManagePage:${caller}:${_action}` } as const
 
-    r = await site.fictionSites.requests.ManagePage.projectRequest({
-      ...common,
-      where: [{ cardId: fields.cardId }],
-      _action,
-    })
-  }
-  else {
-    r = await site.fictionSites.requests.ManagePage.projectRequest({
-      ...common,
-      _action,
-      fields: [fields],
-    })
+    return _action === 'delete'
+      ? site.fictionSites.requests.ManagePage.projectRequest({ ...common, where: [{ cardId: fields.cardId! }], _action })
+      : site.fictionSites.requests.ManagePage.projectRequest({ ...common, _action, fields: [fields] })
   }
 
+  const r = await save()
   const cardConfig = r.data?.[0]
 
   const updatePageAction = () => {
     if (_action === 'delete') {
-      const i = site.pages.value.findIndex(r => r.cardId === regionCard.cardId)
-
-      if (i > -1)
-        site.pages.value.splice(i, 1)
+      if (site.activePageId.value === regionCard.cardId) {
+        site.activePageId.value = site.pages.value[0]?.cardId || ''
+      }
+      site.pages.value = site.pages.value.filter(_ => _.cardId !== regionCard.cardId)
     }
-    else if (cardConfig && cardConfig.cardId) {
+    else if (cardConfig?.cardId) {
       updatePage({ site, cardConfig })
-
       site.activePageId.value = cardConfig.cardId
     }
   }
 
-  if (r.status === 'success') {
-    if (delay && delay > 0)
-      setTimeout(() => updatePageAction(), delay)
+  delay > 0 ? setTimeout(updatePageAction, delay) : updatePageAction()
 
-    else
-      updatePageAction()
-  }
   return { cardConfig, response: r }
 }
 

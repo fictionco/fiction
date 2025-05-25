@@ -1,8 +1,9 @@
+import type { Site } from '@fiction/site'
 import type { CardConfigPortable } from '@fiction/site/tables.js'
 import { cardConfig } from '@fiction/cards/index.js'
 import { createStockMediaHandler } from '@fiction/ui/stock/index.js'
 
-export async function getCards(): Promise<CardConfigPortable[]> {
+export async function getCards(_args: { site: Site }): Promise<CardConfigPortable[]> {
   const stock = await createStockMediaHandler()
 
   return [

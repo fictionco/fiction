@@ -85,6 +85,8 @@ vue.provide(SITE_INJECTION_KEY, site)
 
 const fonts = vue.computed(() => site.value?.siteFonts.value)
 
+const ignoreServerRender = vue.computed(() => typeof window === 'undefined' && site.value?.siteMode.value === 'editable')
+
 const page = vue.computed(() => site.value?.currentPage.value)
 const pageConfig = vue.computed(() => page.value?.fullConfig.value || {})
 const siteConfig = vue.computed(() => site.value?.fullConfig.value || {})
@@ -251,8 +253,8 @@ vue.onMounted(async () => {
       <div
         class="x-engine"
       >
-        <div v-if="loading || !hasInitialized" class="text-theme-200 dark:text-theme-700 flex justify-center pt-32">
-          <ElSpinner class="size-4" />
+        <div v-if="loading || !hasInitialized || ignoreServerRender" class="text-theme-200 dark:text-theme-600 flex justify-center pt-32">
+          <ElSpinner class="size-8" />
         </div>
 
         <template v-else-if="site">

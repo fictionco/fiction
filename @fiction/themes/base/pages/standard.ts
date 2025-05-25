@@ -6,9 +6,7 @@ export async function getCards(_args: { site: Site }): Promise<CardConfigPortabl
   const { site } = _args
 
   const promises = [
-    cardConfigWithDefault({ site, templateId: 'cardProfileV1' }),
-    cardConfigWithDefault({ site, templateId: 'cardBentoV1' }),
-    cardConfigWithDefault({ site, templateId: 'cardQuotesV1' }),
+    cardConfigWithDefault({ site, templateId: 'cardHeroV1' }),
   ]
 
   return Promise.all(promises)

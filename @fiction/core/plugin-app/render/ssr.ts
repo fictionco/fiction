@@ -91,8 +91,9 @@ export class SSR extends FictionObject<SSRSettings> {
         out = this.cache.get(cacheKey) as RenderedHtmlParts
       }
     }
+    const startTime = Date.now()
 
-    this.log.info(`SSR:${runVars.URL} -> CACHE: ${cacheStatus} -> IP: ${runVars.IP_ADDRESS}`)
+
 
     if (cacheStatus === 'hit')
       return out
@@ -132,6 +133,8 @@ export class SSR extends FictionObject<SSRSettings> {
 
     if (mode === 'prod')
       this.cache.set(cacheKey, out)
+
+    this.log.info(`SSR:${runVars.URL} in ${Date.now() - startTime}ms`)
 
     return out
   }

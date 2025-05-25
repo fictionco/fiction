@@ -566,6 +566,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
           const outputHtml = this.addRunVarsToHtml({ html, runVars })
 
+
           res.status(200).set({ 'Content-Type': 'text/html' }).end(outputHtml)
         }
         catch (error: unknown) {

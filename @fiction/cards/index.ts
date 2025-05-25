@@ -156,6 +156,33 @@ export function cardConfig<
     ...settings,
   }).toConfig()
 }
+
+export async function cardConfigWithDefault<
+  ExtendedTemplates extends CardTemplate<any>[] = [],
+  T extends keyof TemplateConfigMap<ExtendedTemplates> = keyof TemplateConfigMap<ExtendedTemplates>,
+>(args: {
+  templateId: T
+  site: Site
+  cardId?: string
+  userConfig?: Partial<InferUserConfig<T, ExtendedTemplates>>
+}): Promise<CardConfigPortable<InferUserConfig<T, ExtendedTemplates> & StandardUserConfig>> {
+  const { templateId, site, cardId, userConfig } = args
+
+  const tpl = site.theme.value?.templates.find(t => t.settings.templateId === templateId)
+
+  if (!tpl) {
+    throw new Error(`Could not find template with templateId: ${templateId}`)
+  }
+
+  const tplCard = await tpl.toCard({
+    cardId,
+    site,
+    userConfig: userConfig as any, // Type assertion needed due to complexity
+  })
+
+  return tplCard.toConfig() as CardConfigPortable<InferUserConfig<T, ExtendedTemplates> & StandardUserConfig>
+}
+
 // Type utilities for template configuration
 type TemplateModule = { template: CardTemplate<any> }
 

@@ -238,11 +238,14 @@ async function getDemoContent(args: { templateId: string, stock: StockMedia }) {
   }
 }
 
-function getDefaultContent(): UserConfig {
+function getDefaultContent(args: { stock: StockMedia }): UserConfig {
+  const { stock } = args
   return {
     items: [
       {
-        title: 'Hello',
+        title: 'Hero Title',
+        subTitle: 'Add a subtitle to your hero section',
+        media: { ...stock.getRandomByTags(['object', 'aspect:landscape']), aspect: 'landscape' },
         action: {
           buttons: [],
         },
@@ -257,7 +260,7 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
   return {
     schema,
     options: await getOptions(args),
-    userConfig: getDefaultContent(),
+    userConfig: getDefaultContent({ stock }),
     demoPage,
   }
 }

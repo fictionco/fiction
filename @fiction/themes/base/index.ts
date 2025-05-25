@@ -1,5 +1,5 @@
-import { cardConfig } from '@fiction/cards'
-import { getCardTemplates } from '@fiction/cards/index.js'
+import type { Site } from '@fiction/site/site.js'
+import { cardConfig, getCardTemplates } from '@fiction/cards'
 import { safeDirname } from '@fiction/core'
 import { Theme } from '@fiction/site/theme.js'
 import { getPageTemplates } from './pages/index.js'
@@ -20,7 +20,7 @@ export const theme = new Theme({
 
   isPublic: true,
   getTemplates: () => getCardTemplates({ caller: 'baseTheme' }),
-  getPageTemplates: () => getPageTemplates(),
+  getPageTemplates,
   getConfig: async () => {
     return {
       pages: [

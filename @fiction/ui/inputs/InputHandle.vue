@@ -143,7 +143,7 @@ const cls = vue.computed(() => inputClasses({ uiSize: props.uiSize }))
       </div>
       <input
         ref="inputRef"
-        class="grow px-0 leading-[1] min-w-0 w-full"
+        class="grow px-0 min-w-0 w-full"
         :class="[cls.padY, cls.reset]"
         :style="{ fontSize: 'inherit' }"
         type="text"

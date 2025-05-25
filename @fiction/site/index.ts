@@ -145,7 +145,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
         cardConfig<SiteAdminTemplates>({
           templateId: 'dash',
           slug: 'edit-site',
-          title: 'Website',
+          title: 'Edit Website',
           description: 'Customize and configure your website settings',
           cards: [
             cardConfig<SiteAdminTemplates>({

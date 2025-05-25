@@ -149,7 +149,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   async editorActivateTool(args: { toolId: ToolKeys | '' }) {
     const { toolId } = args
 
-    this.editorController.useTool({ toolId })
+    this.editorController.useTool({ toolId, caller: 'editorActivateTool' })
 
     this.frame.syncTool({ toolId })
   }

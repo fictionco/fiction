@@ -30,7 +30,6 @@ const parsedList = vue.computed<ListItem[]>(() => {
 
 <template>
   <div>
-    {{ modelValue }}
     <select
       :value="modelValue"
       :class="textInputClasses({ inputClass, uiSize })"

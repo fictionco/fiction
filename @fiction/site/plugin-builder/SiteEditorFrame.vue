@@ -12,6 +12,7 @@ import XText from '@fiction/ui/common/XText.vue'
 import EffectDraggableSort from '@fiction/ui/effect/EffectDraggableSort.vue'
 import ElBrowserFrameDevice from '@fiction/ui/frame/ElBrowserFrameDevice.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
+import { requestManagePage } from '../utils/region'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, default: undefined },
@@ -158,10 +159,18 @@ function handlePageOrderUpdate(ids: string[]) {
     })
   }
 }
+
+async function deletePage(page: Card) {
+  const confirmed = confirm('Are you sure?')
+
+  if (confirmed && props.site) {
+    await requestManagePage({ site: props.site, _action: 'delete', regionCard: page.toConfig() })
+  }
+}
 </script>
 
 <template>
-  <div v-if="site" class="space-y-4 p-4 xl:p-6 @container bg-theme-800">
+  <div v-if="site" class="space-y-4 p-4 xl:p-6 @container bg-theme-800 overflow-scroll">
     <div v-if="!site.editingPageId.value" class="flex gap-2 items-baseline">
       <div class="font-semibold">
         All Pages
@@ -180,6 +189,7 @@ function handlePageOrderUpdate(ids: string[]) {
           rounding="md"
           design="ghost"
           icon="i-tabler-files"
+          data-test-id="edit-site-pages-button"
           @click.stop="site.editingPageId.value = ''"
         >
           Edit / Add Pages
@@ -267,7 +277,7 @@ function handlePageOrderUpdate(ids: string[]) {
       item-selector=".draggable-page"
       :disabled="false"
       :allow-horizontal="true"
-      class="@container draggable-page-container grid gap-4 lg:gap-6 grid-cols-1 @md:grid-cols-2 @2xl:grid-cols-3 @4xl:grid-cols-4 mb-4 relative"
+      class="@container draggable-page-container grid gap-4 lg:gap-10 grid-cols-1 @md:grid-cols-2 @2xl:grid-cols-3 @4xl:grid-cols-4 mb-4 relative"
       @update:sorted="handlePageOrderUpdate"
     >
       <div
@@ -282,10 +292,9 @@ function handlePageOrderUpdate(ids: string[]) {
         <div class="relative size-full overflow-hidden bg-theme-100 dark:bg-theme-900">
           <iframe
             :src="site.frame.framePageUrl({ slug: !page.isHome.value ? page.slug.value : '', siteMode: 'standard' })"
-            class="transform scale-[0.25] origin-top-left"
-            style="width: 400%; height: 400%"
+            class="transform scale-[0.2] origin-top-left"
+            style="width: 500%; height: 500%"
             frameborder="0"
-            loading="lazy"
           />
 
           <!-- Overlay to avoid iframe interactions -->
@@ -293,7 +302,7 @@ function handlePageOrderUpdate(ids: string[]) {
         </div>
 
         <!-- Page info overlay -->
-        <div class="absolute bottom-0 left-0 right-0 px-2 py-3 bg-white/90 dark:bg-theme-800/90 backdrop-blur-sm z-10">
+        <div class="absolute bottom-0 left-0 right-0 p-3 md:p-4 bg-white/90 dark:bg-theme-800/90 backdrop-blur-sm z-10">
           <div class="flex items-center gap-1">
             <XIcon class="size-[1.2em] -ml-0.5 text-theme-400 dark:text-theme-500 rounded backdrop-blur-sm cursor-grab" :media="{ class: 'i-tabler-grip-vertical' }" />
             <div class="gap-1 flex items-center flex-wrap">
@@ -302,17 +311,34 @@ function handlePageOrderUpdate(ids: string[]) {
               </h3>
               <!-- Badge for special pages -->
               <XButton
-                v-if="getPageBadge(page)"
+                v-if="page.isHome.value"
                 theme="primary"
-                design="outline"
-                size="xs"
-              >
-                {{ getPageBadge(page)?.label }}
-              </XButton>
+                design="link"
+                size="sm"
+                icon="i-tabler-home"
+              />
+              <span class="text-sm text-theme-500 dark:text-theme-400 grow text-right">
+                {{ page.isHome.value ? '/' : `/${page.slug.value}` }}
+              </span>
             </div>
-            <span class="text-xs text-theme-500 dark:text-theme-400 grow text-right">
-              {{ page.isHome.value ? '/' : `/${page.slug.value}` }}
-            </span>
+            <div class="ml-auto flex items-center gap-2" @click.stop>
+              <XDropDown
+                mode="click"
+                :items="[
+                  { label: 'Delete', icon: { class: 'i-tabler-trash' }, onClick: () => deletePage(page) },
+                ]"
+                dropdown-alignment="end"
+                placement="top"
+              >
+                <XButton
+                  theme="default"
+                  size="sm"
+                  rounding="md"
+                  design="ghost"
+                  icon="i-tabler-dots"
+                />
+              </XDropDown>
+            </div>
           </div>
         </div>
       </div>
@@ -320,7 +346,8 @@ function handlePageOrderUpdate(ids: string[]) {
       <!-- Add new page button -->
       <div
         v-if="sitePages.length < maxGridPages"
-        class="h-80 lg:h-[400px] cursor-pointer flex items-center justify-center border-2 border-dashed border-theme-300 dark:border-theme-700 rounded-lg hover:border-theme-500 dark:hover:border-theme-500 transition-all"
+        class="h-80 lg:h-[400px] cursor-pointer flex items-center justify-center border-2 border-dashed border-theme-300 dark:border-theme-600/70 bg-theme-700/40 hover:dark:border-primary-600 rounded-lg hover:border-theme-500 dark:hover:border-theme-500 transition-all"
+        data-test-id="add-new-page-button"
         @click.stop="site.editorActivateTool({ toolId: 'pageAdd' });"
       >
         <div class="text-center px-4 py-2">

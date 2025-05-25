@@ -3,6 +3,7 @@ import type { AdminEditorController, EditorTool } from '@fiction/admin'
 import type { Site } from '../../site'
 import type { ToolKeys } from './tools.js'
 import ElTool from '@fiction/admin/tools/ElTool.vue'
+import { vue } from '@fiction/core'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import InputAddElements from './InputAddElements.vue'
@@ -15,6 +16,12 @@ const props = defineProps<{
 }>()
 
 const { site, tool } = props
+
+vue.onMounted(() => {
+  if (!site.editingPageId.value) {
+    site.editingPageId.value = site.activePageId.value
+  }
+})
 </script>
 
 <template>

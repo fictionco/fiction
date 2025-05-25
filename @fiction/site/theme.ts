@@ -52,7 +52,7 @@ export type PageTemplate = {
 export type ThemeSettings<T extends Record<string, unknown> = Record<string, unknown>> = {
 
   getTemplates?: (args: { site: Site }) => Promise<CardTemplate<any>[]>
-  getPageTemplates?: () => PageTemplate[]
+  getPageTemplates?: (args: { site: Site }) => PageTemplate[]
   getBaseConfig?: () => Partial<ThemeConfig> & { userConfig: T }
   getConfig: (args: ThemeConfigArgs) => Promise<ThemeConfig>
 
@@ -74,8 +74,8 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
     super('Theme', settings)
   }
 
-  getPageTemplates() {
-    return this.settings.getPageTemplates?.() || []
+  getPageTemplates(args: { site: Site }) {
+    return this.settings.getPageTemplates?.(args) || []
   }
 
   async loadThemeTemplates(args: { site: Site }) {

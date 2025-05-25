@@ -102,7 +102,7 @@ async function addCard(args: { templateId?: string }) {
     addToRegion,
   })
 
-  await props.site.editorActivateTool({ toolId: 'sectionsLayout' })
+  await props.site.editorActivateTool({ toolId: '' })
 }
 
 const addElementsVisible = vue.ref(true)

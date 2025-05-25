@@ -1,6 +1,5 @@
 import type { Site } from '../index.js'
 import type { CardConfigPortable } from '../tables.js'
-import { data } from '@fiction/analytics/chart/test/sampleData.js'
 import { log, vue } from '@fiction/core'
 import { Card } from '../card.js'
 

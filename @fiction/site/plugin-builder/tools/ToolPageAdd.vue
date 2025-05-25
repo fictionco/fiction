@@ -17,7 +17,7 @@ const { site, controller } = defineProps<{
 
 const loading = vue.ref(false)
 
-const pageTemplates = vue.computed(() => site.theme.value.getPageTemplates())
+const pageTemplates = vue.computed(() => site.theme.value.getPageTemplates({ site }))
 
 const options = vue.computed<InputOption[]>(() => {
   const optionGroups = getPageOptions({ site, editMode: 'new', pageTemplates: pageTemplates.value })
@@ -53,22 +53,16 @@ async function save() {
 
   const pg = page.value
 
-  if (pg.pageTemplateId) {
-    const pageTemplate = pageTemplates.value?.find(tpl => tpl.pageTemplateId === pg.pageTemplateId)
+  const loadPageTemplateId = pg.pageTemplateId || 'standard'
 
-    pg.cards = await pageTemplate?.getCards?.({ site }) ?? []
-  }
+  const pageTemplate = pageTemplates.value?.find(tpl => tpl.pageTemplateId === loadPageTemplateId)
 
-  await requestManagePage({
-    site,
-    _action: 'upsert',
-    regionCard: page.value,
-    delay: 400,
-    successMessage: 'Page Saved',
-  })
+  pg.cards = await pageTemplate?.getCards?.({ site }) ?? []
+
+  await requestManagePage({ site, _action: 'upsert', regionCard: page.value, delay: 400, successMessage: 'Page Saved' })
   loading.value = false
 
-  controller.useTool({ toolId: 'pages' })
+  controller.useTool({ toolId: 'pages', caller: 'ToolPageAdd' })
 }
 </script>
 

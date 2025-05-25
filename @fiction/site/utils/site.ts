@@ -155,6 +155,12 @@ export async function saveSite(args: {
 }): Promise<Partial<TableSiteConfig>> {
   const { site, onlyKeys, delayUntilSaveConfig, successMessage, isPublishingDomains, minTime, scope = 'publish' } = args
 
+  // save locally if coding as site doesn't exist
+  if (site.settings.isStatic) {
+    await waitFor(500)
+    return site.toConfig()
+  }
+
   if (scope === 'draft') {
     site.editor.value.savedNeedsPublish = true
     return saveSiteDraft({ site })
@@ -176,12 +182,6 @@ export async function saveSite(args: {
 
   if (delayUntilSaveConfig)
     fields = { ...fields, ...delayUntilSaveConfig }
-
-  // save locally if coding as site doesn't exist
-  if (site.settings.isStatic) {
-    await waitFor(500)
-    return localSiteConfig({ siteId: config.siteId, fields })
-  }
 
   const r = await site.settings.fictionSites.requests.ManageSite.projectRequest({
     _action: 'update',

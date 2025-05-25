@@ -132,16 +132,7 @@ export async function loadSiteFromTheme(args: {
     throw new Error(msg)
   }
 
-  const site = await theme.toSite({
-    fictionSites,
-    subDomain,
-    siteId,
-    orgId,
-    siteRouter,
-    siteMode,
-    isStatic: true,
-    org,
-  })
+  const site = await theme.toSite({ fictionSites, subDomain, siteId, orgId, siteRouter, siteMode, isStatic: true, org })
 
   return site
 }

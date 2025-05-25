@@ -67,7 +67,7 @@ const hasIconNav = vue.computed(() => {
                       :class="controller?.isUsingTool({ toolId: tool.toolId })
                         ? 'bg-primary-500 dark:bg-primary-600/60 ring-1 dark:ring-primary-500 ring-primary-600 text-white'
                         : 'text-theme-600/80 dark:text-theme-0 hover:bg-primary-500 hover:text-white ring-primary-600 dark:hover:bg-primary-600/60  hover:ring-1 ring-inset dark:hover:ring-primary-500  '"
-                      @click="controller?.useTool({ toolId: tool.toolId })"
+                      @click="controller?.useTool({ toolId: tool.toolId, caller: 'editorButtonTop' })"
                     >
                       <XIcon class="size-6" :media="tool.icon" />
                       <span
@@ -94,7 +94,7 @@ const hasIconNav = vue.computed(() => {
                       :class="controller?.isUsingTool({ toolId: tool.toolId })
                         ? 'bg-primary-500 dark:bg-primary-600/60 ring-1 dark:ring-primary-500 ring-primary-600 text-white'
                         : 'text-theme-600/80 dark:text-theme-0 hover:bg-primary-500 hover:text-white ring-primary-600 dark:hover:bg-primary-600/60  hover:ring-1 ring-inset dark:hover:ring-primary-500  '"
-                      @click="controller?.useTool({ toolId: tool.toolId })"
+                      @click="controller?.useTool({ toolId: tool.toolId, caller: 'editorButton' })"
                     >
                       <XIcon class="size-6" :media="tool.icon" />
                       <span
@@ -114,7 +114,7 @@ const hasIconNav = vue.computed(() => {
               :modal-class="primaryTool?.modalClass || 'h-[80vh] w-full max-w-screen-md overflow-scroll no-scrollbar'"
               transition-mode="slideUp"
               :has-close="true"
-              @update:vis="controller?.useTool({ toolId: '' })"
+              @update:vis="controller?.useTool({ toolId: '', caller: 'modalClose' })"
             >
               <component
                 :is="primaryTool.el"
@@ -147,7 +147,7 @@ const hasIconNav = vue.computed(() => {
           </div>
         </TransitionWidth>
         <!-- Content Area -->
-        <div class="flex flex-1 min-w-0" @click="controller?.useTool({ toolId: '' })">
+        <div class="flex flex-1 min-w-0" @click="controller?.useTool({ toolId: '', caller: 'editorClick' })">
           <div class="flex flex-1 min-w-0 relative">
             <!-- Main Content -->
             <div

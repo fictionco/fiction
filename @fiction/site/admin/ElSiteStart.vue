@@ -59,6 +59,10 @@ const stepConfig: StepConfig = {
         key: 'name',
         class: 'max-w-lg',
         onClick: async () => requestCreateSite(),
+        button: {
+          label: 'Create Site',
+          icon: 'check',
+        },
       },
       // {
       //   title: `Select Your Theme`,

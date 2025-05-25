@@ -75,7 +75,7 @@ export class AdminEditorController<T extends CardSurface = CardSurface> extends 
     return locations.some(l => this.activeToolId[l].value === toolId)
   }
 
-  useTool(args: { toolId: Surface<T>['toolIds'] | '' }) {
+  useTool(args: { toolId: Surface<T>['toolIds'] | '', caller: string }) {
     const { toolId } = args
 
     const tool = this.settings.tools.find(t => t.toolId === toolId)
@@ -86,13 +86,8 @@ export class AdminEditorController<T extends CardSurface = CardSurface> extends 
     }
 
     const location = tool?.location || 'primary'
-    const existingTool = this.activeToolId[location].value
-    if (existingTool === toolId) {
-      this.activeToolId[location].value = ''
-    }
-    else {
-      this.activeToolId[location].value = toolId
-    }
+
+    this.activeToolId[location].value = toolId
   }
 
   reset() {
