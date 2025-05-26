@@ -47,7 +47,7 @@ const iconContent = vue.computed(() => {
 </script>
 
 <template>
-  <span v-if="iconContent" :class="iconContent" />
+  <span v-if="mediaFormat === 'icon'" :class="iconContent" />
   <img
     v-else-if="mediaFormat === 'image'"
     :src="iconContent"

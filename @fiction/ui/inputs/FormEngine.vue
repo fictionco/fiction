@@ -231,6 +231,19 @@ function handleTabChange(index: number) {
   lastTabIndex.value = activeTabIndex.value
   activeTabIndex.value = index
 }
+
+// Common props for recursive FormEngine
+const engineProps = vue.computed(() => ({
+  stateKey,
+  uiSize,
+  basePath,
+  editPath,
+  activePath,
+  inputProps,
+  classes,
+  modelValue,
+  depth: depth + 1,
+}))
 </script>
 
 <template>
@@ -244,12 +257,7 @@ function handleTabChange(index: number) {
     <!-- Standard non-group options -->
     <div v-if="standardOptions.length > 0" :class="rootListClasses">
       <template v-for="(opt, i) in standardOptions" :key="i">
-        <ElToolSep
-          v-if="opt.input.value === 'title'"
-          :text="opt.label.value"
-          class="mb-1"
-          :class="i === 0 ? 'mt-0' : 'mt-1'"
-        />
+        <ElToolSep v-if="opt.input.value === 'title'" :text="opt.label.value" class="mb-1" :class="i === 0 ? 'mt-0' : 'mt-1'" />
         <input v-else-if="opt.input.value === 'hidden'" :data-option-path="opt.key.value" type="hidden" :value="getNested({ path: getOptionPath({ opt }), data: modelValue })">
 
         <div v-else :class="getInputWrapClasses(opt)" :data-depth="depth" :data-option-key="opt.key.value">
@@ -286,6 +294,7 @@ function handleTabChange(index: number) {
             v-for="(opt, i) in groupOptions"
             :key="i"
             :class="getTabClasses(i)"
+            :data-test-id="opt.settings.testId || opt.key.value"
             @click="handleTabChange(i)"
           >
             <div class="flex items-center gap-2 font-semibold">
@@ -327,16 +336,8 @@ function handleTabChange(index: number) {
               <div v-show="!hide(opt)">
                 <div :class="getGroupClasses(opt)">
                   <FormEngine
-                    :state-key="stateKey"
-                    :ui-size="uiSize"
-                    :base-path="basePath"
-                    :edit-path="editPath"
-                    :active-path="activePath"
-                    :input-props="inputProps"
+                    v-bind="engineProps"
                     :options="opt.options.value || []"
-                    :classes="classes"
-                    :model-value="modelValue"
-                    :depth="depth + 1"
                     :format="opt.settings.format"
                     @update:model-value="emit('update:modelValue', $event)"
                     @update:active-path="emit('update:activePath', $event)"
@@ -349,16 +350,8 @@ function handleTabChange(index: number) {
             <!-- Group content without transition (for tabbed version) -->
             <div v-if="useTabsForGroups && i === activeTabIndex" :class="getGroupClasses(opt)">
               <FormEngine
-                :state-key="stateKey"
-                :ui-size="uiSize"
-                :base-path="basePath"
-                :edit-path="editPath"
-                :active-path="activePath"
-                :input-props="inputProps"
+                v-bind="engineProps"
                 :options="opt.options.value || []"
-                :classes="classes"
-                :model-value="modelValue"
-                :depth="depth + 1"
                 :format="opt.settings.format"
                 @update:model-value="emit('update:modelValue', $event)"
                 @update:active-path="emit('update:activePath', $event)"

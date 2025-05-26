@@ -27,11 +27,12 @@ export type EditorTool<T extends string = string, U extends Record<string, any> 
   isPrimary?: boolean | 'top' | 'bottom' | 'secondary'
   isDefault?: boolean
   location?: 'primary' | 'context'
-  design?: 'modal' | 'drawer'
+  design?: 'modal' | 'drawer' | 'inline'
   props?: (args: U) => vue.ComputedRef<Record<string, unknown>>
   modalClass?: string
   option?: InputOption
   onClick?: (args: { tool: EditorTool }) => void
+  isActive?: (args: { tool: EditorTool }) => boolean
 }
 
 type ToolDrawHide = 'both' | 'right' | 'left' | ''
@@ -71,6 +72,12 @@ export class AdminEditorController<T extends CardSurface = CardSurface> extends 
   }
 
   isUsingTool(args: { toolId?: Surface<T>['toolIds'], locations?: ('primary' | 'context')[] } = {}) {
+    const t = this.tools.find(t => t.toolId === args.toolId)
+
+    if (t?.isActive) {
+      return t.isActive({ tool: t })
+    }
+
     const { toolId, locations = ['primary', 'context'] } = args
     return locations.some(l => this.activeToolId[l].value === toolId)
   }
@@ -80,12 +87,13 @@ export class AdminEditorController<T extends CardSurface = CardSurface> extends 
 
     const tool = this.settings.tools.find(t => t.toolId === toolId)
 
+    const location = tool?.location || 'primary'
+
     if (tool?.onClick) {
+      this.activeToolId[location].value = ''
       tool.onClick({ tool })
       return
     }
-
-    const location = tool?.location || 'primary'
 
     this.activeToolId[location].value = toolId
   }

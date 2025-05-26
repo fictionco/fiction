@@ -78,7 +78,7 @@ const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
         >
           <!-- Site preview iframe -->
           <ElSitePreviewFrame
-            :url="primarySite?.frame.currentSiteFrameUrl.value"
+            :url="primarySite?.frame.frameUrl.value"
             class="w-full h-full"
           />
 

@@ -5,7 +5,7 @@ import type { SiteMode } from '../load.js'
 import type { ToolKeys } from '../plugin-builder/tools/tools.js'
 import type { CardConfigPortable, TableSiteConfig } from '../tables.js'
 import type { HistoryEntry } from './history.js'
-import { FictionObject, getUrlPath, resetUi, vue } from '@fiction/core'
+import { FictionObject, resetUi, vue } from '@fiction/core'
 import { updateSite } from './site.js'
 
 export type FramePostMessageList =
@@ -15,7 +15,7 @@ export type FramePostMessageList =
   | { messageType: 'setActiveCard', data: { cardId: string, caller?: string } }
   | { messageType: 'setEditPath', data: { cardId: string, path: string, caller?: string } }
   | { messageType: 'setToolId', data: { toolId: ToolKeys | '' } }
-  | { messageType: 'navigate', data: { urlOrPath: string, siteId: string } }
+  | { messageType: 'navigate', data: { pageCardId: string, siteId: string } }
   | { messageType: 'frameReady', data: undefined }
   | { messageType: 'keypress', data: { key: string, direction: 'up' | 'down' } }
   | { messageType: 'historyEntry', data: { historyEntry: HistoryEntry } }
@@ -29,113 +29,85 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   site = this.settings.site
   util: FrameUtility<FramePostMessageList> | undefined
   relation = vue.ref(this.settings.relation)
-  private stopWatchCurrentPath?: () => void
+  private stopWatchActivePageId?: () => void
 
   constructor(args: SiteFrameUtilityParams) {
     super('SiteFrameUtility', args)
   }
 
-  // gets preveiw frame url for the current site - used to show preview in the admin
-  currentSiteFrameUrl = vue.computed(() => {
-    return `${this.site.fictionSites.previewRoute}/site/${this.site.siteId}${this.framePath.value}`
-  })
-
   previewPath = vue.computed(() => this.site.fictionSites.getQueryItemPreviewPath.value)
 
-  // displayUrl = vue.computed(() => `${this.site.url.value}${this.site.currentPath.value}`)
+  // Editor uses cardId-based URLs exclusively for stability
+  frameUrl = vue.computed(() => {
+    return this.framePageUrl({
+      pageCardId: this.site.activePageId.value || this.site.homePageId.value,
+      siteMode: 'editable',
+    })
+  })
 
-  // path used for iframe url, we don't use currentPath as it causes full page reloads
-  // so we only update this when the frame URL actually needs to change (not when the route changes from URL click in frame)
-  framePath = vue.ref('')
-  frameUrl = vue.computed(() => `${this.previewPath.value}${this.framePath.value}`)
-  framePageUrl = (args: { slug?: string, siteMode?: SiteMode }) => {
-    const { slug, siteMode } = args
-    return `${this.previewPath.value}/${slug}?_siteMode=${siteMode}&_scope=draft`
+  framePageUrl = (args: { pageCardId: string, siteMode?: SiteMode }) => {
+    const { pageCardId, siteMode = 'standard' } = args
+    const params = new URLSearchParams({ _pageCardId: pageCardId, _siteMode: siteMode, _scope: 'draft',
+    })
+    return `${this.previewPath.value}?${params}`
   }
 
   setUtil(util: FrameUtility<FramePostMessageList>) {
     this.util = util
-
-    // Initialize the frame after setting the utility
     this.init({ caller: 'setUtil' })
 
-    // sync site on initial load
-    // this will make all cardIds the same in cases where they aren't (theme)
     if (this.relation.value === 'parent')
       this.syncSite({ caller: 'frameInit' })
   }
 
   init(_args: { caller?: string } = {}) {
-    if (typeof window === 'undefined' || !this.util) {
+    if (typeof window === 'undefined' || !this.util)
       return
-    }
 
-    // Clear existing listeners
     this.clearListeners()
-
-    // Add new listeners
     this.addListeners()
   }
 
   private clearListeners() {
-    if (this.stopWatchCurrentPath) {
-      this.stopWatchCurrentPath()
-      this.stopWatchCurrentPath = undefined
-    }
-
+    this.stopWatchActivePageId?.()
+    this.stopWatchActivePageId = undefined
     this.site.fictionSites.fictionEnv.events.remove('resetUi', this.handleResetUi)
   }
 
   private handleResetUi = (event: CustomEvent<{ scope: ResetUiScope, trigger: ResetUiTrigger, cause: string }>) => {
-    const { scope } = event.detail
-
-    // prevent recursion
-    if (scope === 'iframe')
+    if (event.detail.scope === 'iframe')
       return
-
     this.send({ msg: { messageType: 'resetUi', data: event.detail } })
   }
 
   private addListeners() {
     const site = this.site
     const fictionEnv = site.fictionSites.fictionEnv
-    // Add resetUi event listener
+
     fictionEnv.events.on('resetUi', this.handleResetUi)
     fictionEnv.events.on('keypress', event => this.send({
       msg: { messageType: 'keypress', data: event.detail },
     }))
 
-    // Add currentPath watcher
-    this.stopWatchCurrentPath = vue.watch(
-      () => site.currentPath.value,
-      (p) => {
-        this.syncRoute({ urlOrPath: p, siteId: this.site.siteId })
-
-        // only update iframe url if _reload in query
-        if (site.siteRouter.query.value._reload && this.relation.value === 'parent')
-          this.framePath.value = p
+    // Watch for active page changes and sync via cardId
+    this.stopWatchActivePageId = vue.watch(
+      () => site.activePageId.value,
+      (pageCardId) => {
+        if (pageCardId) {
+          this.syncRoute({ pageCardId, siteId: site.siteId })
+        }
       },
       { immediate: true },
     )
 
-    // Add cleanup callback
     fictionEnv.cleanupCallbacks.push(() => this.clearListeners())
   }
 
-  updateFrameUrl(pathOrUrl: string) {
-    const newPath = new URL(pathOrUrl, 'http://dummybase.com').pathname
-
-    this.log.info('updateFrameUrl', { data: { newPath } })
-
-    this.site.currentPath.value = newPath
+  syncRoute(args: { pageCardId: string, siteId: string }) {
+    this.send({ msg: { messageType: 'navigate', data: args } })
   }
 
-  syncRoute(args: { urlOrPath: string, siteId: string }) {
-    const { urlOrPath, siteId } = args
-    this.send({ msg: { messageType: 'navigate', data: { urlOrPath, siteId } } })
-  }
-
-  syncActiveCard(args: { cardId: string, action?: string }) {
+  syncActiveCard(args: { cardId: string }) {
     this.send({ msg: { messageType: 'setActiveCard', data: args } })
   }
 
@@ -150,7 +122,6 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   syncCard(args: { caller: string, cardConfig: CardConfigPortable }) {
     if (!this.site)
       throw new Error('no site')
-
     if (!args.cardConfig.cardId)
       throw new Error('no cardId in config')
 
@@ -159,11 +130,10 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
 
   syncSite(args: { caller: string, siteConfig?: Partial<TableSiteConfig>, onlyKeys?: (keyof TableSiteConfig)[] }) {
     const { onlyKeys, caller } = args
-
     const sendConfig = args.siteConfig || this.site.toConfig({ onlyKeys })
     const siteConfig = { siteId: this.site.siteId, ...sendConfig }
 
-    this.send({ msg: { messageType: 'setSite', data: { siteConfig, ...args, caller } } })
+    this.send({ msg: { messageType: 'setSite', data: { siteConfig, caller } } })
   }
 
   syncHistoryEntry(args: { historyEntry: HistoryEntry }) {
@@ -171,67 +141,65 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   }
 
   send(args: { msg: FramePostMessageList }) {
-    const { msg } = args
+    if (!this.util) {
+      this.log.warn(`${this.relation.value}: no frame utility`, { data: args.msg })
+      return
+    }
 
-    if (!this.util)
-      this.log.warn(`${this.relation.value}: no frame utility found to send message: "${msg.messageType}"`, { data: msg })
-
-    this.util?.sendMessage({ message: msg })
+    this.util.sendMessage({ message: args.msg })
   }
 
-  async processFrameMessage(args: { msg: FramePostMessageList, scope: 'child' | 'parent' }) {
+  async processFrameMessage(args: { msg: FramePostMessageList, scope?: 'child' | 'parent' }) {
     const { msg } = args
     const site = this.site
 
     switch (msg.messageType) {
       case 'resetUi': {
         const { trigger } = msg.data
-        resetUi({ scope: 'iframe', cause: `iframeMessage:event-${msg.data.cause}`, trigger })
-        this.site.fictionSites.fictionEnv.events.emit(`resetUi`, { scope: `iframe`, cause: `iframeMessage:fictionEnv-${msg.data.cause}`, trigger })
+        resetUi({ scope: 'iframe', cause: `iframeMessage:${msg.data.cause}`, trigger })
+        site.fictionSites.fictionEnv.events.emit('resetUi', {
+          scope: 'iframe',
+          cause: `iframeMessage:${msg.data.cause}`,
+          trigger,
+        })
         break
       }
 
       case 'keypress': {
-        const { key, direction } = msg.data
-        this.site.fictionSites.fictionEnv.events.emit('keypress', { key, direction })
+        site.fictionSites.fictionEnv.events.emit('keypress', msg.data)
         break
       }
 
       case 'setSite': {
-        const { siteConfig } = msg.data
-        await updateSite({ site, newConfig: siteConfig, caller: 'frameMessage:setSite' })
+        await updateSite({ site, newConfig: msg.data.siteConfig, caller: 'frameMessage:setSite' })
         break
       }
 
       case 'setCard': {
-        const { cardConfig, caller = '?' } = msg.data
+        const { cardConfig, caller = 'frameMessage' } = msg.data
         const card = site.availableCards.value.find(c => c.cardId === cardConfig.cardId)
-        if (card)
-          card.update(cardConfig, { caller: `frameMessage:setCard-${caller}` })
-        else
-          this.log.error('No card found', { data: { cardConfig } })
 
+        if (card) {
+          card.update(cardConfig, { caller: `${caller}:setCard` })
+        }
+        else {
+          this.log.error('Card not found', { data: { cardConfig } })
+        }
         break
       }
 
       case 'historyEntry': {
-        const { historyEntry } = msg.data
-        this.site.history.saveState(historyEntry)
+        site.history.saveState(msg.data.historyEntry)
         break
       }
 
       case 'setToolId': {
-        const { toolId } = msg.data
-        site.editorActivateTool({ toolId })
+        site.editorActivateTool({ toolId: msg.data.toolId })
         break
       }
 
-      // set item in UI that is being edited
       case 'setEditPath': {
-        const { path } = msg.data
-
-        site.editor.value.editPath = path
-
+        site.editor.value.editPath = msg.data.path
         break
       }
 
@@ -241,22 +209,22 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
       }
 
       case 'navigate': {
-        const { urlOrPath, siteId } = msg.data
+        const { pageCardId, siteId } = msg.data
         if (siteId !== site.siteId)
           return
 
-        const setPath = getUrlPath({ urlOrPath })
-        site.currentPath.value = setPath
+        // Set active page by cardId - simple and stable
+        site.activePageId.value = pageCardId
         break
       }
 
-      case 'frameReady':{
-        this.syncSite({ caller: 'frameReadyReceived' })
+      case 'frameReady': {
+        this.syncSite({ caller: 'frameReady' })
         break
       }
 
       default: {
-        this.log.warn(`Unrecognized message type`, { data: msg })
+        this.log.warn('Unknown message type', { data: msg })
         break
       }
     }

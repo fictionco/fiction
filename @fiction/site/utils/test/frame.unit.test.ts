@@ -11,7 +11,13 @@ import { createSiteTestUtils } from '../../test/testUtils'
 
 describe('siteFrameTools', async () => {
   const testUtils = await createSiteTestUtils()
-  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` }
+  const common = {
+    fictionSites: testUtils.fictionSites,
+    siteRouter: testUtils.fictionRouterSites,
+    themeId: 'test',
+    siteId: `test-${shortId()}`,
+    siteMode: 'designer' as const,
+  }
   let site: Site
   let mockUtil: { sendMessage: Mock }
 
@@ -57,111 +63,205 @@ describe('siteFrameTools', async () => {
     }))
   })
 
-  it('should update frame URL', async () => {
-    const newPath = '/new-path'
-    site.frame.updateFrameUrl(newPath)
-    await waitFor(30)
-    expect(site.currentPath.value).toBe(newPath)
+  it('should sync route with pageCardId', () => {
+    const pageCardId = 'test-page-card-id'
+    site.frame.syncRoute({ pageCardId, siteId: site.siteId })
+    expect(mockUtil.sendMessage).toHaveBeenCalledWith({
+      message: { messageType: 'navigate', data: { pageCardId, siteId: site.siteId } },
+    })
+  })
+
+  it('should generate correct frameUrl for editor mode', () => {
+    // Set up a home page
+    const homePage = new Card({
+      title: 'Home',
+      cardId: 'home-card-id',
+      site,
+      slug: '_home',
+      isHome: true,
+    })
+    site.pages.value = [homePage]
+
+    // Editor mode should use cardId-based URL
+    expect(site.frame.frameUrl.value).toContain('_pageCardId=home-card-id')
+    expect(site.frame.frameUrl.value).toContain('_scope=draft')
+  })
+
+  it('should generate correct framePageUrl', () => {
+    const pageCardId = 'test-page-card'
+    const url = site.frame.framePageUrl({ pageCardId, siteMode: 'standard' })
+
+    expect(url).toContain('_pageCardId=test-page-card')
+    expect(url).toContain('_siteMode=standard')
+    expect(url).toContain('_scope=draft')
   })
 
   it('should process frame messages correctly', async () => {
     const resetUiSpy = vi.spyOn(site.fictionSites.fictionEnv.events, 'emit')
 
     // Test resetUi message
-    await site.frame.processFrameMessage({ msg: { messageType: 'resetUi', data: { scope: 'all', cause: 'test', trigger: 'test' } }, scope: 'parent' })
-    expect(resetUiSpy, 'resetUi event should be emitted').toHaveBeenCalledWith('resetUi', { scope: 'iframe', cause: expect.any(String), trigger: 'test' })
+    await site.frame.processFrameMessage({
+      msg: { messageType: 'resetUi', data: { scope: 'all', cause: 'test', trigger: 'test' } },
+
+    })
+    expect(resetUiSpy).toHaveBeenCalledWith('resetUi', {
+      scope: 'iframe',
+      cause: expect.stringContaining('test'),
+      trigger: 'test',
+    })
 
     // Test setSite message
     const siteConfig = { title: 'New Title' }
-    await site.frame.processFrameMessage({ msg: { messageType: 'setSite', data: { siteConfig } }, scope: 'parent' })
-    expect(site.title.value, 'site title should be updated').toBe('New Title')
+    await site.frame.processFrameMessage({
+      msg: { messageType: 'setSite', data: { siteConfig } },
+    })
+    expect(site.title.value).toBe('New Title')
 
     // Test setCard message
     const cardId = 'test-card-id'
     const cardConfig = { cardId, title: 'New Card Title' }
     const mockCard = new Card({ title: 'TestCard', cardId, site, slug: 'test-page' })
     vi.spyOn(mockCard, 'update')
-    // Add the mock card to a page
+
+    // Add the mock card to available cards
     site.pages.value = [mockCard]
 
-    await site.siteRouter.push({ path: '/test-page' }, { caller: 'testFrame' })
-    await site.frame.processFrameMessage({ msg: { messageType: 'setCard', data: { cardConfig } }, scope: 'parent' })
-
-    expect(mockCard.update, 'card update should be called with correct config').toHaveBeenCalledWith(cardConfig, expect.any(Object))
+    await site.frame.processFrameMessage({
+      msg: { messageType: 'setCard', data: { cardConfig } },
+    })
+    expect(mockCard.update).toHaveBeenCalledWith(cardConfig, expect.any(Object))
 
     // Test setActiveCard message
-    await site.frame.processFrameMessage({ msg: { messageType: 'setActiveCard', data: { cardId: 'test-card-id' } }, scope: 'parent' })
-    expect(site.editor.value.selectedCardId, 'selected card ID should be updated').toBe('test-card-id')
+    await site.frame.processFrameMessage({
+      msg: { messageType: 'setActiveCard', data: { cardId: 'test-card-id' } },
+    })
+    expect(site.editor.value.selectedCardId).toBe('test-card-id')
 
-    // Test navigate message
-    await site.frame.processFrameMessage({ msg: { messageType: 'navigate', data: { urlOrPath: '/new-path', siteId: site.siteId } }, scope: 'parent' })
-
-    await waitFor(30)
-
-    expect(site.currentPath.value, 'current path should be updated').toBe('/new-path')
+    // Test navigate message with pageCardId
+    await site.frame.processFrameMessage({
+      msg: {
+        messageType: 'navigate',
+        data: { pageCardId: 'test-page-card', siteId: site.siteId },
+      },
+    })
+    expect(site.activePageId.value).toBe('test-page-card')
   })
 
-  it('should handle frame ready message', () => {
-    // Since there's no specific handler for frameReady, we'll just check if it doesn't throw an error
-    expect(async () => {
-      await site.frame.processFrameMessage({ msg: { messageType: 'frameReady', data: undefined }, scope: 'parent' })
-    }).not.toThrow()
+  it('should handle frame ready message', async () => {
+    const syncSiteSpy = vi.spyOn(site.frame, 'syncSite')
+
+    await site.frame.processFrameMessage({
+      msg: { messageType: 'frameReady', data: undefined },
+    })
+
+    expect(syncSiteSpy).toHaveBeenCalledWith({ caller: 'frameReady' })
   })
 
   it('should warn on unrecognized message type', async () => {
     const spy = vi.spyOn(site.frame.log, 'warn')
 
-    // First, test with a recognized message type (shouldn't warn)
-    await site.frame.processFrameMessage({ msg: { messageType: 'setSite', data: { siteConfig: {} } }, scope: 'parent' })
-    expect(spy).not.toHaveBeenCalled()
-
-    // Now test with an unrecognized message type
+    // Test with an unrecognized message type
     await site.frame.processFrameMessage({
       msg: { messageType: 'unknownType', data: {} } as unknown as FramePostMessageList,
-      scope: 'parent',
     })
-    expect(spy).toHaveBeenCalledWith('Unrecognized message type', expect.anything())
+    expect(spy).toHaveBeenCalledWith('Unknown message type', expect.anything())
   })
 
-  it('should update framePath when currentPath changes (parent relation)', async () => {
-    site.frame.relation.value = 'parent'
-    expect(site.frame.framePath.value).toMatchInlineSnapshot(`""`)
-
+  it('should watch activePageId changes and sync route', async () => {
     const spyOnSync = vi.spyOn(site.frame, 'syncRoute')
 
-    expect(site.frame.framePath.value).toBe('')
+    // Trigger activePageId change
+    site.activePageId.value = 'new-page-card-id'
 
-    site.currentPath.value = '/sync-path'
-
-    await waitFor(100)
+    await waitFor(50)
 
     expect(spyOnSync).toHaveBeenCalledWith({
+      pageCardId: 'new-page-card-id',
       siteId: site.siteId,
-      urlOrPath: '/sync-path',
     })
-
-    site.currentPath.value = '/update-frame-path?_reload=1'
-    expect(site.frame.relation.value).toMatchInlineSnapshot(`"parent"`)
-    await waitFor(100)
-    expect(site.frame.framePath.value).toBe('/update-frame-path?_reload=1')
   })
 
-  it('should send navigate message when currentPath changes (child relation)', async () => {
-    site.frame.relation.value = 'child'
-    site.currentPath.value = '/send-nav-message-path'
-    await waitFor(100)
-    expect(mockUtil.sendMessage).toHaveBeenCalledWith({
-      message: { messageType: 'navigate', data: { urlOrPath: '/send-nav-message-path', siteId: site.siteId } },
+  it('should handle setEditPath message', async () => {
+    await site.frame.processFrameMessage({
+      msg: {
+        messageType: 'setEditPath',
+        data: { cardId: 'test-card', path: 'test.path', caller: 'test' },
+      },
     })
+
+    expect(site.editor.value.editPath).toBe('test.path')
+  })
+
+  it('should handle setToolId message', async () => {
+    const activateToolSpy = vi.spyOn(site, 'editorActivateTool')
+
+    await site.frame.processFrameMessage({
+      msg: { messageType: 'setToolId', data: { toolId: 'cardEdit' } },
+    })
+
+    expect(activateToolSpy).toHaveBeenCalledWith({ toolId: 'cardEdit' })
+  })
+
+  it('should handle historyEntry message', async () => {
+    const saveStateSpy = vi.spyOn(site.history, 'saveState')
+    const historyEntry = {
+      description: 'test change',
+      type: 'site' as const,
+      siteConfig: { title: 'Test Title' },
+      timestamp: Date.now(),
+    }
+
+    await site.frame.processFrameMessage({
+      msg: { messageType: 'historyEntry', data: { historyEntry } },
+    })
+
+    expect(saveStateSpy).toHaveBeenCalledWith(historyEntry)
+  })
+
+  it('should ignore navigate message with wrong siteId', async () => {
+    const initialPageId = site.activePageId.value
+
+    await site.frame.processFrameMessage({
+      msg: {
+        messageType: 'navigate',
+        data: { pageCardId: 'test-page', siteId: 'wrong-site-id' },
+      },
+    })
+
+    // Should not change activePageId
+    expect(site.activePageId.value).toBe(initialPageId)
+  })
+
+  it('should send warning when no util is available', () => {
+    site.frame.util = undefined
+    const warnSpy = vi.spyOn(site.frame.log, 'warn')
+
+    site.frame.send({ msg: { messageType: 'setActiveCard', data: { cardId: 'test' } } })
+
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('no frame utility'),
+      expect.anything(),
+    )
   })
 })
 
 describe('previewUrl', async () => {
   const testUtils = await createSiteTestUtils()
-  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteId: `test-${shortId()}` }
-  it('should return the preview URL for the site', async () => {
-    const site = await Site.create({ ...common, isProd: true, subDomain: 'sub' })
+  const common = {
+    fictionSites: testUtils.fictionSites,
+    siteRouter: testUtils.fictionRouterSites,
+    themeId: 'test',
+    siteId: `test-${shortId()}`,
+  }
 
-    expect(site.frame.currentSiteFrameUrl.value).toBe(`${testUtils.fictionSites.previewRoute}/site/${site.siteId}`)
+  it('should return the preview URL for the site', async () => {
+    const site = await Site.create({
+      ...common,
+      isProd: true,
+      subDomain: 'sub',
+    })
+
+    expect(site.frame.previewPath.value).toBeDefined()
+    expect(site.frame.frameUrl.value).toContain(site.frame.previewPath.value)
   })
 })

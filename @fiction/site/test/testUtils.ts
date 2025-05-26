@@ -107,11 +107,15 @@ export async function createSiteTestUtils(args: {
   out.fictionEnv.log.info(`Site Test Utils Created (${context})`)
 
   out.createSite = async (args: { themeId?: string, pages?: CardConfigPortable[] } = {}) => {
-    const { themeId = 'test', pages = [] } = args
-    const service = out as SiteTestUtils
-    const siteRouter = service.fictionRouterSites
-    const fictionSites = service.fictionSites
-    return Site.create({ siteRouter, fictionSites, themeId, isProd: false, siteId: `test-${shortId()}`, pages })
+    const { themeId, pages = [] } = args
+    return Site.create({
+      fictionSites: (out as SiteTestUtils).fictionSites,
+      themeId,
+      isPrimary: true,
+      isProd: false,
+      siteId: `test-${shortId()}`,
+      pages,
+    })
   }
 
   const runOnStart = async (args: { context: 'app' | 'node', isProd?: boolean }) => {
