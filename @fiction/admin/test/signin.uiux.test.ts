@@ -15,10 +15,8 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
 
   const email = user.email
 
-
   if (!email)
     throw new Error('missing user')
-
 
   it('sends one time code email successfully', async () => {
     const browserRequest = await testUtils.fictionUser.requests.ManageUserEmail.request({
@@ -26,10 +24,11 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
       email,
       createUserFields: {},
       queryVars: {},
+      caller: 'test-one-time-code-email',
     })
     const emailVars = browserRequest?.data
 
-    if(!emailVars)
+    if (!emailVars)
       throw new Error('Failed to send otc email')
 
     const recipient = emailVars?.recipient
@@ -40,7 +39,6 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
     expect(user.verify?.code, 'Verification code should match email vars').toBe(emailVars.code)
     expect(emailVars.emailResponse?.html.length).toBeGreaterThan(100)
   })
-
 
   it('completes full registration and verification flow', async () => {
     const testEmail = `test-${shortId()}@example.com`
@@ -133,6 +131,7 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
     const resetResponse = await testUtils.fictionUser.requests.ManageUserEmail.request({
       _action: 'passwordReset',
       email,
+      caller: 'password-reset-flow',
     })
 
     const resetCode = resetResponse.data?.code

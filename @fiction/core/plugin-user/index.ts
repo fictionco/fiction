@@ -112,7 +112,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
 
     this.initBrowser()
 
-    this.settings.fictionEnv.hooks.on('generate', 'setup:systemOrg', async () => {
+    this.settings.fictionDb.hooks.on('extend', 'setup:systemOrg', async () => {
       await setupSystemOrg({ fictionUser: this })
     })
   }

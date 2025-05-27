@@ -9,8 +9,8 @@ export type EmailSendConfig = {
 
   // content
   superTitle?: SuperTitle
-  title?: string
-  subTitle?: string
+  title: string
+  subTitle: string
   content?: string
   contentMarkdown?: string
   mediaFeatured?: MediaObject
@@ -28,7 +28,7 @@ export type EmailSendConfig = {
 
   // Email specifics
 
-  subject?: string
+  subject: string
   preview?: string
   avatar?: MediaObject
   senderName?: string
@@ -41,7 +41,7 @@ export type EmailSendConfig = {
   toUserId?: string
   fromOrgId?: string
   env?: 'prod' | 'dev' | 'test'
-  caller?: string
+  caller: string
 
   emailType?: EmailType
 

@@ -13,6 +13,7 @@ export type EmailVarsConfig<T extends Record<string, string> = Record<string, st
   callbackPath?: string
   createUserFields?: Partial<User>
   queryVars?: T
+  caller: string
 }
 
 export type EmailVars<T extends Record<string, string> = Record<string, string>> = {
@@ -28,6 +29,7 @@ export type EmailVars<T extends Record<string, string> = Record<string, string>>
   queryVars: T
   masks?: Record<string, string> // mask variables for snapshots in testing
   emailResponse?: EmailResponse
+  caller: string
 }
 
 export type EmailConfigResponse = EmailSendConfig & { emailVars: EmailVars }
@@ -35,7 +37,7 @@ export type EmailConfigResponse = EmailSendConfig & { emailVars: EmailVars }
 export async function createEmailVars<T extends Record<string, string> = Record<string, string>>(
   config: EmailVarsConfig<T>,
 ): Promise<EmailVars<T>> {
-  const { email, userId, fictionUser, origin, callbackPath = '/', createUserFields, queryVars = {} as T } = config
+  const { email, userId, fictionUser, origin, callbackPath = '/', createUserFields, queryVars = {} as T, caller } = config
   const { fictionApp, fictionEmail, tokenSecret } = fictionUser.settings
 
   if (!tokenSecret)
@@ -58,6 +60,7 @@ export async function createEmailVars<T extends Record<string, string> = Record<
     unsubscribeUrl: urls.unsubscribe,
     redirect: authVars.redirect || '',
     queryVars: authVars as T,
+    caller
   }
 }
 

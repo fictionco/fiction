@@ -106,6 +106,8 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
           await this.settings.fictionEmail.renderAndSendEmail({
             to: this.monitorEmail,
             subject: `Notify: ${message}`,
+            title: 'Notification from Fiction',
+            subTitle: 'Here are the details:',
             content,
             caller: 'monitor',
           }, { server: true })

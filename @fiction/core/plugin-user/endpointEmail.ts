@@ -17,6 +17,7 @@ export type ManageUserEmailParams = {
   tags?: string[]
   queryVars?: Record<string, string>
   createUserFields?: Partial<User>
+  caller: string
 }
 
 type UserEmailArgs = ManageUserEmailParams & {
@@ -43,7 +44,7 @@ export class ManageUserEmail extends UserBaseQuery {
 }
 
 export async function sendUserEmail(args: UserEmailArgs, meta: EndpointMeta) {
-  const { _action, email, userId, fictionUser, targetOrgId, tags, queryVars = {}, createUserFields } = args
+  const { _action, email, userId, fictionUser, targetOrgId, tags, queryVars = {}, createUserFields, caller } = args
 
   const fictionEmail = fictionUser.settings.fictionEmail
   if (!fictionEmail)
@@ -63,6 +64,7 @@ export async function sendUserEmail(args: UserEmailArgs, meta: EndpointMeta) {
       ...(tags?.length && { tags: tags.join(',') }),
     },
     createUserFields,
+    caller,
   })
 
   const config = getEmailConfig(_action, emailVars, org)
@@ -93,7 +95,7 @@ function getEmailConfig(_action: EmailAction, vars: EmailVars, org?: any) {
   const orgName = org?.orgName || appName
   const btn = (label: string) => [{ label, href: callbackUrl, theme: 'primary' as const }]
 
-  const emails: Record<EmailAction, EmailSendConfig> = {
+  const emails: Record<EmailAction, Omit<EmailSendConfig, 'caller' | 'to'>> = {
     verifyEmail: {
       subject: `${appName}: Verify Your Email`,
       title: 'Verify Your Email',
@@ -126,5 +128,5 @@ function getEmailConfig(_action: EmailAction, vars: EmailVars, org?: any) {
     },
   }
 
-  return { ...emails[_action], emailType: 'alert' as const }
+  return { ...vars, ...emails[_action], emailType: 'alert' as const }
 }

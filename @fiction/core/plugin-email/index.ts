@@ -135,12 +135,13 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
     return images
   }
 
-  async defaultEmailConfig(): Promise<EmailSendConfig> {
+  async defaultEmailConfig(): Promise<Omit<EmailSendConfig, 'to' | 'title' | 'subTitle'>> {
     const fictionEnv = this?.settings.fictionEnv
 
     const emailImages = await this?.emailImages()
     const app = fictionEnv?.meta || {}
     return {
+      subject: 'No Subject',
       senderName: app.name || '',
       senderEmail: app.email || '',
       superTitle: {

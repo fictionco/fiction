@@ -11,6 +11,7 @@ import knex from 'knex'
 import { EnvVar, vars } from '../plugin-env/index.js'
 import { FictionPlugin } from '../plugin.js'
 import { toCamel } from '../utils/casing.js'
+import { HooksUtil } from '../utils/hook.js'
 import { sortPriority } from '../utils/list.js'
 import { safeDirname } from '../utils/utils.js'
 import { isActualBrowser, isTest } from '../utils/vars.js'
@@ -32,12 +33,17 @@ export type FictionDbSettings = {
   fictionServer?: FictionServer // for DB utilities like username checking
 } & FictionPluginSettings
 
+export type DbHookEvents = {
+  extend: () => Promise<void>
+}
+
 export class FictionDb extends FictionPlugin<FictionDbSettings> {
   db?: Knex
   connectionUrl?: URL
   defaultConnectionUrl = 'http://test:test@localhost:5432/test'
   tables = this.settings.tables || []
   isInitialized = false
+  hooks = new HooksUtil<DbHookEvents>()
   queries = {
     CheckHandle: new CheckHandle({ ...this.settings, fictionDb: this }),
   }
@@ -181,12 +187,13 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
       await extendDb(db)
 
       if (this.tables.length > 0) {
-        const tables = this.tables
+        const tables = sortPriority(this.tables, { centerNumber: 100 })
 
-        for (const table of sortPriority(tables, { centerNumber: 100 })) {
-          await table.create(db)
-        }
+        for (const table of tables) await table.create(db)
+        for (const table of tables) await table.addForeignKeys(db)
       }
+
+      await this.hooks.run('extend')
 
       this.log.info('extending db [done]')
 

@@ -209,6 +209,7 @@ export class QueryTransactionalEmail extends EmailQuery {
       to,
       subject,
       htmlChars: html.length,
+      caller,
     } })
 
     let isSent = false

@@ -21,7 +21,7 @@ export async function getEmailForPost(args: {
   const companyName = 'Fiction Inc.'
   const streetAddress = '123 Fiction St, Fiction City, FC 12345'
 
-  const emailConfig: EmailSendConfig = {
+  const emailConfig: Omit<EmailSendConfig, 'to'> = {
     senderName: senderName || (withDefaults ? 'No Name' : ''),
     senderEmail: senderEmail || (withDefaults ? 'No Email' : ''),
     emailType: 'campaign',
@@ -45,6 +45,7 @@ export async function getEmailForPost(args: {
     unsubscribeUrl: '#',
     previewMode,
     env,
+    caller: 'getEmailForPost',
   }
 
   emailConfig.bodyHtml = await fictionEmail.compileTemplateToHtml({ emailConfig })

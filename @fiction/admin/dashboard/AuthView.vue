@@ -58,7 +58,7 @@ interface AuthState {
   showCodeInput?: boolean
   showTerms?: boolean
   isSuccess?: boolean
-  onSubmit: () => Promise<void>
+  callback: (args: { caller: string }) => Promise<void>
 }
 
 type AuthStateKey = 'welcome' | 'verifyEmail' | 'verifySuccess' | 'emailLinkSent' | 'resetPassword' | 'loginPassword' | 'resetPasswordSent' | 'setNewPassword' | 'passwordUpdated'
@@ -70,14 +70,14 @@ const states: Record<AuthStateKey, AuthState> = {
     icon: 'i-tabler-user-share',
     showEmailInput: true,
     showTerms: true,
-    onSubmit: () => sendOneTimeCode('emailLinkSent'),
+    callback: args => sendOneTimeCode('emailLinkSent', args),
   },
   verifyEmail: {
     title: 'Confirm Code',
     subTitle: 'Enter the code we sent to your inbox',
     icon: 'i-tabler-mail-check',
     showCodeInput: true,
-    onSubmit: () => verifyCode(response => navigateTo(!response.user?.hashedPassword ? 'setNewPassword' : 'verifySuccess')),
+    callback: () => verifyCode(response => navigateTo(!response.user?.hashedPassword ? 'setNewPassword' : 'verifySuccess')),
   },
   verifySuccess: {
     title: 'Success!',
@@ -85,7 +85,7 @@ const states: Record<AuthStateKey, AuthState> = {
     icon: 'i-tabler-user-check',
     status: 'success',
     isSuccess: true,
-    onSubmit: redirectToDashboard,
+    callback: () => redirectToDashboard(),
   },
   emailLinkSent: {
     title: 'Check your inbox',
@@ -93,14 +93,14 @@ const states: Record<AuthStateKey, AuthState> = {
     icon: 'i-tabler-mail',
     status: 'success',
     showCodeInput: true,
-    onSubmit: () => verifyCode(response => navigateTo(response.isNew || !response.user?.hashedPassword ? 'setNewPassword' : 'verifySuccess')),
+    callback: () => verifyCode(response => navigateTo(response.isNew || !response.user?.hashedPassword ? 'setNewPassword' : 'verifySuccess')),
   },
   resetPassword: {
     title: 'Reset password',
     subTitle: 'Enter your email to continue',
     icon: 'i-tabler-lock-open',
     showEmailInput: true,
-    onSubmit: () => sendOneTimeCode('resetPasswordSent'),
+    callback: () => sendOneTimeCode('resetPasswordSent'),
   },
   loginPassword: {
     title: 'Login with Password',
@@ -108,7 +108,7 @@ const states: Record<AuthStateKey, AuthState> = {
     icon: 'i-tabler-key',
     showEmailInput: true,
     showPasswordInputs: true,
-    onSubmit: passwordLogin,
+    callback: passwordLogin,
   },
   resetPasswordSent: {
     title: 'Check your inbox',
@@ -116,13 +116,13 @@ const states: Record<AuthStateKey, AuthState> = {
     icon: 'i-tabler-mail',
     status: 'success',
     showCodeInput: true,
-    onSubmit: () => verifyCode(() => navigateTo('setNewPassword')),
+    callback: () => verifyCode(() => navigateTo('setNewPassword')),
   },
   setNewPassword: {
     title: 'Create your password',
     icon: 'i-tabler-key',
     showPasswordInputs: true,
-    onSubmit: setNewPassword,
+    callback: setNewPassword,
   },
   passwordUpdated: {
     title: 'Password updated!',
@@ -130,7 +130,7 @@ const states: Record<AuthStateKey, AuthState> = {
     icon: 'i-tabler-check',
     status: 'success',
     isSuccess: true,
-    onSubmit: redirectToDashboard,
+    callback: () => redirectToDashboard(),
   },
 }
 
@@ -245,7 +245,7 @@ async function handleFormSubmit() {
   state.formError = ''
   state.sending = true
   try {
-    await currentState.value.onSubmit()
+    await currentState.value.callback({ caller: 'formSubmit' })
   }
   catch (error) {
     state.formError = error instanceof Error ? error.message : 'An unexpected error occurred'
@@ -291,17 +291,19 @@ async function setNewPassword() {
   await navigateTo('passwordUpdated')
 }
 
-async function sendOneTimeCode(next: AuthStateKey) {
+async function sendOneTimeCode(next: AuthStateKey, args: { caller?: string } = {}) {
   const { email } = form
   if (!email)
     throw new Error('Please enter your email address')
   if (!isValidEmail(email))
     throw new Error('Please enter a valid email address')
+
   const response = await fictionUser.requests.ManageUserEmail.request({
     _action: 'oneTimeCode',
     email,
     createUserFields: { ...form, needsOnboarding: true },
     queryVars: emailQueryVars.value || {},
+    caller: 'authCard-sendOneTimeCode',
   })
   if (response?.status !== 'success')
     throw new Error(response?.message || 'Could not send login link')

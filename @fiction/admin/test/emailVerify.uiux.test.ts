@@ -31,7 +31,7 @@ describe('email actions', async () => {
     if (!email)
       throw new Error('missing user')
 
-    r = await testUtils.fictionUser.queries.ManageUserEmail.serve({ _action: 'verifyEmail', email }, { server: true })
+    r = await testUtils.fictionUser.queries.ManageUserEmail.serve({ _action: 'verifyEmail', email, caller: 'testEmailActions' }, { server: true })
 
     expect(r.data).toMatchInlineSnapshot(`
       {

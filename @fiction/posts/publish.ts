@@ -454,11 +454,17 @@ export class FictionPublish extends FictionPlugin<FictionPublishSettings> {
           updatedAt: now,
         })
 
+      const to = emailRecord.email
+
+      if (!to) {
+        throw abort('Email address is missing')
+      }
+
       // Send the email
       await this.settings.fictionEmail.sendEmail(
         {
           ...emailConfig,
-          to: emailRecord.email,
+          to,
           toUserId: emailRecord.contactId,
           caller: 'campaignSend',
         },

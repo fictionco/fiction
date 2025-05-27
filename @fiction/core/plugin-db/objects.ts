@@ -50,6 +50,7 @@ export type TableConstraint = {
   type: 'unique' | 'index' | 'foreign' | 'check'
   columns: string[]
   name?: string
+  references?: { table: string, column: string }
 }
 
 export interface FictionDbTableSettings {
@@ -131,6 +132,29 @@ export class FictionDbTable {
         cols: this.cols.map(c => c.key),
       } })
       throw error
+    }
+  }
+
+  async addForeignKeys(db: Knex): Promise<void> {
+    for (const constraint of this.constraints.filter(c => c.type === 'foreign')) {
+      if (!constraint.references)
+        continue
+
+      const colName = toSnake(constraint.columns[0])
+      const refTable = toSnake(constraint.references.table)
+      const refCol = toSnake(constraint.references.column)
+
+      try {
+        await db.schema.alterTable(this.pgTableKey, table =>
+          table.foreign(colName).references(refCol).inTable(refTable))
+        this.log.info(`Added FK: ${colName} -> ${refTable}.${refCol}`)
+      }
+      catch (error) {
+      // Constraint likely already exists, ignore
+        if (!(error as Error).message?.includes('already exists')) {
+          throw error
+        }
+      }
     }
   }
 

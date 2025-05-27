@@ -13,7 +13,7 @@ export async function setupSystemOrg(args: { fictionUser: FictionUser }) {
     throw new Error('No email or name for app')
 
   const r = await fictionUser.queries.ManageOrganization.serve(
-    { _action: 'create', fields: { orgId: systemOrgId, orgName: name } },
+    { _action: 'create', fields: { orgId: systemOrgId, orgName: name, orgEmail: email } },
     { server: true },
   )
 
@@ -28,7 +28,7 @@ export async function setupSystemOrg(args: { fictionUser: FictionUser }) {
   const validMemberIds: string[] = []
   await Promise.all(adminList.map(async (email) => {
     const { data: admin } = await fictionUser.queries.ManageUser.serve(
-      { _action: 'getCreate', where: { email }, createUserFields: { needsOnboarding: false } },
+      { _action: 'getCreate', where: { email }, createUserFields: { needsOnboarding: true } },
       { server: true },
     )
 

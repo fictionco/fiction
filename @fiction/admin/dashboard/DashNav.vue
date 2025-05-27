@@ -24,8 +24,8 @@ async function handleClick(event: MouseEvent, item: NavListItem): Promise<void> 
 const cls = {
   active: 'font-semibold bg-primary-100/60 text-primary-700 dark:bg-primary-800/50 ring-2 ring-primary-600/50 dark:ring-primary-800 dark:text-primary-0',
   inactive: 'font-normal text-theme-700 dark:text-theme-200 dark:hover:bg-theme-700 hover:text-theme-900 border-theme-0',
-  navItemWrap: 'group nav-item flex cursor-pointer items-center py-3 px-4 gap-3 truncate rounded-full font-sans text-base xl:text-lg focus:outline-none transition-all duration-100',
-  icon: 'size-6 lg:size-8 shrink-0',
+  navItemWrap: 'group nav-item flex cursor-pointer items-center py-3 px-4 gap-3 truncate rounded-full font-sans text-base xl:text-base focus:outline-none transition-all duration-100',
+  icon: 'size-6 shrink-0',
 }
 </script>
 

@@ -122,7 +122,7 @@ async function requestCode(): Promise<void> {
     if (!userId)
       throw new Error('userId is missing')
 
-    const r = await service.fictionUser.requests.ManageUserEmail.request({ _action: 'oneTimeCode', email, userId, queryVars: {} })
+    const r = await service.fictionUser.requests.ManageUserEmail.request({ _action: 'oneTimeCode', email, userId, queryVars: {}, caller: 'panelAccount' })
 
     if (r?.status === 'success') {
       service.fictionEnv.events.emit('notify', { type: 'success', message: 'We sent you a one-time-code' })

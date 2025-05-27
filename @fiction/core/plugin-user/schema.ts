@@ -28,6 +28,7 @@ export const userColumns = [
   new Col({ key: 'googleId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).unique() }),
   new Col({ key: 'status', sch: () => EntityStatusEnum, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('active') }),
   new Col({ key: 'invitedById', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.user}.user_id`) }),
+  new Col({ key: 'primaryOrgId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'loadOrgId', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'lastSeenAt', sec: 'setting', sch: () => z.string(), make: ({ s, col, db }) => s.dateTime(col.k).defaultTo(db.fn.now()) }),
   new Col({ key: 'isSuperAdmin', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
@@ -114,6 +115,10 @@ export const userTable = new FictionDbTable({
   timestamps: true,
   cols: userColumns,
   priority: 20,
+  constraints: [
+    { type: 'foreign', columns: ['invitedById'], references: { table: t.user, column: 'userId' } },
+    { type: 'foreign', columns: ['primaryOrgId'], references: { table: t.org, column: 'orgId' } },
+  ],
 })
 
 export const orgTable = new FictionDbTable({
@@ -121,6 +126,10 @@ export const orgTable = new FictionDbTable({
   timestamps: true,
   cols: orgColumns,
   priority: 40,
+  constraints: [
+    { type: 'foreign', columns: ['ownerId'], references: { table: t.user, column: 'userId' } },
+    { type: 'foreign', columns: ['createdByUserId'], references: { table: t.user, column: 'userId' } },
+  ],
 })
 
 export const membersTable = new FictionDbTable({

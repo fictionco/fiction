@@ -167,24 +167,29 @@ export class QueryManageUser extends UserBaseQuery {
   }
 
   private async getCreateUser(params: ManageUserParams & { _action: 'getCreate' }, _meta: EndpointMeta): Promise<{ user?: User, isNew: boolean }> {
-    const { where, refreshCode } = params
+    const { where, refreshCode, createUserFields } = params
 
-    let isNew = false
+    // First, try to get existing user
     let user = await this.getUser({ _action: 'retrieve', where }, _meta)
 
-    const { email } = where as { email?: string }
-    if (!user && email) {
-      const { createUserFields } = params
-      const fields: CreateUserFields = { ...createUserFields, email }
-      user = await this.createUser({ _action: 'create', fields }, { ..._meta, server: true })
-      isNew = true
-    }
-    else if (user && refreshCode) {
-      isNew = false
-      user = await this.requestCode({ _action: 'requestCode', where, context: 'getCreate' }, _meta)
+    if (user) {
+      // User exists - just refresh code if requested
+      if (refreshCode) {
+        user = await this.requestCode({ _action: 'requestCode', where, context: 'getCreate' }, _meta)
+      }
+      return { user, isNew: false }
     }
 
-    return { user, isNew }
+    // User doesn't exist - create if email provided
+    const { email } = where as { email?: string }
+    if (email) {
+      const fields: CreateUserFields = { needsOnboarding: true, ...createUserFields, email }
+      user = await this.createUser({ _action: 'create', fields }, { ..._meta, server: true })
+      return { user, isNew: true }
+    }
+
+    // No user found and no email to create with
+    return { user: undefined, isNew: false }
   }
 
   private async getUserWithToken(params: ManageUserParams & { _action: 'getUserWithToken' }, meta: EndpointMeta): Promise<User | undefined> {
@@ -572,8 +577,10 @@ export class QueryManageUser extends UserBaseQuery {
 
       user.orgs = orgsResponse.data ?? []
 
+      const hasOrgs = user.orgs?.filter(_ => _.orgId !== 'system').length > 0
+
       // this ensures that a user has at least one org
-      if (orgsResponse.status === 'success' && user.orgs.length === 0) {
+      if (orgsResponse.status === 'success' && !hasOrgs) {
         const p = params as ManageUserParams & { _action: 'create' }
         const orgName = p.fields?.orgName
         const orgId = p.fields?.orgId
