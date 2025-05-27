@@ -19,7 +19,7 @@ async function setActivePageInNormalMode(site: Site, cardId: string): Promise<vo
 
   const page = site.pages.value.find(p => p.cardId === cardId)
   if (!page) {
-    logger.error('Page not found for cardId', { data: { cardId } })
+    logger.warn('Page not found for cardId', { data: { cardId } })
     return
   }
 
@@ -78,7 +78,6 @@ export function getPageById(args: { pageId: string, site: Site }) {
   })
 }
 
-// Rest of the utility functions remain the same
 export function ensureStandardPages(args: { site?: Site, pages: Card[] }): Card[] {
   const { site, pages } = args
   const templateId = site?.theme.value?.templateDefaults.value.page || 'cardPageWrapV1'
