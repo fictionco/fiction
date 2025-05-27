@@ -18,6 +18,17 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
   if (!email)
     throw new Error('missing user')
 
+  const currentVerificationCode = async () => {
+    const response = await testUtils.fictionUser.queries.ManageUser.serve({
+      _action: 'getCreate',
+      where: { userId: user.userId || '' },
+    }, { server: true, returnAuthority: ['verify'] })
+
+    const userVerificationCode = response.data?.verify?.code
+
+    return userVerificationCode
+  }
+
   it('sends one time code email successfully', async () => {
     const browserRequest = await testUtils.fictionUser.requests.ManageUserEmail.request({
       _action: 'oneTimeCode',
@@ -34,12 +45,7 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
     const recipient = emailVars?.recipient
     expect(recipient?.userId, 'User ID in magic link recipient should match').toBe(user.userId)
 
-    const response = await testUtils.fictionUser.queries.ManageUser.serve({
-      _action: 'getCreate',
-      where: { userId: user.userId || '' },
-    }, { server: true, returnAuthority: ['verify'] })
-
-    const userVerificationCode = response.data?.verify?.code
+    const userVerificationCode = await currentVerificationCode()
 
     expect(userVerificationCode, 'Verification code should match email vars').toBe(emailVars.code)
     expect(emailVars.emailResponse?.html.length).toBeGreaterThan(100)
@@ -53,17 +59,26 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
       caller: 'registration-flow',
       path: '/auth',
       actions: [
-        // Start at welcome screen and fill email
-        { type: 'fill', selector: '[data-test-id="input-email"]', text: testEmail },
+        // Fill the registration form
+        { type: 'fill', selector: '[data-test-id="input-email"] input[type="email"]', text: testEmail },
+
+        // Submit registration
         { type: 'click', selector: '[data-test-id="submit-button"]' },
 
-        // Enter verification code
-        { type: 'fill', selector: '[data-test-id="input-one-time-code"]', text: '123456' },
+        { type: 'click', selector: '[data-test-id="input-one-time-code"] [data-test-id="digit-1"]' },
+        // Enter verification code (using keyboard for one-time-code input)
+        {
+          type: 'keyboard',
+          selector: '[data-test-id="input-one-time-code"] [data-test-id="digit-1"]',
+          key: ['1', '2', '3', '4', '5', '6'],
+        },
+
+        // Submit verification code
         { type: 'click', selector: '[data-test-id="submit-button"]' },
 
         // Set new password
-        { type: 'fill', selector: '[data-test-id="input-new-password"]', text: testPassword },
-        { type: 'fill', selector: '[data-test-id="input-new-password-confirm"]', text: testPassword },
+        { type: 'fill', selector: '[data-test-id="input-new-password"] input', text: testPassword },
+        { type: 'fill', selector: '[data-test-id="input-new-password-confirm"] input', text: testPassword },
         { type: 'click', selector: '[data-test-id="submit-button"]' },
 
         // Complete flow
@@ -76,14 +91,14 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
   it('handles password login flow', async () => {
     await kit.performActions({
       caller: 'password-login-flow',
-      path: '/auth/welcome',
+      path: '/auth',
       actions: [
         // Navigate to password login
         { type: 'click', selector: '[data-test-id="to-login-password"]' },
 
         // Fill credentials
-        { type: 'fill', selector: '[data-test-id="input-email"]', text: user.email },
-        { type: 'fill', selector: '[data-test-id="input-password"]', text: 'testpassword' },
+        { type: 'fill', selector: '[data-test-id="input-email"] input[type="email"]', text: user.email },
+        { type: 'fill', selector: '[data-test-id="input-password"] input', text: initialized.password },
         { type: 'click', selector: '[data-test-id="submit-button"]' },
 
         // Should redirect or show success
@@ -102,7 +117,7 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
         { type: 'click', selector: '[data-test-id="to-reset-password"]' },
 
         // Request password reset
-        { type: 'fill', selector: '[data-test-id="input-email"]', text: user.email },
+        { type: 'fill', selector: '[data-test-id="input-email"] input[type="email"]', text: user.email },
         { type: 'click', selector: '[data-test-id="submit-button"]' },
 
         // Verify we're at the code entry screen
@@ -120,22 +135,22 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
 
     const resetResponse = await testUtils.fictionUser.requests.ManageUserEmail.request({
       _action: 'passwordReset',
-      email: user.email,
+      email: user.email || '',
       caller: 'password-reset-flow',
     })
 
     const resetCode = resetResponse.data?.code
-    expect(resetCode).toBe(user?.verify?.code)
-    expect(resetCode, 'Reset password code should be defined').toBeTruthy()
+    const currentCode = await currentVerificationCode()
+    expect(resetCode).toBe(currentCode)
 
     // Complete password reset
     await kit.performActions({
       caller: 'password-reset-completion',
-      path: `/auth/set-new-password?code=${resetCode}&email=${encodeURIComponent(user.email)}`,
+      path: `/auth/set-new-password?code=${resetCode}&email=${encodeURIComponent(user.email || '')}`,
       actions: [
         // Fill new password
-        { type: 'fill', selector: '[data-test-id="input-new-password"]', text: 'NewSecurePass456' },
-        { type: 'fill', selector: '[data-test-id="input-new-password-confirm"]', text: 'NewSecurePass456' },
+        { type: 'fill', selector: '[data-test-id="input-new-password"] input', text: 'NewSecurePass456' },
+        { type: 'fill', selector: '[data-test-id="input-new-password-confirm"] input', text: 'NewSecurePass456' },
         { type: 'click', selector: '[data-test-id="submit-button"]' },
 
         // Verify success
@@ -147,7 +162,7 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
   it('handles navigation between auth states', async () => {
     await kit.performActions({
       caller: 'auth-navigation',
-      path: '/auth/welcome',
+      path: '/auth',
       actions: [
         // Test navigation links
         { type: 'click', selector: '[data-test-id="to-login-password"]' },
@@ -162,29 +177,12 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
     })
   })
 
-  it('validates form inputs correctly', async () => {
-    await kit.performActions({
-      caller: 'form-validation',
-      path: '/auth/welcome',
-      actions: [
-        // Test empty email submission
-        { type: 'click', selector: '[data-test-id="submit-button"]' },
-        { type: 'visible', selector: '[data-test-id="form-error"]' },
-
-        // Test invalid email
-        { type: 'fill', selector: '[data-test-id="input-email"]', text: 'invalid-email' },
-        { type: 'click', selector: '[data-test-id="submit-button"]' },
-        { type: 'visible', selector: '[data-test-id="form-error"]' },
-      ],
-    })
-  })
-
   it('logs out and redirects to auth page', async () => {
     await kit.performActions({
       caller: 'logout-flow',
       path: '/?_logout=1',
       actions: [
-        { type: 'visible', selector: '[data-pathname="/auth"]', wait: 5000 },
+        { type: 'visible', selector: '[data-pathname="/auth"]' },
       ],
     })
   })

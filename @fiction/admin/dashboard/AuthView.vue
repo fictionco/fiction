@@ -338,10 +338,6 @@ async function passwordLogin() {
         data-test-id="form"
         @submit="handleFormSubmit()"
       >
-        <div v-if="state.formError" data-test-id="form-error" class="text-red-500 text-sm">
-          {{ state.formError }}
-        </div>
-
         <EffectTransitionList>
           <div v-if="state.isLoadingOrg" class="flex justify-center p-4">
             <div class="animate-pulse text-center text-theme-500 dark:text-theme-400">

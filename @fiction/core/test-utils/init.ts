@@ -62,6 +62,8 @@ export interface TestUtilSettings {
   isGlobalSetup?: boolean
 }
 
+export const testUserPassword = 'testtest123A#'
+
 export async function createTestUser(args: {
   fictionUser: FictionUser
   fields?: Partial<User>
@@ -71,14 +73,14 @@ export async function createTestUser(args: {
   const caller = `createTestUser-${args.caller || 'unknown'}`
   logger.info(`creating user - ${caller}`)
   const email = getTestEmail()
-  const password = 'testtest123A#'
+
   const fullName = faker.person.fullName()
   const orgName = faker.company.name()
 
   const r = await fictionUser.queries.ManageUser.serve(
     { fields: {
       email,
-      password,
+      password: testUserPassword,
       emailVerified: true,
       fullName,
       orgName,
@@ -104,7 +106,7 @@ export async function createTestUser(args: {
   if (!orgId)
     throw new Error('no org created')
 
-  return { user, token: r.token, email, password, code: user?.verify?.code, org, orgId }
+  return { user, token: r.token, email, password: testUserPassword, code: user?.verify?.code, org, orgId }
 }
 
 export async function initializeTestUser(args: {
