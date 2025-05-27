@@ -5,7 +5,7 @@
 import { waitFor } from '@fiction/core'
 
 import { afterAll, describe, expect, it } from 'vitest'
-import { createSiteTestUtils } from './testUtils'
+import { createSiteTestUtils } from '../test/testUtils'
 
 describe('sitePreview', async () => {
   const testUtils = await createSiteTestUtils()

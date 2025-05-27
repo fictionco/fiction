@@ -14,7 +14,6 @@ const props = defineProps<{
   widget: WidgetConfig
   card: Card
   primarySite: Site
-  loading: boolean
   org: Organization
 }>()
 
@@ -78,7 +77,7 @@ const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
         >
           <!-- Site preview iframe -->
           <ElSitePreviewFrame
-            :url="primarySite?.frame.frameUrl.value"
+            :url="primarySite?.frame.framePageUrl()"
             class="w-full h-full"
           />
 

@@ -35,7 +35,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     super('SiteFrameUtility', args)
   }
 
-  previewPath = vue.computed(() => this.site.fictionSites.getQueryItemPreviewPath.value)
+  previewPath = vue.computed(() => `${this.site.fictionSites.previewRoute}/site/${this.site.siteId}`)
 
   // Editor uses cardId-based URLs exclusively for stability
   frameUrl = vue.computed(() => {
@@ -45,11 +45,15 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     })
   })
 
-  framePageUrl = (args: { pageCardId: string, siteMode?: SiteMode }) => {
-    const { pageCardId, siteMode = 'standard' } = args
-    const params = new URLSearchParams({ _pageCardId: pageCardId, _siteMode: siteMode, _scope: 'draft',
-    })
-    return `${this.previewPath.value}?${params}`
+  framePageUrl = (args?: { pageCardId?: string, siteMode?: SiteMode }) => {
+    const { pageCardId, siteMode = 'standard' } = args || {}
+    const s = new URLSearchParams({ _scope: 'draft' })
+    if (pageCardId)
+      s.set('pageCardId', pageCardId)
+    if (siteMode)
+      s.set('siteMode', siteMode)
+
+    return `${this.previewPath.value}?${s.toString()}`
   }
 
   setUtil(util: FrameUtility<FramePostMessageList>) {

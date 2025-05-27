@@ -11,6 +11,7 @@ import { initializeClientTag } from '@fiction/analytics/tag/entry.js'
 import { cardConfig } from '@fiction/cards/index.js'
 import { FictionPlugin, getAnonymousId, HooksUtil, isNode, safeDirname, vue } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
+import { computed } from 'vue'
 import { cardTemplate } from './card.js'
 import { CardQueryHandler } from './cardQuery.js'
 import { ManagePage, ManageSite, ManageSites } from './endpoint.js'
@@ -205,17 +206,6 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
 
     this.themes.value = [defaultTheme, baseTheme, ...addedThemes]
   }
-
-  getQueryItemPreviewPath = vue.computed(() => {
-    const current = this.settings.fictionRouter.current.value
-    const q = { ...current.query, ...current.params } as Record<string, string>
-    const { selectorType, selectorId, siteId, subDomain, themeId = q.theme, cardId = q.card } = q
-
-    const finalSelectorType = selectorType || (siteId ? 'site' : subDomain ? 'domain' : themeId ? 'theme' : cardId ? 'card' : 'none')
-    const finalSelectorId = selectorId || siteId || subDomain || themeId || cardId || 'none'
-
-    return `${this.previewRoute}/${finalSelectorType}/${finalSelectorId}`
-  })
 
   cleanup() {
     this.themes.value = []

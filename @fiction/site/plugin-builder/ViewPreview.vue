@@ -7,7 +7,9 @@ import { getMountContext } from '../load'
 
 const service = useService<{ fictionAppSites: FictionApp, fictionRouterSites: FictionRouter, fictionSites: FictionSites }>()
 
-const base = service.fictionSites.getQueryItemPreviewPath
+const base = vue.computed(() => {
+  return service.fictionRouter.current.value.path || '/'
+})
 
 /**
  * Set base for relative links using native <base> tag
