@@ -158,6 +158,7 @@ function getToolTextClass(toolId: string) {
             >
               <component
                 :is="primaryTool.el"
+                :data-test-id="`primary-tool-${primaryTool.toolId}`"
                 v-bind="{ card, controller, ...toolProps, tool: primaryTool, ...primaryTool.props?.(toolProps).value }"
               />
             </div>
@@ -196,6 +197,7 @@ function getToolTextClass(toolId: string) {
                 <component
                   :is="contextTool.el"
                   v-if="contextTool"
+                  :data-test-id="`context-tool-${contextTool.toolId}`"
                   v-bind="{ card, controller, ...toolProps, tool: contextTool, ...contextTool.props?.(toolProps).value }"
                 />
               </transition>

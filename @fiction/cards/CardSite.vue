@@ -45,8 +45,6 @@ const mountContext = vue.computed(() => {
 async function load() {
   const currentUrl = typeof window !== 'undefined' ? window.location.href : `ssr:${runVars?.PATHNAME}`
 
-  logger.info('start')
-
   try {
     const s = await loadSite({
       siteRouter,

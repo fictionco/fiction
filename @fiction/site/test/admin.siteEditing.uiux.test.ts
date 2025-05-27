@@ -2,9 +2,8 @@ import { isCi, shortId } from '@fiction/core'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
 import { afterAll, describe, it } from 'vitest'
 
-describe('admin site editing', async () => {
-  const kit = await createSiteUiTestingKit({ initUser: true, headless: false, slowMo: 0 })
-
+describe('site editor content management', async () => {
+  const kit = await createSiteUiTestingKit({ initUser: true, headless: isCi(), slowMo: 0 })
   const testUtils = kit.testUtils
 
   if (!testUtils)
@@ -12,56 +11,91 @@ describe('admin site editing', async () => {
 
   afterAll(async () => kit.close())
 
-  it('site editing', { timeout: 80000, retry: isCi() ? 3 : 0 }, async () => {
-    const _initialViewId = 'edit-site'
-    const _slugId = shortId()
+  it('adds overlay slider, edits content, saves, and deletes', { timeout: 80_000, retry: isCi() ? 3 : 0 }, async () => {
+    const testTitle = `Custom Title ${shortId()}`
+    const testSubtitle = `Custom Subtitle ${shortId()}`
+
     await kit.performActions({
-      caller: 'adminSiteEditing',
-      path: `/app`,
+      caller: 'overlaySliderEditing',
+      path: '/app/edit-site',
       actions: [
-        { type: 'click', selector: `[data-test-id="dashboard-nav-sites"]` },
-        { type: 'click', selector: `[data-test-id="createSite"]` },
-        { type: 'fill', selector: `[data-test-id="siteName"] input`, text: 'Test Site' },
-        { type: 'click', selector: `[data-test-id="createSiteModal"] [data-test-el="step-submit"]` },
-        { type: 'click', selector: `[data-test-id="createSiteModal"] [data-test-id="theme-prestige"]` },
-        { type: 'click', selector: `[data-test-id="createSiteModal"] [data-test-el="step-submit"]` },
-        { type: 'visible', selector: `[data-view-id="edit-site"]` },
-        { type: 'frameInteraction', frameSelector: `#site-builder-iframe`, frameActions: [
-          { type: 'click', selector: `[data-card-template-id="cardOverlaySliderV1"]` },
-        ] },
-        { type: 'click', selector: `[data-option-path="autoSlide"] button` },
-        { type: 'click', selector: `[data-option-path="items"] [data-handle-index="0"] [data-test-id="handle"]` },
-        { type: 'fill', selector: `[data-option-path="items"] [data-handle-index="0"] [data-option-path="title"] input`, text: 'hello' },
-        { type: 'fill', selector: `[data-option-path="items"] [data-handle-index="0"] [data-option-path="subTitle"] input`, text: 'world' },
-        { type: 'frameInteraction', frameSelector: `#site-builder-iframe`, frameActions: [
-          { type: 'hasText', selector: `[data-card-type="cardOverlaySliderV1"] [data-option-path="items.0.title"]`, text: 'hello' },
-          { type: 'hasText', selector: `[data-card-type="cardOverlaySliderV1"] [data-option-path="items.0.subTitle"]`, text: 'world' },
-        ] },
-        { type: 'click', selector: `[data-test-id="publishChangesButton"]` },
+        // Create site and wait for editor to load
+        { type: 'click', selector: '[data-test-id="createSite"]' },
+        { type: 'click', selector: '[data-test-id="step-button-name"]' },
+        { type: 'visible', selector: '[data-view-id="edit-site"]' },
 
-        { type: 'frameInteraction', frameSelector: `#site-builder-iframe`, frameActions: [
-          { type: 'fill', selector: `[data-card-type="cardOverlaySliderV1"] [data-option-path="items.0.title"]`, text: 'change' },
-          { type: 'fill', selector: `[data-card-type="cardOverlaySliderV1"] [data-option-path="items.0.subTitle"]`, text: 'the text' },
-        ] },
+        // Navigate to first page for editing
+        { type: 'visible', selector: '[data-test-id="draggable-page-container"]' },
+        { type: 'click', selector: '[data-test-id^="page-frame-"]:first-child' },
+        { type: 'visible', selector: '#site-builder-iframe' },
 
-        { type: 'click', selector: `[data-test-id="draft-control-dropdown"] button` },
-        { type: 'click', selector: `[data-test-id="draft-control-dropdown"] [data-test-id="reset-to-published"]` },
-        { type: 'frameInteraction', frameSelector: `#site-builder-iframe`, frameActions: [
-          { type: 'click', selector: `[data-test-id="nav-dot-0"]` },
-          { type: 'hasText', selector: `[data-card-type="cardOverlaySliderV1"] [data-option-path="items.0.title"]`, text: 'hello' },
-          { type: 'hasText', selector: `[data-card-type="cardOverlaySliderV1"] [data-option-path="items.0.subTitle"]`, text: 'world' },
-        ] },
-        { type: 'click', selector: `[data-test-id="tool-button-managePages"]` },
-        // { type: 'click', selector: `[data-test-id="addPage"]` },
-        // { type: 'fill', selector: `[data-option-path="title"] input`, texxt: `New Page ${slugId}` },
-        // { type: 'click', selector: `[data-test-id="requestCreateNewPage"]` },
-        // { type: 'visible', selector: `[data-test-id="page-new-page-${slugId}"]` },
-        // { type: 'click', selector: `[data-test-id="createSite"]` },
-        // { type: 'fill', selector: `[data-test-id="siteName"] input`, text: 'Test Site' },
-        // { type: 'click', selector: `[data-test-id="createSiteModal"] .xbutton` },
-        // { type: 'click', selector: `[data-test-id="createSiteModal"] [data-test-index="0"]` },
-        // { type: 'click', selector: `[data-test-id="createSiteModal"] .xbutton` },
-        // { type: 'visible', selector: `[data-view-id="edit-site"]` },
+        // Add overlay slider element
+        { type: 'click', selector: '[data-test-id="tool-button-sectionsLayout"]' },
+        { type: 'visible', selector: '[data-test-id="add-element-cardOverlaySliderV1"]' },
+        { type: 'click', selector: '[data-test-id="add-element-cardOverlaySliderV1"]' },
+
+        // Verify overlay slider appears in iframe
+        {
+          type: 'frameInteraction',
+          frameSelector: '#site-builder-iframe',
+          frameActions: [
+            { type: 'visible', selector: '[data-card-template-id="cardOverlaySliderV1"]' },
+            { type: 'click', selector: '[data-card-template-id="cardOverlaySliderV1"]' },
+          ],
+        },
+
+        // Edit overlay slider settings
+        { type: 'visible', selector: '[data-test-id="context-tool-cardEdit"]' },
+
+        // Test auto-slide toggle
+        { type: 'click', selector: '[data-test-id="group.settings"]' },
+        { type: 'click', selector: '[data-option-path="autoSlide"] button' },
+
+        // Edit slide content
+        { type: 'click', selector: '[data-test-id="group.slides"]' },
+        { type: 'click', selector: '[data-option-path="items"] [data-handle-index="0"] [data-test-id="handle"]' },
+
+        // Update first slide text
+        { type: 'click', selector: '[data-handle-index="0"] [data-drag-handle]' },
+        { type: 'fill', selector: '[data-handle-index="0"] [data-option-path="title"] input', text: testTitle },
+        { type: 'fill', selector: '[data-handle-index="0"] [data-option-path="subTitle"] input', text: testSubtitle },
+
+        // Verify content updates in iframe
+        {
+          type: 'frameInteraction',
+          frameSelector: '#site-builder-iframe',
+          frameActions: [
+            { type: 'hasText', selector: '[data-card-template-id="cardOverlaySliderV1"] [data-option-path="items.0.title"]', text: testTitle },
+            { type: 'hasText', selector: '[data-card-template-id="cardOverlaySliderV1"] [data-option-path="items.0.subTitle"]', text: testSubtitle },
+          ],
+        },
+
+        // Test slide navigation
+        {
+          type: 'frameInteraction',
+          frameSelector: '#site-builder-iframe',
+          frameActions: [
+            { type: 'click', selector: '[data-test-id="nav-dot-1"]' },
+            { type: 'visible', selector: '[data-slide-index="1"]' },
+            { type: 'click', selector: '[data-test-id="nav-dot-0"]' },
+          ],
+        },
+
+        // Publish changes
+        { type: 'click', selector: '[data-test-id="publishChangesButton"]' },
+        { type: 'visible', selector: '[data-test-id="changesPublishedButton"]' },
+
+        // Test element deletion
+        {
+          type: 'frameInteraction',
+          frameSelector: '#site-builder-iframe',
+          frameActions: [
+            { type: 'click', selector: '[data-card-template-id="cardOverlaySliderV1"]' },
+            { type: 'click', selector: '[data-card-template-id="cardOverlaySliderV1"] [data-test-id="card-engine-tool-dropdown"]' },
+            { type: 'click', selector: '[data-card-template-id="cardOverlaySliderV1"] [data-test-id="card-engine-tool-dropdown"] [data-test-id="delete"]' },
+          ],
+        },
+
       ],
     })
   })

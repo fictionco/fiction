@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import { onResetUi, vue } from '@fiction/core'
+import { isTest, onResetUi, vue } from '@fiction/core'
 import { moveCard } from '@fiction/site/utils/layout'
 
 const { card } = defineProps<{
@@ -36,7 +36,7 @@ const editDropdownItems = vue.computed(() => {
     {
       value: 'delete',
       onClick: () => {
-        const confirmed = confirm('Are you sure?')
+        const confirmed = !isTest ? confirm('Are you sure?') : true
         if (confirmed)
           card.site?.removeCard({ cardId: card.cardId })
       },
@@ -61,6 +61,7 @@ onResetUi(() => {
 <template>
   <div
     class="z-40 flex flex-col items-end justify-center transition-all  hover:z-20 cursor-pointer font-sans text-sm gap-0.5"
+    data-test-id="card-engine-tool-dropdown"
     @click.stop="editDropdownVisible = !editDropdownVisible"
   >
     <div class="flex items-center gap-1 px-2 py-0.5 text-primary-100 bg-primary-500 dark:bg-primary-700 dark:hover:bg-primary-600/80 rounded-md select-none">
@@ -75,6 +76,7 @@ onResetUi(() => {
         v-for="(item, i) in editDropdownItems"
         :key="i"
         class="py-1 px-2 hover:bg-primary-600 dark:hover:bg-primary-700 capitalize cursor-pointer"
+        :data-test-id="item.value"
         @click.stop="handleEditDropdownClick({ item, event: $event })"
       >
         {{ item.label || item.value }}

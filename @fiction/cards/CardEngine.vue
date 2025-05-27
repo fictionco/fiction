@@ -58,6 +58,8 @@ const renderCards = vue.computed(() => {
           card?.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300 dark:outline-theme-600' : '',
           isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-primary-300 dark:hover:outline-primary-600 cursor-pointer  transition-all' : '',
         ]"
+        :data-card-template-id="subCard.templateId.value"
+        :data-card-depth="subCard.depth.value"
         @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
       >
         <component

@@ -309,7 +309,7 @@ async function highlightElement(page: Page, selector?: string): Promise<boolean>
 }
 
 type TestPageAction = {
-  type: 'visible' | 'goto' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'dataValue' | 'hasText' | 'notHasText' | 'hasValue' | 'notHasValue' | 'scrollTo' | 'frameInteraction' | 'callback' | 'hasAttribute'
+  type: 'wait' | 'visible' | 'goto' | 'click' | 'fill' | 'keyboard' | 'exists' | 'count' | 'dataValue' | 'hasText' | 'notHasText' | 'hasValue' | 'notHasValue' | 'scrollTo' | 'frameInteraction' | 'callback' | 'hasAttribute'
   selector?: string
   text?: string
   isNot?: boolean
@@ -377,6 +377,10 @@ export async function performActions(args: {
 
     try {
       switch (action.type) {
+        case 'wait': {
+          await waitFor(action.wait || 1000)
+          break
+        }
         case 'scrollTo': {
           await element.scrollIntoViewIfNeeded()
           break

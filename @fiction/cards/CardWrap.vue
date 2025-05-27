@@ -100,10 +100,9 @@ const verticalSpacingClass = vue.computed(() => {
       loaded ? 'loaded' : '',
       card.depth.value <= 1 ? `overflow-x-clip` : '',
     ]"
-    :data-card-template-id="card.templateId.value"
+
     :data-font-title="standardUc?.fonts?.title?.family"
     :data-font-body="standardUc?.fonts?.body?.family"
-    :data-card-depth="card.depth.value"
     :data-primary-scheme="colorScheme?.primary"
     :data-theme-scheme="colorScheme?.theme"
     :data-content-width="contentWidth"

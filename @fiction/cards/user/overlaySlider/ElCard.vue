@@ -48,8 +48,9 @@ const currentItem = vue.computed(() => circularItems.value[0])
 
 // Timer management
 function startTimer() {
-  if (!uc.value.autoSlide || slides.value.length <= 1)
+  if (card.site?.isEditable.value || !uc.value.autoSlide || slides.value.length <= 1)
     return
+
   stopTimer()
 
   timer.value = setTimeout(() => {
@@ -75,15 +76,6 @@ function setActiveItem(index: number) {
   const normalizedIndex = ((index % slides.value.length) + slides.value.length) % slides.value.length
   currentItemIndex.value = normalizedIndex
   startTimer()
-}
-
-function setActiveItemByTitle(title?: string) {
-  if (!title)
-    return
-  const index = slidesWithIds.value.findIndex(item => item.title === title)
-  if (index !== -1) {
-    setActiveItem(index)
-  }
 }
 
 function getSlideIndex(renderIndex: number): number {
@@ -175,7 +167,7 @@ vue.onBeforeUnmount(() => {
       <div v-if="!currentItem && card.site?.isEditable.value" class="p-12 text-center font-sans text-theme-400/80 dark:text-theme-600/80">
         No Slides Added
       </div>
-      <div v-else class="md:flex items-center justify-between md:h-[620px] xl:h-[700px] space-y-8 md:space-y-0">
+      <div v-else class="md:flex items-center justify-between md:h-[620px] xl:h-[700px] space-y-8 md:space-y-0" :data-slide-index="currentItemIndex">
         <div class="relative h-full basis-[33%]">
           <transition
             enter-active-class="transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
