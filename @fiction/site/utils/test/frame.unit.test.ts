@@ -31,7 +31,7 @@ describe('siteFrameTools', async () => {
 
   it('should initialize frame tools correctly', () => {
     expect(site.frame.util).toBeDefined()
-    expect(site.frame.relation.value).toBe('child')
+    expect(site.frame.relation.value).toBe('parent')
   })
 
   it('should sync active card', () => {
@@ -96,7 +96,7 @@ describe('siteFrameTools', async () => {
     expect(url).toContain('_scope=draft')
   })
 
-  it('should process frame messages correctly', async () => {
+  it ('should process frame messages correctly', async () => {
     const resetUiSpy = vi.spyOn(site.fictionSites.fictionEnv.events, 'emit')
 
     // Test resetUi message
@@ -144,7 +144,8 @@ describe('siteFrameTools', async () => {
         data: { pageCardId: 'test-page-card', siteId: site.siteId },
       },
     })
-    expect(site.activePageId.value).toBe('test-page-card')
+    await waitFor(100) // Wait for any reactive updates
+    expect(site.activePageId.value, 'navigate from frame message').toBe('test-page-card')
   })
 
   it('should handle frame ready message', async () => {

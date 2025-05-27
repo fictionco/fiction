@@ -5,17 +5,6 @@ import { Card } from '../card.js'
 
 const logger = log.contextLogger('sitePageUtils')
 
-// Helper functions for different navigation modes
-function getActivePageIdInEditorMode(site: Site): string | undefined {
-  const query = site.siteRouter.query.value
-
-  if (!query._pageCardId)
-    return undefined
-
-  const pageExists = site.pages.value.find(p => p.cardId === query._pageCardId)
-  return pageExists ? query._pageCardId as string : undefined
-}
-
 function getActivePageIdInNormalMode(site: Site): string {
   const viewId = site.currentViewId.value
   const viewMap = site.viewMap.value
@@ -26,16 +15,6 @@ function getActivePageIdInNormalMode(site: Site): string {
   }
 
   return viewMap[viewId] || cardId404
-}
-
-async function setActivePageInEditorMode(site: Site, cardId: string): Promise<void> {
-  const query = site.siteRouter.query.value
-
-  if (query._pageCardId !== cardId) {
-    await site.siteRouter.replace({
-      query: { ...query, _pageCardId: cardId },
-    }, { caller: 'activePageId:editor' })
-  }
 }
 
 async function setActivePageInNormalMode(site: Site, cardId: string): Promise<void> {
@@ -65,7 +44,7 @@ export function activePageIdByRoute(args: { site: Site }) {
   return vue.computed({
     get() {
       // Try editor mode first (cardId-based)
-      const editorPageId = getActivePageIdInEditorMode(site)
+      const editorPageId = site.siteRouter.query.value?._pageCardId as string | undefined
       if (editorPageId)
         return editorPageId
 
@@ -75,7 +54,11 @@ export function activePageIdByRoute(args: { site: Site }) {
 
     async set(cardId: string) {
       if (site.isEditable.value) {
-        await setActivePageInEditorMode(site, cardId)
+        const query = site.siteRouter.query.value
+
+        if (query._pageCardId !== cardId) {
+          await site.siteRouter.replace({ query: { ...query, _pageCardId: cardId } }, { caller: 'activePageId:editor' })
+        }
       }
       else {
         await setActivePageInNormalMode(site, cardId)

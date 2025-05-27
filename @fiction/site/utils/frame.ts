@@ -209,11 +209,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
       }
 
       case 'navigate': {
-        const { pageCardId, siteId } = msg.data
-        if (siteId !== site.siteId)
-          return
-
-        // Set active page by cardId - simple and stable
+        const { pageCardId } = msg.data
         site.activePageId.value = pageCardId
         break
       }
