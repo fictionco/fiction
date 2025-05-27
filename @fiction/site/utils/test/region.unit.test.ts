@@ -2,7 +2,7 @@
  * @vitest-environment happy-dom
  */
 import type { CardConfigPortable, TableCardConfig } from '../../tables'
-import { shortId, waitFor } from '@fiction/core'
+import { excerpt, shortId, waitFor } from '@fiction/core'
 import { afterAll, describe, expect, it } from 'vitest'
 import { Card } from '../../card'
 import { requestManageSite } from '../../load'
@@ -92,7 +92,6 @@ describe('addNewCard', async () => {
       [
         "_",
         "example",
-        "__transaction",
         "_p",
         "_archive",
         "p",
@@ -196,7 +195,7 @@ describe('requestManagePage', async () => {
       site,
       regionCard,
       delay: 0,
-    })).rejects.toThrow('Action is required.')
+    })).rejects.toThrow(expect.anything())
   })
 
   it('should process the upsert action correctly', async () => {

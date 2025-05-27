@@ -106,6 +106,21 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     return this.fictionEnv.isProd.value ? `https://${hostname}` : `http://${hostname}:${port}`
   }
 
+  getUrl(args?: { subDomain?: string, path?: string, scope?: 'draft' | 'publish' }) {
+    const { subDomain, path = '', scope } = args || {}
+    const origin = this.getOrigin({ subDomain })
+    const url = new URL(path, origin)
+
+    if (scope === 'draft') {
+      url.searchParams.set('scope', 'draft')
+    }
+
+    // remove pageCardId from the URL if it exists
+    url.searchParams.delete('_pageCardId')
+
+    return url.toString()
+  }
+
   addStructureFile() {
     this.fictionEnv.generators.push(async () => {
       const themes = await this.settings.themes()

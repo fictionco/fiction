@@ -47,7 +47,6 @@ describe('siteRendering Tests', async () => {
     expect(siteObj.pages.value.map(p => p.slug.value)).toMatchInlineSnapshot(`
       [
         "home",
-        "__transaction",
         "_p",
         "_archive",
       ]

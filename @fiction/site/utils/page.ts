@@ -8,28 +8,24 @@ const logger = log.contextLogger('sitePageUtils')
 function getActivePageIdInNormalMode(site: Site): string {
   const viewId = site.currentViewId.value
   const viewMap = site.viewMap.value
-  const cardId404 = viewMap._404 || '_special404'
 
-  if (viewId?.includes('_404') || viewId?.includes('not-found')) {
-    return cardId404
-  }
-
-  return viewMap[viewId] || cardId404
+  return viewMap[viewId] || '_special404'
 }
 
 async function setActivePageInNormalMode(site: Site, cardId: string): Promise<void> {
-  const page = site.pages.value.find(p => p.cardId === cardId)
+  // Don't try to navigate to special 404 - it's handled by getPageById
+  if (cardId === '_special404')
+    return
 
+  const page = site.pages.value.find(p => p.cardId === cardId)
   if (!page) {
     logger.error('Page not found for cardId', { data: { cardId } })
-    await site.siteRouter.push('/not-found', { caller: 'activePageId:notFound' })
     return
   }
 
   const viewId = page.isHome.value ? '_' : page.slug.value
   const currentViewId = site.currentViewId.value
 
-  // Avoid unnecessary navigation
   if (viewId === currentViewId)
     return
 
@@ -37,25 +33,22 @@ async function setActivePageInNormalMode(site: Site, cardId: string): Promise<vo
   await site.siteRouter.push(location, { caller: 'activePageId:normal' })
 }
 
-// Main exported functions
 export function activePageIdByRoute(args: { site: Site }) {
   const { site } = args
+  const isStatic = site.settings.isStatic
 
   return vue.computed({
     get() {
-      // Try editor mode first (cardId-based)
       const editorPageId = site.siteRouter.query.value?._pageCardId as string | undefined
-      if (editorPageId)
+      if (editorPageId && !isStatic)
         return editorPageId
 
-      // Fall back to normal mode (slug-based)
       return getActivePageIdInNormalMode(site)
     },
 
     async set(cardId: string) {
-      if (site.isEditable.value) {
+      if (site.isEditable.value && !isStatic) {
         const query = site.siteRouter.query.value
-
         if (query._pageCardId !== cardId) {
           await site.siteRouter.replace({ query: { ...query, _pageCardId: cardId } }, { caller: 'activePageId:editor' })
         }

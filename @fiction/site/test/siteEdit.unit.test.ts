@@ -94,7 +94,6 @@ describe('site plugin tests', async () => {
     expect(Object.entries(site.viewMap.value).sort().map(([k, v]) => `${k}:${v.length}`)).toMatchInlineSnapshot(`
       [
         "_:27",
-        "__transaction:13",
         "_home:27",
         "example:27",
       ]
@@ -266,7 +265,6 @@ describe('site plugin tests', async () => {
     expect(Object.keys(m).sort()).toMatchInlineSnapshot(`
       [
         "_",
-        "__transaction",
         "_home",
         "example",
         "test",

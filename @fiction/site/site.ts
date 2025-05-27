@@ -83,9 +83,13 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   })
 
   url = vue.computed(() => {
-    const origin = this.fictionSites.getOrigin({ subDomain: this.subDomain.value })
-    return `${origin}${this.currentPath.value}`
+    return this.getUrl()
   })
+
+  getUrl(args?: { scope: 'draft' | 'publish', path?: string }): string {
+    const { scope, path = this.currentPath.value } = args || {}
+    return this.fictionSites.getUrl({ subDomain: this.subDomain.value, path, scope })
+  }
 
   constructor(settings: T) {
     super('Site', settings)

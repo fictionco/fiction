@@ -35,7 +35,6 @@ describe('site plugin tests', async () => {
       [
         "welcome",
         "example",
-        "__transaction",
         "_p",
         "_archive",
       ]

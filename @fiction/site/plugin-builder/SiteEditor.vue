@@ -160,7 +160,7 @@ async function resetToPublished() {
               icon="i-tabler-eye"
               design="ghost"
               data-test-id="viewSiteButton"
-              :href="`${site.url.value}?_scope=draft`"
+              :href="site.getUrl({ scope: 'draft' })"
             >
               View Site
             </CardButton>
