@@ -27,7 +27,7 @@ export function getSiteIndexItemList(sites: Site[], parentCard: Card): SiteListI
       // figure: { el: vue.defineAsyncComponent(() => import('./fig/FigSite.vue')), props: { site } },
       dateAt: site.settings.updatedAt,
       icon: { class: 'i-tabler-browser' },
-      stagingUrl: site.frame.frameUrl.value,
+      stagingUrl: site.frame.framePageUrl(),
       isPrimary: site.settings.isPrimary,
     }
 

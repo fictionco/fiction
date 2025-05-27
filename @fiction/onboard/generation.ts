@@ -7,7 +7,7 @@ import { toJSONSchema, z } from 'zod/v4'
 export const AiEnhancementSchema = z.object({
   headline: z.string().min(5).max(160).describe('Concise 2-4 positioning statement. Tagline suitable for hero headline, social media bio, and email signature. Simple, catchy, and memorable. Avoid cliche words like "innovator", "expert" or "leader".'),
   promise: z.string().min(5).max(160).describe('Concise 2-4 content value promise. What value users will get from the content. Simple, catchy, and memorable. Avoid cliches and jargon. Example: Grow with Data, Master Barbecue Cooking, Learn the Movie Business.'),
-  about: z.string().min(10).max(400).describe('Short 10-30 word bio suitable for personal brand, blog about section, and professional profiles'),
+  about: z.string().min(10).max(400).describe('Short 10-25 word bio suitable for personal brand, blog about section, and professional profiles. Example "I build products that matter. Currently exploring the intersection of AI and human creativity, one breakthrough at a time.'),
   interests: z.array(z.string()).min(1).max(5).describe('Areas of interest (e.g., history, ai, ux-design, pottery, ecommerce)'),
   influences: z.array(z.string()).min(1).max(3).describe('Specific people, characters influencing voice and style (e.g, steve-jobs, johnny-depp, cicero)'),
   pillars: z.array(z.string()).min(0).max(5).describe('Niche topics for content creation (e.g., ai, mobile ux-design, ai-ecommerce)'),

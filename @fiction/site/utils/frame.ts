@@ -49,9 +49,9 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     const { pageCardId, siteMode = 'standard' } = args || {}
     const s = new URLSearchParams({ _scope: 'draft' })
     if (pageCardId)
-      s.set('pageCardId', pageCardId)
+      s.set('_pageCardId', pageCardId)
     if (siteMode)
-      s.set('siteMode', siteMode)
+      s.set('_siteMode', siteMode)
 
     return `${this.previewPath.value}?${s.toString()}`
   }

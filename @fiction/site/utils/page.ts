@@ -85,6 +85,7 @@ export function ensureStandardPages(args: { site?: Site, pages: Card[] }): Card[
 
   const hasSinglePage = pages.some(p => p.slug.value === '_p')
   const hasArchivePage = pages.some(p => p.slug.value === '_archive')
+  const hasManagePage = pages.some(p => p.slug.value === '_manage')
 
   if (!hasSinglePage) {
     standardPages.push(new Card({
@@ -109,6 +110,18 @@ export function ensureStandardPages(args: { site?: Site, pages: Card[] }): Card[
       isSystem: true,
       isArchive: true,
       cards: [{ templateId: 'cardBlogV1', userConfig: { index: { sidebar: 'none', featuredCount: 0, imagePosition: 'right' } } }],
+    }))
+  }
+
+  if (!hasManagePage) {
+    standardPages.push(new Card({
+      site,
+      regionId: 'main',
+      templateId,
+      slug: '_manage',
+      title: 'Manage Account',
+      isSystem: true,
+      cards: [{ templateId: 'cardSinglePostV1' }],
     }))
   }
 
@@ -167,15 +180,22 @@ export function getViewMap(args: { pages: Card[] }) {
     cardMap._ = pages.find(p => p.slug.value)?.cardId || '_special404'
   }
 
-  // Set up dynamic routes
+  // single posts
   const singleCard = pages.find(p => p.settings.isSingle)
   if (singleCard) {
     cardMap.p = singleCard.cardId
   }
 
+  // list of posts
   const archiveCard = pages.find(p => p.settings.isArchive)
   if (archiveCard) {
     cardMap.archive = archiveCard.cardId
+  }
+
+  // Subscriber management page
+  const manageCard = pages.find(p => p.slug.value === '_manage')
+  if (manageCard) {
+    cardMap.m = manageCard.cardId
   }
 
   // Ensure 404 page exists

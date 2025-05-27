@@ -52,7 +52,7 @@ const list = vue.computed<SiteListItem[]>(() => {
   return getSiteIndexItemList(sites.value, props.card)
 })
 
-function getActions(location: 'top' | 'zero') {
+function getActions() {
   const buttons: ActionButton[] = [{
     testId: 'createSite',
     label: 'Create New Site',
@@ -60,7 +60,7 @@ function getActions(location: 'top' | 'zero') {
     theme: 'primary',
     onClick: () => (showCreateModal.value = true),
   }]
-  return location === 'zero' || list.value.length > 0 ? { buttons } : {}
+  return { buttons }
 }
 </script>
 
@@ -76,11 +76,10 @@ function getActions(location: 'top' | 'zero') {
         :empty="{
           title: 'Sites',
           subTitle: `The homebase for your online presence.`,
-          action: getActions('zero'),
           media: { class: 'i-tabler-browser-plus' },
         }"
         theme="primary"
-        :action="getActions('top')"
+        :action="getActions()"
         :on-item-click="() => {}"
         @bulk-edit="() => {}"
       >

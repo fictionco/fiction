@@ -141,7 +141,7 @@ function getTabClasses(tabType: 'latest' | 'popular' | 'archive') {
         <div>
           <button
             :class="getTabClasses('archive')"
-            @click="emit('update:sortBy', 'popular')"
+            :href="card?.link('/a')"
           >
             View All
           </button>
@@ -164,8 +164,8 @@ function getTabClasses(tabType: 'latest' | 'popular' | 'archive') {
             />
           </div>
           <div v-else-if="!loading && featuredPosts.length === 0" class="text-center py-12">
-            <p class="text-theme-500 dark:text-theme-400 text-lg">
-              No posts available
+            <p class="text-theme-500 dark:text-theme-400">
+              More stories coming soon
             </p>
           </div>
         </div>
