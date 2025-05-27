@@ -51,6 +51,7 @@ IMAGES:
   const schema = mode === 'full'
     ? z.object({
         title: z.string().min(5).max(100).describe('Start with "(Example Title) " followed by a 3 to 8 word catchy, sharp, intriguing title. Use open loops, NLP, curiosity gaps, and SEO-friendly phrasing.'),
+        subTitle: z.string().min(5).max(200).describe('A short, catchy subtitle that complements the title and provides additional context.'),
         content: z.string().min(1).max(500).describe(contentGuideline),
         media: z.object({
           url: z.string().url().describe(`Return a shortcode for URL example: [@image_url subject="a boulder rolling down a hill" orientation="squarish"] that will be replaced with the actual url.`),

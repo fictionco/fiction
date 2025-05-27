@@ -62,6 +62,10 @@ function createNavListItemSchema({ generate = false }: SchemaOptions = {}) {
     get list() {
       return createNavListSchema({ generate }).optional().meta({ description: 'Nested navigation list (e.g., dropdown menu)' })
     },
+
+    get dropdown() {
+      return createNavListSchema({ generate }).optional().meta({ description: 'Dropdown menu for this item' })
+    },
   })
 
   return NavListItem

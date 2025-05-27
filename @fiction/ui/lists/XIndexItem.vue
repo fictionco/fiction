@@ -1,128 +1,154 @@
 <script lang="ts" setup>
-import type { ColorThemeUser, NavListItem, StandardSize } from '@fiction/core'
+import type { ColorThemeUser, NavListItem } from '@fiction/core'
 import { getNavComponentType, pathIsHref, vue } from '@fiction/core'
-import ActionButtons from '../buttons/XButtonList.vue'
+import XButton from '../buttons/XButton.vue'
+import XDropDown from '../common/XDropDown.vue'
 import ElIndexItemMedia from './ElIndexItemMedia.vue'
 
-defineOptions({ name: 'ElIndexItem' })
+defineOptions({ name: 'XIndexItem' })
 
-const { item, index = -1, theme, uiSize = 'md', isActive = false } = defineProps<{ item: NavListItem, index: number, theme?: ColorThemeUser, isActive?: boolean, uiSize?: StandardSize }>()
-
-const classes = vue.computed(() => {
-  const sizes = {
-    'xxs': {
-      padding: 'p-2 @[320px]/item:p-3',
-      gap: 'gap-2 @[320px]/item:gap-3',
-      mediaSize: 'size-5 lg:size-6',
-      titleSize: 'text-xs',
-      descSize: 'text-[10px]',
-    },
-    'xs': {
-      padding: 'p-2 @[320px]/item:p-4',
-      gap: 'gap-3 @[320px]/item:gap-4',
-      mediaSize: 'size-6 lg:size-8',
-      titleSize: 'text-sm',
-      descSize: 'text-xs',
-    },
-    'sm': {
-      padding: 'p-3 @[320px]/item:p-5',
-      gap: 'gap-3 @[320px]/item:gap-5',
-      mediaSize: 'size-10 lg:size-12',
-      titleSize: 'text-base',
-      descSize: 'text-sm',
-    },
-    'md': {
-      padding: 'p-4 @[320px]/item:p-6',
-      gap: 'gap-4 @[320px]/item:gap-6',
-      mediaSize: 'size-12 lg:size-16',
-      titleSize: 'text-lg',
-      descSize: 'text-md',
-    },
-    'lg': {
-      padding: 'p-5 @[320px]/item:p-7',
-      gap: 'gap-5 @[320px]/item:gap-7',
-      mediaSize: 'size-12 lg:size-20',
-      titleSize: 'text-xl',
-      descSize: 'text-lg',
-    },
-    'xl': {
-      padding: 'p-6 @[320px]/item:p-8',
-      gap: 'gap-6 @[320px]/item:gap-8',
-      mediaSize: 'size-14 lg:size-24',
-      titleSize: 'text-2xl',
-      descSize: 'text-xl',
-    },
-    '2xl': {
-      padding: 'p-8 @[320px]/item:p-10',
-      gap: 'gap-8 @[320px]/item:gap-10',
-      mediaSize: 'size-16 lg:size-26',
-      titleSize: 'text-3xl',
-      descSize: 'text-2xl',
-    },
-  }
-
-  return sizes[uiSize || 'md']
-})
-
-const boxClass = 'dark:bg-theme-800/40 bg-theme-0 border border-theme-300/70 shadow-xs dark:border-theme-600/40 rounded-xl'
-const hoverClass = 'hover:bg-theme-50 dark:hover:bg-theme-800/90 cursor-pointer'
-const activeClass = vue.computed(() => isActive ? 'ring-2 ring-primary-500/20 dark:ring-primary-600/40' : '')
+const {
+  item,
+  index = -1,
+  theme,
+  isActive = false,
+  dropdownItems = [],
+} = defineProps<{
+  item: NavListItem
+  index?: number
+  theme?: ColorThemeUser
+  isActive?: boolean
+  dropdownItems?: NavListItem[]
+}>()
 
 const linkProps = vue.computed(() => {
   const { href } = item
   return pathIsHref(href) ? { href } : { to: href }
+})
+
+const hasDropdown = vue.computed(() => dropdownItems.length > 0)
+
+// Extract meta information from nested items
+const metaItems = vue.computed(() => {
+  return item.list?.items || []
 })
 </script>
 
 <template>
   <div
     :data-test-id="item.testId || `index-item-${index}`"
-    class="@container/item"
+    class="group relative @container/index-item"
   >
     <component
       :is="getNavComponentType(item)"
       v-bind="linkProps"
-      class="flex flex-wrap items-center justify-between sm:flex-nowrap transition-all duration-200"
-      :class="[
-        item.href ? hoverClass : '',
-        boxClass,
-        activeClass,
-        classes.padding,
-      ]"
+      class="flex items-center justify-between p-4 border-t border-theme-200/60 dark:border-theme-700/80 hover:bg-theme-25 dark:hover:bg-theme-800/30 transition-colors duration-150"
+      :class="{
+        'bg-primary-25 dark:bg-primary-900/20 border-primary-200 dark:border-primary-700': isActive,
+        'cursor-pointer': item.href || item.onClick,
+      }"
       @click.stop="item.onClick && item.onClick({ item, event: $event })"
     >
-      <div class="flex items-center space-y-0 min-w-0" :class="classes.gap">
-        <ElIndexItemMedia
-          :class="classes.mediaSize"
-          :media="item.media"
-          :icon="item.icon"
-          :theme="theme"
-        />
-        <div class="space-y-1 min-w-0">
-          <div class="font-bold leading-6 truncate" :class="classes.titleSize">
-            {{ item.label }}
+      <!-- Main content area -->
+      <div class="flex items-center min-w-0 flex-1 gap-4 @[500px]:gap-12">
+        <!-- Primary content -->
+        <div class="min-w-0 flex-1 flex flex-col gap-2">
+          <div class="flex flex-col gap-1">
+            <div class="flex items-baseline gap-3">
+              <h3 class="text-base font-medium text-theme-900 dark:text-theme-100 truncate">
+                {{ item.label }}
+              </h3>
+              <div v-if="item.badge" class="flex-shrink-0">
+                <span
+                  class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium"
+                  :class="{
+                    'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-400': item.badge.color === 'emerald',
+                    'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400': item.badge.color === 'blue',
+                    'bg-amber-100 text-amber-800 dark:bg-amber-900/20 dark:text-amber-400': item.badge.color === 'amber',
+                    'bg-theme-100 text-theme-800 dark:bg-theme-800 dark:text-theme-300': !item.badge.color,
+                  }"
+                >
+                  {{ item.badge.content }}
+                </span>
+              </div>
+              <!-- Dropdown menu -->
+              <div>
+                <XDropDown
+                  v-if="true"
+                  mode="click"
+                  :items="dropdownItems"
+                  dropdown-alignment="end"
+                  placement="bottom"
+                  @click.stop
+                >
+                  <XButton
+                    theme="default"
+                    size="sm"
+                    design="ghost"
+                    icon="i-tabler-dots"
+                    class="opacity-0 group-hover:opacity-100 transition-opacity"
+                  />
+                </XDropDown>
+              </div>
+            </div>
+
+            <p v-if="item.description" class="text-sm text-theme-600 dark:text-theme-400 line-clamp-1">
+              {{ item.description }}
+            </p>
           </div>
-          <div class="flex items-center gap-x-2 text-theme-500 dark:text-theme-400" :class="classes.descSize">
-            {{ item.description }}
+          <!-- Meta information grid -->
+          <div v-if="metaItems.length" class="flex flex-wrap gap-4 text-xs text-theme-500 dark:text-theme-500">
+            <div
+              v-for="meta in metaItems"
+              :key="meta.key"
+              class="flex items-center gap-1.5"
+            >
+              <span v-if="meta.icon" class="flex-shrink-0">
+                <i :class="meta.icon.class || meta.icon.iconId" class="text-theme-400" />
+              </span>
+              <span class="font-medium">{{ meta.label }}:</span>
+              <span>{{ meta.value || meta.description }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right side: Media and actions -->
+        <div class="flex items-center gap-3 flex-shrink-0">
+          <!-- Media display -->
+          <ElIndexItemMedia
+            v-if="item.media || item.icon"
+            class="size-10 @[500px]/index-item:size-14"
+            :media="item.media"
+            :icon="item.icon"
+            :theme="theme"
+          />
+
+          <!-- Action buttons from nested action area -->
+          <div v-if="item.action?.buttons?.length" class="flex items-center gap-2">
+            <XButton
+              v-for="(button, i) in item.action.buttons"
+              :key="i"
+              :theme="button.theme || 'default'"
+              :design="button.design || 'ghost'"
+              :size="button.size || 'sm'"
+              :icon="button.icon"
+              :href="button.href"
+              :rounding="button.rounding || 'md'"
+              @click.stop="button.onClick ? button.onClick({ event: $event, item: button }) : null"
+            >
+              {{ button.label }}
+            </XButton>
+          </div>
+
+          <!-- Default chevron for navigable items -->
+          <div
+            v-if="item.href || item.onClick"
+            class="flex items-center text-theme-400 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <i class="i-tabler-chevron-right text-sm" />
           </div>
         </div>
       </div>
-      <dl
-        class="w-full flex-none justify-between gap-x-8 sm:w-auto items-center hidden @[500px]/item:flex"
-      >
-        <slot :item="item" name="item" />
-
-        <ActionButtons
-          v-if="item.action?.buttons?.length"
-          :buttons="item.action.buttons"
-          :ui-size="uiSize"
-          class="flex gap-3"
-        />
-
-        <svg v-else-if="item.onClick || item.href" class="inline-block size-6 flex-none text-theme-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-        </svg>
-      </dl>
     </component>
   </div>
 </template>
