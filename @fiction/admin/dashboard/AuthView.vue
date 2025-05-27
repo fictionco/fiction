@@ -335,8 +335,13 @@ async function passwordLogin() {
         class="space-y-5"
         :data-step="authState"
         :notify="state.formError"
+        data-test-id="form"
         @submit="handleFormSubmit()"
       >
+        <div v-if="state.formError" data-test-id="form-error" class="text-red-500 text-sm">
+          {{ state.formError }}
+        </div>
+
         <EffectTransitionList>
           <div v-if="state.isLoadingOrg" class="flex justify-center p-4">
             <div class="animate-pulse text-center text-theme-500 dark:text-theme-400">
@@ -353,6 +358,7 @@ async function passwordLogin() {
                 design="solid"
                 size="lg"
                 icon-after="i-tabler-arrow-up-right"
+                data-test-id="continue-button"
                 @click.prevent="redirectToDashboard()"
               >
                 Complete
@@ -366,6 +372,7 @@ async function passwordLogin() {
               input="InputOneTimeCode"
               :input-props="{ required: true, placeholder: '6-digit code' }"
               ui-size="lg"
+              data-test-id="input-one-time-code"
             />
             <XButton
               type="submit"
@@ -375,6 +382,7 @@ async function passwordLogin() {
               size="lg"
               :loading="state.sending"
               icon="i-tabler-check"
+              data-test-id="submit-button"
             >
               Verify Code
             </XButton>
@@ -384,6 +392,7 @@ async function passwordLogin() {
                 size="xs"
                 design="link"
                 theme="default"
+                data-test-id="to-welcome-try-again"
                 @click.prevent="navigateTo('welcome')"
               >
                 Try again
@@ -398,6 +407,7 @@ async function passwordLogin() {
               input="InputEmail"
               :input-props="{ autocomplete: 'email', required: true, placeholder: 'Enter your email' }"
               ui-size="lg"
+              data-test-id="input-email"
             />
             <ElInput
               v-if="authState === 'loginPassword'"
@@ -406,6 +416,7 @@ async function passwordLogin() {
               label="Password"
               :input-props="{ autocomplete: 'current-password', required: true, placeholder: 'Your password' }"
               ui-size="lg"
+              data-test-id="input-password"
             />
             <template v-if="authState === 'setNewPassword'">
               <ElInput
@@ -415,6 +426,7 @@ async function passwordLogin() {
                 description="Use 8+ characters with a number and special character"
                 :input-props="{ autocomplete: 'new-password', required: true, placeholder: 'Create a password' }"
                 ui-size="lg"
+                data-test-id="input-new-password"
               />
               <ElInput
                 v-model="form.passwordConfirm"
@@ -422,6 +434,7 @@ async function passwordLogin() {
                 label="Confirm password"
                 :input-props="{ autocomplete: 'new-password', required: true, placeholder: 'Confirm password' }"
                 ui-size="lg"
+                data-test-id="input-new-password-confirm"
               />
             </template>
             <XButton
@@ -433,16 +446,18 @@ async function passwordLogin() {
               :loading="state.sending"
               :icon="authState === 'setNewPassword' ? 'i-tabler-key' : undefined"
               :icon-after="authState === 'welcome' ? 'i-tabler-arrow-right' : undefined"
+              data-test-id="submit-button"
             >
               {{ authState === 'setNewPassword' ? 'Set Password' : authState === 'resetPassword' ? 'Reset Password' : 'Continue' }}
             </XButton>
             <div class="text-theme-500 dark:text-theme-400 text-sm text-center space-y-4">
               <div class="flex gap-4 justify-center flex-wrap">
                 <XButton
-                  v-if="['loginPassword', 'verifyEmail', 'emailLinkSent', 'resetPasswordSent'].includes(authState)"
+                  v-if="['loginPassword', 'verifyEmail', 'emailLinkSent', 'resetPasswordSent', 'resetPassword'].includes(authState)"
                   size="sm"
                   design="link"
                   theme="default"
+                  data-test-id="to-welcome"
                   @click.prevent="navigateTo(authState === 'resetPassword' ? 'loginPassword' : 'welcome')"
                 >
                   {{ isCodeConfirmState ? 'Start Again' : 'Login with Email' }}
@@ -452,6 +467,7 @@ async function passwordLogin() {
                   size="sm"
                   design="link"
                   theme="default"
+                  data-test-id="to-reset-password"
                   @click.prevent="navigateTo('resetPassword')"
                 >
                   Forgot password
@@ -461,6 +477,7 @@ async function passwordLogin() {
                   size="sm"
                   design="link"
                   theme="default"
+                  data-test-id="to-login-password"
                   @click.prevent="navigateTo('loginPassword')"
                 >
                   Login with Password
