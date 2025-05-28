@@ -5,7 +5,6 @@ import type { Card } from '@fiction/site'
 import type { InputOption } from '@fiction/ui'
 import type { FictionPosts, TablePostConfig } from '..'
 import type { Post } from '../post.js'
-import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import { dayjs, toLabel, useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
@@ -99,22 +98,6 @@ async function savePost(postConfig?: Partial<TablePostConfig>) {
     sending.value = undefined
   }
 }
-
-const statusMap = vue.computed<NavListItem>(() => {
-  const status = post.value?.status.value || 'draft'
-
-  const publishAt = post.value?.publishAt.value
-  const scheduledLabel = publishAt ? `Scheduled (${dayjs(publishAt).format('MMM D, YYYY [at] h:mm A')})` : 'Scheduled'
-
-  const statusMap = {
-    draft: { icon: { class: 'i-tabler-edit' }, theme: 'default' },
-    scheduled: { icon: { class: 'i-tabler-calendar' }, theme: 'orange', label: scheduledLabel },
-    published: { icon: { class: 'i-tabler-check' }, theme: 'green' },
-    archived: { icon: { class: 'i-tabler-archive' }, theme: 'rose' },
-  } as const
-
-  return statusMap[status as keyof typeof statusMap] || statusMap.draft
-})
 </script>
 
 <template>
@@ -135,29 +118,8 @@ const statusMap = vue.computed<NavListItem>(() => {
           <span class="i-tabler-slash text-xl dark:text-theme-500" />
           <XText v-if="post" v-model="post.title.value" title="Post Title" :is-editable="true" class="hover:bg-theme-100 hover:dark:bg-theme-700 whitespace-nowrap truncate max-w-[300px]" />
         </div>
-
-        <XButton
-          v-if="post?.status.value"
-          :theme="statusMap.theme"
-          target="_blank"
-          size="sm"
-          :icon="statusMap.icon"
-          data-test-id="post-status-badge"
-          design="link"
-
-          class="hidden md:block"
-        >
-          {{ statusMap.label || toLabel(post?.status.value) }}
-        </XButton>
       </template>
       <template #headerRight>
-        <ElSavingSignal
-          v-if="post"
-          :is-dirty="post.saveUtil.isDirty.value"
-          data-test-id="draft-control-dropdown"
-          ui-size="sm"
-          class="mr-2"
-        />
         <XButton
           theme="default"
           target="_blank"

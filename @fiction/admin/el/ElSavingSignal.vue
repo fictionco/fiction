@@ -20,7 +20,7 @@ const {
 const savedText = vue.computed(() => 'Saved')
 
 const statusText = vue.computed(() => isDirty ? 'Saving' : savedText.value)
-const statusColor = vue.computed(() => isDirty ? 'fill-orange-500' : 'fill-green-500')
+const statusColor = vue.computed(() => isDirty ? 'fill-orange-500' : 'fill-primary-500')
 </script>
 
 <template>

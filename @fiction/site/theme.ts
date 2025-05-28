@@ -143,7 +143,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
             title: { family: 'Poppins', stack: 'sans' },
             sans: { stack: 'sans' },
             body: { stack: 'sans' },
-            serif: { family: 'lora', stack: 'serif' },
+            serif: { stack: 'serif' },
             highlight: { family: 'Caveat', stack: 'sans' },
           },
         },

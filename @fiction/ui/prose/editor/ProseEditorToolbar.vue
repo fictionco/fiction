@@ -280,7 +280,7 @@ const dropdownProps = vue.computed(() => {
 </script>
 
 <template>
-  <div class="prose-toolbar relative flex flex-wrap items-center justify-center gap-1 p-1 w-full">
+  <div class="prose-toolbar relative flex flex-wrap items-center gap-1 w-full">
     <!-- Common Format Buttons -->
     <div class="flex items-center gap-1">
       <XButton

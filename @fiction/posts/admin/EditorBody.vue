@@ -1,10 +1,14 @@
 <script lang="ts" setup>
+import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import type { Post } from '../post.js'
 import type { EditorLocation } from './EditorWrap.vue'
-import { vue } from '@fiction/core'
+import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
+import { dayjs, toLabel, vue } from '@fiction/core'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import XText from '@fiction/ui/common/XText.vue'
 import InputMedia from '@fiction/ui/inputs/InputMedia.vue'
+
 import ProseEditor from '@fiction/ui/prose/editor/ProseEditor.vue'
 import ProseEditorToolbar from '@fiction/ui/prose/editor/ProseEditorToolbar.vue'
 
@@ -38,6 +42,22 @@ const hasMedia = vue.computed(() => {
   const v = post?.media.value
   return !!(v?.url || v?.html)
 })
+
+const statusMap = vue.computed<NavListItem>(() => {
+  const status = post?.status.value || 'draft'
+
+  const publishAt = post?.publishAt.value
+  const scheduledLabel = publishAt ? `Scheduled (${dayjs(publishAt).format('MMM D, YYYY [at] h:mm A')})` : 'Scheduled'
+
+  const statusMap = {
+    draft: { icon: { class: 'i-tabler-edit' }, theme: 'default' },
+    scheduled: { icon: { class: 'i-tabler-calendar' }, theme: 'orange', label: scheduledLabel },
+    published: { icon: { class: 'i-tabler-check' }, theme: 'primary' },
+    archived: { icon: { class: 'i-tabler-archive' }, theme: 'rose' },
+  } as const
+
+  return statusMap[status as keyof typeof statusMap] || statusMap.draft
+})
 </script>
 
 <template>
@@ -50,8 +70,28 @@ const hasMedia = vue.computed(() => {
           >
             <div class="relative max-h-[100%] grow overflow-scroll w-full min-h-0 dark:bg-theme-950/80 no-scrollbar">
               <div class=" pt-6 md:pt-10 pb-[50vh] px-6 md:px-12 max-w-[800px] mx-auto focus:outline-none space-y-12">
-                <div class="p-2 sticky top-0 bg-theme-50 dark:bg-theme-950 z-10 -mx-4">
+                <div class="py-2 px-4 sticky top-0 bg-theme-50 dark:bg-theme-950 z-10 -mx-4 flex items-center justify-between gap-4">
                   <ProseEditorToolbar v-if="proseEditorEl?.editor" :editor="proseEditorEl?.editor" />
+                  <div class="flex items-center gap-2">
+                    <ElSavingSignal
+                      v-if="post"
+                      :is-dirty="post.saveUtil.isDirty.value"
+                      data-test-id="draft-control-dropdown"
+                      ui-size="xs"
+                      class="mr-2"
+                    />
+                    <XButton
+                      v-if="post?.status.value"
+                      :theme="statusMap.theme"
+                      target="_blank"
+                      size="xs"
+                      :icon="statusMap.icon"
+                      data-test-id="post-status-badge"
+                      design="ghost"
+                    >
+                      {{ statusMap.label || toLabel(post?.status.value) }}
+                    </XButton>
+                  </div>
                 </div>
 
                 <div class="flex gap-12 items-center">
@@ -69,7 +109,7 @@ const hasMedia = vue.computed(() => {
                     <XText
                       :model-value="post.subTitle.value"
                       tag="h3"
-                      class="dark:text-theme-300 text-lg @[400px]/editor:text-2xl !leading-[1.2] font-normal"
+                      class="dark:text-theme-300 text-base @[350px]/editor:text-base @[700px]/editor:text-2xl !leading-[1.2] font-normal"
                       :is-editable="true"
                       placeholder="Enter Subtitle"
                       data-test-id="post-editor-subTitle"

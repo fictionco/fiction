@@ -53,11 +53,11 @@ function getToolTextClass(toolId: string) {
   <div class="flex flex-col h-[100dvh]">
     <!-- Header Bar -->
     <div class="flex-none border-b border-theme-200 dark:border-theme-600/60 bg-theme-0 dark:bg-theme-950">
-      <div class="flex py-2 items-center justify-between px-4">
-        <div class="items-center flex text-sm lg:text-base gap-4">
+      <div class="flex py-2 items-center justify-between px-4 gap-4">
+        <div class="items-center flex gap-4 basis-0 grow">
           <slot name="headerLeft" />
         </div>
-        <div class="flex items-center justify-end gap-3 md:gap-3 text-right">
+        <div class="flex items-center justify-end gap-3 basis-0 grow">
           <slot name="headerRight" />
         </div>
       </div>
