@@ -3,6 +3,7 @@ import type { FictionPosts } from '.'
 import type { TablePostConfig } from './schema'
 import { FictionObject, objectId, vue } from '@fiction/core'
 import { AutosaveUtility } from '@fiction/core/utils/save'
+import { getObjectWordCount } from '@fiction/core/utils/wordCount'
 import { PostLike } from './utils/like'
 
 export type PostConfig = {
@@ -45,7 +46,8 @@ export class Post extends FictionObject<PostConfig> {
   publishAt = vue.ref(this.settings.publishAt)
   updatedAt = vue.ref(this.settings.updatedAt)
   publishMode = vue.ref(this.settings.publishMode || 'now')
-  wordCount = vue.ref(this.settings.wordCount || 0)
+  wordCount = vue.computed(() => getObjectWordCount({ title: this.title.value, subTitle: this.subTitle.value, content: this.content.value }))
+
   scheduleMode = vue.ref<'now' | 'schedule'>('now')
   editedFields = vue.ref<Record<string, boolean>>({})
   relatedPosts = vue.computed(() => {

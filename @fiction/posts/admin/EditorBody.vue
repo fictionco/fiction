@@ -69,7 +69,7 @@ const statusMap = vue.computed<NavListItem>(() => {
             class="h-full @container/editor overflow-hidden flex flex-col"
           >
             <div class="relative max-h-[100%] grow overflow-scroll w-full min-h-0 dark:bg-theme-950/80 no-scrollbar">
-              <div class=" pt-6 md:pt-10 pb-[50vh] px-6 md:px-12 max-w-[800px] mx-auto focus:outline-none space-y-12">
+              <div class=" pt-6 md:pt-10 pb-[10vh] px-6 md:px-12 max-w-[800px] mx-auto focus:outline-none space-y-12">
                 <div class="py-2 px-4 sticky top-0 bg-theme-50 dark:bg-theme-950 z-10 -mx-4 flex items-center justify-between gap-4">
                   <ProseEditorToolbar v-if="proseEditorEl?.editor" :editor="proseEditorEl?.editor" />
                   <div class="flex items-center gap-2">
@@ -135,12 +135,22 @@ const statusMap = vue.computed<NavListItem>(() => {
 
                 <ProseEditor
                   ref="proseEditorEl"
-                  class="font-serif"
+                  class="font-serif min-h-[500px]"
                   :model-value="post.content.value"
                   :is-content-completion-disabled="post.userConfig.value?.contentCompletion?.enabled"
                   :supplemental="{ title: post.title.value, subTitle: post.subTitle.value }"
                   @update:model-value="handleUpdate({ key: 'content', value: $event as string, caller: 'proseEditor:content' })"
                 />
+
+                <div>
+                  <div class="flex items-center gap-4 ">
+                    <div class="border-b border-dashed border-theme-700 grow " />
+                  </div>
+
+                  <div class="p-4 text-theme-500 dark:text-theme-600 font-mono text-xs flex items-center justify-center">
+                    <div>{{ post.wordCount.value }} Words</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
