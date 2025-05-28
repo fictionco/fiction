@@ -49,7 +49,7 @@ describe('site editor content management', async () => {
 
         // Test auto-slide toggle
         { type: 'click', selector: '[data-test-id="group.settings"]' },
-        { type: 'click', selector: '[data-option-path="autoSlide"] button' },
+        { type: 'click', selector: '[data-option-path="autoSlide"] button', waitAfter: 1000 },
 
         // Edit slide content
         { type: 'click', selector: '[data-test-id="group.slides"]' },

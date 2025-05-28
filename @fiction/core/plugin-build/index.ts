@@ -5,7 +5,7 @@ import type { FictionPluginSettings } from '../plugin.js'
 
 import process from 'node:process'
 import { FictionPlugin } from '../plugin.js'
-import { deepMergeAll, randomBetween, safeDirname } from '../utils/index.js'
+import { deepMergeAll, isCi, randomBetween, safeDirname } from '../utils/index.js'
 
 export * from './plugin-release.js'
 
@@ -227,8 +227,8 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
     // randomly if the same port is used, it can conflict silently
     // preventing HMR from working. Setting this way prevents it .
     // In prod and test, disable to reduce problems
-    const port = randomBetween(10_000, 20_000)
-    const hmr = { port }
+    const hmrPort = isCi() ? 24678 : randomBetween(10_000, 20_000)
+    const hmr = isCi() ? false : { port: hmrPort } // Disable HMR in CI
 
     const basicConfig: vite.InlineConfig = {
       mode: isProd ? 'production' : 'development',
@@ -241,12 +241,14 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
         fs: { strict: false },
         allowedHosts: ['.lan.com', 'localhost'],
         hmr,
-        watch: {
-          ignored: [
-            '!**/node_modules/@fiction/**',
-            '!**/node_modules/**/@fiction/**',
-          ],
-        },
+        watch: !isCi()
+          ? {
+              ignored: [
+                '!**/node_modules/@fiction/**',
+                '!**/node_modules/**/@fiction/**',
+              ],
+            }
+          : null,
       },
       define: {
         // https://github.com/vitejs/vite/discussions/5912

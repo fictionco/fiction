@@ -13,7 +13,7 @@ import Tasks from './Tasks.vue'
 const props = defineProps<{
   widget: WidgetConfig
   card: Card
-  primarySite: Site
+  primarySite?: Site
   org: Organization
 }>()
 
