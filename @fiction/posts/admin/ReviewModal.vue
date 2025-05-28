@@ -157,7 +157,7 @@ const reviewOptions = vue.computed(() => {
     :vis="modal === 'success'"
     :title="publishSuccess.title"
     :content="publishSuccess.content"
-    :action="{ buttons: [{ label: 'Close', theme: 'primary' as const, onClick: () => emit('update:modal', '') }] }"
+    :action="{ buttons: [{ testId: 'close-modal', label: 'Close', theme: 'primary' as const, onClick: () => emit('update:modal', '') }] }"
     @update:vis="emit('update:modal', '')"
   />
 

@@ -33,11 +33,11 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
               items: [
                 {
                   superTitle: {
-                    text: 'Join over 2000+ leaders',
+                    text: 'Built for the Next Generation of Leaders',
                     icon: { class: 'i-tabler-rocket' },
                   },
-                  title: `The storytelling platform [@text_effect type=squiggle]for leaders[/@text_effect].`,
-                  subTitle: `Fiction is the simplest way to tell your story, show your work, and build your authority.`,
+                  title: `Your Personal Website in Under [@text_effect type=line]3 Minutes[/@text_effect].`,
+                  subTitle: `Create a fully featured, beautiful digital presence with Fiction.`,
 
                   action: {
                     buttons: [
@@ -165,7 +165,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   rows: 3,
                   superTitle: {
                     icon: { class: 'i-tabler-rocket' },
-                    text: 'Personal Branding Made Easy',
+                    text: 'AI-Optimize Your Personal Brand',
                   },
                   title: 'Create Your Digital Self',
                   content: 'Use Fiction to tell your story, express your expertise, and build your network.',
@@ -208,7 +208,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                     icon: { class: 'i-tabler-rocket' },
                     text: 'Homebase',
                   },
-                  title: 'Your Personal Website',
+                  title: 'Your Website',
                   content: 'A stunning personal website with effortless customization.',
                   theme: 'orange',
                   themeMode: 'dark',
@@ -223,7 +223,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                     icon: { class: 'i-tabler-mail' },
                     text: 'Inbox',
                   },
-                  title: 'Your Professional Newsletter',
+                  title: 'Your Newsletter',
                   content: 'Capture your audience, then send them a newsletter.',
                   theme: 'blue',
                   themeMode: 'dark',
@@ -239,7 +239,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                     icon: { class: 'i-tabler-bolt' },
                     text: 'Content',
                   },
-                  title: 'A Home for Your Ideas',
+                  title: 'Your Ideas',
                   content: 'Put all your content in one place, syndicate it elsewhere.',
                   theme: 'green',
                   themeMode: 'dark',

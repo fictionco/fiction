@@ -18,7 +18,6 @@ const { site, post, tool, card } = defineProps<{
   post: Post
   tool: EditorTool<ToolKeys>
   controller: AdminEditorController<{ toolIds: ToolKeys }>
-  saveText: string
   card: Card
 }>()
 
@@ -107,7 +106,7 @@ const o = vue.computed(() => {
     ai: createOption({
       schema,
       key: 'group.ai',
-      label: 'Compose',
+      label: 'AI',
       input: 'group',
       icon: { class: 'i-tabler-pencil' },
       options: [
@@ -131,7 +130,7 @@ const o = vue.computed(() => {
       schema,
       key: 'group.web',
       input: 'group',
-      label: 'Web',
+      label: 'SEO',
       icon: { class: 'i-tabler-mail' },
       options: [
 
@@ -226,7 +225,7 @@ const o = vue.computed(() => {
 
   return tool.toolId === 'history'
     ? [out.history]
-    : [out.meta, out.ai, out.web, out.email]
+    : [out.meta, out.email, out.ai, out.web]
 })
 
 function updatePost(config: TablePostConfig) {

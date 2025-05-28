@@ -75,8 +75,8 @@ export const theme = new Theme({
         icon: { url: icon, format: 'image' },
         standard: {
           fonts: {
-            body: { family: 'Inter', stack: 'sans' },
-            sans: { family: 'Inter', stack: 'sans' },
+            body: { stack: 'sans' },
+            sans: { stack: 'sans' },
           },
           buttons: { design: 'solid', rounding: 'full', hover: 'fade' },
           widthSize: 'sm',

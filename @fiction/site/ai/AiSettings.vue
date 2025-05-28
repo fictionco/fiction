@@ -8,7 +8,6 @@ import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
-  saveText: { type: String, default: 'Save Site Settings' },
 })
 const loading = vue.ref(false)
 
@@ -53,7 +52,7 @@ async function save() {
 
     <div class="text-right px-4 py-2">
       <ElInput input="InputSubmit" :loading="loading">
-        {{ saveText }}
+        Save AI Settings
       </ElInput>
     </div>
   </ElForm>

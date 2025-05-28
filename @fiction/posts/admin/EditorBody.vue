@@ -49,48 +49,48 @@ const hasMedia = vue.computed(() => {
             class="h-full @container/editor overflow-hidden flex flex-col"
           >
             <div class="relative max-h-[100%] grow overflow-scroll w-full min-h-0 dark:bg-theme-950/80 no-scrollbar">
-              <div class=" pt-6 md:pt-10 pb-[50vh] px-6 md:px-12 max-w-[800px] mx-auto focus:outline-none space-y-8">
+              <div class=" pt-6 md:pt-10 pb-[50vh] px-6 md:px-12 max-w-[800px] mx-auto focus:outline-none space-y-12">
                 <div class="p-2 sticky top-0 bg-theme-50 dark:bg-theme-950 z-10 -mx-4">
                   <ProseEditorToolbar v-if="proseEditorEl?.editor" :editor="proseEditorEl?.editor" />
                 </div>
 
-                <div class="space-y-6">
-                  <XText
-                    :model-value="post.title.value"
-                    tag="h1"
-                    class="text-balance my-0 text-xl @[350px]/editor:3xl @[700px]/editor:text-5xl !leading-[1.2]  font-semibold x-font-title"
-                    :is-editable="true"
-                    placeholder="Enter Title"
-                    data-test-id="post-editor-title"
-                    :disable-formatting="true"
-                    @update:model-value="handleUpdate({ key: 'title', value: $event as string, caller: 'proseEditor:title' })"
-                  />
-                  <XText
-                    :model-value="post.subTitle.value"
-                    tag="h3"
-                    class="dark:text-theme-300 text-lg @[350px]/editor:xl @[700px]/editor:text-3xl !leading-[1.2]"
-                    :is-editable="true"
-                    placeholder="Enter Subtitle"
-                    data-test-id="post-editor-subTitle"
-                    :disable-formatting="true"
-                    @update:model-value="handleUpdate({ key: 'subTitle', value: $event as string, caller: 'proseEditor:subTitle' })"
-                  />
+                <div class="flex gap-12 items-center">
+                  <div class="space-y-4 grow font-serif">
+                    <XText
+                      :model-value="post.title.value"
+                      tag="h1"
+                      class="text-balance my-0 text-xl @[400px]/editor:text-4xl !leading-[1.2] font-medium"
+                      :is-editable="true"
+                      placeholder="Enter Title"
+                      data-test-id="post-editor-title"
+                      :disable-formatting="true"
+                      @update:model-value="handleUpdate({ key: 'title', value: $event as string, caller: 'proseEditor:title' })"
+                    />
+                    <XText
+                      :model-value="post.subTitle.value"
+                      tag="h3"
+                      class="dark:text-theme-300 text-lg @[400px]/editor:text-2xl !leading-[1.2] font-normal"
+                      :is-editable="true"
+                      placeholder="Enter Subtitle"
+                      data-test-id="post-editor-subTitle"
+                      :disable-formatting="true"
+                      @update:model-value="handleUpdate({ key: 'subTitle', value: $event as string, caller: 'proseEditor:subTitle' })"
+                    />
+                  </div>
+                  <div class="">
+                    <InputMedia
+                      v-model="post.media.value"
+                      ui-size="sm"
+                      data-test-id="featured-post-media"
+                      class="w-32"
+                      aspect-class="aspect-[1/1]"
+                      :full-width="true"
+                    />
+                  </div>
                 </div>
 
                 <div class="flex items-center gap-4 ">
                   <div class="border-b border-dashed border-theme-700 grow " />
-                  <div class="text-theme-700 text-sm font-mono i-tabler-slashes" />
-                  <div class="border-b border-dashed border-theme-700 grow " />
-                </div>
-
-                <div class="flex flex-col gap-4">
-                  <InputMedia
-                    v-model="post.media.value"
-                    ui-size="sm"
-                    :aspect-class="!hasMedia ? 'aspect-[5/1]' : ''"
-                    data-test-id="featured-post-media"
-                    :full-width="true"
-                  />
                 </div>
 
                 <ProseEditor
@@ -101,12 +101,6 @@ const hasMedia = vue.computed(() => {
                   :supplemental="{ title: post.title.value, subTitle: post.subTitle.value }"
                   @update:model-value="handleUpdate({ key: 'content', value: $event as string, caller: 'proseEditor:content' })"
                 />
-
-                <div class="flex items-center gap-4 ">
-                  <div class="border-b border-dashed border-theme-700 grow " />
-                  <div class="text-theme-700 text-sm font-mono i-tabler-slashes" />
-                  <div class="border-b border-dashed border-theme-700 grow " />
-                </div>
               </div>
             </div>
           </div>
