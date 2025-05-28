@@ -18,7 +18,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
     isHome: true,
     userConfig: {
       standard: {
-        title: 'Create Your Ideal Digital Self',
+        title: 'Your Digital Self in 3 Minutes',
         description: 'Create a personal brand that displays your ideal digital self. Build an AI-enhanced personal brand and professional network with Fiction.',
       },
     },
@@ -33,11 +33,11 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
               items: [
                 {
                   superTitle: {
-                    text: 'Meet Fiction, The Digital-Self Platform',
-                    icon: { class: 'i-tabler-north-star' },
+                    text: 'The Future of Digital Identity',
+                    icon: { class: 'i-tabler-trending-up' },
                   },
                   title: `Your Personal Website in Under [@text_effect type=line]3 Minutes[/@text_effect].`,
-                  subTitle: `Optimize your personal brand, build your professional audience, and share your ideas with the world.`,
+                  subTitle: `The simplest way to create a portfolio, newsletter, and more. Built for the next-generation of leaders.`,
 
                   action: {
                     buttons: [

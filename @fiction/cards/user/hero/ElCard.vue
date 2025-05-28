@@ -37,8 +37,9 @@ function getClasses(item: HeroConfig) {
     ],
     media: {
       wrap: [
-        isLeftOrRight ? 'lg:basis-1/2' : 'mt-12 mx-auto max-w-screen-md',
+        isLeftOrRight ? 'lg:basis-1/2' : 'mt-12 mx-auto',
         'relative',
+        layout === 'center' ? 'max-w-screen-md' : '',
       ],
     },
     aspectRatio: item.media?.aspect === 'square' ? 'aspect-square' : item.media?.aspect === 'portrait' ? 'aspect-[3/4]' : item.media?.aspect === 'landscape' ? 'aspect-[16/9]' : '',

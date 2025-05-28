@@ -156,18 +156,18 @@ vue.onMounted(() => {
               <a
                 href="https://www.fiction.com"
                 title="Built with Fiction"
-                class="text-theme-300/30 dark:text-theme-600/60 dark:hover:text-primary-400 hover:text-primary-500 transition-all"
+                class="dark:text-theme-600 dark:hover:text-primary-400 hover:text-primary-500 transition-all"
               >
                 <svg
-                  class="h-8"
-                  width="42"
-                  height="42"
-                  preserveAspectRatio="xMidYMid meet"
-                  viewBox="0 0 42 42"
-                  fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                ><path d="M34.5005 41H17.187C16.0637 41 15.0057 40.5523 14.211 39.7352L1.01935 26.2084C0.0221016 25.1882 -0.272797 23.6627 0.265224 22.3287C0.805496 20.9924 2.06388 20.1269 3.47534 20.1269H19.6407V3.55352C19.6407 2.11105 20.4827 0.820906 21.7838 0.266998C23.0647 -0.279986 24.591 0.0315868 25.5702 1.03554L38.7686 14.5671C39.5633 15.3864 40 16.4688 40 17.6182V35.364C39.9977 38.4728 37.5328 41 34.5005 41ZM17.9119 34.9024H34.0525V18.3544L25.5882 9.67651V26.2245H9.4476L17.9119 34.9024Z" fill="currentColor" /></svg>
-
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="icon icon-tabler icons-tabler-outline icon-tabler-north-star h-8"
+                ><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 12h18" /><path d="M12 21v-18" /><path d="M7.5 7.5l9 9" /><path d="M7.5 16.5l9 -9" /></svg>
               </a>
             </div>
           </div>

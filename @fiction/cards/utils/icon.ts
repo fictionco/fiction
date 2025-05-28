@@ -26,7 +26,7 @@ export function getDefaultIconUrl(args?: { options?: Partial<IconOptions> }) {
 // Helper function to generate specific icon sizes
 export function getSiteIcons() {
   return {
-    favicon: getDefaultIconUrl({ options: { size: 32, format: 'svg', rounded: false } }),
+    favicon: getDefaultIconUrl({ options: { size: 32, format: 'png', rounded: false } }),
     appleTouchIcon: getDefaultIconUrl({ options: { size: 180, format: 'png', rounded: false } }),
     msTileIcon: getDefaultIconUrl({ options: { size: 144, format: 'png', rounded: false } }),
     ogImage: getDefaultIconUrl({ options: { 'size': 512, 'format': 'png', 'rounded': false, 'font-size': 0.4 } }),
