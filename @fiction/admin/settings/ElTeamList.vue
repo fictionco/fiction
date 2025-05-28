@@ -45,6 +45,7 @@ const indexMeta = vue.ref()
       :list
       theme="primary"
       :action="{ buttons: [{
+        testId: 'inviteButton',
         label: 'Invite',
         theme: 'primary',
         icon: 'i-tabler-user-plus',

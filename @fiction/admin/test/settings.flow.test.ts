@@ -1,11 +1,10 @@
-import type { Organization } from '@fiction/core'
-import { isCi, pathCheck } from '@fiction/core'
-import { OrgSchema as schema } from '@fiction/core/plugin-user/schema'
+import type { Organization, User } from '@fiction/core'
+import { isCi } from '@fiction/core'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
 import { afterAll, describe, expect, it } from 'vitest'
 
 describe('settings e2e', async () => {
-  const kit = await createSiteUiTestingKit({ initUser: true, headless: false, slowMo: 0 })
+  const kit = await createSiteUiTestingKit({ initUser: true, headless: isCi(), slowMo: 0 })
 
   const testUtils = kit.testUtils
 
@@ -14,33 +13,90 @@ describe('settings e2e', async () => {
 
   afterAll(async () => kit.close())
 
-  it('loads up ui associated with action', { timeout: 80000, retry: isCi() ? 3 : 0 }, async () => {
+  const orgId = kit.initialized?.orgId
+
+  if (!orgId)
+    throw new Error('Organization ID is not initialized')
+
+  const getOrg = async () => {
+    const out = await testUtils.fictionUser.queries.ManageOrganization.serve({ _action: 'read', where: { orgId } }, { server: true }).then(_ => _.data)
+    return out
+  }
+
+  const getUser = async () => {
+    const out = await testUtils.fictionUser.queries.ManageUser.serve({ _action: 'retrieve', where: { userId: kit.initialized?.user.userId || '' } }, { server: true }).then(_ => _.data)
+    return out
+  }
+
+  it('navigates between settings panels', { timeout: 30000, retry: isCi() ? 2 : 0 }, async () => {
     await kit.performActions({
-      caller: 'settings',
+      caller: 'settings-nav',
       path: '/app/settings',
       actions: [
-        { type: 'click', selector: `[data-test-id="orgName-edit-button"]` },
-        { type: 'fill', selector: `[data-option-path="${pathCheck('orgName', schema)}"] input`, text: 'Org Name Test' },
-        { type: 'click', selector: `[data-test-id="orgName-modal-apply"]` },
-        { type: 'click', selector: `[data-test-id="orgEmail-edit-button"]` },
-        { type: 'fill', selector: `[data-option-path="${pathCheck('orgEmail', schema)}"] input`, text: 'billing@example.com' },
-        { type: 'click', selector: `[data-test-id="orgEmail-modal-apply"]` },
-        { type: 'click', selector: `[data-test-id="orgAvatar-edit-button"]` },
-        { type: 'click', selector: `[data-test-id="media-select-button"]` },
-        { type: 'click', selector: `[data-test-id="media-tool-media"]` },
-        { type: 'fill', selector: `[data-test-id="media-upload-input"] input[type="text"]`, text: 'https://picsum.photos/id/237/200/300' },
-        { type: 'click', selector: `[data-test-id="media-apply"]` },
-        { type: 'click', selector: `[data-test-id="orgAvatar-modal-apply"]` },
-        { type: 'click', selector: `[data-test-id="description-edit-button"]` },
-        { type: 'fill', selector: `[data-option-path="${pathCheck('description', schema)}"] input`, text: 'Test Description' },
-        { type: 'click', selector: `[data-test-id="description-modal-apply"]` },
-        { type: 'click', selector: `[data-test-id="saveButton"]`, waitAfter: 3000 },
-        { type: 'dataValue', selector: `[data-form-engine-depth="0"]`, onValue: (value) => {
-          const v = value as Organization
+        { type: 'click', selector: '[data-test-id="nav-item-org"]' },
+        { type: 'click', selector: '[data-test-id="nav-item-account"]' },
+        { type: 'click', selector: '[data-test-id="nav-item-team"]' },
+        { type: 'click', selector: '[data-test-id="nav-item-billing"]' },
+      ],
+    })
+  })
 
-          expect(v.orgName).toBe('Org Name Test')
-          expect(v.orgEmail).toBe('billing@example.com')
-        } },
+  it('updates organization settings', { timeout: 60000, retry: isCi() ? 2 : 0 }, async () => {
+    await kit.performActions({
+      caller: 'org-settings',
+      path: '/app/settings/org',
+      actions: [
+        { type: 'fill', selector: '[data-option-path="orgName"] input', text: 'Updated Org Name' },
+        { type: 'fill', selector: '[data-option-path="orgEmail"] input', text: 'updated@example.com' },
+        { type: 'fill', selector: '[data-option-path="headline"] input', text: 'Updated headline' },
+        { type: 'click', selector: '[data-test-id="saveButton"]', waitAfter: 2000 },
+      ],
+    })
+
+    const org = await getOrg()
+    expect(org?.orgName).toBe('Updated Org Name')
+    expect(org?.orgEmail).toBe('updated@example.com')
+    expect(org?.headline).toBe('Updated headline')
+  })
+
+  it('updates user account settings', { timeout: 60000, retry: isCi() ? 2 : 0 }, async () => {
+    await kit.performActions({
+      caller: 'account-settings',
+      path: '/app/settings/account',
+      actions: [
+        { type: 'fill', selector: '[data-option-path="fullName"] input', text: 'Updated Full Name' },
+        { type: 'fill', selector: '[data-option-path="headline"] input', text: 'Updated user headline' },
+        { type: 'click', selector: '[data-test-id="saveButton"]', waitAfter: 2000 },
+
+      ],
+    })
+
+    const user = await getUser()
+    expect(user?.fullName).toBe('Updated Full Name')
+    expect(user?.headline).toBe('Updated user headline')
+  })
+
+  it('manages team members', { timeout: 60000, retry: isCi() ? 2 : 0 }, async () => {
+    await kit.performActions({
+      caller: 'team-management',
+      path: '/app/settings/team',
+      actions: [
+        { type: 'click', selector: '[data-test-id="inviteButton"]' },
+        { type: 'fill', selector: '[data-test-id="invite-email-input"] [data-test-id="email-input"]', text: 'newmember@example.com' },
+        { type: 'keyboard', selector: '[data-test-id="invite-email-input"] [data-test-id="email-input"]', key: 'Enter' },
+        { type: 'click', selector: '[data-test-id="send-invites-button"]', waitAfter: 2000 },
+      ],
+    })
+  })
+
+  it('handles organization switching', { timeout: 30000, retry: isCi() ? 2 : 0 }, async () => {
+    await kit.performActions({
+      caller: 'org-switching',
+      path: '/app/settings/manage-organizations',
+      actions: [
+        { type: 'click', selector: '[data-test-id="create-org-button"]' },
+        { type: 'fill', selector: '[data-option-path="orgName"] input', text: 'New Test Org' },
+        { type: 'click', selector: '[data-test-id="create-workspace-button"]', waitAfter: 3000 },
       ],
     })
   })

@@ -24,6 +24,7 @@ const header = vue.computed(() => {
     action: {
       buttons: [
         {
+          testId: 'create-org-button',
           label: 'Add New Workspace',
           theme: 'primary' as const,
           icon: 'i-tabler-building-plus',

@@ -33,7 +33,7 @@ const inputText = vue.ref('')
 const isFocused = vue.ref(false)
 const isInvalid = vue.ref(false)
 const invalidMessage = vue.ref('')
-const tagInput = vue.ref<HTMLInputElement>()
+const theInput = vue.ref<HTMLInputElement>()
 
 // Size configuration
 const sizeClasses = vue.computed(() => {
@@ -191,7 +191,7 @@ vue.watch(
   <div class="relative">
     <div
       class=""
-      @click.self="!disabled && tagInput?.focus()"
+      @click.self="!disabled && theInput?.focus()"
     >
       <EffectDraggableSort
         class="inline-flex flex-wrap items-center w-full max-h-[50vh] overflow-y-auto"
@@ -234,8 +234,9 @@ vue.watch(
         </template>
 
         <input
-          ref="tagInput"
+          ref="theInput"
           v-model="inputText"
+          data-test-id="email-input"
           type="text"
           spellcheck="false"
           autocapitalize="off"

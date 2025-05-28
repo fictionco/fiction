@@ -70,6 +70,7 @@ const nav = vue.computed<NavListItem[]>(() => {
         description: p.description.value,
         href,
         isActive,
+        key: p.slug.value,
         icon: {
           class: isActive && cfg.navIconAlt ? cfg.navIconAlt : cfg.navIcon || 'i-heroicons-arrow-small-right-20-solid',
         },
@@ -148,6 +149,7 @@ const parentPanelProps = vue.computed(() => {
                 class="flex items-center gap-3 xl:gap-4 p-2.5 xl:p-3 rounded-lg transition-all duration-100"
                 :href="v.href"
                 :class="getNavItemClass(v, i)"
+                :data-test-id="`nav-item-${v.key}`"
               >
                 <XIcon
                   v-if="v.icon"
@@ -159,12 +161,6 @@ const parentPanelProps = vue.computed(() => {
                     {{ v.label }}
                   </div>
                 </div>
-                <XIcon
-                  v-if="v.icon"
-                  class="block md:hidden text-[1.7em] shrink-0 "
-                  :class="v.isActive || (i === 0 && !currentItemId) ? 'text-theme-700 dark:text-theme-500' : 'text-theme-500 dark:text-theme-300'"
-                  :media="{ class: 'i-tabler-chevron-right' }"
-                />
               </CardLink>
             </div>
           </div>

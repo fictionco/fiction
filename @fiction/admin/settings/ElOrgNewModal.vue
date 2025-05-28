@@ -70,7 +70,7 @@ const options = vue.computed(() => {
       key: 'orgName',
       label: 'Title',
       input: 'InputText',
-      placeholder: 'My Brand',
+      placeholder: 'My Workspace',
       isRequired: true,
     }),
     createOption({
@@ -87,7 +87,8 @@ const options = vue.computed(() => {
 const buttons = vue.computed(() => {
   return [
     {
-      label: 'Create New Brand',
+      testId: 'create-workspace-button',
+      label: 'Create New Workspace',
       theme: 'primary' as const,
       onClick: send,
       loading: sending.value,
@@ -101,8 +102,8 @@ const buttons = vue.computed(() => {
     v-model="form"
     :vis
     :options
-    title="Create New Brand"
-    sub-title="Enter the details for your new brand"
+    title="Create New Workspace',"
+    sub-title="Enter the details"
     :buttons="buttons"
     @update:vis="closeModal"
   />

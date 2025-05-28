@@ -193,13 +193,15 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
     title="User Settings"
     :loading
     :header
-    :action="{ buttons: [{
-      label: isDirty ? 'Save Changes' : 'Saved',
-      onClick: () => save(),
-      theme: isDirty ? 'primary' : 'default',
-      loading: sending === 'saving',
-      icon: isDirty ? 'i-tabler-upload' : 'i-tabler-check',
-    }] }"
+    :action="{
+      buttons: [{
+        testId: 'saveButton',
+        label: isDirty ? 'Save Changes' : 'Saved',
+        onClick: () => save(),
+        theme: isDirty ? 'primary' : 'default',
+        loading: sending === 'saving',
+        icon: isDirty ? 'i-tabler-upload' : 'i-tabler-check',
+      }] }"
   >
     <FormEngine
       :model-value="user"

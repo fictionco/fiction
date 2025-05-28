@@ -39,7 +39,7 @@ const panels = [
   }),
   new Card<NavCardUserConfig>({
     slug: 'billing',
-    title: 'Billing & Payments',
+    title: 'Billing',
     description: 'Manage subscriptions, payment methods, and billing history',
     el: vue.defineAsyncComponent(async () => import('../settings/PanelBilling.vue')),
     userConfig: { isNavItem: true, navIcon: 'i-tabler-credit-card', navIconAlt: 'i-tabler-credit-card-filled' },

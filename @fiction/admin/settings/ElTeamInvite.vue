@@ -100,6 +100,7 @@ onResetUi(() => {
             >
               <ElInput
                 v-model="emails"
+                data-test-id="invite-email-input"
                 label="Email Addresses"
                 sub-label="Enter one or more email addresses (separated by commas or new lines)"
                 input="InputEmailMulti"
@@ -110,6 +111,7 @@ onResetUi(() => {
 
           <div class="my-8 flex flex-end">
             <XButton
+              data-test-id="send-invites-button"
               input="submit"
               theme="primary"
               :loading="sending"
