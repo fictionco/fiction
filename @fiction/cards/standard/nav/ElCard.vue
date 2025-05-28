@@ -36,7 +36,7 @@ const nav = vue.computed(() => {
 </script>
 
 <template>
-  <CardWrap :card>
+  <CardWrap :card class="border-b border-theme-700 bg-theme-900/50">
     <div class="z-20">
       <div class="x-header-container">
         <div class="relative">
@@ -53,7 +53,7 @@ const nav = vue.computed(() => {
                     :classes="{
                       text: 'x-font-title text-lg font-bold',
                     }"
-                    :media-handling="{ height: 1.6 }"
+                    :media-handling="{ height: 2 }"
                     class="transition-all group-hover:opacity-80 duration-200"
                     data-test-id="page-nav-logo"
                     :org="card.site?.org.value"

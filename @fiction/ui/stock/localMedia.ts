@@ -1,15 +1,16 @@
 import type { MediaObject } from '@fiction/core'
 import { vue } from '@fiction/core'
-import FictionLogo from '../brand/FictionLogo.svg?raw'
 import { svgList } from './img/svgList'
 
 export type LocalMediaKeys = keyof typeof localMedia
+
+const fictionLogo = `<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-north-star"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12h18" /><path d="M12 21v-18" /><path d="M7.5 7.5l9 9" /><path d="M7.5 16.5l9 -9" /></svg>`
 
 export const localMedia = {
   fictionShareImage: { format: 'image', url: new URL('../brand/shareImage.png', import.meta.url).href },
   fictionFaviconSvg: { format: 'image', url: new URL('../brand/favicon.svg', import.meta.url).href },
   fictionIcon: { format: 'image', url: new URL('../brand/icon.png', import.meta.url).href },
-  fictionLogo: { format: 'html', html: FictionLogo, tags: ['brand', 'logo'] },
+  fictionLogo: { format: 'html', html: fictionLogo, tags: ['brand', 'logo'] },
   fictionLogoComponent: {
     format: 'component',
     el: vue.defineAsyncComponent(() => import('../brand/FictionLogo.vue')),

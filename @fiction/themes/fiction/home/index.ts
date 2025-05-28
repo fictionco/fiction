@@ -33,7 +33,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
               items: [
                 {
                   superTitle: {
-                    text: 'The digital self platform',
+                    text: 'Meet Fiction, The Digital-Self Platform',
                     icon: { class: 'i-tabler-north-star' },
                   },
                   title: `Your Personal Website in Under [@text_effect type=line]3 Minutes[/@text_effect].`,

@@ -8,7 +8,7 @@ const spacingClasses = {
   'none': { top: 'pt-0', bottom: 'pb-0' },
   'full': { top: 'min-h-[100dvh] flex items-center', bottom: 'min-h-[100dvh]' },
   'xxs': { top: 'pt-[calc(0.25rem+.3vw)]', bottom: 'pb-[calc(0.25rem+.3vw)]' },
-  'xs': { top: 'pt-[calc(0.5rem+.5vw)]', bottom: 'pb-[calc(0.5rem+.3vw)]' },
+  'xs': { top: 'pt-[calc(0.5rem+.5vw)]', bottom: 'pb-[calc(0.5rem+.5vw)]' },
   'sm': { top: 'pt-[calc(1rem+1vw)]', bottom: 'pb-[calc(1rem+1vw)]' },
   'md': { top: 'pt-[calc(2rem+2.5vw)]', bottom: 'pb-[calc(2rem+2.5vw)]' },
   'lg': { top: 'pt-[calc(4rem+5vw)]', bottom: 'pb-[calc(4rem+5vw)]' },

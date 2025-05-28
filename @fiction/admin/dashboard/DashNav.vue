@@ -23,7 +23,7 @@ async function handleClick(event: MouseEvent, item: NavListItem): Promise<void> 
 
 const cls = {
   active: 'font-semibold bg-primary-100/60 text-primary-700 dark:bg-primary-800/50 ring-2 ring-primary-600/50 dark:ring-primary-800 dark:text-primary-0',
-  inactive: 'font-normal text-theme-700 dark:text-theme-200 dark:hover:bg-theme-700 hover:text-theme-900 border-theme-0',
+  inactive: 'font-medium text-theme-700 dark:text-theme-200 dark:hover:bg-theme-700 hover:text-theme-900 border-theme-0',
   navItemWrap: 'group nav-item flex cursor-pointer items-center py-3 px-4 gap-3 truncate rounded-full font-sans text-base xl:text-base focus:outline-none transition-all duration-100',
   icon: 'size-6 shrink-0',
 }
@@ -32,11 +32,11 @@ const cls = {
 <template>
   <div class="flex h-full min-w-0 grow flex-col justify-between ">
     <div class="space-y-1 font-sans">
-      <div class="flex items-center justify-start space-x-3 px-3 py-2">
+      <div class="flex items-center justify-start space-x-3 p-2">
         <div class=" ">
           <div class="rounded-full flex items-center justify-start">
             <CardLink :card href="/" class="text-xl text-theme-700 hover:text-primary-500 dark:text-theme-0 dark:hover:text-primary-300 transition-all p-4 rounded-md">
-              <XMedia class="h-[21px] xl:h-[26px]" :media="icon" />
+              <XMedia class="h-[32px]" :media="icon" />
             </CardLink>
           </div>
         </div>

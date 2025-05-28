@@ -46,7 +46,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
           class="relative mx-auto flex items-center justify-between px-4 py-2 text-xs md:max-w-7xl"
         >
           <div class="mt-2 text-center">
-            <XMedia :media="uc.logo" class="h-6" />
+            <XMedia :media="uc.logo" class="h-8" />
           </div>
         </div>
       </div>
