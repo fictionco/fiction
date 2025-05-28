@@ -293,6 +293,7 @@ body,
 .x-site{
   .x-font-title {
     font-family: var(--font-family-title, unset);
+    letter-spacing: var(--font-letter-spacing-title, -.02em);
     // &.font-semibold {
     //   font-weight: var(--font-weight-title, 600);
     // }

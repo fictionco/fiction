@@ -8,7 +8,7 @@ describe('postEditing', async () => {
 
   afterAll(() => kit?.close())
 
-  it.only('creates post and allows basic editing', { retry: isCi() ? 3 : 0, timeout: 100000 }, async () => {
+  it('creates post and allows basic editing', { retry: isCi() ? 3 : 0, timeout: 100000 }, async () => {
     await kit.performActions({
       caller: 'postEditing',
       path: '/app',

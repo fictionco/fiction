@@ -70,7 +70,7 @@ function getOverlayStyle(overlay: OverlayConfig) {
       <div v-for="(item, i) in uc.items" :key="i" :class="getClasses(item).wrapper">
         <!-- Content Section -->
         <div :class="getClasses(item).text">
-          <div class="space-y-6 ">
+          <div class="space-y-12">
             <div
               :class="getClasses(item).textWrap"
               class="space-y-4 @container/header"

@@ -33,11 +33,11 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
               items: [
                 {
                   superTitle: {
-                    text: 'Built for the Next Generation of Leaders',
-                    icon: { class: 'i-tabler-rocket' },
+                    text: 'The digital self platform',
+                    icon: { class: 'i-tabler-north-star' },
                   },
                   title: `Your Personal Website in Under [@text_effect type=line]3 Minutes[/@text_effect].`,
-                  subTitle: `Create a fully featured, beautiful digital presence with Fiction.`,
+                  subTitle: `Optimize your personal brand, build your professional audience, and share your ideas with the world.`,
 
                   action: {
                     buttons: [
