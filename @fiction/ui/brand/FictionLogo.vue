@@ -9,7 +9,7 @@ defineProps({
 
 const randomId = vue.useId()
 function doHoverAnimation() {
-  animateItemEnter({ targets: `#${randomId} .fx`, themeId: 'slide', totalTime: 600 })
+  animateItemEnter({ targets: `#${randomId} .fx`, themeId: 'pop', totalTime: 600 })
 }
 </script>
 
@@ -35,17 +35,6 @@ function doHoverAnimation() {
     will-change: fill;
   }
 
-  // Loop through nth-child(2) to nth-child(7)
-  .loader {
-    @total-loaders: 7;
-    .loop (@i) when (@i <= @total-loaders) {
-      &:nth-child(@{i}) {
-        animation-delay: (@i - 1) * 0.1s;
-      }
-      .loop(@i + 1);
-    }
-    .loop(2); // Start from nth-child(2)
-  }
 }
 
 @keyframes kaboom {
@@ -53,7 +42,7 @@ function doHoverAnimation() {
     opacity: 1;
   }
   50% {
-    opacity: .5;
+    opacity: .8;
   }
   100% {
     opacity: 1;

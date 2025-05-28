@@ -35,7 +35,7 @@ const cls = {
       <div class="flex items-center justify-start space-x-3 p-2">
         <div class=" ">
           <div class="rounded-full flex items-center justify-start">
-            <CardLink :card href="/" class="text-xl text-theme-700 hover:text-primary-500 dark:text-theme-0 dark:hover:text-primary-300 transition-all p-4 rounded-md">
+            <CardLink :card href="/" class="text-xl transition-all p-4 rounded-md">
               <XMedia class="h-[32px]" :media="icon" />
             </CardLink>
           </div>
