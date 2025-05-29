@@ -207,8 +207,8 @@ vue.onMounted(async () => {
       return
 
     const clr = colors.value
-    const th = clr.theme
-    const prm = clr.primary
+    const th = clr.themeHex
+    const prm = clr.primaryHex
     const fn = fonts.value
     Object.entries(th).forEach(([k, v]) => {
       document.documentElement.style.setProperty(`--theme-${k}`, v)
@@ -278,9 +278,11 @@ vue.onMounted(async () => {
   </div>
 </template>
 
-<style lang="less">
-@import url('@fiction/ui/entry.less');
+<style>
+@import "./tw.css";
+</style>
 
+<style lang="less">
 html,
 body,
 #app,

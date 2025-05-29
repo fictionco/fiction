@@ -1,4 +1,3 @@
-import type { EndpointResponse } from '@fiction/core'
 import type { Site } from '../index.js'
 import type { CardConfigPortable, PageRegion, TableCardConfig } from '../tables.js'
 import { log, waitFor } from '@fiction/core'

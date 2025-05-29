@@ -6,7 +6,7 @@ import XButton from '@fiction/ui/buttons/XButton.vue'
 import { getColorThemeStyles } from '@fiction/ui/utils'
 
 // Store the categories and their items
-const categories = vue.ref<{ title: string, items: NavListItem[], theme: ColorThemeUser, icon: string }[]>([])
+const categories = vue.ref<NavListItem[]>([])
 const isLoading = vue.ref(true)
 
 // Function to get an icon for a category
@@ -27,7 +27,7 @@ function getCategoryIcon(category: string): string {
 }
 
 // Function to get a color for a category
-function getCategoryColor(category: string): ColorThemeBright {
+function getCategoryColor(category: string) {
   const colorMap: Record<string, ColorThemeBright> = {
     'Marketing Essentials': 'blue',
     'Social Proof': 'emerald',
@@ -43,7 +43,7 @@ function getCategoryColor(category: string): ColorThemeBright {
   return colorMap[category] || 'primary'
 }
 
-const themeStyles = (theme: ColorThemeUser) => getColorThemeStyles(theme)
+const themeStyles = (theme?: ColorThemeUser) => getColorThemeStyles(theme)
 
 // Load all demo categories and their items
 vue.onMounted(async () => {
@@ -51,14 +51,16 @@ vue.onMounted(async () => {
     const demoComponents = await getCardDemoListing()
 
     // Transform the data structure for easier rendering
-    categories.value = demoComponents
+    const c = demoComponents
       .map(category => ({
-        title: category.label || '',
+        label: category.label || '',
         theme: getCategoryColor(category.label || ''),
-        icon: getCategoryIcon(category.label || ''),
-        items: category.list?.items || [],
+        icon: { class: getCategoryIcon(category.label || '') },
+        list: { items: category.list?.items || [] },
       }))
-      .filter(group => group.items.length > 0)
+      .filter(group => group.list.items.length > 0)
+
+    categories.value = c
 
     isLoading.value = false
   }
@@ -93,10 +95,10 @@ vue.onMounted(async () => {
             </div>
             <div>
               <h2 class="text-2xl font-bold x-font-title">
-                {{ category.title }}
+                {{ category.label }}
               </h2>
               <p class="text-theme-500 dark:text-theme-400 font-sans">
-                {{ category.items.length }} component{{ category.items.length !== 1 ? 's' : '' }}
+                {{ category.list?.items?.length }} component{{ category.list?.items?.length !== 1 ? 's' : '' }}
               </p>
             </div>
           </div>
@@ -105,7 +107,7 @@ vue.onMounted(async () => {
         <!-- Component grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <div
-            v-for="(item, j) in category.items"
+            v-for="(item, j) in category.list?.items"
             :key="`item-${i}-${j}`"
             class="border border-theme-200 dark:border-theme-800 rounded-xl p-6 hover:shadow-md transition-shadow"
           >

@@ -61,6 +61,14 @@ export const ClickCallbackArgsSchema = z.object({
 
 export type ClickCallbackArgs = z.infer<typeof ClickCallbackArgsSchema>
 
+const myFunction = z.function({
+  input: [z.object({
+    name: z.string(),
+    age: z.number().int(),
+  })],
+  output: z.string(),
+})
+
 export const ClickHandlerSchema = functionSchema(z.function({
   input: z.object({
     event: z.instanceof(MouseEventType).optional(),

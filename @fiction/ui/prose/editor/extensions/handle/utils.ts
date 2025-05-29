@@ -124,7 +124,7 @@ export function openMenuFromDragHandle(args: {
     },
   }
 
-  component = new VueRenderer(ElSlashPanel, { props, editor })
+  component = new VueRenderer(ElSlashPanel as any, { props, editor })
 
   const content = component.element
 

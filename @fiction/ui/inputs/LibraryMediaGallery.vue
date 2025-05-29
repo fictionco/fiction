@@ -62,7 +62,7 @@ async function deleteMediaFromLibrary(mediaId?: string) {
 }
 
 function selectMedia(media: MediaObject) {
-  const v = { ...modelValue, ...media, format: 'url' }
+  const v = { ...modelValue, ...media }
   const newValue = removeUndefined(v, { removeNull: true }) as MediaObject
   emit('update:modelValue', newValue)
 }

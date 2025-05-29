@@ -10,7 +10,7 @@ export async function getPrimarySite<T extends boolean = false>(
     throw new Error('No orgId provided')
   }
 
-  const r = await fictionSites.requests.ManageSites.request({_action: 'list',limit: 1,orgId,  })
+  const r = await fictionSites.requests.ManageSites.request({ _action: 'list', limit: 1, orgId })
 
   const siteConfig = r.data?.[0]
   if (!siteConfig) {

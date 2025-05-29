@@ -1,4 +1,3 @@
-import type { Site } from '@fiction/site/site.js'
 import { cardConfig, getCardTemplates } from '@fiction/cards'
 import { safeDirname } from '@fiction/core'
 import { Theme } from '@fiction/site/theme.js'

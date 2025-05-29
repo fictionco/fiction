@@ -104,10 +104,10 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     this.fictionEnv?.events.on('shutdown', async () => this.close())
   }
 
-  tailwindConfig = this.settings.tailwindConfig ?? []
-  addTailwindConfig(tailwindConfig: Partial<TailwindConfig>) {
-    this.tailwindConfig = [...this.tailwindConfig, tailwindConfig]
-  }
+  // tailwindConfig = this.settings.tailwindConfig ?? []
+  // addTailwindConfig(tailwindConfig: Partial<TailwindConfig>) {
+  //   this.tailwindConfig = [...this.tailwindConfig, tailwindConfig]
+  // }
 
   async buildApp(options: { render?: boolean, serve?: boolean } = {}) {
     if (this.settings.fictionEnv.isApp.value)

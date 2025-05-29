@@ -27,7 +27,7 @@ function safeReplace(str: string, pattern: string | undefined, replacement: stri
 }
 
 export function emailActionSnapshot(str: string, emailVars: Partial<EmailVars> = {}, masks?: Record<string, string | undefined>): string {
-  const { token, recipient, code,  callbackUrl, originUrl, unsubscribeUrl } = emailVars
+  const { token, recipient, code, callbackUrl, originUrl, unsubscribeUrl } = emailVars
 
   const { email, userId, handle, fullName } = recipient || {}
 

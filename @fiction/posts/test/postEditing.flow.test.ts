@@ -1,4 +1,4 @@
-import { dayjs, isCi, pathCheck } from '@fiction/core'
+import { isCi, pathCheck } from '@fiction/core'
 import { afterAll, describe, it } from 'vitest'
 import { TablePostSchema as schema } from '../schema'
 import { createPostsUiTestingKit } from './postTestUtils'

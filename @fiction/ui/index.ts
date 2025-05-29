@@ -2,9 +2,6 @@ import type { FictionApp, FictionPluginSettings, vue } from '@fiction/core/index
 import type { Config as TailwindConfig } from 'tailwindcss'
 import { FictionPlugin, safeDirname } from '@fiction/core/index.js'
 import { tailwindVarColorScheme } from '@fiction/core/utils/colors.js'
-import twContainerQueries from '@tailwindcss/container-queries'
-import twForms from '@tailwindcss/forms'
-import twTypography from '@tailwindcss/typography'
 import { inputs } from './inputs/index.js'
 
 export * from './inputs/index.js'
@@ -26,16 +23,15 @@ export class FictionUi extends FictionPlugin<FictionUiSettings> {
   constructor(settings: FictionUiSettings) {
     super('ui', { root: safeDirname(import.meta.url), ...settings })
 
-    this.apps.forEach((app) => {
-      app.addTailwindConfig(this.tailwindConfig())
-    })
+    // this.apps.forEach((app) => {
+    //   app.addTailwindConfig(this.tailwindConfig())
+    // })
   }
 
   tailwindConfig(): Partial<TailwindConfig> {
     return {
       darkMode: ['variant', ['&:not(.light *)', '.light .dark &']],
       content: [`${this.settings.root}/*.vue`, `${this.settings.root}/*.ts`],
-      plugins: [twForms, twContainerQueries, twTypography],
 
       theme: {
         extend: {

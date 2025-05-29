@@ -93,8 +93,6 @@ export class SSR extends FictionObject<SSRSettings> {
     }
     const startTime = Date.now()
 
-
-
     if (cacheStatus === 'hit')
       return out
 

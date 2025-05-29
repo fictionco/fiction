@@ -5,7 +5,6 @@
     "@fiction/core": "workspace:*",
     "@fiction/plugin-ai": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
-    "@fiction/plugin-transactions": "workspace:*",
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",
     "zod-to-json-schema": "^3.24.5"

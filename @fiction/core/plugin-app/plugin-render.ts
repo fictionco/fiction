@@ -1,7 +1,6 @@
 /* server-only-file */
 import type { Express, NextFunction, Request } from 'express'
 import type http from 'node:http'
-import type tailwindcss from 'tailwindcss'
 import type { RunVars } from '../inject.js'
 import type { FictionEnv } from '../plugin-env/index.js'
 import type { FictionRouter } from '../plugin-router/index.js'
@@ -9,6 +8,7 @@ import type { FictionApp } from './index.js'
 import type * as types from './types.js'
 import path from 'node:path'
 import { dynamicIconsPlugin, iconsPlugin } from '@egoist/tailwindcss-icons'
+import tailwindcss from '@tailwindcss/vite'
 import chokidar from 'chokidar'
 import compression from 'compression'
 import express from 'express'
@@ -20,7 +20,7 @@ import * as vite from 'vite'
 import { version } from '../package.json'
 import { FictionBuild } from '../plugin-build/index.js'
 import { FictionPlugin } from '../plugin.js'
-import { createExpressApp, debounce, deepMergeAll, getRequire, importIfExists, isNode, safeDirname } from '../utils/index.js'
+import { createExpressApp, debounce, deepMergeAll, importIfExists, isNode, safeDirname } from '../utils/index.js'
 import { addExpressHealthCheck } from '../utils/serverHealth.js'
 import { createRateLimiter } from './render/rateLimitingMiddleware.js'
 import { securityMiddleware } from './render/securityMiddleware.js'
@@ -117,10 +117,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       {
         mode: 'jit',
         content: fullUiPaths,
-        safelist: ['italic', 'lowercase', 'font-bold'],
         plugins: [iconsPlugin(), dynamicIconsPlugin()],
       },
-      ...this.fictionApp.tailwindConfig,
     ]
 
     const config = deepMergeAll<Record<string, any>>(
@@ -166,14 +164,11 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     const appViteConfigFile = await this.getAppViteConfigFile()
 
-    const twPlugin = getRequire()('tailwindcss') as typeof tailwindcss
-
-    const twConfig = (await this.getTailwindConfig()) as Parameters<typeof twPlugin>[0]
-
     const plugins = [
       pluginVue(),
+      tailwindcss(),
       ...getMarkdownPlugins({ isProd, distClient: this.distFolderClient }),
-    ]
+    ] as vite.PluginOption[]
 
     if (isProd) {
       const { visualizer } = await import('rollup-plugin-visualizer')
@@ -185,13 +180,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       {
         publicDir: this.publicFolder,
         css: {
-          postcss: {
-            plugins: [
-              getRequire()('tailwindcss/nesting'),
-              twPlugin(twConfig),
-              getRequire()('autoprefixer'),
-            ],
-          },
         },
         plugins,
         resolve: {
@@ -565,7 +553,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
           const html = await this.serverRenderHtml({ template, runVars, ssr })
 
           const outputHtml = this.addRunVarsToHtml({ html, runVars })
-
 
           res.status(200).set({ 'Content-Type': 'text/html' }).end(outputHtml)
         }

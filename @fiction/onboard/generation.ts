@@ -2,7 +2,7 @@ import type { LinkedInEnrichmentProfile } from './util'
 import { ColorThemeBrightSchema } from '@fiction/core'
 import { ArchetypeKeySchema, ImageStyleKeySchema } from '@fiction/core/schemas/motifs'
 
-import { toJSONSchema, z } from 'zod/v4'
+import { z } from 'zod/v4'
 
 export const AiEnhancementSchema = z.object({
   headline: z.string().min(5).max(160).describe('Concise 2-4 positioning statement. Tagline suitable for hero headline, social media bio, and email signature. Simple, catchy, and memorable. Avoid cliche words like "innovator", "expert" or "leader".'),

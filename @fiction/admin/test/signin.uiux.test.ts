@@ -1,5 +1,4 @@
 import { isCi, shortId } from '@fiction/core'
-import { emailActionSnapshot } from '@fiction/core/test-utils/email'
 import { createUiTestingKit } from '@fiction/core/test-utils/kit'
 import { afterAll, describe, expect, it } from 'vitest'
 import { setup } from './email.main.js'

@@ -2,7 +2,6 @@ import { getCardTemplates } from '@fiction/cards'
 import { shortId, waitFor } from '@fiction/core'
 import { describe, expect, it } from 'vitest'
 import { Card, CardTemplate } from '../card'
-import { CardGeneration } from '../generation'
 import { Site } from '../site'
 import { createSiteTestUtils } from './testUtils'
 

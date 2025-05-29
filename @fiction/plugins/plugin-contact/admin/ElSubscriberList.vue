@@ -121,7 +121,7 @@ const buttons: ActionButton[] = [
       :ui-size="uiSize"
       :empty="{
         testId: 'subscriber-list-empty',
-        title: 'Your Contacts',
+        title: 'Start building your audience',
         subTitle: 'Add or import email contacts to send newsletters and updates.',
         media: { class: 'i-tabler-users' },
         action: { buttons },

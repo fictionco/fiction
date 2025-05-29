@@ -1,8 +1,6 @@
 import type { MockedFunction } from 'vitest'
-import { FictionPosts } from '@fiction/posts'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
-import { FictionOnboard } from '..'
 
 describe('queryManageOnboard endpoint', async () => {
   const testUtils = await createSiteTestUtils()

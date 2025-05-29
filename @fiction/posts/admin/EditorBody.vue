@@ -71,7 +71,7 @@ const statusMap = vue.computed<NavListItem>(() => {
             <div class="relative max-h-[100%] grow overflow-scroll w-full min-h-0 dark:bg-theme-950/80 no-scrollbar">
               <div class=" pt-6 md:pt-10 pb-[10vh] px-6 md:px-12 max-w-[800px] mx-auto focus:outline-none space-y-12">
                 <div class="py-2 px-4 sticky top-0 bg-theme-50 dark:bg-theme-950 z-10 -mx-4 flex items-center justify-between gap-4">
-                  <ProseEditorToolbar v-if="proseEditorEl?.editor" :editor="proseEditorEl?.editor" />
+                  <ProseEditorToolbar v-if="proseEditorEl?.editor.value" :editor="proseEditorEl?.editor.value" />
                   <div class="flex items-center gap-2">
                     <ElSavingSignal
                       v-if="post"

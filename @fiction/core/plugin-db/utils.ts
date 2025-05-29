@@ -87,7 +87,7 @@ export function dbPrep<T>(args: {
     const includeField = canIncludeField({ type, sec, hasAuth })
 
     let isValid = !sch || value === null
-    if (sch && value !== null) {
+    if (sch && value !== null && type !== 'return') {
       const schema = sch({ z })
       value = removeUndefined(value, { removeNull: true })
       const parsed = schema.safeParse(value)

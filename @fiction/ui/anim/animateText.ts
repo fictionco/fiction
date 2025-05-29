@@ -100,7 +100,7 @@ function getShapePositions(shape: UnderlineShape): Record<string, string> {
 
 function getColorValue(color: string, opacity: number): string {
   if (color === 'primary' || color === 'theme') {
-    return `rgba(var(--${color}-500) / ${opacity})`
+    return `rgb(from var(--color-${color}-500) r g b / ${opacity})`
   }
 
   const colorScheme = getColorScheme(color as ColorTheme, { outputFormat: 'rgb' })

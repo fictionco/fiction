@@ -1,5 +1,4 @@
 import type { Knex } from 'knex'
-import type { table } from 'node:console'
 import type { EndpointResponse } from '../types/index.js'
 import type { EndpointMeta } from '../utils/endpoint.js'
 import type { FictionUser, OrganizationMember, UserPluginSettings } from './index.js'

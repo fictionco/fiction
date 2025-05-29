@@ -4,7 +4,6 @@ import type { FictionAppEntry, MainFile, ServiceConfig } from '../plugin-env/typ
 import { compileApplication } from '../plugin-env/entry'
 import { log } from '../plugin-log'
 import { isNode } from '../utils/vars'
-import 'tailwindcss/tailwind.css'
 
 const logger = log.contextLogger('Mount')
 

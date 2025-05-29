@@ -8,7 +8,6 @@ import {
   logoSchema,
   MediaSchema,
   NavListItemSchema,
-  NavListSchema,
   SizeSchemaComplete,
   SuperTitleSchema,
 } from '@fiction/core'
@@ -82,8 +81,6 @@ export const CardOptionsWithStandardSchema = z.object({
 
 export type CardStandardOptions = z.infer<typeof CardStandardSchema>
 export type CardOptionsWithStandard = z.infer<typeof CardOptionsWithStandardSchema>
-
-
 
 const siteGlobalConfigSchema = z.object({
   googleAnalyticsId: z.string().optional(),

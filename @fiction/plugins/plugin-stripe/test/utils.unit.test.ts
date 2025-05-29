@@ -10,7 +10,7 @@ import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { FictionStripe } from '..'
 import { checkoutEndpointHandler, getCheckoutConfig, getCheckoutUrl, getPortalUrl, processCustomerData } from '../utils'
-import   {mockStripeSubscription} from './stripeMocks'
+import { mockStripeSubscription } from './stripeMocks'
 
 describe('processCustomerData', () => {
   const mockDate = '2023-03-24T00:00:00.000Z'
@@ -30,8 +30,6 @@ describe('processCustomerData', () => {
     { key: 'standard', tier: 1 },
     { key: 'pro', tier: 2 },
   ]
-
-
 
   it('processes an active subscription correctly', () => {
     const raw: RawCustomerData = {

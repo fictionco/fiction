@@ -1,0 +1,36 @@
+@import "tailwindcss";
+@source "../..";
+@plugin '@egoist/tailwindcss-icons';
+@theme {
+  --color-theme-0: var(--theme-0, #ffffff);
+  --color-theme-25: var(--theme-25, #f8fafc);
+  --color-theme-50: var(--theme-50, #f3f4f6);
+  --color-theme-100: var(--theme-100, #e5e7eb);
+  --color-theme-200: var(--theme-200, #d1d5db);
+  --color-theme-300: var(--theme-300, #9ca3af);
+  --color-theme-400: var(--theme-400, #6b7280);
+  --color-theme-500: var(--theme-500, #4b5563);
+  --color-theme-600: var(--theme-600, #374151);
+  --color-theme-700: var(--theme-700, #1f2a44);
+  --color-theme-800: var(--theme-800, #111827);
+  --color-theme-900: var(--theme-900, #0c0a13);
+  --color-theme-950: var(--theme-950, #030712);
+  --color-theme-975: var(--theme-975, #02060f);
+  --color-theme-1000: var(--theme-1000, #000000);
+
+  --color-primary-0: var(--primary-0, #ffffff);
+  --color-primary-25: var(--primary-25, #eff6ff);
+  --color-primary-50: var(--primary-50, #eff6ff);
+  --color-primary-100: var(--primary-100, #dbeafe);
+  --color-primary-200: var(--primary-200, #bfdbfe);
+  --color-primary-300: var(--primary-300, #93c5fd);
+  --color-primary-400: var(--primary-400, #60a5fa);
+  --color-primary-500: var(--primary-500, #3b82f6);
+  --color-primary-600: var(--primary-600, #2563eb);
+  --color-primary-700: var(--primary-700, #1d4ed8);
+  --color-primary-800: var(--primary-800, #1e40af);
+  --color-primary-900: var(--primary-900, #1e3a8a);
+  --color-primary-950: var(--primary-950, #172554);
+  --color-primary-975: var(--primary-975, #111c44);
+  --color-primary-1000: var(--primary-1000, #000000);
+}

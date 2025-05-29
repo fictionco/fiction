@@ -13,12 +13,14 @@ const {
   theme,
   isActive = false,
   dropdownItems = [],
+  isLast = false,
 } = defineProps<{
   item: NavListItem
   index?: number
   theme?: ColorThemeUser
   isActive?: boolean
   dropdownItems?: NavListItem[]
+  isLast?: boolean
 }>()
 
 const linkProps = vue.computed(() => {
@@ -44,8 +46,9 @@ const metaItems = vue.computed(() => {
       v-bind="linkProps"
       class="flex items-center justify-between p-4 border-t border-theme-200/60 dark:border-theme-700/80 hover:bg-theme-25 dark:hover:bg-theme-800/30 transition-colors duration-150"
       :class="{
-        'bg-primary-25 dark:bg-primary-900/20 border-primary-200 dark:border-primary-700': isActive,
+        'bg-theme-25 dark:bg-theme-800 border-theme-200 dark:border-theme-700': isActive,
         'cursor-pointer': item.href || item.onClick,
+        'border-b': isLast,
       }"
       @click.stop="item.onClick && item.onClick({ item, event: $event })"
     >

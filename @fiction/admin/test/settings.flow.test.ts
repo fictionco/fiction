@@ -1,4 +1,3 @@
-import type { Organization, User } from '@fiction/core'
 import { isCi } from '@fiction/core'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
 import { afterAll, describe, expect, it } from 'vitest'

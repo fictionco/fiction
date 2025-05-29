@@ -2,7 +2,7 @@
  * @vitest-environment happy-dom
  */
 import type { CardConfigPortable, TableCardConfig } from '../../tables'
-import { excerpt, shortId, waitFor } from '@fiction/core'
+import { shortId, waitFor } from '@fiction/core'
 import { afterAll, describe, expect, it } from 'vitest'
 import { Card } from '../../card'
 import { requestManageSite } from '../../load'

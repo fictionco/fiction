@@ -1,11 +1,10 @@
 import type { DataCompared, DataPointChart, QueryParamsRefined } from '@fiction/analytics/types'
-import type { ComplexDataFilter, EmailSendConfig, EndpointMeta, EndpointResponse, FictionDb, IndexQuery, SyndicateStatus, User } from '@fiction/core'
+import type { ComplexDataFilter, EndpointMeta, EndpointResponse, FictionDb, IndexQuery, SyndicateStatus, User } from '@fiction/core'
 import type { FictionContact } from '.'
 import type { FictionContactSettings } from './index'
 import type { Contact, TableContactConfig } from './schema'
 import { refineParams, refineTimelineData } from '@fiction/analytics/utils/refine'
 import { abort, applyComplexFilters, dayjs, deepMerge, Query, vue } from '@fiction/core'
-import { createEmailVars } from '@fiction/core/plugin-email/vars'
 import { t } from './schema'
 import { trackContactMetrics } from './utils/analytics'
 

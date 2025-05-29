@@ -127,25 +127,10 @@ export async function getConfig(args: {
               },
               menus: [
                 {
-                  title: 'Explore',
-                  items: [
-                    { href: '/tour', label: 'Tour' },
-                    { href: '/pricing', label: 'Pricing' },
-                    { href: '/developer', label: 'Developer' },
-                  ],
-                },
-                {
-                  title: 'Company',
+                  title: 'Links',
                   items: [
                     { href: '/about', label: 'About' },
-                    { href: '/affiliate', label: 'Affiliate' },
-                  ],
-                },
-                {
-                  title: 'Using Fiction',
-                  items: [
-                    { href: `https://docs.${domain}`, label: 'Docs', target: '_blank' },
-                    { href: `https://docs.${domain}/resources/support.html`, label: 'Support', target: '_blank' },
+                    { href: '/tour', label: 'Tour' },
                     { href: '/app?_reload=1', label: 'Dashboard' },
                   ],
                 },

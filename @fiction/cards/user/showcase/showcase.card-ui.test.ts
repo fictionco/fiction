@@ -1,7 +1,7 @@
 import { toKebab } from '@fiction/core/index.js'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
-import { afterAll, describe, expect, it } from 'vitest'
-import { template, templateId } from './index.js'
+import { afterAll, describe, it } from 'vitest'
+import { templateId } from './index.js'
 
 const headless = true
 

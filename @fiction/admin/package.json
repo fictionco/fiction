@@ -5,18 +5,13 @@
     "@fiction/core": "workspace:*",
     "@fiction/plugin-ai": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
-    "@fiction/plugin-transactions": "workspace:*",
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@types/mapbox-gl": "^3.4.1",
-    "@vueuse/core": "^12.8.2",
-    "animejs": "^3.2.2",
-    "mapbox-gl": "^3.12.0",
-    "tailwindcss": "^3.4.17",
-    "vue": "^3.5.14"
+    "@vueuse/core": "^13.3.0",
+    "mapbox-gl": "^3.12.0"
   },
   "devDependencies": {
-    "@types/animejs": "^3.1.13",
     "zod-to-json-schema": "^3.24.5"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",

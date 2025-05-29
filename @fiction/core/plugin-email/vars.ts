@@ -60,7 +60,7 @@ export async function createEmailVars<T extends Record<string, string> = Record<
     unsubscribeUrl: urls.unsubscribe,
     redirect: authVars.redirect || '',
     queryVars: authVars as T,
-    caller
+    caller,
   }
 }
 

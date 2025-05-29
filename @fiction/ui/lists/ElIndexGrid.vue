@@ -93,6 +93,7 @@ async function paginate(dir: 'prev' | 'next') {
               :item
               :index="i"
               :theme
+              :is-last="i === list.length - 1"
             />
           </div>
           <div v-else-if="empty">

@@ -1,5 +1,3 @@
-import type { vue } from '@fiction/core'
-import type { NodeViewProps } from '@tiptap/core'
 import { mergeAttributes, Node } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import MediaSelector from './MediaSelector.vue'
@@ -13,7 +11,7 @@ export const xImage = Node.create({
   selectable: true,
 
   addNodeView() {
-    return VueNodeViewRenderer(MediaSelector as vue.Component<NodeViewProps>)
+    return VueNodeViewRenderer(MediaSelector as any)
   },
 
   addAttributes() {

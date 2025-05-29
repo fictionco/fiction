@@ -40,6 +40,7 @@ export const mockStripeSubscription: Stripe.Subscription = {
   object: 'subscription',
   application: null,
   application_fee_percent: null,
+
   automatic_tax: {
     enabled: false,
     liability: null,
@@ -47,6 +48,7 @@ export const mockStripeSubscription: Stripe.Subscription = {
   },
   billing_cycle_anchor: Math.floor(Date.now() / 1000),
   billing_cycle_anchor_config: null,
+  billing_thresholds: null,
   cancel_at: null,
   cancel_at_period_end: false,
   canceled_at: null,
@@ -81,6 +83,7 @@ export const mockStripeSubscription: Stripe.Subscription = {
       current_period_start: Math.floor(Date.now() / 1000),
       created: Math.floor(Date.now() / 1000),
       metadata: {},
+      billing_thresholds: null,
       price: {
         id: 'price_123',
         object: 'price',

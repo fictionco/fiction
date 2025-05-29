@@ -2,6 +2,11 @@
   "@fiction": {
     "admin": {
       "ViewEditor.vue": null,
+      "__emails": {
+        "ActionMagicLogin.vue": null,
+        "VEmailVerify.vue": null,
+        "index.ts": null
+      },
       "dashboard": {
         "AuthView.vue": null,
         "DashBar.vue": null,
@@ -26,11 +31,6 @@
         "RevisionHistory.vue": null,
         "__SettingsWrap.vue": null
       },
-      "emails": {
-        "ActionMagicLogin.vue": null,
-        "VEmailVerify.vue": null,
-        "index.ts": null
-      },
       "index.ts": null,
       "package.json": null,
       "settings": {
@@ -53,13 +53,11 @@
         "SettingsPanelHeader.vue": null,
         "__PanelDev.vue": null
       },
-      "tailwind.config.ts": null,
       "test": {
         "__snapshots__": {
           "signin.uiux.test.ts.snap": null
         },
         "email.main.ts": null,
-        "emailVerify.uiux.test.ts": null,
         "settings.flow.test.ts": null,
         "signin.uiux.test.ts": null
       },
@@ -261,7 +259,6 @@
         "capture": {
           "DemoProse.vue": null,
           "ElCard.vue": null,
-          "captureCard.card-ui.test.ts": null,
           "config.ts": null,
           "img": {
             "screen-dark.svg": null,
@@ -312,10 +309,11 @@
         }
       },
       "test": {
-        "generation.unit.test.ts": null,
+        "__generation.unit.test.ts": null,
         "inputOption.unit.test.ts": null,
         "tpl.unit.test.ts": null
       },
+      "tw.css": null,
       "user": {
         "bento": {
           "ElBento.vue": null,
@@ -589,6 +587,7 @@
       },
       "plugin-app": {
         "ElRoot.vue": null,
+        "app.css": null,
         "hooks.ts": null,
         "index.ts": null,
         "mount.ts": null,
@@ -653,13 +652,14 @@
           "content.ts": null
         },
         "templates": {
-          "EmailStandard.vue": null,
-          "EmailV2.vue": null
+          "EmailV2.vue": null,
+          "__EmailStandard.vue": null
         },
         "test": {
           "endpoint.unit.test.ts": null
         },
-        "util.ts": null
+        "util.ts": null,
+        "vars.ts": null
       },
       "plugin-env": {
         "cli.js": null,
@@ -762,6 +762,7 @@
       "plugin-user": {
         "__hooks.ts": null,
         "endpoint.ts": null,
+        "endpointEmail.ts": null,
         "endpointOrg.ts": null,
         "endpointTopValues.ts": null,
         "enrich": {
@@ -822,6 +823,7 @@
       },
       "test-utils": {
         "buildTest.ts": null,
+        "email.ts": null,
         "img": {
           "favicon.png": null,
           "favicon.svg": null,
@@ -1004,6 +1006,11 @@
         }
       },
       "plugin-contact": {
+        "__email": {
+          "TransactionSubscribe.vue": null,
+          "TransactionUnsubscribe.vue": null,
+          "index.ts": null
+        },
         "admin": {
           "ChartSubs.vue": null,
           "ElAddContacts.vue": null,
@@ -1021,11 +1028,6 @@
           "utils.ts": null,
           "widgets.ts": null
         },
-        "email": {
-          "TransactionSubscribe.vue": null,
-          "TransactionUnsubscribe.vue": null,
-          "index.ts": null
-        },
         "endpoint.ts": null,
         "index.ts": null,
         "package.json": null,
@@ -1035,7 +1037,6 @@
           "audienceAdmin.uiux.test.ts": null,
           "endpoint.unit.test.ts": null,
           "kit.main.ts": null,
-          "subscribe.uiux.test.ts": null,
           "test.csv": null
         },
         "utils": {
@@ -1067,21 +1068,6 @@
           "utils.unit.test.ts": null
         },
         "utils.ts": null
-      },
-      "plugin-transactions": {
-        "ElEmailAction.vue": null,
-        "action.ts": null,
-        "endpoint.ts": null,
-        "index.ts": null,
-        "package.json": null,
-        "test": {
-          "ElTestAction.vue": null,
-          "emailActions.main.ts": null,
-          "emailActions.uiux.test.ts": null,
-          "emailVars.unit.test.ts": null,
-          "utils.ts": null
-        },
-        "utils.ts": null
       }
     },
     "posts": {
@@ -1091,19 +1077,19 @@
         "ElOptionWrap.vue": null,
         "ElPostIndex.vue": null,
         "ElPostStart.vue": null,
-        "InputAudienceFilter.vue": null,
         "InputPostReview.vue": null,
         "InputPostShare.vue": null,
         "InputRevisionHistory.vue": null,
         "PagePostIndex.vue": null,
         "PostAnalytics.vue": null,
         "PostEmailSendTest.vue": null,
-        "PostOverview.vue": null,
         "PostPreview.vue": null,
         "ReviewModal.vue": null,
         "ViewManage.vue": null,
         "ViewPreview.vue": null,
+        "__InputAudienceFilter.vue": null,
         "__PostLoad.vue": null,
+        "__PostOverview.vue": null,
         "email": {
           "EmailPreview.vue": null,
           "InputAudience.vue": null,
@@ -1183,13 +1169,6 @@
         "SiteEditor.vue": null,
         "SiteEditorFrame.vue": null,
         "ViewPreview.vue": null,
-        "fig": {
-          "FigSite.vue": null,
-          "img": {
-            "figSite.svg": null,
-            "figSiteMobile.svg": null
-          }
-        },
         "index.ts": null,
         "tools": {
           "InputAddElements.vue": null,
@@ -1215,8 +1194,6 @@
       "tailwind.config.cjs": null,
       "test": {
         "__cert.unit.test.ts": null,
-        "admin.media.uiux.test.ts": null,
-        "admin.siteCreate.uiux.test.ts": null,
         "admin.siteEditing.uiux.test.ts": null,
         "admin.sitePages.uiux.test.ts": null,
         "card.ai.test.ts": null,
@@ -1226,7 +1203,6 @@
         "managePages.unit.test.ts": null,
         "manageSite.unit.test.ts": null,
         "pages.unit.test.ts": null,
-        "preview.unit.test.ts": null,
         "render.unit.test.ts": null,
         "sections.unit.test.ts": null,
         "siteBehavior.unit.test.ts": null,
@@ -1295,7 +1271,8 @@
           "journey.ts": null,
           "landing.ts": null,
           "portfolio.ts": null,
-          "profile.ts": null
+          "profile.ts": null,
+          "standard.ts": null
         }
       },
       "fiction": {
@@ -1449,7 +1426,6 @@
           "profile-woman-8.png": null,
           "profile-woman-9.png": null
         },
-        "tailwind.config.ts": null,
         "templates.ts": null
       },
       "minimal": {
@@ -1502,6 +1478,7 @@
       "brand": {
         "FictionLogo.svg": null,
         "FictionLogo.vue": null,
+        "favicon.png": null,
         "favicon.svg": null,
         "icon.png": null,
         "shareImage.png": null
@@ -1892,7 +1869,6 @@
     "xcache.sh": null
   },
   "supereon.png": null,
-  "tailwind.config.ts": null,
   "tsconfig.json": null,
   "vitest.config.ts": null
 }
