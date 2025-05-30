@@ -8,7 +8,7 @@ import type { FictionContact } from '@fiction/plugins/plugin-contact/index.js'
 import type { Site } from './site.js'
 import type { CardConfigPortable, TableSiteConfig } from './tables.js'
 import { initializeClientTag } from '@fiction/analytics/tag/entry.js'
-import { cardConfig } from '@fiction/cards/index.js'
+import { cardConfig, cardConfigCustom } from '@fiction/cards/index.js'
 import { FictionPlugin, getAnonymousId, HooksUtil, isNode, safeDirname, vue } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import { cardTemplate } from './card.js'
@@ -144,12 +144,12 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
       key: 'sites',
       getTemplates: async () => getTemplates(),
       getPages: async () => [
-        cardConfig<SiteAdminTemplates>({
+        cardConfigCustom<SiteAdminTemplates>({
           templateId: 'dash',
           slug: 'sites',
           title: 'Manage Websites',
           cards: [
-            cardConfig<SiteAdminTemplates>({ templateId: 'tplManageSite' }),
+            cardConfigCustom<SiteAdminTemplates>({ templateId: 'tplManageSite' }),
           ],
           userConfig: {
             isNavItem: false,
@@ -157,13 +157,13 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
             navIconAlt: 'i-tabler-browser-plus',
           },
         }),
-        cardConfig<SiteAdminTemplates>({
+        cardConfigCustom<SiteAdminTemplates>({
           templateId: 'dash',
           slug: 'edit-site',
           title: 'Edit Website',
           description: 'Customize and configure your website settings',
           cards: [
-            cardConfig<SiteAdminTemplates>({
+            cardConfigCustom<SiteAdminTemplates>({
               templateId: 'tplSiteEditor',
               userConfig: { standard: { spaceSize: 'none' as const } },
             }),

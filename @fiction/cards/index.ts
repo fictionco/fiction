@@ -69,9 +69,9 @@ type TemplateInstance = TemplateModule['template']
 
 // Extract userConfig type from CardTemplate
 type ExtractUserConfig<T> = T extends CardTemplate<infer S>
-  ? S extends { schema: infer Schema }
-    ? Schema extends z.ZodType<infer U> ? U : S extends { userConfig: infer U } ? U : never
-    : S extends { userConfig: infer U } ? U : never
+  ? S extends { userConfig: infer U }
+    ? U
+    : never
   : never
 
 // Create the type map from template instances
@@ -79,29 +79,21 @@ type TemplateConfigMap = {
   [T in TemplateInstance as T['settings']['templateId']]: ExtractUserConfig<T>
 }
 
-// For standard templates
+// Overload for array of custom CardTemplate types
+export function cardConfigCustom<T extends CardTemplate<any>[]>(args: {
+  templateId: T[number]['settings']['templateId']
+  userConfig?: T[number]['userConfig'] & StandardUserConfig
+  cardId?: string
+} & Omit<CardSettings, 'templateId' | 'userConfig'>) {
+  return args as CardConfigPortable
+}
+
+// Implementation
 export function cardConfig<T extends keyof TemplateConfigMap>(args: {
   templateId: T
   userConfig?: TemplateConfigMap[T] & StandardUserConfig
   cardId?: string
-} & Omit<CardSettings, 'templateId' | 'userConfig'>): CardConfigPortable
-
-// Overload for array of custom CardTemplate types
-export function cardConfig<T extends CardTemplate<any>[]>(args: {
-  templateId: T[number]['settings']['templateId']
-  userConfig?: T[number]['userConfig'] & StandardUserConfig
-  cardId?: string
-} & Omit<CardSettings, 'templateId' | 'userConfig'>): CardConfigPortable
-
-// Overload for record of custom CardTemplate types
-export function cardConfig<T extends Record<string, CardTemplate<any>>>(args: {
-  templateId: keyof T
-  userConfig?: T[keyof T]['userConfig'] & StandardUserConfig
-  cardId?: string
-} & Omit<CardSettings, 'templateId' | 'userConfig'>): CardConfigPortable
-
-// Implementation
-export function cardConfig(args: Record<string, unknown>) {
+} & Omit<CardSettings, 'templateId' | 'userConfig'>) {
   return args as CardConfigPortable
 }
 

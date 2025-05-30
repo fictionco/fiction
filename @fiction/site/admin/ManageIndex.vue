@@ -74,7 +74,7 @@ function getActions() {
         :index-meta="{}"
         :edit-actions="[]"
         :empty="{
-          title: 'Sites',
+          title: 'Create Your Site',
           subTitle: `The homebase for your online presence.`,
           media: { class: 'i-tabler-browser-plus' },
         }"

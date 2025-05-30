@@ -2,7 +2,7 @@ import type { CardFactory } from '@fiction/site/cardFactory.js'
 import type { SiteGlobalUserConfig } from '@fiction/site/schema.js'
 import type { Site } from '@fiction/site/site.js'
 import type { FictionAdmin } from '../index.js'
-import { cardConfig, getCardTemplates } from '@fiction/cards'
+import { cardConfig, cardConfigCustom, getCardTemplates } from '@fiction/cards'
 import { safeDirname } from '@fiction/core/index.js'
 import { Theme } from '@fiction/site/theme.js'
 import favicon from '@fiction/ui/brand/favicon.svg'
@@ -30,21 +30,21 @@ export type AdminTemplates = Awaited<ReturnType<typeof getTemplates>>
 
 export async function getPages(args: { factory: CardFactory, site: Site }) {
   return [
-    cardConfig<AdminTemplates>({
+    cardConfigCustom<AdminTemplates>({
       regionId: 'main',
       templateId: 'dash',
       slug: '_404',
       title: 'Not Found (404)',
       cards: [
-        cardConfig<AdminTemplates>({ templateId: 'card404ErrorV1' }),
+        cardConfigCustom<AdminTemplates>({ templateId: 'card404ErrorV1' }),
       ],
     }),
-    cardConfig<AdminTemplates>({
+    cardConfigCustom<AdminTemplates>({
       templateId: 'cardTransactionViewV1',
       slug: 'auth',
       title: 'Settings',
       cards: [
-        cardConfig<AdminTemplates>({
+        cardConfigCustom<AdminTemplates>({
           templateId: 'authPage',
           userConfig: {
             homeUrl: 'https://www.fiction.com',

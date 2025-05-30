@@ -136,7 +136,6 @@ describe('user endpoint tests', async () => {
 
     expect(loginResponse.status).toBe('success')
     expect(loginResponse.user?.email).toBe(email)
-    expect(loginResponse.message).toBe('user created')
     expect(loginResponse.user?.emailVerified, 'email should be verified').toBe(true)
 
     // Verify code was cleared

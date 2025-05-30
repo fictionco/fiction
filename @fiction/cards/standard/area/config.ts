@@ -1,8 +1,13 @@
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
 import { deepMerge } from '@fiction/core'
+import { z } from 'zod/v4'
 
-export type UserConfig = StandardUserConfig
+export const schema = z.object({
+  test: z.string().optional(),
+})
+
+export type UserConfig = z.infer<typeof schema> & StandardUserConfig
 
 // Demo helper to create content cards
 function getDemoContent(type: string) {
@@ -147,6 +152,7 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
   } as const
 
   return {
+    schema,
     options: [],
     userConfig: {},
     demoPage: {

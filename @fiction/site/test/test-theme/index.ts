@@ -1,4 +1,4 @@
-import { cardConfig, getCardTemplates } from '@fiction/cards'
+import { cardConfig, cardConfigCustom, getCardTemplates } from '@fiction/cards'
 import { safeDirname, vue } from '@fiction/core'
 import { z } from 'zod/v4'
 import { cardTemplate } from '../../card.js'
@@ -90,7 +90,7 @@ export const theme = new Theme({
             { templateId: 'cardHeroV1' },
           ],
         }),
-        cardConfig<TemplatesType>({
+        cardConfigCustom<TemplatesType>({
           slug: 'example',
           title: 'Example Page',
           templateId: 'testWrap',

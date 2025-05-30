@@ -27,7 +27,6 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
     cards: [
       cardConfig({
         templateId: 'cardPageAreaV1',
-        userConfig: { },
         cards: [
           cardConfig({
             templateId: 'cardHeroV1',
@@ -170,7 +169,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   verticalPosition: 'bottom',
                   horizontalPosition: 'left',
                   bg: {
-                    format: 'video2',
+                    format: 'video',
                     url: 'https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1733965053/replicate-prediction-wtfb2100xxrj00ckq1cb7s94hg_rhvr5g.mp4',
                     effects: { overlay: { opacity: 0.3 } },
                     video: {

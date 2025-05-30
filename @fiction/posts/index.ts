@@ -6,7 +6,7 @@ import type { FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, Fict
 import type { FictionContact } from '@fiction/plugin-contact'
 import type { FictionAi } from '@fiction/plugins/plugin-ai'
 import type { FictionSites } from '@fiction/site'
-import { cardConfig } from '@fiction/cards'
+import { cardConfig, cardConfigCustom } from '@fiction/cards'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card.js'
 import { QueryManagePost } from './endpoint'
@@ -83,49 +83,49 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
       getTemplates: async () => getTemplates(),
       getPages: async () => [
 
-        cardConfig<PostAdminTemplates>({
+        cardConfigCustom<PostAdminTemplates>({
           templateId: 'dash',
           slug: 'posts',
           title: 'Posts',
           description: 'Create, manage, and schedule your content',
           cards: [
-            cardConfig<PostAdminTemplates>({ templateId: 'tplManagePost' }),
+            cardConfigCustom<PostAdminTemplates>({ templateId: 'tplManagePost' }),
           ],
           userConfig: { isNavItem: true, navIcon: 'i-tabler-file-description', navIconAlt: 'i-tabler-file-spark' },
         }),
-        cardConfig<PostAdminTemplates>({
+        cardConfigCustom<PostAdminTemplates>({
           regionId: 'main',
           templateId: 'dash',
           slug: 'edit-post',
           title: 'Post Editor',
           description: 'Create and edit your content with our full-featured editor',
           cards: [
-            cardConfig<PostAdminTemplates>({
+            cardConfigCustom<PostAdminTemplates>({
               templateId: 'tplManagePostEdit',
               userConfig: { standard: { spaceSize: 'none' } },
             }),
           ],
           userConfig: { layoutFormat: 'full' },
         }),
-        cardConfig<PostAdminTemplates>({
+        cardConfigCustom<PostAdminTemplates>({
           templateId: 'dash',
           userConfig: { layoutFormat: 'full' },
           slug: 'preview-post-browser',
           title: 'Post Preview (Browser)',
           cards: [
-            cardConfig<PostAdminTemplates>({
+            cardConfigCustom<PostAdminTemplates>({
               templateId: 'tplManagePostPreview',
               userConfig: { standard: { spaceSize: 'none' } },
             }),
           ],
         }),
-        cardConfig<PostAdminTemplates>({
+        cardConfigCustom<PostAdminTemplates>({
           templateId: 'dash',
           userConfig: { layoutFormat: 'full' },
           slug: 'preview-post-email',
           title: 'Post Preview (Email)',
           cards: [
-            cardConfig<PostAdminTemplates>({
+            cardConfigCustom<PostAdminTemplates>({
               templateId: 'tplManagePostPreview',
               userConfig: { standard: { spaceSize: 'none' } },
             }),
