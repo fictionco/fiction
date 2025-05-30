@@ -49,7 +49,7 @@ describe('onboard UX', { retry: isCi() ? 3 : 0 }, async () => {
         { type: 'click', selector: '[data-test-id="step-button-account"]', waitAfter: 1000 },
 
         // Step 3: Profile details
-        { type: 'visible', selector: '[data-test-id="step-profile"]' },
+        { type: 'visible', selector: '[data-test-id="step-profile"]', wait: 2000 },
         { type: 'fill', selector: '[data-test-id="headline"] input', text: testHeadline },
         { type: 'fill', selector: '[data-test-id="about"] textarea', text: testAbout },
         { type: 'click', selector: '[data-test-id="step-button-profile"]', waitAfter: 1000 },
