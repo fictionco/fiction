@@ -6,6 +6,7 @@ import ImageAi from './img/ai.png'
 import ImageAudience from './img/audience.png'
 import ImageFigMoney from './img/fig-money-alt-1.svg'
 import ImageSubscribe from './img/fig-subscribe-alt-1.svg'
+import ImageInvisible from './img/invisible.png'
 import ImageManSmiling from './img/man-smiling.png'
 import ImageMeeting from './img/meeting.png'
 import PersonBrene from './img/person-brene.webp'
@@ -65,8 +66,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   title: `Invisible = Irrelevant`,
                   subTitle: `No LinkedIn? Stale website? Random Google results? You're handing opportunities to louder voices. Fiction builds your stage.`,
                   // IMAGE: Split screen showing "Before" - empty Google search results with maybe outdated LinkedIn vs "After" - polished Fiction profile at top of results
-                  media: { url: ImageManSmiling },
-                  overlays: [{ media: { url: ImageWebsite }, widthPercent: 50 }],
+                  media: { url: ImageInvisible },
                   action: {},
                 },
                 {
@@ -76,7 +76,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                     text: 'Content Paralysis',
                     theme: 'purple',
                   },
-                  title: `Ideas Trapped Inside`,
+                  title: `Great ideas need a platform`,
                   subTitle: `Brilliant thoughts. Zero followers. You know what to say but algorithms bury you. Fiction amplifies your voice without the social media circus.`,
                   // IMAGE: Person staring at blank screen with thought bubbles full of great ideas, then arrow to engaging content being created
                   media: { url: ImageAudience },
@@ -86,28 +86,29 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                 {
                   layout: 'right',
                   superTitle: {
-                    icon: { iconId: 'handshake' },
+                    icon: { class: 'i-tabler-heart-handshake' },
                     text: 'Networking Nightmare',
                     theme: 'blue',
                   },
-                  title: `Connections That Count`,
+                  title: `Stop Begging for Attention`,
                   subTitle: `Tired of begging algorithms for reach? Fiction builds an audience that finds YOU. No more posting into the void.`,
                   // IMAGE: Person at networking event being ignored vs person confidently sharing their Fiction profile and people gathering around phone to see
                   media: { url: ImageMeeting },
-                  overlays: [{ media: { url: ImageFigMoney } }],
                   action: {},
                 },
                 {
                   layout: 'left',
                   superTitle: {
-                    icon: { iconId: 'lightning-bolt' },
-                    text: 'AI That Gets It',
+                    icon: { class: 'i-tabler-bolt' },
+                    text: 'Influence',
                     theme: 'yellow',
                   },
-                  title: `Your Vision, Amplified`,
-                  subTitle: `Not another chatbot. Fiction learns your voice, your style, your goals. AI that enhances, never replaces.`,
+                  title: `AI-Enhanced Authenticity`,
+                  subTitle: ` Fiction learns your voice, your style, your goals. AI that enhances, never replaces.`,
                   // IMAGE: Before/after of bland corporate text vs engaging, personality-filled content in the person's actual voice
-                  media: { url: ImageAi },
+                  media: { url: ImageAudience },
+
+                  overlays: [{ media: { url: ImageWebsite }, widthPercent: 50 }],
                   action: {},
                 },
               ],
