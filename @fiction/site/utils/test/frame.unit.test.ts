@@ -233,16 +233,12 @@ describe('siteFrameTools', async () => {
     expect(site.activePageId.value).toBe(initialPageId)
   })
 
-  it('should send warning when no util is available', () => {
+  it('should queue when no util is available', () => {
     site.frame.util = undefined
-    const warnSpy = vi.spyOn(site.frame.log, 'warn')
 
     site.frame.send({ msg: { messageType: 'setActiveCard', data: { cardId: 'test' } } })
 
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('no frame utility'),
-      expect.anything(),
-    )
+    expect(site.frame.messageQueue.length).toBe(1)
   })
 })
 

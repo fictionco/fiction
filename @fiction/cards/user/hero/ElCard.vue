@@ -29,7 +29,7 @@ function getLayoutClasses(layout: string = 'center') {
       supertitle: 'justify-center',
     },
     left: {
-      container: 'text-left space-y-8 md:space-y-0 md:grid md:grid-cols-2 md:gap-12 md:items-center',
+      container: 'text-left space-y-8 md:space-y-0 md:grid md:grid-cols-2 md:gap-16 md:items-center',
       content: 'space-y-6',
       title: '',
       subtitle: 'max-w-xl',
@@ -38,7 +38,7 @@ function getLayoutClasses(layout: string = 'center') {
       supertitle: 'justify-start',
     },
     right: {
-      container: 'text-left space-y-8 md:space-y-0 md:grid md:grid-cols-2 md:gap-12 md:items-center',
+      container: 'text-left space-y-8 md:space-y-0 md:grid md:grid-cols-2 md:gap-16 md:items-center',
       content: 'space-y-6 md:order-2',
       title: '',
       subtitle: 'max-w-xl',
@@ -48,7 +48,7 @@ function getLayoutClasses(layout: string = 'center') {
     },
     justify: {
       container: 'text-left space-y-8',
-      content: 'space-y-6 md:flex md:justify-between md:items-end md:gap-8',
+      content: 'space-y-6 md:flex md:justify-between md:items-end md:gap-12',
       title: '',
       subtitle: 'max-w-md',
       media: 'w-full',

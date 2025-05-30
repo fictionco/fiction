@@ -2,17 +2,12 @@ import type { CardFactory } from '@fiction/site/cardFactory'
 
 import type { StockMedia } from '@fiction/ui/stock/index.js'
 import { cardConfig } from '@fiction/cards'
-import ImageAi from './img/ai.png'
 import ImageAudience from './img/audience.png'
-import ImageFigMoney from './img/fig-money-alt-1.svg'
-import ImageSubscribe from './img/fig-subscribe-alt-1.svg'
 import ImageInvisible from './img/invisible.png'
-import ImageManSmiling from './img/man-smiling.png'
 import ImageMeeting from './img/meeting.png'
 import PersonBrene from './img/person-brene.webp'
 import PersonFerris from './img/person-ferris.webp'
 import PersonSimon from './img/person-simon.jpg'
-import ImageWebsite from './img/website.svg'
 
 export async function getTourPage(args: { factory: CardFactory, stock: StockMedia }) {
   return cardConfig({
@@ -60,7 +55,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   layout: 'right',
                   superTitle: {
                     icon: { iconId: 'ghost' },
-                    text: 'Digital Ghost',
+                    text: 'Presence',
                     theme: 'orange',
                   },
                   title: `Invisible = Irrelevant`,
@@ -73,31 +68,17 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   layout: 'left',
                   superTitle: {
                     icon: { iconId: 'brain' },
-                    text: 'Content Paralysis',
+                    text: 'Content',
                     theme: 'purple',
                   },
                   title: `Great ideas need a platform`,
                   subTitle: `Brilliant thoughts. Zero followers. You know what to say but algorithms bury you. Fiction amplifies your voice without the social media circus.`,
                   // IMAGE: Person staring at blank screen with thought bubbles full of great ideas, then arrow to engaging content being created
                   media: { url: ImageAudience },
-                  overlays: [{ media: { url: ImageSubscribe } }],
                   action: {},
                 },
                 {
                   layout: 'right',
-                  superTitle: {
-                    icon: { class: 'i-tabler-heart-handshake' },
-                    text: 'Networking Nightmare',
-                    theme: 'blue',
-                  },
-                  title: `Stop Begging for Attention`,
-                  subTitle: `Tired of begging algorithms for reach? Fiction builds an audience that finds YOU. No more posting into the void.`,
-                  // IMAGE: Person at networking event being ignored vs person confidently sharing their Fiction profile and people gathering around phone to see
-                  media: { url: ImageMeeting },
-                  action: {},
-                },
-                {
-                  layout: 'left',
                   superTitle: {
                     icon: { class: 'i-tabler-bolt' },
                     text: 'Influence',
@@ -106,9 +87,8 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   title: `AI-Enhanced Authenticity`,
                   subTitle: ` Fiction learns your voice, your style, your goals. AI that enhances, never replaces.`,
                   // IMAGE: Before/after of bland corporate text vs engaging, personality-filled content in the person's actual voice
-                  media: { url: ImageAudience },
+                  media: { url: ImageMeeting },
 
-                  overlays: [{ media: { url: ImageWebsite }, widthPercent: 50 }],
                   action: {},
                 },
               ],
@@ -146,43 +126,44 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
             templateId: 'cardQuotesV1',
             userConfig: {
               items: [
+
                 {
-                  text: `I lost a $50K client because my Google results were embarrassing. Never again.`,
+                  text: `<p>Every time someone Googles your name, they're making decisions about you</p>`,
                   author: {
-                    label: 'Sarah Chen',
-                    media: {
-                      format: 'image',
-                      url: PersonBrene, // Replace with actual testimonial photos
-                    },
-                    subLabel: 'Management Consultant',
-                  },
-                  org: {
-                    label: 'Former Deloitte Partner',
-                  },
-                },
-                {
-                  text: `Fiction saved me from explaining why my LinkedIn looked like 2015 threw up on it.`,
-                  author: {
-                    label: 'Marcus Rodriguez',
+                    label: 'Tim Ferris',
                     media: { url: PersonFerris },
-                    subLabel: 'Startup Founder',
+                    subLabel: 'Author of The 4-Hour Workweek',
                   },
                   org: {
-                    label: '3x Exit, Now Fiction User',
+                    label: 'Tim Ferris',
                   },
                 },
                 {
-                  text: `Went from digital nobody to industry voice in 90 days. Fiction doesn't just build profiles - it builds careers.`,
+                  text: `While you hesitate to build your online presence, someone else is taking your spot.`,
                   author: {
-                    label: 'Dr. Priya Patel',
+                    label: 'Simon Sinek',
                     media: {
                       format: 'image',
                       url: PersonSimon,
                     },
-                    subLabel: 'Medical Research Director',
+                    subLabel: 'Leadership Expert & Best-Selling Author',
                   },
                   org: {
-                    label: 'Johns Hopkins',
+                    label: 'Start With Why',
+                  },
+                },
+                {
+                  text: `Not having a professional presence online is career suicide.`,
+                  author: {
+                    label: 'Brené Brown',
+                    media: {
+                      format: 'image',
+                      url: PersonBrene,
+                    },
+                    subLabel: 'Research Professor & Author',
+                  },
+                  org: {
+                    label: 'University of Houston',
                   },
                 },
               ],
@@ -217,8 +198,8 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                     text: 'Time\'s Up',
                     theme: 'red',
                   },
-                  title: `Stop Losing to [@text_effect type=squiggle]Louder[/@text_effect] Voices`,
-                  subTitle: `Every day you wait, someone else claims your space. Fiction builds your presence in hours, not months.`,
+                  title: `A digital presence in [@text_effect type=squiggle]3 minutes[/@text_effect] or less`,
+                  subTitle: `Every day you wait, someone else claims your space. Fiction builds your presence in seconds, not months.`,
                   action: {
                     buttons: [
                       {

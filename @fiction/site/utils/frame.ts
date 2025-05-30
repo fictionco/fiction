@@ -30,7 +30,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   util: FrameUtility<FramePostMessageList> | undefined
   relation = vue.ref(this.settings.relation)
   private stopWatchActivePageId?: () => void
-  private messageQueue: FramePostMessageList[] = []
+  messageQueue: FramePostMessageList[] = []
 
   constructor(args: SiteFrameUtilityParams) {
     super('SiteFrameUtility', args)
