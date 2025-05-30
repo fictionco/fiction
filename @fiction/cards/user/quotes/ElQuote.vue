@@ -25,7 +25,7 @@ const activeItem = vue.ref(0)
 <template>
   <CardWrap :card>
     <div class="flex overflow-x-auto no-scrollbar snap-mandatory snap-x">
-      <div v-for="(quote, i) in quotes" :key="i" class="slide shrink-0 w-full snap-center px-10 space-y-6 md:space-y-8">
+      <div v-for="(quote, i) in quotes" :key="i" class="slide shrink-0 w-full snap-center px-4 lg:px-10 space-y-6 md:space-y-8">
         <div v-if="hasOrgImage(quote) && quote?.org" class="org text-center">
           <div data-test-id="org-image" class="relative inline-block dark:text-theme-0">
             <XMedia

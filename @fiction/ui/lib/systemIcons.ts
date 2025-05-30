@@ -236,6 +236,7 @@ export const recommendedIcons = [
   { class: 'i-tabler-mail-off', category: 'marketing' },
   { class: 'i-tabler-mailbox', category: 'marketing' },
   { class: 'i-tabler-address-book', category: 'marketing' },
+  { class: 'i-tabler-ghost', category: 'marketing' },
 
   // Extended Interface Icons
   { class: 'i-tabler-layout-grid', category: 'interface' },

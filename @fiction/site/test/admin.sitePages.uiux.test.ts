@@ -17,7 +17,7 @@ describe('site page management', async () => {
 
     await kit.performActions({
       caller: 'sitePageManagement',
-      path: '/app/edit-site',
+      path: '/app/sites',
       actions: [
         { type: 'click', selector: '[data-test-id="createSite"]' },
         { type: 'click', selector: '[data-test-id="step-button-name"]' },

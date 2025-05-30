@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
 import type { UserConfig } from '.'
-import type { HeroConfig, OverlayConfig } from './config.js'
+import type { HeroConfig } from './config.js'
 import { pathCheck, vue } from '@fiction/core'
 import EffectParallax from '@fiction/ui/effect/EffectParallax.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
@@ -17,151 +17,177 @@ const { card } = defineProps<{
 
 const uc = vue.computed(() => card.userConfig.value || {})
 
-function getClasses(item: HeroConfig) {
-  const layout = item.layout || 'center'
-  const isLeftOrRight = ['left', 'right'].includes(layout)
-  return {
-    layout,
-    wrapper: [
-      'items-center relative',
-      isLeftOrRight ? `flex flex-col ${layout === 'right' ? 'lg:flex-row-reverse' : 'lg:flex-row'} lg:gap-16` : 'text-center',
-    ],
-    text: [
-      isLeftOrRight ? 'lg:basis-1/2' : 'mx-auto',
-      layout === 'center' ? 'px-4' : '',
-    ],
-    textWrap: [
-      layout === 'justify' ? 'lg:flex justify-between text-left items-end gap-8' : '',
-      layout === 'left' || layout === 'right' ? 'text-left' : '',
-      layout === 'center' ? 'mx-auto text-left md:text-center' : '',
-    ],
-    media: {
-      wrap: [
-        isLeftOrRight ? 'lg:basis-1/2' : 'mt-12 mx-auto',
-        'relative',
-        layout === 'center' ? 'max-w-screen-md' : '',
-      ],
+function getLayoutClasses(layout: string = 'center') {
+  const layouts = {
+    center: {
+      container: 'text-center space-y-8',
+      content: 'mx-auto max-w-4xl space-y-6',
+      title: 'mx-auto max-w-xl',
+      subtitle: 'mx-auto max-w-xl',
+      media: 'mx-auto max-w-2xl',
+      actions: 'justify-center',
+      supertitle: 'justify-center',
     },
-    aspectRatio: item.media?.aspect === 'square' ? 'aspect-square' : item.media?.aspect === 'portrait' ? 'aspect-[3/4]' : item.media?.aspect === 'landscape' ? 'aspect-[16/9]' : '',
+    left: {
+      container: 'text-left space-y-8 md:space-y-0 md:grid md:grid-cols-2 md:gap-12 md:items-center',
+      content: 'space-y-6',
+      title: '',
+      subtitle: 'max-w-xl',
+      media: 'w-full',
+      actions: 'justify-start',
+      supertitle: 'justify-start',
+    },
+    right: {
+      container: 'text-left space-y-8 md:space-y-0 md:grid md:grid-cols-2 md:gap-12 md:items-center',
+      content: 'space-y-6 md:order-2',
+      title: '',
+      subtitle: 'max-w-xl',
+      media: 'w-full md:order-1',
+      actions: 'justify-start',
+      supertitle: 'justify-start',
+    },
+    justify: {
+      container: 'text-left space-y-8',
+      content: 'space-y-6 md:flex md:justify-between md:items-end md:gap-8',
+      title: '',
+      subtitle: 'max-w-md',
+      media: 'w-full',
+      actions: 'justify-end',
+      supertitle: 'justify-start',
+    },
   }
+  return layouts[layout as keyof typeof layouts] || layouts.center
 }
 
-// Overlay positioning system - simplified for better usability
-const overlayStyles = {
-  top: { top: '8%', left: '50%', transform: 'translateX(-50%)', transformOrigin: 'center bottom' },
-  bottom: { bottom: '-5%', left: '50%', transform: 'translateX(-50%)', transformOrigin: 'center top' },
-  left: { left: '-5%', top: '50%', transform: 'translateY(-50%)', transformOrigin: 'right center' },
-  right: { right: '-5%', top: '50%', transform: 'translateY(-50%)', transformOrigin: 'left center' },
-  center: { left: '50%', top: '50%', transform: 'translate(-50%, -50%)', transformOrigin: 'center center' },
-  bottomRight: { right: '-5%', bottom: '-5%', transform: 'translate(0, 0)', transformOrigin: 'left top' },
-  topRight: { right: '-5%', top: '8%', transform: 'translate(10%, 0)', transformOrigin: 'left bottom' },
-  bottomLeft: { left: '-5%', bottom: '8%', transform: 'translate(0, 0)', transformOrigin: 'right top' },
-  topLeft: { left: '-5%', top: '8%', transform: 'translate(0, 0)', transformOrigin: 'right bottom' },
-} as const
+function getAspectClasses(aspect?: string) {
+  if (!aspect || aspect === 'auto')
+    return ''
+  const aspects = {
+    square: 'aspect-square',
+    portrait: 'aspect-[3/4]',
+    landscape: 'aspect-[16/9]',
+  }
+  return aspects[aspect as keyof typeof aspects] || ''
+}
 
-function getOverlayStyle(overlay: OverlayConfig) {
-  const { position = 'bottomRight', widthPercent = 30 } = overlay
-  return { ...overlayStyles[position], width: `${widthPercent}%` }
+function getOverlayClasses(position: string = 'bottomRight') {
+  const positions = {
+    top: 'top-4 left-1/2 -translate-x-1/2',
+    bottom: 'bottom-4 left-1/2 -translate-x-1/2',
+    left: 'left-4 top-1/2 -translate-y-1/2',
+    right: 'right-4 top-1/2 -translate-y-1/2',
+    center: 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+    bottomRight: 'bottom-4 right-4',
+    topRight: 'top-4 right-4',
+    bottomLeft: 'bottom-4 left-4',
+    topLeft: 'top-4 left-4',
+  }
+  return positions[position as keyof typeof positions] || positions.bottomRight
 }
 </script>
 
 <template>
   <CardWrap :card>
-    <div class="space-y-48">
-      <div v-for="(item, i) in uc.items" :key="i" :class="getClasses(item).wrapper">
-        <!-- Content Section -->
-        <div :class="getClasses(item).text">
-          <div class="space-y-12">
-            <div
-              :class="getClasses(item).textWrap"
-              class="space-y-4 @container/header"
-              data-option-path="layout"
-              :data-layout="getClasses(item).layout"
-            >
-              <div class="max-w-screen-md space-y-4" :class="item.layout === 'justify' ? 'lg:min-w-[50%]' : 'mx-auto'">
-                <XSuperTitle
-                  :card
-                  :base-path="pathCheck(`items.${i}.superTitle`, schema)"
-                  :class="[item.layout === 'center' || !item.layout ? 'md:justify-center' : '']"
-                />
-                <CardText
-                  tag="h1"
-                  :card
-                  class="x-font-title font-semibold md:text-balance text-3xl @[300px]/header:text-4xl @[600px]/header:text-5xl !leading-[1.2]"
-                  :path="pathCheck(`items.${i}.title`, schema)"
-                  placeholder="Title"
-                  animate="fade"
-                />
-              </div>
-              <div class="max-w-screen-md space-y-4" :class="item.layout === 'justify' ? 'lg:max-w-[40%]' : 'mx-auto'">
-                <CardText
-                  tag="h3"
-                  :card
-                  class="text-lg  @[300px]/header:text-xl @[600px]/header:text-2xl md:text-balance text-theme-800 dark:text-theme-300 !leading-relaxed"
-                  :class="item.layout === 'justify' ? 'lg:text-right' : ''"
-                  :path="pathCheck(`items.${i}.subTitle`, schema)"
-                  placeholder="Sub Title"
-                  animate="fade"
-                />
-                <CardActionArea
-                  v-if="item.layout === 'justify'"
-                  :base-path="pathCheck(`items.${i}.action`, schema)"
-                  :card
-                  :classes="{ buttons: ['flex gap-4 lg:gap-6 justify-start md:justify-end'].join(' ') }"
-                  size="md"
-                />
-              </div>
-            </div>
-            <CardActionArea
-              v-if="item.layout !== 'justify'"
-              :base-path="pathCheck(`items.${i}.action`, schema)"
+    <div class="space-y-32">
+      <div
+        v-for="(item, i) in uc.items"
+        :key="i"
+        :class="getLayoutClasses(item.layout).container"
+      >
+        <!-- Content -->
+        <div class="hero-content" :class="getLayoutClasses(item.layout).content">
+          <div class="space-y-4" :class="item.layout === 'justify' ? 'md:flex-1' : ''">
+            <XSuperTitle
               :card
-              :classes="{
-                buttons: [['justify', 'left', 'right'].includes(item.layout || '') ? 'justify-start' : 'justify-start md:justify-center', 'flex gap-4'].join(' '),
-              }"
-              size="lg"
+              :base-path="pathCheck(`items.${i}.superTitle`, schema)"
+              :class="getLayoutClasses(item.layout).supertitle"
+            />
+
+            <CardText
+              tag="h1"
+              :card
+              class="x-font-title font-semibold text-3xl md:text-4xl lg:text-5xl leading-tight text-pretty"
+              :class="getLayoutClasses(item.layout).title"
+              :path="pathCheck(`items.${i}.title`, schema)"
+              placeholder="Hero Title"
+            />
+
+            <CardText
+              tag="p"
+              :card
+              class="text-lg md:text-xl text-slate-600 dark:text-slate-300 leading-relaxed text-balance"
+              :class="getLayoutClasses(item.layout).subtitle"
+              :path="pathCheck(`items.${i}.subTitle`, schema)"
+              placeholder="Supporting description"
             />
           </div>
+
+          <CardActionArea
+            v-if="item.layout === 'justify'"
+            :base-path="pathCheck(`items.${i}.action`, schema)"
+            :card
+            :classes="{ buttons: `flex gap-4 ${getLayoutClasses(item.layout).actions}` }"
+            size="lg"
+          />
         </div>
 
-        <!-- Media Section -->
+        <!-- Actions for non-justify layouts -->
+        <CardActionArea
+          v-if="item.layout !== 'justify'"
+          :base-path="pathCheck(`items.${i}.action`, schema)"
+          :card
+          :classes="{ buttons: `flex gap-4 ${getLayoutClasses(item.layout).actions}` }"
+          size="lg"
+          class="md:hidden"
+        />
+
+        <!-- Media -->
         <div
           v-if="item.media?.url || item.media?.html"
-          class="flow-root relative [perspective:1000px] w-full"
-          :class="getClasses(item).media.wrap"
+          class="relative w-full"
+          :class="getLayoutClasses(item.layout).media"
         >
-          <!-- Main Image -->
-          <div :class="getClasses(item).aspectRatio" class="overflow-hidden rounded-lg">
+          <div
+            class="relative overflow-hidden rounded-lg"
+            :class="getAspectClasses(item.media?.aspect)"
+          >
             <XMedia
-              data-option-path="media"
               :media="item.media"
-              class="w-full h-full object-cover"
-              :image-mode="!getClasses(item).aspectRatio ? 'inline' : 'cover'"
+              :class="getAspectClasses(item.media?.aspect) ? 'w-full h-full' : 'w-full h-auto'"
               :path="pathCheck(`items.${i}.media`, schema)"
               :card
+              :image-mode="getAspectClasses(item.media?.aspect) ? 'cover' : 'inline'"
             />
-          </div>
 
-          <!-- Overlay Images -->
-          <template v-if="item.overlays?.length">
+            <!-- Overlays -->
             <div
               v-for="(overlay, ii) in item.overlays"
               :key="ii"
               class="absolute z-10"
-              :style="getOverlayStyle(overlay)"
+              :class="getOverlayClasses(overlay.position)"
+              :style="{ width: `${overlay.widthPercent || 30}%` }"
             >
-              <EffectParallax class="z-0 mx-auto w-full h-full scale-90 md:scale-100">
+              <EffectParallax class="w-full h-full">
                 <XMedia
-                  class="rounded-lg shadow-sm"
-                  :media="overlay?.media"
-                  image-mode="inline"
+                  :media="overlay.media"
+                  class="rounded-md shadow-lg w-full h-auto"
                   :path="pathCheck(`items.${i}.overlays.${ii}.media`, schema)"
                   :card
+                  image-mode="inline"
                 />
               </EffectParallax>
             </div>
-          </template>
+          </div>
         </div>
+
+        <!-- Actions for non-justify layouts on desktop -->
+        <CardActionArea
+          v-if="item.layout !== 'justify'"
+          :base-path="pathCheck(`items.${i}.action`, schema)"
+          :card
+          :classes="{ buttons: `hidden md:flex gap-4 ${getLayoutClasses(item.layout).actions}` }"
+          size="lg"
+        />
       </div>
     </div>
   </CardWrap>

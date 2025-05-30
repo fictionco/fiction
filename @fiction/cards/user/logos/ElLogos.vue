@@ -74,7 +74,7 @@ function getLogoStyle(item: LogoConfig) {
             v-for="(logo, i) in uc.items"
             :key="i"
             :href="logo.href"
-            class="group/logo logo-link inline-flex items-center justify-center h-[80px] w-full max-w-[200px] relative rounded-xl"
+            class="group/logo logo-link inline-flex items-center justify-center h-[80px] w-[40%] md:w-full max-w-[200px] relative rounded-xl"
             :class="[
               uc.layout === 'stacked' ? `w-[17%]` : '',
               logo.href ? 'cursor-pointer' : '',

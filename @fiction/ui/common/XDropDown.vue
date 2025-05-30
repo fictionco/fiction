@@ -38,8 +38,10 @@ const service = useService()
 const visibleItems = vue.computed(() => normalizedItems.value.filter(item => !item.isHidden))
 
 function toggleClicked() {
+  const wasOpen = isClicked.value
   resetUi({ scope: 'inputs', cause: 'dropdown', trigger: 'elementClick' })
-  isClicked.value = !isClicked.value
+  // Set to opposite of what it was before reset
+  isClicked.value = !wasOpen
 }
 
 function resetDropDown() {
@@ -168,7 +170,7 @@ const wrapperClass = vue.computed(() => {
           >
             <a
               :href="item.href"
-              class="flex gap-2 items-center cursor-pointer transition-all w-full text-left px-3 text-theme-700 dark:text-theme-200 rounded-lg"
+              class="flex gap-2 items-center cursor-pointer transition-all w-full text-left px-3 py-2 text-[1em] text-theme-700 dark:text-theme-200 rounded-lg"
               :class="[
                 item.isActive ? 'bg-theme-200 dark:bg-theme-600/50 text-theme-900 dark:text-theme-100' : 'hover:bg-theme-200 dark:hover:bg-theme-600/50 hover:text-theme-900 dark:hover:text-theme-100',
                 sizeClasses.text,

@@ -30,6 +30,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   util: FrameUtility<FramePostMessageList> | undefined
   relation = vue.ref(this.settings.relation)
   private stopWatchActivePageId?: () => void
+  private messageQueue: FramePostMessageList[] = []
 
   constructor(args: SiteFrameUtilityParams) {
     super('SiteFrameUtility', args)
@@ -59,6 +60,10 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   setUtil(util: FrameUtility<FramePostMessageList>) {
     this.util = util
     this.init({ caller: 'setUtil' })
+
+    // Process queued messages
+    this.messageQueue.forEach(msg => this.util?.sendMessage({ message: msg }))
+    this.messageQueue = []
 
     if (this.relation.value === 'parent')
       this.syncSite({ caller: 'frameInit' })
@@ -146,7 +151,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
 
   send(args: { msg: FramePostMessageList }) {
     if (!this.util) {
-      this.log.warn(`${this.relation.value}: no frame utility`, { data: args.msg })
+      this.messageQueue.push(args.msg) // Queue instead of warning
       return
     }
 
