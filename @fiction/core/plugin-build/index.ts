@@ -185,11 +185,8 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
       include: [
         'fast-safe-stringify',
         'path-browserify',
-        '@vue-email/components',
-        '@vue-email/render',
         '@shopify/draggable',
         '@tiptap/core',
-        '@tailwindcss/typography',
         'dayjs',
         'dayjs/plugin/timezone',
         'dayjs/plugin/utc',

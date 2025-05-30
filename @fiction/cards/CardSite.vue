@@ -289,6 +289,7 @@ body,
 .x-site,
 .x-engine{
   min-height: 100dvh;
+  background-color: var(--color-theme-900, #000);
 }
 
 // can't be on root do to variables

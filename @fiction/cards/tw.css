@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @source "../..";
 @plugin '@egoist/tailwindcss-icons';
+@custom-variant dark (&:where(.dark, .dark *));
 @theme {
   --color-theme-0: var(--theme-0, #ffffff);
   --color-theme-25: var(--theme-25, #f8fafc);
