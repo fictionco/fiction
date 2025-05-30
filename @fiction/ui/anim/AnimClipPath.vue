@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { shortId, vue } from '@fiction/core'
-import { useElementVisible } from '.'
+import { useElementVisible } from './index.js'
 
 defineOptions({ name: 'AnimClipPath' })
 
-const { animate, rounded = true, caller = 'unknown' } = defineProps<{
+const { animate, rounded = true, caller } = defineProps<{
   animate: 'swipe' | 'expand' | '' | boolean
   rounded?: boolean
   caller: string

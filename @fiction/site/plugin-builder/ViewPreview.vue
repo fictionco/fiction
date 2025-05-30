@@ -20,7 +20,7 @@ unhead.useHead({
   },
 })
 
-const themeIds = vue.computed(() => service.fictionSites.themes.value.map(theme => theme.themeId))
+const themeIds = vue.computed(() => service.fictionSites.themes.value.map(theme => theme?.themeId))
 
 // Reference to hold the mounted app
 let entry: FictionAppEntry | undefined = undefined

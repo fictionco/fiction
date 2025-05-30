@@ -1,10 +1,9 @@
-import type { FictionEnv, FictionPluginSettings, FictionRouter, NavListItem } from '@fiction/core'
+import type { FictionEnv, FictionPluginSettings, FictionRouter } from '@fiction/core'
 import type { CardConfigPortable, FictionSites, Site } from '@fiction/site'
-import type { CardSettings, CardTemplate, CardTemplateSettings } from '@fiction/site/card'
+import type { CardSettings, CardTemplate } from '@fiction/site/card'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
-import type { z } from 'zod/v4'
-import { envConfig, FictionPlugin, log, safeDirname, toKebab, toLabel, vue } from '@fiction/core'
+import { FictionPlugin, log, safeDirname, vue } from '@fiction/core'
 import { Card, cardTemplate } from '@fiction/site/card'
 
 const logger = log.contextLogger('cardLoading')
