@@ -11,7 +11,6 @@ import favicon from '@fiction/ui/brand/favicon.svg'
 import icon from '@fiction/ui/brand/icon.png'
 import shareImage from '@fiction/ui/brand/shareImage.png'
 import * as affiliate from './affiliate/index.js'
-import { getDemosPage } from './demos/index.js'
 import * as developer from './developer/index.js'
 import * as homePage from './home/index.js'
 import { getAboutPage } from './pages/about/index.js'
@@ -42,7 +41,6 @@ export async function getConfig(args: {
     homePage.getHomePage(pageArgs),
     getPricingPage(pageArgs),
     getAboutPage(),
-    getDemosPage(pageArgs),
     developer.page({ ...args }),
     affiliate.page({ ...args, factory }),
     ...demoPages,
@@ -80,11 +78,11 @@ export async function getConfig(args: {
     sections: {
 
       header: cardConfig({
+        templateId: 'cardPageAreaV1',
         cards: [
           cardConfig({
             templateId: 'cardSiteNavV1',
             userConfig: {
-              layout: 'navCenter',
               brand: {
                 logo: {
                   variant: 'media',
@@ -98,6 +96,7 @@ export async function getConfig(args: {
         ],
       }),
       footer: cardConfig({
+        templateId: 'cardPageAreaV1',
         cards: [
           cardConfig({
             templateId: 'cardFooterProV1',

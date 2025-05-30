@@ -7,16 +7,13 @@ type SectionArgs = ThemeConfigArgs & {
   stock: StockMedia
 }
 
-export async function getPages(args: SectionArgs) {
-  const { factory } = args
-
-  const { defaultMap } = await import('@fiction/cards/user/maps/config')
-
+export async function getPages() {
   return [
     cardConfig({
       slug: 'home',
       title: 'Home',
       isHome: true,
+      templateId: 'cardPageWrapV1',
       cards: [
         cardConfig({ templateId: 'cardProfileV1' }),
         cardConfig({ templateId: 'cardBentoV1' }),
@@ -25,6 +22,7 @@ export async function getPages(args: SectionArgs) {
     }),
     cardConfig({
       slug: 'blog',
+      templateId: 'cardPageWrapV1',
       cards: [
         cardConfig({
           templateId: 'cardBlogV1',
@@ -37,9 +35,7 @@ export async function getPages(args: SectionArgs) {
 
 export async function getConfig(args: Omit<SectionArgs, 'stock'>): Promise<ThemeConfig> {
   const { factory } = args
-  const stock = await factory.getStockMedia()
-  const a = { ...args, stock }
-  const pages = await getPages(a)
+  const pages = await getPages()
   return {
     pages,
   }

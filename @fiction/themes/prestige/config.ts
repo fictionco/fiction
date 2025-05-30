@@ -15,6 +15,7 @@ export async function getPages(args: SectionArgs) {
     cardConfig({
       slug: 'welcome',
       isHome: true,
+      templateId: 'cardPageWrapV1',
       cards: [
         cardConfig({
           templateId: 'cardOverlaySliderV1',
@@ -191,6 +192,7 @@ export async function getPages(args: SectionArgs) {
     // Work/Projects page
     cardConfig({
       slug: 'work',
+      templateId: 'cardPageWrapV1',
       cards: [
         cardConfig({
           templateId: 'cardHeroV1',
@@ -348,6 +350,7 @@ export async function getPages(args: SectionArgs) {
     // About/Background page
     cardConfig({
       slug: 'about',
+      templateId: 'cardPageWrapV1',
       cards: [
         cardConfig({
           templateId: 'cardStoryV1',
@@ -463,6 +466,7 @@ export async function getPages(args: SectionArgs) {
     // Blog/Insights page
     cardConfig({
       slug: 'blog',
+      templateId: 'cardPageWrapV1',
       cards: [
         cardConfig({ templateId: 'cardBlogV1' }),
       ],

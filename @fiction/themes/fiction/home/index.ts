@@ -45,16 +45,10 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                     buttons: [
                       {
                         label: 'Create Account',
-                        href: '/app/auth/register?_reload=1',
+                        href: '/app/auth?_reload=1',
                         theme: 'primary',
                         design: 'solid',
                         iconAfter: 'i-tabler-arrow-big-right-lines',
-                      },
-                      {
-                        label: 'Why Fiction?',
-                        href: '/tour',
-                        theme: 'default',
-                        design: 'solid',
                       },
                     ],
                   },
@@ -176,9 +170,10 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   verticalPosition: 'bottom',
                   horizontalPosition: 'left',
                   bg: {
+                    format: 'video2',
                     url: 'https://res.cloudinary.com/fiction-com-inc/video/upload/f_auto,q_auto/v1733965053/replicate-prediction-wtfb2100xxrj00ckq1cb7s94hg_rhvr5g.mp4',
-                    overlay: { opacity: 0.3 },
-                    videoControls: {
+                    effects: { overlay: { opacity: 0.3 } },
+                    video: {
                       freeze: { playOnHover: true },
                     },
                   },
@@ -190,14 +185,6 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                         theme: 'overlay',
                         icon: 'i-tabler-user-circle',
                         design: 'solid',
-                        size: 'xl',
-                      },
-                      {
-                        label: 'Learn More',
-                        href: '/tour',
-                        theme: 'overlay',
-                        icon: 'i-tabler-rocket',
-                        design: 'outline',
                         size: 'xl',
                       },
                     ],
@@ -216,7 +203,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   themeMode: 'dark',
                   verticalPosition: 'bottom',
                   horizontalPosition: 'left',
-                  bg: { ...stock.getAssetBySlug('whvmql'), overlay: { opacity: 0.3 } },
+                  bg: { ...stock.getAssetBySlug('whvmql'), effects: { overlay: { opacity: 0.3 } } },
                 },
                 {
                   cols: 4,
@@ -231,7 +218,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   themeMode: 'dark',
                   verticalPosition: 'bottom',
                   horizontalPosition: 'left',
-                  bg: { ...stock.getAssetBySlug('dvyiy3'), overlay: { opacity: 0.3 } },
+                  bg: { ...stock.getAssetBySlug('dvyiy3'), effects: { overlay: { opacity: 0.3 } } },
 
                 },
                 {
@@ -247,7 +234,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   themeMode: 'dark',
                   verticalPosition: 'bottom',
                   horizontalPosition: 'left',
-                  bg: { ...stock.getAssetBySlug('aratfe'), overlay: { opacity: 0.3 } },
+                  bg: { ...stock.getAssetBySlug('aratfe'), effects: { overlay: { opacity: 0.3 } } },
                 },
               ],
             },

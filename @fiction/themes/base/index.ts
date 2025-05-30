@@ -27,6 +27,7 @@ export const theme = new Theme({
           slug: 'home',
           isHome: true,
           nav: 'hide',
+          templateId: 'cardPageWrapV1',
           cards: [
             cardConfig({
               templateId: 'cardBlogV1',

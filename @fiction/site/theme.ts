@@ -118,16 +118,19 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
     return {
       sections: {
         header: cardConfig({
+          templateId: 'cardPageAreaV1',
           cards: [
             cardConfig({ templateId: 'cardSiteNavV1' }),
           ],
         }),
         footer: cardConfig({
+          templateId: 'cardPageAreaV1',
           cards: [
             cardConfig({ templateId: 'cardStandardFooterV1' }),
           ],
         }),
         hidden: cardConfig({
+          templateId: 'cardPageAreaV1',
           cards: [
             cardConfig({ templateId: 'cardModalMediaV1' }),
             cardConfig({ templateId: 'cardTextEffectV1' }),

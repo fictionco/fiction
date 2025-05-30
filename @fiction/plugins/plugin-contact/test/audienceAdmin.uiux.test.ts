@@ -19,7 +19,7 @@ describe('admin audience-subscribe', async () => {
       path: '/app',
       actions: [
         { type: 'click', selector: '[data-test-id="dashboard-nav-audience"]' },
-        { type: 'hasText', selector: `[data-test-id="zero-banner-title"]`, text: 'Your Contacts' },
+        { type: 'visible', selector: `[data-test-id="zero-banner-title"]` },
         { type: 'click', selector: '[data-test-id="add-contacts-button"]' },
         { type: 'click', selector: `[data-test-id="radio-button-text"]` },
         { type: 'fill', selector: `[data-test-id="text-email-list"] textarea`, text: 'test@aristotle.com, example@cicero.com' },

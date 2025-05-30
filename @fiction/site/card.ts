@@ -39,7 +39,7 @@ type MergeTypes<T, U> = T & Omit<U, keyof T>
 
 export type CardTemplateSurfaceDefault<T extends string = string> = Partial<{
   templateId: T
-  userConfig: any // Changed from Record<string, unknown> to any for flexibility
+  userConfig: Record<string, unknown>
   schema: z.ZodType<any>
   queries: Record<string, Query>
   component: ComponentConstructor
@@ -93,6 +93,9 @@ export interface CardTemplateSettings<
 export class CardTemplate<
   S extends CardTemplateSurfaceDefault = CardTemplateSurfaceDefault,
 > extends FictionObject<CardTemplateSettings<S>> {
+  // type helper
+  userConfig: CardTemplateUserConfigAll<S> = {} as CardTemplateUserConfigAll<S>
+
   constructor(settings: CardTemplateSettings<S>) {
     super('CardTemplate', { title: toLabel(settings.templateId), ...settings })
   }
@@ -167,28 +170,6 @@ export function cardTemplate<
   component: TComponent
   queries: TQueries
   userConfig: z.infer<TSchema> // This will be properly inferred
-  schema: TSchema
-}>) {
-  return new CardTemplate<{
-    templateId: TTemplateId
-    userConfig: z.infer<TSchema>
-    schema: TSchema
-    queries: TQueries
-    component: TComponent
-  }>(settings)
-}
-
-// Alternative: More flexible version that accepts any ZodType
-export function cardTemplateFlexible<
-  TTemplateId extends string,
-  TSchema extends z.ZodType,
-  TComponent extends ComponentConstructor,
-  TQueries extends Record<string, Query> = Record<string, Query>,
->(settings: CardTemplateSettings<{
-  templateId: TTemplateId
-  component: TComponent
-  queries: TQueries
-  userConfig: z.infer<TSchema>
   schema: TSchema
 }>) {
   return new CardTemplate<{

@@ -12,13 +12,18 @@ import { authTemplate, dashTemplate } from '../dashboard/templates.js'
 
 export const fictionLogo = `<svg viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-north-star"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12h18" /><path d="M12 21v-18" /><path d="M7.5 7.5l9 9" /><path d="M7.5 16.5l9 -9" /></svg>`
 
+const standardTemplates = [
+  dashTemplate,
+  authTemplate,
+]
+
 export async function getTemplates(args: { site: Site }) {
   const { site } = args || {}
   const service = site.fictionSites.fictionEnv.getService<{ fictionAdmin: FictionAdmin }>()
 
   const adminTemplates = await service.fictionAdmin.getAdminTemplates()
   const tpl = await getCardTemplates({ caller: 'adminTheme' })
-  return [...tpl, dashTemplate, authTemplate, ...adminTemplates]
+  return [...tpl, ...standardTemplates, ...adminTemplates]
 }
 
 export type AdminTemplates = Awaited<ReturnType<typeof getTemplates>>

@@ -1,3 +1,4 @@
+import type { StandardUserConfig } from '@fiction/site/schema'
 import { vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card.js'
 import { InputOption } from '@fiction/ui'
@@ -9,7 +10,7 @@ const UserConfigSchema = z.object({
   fixedHeader: z.boolean().optional(),
 })
 
-export type UserConfig = z.infer<typeof UserConfigSchema>
+export type UserConfig = z.infer<typeof UserConfigSchema> & StandardUserConfig
 
 const options = [
   new InputOption({ key: 'fixedHeader', label: 'Fixed Header', input: 'InputToggle' }),
