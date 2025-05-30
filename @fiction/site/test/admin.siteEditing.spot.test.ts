@@ -17,7 +17,7 @@ describe('site editor content management', async () => {
 
     await kit.performActions({
       caller: 'overlaySliderEditing',
-      path: '/app/edit-site',
+      path: '/app/sites',
       actions: [
         // Create site and wait for editor to load
         { type: 'click', selector: '[data-test-id="createSite"]' },
