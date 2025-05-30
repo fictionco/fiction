@@ -141,49 +141,14 @@ export async function getAboutPage() {
     mapStyle: 'outdoors',
   }
 
-  const mapCard = cardConfig({
-    templateId: 'cardMapsV1',
-    userConfig: {
-      maps: [mapIrvine, mapSaltLake],
-    },
-  })
-
-  const valueCard = cardConfig({
-    templateId: 'cardFaqV1',
-    userConfig: {
-      layout: 'visible',
-      standard: {
-        headers: {
-          title: 'What We Believe',
-          subTitle: 'Ideas that shape how we help you.',
-        },
-      },
-      items: [
-        {
-          title: 'Give to Grow',
-          content: `Your success fuels ours. We\'re here to lift you up, knowing it comes back around.`,
-          icon: { iconId: 'target' },
-        },
-        {
-          title: 'Make It Stunning',
-          content: `Great ideas deserve to look amazing. We craft tools that let your work shine.`,
-          icon: { class: 'i-tabler-sparkles' },
-        },
-        {
-          title: 'Keep It Simple',
-          content: `No fluff, no stress. We focus on what works to save you time and effort.`,
-          icon: { iconId: 'sparkles' },
-        },
-      ],
-    },
-  })
+  const mapCard = cardConfig({ templateId: 'cardMapsV1', userConfig: { maps: [mapIrvine, mapSaltLake] } })
 
   return cardConfig({
     regionId: 'main',
     templateId: 'cardPageWrapV1',
     slug: 'about',
     title: 'About',
-    nav: 'show',
+    nav: 'hide',
     cards: [
       cardConfig({
         templateId: 'cardPageAreaV1',
@@ -193,7 +158,6 @@ export async function getAboutPage() {
           missionHeroCard2,
           teamCard,
           mapCard,
-          valueCard,
         ],
       }),
     ],

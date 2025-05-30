@@ -242,6 +242,7 @@ export class Card<
   title = vue.ref(this.settings.title)
   description = vue.ref(this.settings.description)
   slug = vue.ref(this.settings.slug)
+  priority = vue.ref(this.settings.priority)
   displayTitle = vue.computed(() => this.title.value || toLabel(this.slug.value))
   editorConfig = vue.shallowRef(this.settings.editorConfig || {} as T) as vue.Ref<vue.UnwrapRef<T>> // editor only temporary config, not saved (signals/triggers)
   userConfig = vue.shallowRef(this.settings.userConfig || {} as T) as vue.Ref<vue.UnwrapRef<T>> // allow passing of components and other complex objects
@@ -442,6 +443,7 @@ export class Card<
       scope: this.settings.scope,
       isHome: !!this.isHome.value,
       nav: this.nav.value,
+      priority: this.priority.value,
     }
   }
 

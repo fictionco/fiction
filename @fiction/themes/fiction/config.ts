@@ -91,7 +91,8 @@ export async function getConfig(args: {
                   media: stock.getLocalMedia({ key: 'fictionLogo' }),
                 },
               },
-
+              hideSubscribe: true,
+              redirectAfterLogin: '/app',
             },
           }),
         ],

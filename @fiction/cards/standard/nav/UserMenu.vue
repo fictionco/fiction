@@ -2,45 +2,54 @@
 import type { FictionAdmin } from '@fiction/admin'
 import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import type { UserConfig } from './config'
 import { getFictionAuthUrl, getFictionNavItems } from '@fiction/admin'
 import { useService, vue } from '@fiction/core'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import XDropDown from '@fiction/ui/common/XDropDown.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
-import XButton from '../buttons/XButton.vue'
 import NavMobile from './NavMobile.vue'
 
 defineOptions({ name: 'UserMenu' })
 
-const { card, nav } = defineProps<{ card: Card, nav?: NavListItem[] }>()
+const { card, nav } = defineProps<{ card: Card<UserConfig>, nav?: NavListItem[] }>()
 const { fictionUser, fictionAdmin } = useService<{ fictionAdmin: FictionAdmin }>()
+const uc = vue.computed(() => card.userConfig.value || {})
 const user = vue.computed(() => fictionUser.activeUser?.value)
 const mobileMenuVisible = vue.ref(false)
 
 const isEditable = vue.computed(() => card.site?.isEditable.value)
+const showSubscribeButton = vue.computed(() => {
+  return !user && !isEditable && !uc.value.hideSubscribe
+})
+
+const isSubscribed = vue.computed(() => card.site?.activeContact?.value?.status === 'active')
 </script>
 
 <template>
   <div class="flex items-center relative gap-4">
     <XButton
-      v-if="card.site?.activeContact.value?.status !== 'active' && !isEditable"
-      theme="primary"
-
-      icon-after="i-tabler-arrow-up-right"
-      href="?_subscribe=1"
-    >
-      Subscribe
-    </XButton>
-    <XButton
       v-if="!user || isEditable"
       class="hidden md:block"
       :href="getFictionAuthUrl({ fictionAdmin, site: card.site })"
-      icon-after="i-tabler-arrow-up-right"
+      icon-after="i-tabler-chevron-right"
+      :design="showSubscribeButton ? 'link' : 'solid'"
     >
       Sign In
     </XButton>
+    <XButton
+      v-if="showSubscribeButton "
+      :theme="isSubscribed ? 'default' : 'primary'"
+      :design="isSubscribed ? 'ghost' : 'solid'"
+      icon-after="i-tabler-chevron-right"
+      :href="isSubscribed ? undefined : `?_subscribe=1`"
+    >
+      {{ isSubscribed ? 'Subscribed' : 'Subscribe' }}
+    </XButton>
+
     <XDropDown
-      v-else
+      v-if="user"
       :site="card.site"
       dropdown-alignment="end"
       mode="click"

@@ -16,6 +16,8 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
     slug: 'home',
     title: 'Home',
     isHome: true,
+    nav: 'show',
+    priority: 50,
     userConfig: {
       standard: {
         title: 'Your Digital Self in 3 Minutes',
@@ -33,7 +35,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
               items: [
                 {
                   superTitle: {
-                    text: 'The Future of Digital Identity',
+                    text: 'Great for Link-in-Bio',
                     icon: { class: 'i-tabler-trending-up' },
                   },
                   title: `Your Personal Website in Under [@text_effect type=line]3 Minutes[/@text_effect].`,

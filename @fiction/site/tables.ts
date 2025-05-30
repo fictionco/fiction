@@ -93,6 +93,7 @@ export const pageCols = [
   new Col({ key: 'generation', sec: 'setting', sch: () => z.record(z.string(), z.unknown()) as z.Schema<CardGenerationConfig>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.string(), z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'wordCount', sec: 'setting', sch: () => z.number(), make: ({ s, col }) => s.integer(col.k).defaultTo(0) }),
+  new Col({ key: 'priority', sec: 'setting', sch: () => z.number(), make: ({ s, col }) => s.integer(col.k) }),
 ] as const
 
 export const TablePageSchema = createTableSchema(pageCols)

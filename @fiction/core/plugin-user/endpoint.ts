@@ -108,7 +108,6 @@ export class QueryManageUser extends UserBaseQuery {
       case 'loginWithCode':{
         const r = await this.loginWithCode(params, meta)
         user = r.user
-        isNew = r.isNew
         sendToken = true
         break
       }
@@ -450,7 +449,7 @@ export class QueryManageUser extends UserBaseQuery {
     return { user: finalUser, isNew: false }
   }
 
-  private async loginWithCode(params: ManageUserParams & { _action: 'loginWithCode' }, meta: EndpointMeta): Promise<{ user?: User, isNew: boolean }> {
+  private async loginWithCode(params: ManageUserParams & { _action: 'loginWithCode' }, meta: EndpointMeta): Promise<{ user?: User }> {
     const { where, code, newPassword, keepCode = false } = params
 
     if (!where || !code) {
@@ -493,7 +492,7 @@ export class QueryManageUser extends UserBaseQuery {
 
     const finalUser = await this.getUser({ _action: 'retrieve', where }, meta)
 
-    return { user: finalUser, isNew: !finalUser?.hashedPassword }
+    return { user: finalUser }
   }
 
   private googleClient?: OAuth2Client

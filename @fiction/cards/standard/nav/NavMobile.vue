@@ -4,7 +4,7 @@ import type { NavListItem } from '@fiction/core'
 import { getFictionAuthUrl, getFictionNavItems } from '@fiction/admin'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import ElAvatar from '../common/ElAvatar.vue'
+import ElAvatar from '@fiction/ui/common/ElAvatar.vue'
 import NavMobileItem from './NavMobileItem.vue'
 import NavMobilePanel from './NavMobilePanel.vue'
 

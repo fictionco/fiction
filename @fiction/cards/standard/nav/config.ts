@@ -8,6 +8,9 @@ export const schema = z.object({
   nav: z.object({
     primary: z.array(NavListItemSchema).optional(),
   }).optional(),
+  hideSubscribe: z.boolean().optional(),
+  hideLogin: z.boolean().optional(),
+  redirectAfterLogin: z.string().optional(),
 })
 
 export type UserConfig = z.infer<typeof schema> & StandardUserConfig

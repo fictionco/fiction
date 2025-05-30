@@ -17,13 +17,6 @@ export const template = cardTemplate({
   isPublic: false,
   el: vue.defineAsyncComponent(async () => import('./ElCard.vue')),
 
-  // Base configuration before user customization
-  getBaseConfig: () => ({
-    standard: {
-      spaceSize: 'xs' as const,
-    },
-  }),
-
   // Config implementation loaded asynchronously
   getConfig: async (args) => {
     const { getConfig } = await import('./config')

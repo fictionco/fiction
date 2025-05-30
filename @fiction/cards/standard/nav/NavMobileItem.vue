@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { NavListItem } from '@fiction/core'
 import { getNavComponentType, vue } from '@fiction/core'
-import TransitionSlide from '../anim/TransitionSlide.vue'
-import XIcon from '../media/XIcon.vue'
+import TransitionSlide from '@fiction/ui/anim/TransitionSlide.vue'
+import XIcon from '@fiction/ui/media/XIcon.vue'
 
 const { item, depth = 0 } = defineProps<{
   item: NavListItem

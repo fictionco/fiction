@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { onResetUi, shortId, vue } from '@fiction/core'
 import { onBrowserEvent } from '@fiction/core/utils/eventBrowser'
-import { animateItemEnter, useElementVisible } from '../anim'
-import ElClose from '../common/ElClose.vue'
+import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
+import ElClose from '@fiction/ui/common/ElClose.vue'
 
 defineOptions({
   name: 'NavMobilePanel',

@@ -154,7 +154,7 @@ export default {
               <div
                 v-if="hasClose || title"
                 class=""
-                :class="!title && hasClose ? 'absolute top-0 right-0' : 'flex justify-between items-center border-b border-theme-200 dark:border-theme-700'"
+                :class="!title && hasClose ? 'absolute top-0 right-0 z-10' : 'flex justify-between items-center border-b border-theme-200 dark:border-theme-700'"
               >
                 <h2 v-if="title" class="text-xl x-font-title p-5">
                   {{ title }}
