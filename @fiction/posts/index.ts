@@ -6,7 +6,7 @@ import type { FictionDb, FictionEmail, FictionMedia, FictionPluginSettings, Fict
 import type { FictionContact } from '@fiction/plugin-contact'
 import type { FictionAi } from '@fiction/plugins/plugin-ai'
 import type { FictionSites } from '@fiction/site'
-import { cardConfig, cardConfigCustom } from '@fiction/cards'
+import { cardConfigCustom } from '@fiction/cards'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card.js'
 import { QueryManagePost } from './endpoint'

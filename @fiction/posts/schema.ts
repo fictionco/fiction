@@ -60,7 +60,7 @@ export const EmailConfigSchema = z.object({
   preview: z.string().optional(),
 
   // Audience settings
-  target: z.enum(['all', 'filtered', 'nobody']).default('all'),
+  target: z.enum(['all', 'filtered', 'nobody']).optional(),
   filters: z.array(z.custom<ComplexDataFilter>()).optional(),
   testEmails: z.array(z.string()).optional(),
 

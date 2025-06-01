@@ -4,7 +4,7 @@
     "@ai-sdk/openai": "^1.3.22",
     "@ai-sdk/xai": "^1.2.16",
     "@fiction/core": "workspace:*",
-    "@pinecone-database/pinecone": "^6.0.1",
+    "@pinecone-database/pinecone": "^6.1.0",
     "ai": "^4.3.16",
     "openai": "^4.104.0"
   },

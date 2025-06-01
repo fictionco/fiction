@@ -28,7 +28,7 @@ describe('fictionPublish', async () => {
   const db = () => testUtils.fictionDb.client()
 
   const getTestPost = async (config = {}): Promise<TablePostConfig> => {
-    const testPost = {
+    const testPost: TablePostConfig = {
       postId: objectId({ prefix: 'pst' }),
       title: 'Test Campaign Email',
       content: '<p>Hello, this is a test email campaign!</p>',

@@ -3,7 +3,6 @@ import type { StandardUserConfig } from '@fiction/site/schema'
 import { SizeSchema } from '@fiction/core'
 import { PostHandlingSchema } from '@fiction/posts'
 import { createOption } from '@fiction/ui'
-import { getDemoPosts } from '@fiction/ui/posts/index'
 import z from 'zod/v4'
 
 export const displaySchema = z.object({

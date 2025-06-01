@@ -47,7 +47,7 @@
     "tippy.js": "^6.3.7",
     "tiptap-extension-auto-joiner": "^0.1.3",
     "tiptap-markdown": "^0.8.10",
-    "zod": "3.25.7",
+    "zod": "^3.25.45",
     "zod-to-json-schema": "^3.24.5"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
 import type { UserConfig } from '.'
-import type { HeroConfig } from './config.js'
 import { pathCheck, vue } from '@fiction/core'
 import EffectParallax from '@fiction/ui/effect/EffectParallax.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'

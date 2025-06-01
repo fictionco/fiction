@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { FictionAdmin } from '@fiction/admin'
-import type { NavListItem } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import type { UserConfig } from './config'
 import { getFictionAuthUrl, getFictionNavItems } from '@fiction/admin'

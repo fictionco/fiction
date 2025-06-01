@@ -4,7 +4,7 @@ import type { CardSettings, CardTemplate } from '@fiction/site/card'
 import type { CardFactory } from '@fiction/site/cardFactory'
 import type { StandardUserConfig } from '@fiction/site/schema'
 import { FictionPlugin, log, safeDirname, vue } from '@fiction/core'
-import { Card, cardTemplate } from '@fiction/site/card'
+import { cardTemplate } from '@fiction/site/card'
 
 const logger = log.contextLogger('cardLoading')
 
