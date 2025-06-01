@@ -85,7 +85,7 @@ vue.onMounted(() => {
                   tag="h3"
                   :card
                   :path="`menus.${i}.title`"
-                  class="text-lg x-font-title text-theme-400 dark:text-theme-500 mb-4"
+                  class="text-lg font-sans text-theme-400 dark:text-theme-500 mb-4"
                   animate="fade"
                 />
                 <ul class="space-y-3">

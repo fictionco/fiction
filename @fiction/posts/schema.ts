@@ -1,6 +1,6 @@
 import type { ColType, ComplexDataFilter, Organization, User } from '@fiction/core'
 import type { StandardUserConfig } from '@fiction/site/schema'
-import { ColorThemeUserSchema, MediaSchema, OrFilterGroupSchema, PostStatusSchema, standardTable, toSlug } from '@fiction/core'
+import { ActionAreaSchema, ColorThemeUserSchema, MediaSchema, OrFilterGroupSchema, PostStatusSchema, standardTable, toSlug } from '@fiction/core'
 import { Col, FictionDbTable } from '@fiction/core/plugin-db'
 import { t as siteTables } from '@fiction/site/tables'
 import { z } from 'zod/v4'
@@ -108,6 +108,7 @@ export const postCols = [
   new Col({ key: 'subTitle', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k).defaultTo('') }),
   new Col({ key: 'content', sec: 'setting', sch: () => z.string(), make: ({ s, col }) => s.text(col.k).defaultTo('') }),
   new Col({ key: 'media', sec: 'setting', sch: () => MediaSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
+  new Col({ key: 'action', sec: 'setting', sch: () => ActionAreaSchema, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'theme', sec: 'setting', sch: () => ColorThemeUserSchema, make: ({ s, col }) => s.string(col.k) }),
   new Col({ key: 'userConfig', sec: 'setting', sch: () => z.record(z.string(), z.unknown()) as z.Schema<PostUserConfig>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}) }),
   new Col({ key: 'hasChanges', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),

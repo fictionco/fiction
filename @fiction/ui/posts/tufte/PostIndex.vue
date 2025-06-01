@@ -1,19 +1,40 @@
 <script lang="ts" setup>
-import type { NavListItem } from '@fiction/core/schemas'
-import type { Post } from '@fiction/posts'
+import type { ActionButton, MediaObject, NavListItem } from '@fiction/core/schemas'
+import type { Post, PostConfig } from '@fiction/posts'
+import type { Card } from '@fiction/site'
 import { dayjs, getMediaAspectMode, vue } from '@fiction/core'
 import XButton from '../../buttons/XButton.vue'
-import XLink from '../../common/XLink.vue'
 
+import XLink from '../../common/XLink.vue'
 import XText from '../../common/XText.vue'
+import XTextPath from '../../common/XTextPath.vue'
 import XMedia from '../../media/XMedia.vue'
 
 defineOptions({ name: 'PostLayout' })
 
-const { posts, featuredCount = 1 } = defineProps<{
+const { posts, featuredCount = 1, card } = defineProps<{
   posts: Post[]
   featuredCount?: number
+  header?: BlogHeader
+  card?: Card
 }>()
+
+const emit = defineEmits<{
+  (event: 'update:header', payload: BlogHeader): void
+}>()
+
+function updateHeader(updatedHeader: BlogHeader) {
+  emit('update:header', updatedHeader)
+}
+
+export interface BlogHeader {
+  title?: string
+  subTitle?: string
+  media?: MediaObject
+  action?: {
+    buttons?: ActionButton[]
+  }
+}
 
 function getImageClasses(args: { post: Post }) {
   const { post } = args
@@ -53,6 +74,48 @@ const items = vue.computed(() => posts.map((post, i) => {
 
 <template>
   <div class="space-y-24 @container/index">
+    <header v-if="header?.title || header?.subTitle || header?.media" class="header">
+      <div class="flex justify-between gap-8 md:gap-12">
+        <div class="flex-1 max-w-2xl space-y-6 md:space-y-8 ">
+          <div class="flex flex-col gap-2">
+            <XTextPath
+              :model-value="header"
+              path="title"
+              :card
+              tag="h1"
+              class="font-semibold x-font-title text-3xl md:text-5xl lg:text-6xl leading-tight"
+              placeholder="Blog Title"
+              :animate="true"
+              @update:model-value="updateHeader"
+            />
+
+            <XTextPath
+              :model-value="header"
+              path="subTitle"
+              :card
+              tag="p"
+              class="text-theme-400 text-lg md:text-xl lg:text-2xl leading-relaxed"
+              placeholder="Blog description or tagline"
+              :animate="true"
+              @update:model-value="updateHeader"
+            />
+          </div>
+        </div>
+
+        <div
+          v-if="header?.media"
+          class="hidden md:block flex-shrink-0 pt-2"
+        >
+          <div class="size-16 lg:size-24 rounded-full overflow-hidden bg-theme-800 relative">
+            <XMedia
+              :media="header.media"
+              class="w-full h-full object-cover"
+            />
+            <div class="absolute w-full rounded-full inset-0 z-10 ring-white ring-2 ring-inset" />
+          </div>
+        </div>
+      </div>
+    </header>
     <article
       v-for="item in items"
       :key="item.post.postId"

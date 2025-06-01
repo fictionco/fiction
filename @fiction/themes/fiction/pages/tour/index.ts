@@ -25,9 +25,9 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
             userConfig: {
               items: [{
                 superTitle: {
-                  text: 'They\'re Already Judging',
+                  text: 'Why Fiction?',
                   theme: 'red',
-                  icon: { class: 'i-tabler-eye' },
+                  icon: { class: 'i-tabler-north-star' },
                 },
                 title: `They Looked You Up [@text_effect type=scribble]Before[/@text_effect] Coffee`,
                 subTitle: `That investor. That client. That date. They all did the same thing: searched your name. What did they find? Fiction controls that moment.`,

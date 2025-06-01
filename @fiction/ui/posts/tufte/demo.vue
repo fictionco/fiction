@@ -4,6 +4,7 @@ import type { Card } from '@fiction/site'
 import CardWrap from '@fiction/cards/CardWrap.vue'
 import { vue } from '@fiction/core'
 import { getDemoPosts } from '../index.js'
+import AvatarImage from './avatar.jpg'
 import PostIndex from './PostIndex.vue'
 import PostSingle from './PostSingle.vue'
 
@@ -27,6 +28,22 @@ vue.onMounted(async () => {
   posts.value = await getDemoPosts({ card })
   loading.value = false
 })
+
+const header = vue.computed(() => {
+  return {
+    title: 'Tufte Posts',
+    subTitle: 'A demo of Tufte posts layout',
+    media: {
+      url: AvatarImage,
+      aspect: 'square' as const,
+    },
+    action: {
+      buttons: [
+        { label: 'View All', href: '/posts/tufte' },
+      ],
+    },
+  }
+})
 </script>
 
 <template>
@@ -39,6 +56,7 @@ vue.onMounted(async () => {
       v-else
       :posts
       :featured-count="1"
+      :header
     />
   </CardWrap>
 </template>
