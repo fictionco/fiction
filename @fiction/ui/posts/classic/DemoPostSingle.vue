@@ -2,14 +2,13 @@
 import type { Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import { vue } from '@fiction/core'
-import { Post as PostModel } from '@fiction/posts'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import { getDemoPosts } from './index.js'
+import { getDemoPosts } from '../index.js'
 import PostSingle from './PostSingle.vue'
 
 defineOptions({ name: 'DemoPostSingle' })
 
-const { card } = defineProps<{ card?: Card }>()
+const { card } = defineProps<{ card: Card }>()
 
 // Demo post configuration options
 const renderOptions = [
@@ -74,12 +73,12 @@ function handleLikeUpdate(count: number) {
 
 vue.onMounted(async () => {
   // Get demo posts and select the first one for display
-  const demoPosts = (await getDemoPosts()).sort(() => Math.random() - 0.5)
+  const demoPosts = await getDemoPosts({ card })
   if (demoPosts.length > 0) {
     // Find a post with substantial content
     const targetPost = demoPosts[0]
 
-    post.value = new PostModel({ ...targetPost, card })
+    post.value = targetPost
     loading.value = false
   }
 })

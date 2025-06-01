@@ -31,6 +31,7 @@ const {
   respond,
   classes,
   card,
+  label,
 } = defineProps<{
   icon?: string | MediaObject
   iconAfter?: string | MediaObject
@@ -52,6 +53,7 @@ const {
   respond?: 'icon:sm' | 'icon:md' | 'icon:lg' | 'icon:xl'
   classes?: { button?: string, icon?: string }
   card?: Card
+  label?: string
 }>()
 
 const site = vue.inject(SITE_INJECTION_KEY, vue.computed(() => undefined))
@@ -220,7 +222,7 @@ const textClass = vue.computed(() => {
           <XIcon v-if="iconAfter" :media="iconAfter" class="text-[1.2em] shrink-0" :class="[cls.iconClasses]" />
         </template>
         <template v-else>
-          Button
+          {{ label || 'Button' }}
         </template>
       </div>
     </span>

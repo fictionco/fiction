@@ -148,53 +148,58 @@ export async function getCardTemplates(args: { caller?: string } = {}): Promise<
   ]
 }
 
-// Demo templates for UI components
-const uiDemoTemplates = [
-  {
-    templateId: 'xbutton',
-    title: 'Buttons',
-    description: 'Standard button styles',
-    icon: 'i-tabler-square-rounded-chevron-right-filled',
-    component: vue.defineAsyncComponent(() => import('@fiction/ui/buttons/test/TestButtonsAll.vue')),
-  },
-  {
-    templateId: 'xinput',
-    title: 'Inputs',
-    description: 'Standard input styles',
-    icon: 'i-tabler-input-check',
-    component: vue.defineAsyncComponent(() => import('@fiction/ui/inputs/test/TestInputsAll.vue')),
-  },
-  {
-    templateId: 'xlogo',
-    title: 'Logo Component',
-    description: 'Standard logo handling',
-    icon: 'i-tabler-brand-apple',
-    component: vue.defineAsyncComponent(() => import('@fiction/ui/test/TestLogoHandling.vue')),
-  },
-  {
-    templateId: 'xmedia',
-    title: 'Media Component',
-    description: 'Standard media handling',
-    icon: 'i-tabler-photo-hexagon',
-    component: vue.defineAsyncComponent(() => import('@fiction/ui/test/TestMediaHandling.vue')),
-  },
-  {
-    templateId: 'xindex',
-    title: 'Post Index',
-    description: 'Post handling',
-    icon: 'i-tabler-photo-hexagon',
-    component: vue.defineAsyncComponent(() => import('@fiction/ui/posts/DemoPostIndex.vue')),
-  },
-  {
-    templateId: 'xpost',
-    title: 'Post Component',
-    description: 'Post Single',
-    icon: 'i-tabler-photo-hexagon',
-    component: vue.defineAsyncComponent(() => import('@fiction/ui/posts/DemoPostSingle.vue')),
-  },
-]
-
 export function getUiDemoCardTemplates() {
+// Demo templates for UI components
+  const uiDemoTemplates = [
+    {
+      templateId: 'xbutton',
+      title: 'Buttons',
+      description: 'Standard button styles',
+      icon: 'i-tabler-square-rounded-chevron-right-filled',
+      component: vue.defineAsyncComponent(() => import('@fiction/ui/buttons/test/TestButtonsAll.vue')),
+    },
+    {
+      templateId: 'xinput',
+      title: 'Inputs',
+      description: 'Standard input styles',
+      icon: 'i-tabler-input-check',
+      component: vue.defineAsyncComponent(() => import('@fiction/ui/inputs/test/TestInputsAll.vue')),
+    },
+    {
+      templateId: 'xlogo',
+      title: 'Logo Component',
+      description: 'Standard logo handling',
+      icon: 'i-tabler-brand-apple',
+      component: vue.defineAsyncComponent(() => import('@fiction/ui/test/TestLogoHandling.vue')),
+    },
+    {
+      templateId: 'xmedia',
+      title: 'Media Component',
+      description: 'Standard media handling',
+      icon: 'i-tabler-photo-hexagon',
+      component: vue.defineAsyncComponent(() => import('@fiction/ui/test/TestMediaHandling.vue')),
+    },
+    {
+      templateId: 'xindex',
+      title: 'Post Index',
+      description: 'Post handling',
+      icon: 'i-tabler-photo-hexagon',
+      component: vue.defineAsyncComponent(() => import('@fiction/ui/posts/classic/DemoPostIndex.vue')),
+    },
+    {
+      templateId: 'tufte',
+      title: 'Tufte Post Index',
+      component: vue.defineAsyncComponent(() => import('@fiction/ui/posts/tufte/demo.vue')),
+    },
+    {
+      templateId: 'xpost',
+      title: 'Post Component',
+      description: 'Post Single',
+      icon: 'i-tabler-photo-hexagon',
+      component: vue.defineAsyncComponent(() => import('@fiction/ui/posts/classic/DemoPostSingle.vue')),
+    },
+  ]
+
   const uiDemoTemplatesList = uiDemoTemplates.map((t) => {
     const el = t.component
 

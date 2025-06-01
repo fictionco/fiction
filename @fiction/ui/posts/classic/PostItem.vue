@@ -4,7 +4,7 @@ import type { Card } from '@fiction/site'
 import { vue } from '@fiction/core'
 import XLink from '@fiction/ui/common/XLink.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
-import XIcon from '../media/XIcon.vue'
+import XIcon from '../../media/XIcon.vue'
 import PostItemMeta from './PostItemMeta.vue'
 
 defineOptions({ name: 'PostItem' })

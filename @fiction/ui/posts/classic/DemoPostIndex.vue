@@ -3,9 +3,8 @@ import type { Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import CardWrap from '@fiction/cards/CardWrap.vue'
 import { vue } from '@fiction/core'
-import { Post as PostModel } from '@fiction/posts'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import { getDemoPosts } from './index.js'
+import { getDemoPosts } from '../index.js'
 import PostIndexLayout from './PostIndexLayout.vue'
 
 defineOptions({ name: 'PostIndexDemo' })
@@ -59,26 +58,8 @@ const currentConfig = vue.computed(() => presets[activePreset.value].config)
 const posts = vue.shallowRef<Post[]>([])
 const loading = vue.ref(true)
 
-// Mark a couple posts as featured for demo purposes
-function markFeaturedPosts(allPosts: Post[]) {
-  if (allPosts.length > 0) {
-    allPosts[0].isFeatured.value = true
-
-    if (allPosts.length > 3) {
-      allPosts[3].isFeatured.value = true
-    }
-
-    if (allPosts.length > 5) {
-      allPosts[5].isFeatured.value = true
-    }
-  }
-  return allPosts
-}
-
 vue.onMounted(async () => {
-  // Get demo posts and convert to Post objects
-  const demoPosts = await getDemoPosts()
-  posts.value = markFeaturedPosts(demoPosts.map(p => new PostModel({ ...p, card }))).sort(() => Math.random() - 0.5)
+  posts.value = await getDemoPosts({ card })
   loading.value = false
 })
 </script>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Post } from '@fiction/posts'
 import { dayjs, vue } from '@fiction/core'
-import XIcon from '../media/XIcon.vue'
+import XIcon from '../../media/XIcon.vue'
 
 defineOptions({ name: 'PostItemMeta' })
 

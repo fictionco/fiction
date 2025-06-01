@@ -1,8 +1,10 @@
 import type { TablePostConfig } from '@fiction/posts'
+import type { Card } from '@fiction/site'
+import { Post } from '@fiction/posts'
 import { createStockMediaHandler } from '../stock'
 
-export async function getDemoPosts(args: { limit?: number } = {}): Promise<TablePostConfig[]> {
-  const { limit = 6 } = args
+export async function getDemoPosts(args: { limit?: number, card: Card }) {
+  const { limit = 6, card } = args
   const baseDate = new Date('2024-03-20')
 
   const stock = await createStockMediaHandler()
@@ -225,5 +227,7 @@ export async function getDemoPosts(args: { limit?: number } = {}): Promise<Table
     },
   ]
 
-  return limit ? posts.slice(0, limit) : posts
+  const rawPosts = limit ? posts.slice(0, limit) : posts
+
+  return rawPosts.map(p => new Post({ ...p, card }))
 }

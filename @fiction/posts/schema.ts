@@ -31,6 +31,8 @@ export type TablePostConfig = Partial<ColType<typeof postCols>> & {
   }
 }
 
+type m = TablePostConfig['emailConfig']
+
 export const TablePostSchema = z.object() as z.ZodType<TablePostConfig>
 
 export type TableCommentConfig = Partial<ColType<typeof postCommentCols>> & {

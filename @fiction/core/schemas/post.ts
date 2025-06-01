@@ -88,4 +88,4 @@ export { createAuthorSchema, createPostSchema, createPostSEOSchema }
 // Types
 export type PostSEO = z.infer<typeof PostSEOSchema>
 export type Author = z.infer<typeof AuthorSchema>
-export type Post = z.infer<typeof PostSchema>
+export type PostModel = z.infer<typeof PostSchema>
