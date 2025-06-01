@@ -128,7 +128,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
               items: [
 
                 {
-                  text: `<p>Every time someone Googles your name, they're making decisions about you</p>`,
+                  text: `<p>Personal branding is about managing your name—even if you don't own a business—in a world of misinformation.</p>`,
                   author: {
                     label: 'Tim Ferris',
                     media: { url: PersonFerris },

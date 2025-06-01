@@ -26,7 +26,7 @@ export abstract class PostsQuery extends Query<PostsQuerySettings> {
   }
 }
 
-export type WherePost = { postId?: string, slug?: string } & ({ postId: string } | { slug: string })
+export type WherePost = { postId?: string, slug?: string, orgId?: string } & ({ postId: string } | { slug: string, orgId: string })
 
 export type ManagePostParamsRequest =
   | { _action: 'create', fields: Partial<TablePostConfig>, defaultTitle?: string }
@@ -40,6 +40,7 @@ export type ManagePostParamsRequest =
   | { _action: 'restoreFromRevision', where: WherePost, revisionId: string }
   | { _action: 'emailSendTest', where: WherePost, testEmails: string[], maxEmails?: number }
   | { _action: 'generate', where?: WherePost, mode: 'outline' | 'full', fields: Partial<TablePostConfig>, orgId: string }
+  | { _action: 'view', where: WherePost }
 
 export type ManagePostParams = ManagePostParamsRequest & {
   userId?: string
@@ -90,6 +91,9 @@ export class QueryManagePost extends PostsQuery {
         break
       case 'generate':
         r = await this.generatePostContent(params, meta)
+        break
+      case 'view':
+        r = await this.viewPost(params, meta)
         break
       default:
         return { status: 'error', message: 'Invalid action' }
@@ -739,5 +743,15 @@ export class QueryManagePost extends PostsQuery {
         badlyFormattedEmails,
       },
     }
+  }
+
+  private async viewPost(params: ManagePostParams & { _action: 'view' }, _meta: EndpointMeta): Promise<ManagePostResponse> {
+    const { where } = params
+
+    await this.db()(t.posts)
+      .where(where)
+      .increment('viewCount', 1)
+
+    return { status: 'success', data: [] }
   }
 }

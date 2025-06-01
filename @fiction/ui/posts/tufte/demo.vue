@@ -5,13 +5,23 @@ import CardWrap from '@fiction/cards/CardWrap.vue'
 import { vue } from '@fiction/core'
 import { getDemoPosts } from '../index.js'
 import PostIndex from './PostIndex.vue'
+import PostSingle from './PostSingle.vue'
 
-defineOptions({ name: 'PostIndexDemo' })
+defineOptions({ name: 'PostDemo' })
 
 const { card } = defineProps<{ card: Card }>()
 
 const posts = vue.shallowRef<Post[]>([])
 const loading = vue.ref(true)
+
+const isSingleView = vue.computed(() => {
+  if (typeof window === 'undefined')
+    return false
+  const url = new URL(window.location.href)
+  return url.searchParams.get('single')
+})
+
+const selectedPost = vue.computed(() => posts.value[0])
 
 vue.onMounted(async () => {
   posts.value = await getDemoPosts({ card })
@@ -21,6 +31,14 @@ vue.onMounted(async () => {
 
 <template>
   <CardWrap :card>
-    <PostIndex :posts :featured-count="1" />
+    <PostSingle
+      v-if="isSingleView && selectedPost"
+      :post="selectedPost"
+    />
+    <PostIndex
+      v-else
+      :posts
+      :featured-count="1"
+    />
   </CardWrap>
 </template>

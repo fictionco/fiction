@@ -24,7 +24,7 @@ async function fetchSinglePost() {
   const result = await getPost({
     fictionPosts,
     orgId,
-    where: { slug },
+    where: { slug, orgId },
   })
 
   return result

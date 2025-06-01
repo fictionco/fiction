@@ -229,5 +229,6 @@ export async function getDemoPosts(args: { limit?: number, card: Card }) {
 
   const rawPosts = limit ? posts.slice(0, limit) : posts
 
-  return rawPosts.map(p => new Post({ ...p, card }))
+  // sort random
+  return rawPosts.map(p => new Post({ ...p, card })).sort(() => Math.random() - 0.5)
 }

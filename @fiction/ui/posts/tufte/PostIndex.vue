@@ -20,7 +20,7 @@ function getImageClasses(args: { post: Post }) {
   const m = post.media?.value
   const aspectMode = m?.aspect ? m.aspect : post.media?.value ? getMediaAspectMode(post.media.value) : 'landscape'
 
-  const base = 'rounded-lg object-cover bg-theme-800 flex-shrink-0 overflow-hidden'
+  const base = 'rounded-lg bg-theme-800 overflow-hidden flex-shrink-0 '
 
   if (aspectMode === 'portrait')
     return `${base} w-16 sm:w-20 md:w-[14%] aspect-[3/4]`
@@ -31,9 +31,11 @@ function getImageClasses(args: { post: Post }) {
 
 const items = vue.computed(() => posts.map((post, i) => {
   const isFeatured = i < featuredCount
-  const author = post.authors?.value?.[0]?.fullName || 'Alex Chen'
+  const author = post.authors?.value?.[0]?.fullName
   const date = post.dateAt?.value ? dayjs(post.dateAt.value).format('YYYY.MM.DD') : dayjs().format('YYYY.MM.DD')
-  const readTime = Math.ceil(post.wordCount.value / 200) || 2.4
+  const readTime = Math.ceil(post.wordCount.value / 200)
+  const likeCount = post.likeCount?.value || 0
+  const commentCount = post.commentCount?.value || 0
 
   return {
     post,
@@ -41,9 +43,9 @@ const items = vue.computed(() => posts.map((post, i) => {
     author,
     date,
     stats: [
-      { key: 'reads', label: `${readTime}k reads` },
-      { key: 'responses', label: `${Math.floor(Math.random() * 50) + 20} responses` },
-      { key: 'shares', label: `${Math.floor(Math.random() * 200) + 50} shares` },
+      { key: 'reads', label: `${readTime}m read` },
+      { key: 'likes', label: `${likeCount} likes`, onClick: () => post.like.toggle(), isActive: post.like.isLiked.value },
+      { key: 'responses', label: `${commentCount} responses` },
     ] as NavListItem[],
   }
 }))
@@ -92,29 +94,42 @@ const items = vue.computed(() => posts.map((post, i) => {
           <XLink class="block hover:opacity-80" :href="item.post.href.value">
             <XText
               :tag="item.isFeatured ? 'h1' : 'h2'"
-              class="font-bold text-2xl lg:text-4xl"
+              class="font-bold text-2xl lg:text-4xl x-font-title"
               :model-value="item.post.title?.value"
             />
           </XLink>
           <XText
             v-if="item.post.subTitle?.value"
             :model-value="item.post.subTitle.value"
-            class="text-theme-300 text-3xl"
+            class="text-theme-400 text-2xl"
           />
 
           <div class="text-theme-400 text-sm pt-4 font-mono">
             <template v-for="(stat, i) in item.stats" :key="stat.key">
-              <span>{{ stat.label }}</span>
+              <span
+                :class="[
+                  stat.isActive ? 'text-primary-400 cursor-pointer' : '',
+                  stat.onClick ? 'cursor-pointer hover:opacity-80' : '',
+                ]"
+                @click="stat.onClick?.({ event: $event, item: stat })"
+              >{{ stat.label }}</span>
               <span v-if="i < item.stats.length - 1" class="mx-2">•</span>
             </template>
           </div>
         </div>
 
-        <XMedia
+        <XLink
           v-if="item.post.media?.value"
-          :media="item.post.media.value"
+          class="block hover:opacity-80"
+          :href="item.post.href.value"
           :class="getImageClasses({ post: item.post })"
-        />
+        >
+          <XMedia
+            v-if="item.post.media?.value"
+            :media="item.post.media.value"
+            class="w-full h-full object-cover"
+          />
+        </XLink>
       </div>
     </article>
   </div>
