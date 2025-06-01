@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import type { NavListItem } from '@fiction/core/schemas'
 import type { Post } from '@fiction/posts'
-import { dayjs, vue } from '@fiction/core'
+import { dayjs, getMediaAspectMode, vue } from '@fiction/core'
 import XButton from '../../buttons/XButton.vue'
+import XLink from '../../common/XLink.vue'
+
 import XText from '../../common/XText.vue'
 import XMedia from '../../media/XMedia.vue'
 
@@ -12,6 +14,20 @@ const { posts, featuredCount = 1 } = defineProps<{
   posts: Post[]
   featuredCount?: number
 }>()
+
+function getImageClasses(args: { post: Post }) {
+  const { post } = args
+  const m = post.media?.value
+  const aspectMode = m?.aspect ? m.aspect : post.media?.value ? getMediaAspectMode(post.media.value) : 'landscape'
+
+  const base = 'rounded-lg object-cover bg-theme-800 flex-shrink-0 overflow-hidden'
+
+  if (aspectMode === 'portrait')
+    return `${base} w-16 sm:w-20 md:w-[14%] aspect-[3/4]`
+  if (aspectMode === 'square')
+    return `${base} w-16 sm:w-20 md:w-[18%] aspect-square`
+  return `${base} w-20 sm:w-24 md:w-[25%] aspect-[4/3]`
+}
 
 const items = vue.computed(() => posts.map((post, i) => {
   const isFeatured = i < featuredCount
@@ -53,37 +69,40 @@ const items = vue.computed(() => posts.map((post, i) => {
             Featured
           </XButton>
           <div class="flex items-baseline gap-2">
-            <span class="text-base font-sans text-theme-200">{{ item.author }}</span>
+            <span class="text-base font-sans text-theme-200 font-medium">{{ item.author }}</span>
             <span class="font-mono text-xs">{{ item.date }}</span>
           </div>
         </div>
-        <a
+
+        <XButton
           :href="item.post.href?.value"
-          class="text-primary-400 font-medium hover:text-theme-300 transition-colors text-sm"
+          size="sm"
+          theme="default"
+          class="font-medium"
+          design="link"
+          icon-after="i-tabler-arrow-right"
         >
-          Read →
-        </a>
+          Read
+        </XButton>
       </div>
 
       <!-- Content Row -->
-      <div class="flex gap-12 @[900px]/index:gap-20">
-        <div class="flex-1 space-y-4">
-          <component
-            :is="item.isFeatured ? 'h1' : 'h2'"
-            class="font-bold text-white max-w-[55ch]"
-            :class="item.isFeatured ? 'text-4xl' : 'text-2xl'"
-          >
-            {{ item.post.title?.value }}
-          </component>
-
+      <div class="flex justify-between gap-12 @[900px]/index:gap-20">
+        <div class="flex-1 space-y-4 max-w-[800px]">
+          <XLink class="block hover:opacity-80" :href="item.post.href.value">
+            <XText
+              :tag="item.isFeatured ? 'h1' : 'h2'"
+              class="font-bold text-2xl lg:text-4xl"
+              :model-value="item.post.title?.value"
+            />
+          </XLink>
           <XText
             v-if="item.post.subTitle?.value"
-            :text="item.post.subTitle.value"
-            class="text-theme-300"
-            :class="{ 'text-lg': item.isFeatured }"
+            :model-value="item.post.subTitle.value"
+            class="text-theme-300 text-3xl"
           />
 
-          <div v-if="item.isFeatured" class="text-theme-400 text-xs pt-4 font-mono">
+          <div class="text-theme-400 text-sm pt-4 font-mono">
             <template v-for="(stat, i) in item.stats" :key="stat.key">
               <span>{{ stat.label }}</span>
               <span v-if="i < item.stats.length - 1" class="mx-2">•</span>
@@ -94,10 +113,7 @@ const items = vue.computed(() => posts.map((post, i) => {
         <XMedia
           v-if="item.post.media?.value"
           :media="item.post.media.value"
-          class="rounded-lg object-cover bg-theme-800 flex-shrink-0 overflow-hidden"
-          :class="[
-            item.isFeatured ? 'w-[300px] h-[200px]' : 'w-[200px] h-[150px]',
-          ]"
+          :class="getImageClasses({ post: item.post })"
         />
       </div>
     </article>

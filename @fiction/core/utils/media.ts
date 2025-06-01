@@ -5,6 +5,17 @@ import path from 'node:path'
 import fs from 'fs-extra'
 import { stringify } from './utils'
 
+export function getMediaAspectMode(media: MediaObject): 'square' | 'portrait' | 'landscape' | undefined {
+  const { width, height } = media
+  if (!width || !height)
+    return undefined
+
+  const ratio = width / height
+  if (ratio >= 0.9 && ratio <= 1.1)
+    return 'square'
+  return width > height ? 'landscape' : 'portrait'
+}
+
 /**
  * Parses a base64 data URL string into its components
  * @param base64Data The data URL string to parse

@@ -16,6 +16,7 @@ export type MediaItem = {
   tags: Tag[]
   slug: string
   alt?: string
+  aspect?: 'square' | 'portrait' | 'landscape'
 }
 
 type MediaCollection = MediaItem[]
@@ -84,7 +85,8 @@ export class StockMedia {
     }
 
     this.markAsUsed(selectedItem)
-    return { alt: 'Example Image', ...selectedItem }
+    const aspect = (selectedItem.tags.find(tag => tag.startsWith('aspect:')) || '').replace('aspect:', '') as 'square' | 'portrait' | 'landscape' | undefined
+    return { alt: 'Example Image', aspect, ...selectedItem }
   }
 
   getAllMedia(args: GetMediaArgs = {}): MediaItem[] {
