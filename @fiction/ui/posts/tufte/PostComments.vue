@@ -1,86 +1,124 @@
 <script lang="ts" setup>
-import type { Post } from '@fiction/posts'
-import { toHtml, vue } from '@fiction/core'
+import type { Post, TableCommentConfig } from '@fiction/posts'
+import type { Card } from '@fiction/site'
+import { timeAgo, toHtml, useService, vue } from '@fiction/core'
 import XButton from '../../buttons/XButton.vue'
+import XEntry from '../../prose/XEntry.vue'
 
 defineOptions({ name: 'PostComments' })
 
-const { post } = defineProps<{
+const { post, comments = [], card } = defineProps<{
   post: Post
+  comments?: TableCommentConfig[]
+  card?: Card
 }>()
 
+const emit = defineEmits<{
+  (event: 'addComment', payload: TableCommentConfig): void
+  (event: 'deleteComment', commentId: string): void
+}>()
+
+const { fictionUser } = useService()
+
 const newComment = vue.ref('')
-const comments = vue.ref([
-  {
-    id: '1',
-    author: 'Sarah Chen',
-    content: 'The golden ratio examples clarify these concepts beautifully. Thank you for sharing.',
-    date: '2h',
-  },
-  {
-    id: '2',
-    author: 'Marcus Wilson',
-    content: 'This perspective aligns with our design system work. Elegant approach.',
-    date: '4h',
-  },
-])
+const currentUser = vue.computed(() => fictionUser?.activeUser.value)
+const activeContact = vue.computed(() => card?.site?.activeContact.value)
+
+function canDelete(comment: TableCommentConfig): boolean {
+  if (!currentUser.value)
+    return false
+  return comment.userId === currentUser.value.userId || ['admin', 'owner'].includes(currentUser.value.systemRole || '')
+}
 
 async function addComment() {
   if (!newComment.value.trim())
     return
 
-  const htmlContent = await toHtml(newComment.value)
-
-  comments.value.unshift({
-    id: String(Date.now()),
-    author: 'You',
-    content: htmlContent,
-    date: 'now',
+  emit('addComment', {
+    postId: post.postId,
+    content: newComment.value.trim(),
+    userId: activeContact.value?.userId || currentUser.value?.userId || '',
   })
 
   newComment.value = ''
 }
+
+async function renderMarkdown(content: string): Promise<string> {
+  return await toHtml(content)
+}
+
+const renderedComments = vue.ref<Record<string, string>>({})
+
+vue.watchEffect(async () => {
+  for (const comment of comments) {
+    if (comment.commentId && comment.content) {
+      renderedComments.value[comment.commentId] = await renderMarkdown(comment.content)
+    }
+  }
+})
 </script>
 
 <template>
-  <section class="mt-16 pt-8">
-    <!-- Comments List -->
+  <section class="pt-8">
+    <h3 class="text-lg font-medium text-theme-200 mb-8">
+      {{ comments.length }} {{ comments.length === 1 ? 'Response' : 'Responses' }}
+    </h3>
+
     <div class="space-y-12 mb-12">
-      <article
-        v-for="comment in comments"
-        :key="comment.id"
-        class="lg:text-2xl"
-      >
-        <div class="flex items-baseline gap-4 mb-3 text-sm text-theme-400 font-mono border-b border-theme-700 pb-2">
-          <span class="text-theme-200 font-medium">{{ comment.author }}</span>
-          <time>{{ comment.date }}</time>
+      <article v-for="comment in comments" :key="comment.commentId" class="group">
+        <div class="flex items-baseline gap-4 mb-3 text-theme-400 font-mono border-b border-theme-700 pb-2">
+          <span class="text-theme-200 font-medium">{{ comment.user?.fullName || 'Anonymous' }}</span>
+          <time>{{ timeAgo(comment.createdAt) }}</time>
+          <button
+            v-if="canDelete(comment)"
+            class="ml-auto opacity-0 group-hover:opacity-100 text-theme-400 hover:text-red-400 transition-opacity"
+            @click="emit('deleteComment', comment.commentId!)"
+          >
+            x
+          </button>
         </div>
-        <div
-          class="text-theme-100 prose-comment"
-          v-html="comment.content"
-        />
+        <XEntry>
+          <div
+            class="pl-4 text-theme-100 leading-relaxed  max-w-none"
+            v-html="renderedComments[comment.commentId!] || comment.content"
+          />
+        </XEntry>
       </article>
     </div>
 
-    <!-- Comment Form -->
-    <div class="flex border-t border-theme-700 pt-8 gap-4 items-start">
-      <textarea
-        v-model="newComment"
-        placeholder="Your thoughts..."
-        class="w-full p-0 bg-transparent border-none resize-none focus:outline-none text-xl leading-relaxed text-theme-100 placeholder-theme-500 font-mono"
-        rows="4"
-      />
-      <div>
+    <div v-if="activeContact || currentUser" class="">
+      <div class="flex gap-4 items-start">
+        <div class="flex-1">
+          <textarea
+            v-model="newComment"
+            placeholder="Add your response..."
+            class="w-full p-3 bg-theme-900/50 border border-theme-100/10 rounded text-theme-100 placeholder-theme-400 resize-none focus:outline-none focus:border-theme-100/20 font-mono leading-relaxed"
+            rows="3"
+          />
+        </div>
         <XButton
-          size="lg"
-          theme="default"
+          size="md"
+          theme="primary"
+          rounding="md"
           :disabled="!newComment.trim()"
-          icon-after="i-tabler-arrow-up"
           @click="addComment"
         >
-          Add Response
+          Post
         </XButton>
       </div>
+      <p class="text-xs text-theme-500 mt-2 font-mono">
+        Markdown supported
+      </p>
+    </div>
+
+    <div v-else class="border-t border-theme-100/10 pt-8 text-center">
+      <p class="text-theme-400 font-mono text-sm">
+        Sign in to join the conversation
+      </p>
     </div>
   </section>
 </template>
+
+<style scoped>
+
+</style>

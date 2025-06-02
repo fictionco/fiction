@@ -37,7 +37,7 @@ const postData = vue.computed(() => {
 
 <template>
   <article
-    class="max-w-3xl mx-auto px-4 py-8 md:py-16 space-y-8 md:space-y-12 lg:space-y-16"
+    class="max-w-3xl mx-auto px-4 space-y-8 md:space-y-12 lg:space-y-16"
     itemscope
     itemtype="https://schema.org/BlogPosting"
   >
@@ -49,7 +49,8 @@ const postData = vue.computed(() => {
           :key="tag"
           size="xs"
           theme="default"
-          design="outline"
+          design="ghost"
+          rounding="md"
         >
           {{ toLabel(tag) }}
         </XButton>
@@ -113,7 +114,7 @@ const postData = vue.computed(() => {
 
     <XEntry
       :theme="post.theme?.value"
-      class="lg:text-lg xl:text-xl"
+      class=""
     >
       <div itemprop="articleBody" v-html="post.content?.value" />
     </XEntry>
@@ -148,10 +149,6 @@ const postData = vue.computed(() => {
       </div>
     </footer>
 
-    <PostComments v-if="showComments" :post />
-
-    <!-- Structured data -->
-    <meta itemprop="url" :content="post.href?.value">
-    <meta itemprop="wordCount" :content="String(post.wordCount?.value)">
+    <PostComments v-if="showComments" :post :comments="post.settings.comments" />
   </article>
 </template>

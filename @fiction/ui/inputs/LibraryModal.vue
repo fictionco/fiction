@@ -129,6 +129,11 @@ function setMediaData(media?: MediaObject) {
 
 const mediaPreview = vue.computed(() => {
   const media = currentSelection.value
+
+  if (!site.value) {
+    console.warn('Site context is not available. Media parsing may not work as expected.')
+  }
+
   return site.value ? site.value.shortcodes.parseObjectSync(media) : media
 })
 

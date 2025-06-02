@@ -22,6 +22,7 @@ export type TablePostConfig = Partial<ColType<typeof postCols>> & {
   authors?: User[]
   likeCount?: number
   commentCount?: number
+  comments?: TableCommentConfig[]
   draftId?: string
   org?: Organization
   relatedPosts?: {
@@ -30,8 +31,6 @@ export type TablePostConfig = Partial<ColType<typeof postCols>> & {
     similar?: TablePostConfig[]
   }
 }
-
-type m = TablePostConfig['emailConfig']
 
 export const TablePostSchema = z.object() as z.ZodType<TablePostConfig>
 

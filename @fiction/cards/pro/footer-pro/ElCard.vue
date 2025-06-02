@@ -36,7 +36,7 @@ vue.onMounted(() => {
 <template>
   <CardWrap :card>
     <div :id="card.cardId">
-      <div class="border-t border-theme-200 dark:border-theme-700/80 pt-16 mt-4">
+      <div class="border-t border-theme-200 dark:border-theme-700/80 pt-16">
         <!-- Main grid layout -->
         <div class="grid grid-cols-1 xl:grid-cols-12 gap-12">
           <!-- Brand section -->
@@ -58,7 +58,7 @@ vue.onMounted(() => {
                 tag="p"
                 :card
                 path="brand.tagline"
-                class="text-lg text-theme-600 dark:text-theme-400 animate-item x-font-title"
+                class="text-lg text-theme-600 dark:text-theme-400 animate-item font-sans"
                 animate="fade"
               />
             </div>

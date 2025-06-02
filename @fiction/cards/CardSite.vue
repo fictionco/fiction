@@ -313,6 +313,9 @@ body,
     //   font-weight: var(--font-weight-title, 500);
     // }
   }
+  .x-font-entry {
+    font-family: var(--font-family-entry, unset);
+  }
   .x-font-highlight {
     font-family: var(--font-family-highlight, unset);
   }

@@ -42,10 +42,11 @@ const themeColors = vue.computed(() => {
   /* Theme variables */
   --post-theme-light: v-bind('themeColors.colorLight');
   --post-theme-dark: v-bind('themeColors.colorDark');
-  --text-color: rgba(var(--theme-100) / 1);
-  --muted-color: rgba(var(--theme-100) / 0.8);
-  --border-color: rgba(var(--theme-600) / 0.6);
-
+--text-color: color-mix(in srgb, var(--color-theme-100) 100%, transparent 0%);
+--muted-color: color-mix(in srgb, var(--color-theme-100) 80%, transparent 20%);
+--border-color: color-mix(in srgb, var(--color-theme-600) 60%, transparent 40%);
+--background-alt-color: color-mix(in srgb, var(--color-theme-700) 40%, transparent 50%);
+--background-alt-color-subtle: color-mix(in srgb, var(--color-theme-700) 30%, transparent 70%);
   /* Base typography */
   font-size: 1.3em;
   line-height: 1.75;
@@ -54,6 +55,7 @@ const themeColors = vue.computed(() => {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-color);
+  font-family: var(--font-family-entry, var(--font-family-body, sans-serif));
 
   /* Drop cap styling */
   &.drop-cap p:first-of-type:first-letter {
@@ -75,8 +77,8 @@ const themeColors = vue.computed(() => {
     letter-spacing: -.02em;
   }
 
-  h1 { font-size: 2em; margin: 1.2em 0 0.4em; }
-  h2 { font-size: 1.618em; margin: 1.1em 0 0.4em; line-height: 1.2; }
+  h1 { font-size: 2em; margin: 1.5em 0 0.4em; }
+  h2 { font-size: 1.618em; margin: 1.5em 0 0.75em; line-height: 1.2; }
   h3 { font-size: 1.309em; margin: 1em 0 0.35em; line-height: 1.4; }
   h4 { font-size: 1.159em; margin: 0.9em 0 0.3em; line-height: 1.5; }
   h5 { font-size: 1.05em; margin: 0.8em 0 0.3em; line-height: 1.6;}
@@ -87,6 +89,11 @@ const themeColors = vue.computed(() => {
     text-transform: uppercase;
     letter-spacing: 0.03em;
     line-height: 1.6;
+  }
+
+  h2{
+    padding-bottom: .5em;
+    border-bottom: 1px solid var(--border-color);
   }
 
   /* Remove top margin for first headings */
@@ -110,7 +117,7 @@ const themeColors = vue.computed(() => {
     margin: 2em 0;
     padding: 1.5em;
     border-radius: 0.5em;
-    background: rgba(var(--theme-700) / 0.3);
+    background: var(--background-alt-color-subtle);
 
     :first-child { margin-top: 0; }
     :last-child { margin-bottom: 0; }
@@ -130,7 +137,7 @@ const themeColors = vue.computed(() => {
   /* Blockquotes */
   blockquote {
     margin: 2em 0;
-    padding-left: 1em;
+    padding-left: 1.5em;
     position: relative;
     max-width: 32em;
 
@@ -141,13 +148,7 @@ const themeColors = vue.computed(() => {
       left: 0;
       bottom: 0;
       width: 3px;
-      background: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(var(--theme-600) / 1) 15%,
-        rgba(var(--theme-600) / 1) 85%,
-        transparent
-      );
+      background: var(--border-color)
     }
 
     p {
@@ -187,12 +188,14 @@ const themeColors = vue.computed(() => {
   /* Code */
   pre {
     margin: 1.618em 0;
-    padding: 1em;
+    padding: 1.2em;
     border-radius: 0.3em;
     overflow-x: auto;
-    background: rgba(var(--theme-700) / .5);
+    background: var(--background-alt-color);
     border: 1px solid var(--border-color);
-
+    line-height: 1.5;
+    font-size: .85em;
+    font-family: var(--font-family-mono, monospace);
     code {
       padding: 0;
       background: transparent;
@@ -236,7 +239,7 @@ const themeColors = vue.computed(() => {
   }
 
   thead {
-    background: rgba(var(--theme-700) / 0.2);
+    background: var(--background-alt-color-subtle);
     font-family: var(--font-family-title, inherit);
   }
 
@@ -253,7 +256,7 @@ const themeColors = vue.computed(() => {
   }
 
   tr:hover {
-    background: rgba(var(--theme-700) / 0.1);
+    background: var(--background-alt-color-subtle);
   }
 
   /* Images and figures */

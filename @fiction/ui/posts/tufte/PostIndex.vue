@@ -75,15 +75,15 @@ const items = vue.computed(() => posts.map((post, i) => {
 <template>
   <div class="space-y-24 @container/index">
     <header v-if="header?.title || header?.subTitle || header?.media" class="header">
-      <div class="flex justify-between gap-8 md:gap-12">
-        <div class="flex-1 max-w-2xl space-y-6 md:space-y-8 ">
-          <div class="flex flex-col gap-2">
+      <div class="flex justify-between items-center gap-8 md:gap-12">
+        <div class="flex-1 max-w-3xl">
+          <div class="flex flex-col gap-4">
             <XTextPath
               :model-value="header"
               path="title"
               :card
               tag="h1"
-              class="font-semibold x-font-title text-3xl md:text-5xl lg:text-6xl leading-tight"
+              class="font-semibold x-font-title text-3xl md:text-5xl lg:text-6xl"
               placeholder="Blog Title"
               :animate="true"
               @update:model-value="updateHeader"
@@ -94,7 +94,7 @@ const items = vue.computed(() => posts.map((post, i) => {
               path="subTitle"
               :card
               tag="p"
-              class="text-theme-400 text-lg md:text-xl lg:text-2xl leading-relaxed"
+              class="text-theme-400 text-lg md:text-xl lg:text-3xl leading-relaxed"
               placeholder="Blog description or tagline"
               :animate="true"
               @update:model-value="updateHeader"
@@ -157,7 +157,7 @@ const items = vue.computed(() => posts.map((post, i) => {
           <XLink class="block hover:opacity-80" :href="item.post.href.value">
             <XText
               :tag="item.isFeatured ? 'h1' : 'h2'"
-              class="font-bold text-2xl lg:text-4xl x-font-title"
+              class="font-semibold text-2xl lg:text-4xl x-font-title leading-[1.25]"
               :model-value="item.post.title?.value"
             />
           </XLink>
