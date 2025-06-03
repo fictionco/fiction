@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { FictionAdmin } from '@fiction/admin'
 import type { NavListItem } from '@fiction/core'
-import { getFictionAuthUrl, getFictionNavItems } from '@fiction/admin'
+import { getFictionAuthUrl } from '@fiction/admin'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElAvatar from '@fiction/ui/common/ElAvatar.vue'

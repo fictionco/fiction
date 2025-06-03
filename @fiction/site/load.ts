@@ -70,7 +70,7 @@ export async function requestManageSite(args: RequestManageSiteParams) {
 
   const requestArgs = { ...pass, caller, _action, fields, where, scope } as ManageSiteParams
 
-  logger.info('fetching site', { data: {caller} })
+  logger.info('fetching site', { data: { caller } })
 
   const r = await fictionSites.requests.ManageSite.projectRequest(requestArgs, { caller: `requestManageSite:${caller}`, userOptional: _action === 'retrieve' })
 

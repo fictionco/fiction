@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ActionButton, MediaObject, NavListItem } from '@fiction/core/schemas'
-import type { Post, PostConfig } from '@fiction/posts'
+import type { Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import { dayjs, getMediaAspectMode, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'

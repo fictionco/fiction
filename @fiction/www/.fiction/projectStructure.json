@@ -203,7 +203,12 @@
       "posts": {
         "blog": {
           "ElMagazine.vue": null,
+          "PostComments.vue": null,
+          "PostIndex.vue": null,
+          "PostSingle.vue": null,
+          "avatar.jpg": null,
           "config.ts": null,
+          "demo.vue": null,
           "img": {
             "screen-dark.svg": null,
             "screen-light.svg": null
@@ -1118,6 +1123,7 @@
       "test": {
         "endpoint.unit.test.ts": null,
         "endpointMeta.test.ts": null,
+        "endpointView.unit.test.ts": null,
         "postAuthors.unit.test.ts": null,
         "postEditing.flow.test.ts": null,
         "postLoader.unit.test.ts": null,
@@ -1505,6 +1511,7 @@
         "XNumber.vue": null,
         "XSuperTitle.vue": null,
         "XText.vue": null,
+        "XTextPath.vue": null,
         "user-blank.png": null,
         "user.svg": null
       },
@@ -1673,11 +1680,7 @@
           "PostSingle.vue": null,
           "XPostAuthor.vue": null
         },
-        "index.ts": null,
-        "tufte": {
-          "PostIndex.vue": null,
-          "demo.vue": null
-        }
+        "index.ts": null
       },
       "prose": {
         "XEntry.vue": null,
