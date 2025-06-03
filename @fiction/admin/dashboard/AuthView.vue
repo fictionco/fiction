@@ -77,7 +77,7 @@ const states: Record<AuthStateKey, AuthState> = {
     subTitle: 'Enter the code we sent to your inbox',
     icon: 'i-tabler-mail-check',
     showCodeInput: true,
-    callback: () => verifyCode(response => navigateTo(!response.user?.hashedPassword ? 'setNewPassword' : 'verifySuccess')),
+    callback: () => verifyCode(response => navigateTo(!response.isNew ? 'setNewPassword' : 'verifySuccess')),
   },
   verifySuccess: {
     title: 'Success!',
@@ -93,7 +93,7 @@ const states: Record<AuthStateKey, AuthState> = {
     icon: 'i-tabler-mail',
     status: 'success',
     showCodeInput: true,
-    callback: () => verifyCode(response => navigateTo(response.isNew || !response.user?.hashedPassword ? 'setNewPassword' : 'verifySuccess')),
+    callback: () => verifyCode(response => navigateTo(response.isNew ? 'setNewPassword' : 'verifySuccess')),
   },
   resetPassword: {
     title: 'Reset password',

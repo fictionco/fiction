@@ -11,6 +11,7 @@ import XLink from '@fiction/ui/common/XLink.vue'
 import XIcon from '@fiction/ui/media/XIcon.vue'
 import XLogoType from '@fiction/ui/media/XLogoType.vue'
 import CardWrap from '../../CardWrap.vue'
+import NavMobile from './NavMobile.vue'
 
 const { card } = defineProps<{ card: Card<UserConfig> }>()
 const { fictionUser, fictionAdmin } = useService<{ fictionAdmin: FictionAdmin }>()
@@ -34,33 +35,13 @@ const nav = vue.computed(() => {
           href,
           isActive: href === siteRouter?.current.value.path,
           priority: page.priority.value,
-          icon: { class: 'i-tabler-file' },
         }
       }) || [],
     { centerNumber: 100 },
   )
 })
 
-// All mobile menu items
-const mobileItems = vue.computed(() => [
-  ...nav.value,
-  ...((!isEditable.value && !uc.value.hideSubscribe)
-    ? [{
-        label: card.site?.activeContact?.value?.status === 'active' ? 'Subscribed' : 'Subscribe',
-        href: card.site?.activeContact?.value?.status === 'active' ? undefined : '?_subscribe=1',
-        icon: { class: 'i-tabler-bell' },
-      }]
-    : []),
-  ...(user.value
-    ? getFictionNavItems({ fictionAdmin, fictionUser })
-    : !isEditable.value
-        ? [{
-            label: 'Sign In',
-            href: getFictionAuthUrl({ fictionAdmin, site: card.site, redirect: uc.value.redirectAfterLogin }),
-            icon: { class: 'i-tabler-login' },
-          }]
-        : []),
-])
+const vis = vue.ref(false)
 </script>
 
 <template>
@@ -106,6 +87,7 @@ const mobileItems = vue.computed(() => [
 
         <XDropDown
           v-if="user"
+          :site="card.site"
           :items="getFictionNavItems({ fictionAdmin, fictionUser })"
           dropdown-alignment="end"
           mode="click"
@@ -119,18 +101,13 @@ const mobileItems = vue.computed(() => [
       </div>
 
       <!-- Mobile Menu -->
-      <XDropDown
-        class="md:hidden"
-        :items="mobileItems"
-        dropdown-alignment="end"
-        mode="click"
-        :classes="{ width: 'w-64' }"
-      >
-        <div :class="`flex items-center gap-2 p-2 pr-0 cursor-pointer ${hoverClass}`">
+      <div class="md:hidden flex items-center">
+        <div :class="`flex items-center gap-2 p-2 pr-0 cursor-pointer ${hoverClass}`" @click.stop="vis = !vis">
           <ElAvatar v-if="user" class="size-8" :user="user" />
-          <XIcon class="size-6 text-theme-600 dark:text-theme-400" :media="{ class: 'i-tabler-menu-2' }" />
+          <XIcon class="size-8 text-theme-600 dark:text-theme-400 hover:dark:text-theme-0 active:dark:text-theme-0" :media="{ class: 'i-tabler-menu' }" />
         </div>
-      </XDropDown>
+        <NavMobile :nav="nav" :vis @update:vis="vis = $event" />
+      </div>
     </div>
   </CardWrap>
 </template>

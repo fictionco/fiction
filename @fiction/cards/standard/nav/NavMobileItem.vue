@@ -23,17 +23,6 @@ function handleClick(event: MouseEvent) {
   item.onClick?.({ event })
 }
 
-function getItemClass(depth = 0) {
-  const baseClass = 'x-action-item font-sans pr-4 relative group flex gap-x-2 items-center justify-between pl-2'
-  const depthClass = {
-    0: 'text-lg font-normal',
-    1: 'text-lg font-normal text-theme-600 dark:text-theme-300 pl-4 py-1',
-    2: 'text-sm font-normal pl-8 py-1',
-  }[depth]
-
-  return `${baseClass} ${depthClass}`
-}
-
 const componentType = vue.computed(() => getNavComponentType(item))
 
 const linkProps = vue.computed(() => {
@@ -45,59 +34,27 @@ const linkProps = vue.computed(() => {
   <div>
     <div
       role="menuitem"
-      :class="getItemClass(depth)"
+      class="x-action-item font-sans relative group flex gap-x-2 items-center justify-between "
       :data-is-active="item.isActive"
       :data-depth="depth"
     >
       <span class="relative group flex gap-x-2 items-center justify-between w-full">
         <component
           :is="getNavComponentType(item)"
-          class="grow flex gap-3 items-center hover:text-primary-500 dark:hover:text-primary-400 duration-200 cursor-pointer"
+          class="grow flex justify-between gap-3 items-center  duration-200 cursor-pointer text-2xl py-1"
           v-bind="linkProps"
+          :class="item.isActive ? 'text-theme-900 dark:text-theme-0 font-semibold' : 'text-theme-500 dark:text-theme-400 font-normal hover:text-primary-500 dark:hover:text-primary-400'"
           @click="handleClick"
         >
-          <XIcon v-if="item.icon" class="size-[1.2em] text-theme-400" :media="item.icon" />
-          <span
-            class="text-[.9em]"
-            :class="item.isActive ? ' text-primary-300 font-semibold' : ' font-medium'"
-            v-html="item.label"
+          <span v-html="item.label" />
+          <XIcon
+            v-if="item.icon"
+            class="size-[1em] text-theme-500"
+            :class="item.isActive ? 'text-theme-900 dark:text-theme-0' : 'text-theme-400 dark:text-theme-700'"
+            :media="item.icon"
           />
         </component>
-        <div
-          v-if="(item.list?.items && hasDropDown)"
-          class="bg-theme-50 dark:bg-theme-700/30 dark:hover:bg-theme-700/60 flex items-center p-2 rounded-full cursor-pointer"
-          @click.stop="isOpen = !isOpen"
-        >
-          <span
-            class="text-lg transition-all bg-primary-500 dark:bg-primary-400 rounded-full"
-            :class="[
-              hasDropDown && isOpen ? 'rotate-180' : '',
-              item.href?.includes('http')
-                ? 'i-tabler-arrow-up-right text-primary-400/50 dark:text-primary-500/50'
-                : item.list?.items && hasDropDown
-                  ? 'i-tabler-chevron-down'
-                  : '',
-            ]"
-          />
-        </div>
       </span>
     </div>
-
-    <TransitionSlide>
-      <div
-        v-if="item.list?.items"
-        v-show="isOpen || !hasDropDown"
-      >
-        <div :class="depth <= 0 ? 'py-4' : 'pb-3'">
-          <div v-for="(subItem, index) in item.list?.items" :key="index">
-            <NavMobileItem
-              :item="subItem"
-              :depth="(depth || 0) + 1"
-              :is-expanded="isOpen"
-            />
-          </div>
-        </div>
-      </div>
-    </TransitionSlide>
   </div>
 </template>
