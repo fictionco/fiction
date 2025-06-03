@@ -2,10 +2,10 @@
 import type { NavListItem } from '@fiction/core'
 import type { Post } from '@fiction/posts'
 import { dayjs, toLabel, vue } from '@fiction/core'
-import XButton from '../../buttons/XButton.vue'
-import XText from '../../common/XText.vue'
-import XMedia from '../../media/XMedia.vue'
-import XEntry from '../../prose/XEntry.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
+import XText from '@fiction/ui/common/XText.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
+import XEntry from '@fiction/ui/prose/XEntry.vue'
 import PostComments from './PostComments.vue'
 
 defineOptions({ name: 'PostSingle' })

@@ -8,6 +8,7 @@ defineOptions({ name: 'InputColorTheme' })
 const { modelValue, mode = 'user' } = defineProps<{
   modelValue?: ColorThemeUser
   mode?: 'bright' | 'user' | 'color'
+
 }>()
 
 const emit = defineEmits<{
@@ -41,11 +42,19 @@ const list = vue.computed(() => {
   }
 })
 
+function clr(color: ColorThemeUser, options?: { outputFormat?: 'hex' | 'rgb' }) {
+  if (color === 'overlay') {
+    return { 600: '#ffffff' } // Default overlay color
+  }
+
+  return getColorScheme(color, { outputFormat: options?.outputFormat || 'hex' })
+}
+
 const selectedColor = vue.computed(() => {
   if (!modelValue)
     return null
 
-  return getColorScheme(modelValue, { outputFormat: 'hex' })?.[600] || null
+  return clr(modelValue, { outputFormat: 'hex' })?.[600] || null
 })
 </script>
 
@@ -61,8 +70,8 @@ const selectedColor = vue.computed(() => {
           <div
             v-if="item?.value"
             class="w-4 h-4 rounded-sm border border-theme-300 dark:border-theme-0/40"
-            :style="{ background: getColorScheme(item.value as ColorThemeUser, { outputFormat: 'hex' })[600] }"
-          ></div>
+            :style="{ background: clr(item.value as ColorThemeUser, { outputFormat: 'hex' })[600] }"
+          />
           <span>{{ item?.label || 'Select' }}</span>
         </div>
       </template>
@@ -72,8 +81,8 @@ const selectedColor = vue.computed(() => {
           <div
             v-if="item?.value"
             class="w-4 h-4 rounded-sm border border-theme-300 dark:border-theme-0/40"
-            :style="{ background: getColorScheme(item.value as ColorThemeUser, { outputFormat: 'hex' })[600] }"
-          ></div>
+            :style="{ background: clr(item.value as ColorThemeUser, { outputFormat: 'hex' })[600] }"
+          />
           <span>{{ item?.label }}</span>
         </div>
       </template>
@@ -83,7 +92,7 @@ const selectedColor = vue.computed(() => {
           v-if="selectedColor"
           class="w-5 h-5 rounded-sm border border-theme-300 dark:border-theme-0/40"
           :style="{ background: selectedColor }"
-        ></div>
+        />
       </template>
     </InputSelectCustom>
   </div>

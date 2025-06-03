@@ -7,8 +7,8 @@ import { useService, vue } from '@fiction/core'
 import { useSSRData } from '@fiction/core/utils/ssr'
 import { Post } from '@fiction/posts'
 import { loadPosts } from '@fiction/posts/utils/post'
-import PostIndexLayout from '@fiction/ui/posts/tufte/PostIndex.vue'
 import CardWrap from '../../CardWrap.vue'
+import PostIndexLayout from './PostIndex.vue'
 
 const { card } = defineProps<{ card: Card<UserConfig> }>()
 const { fictionPosts } = useService<{ fictionPosts: FictionPosts }>()

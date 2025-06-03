@@ -2,8 +2,8 @@
 import type { Post, TableCommentConfig } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import { timeAgo, toHtml, useService, vue } from '@fiction/core'
-import XButton from '../../buttons/XButton.vue'
-import XEntry from '../../prose/XEntry.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
+import XEntry from '@fiction/ui/prose/XEntry.vue'
 
 defineOptions({ name: 'PostComments' })
 

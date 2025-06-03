@@ -189,7 +189,7 @@ export function getUiDemoCardTemplates() {
     {
       templateId: 'tufte',
       title: 'Tufte Post Index',
-      component: vue.defineAsyncComponent(() => import('@fiction/ui/posts/tufte/demo.vue')),
+      component: vue.defineAsyncComponent(() => import('./posts/blog/demo.vue')),
     },
     {
       templateId: 'xpost',

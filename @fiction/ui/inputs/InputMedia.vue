@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { MediaObject, StandardSize } from '@fiction/core'
+import type { Site } from '@fiction/site'
 import { determineMediaFormat, removeUndefined, vue } from '@fiction/core'
 import { SITE_INJECTION_KEY } from '@fiction/site'
 import XMedia from '../media/XMedia.vue'
@@ -15,13 +16,14 @@ const props = defineProps<{
   disabled?: boolean
   fullWidth?: boolean
   aspectClass?: string
+  site?: Site
 }>()
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: MediaObject | undefined): void
 }>()
 
-const site = vue.inject(SITE_INJECTION_KEY, vue.computed(() => undefined))
+const site = vue.inject(SITE_INJECTION_KEY, vue.computed(() => props.site))
 
 const vis = vue.ref(false)
 const value = vue.computed(() => {
@@ -61,6 +63,7 @@ function handleMediaUpdate(newValue: MediaObject) {
 
 const mediaPreview = vue.computed(() => {
   const v = value.value
+
   return site.value && v ? site.value.shortcodes.parseObjectSync(v) : v
 })
 </script>

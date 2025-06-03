@@ -3,12 +3,12 @@ import type { ActionButton, MediaObject, NavListItem } from '@fiction/core/schem
 import type { Post, PostConfig } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import { dayjs, getMediaAspectMode, vue } from '@fiction/core'
-import XButton from '../../buttons/XButton.vue'
+import XButton from '@fiction/ui/buttons/XButton.vue'
 
-import XLink from '../../common/XLink.vue'
-import XText from '../../common/XText.vue'
-import XTextPath from '../../common/XTextPath.vue'
-import XMedia from '../../media/XMedia.vue'
+import XLink from '@fiction/ui/common/XLink.vue'
+import XText from '@fiction/ui/common/XText.vue'
+import XTextPath from '@fiction/ui/common/XTextPath.vue'
+import XMedia from '@fiction/ui/media/XMedia.vue'
 
 defineOptions({ name: 'PostLayout' })
 
@@ -16,16 +16,8 @@ const { posts, featuredCount = 1, card } = defineProps<{
   posts: Post[]
   featuredCount?: number
   header?: BlogHeader
-  card?: Card
+  card: Card
 }>()
-
-const emit = defineEmits<{
-  (event: 'update:header', payload: BlogHeader): void
-}>()
-
-function updateHeader(updatedHeader: BlogHeader) {
-  emit('update:header', updatedHeader)
-}
 
 export interface BlogHeader {
   title?: string
@@ -79,25 +71,21 @@ const items = vue.computed(() => posts.map((post, i) => {
         <div class="flex-1 max-w-3xl">
           <div class="flex flex-col gap-4">
             <XTextPath
-              :model-value="header"
               path="title"
               :card
               tag="h1"
               class="font-semibold x-font-title text-3xl md:text-5xl lg:text-6xl"
               placeholder="Blog Title"
               :animate="true"
-              @update:model-value="updateHeader"
             />
 
             <XTextPath
-              :model-value="header"
               path="subTitle"
               :card
               tag="p"
               class="text-theme-400 text-lg md:text-xl lg:text-3xl leading-relaxed"
               placeholder="Blog description or tagline"
               :animate="true"
-              @update:model-value="updateHeader"
             />
           </div>
         </div>

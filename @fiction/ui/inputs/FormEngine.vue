@@ -231,10 +231,14 @@ function activateOptTab(args: { path: string }) {
 
   // Remove array indices for matching (items.0.title -> items.title)
   const checkPath = relativePath.replace(/\.\d+\./g, '.')
+  // Edit path is used in array options, so prefix it to match the group keys
+  const prefix = editPath ? editPath.replace(/\.\d/g, '.') : ''
 
-  const groupIndex = groupOptions.value.findIndex(group =>
-    getChildKeys(group.options.value || []).some(key => checkPath.startsWith(`${key}.`) || checkPath === key),
-  )
+  const groupIndex = groupOptions.value.findIndex((group) => {
+    const ks = getChildKeys(group.options.value || []).map(k => `${prefix}${k}`)
+    const found = ks.some(key => checkPath.startsWith(`${key}.`) || checkPath === key)
+    return found
+  })
 
   if (groupIndex >= 0 && groupIndex !== activeTabIndex.value) {
     handleTabChange(groupIndex)

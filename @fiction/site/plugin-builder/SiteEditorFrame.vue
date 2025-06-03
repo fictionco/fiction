@@ -70,8 +70,6 @@ async function selectPage(args: { cardId: string, withSettings?: boolean }) {
     props.site.editorActivateTool({ toolId: 'pageEdit' })
 }
 
-
-
 const currentPage = vue.computed(() => props.site?.currentPage.value)
 const isHome = vue.computed(() => currentPage.value?.isHome.value)
 
@@ -131,17 +129,17 @@ const stableHashes = vue.ref<Record<string, string>>({})
 // Update hashes only when not editing (prevents background reloads)
 vue.watch(
   () => [props.site?.editingPageId.value, sitePages.value],
-  ([editingPageId ]) => {
+  ([editingPageId]) => {
     if (!editingPageId) {
       // Only update hashes when showing all pages
       const newHashes: Record<string, string> = {}
-      sitePages.value?.forEach(page => {
+      sitePages.value?.forEach((page) => {
         newHashes[page.cardId] = fastHash(page.toConfig())
       })
       stableHashes.value = newHashes
     }
   },
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 )
 
 function getStablePageHash(page: Card): string {
@@ -256,7 +254,7 @@ function getStablePageHash(page: Card): string {
       item-selector=".draggable-page"
       :allow-horizontal="true"
       data-test-id="draggable-page-container"
-      class="@container grid gap-4 lg:gap-10 grid-cols-1 @md:grid-cols-2 @2xl:grid-cols-3 @5xl:grid-cols-4 mb-4"
+      class="@container grid gap-4 lg:gap-10 grid-cols-1 @md:grid-cols-2 @3xl:grid-cols-3 @5xl:grid-cols-4 mb-4"
       @update:sorted="handlePageOrderUpdate"
     >
       <div
@@ -269,7 +267,7 @@ function getStablePageHash(page: Card): string {
       >
         <div class="relative size-full overflow-hidden bg-theme-100 dark:bg-theme-900 z-0">
           <iframe
-            :src="site.frame.framePageUrl({ pageCardId: page.cardId, siteMode: 'standard'})"
+            :src="site.frame.framePageUrl({ pageCardId: page.cardId, siteMode: 'standard' })"
             class="transform scale-[0.2] origin-top-left"
             style="width: 500%; height: 500%"
             frameborder="0"

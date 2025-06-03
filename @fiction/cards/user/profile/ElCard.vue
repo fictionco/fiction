@@ -109,15 +109,14 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
                 animate="rise"
               />
             </XEntry>
+            <CardActionArea
+              :card
+              base-path="action"
+              :classes="{
+                buttons: 'flex gap-4 text-2xl justify-center md:justify-start flex-wrap',
+              }"
+            />
           </div>
-
-          <CardActionArea
-            :card
-            base-path="action"
-            :classes="{
-              buttons: 'flex gap-4 text-2xl justify-center md:justify-start flex-wrap',
-            }"
-          />
         </div>
       </div>
     </div>

@@ -56,7 +56,7 @@ function getBgClass(_args: { slide: Testimonial, index: number }) {
                     <div class="space-y-[2vw] w-fit">
                       <CardText
                         tag="div"
-                        class="text-xl md:text-2xl leading-snug w-fit"
+                        class="text-xl md:text-2xl leading-snug w-fit x-font-title"
                         :card
                         :path="pathCheck(`items.${index}.content`, schema)"
                         animate="fade"
@@ -74,7 +74,14 @@ function getBgClass(_args: { slide: Testimonial, index: number }) {
               </div>
             </div>
             <div class="flex justify-center pt-9 flex-col items-center gap-2">
-              <div><XMedia :media="slide.user?.media" class="size-16 rounded-full overflow-clip ring-2 ring-white" /></div>
+              <div>
+                <XMedia
+                  :card
+                  :path="pathCheck(`items.${index}.user.media`, schema)"
+                  :media="slide.user?.media"
+                  class="size-16 rounded-full overflow-clip ring-2 ring-white"
+                />
+              </div>
               <div class="text-center">
                 <CardText
                   tag="div"

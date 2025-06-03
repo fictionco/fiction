@@ -3,7 +3,7 @@ import type { Post } from '@fiction/posts'
 import type { Card } from '@fiction/site'
 import CardWrap from '@fiction/cards/CardWrap.vue'
 import { vue } from '@fiction/core'
-import { getDemoPosts } from '../index.js'
+import { getDemoPosts } from '@fiction/ui/posts/index.js'
 import AvatarImage from './avatar.jpg'
 import PostIndex from './PostIndex.vue'
 import PostSingle from './PostSingle.vue'
@@ -54,6 +54,7 @@ const header = vue.computed(() => {
     />
     <PostIndex
       v-else
+      :card
       :posts
       :featured-count="1"
       :header
