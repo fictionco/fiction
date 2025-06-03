@@ -195,7 +195,7 @@ describe('requestManagePage', async () => {
       site,
       regionCard,
       delay: 0,
-    })).rejects.toThrow(expect.anything())
+    })).rejects.toThrow()
   })
 
   it('should process the upsert action correctly', async () => {

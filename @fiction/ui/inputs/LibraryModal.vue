@@ -200,7 +200,7 @@ function closeModal() {
             <div class="w-full h-full flex items-center justify-center text-center">
               <template v-if="mediaPreview.format || mediaPreview.gradient?.stops?.length || mediaPreview.backgroundColor">
                 <XLogo
-                  v-if="['iconId', 'iconClass', 'typography'].includes(mediaPreview.format || '')"
+                  v-if="['icon', 'typography'].includes(mediaPreview.format || '')"
                   :media="mediaPreview"
                   class="max-h-full h-[80%]"
                 />

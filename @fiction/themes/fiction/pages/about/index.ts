@@ -1,10 +1,10 @@
 import type { MapUserConfig } from '@fiction/cards/user/maps'
 import { cardConfig } from '@fiction/cards'
-import ImageAndrew from './img/ap.webp'
 import ImageOffice from './img/fiction-office.webp'
 import ImageGirlComputer from './img/girl-computer.webp'
 import ImageMorgan from './img/morgan.jpg'
 import ImagePro from './img/pro.webp'
+import ImageAndrew from './img/profile-andrew.webp'
 
 export async function getAboutPage() {
   const topHeroCard = cardConfig({
