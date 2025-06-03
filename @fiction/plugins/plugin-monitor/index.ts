@@ -2,7 +2,7 @@ import type { FictionApp, FictionAppEntry, FictionEmail, FictionEnv, FictionUser
 import type { IncomingWebhookSendArguments } from '@slack/webhook'
 import { EnvVar, FictionPlugin, isActualBrowser, isTest, vars } from '@fiction/core'
 import { IncomingWebhook } from '@slack/webhook'
-import { H } from 'highlight.run'
+
 
 declare global {
   interface Window {
@@ -153,19 +153,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
         replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
       })
 
-      H.init('3ej7v29e', {
-        environment: 'production',
-        networkRecording: {
-          enabled: true,
-          recordHeadersAndBody: true,
-          urlBlocklist: [
-            // insert full or partial urls that you don't want to record here
-            // Out of the box, Highlight will not record these URLs (they can be safely removed):
-            'https://www.googleapis.com/identitytoolkit',
-            'https://securetoken.googleapis.com',
-          ],
-        },
-      })
+
     }
   }
 
@@ -179,9 +167,6 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
         email: user.email,
       })
 
-      H.identify(user.email, {
-        name: user.fullName || 'No Name',
-      })
     }
   }
 }

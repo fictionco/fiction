@@ -7,8 +7,8 @@ import XButton from '@fiction/ui/buttons/XButton.vue'
 
 import XLink from '@fiction/ui/common/XLink.vue'
 import XText from '@fiction/ui/common/XText.vue'
-import XTextPath from '@fiction/ui/common/XTextPath.vue'
 import XMedia from '@fiction/ui/media/XMedia.vue'
+import CardText from '../../CardText.vue'
 
 defineOptions({ name: 'PostLayout' })
 
@@ -70,21 +70,21 @@ const items = vue.computed(() => posts.map((post, i) => {
       <div class="flex justify-between items-center gap-8 md:gap-12">
         <div class="flex-1 max-w-3xl">
           <div class="flex flex-col gap-4">
-            <XTextPath
+            <CardText
               path="title"
               :card
               tag="h1"
               class="font-semibold x-font-title text-3xl md:text-5xl lg:text-6xl"
-              placeholder="Blog Title"
+              placeholder="Magazine Title"
               :animate="true"
             />
 
-            <XTextPath
+            <CardText
               path="subTitle"
               :card
               tag="p"
               class="text-theme-400 text-lg md:text-xl lg:text-3xl leading-relaxed"
-              placeholder="Blog description or tagline"
+              placeholder="Description or tagline"
               :animate="true"
             />
           </div>

@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import type { Post } from '@fiction/posts'
-import type { Card } from '@fiction/site'
+import type { UserConfig } from './config'
 import CardWrap from '@fiction/cards/CardWrap.vue'
 import { vue } from '@fiction/core'
+import { Card } from '@fiction/site'
 import { getDemoPosts } from '@fiction/ui/posts/index.js'
 import AvatarImage from './avatar.jpg'
 import PostIndex from './PostIndex.vue'
@@ -29,20 +30,18 @@ vue.onMounted(async () => {
   loading.value = false
 })
 
-const header = vue.computed(() => {
-  return {
-    title: 'Tufte Posts',
-    subTitle: 'A demo of Tufte posts layout',
-    media: {
-      url: AvatarImage,
-      aspect: 'square' as const,
+const testCard = vue.computed(() => {
+  return new Card<UserConfig>({
+    templateId: 'cardBlogV1',
+    userConfig: {
+      title: 'Tufte Posts',
+      subTitle: 'A demo of Tufte posts layout',
+      media: {
+        url: AvatarImage,
+        aspect: 'square' as const,
+      },
     },
-    action: {
-      buttons: [
-        { label: 'View All', href: '/posts/tufte' },
-      ],
-    },
-  }
+  })
 })
 </script>
 
@@ -54,10 +53,9 @@ const header = vue.computed(() => {
     />
     <PostIndex
       v-else
-      :card
+      :card="testCard"
       :posts
       :featured-count="1"
-      :header
     />
   </CardWrap>
 </template>
