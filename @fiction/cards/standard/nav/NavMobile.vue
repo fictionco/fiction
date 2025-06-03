@@ -24,12 +24,6 @@ const emit = defineEmits<{
 const { fictionUser, fictionAdmin } = useService<{ fictionAdmin: FictionAdmin }>()
 const user = vue.computed(() => fictionUser.activeUser?.value)
 const navItems = vue.computed(() => getFictionNavItems({ fictionAdmin, fictionUser }))
-
-const legalItems = vue.computed(() => [
-  { label: 'About', href: 'https://www.fiction.com/about' },
-  { label: 'Privacy', href: 'https://www.fiction.com/privacy' },
-  { label: 'Terms', href: 'https://www.fiction.com/terms' },
-])
 </script>
 
 <template>
@@ -96,21 +90,6 @@ const legalItems = vue.computed(() => [
               Sign In
             </XButton>
           </div>
-        </div>
-      </div>
-
-      <!-- Legal Links -->
-      <div class="px-4 py-3 border-t border-theme-100 dark:border-theme-800">
-        <div class="flex flex-wrap gap-x-4 gap-y-2 text-sm text-theme-500 dark:text-theme-400">
-          <a
-            v-for="(item, idx) in legalItems"
-            :key="idx"
-            :href="item.href"
-            class="hover:text-theme-700 dark:hover:text-theme-300"
-            @click="emit('update:vis', false)"
-          >
-            {{ item.label }}
-          </a>
         </div>
       </div>
     </div>

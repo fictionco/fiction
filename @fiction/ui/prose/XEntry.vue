@@ -55,7 +55,6 @@ const themeColors = vue.computed(() => {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-color);
-  font-family: var(--font-family-entry, var(--font-family-body, sans-serif));
 
   /* Drop cap styling */
   &.drop-cap p:first-of-type:first-letter {

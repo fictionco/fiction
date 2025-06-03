@@ -100,7 +100,7 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
               <CardText
                 tag="div"
                 :card
-                class="sub-heading text-theme-300"
+                class="sub-heading text-theme-100"
                 path="content"
                 animate="rise"
               />

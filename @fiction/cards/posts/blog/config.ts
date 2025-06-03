@@ -20,7 +20,7 @@ const options = [
   createOption({
     schema,
     key: 'postsGroup',
-    label: 'Post Configuration',
+    label: 'Settings',
     input: 'group',
     icon: { class: 'i-tabler-file-text' },
     options: [

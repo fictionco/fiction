@@ -202,34 +202,42 @@ fictionEnv.events.on('cleanup', () => {
 })
 
 vue.onMounted(async () => {
-  vue.watchEffect(() => {
-    if (typeof document === 'undefined')
-      return
+  vue.watch(
+    () => site.value?.siteFonts.value,
+    (fonts) => {
+      const stacks = fonts?.stacks || {}
+      const fontsUrl = fonts?.fontsUrl || ''
+      for (const stack in stacks) {
+        const stackFonts = (stacks[stack] || '').replaceAll('+', ' ')
+        document.documentElement.style.setProperty(`--font-family-${stack}`, stackFonts)
+      }
 
-    const clr = colors.value
-    const th = clr.themeHex
-    const prm = clr.primaryHex
-    const fn = fonts.value
-    Object.entries(th).forEach(([k, v]) => {
-      document.documentElement.style.setProperty(`--theme-${k}`, v)
-    })
-    Object.entries(prm).forEach(([k, v]) => {
-      document.documentElement.style.setProperty(`--primary-${k}`, v)
-    })
+      // Update Google Fonts link
+      const fontLink = document.getElementById('font-link') as HTMLLinkElement
+      if (fontLink && fontsUrl) {
+        fontLink.href = fontsUrl
+      }
+    },
+    { immediate: true },
+  )
+  vue.watch(
+    () => colors.value,
+    (colors) => {
+      if (!colors)
+        return
 
-    const stacks = fn?.stacks || {}
-    const fontsUrl = fn?.fontsUrl || ''
-    for (const stack in stacks) {
-      const stackFonts = (stacks[stack] || '').replaceAll('+', ' ')
-      document.documentElement.style.setProperty(`--font-family-${stack}`, stackFonts)
-    }
+      const primaryColor = colors.primaryHex || {}
+      const themeColor = colors.themeHex || {}
 
-    // Update Google Fonts link
-    const fontLink = document.getElementById('font-link') as HTMLLinkElement
-    if (fontLink && fontsUrl) {
-      fontLink.href = fontsUrl
-    }
-  })
+      Object.entries(primaryColor).forEach(([k, v]) => {
+        document.documentElement.style.setProperty(`--primary-${k}`, v)
+      })
+      Object.entries(themeColor).forEach(([k, v]) => {
+        document.documentElement.style.setProperty(`--theme-${k}`, v)
+      })
+    },
+    { immediate: true },
+  )
 })
 </script>
 

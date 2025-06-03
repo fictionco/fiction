@@ -70,9 +70,7 @@ async function selectPage(args: { cardId: string, withSettings?: boolean }) {
     props.site.editorActivateTool({ toolId: 'pageEdit' })
 }
 
-function isActivePage(cardId: string) {
-  return props.site?.activePageId.value === cardId
-}
+
 
 const currentPage = vue.computed(() => props.site?.currentPage.value)
 const isHome = vue.computed(() => currentPage.value?.isHome.value)
@@ -125,6 +123,29 @@ async function deletePage(page: Card) {
       regionCard: page.toConfig(),
     })
   }
+}
+
+// Add stable hash management
+const stableHashes = vue.ref<Record<string, string>>({})
+
+// Update hashes only when not editing (prevents background reloads)
+vue.watch(
+  () => [props.site?.editingPageId.value, sitePages.value],
+  ([editingPageId ]) => {
+    if (!editingPageId) {
+      // Only update hashes when showing all pages
+      const newHashes: Record<string, string> = {}
+      sitePages.value?.forEach(page => {
+        newHashes[page.cardId] = fastHash(page.toConfig())
+      })
+      stableHashes.value = newHashes
+    }
+  },
+  { immediate: true, deep: true }
+)
+
+function getStablePageHash(page: Card): string {
+  return stableHashes.value[page.cardId] || ''
 }
 </script>
 
@@ -240,7 +261,7 @@ async function deletePage(page: Card) {
     >
       <div
         v-for="page in sitePages"
-        :key="fastHash(page.toConfig())"
+        :key="getStablePageHash(page)"
         :data-drag-id="page.cardId"
         :data-test-id="`page-frame-${page.slug.value}`"
         class="draggable-page h-80 lg:h-[400px] ring-1 ring-theme-200 dark:ring-theme-600/60 hover:ring-theme-400 dark:hover:ring-theme-500 relative group transition-all duration-300 bg-white dark:bg-theme-800 rounded-lg shadow-md overflow-hidden cursor-pointer "

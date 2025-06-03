@@ -34,11 +34,34 @@ const options = [
     label: 'Content',
     icon: { class: 'i-tabler-align-left' },
     options: [
+      createOption({ schema, key: 'title', input: 'InputText', label: 'Title' }),
+      createOption({ schema, key: 'content', input: 'InputProse', label: 'Description' }),
+      createOption({
+        schema,
+        key: 'superTitle',
+        input: 'InputSuperTitle',
+        label: 'Context Title',
+      }),
+      createOption({
+        schema,
+        key: 'action.buttons',
+        label: 'Buttons',
+        input: 'InputActions',
+      }),
+    ],
+  }),
+  createOption({
+    schema,
+    key: 'group.media',
+    input: 'group',
+    label: 'Media & Layout',
+    icon: { class: 'i-tabler-photo' },
+    options: [
       createOption({
         schema,
         key: 'layout',
         input: 'InputRadioButton',
-        label: 'Layout Style',
+        label: 'Media Layout',
         props: { uiSize: 'sm' },
         list: [
           { label: 'Media on Left', value: 'left' },
@@ -56,21 +79,6 @@ const options = [
         },
         options: [createOption({ schema, key: 'mediaItems.0.media', input: 'InputMedia' })],
       }),
-      createOption({ schema, key: 'title', input: 'InputText', label: 'Title' }),
-      createOption({ schema, key: 'content', input: 'InputProse', label: 'Description' }),
-      createOption({
-        schema,
-        key: 'superTitle',
-        input: 'InputSuperTitle',
-        label: 'Context Title',
-      }),
-      createOption({
-        schema,
-        key: 'action.buttons',
-        label: 'Buttons',
-        input: 'InputActions',
-      }),
-
     ],
   }),
 

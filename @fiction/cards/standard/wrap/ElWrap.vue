@@ -15,9 +15,19 @@ defineProps({
       tag="header"
       :card="card.site.sections.value.header"
       :class="card.userConfig.value.fixedHeader ? 'fixed w-full top-0 z-10' : ''"
+      :is-editable="card?.site?.isEditable.value"
     />
-    <ElEngine tag="main" :card class="min-h-[40vh] grow" :is-editable="card?.site?.isEditable.value" />
-    <ElEngine class="transition-opacity duration-700" tag="footer" :card="card.site.sections.value.footer" />
+    <ElEngine
+      tag="main"
+      :card
+      class="min-h-[40vh] grow"
+      :is-editable="card?.site?.isEditable.value"
+    />
+    <ElEngine
+      tag="footer"
+      :card="card.site.sections.value.footer"
+      :is-editable="card?.site?.isEditable.value"
+    />
     <ElEngine tag="div" class="hidden" :card="card.site.sections.value.hidden" />
   </div>
 </template>

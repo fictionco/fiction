@@ -205,7 +205,7 @@ function activateItem(args: { index: number, path: string }) {
       :data-handle-index="i"
     >
       <div
-        class="p-2 bg-theme-50/50 dark:bg-theme-600/20 hover:bg-theme-50 text-xs font-mono font-medium flex justify-between items-center"
+        class="p-2 bg-theme-50/50 dark:bg-theme-600/20 hover:opacity-80 text-xs font-mono font-medium flex justify-between items-center"
         :class="openItem === i ? '' : 'rounded-md'"
         :data-drag-handle="randomId"
         data-test-id="handle"
