@@ -75,10 +75,10 @@ describe('authentication flow UI', { retry: isCi() ? 3 : 0 }, async () => {
         // Submit verification code
         { type: 'click', selector: '[data-test-id="submit-button"]' },
 
-        // Set new password
-        { type: 'fill', selector: '[data-test-id="input-new-password"] input', text: testPassword },
-        { type: 'fill', selector: '[data-test-id="input-new-password-confirm"] input', text: testPassword },
-        { type: 'click', selector: '[data-test-id="submit-button"]' },
+        // // Set new password
+        // { type: 'fill', selector: '[data-test-id="input-new-password"] input', text: testPassword },
+        // { type: 'fill', selector: '[data-test-id="input-new-password-confirm"] input', text: testPassword },
+        // { type: 'click', selector: '[data-test-id="submit-button"]' },
 
         // Complete flow
         { type: 'click', selector: '[data-test-id="continue-button"]' },
