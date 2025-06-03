@@ -248,7 +248,7 @@ async function deletePage(page: Card) {
       >
         <div class="relative size-full overflow-hidden bg-theme-100 dark:bg-theme-900 z-0">
           <iframe
-            :src="site.frame.framePageUrl({ pageCardId: page.cardId, siteMode: 'standard' })"
+            :src="site.frame.framePageUrl({ pageCardId: page.cardId, siteMode: 'standard'})"
             class="transform scale-[0.2] origin-top-left"
             style="width: 500%; height: 500%"
             frameborder="0"

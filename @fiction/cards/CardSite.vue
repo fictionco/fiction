@@ -50,7 +50,7 @@ async function load() {
       siteRouter,
       fictionSites,
       mountContext: mountContext.value,
-      caller: `CardSite-loadSite(${props.themeId || 'no-theme-id'}):${currentUrl}:HEADERS${runVars?.ALL_HEADERS}`,
+      caller: `CardSite-loadSite:${currentUrl}`,
     })
 
     return s

@@ -46,13 +46,15 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     })
   })
 
-  framePageUrl = (args?: { pageCardId?: string, siteMode?: SiteMode }) => {
-    const { pageCardId, siteMode = 'standard' } = args || {}
+  framePageUrl = (args?: { pageCardId?: string, siteMode?: SiteMode, hash?: string }) => {
+    const { pageCardId, siteMode = 'standard', hash } = args || {}
     const s = new URLSearchParams({ _scope: 'draft' })
     if (pageCardId)
       s.set('_pageCardId', pageCardId)
     if (siteMode)
       s.set('_siteMode', siteMode)
+    if (hash)
+      s.set('_hash', hash)
 
     return `${this.previewPath.value}?${s.toString()}`
   }

@@ -27,6 +27,8 @@ function updateHeader(updatedHeader: BlogHeader) {
   emit('update:header', updatedHeader)
 }
 
+const randomNumber = vue.ref(Math.round(Math.random() * 1000))
+
 export interface BlogHeader {
   title?: string
   subTitle?: string
@@ -78,6 +80,7 @@ const items = vue.computed(() => posts.map((post, i) => {
       <div class="flex justify-between items-center gap-8 md:gap-12">
         <div class="flex-1 max-w-3xl">
           <div class="flex flex-col gap-4">
+            <div class="text-6xl">{{ randomNumber }}</div>
             <XTextPath
               :model-value="header"
               path="title"
