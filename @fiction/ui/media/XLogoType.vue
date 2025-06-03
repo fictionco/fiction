@@ -267,12 +267,12 @@ vue.onBeforeUnmount(() => {
   </div>
   <div
     v-else
-    class="x-logo-type flex items-center gap-4"
+    class="x-logo-type flex items-center gap-[.5em]"
     :class="classes.text"
     :data-logo-variant="variant"
     :data-media-scale="activeLogo?.scale"
   >
-    <ElAvatar v-if="org?.avatar?.url" :org class="size-8" />
+    <ElAvatar v-if="org?.avatar?.url" :org class="size-[1.5em]" />
     <span :style="typographyStyle">
       {{ activeLogo.typography?.label || (org?.orgName || 'Logo') }}
     </span>

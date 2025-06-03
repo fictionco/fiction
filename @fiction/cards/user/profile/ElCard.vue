@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './index.js'
-import { vue } from '@fiction/core'
+import { pathCheck, vue } from '@fiction/core'
 import { useElementVisible } from '@fiction/ui/anim'
 import AnimClipPath from '@fiction/ui/anim/AnimClipPath.vue'
 import EffectCarousel from '@fiction/ui/effect/EffectCarousel.vue'
@@ -13,6 +13,7 @@ import CardWrap from '../../CardWrap.vue'
 import CardActionArea from '../../el/CardActionArea.vue'
 import NavDots from '../../el/NavDots.vue'
 import SuperTitle from '../../el/SuperTitle.vue'
+import { schema } from './config'
 
 const { card } = defineProps<{
   card: Card<UserConfig>
@@ -59,11 +60,14 @@ const hoverClasses = 'group-hover/item:text-primary-600 dark:group-hover/item:te
                 :options="flickityOptions"
                 class="h-full w-full"
               >
-                <template #default="{ slide: item }">
+                <template #default="{ slide: item, index }">
                   <XMedia
                     :media="item.media"
                     class="aspect-[5/7] w-full"
                     image-mode="cover"
+                    :data-media-index="index"
+                    :card
+                    :path="pathCheck(`mediaItems.${index}.media`, schema)"
                   />
                 </template>
               </EffectCarousel>

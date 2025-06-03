@@ -67,7 +67,7 @@ const mobileItems = vue.computed(() => [
   <CardWrap :card class="border-b border-theme-700 bg-theme-900/50" vertical-spacing="none">
     <div class="flex items-center justify-between">
       <!-- Logo -->
-      <XLink :card href="/" :class="`py-2 ${hoverClass} flex items-center gap-2`">
+      <XLink :card href="/" :class="`py-3 ${hoverClass} flex items-center gap-2`">
         <XLogoType
           :logo="uc.brand?.logo"
           :classes="{ text: 'x-font-title text-lg font-bold' }"

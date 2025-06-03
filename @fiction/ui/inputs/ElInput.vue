@@ -239,6 +239,7 @@ const componentProps = vue.computed(() => {
         @update:model-value="updateValue($event)"
         @update:edit-index="emit('update:editIndex', $event)"
         @keydown="emit('keydown', $event)"
+        @activate="emit('activate', $event)"
       >
         <slot />
       </component>

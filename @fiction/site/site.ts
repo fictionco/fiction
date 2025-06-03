@@ -257,7 +257,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     if (!this || this?.siteMode.value === 'standard') {
       return
     }
-
     this.editor.value.editPath = path
     this.frame.syncEditPath({
       cardId: this.activeCard.value?.cardId || '',
