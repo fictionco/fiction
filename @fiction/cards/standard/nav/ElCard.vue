@@ -12,6 +12,7 @@ import XIcon from '@fiction/ui/media/XIcon.vue'
 import XLogoType from '@fiction/ui/media/XLogoType.vue'
 import CardWrap from '../../CardWrap.vue'
 import NavMobile from './NavMobile.vue'
+import SubscribeButton from './SubscribeButton.vue'
 
 const { card } = defineProps<{ card: Card<UserConfig> }>()
 const { fictionUser, fictionAdmin } = useService<{ fictionAdmin: FictionAdmin }>()
@@ -42,13 +43,17 @@ const nav = vue.computed(() => {
 })
 
 const vis = vue.ref(false)
+
+// subscribe
+const showSubscribeButton = vue.computed(() => !isEditable.value && !uc.value.hideSubscribe)
+const isSubscribed = vue.computed(() => card.site?.activeContact?.value?.status === 'active')
 </script>
 
 <template>
   <CardWrap :card class="border-b border-theme-700 bg-theme-900/50" vertical-spacing="none">
     <div class="flex items-center justify-between">
       <!-- Logo -->
-      <XLink :card href="/" :class="`py-3 ${hoverClass} flex items-center gap-2`">
+      <XLink :card href="/" :class="`py-3 ${hoverClass} flex items-center gap-2 basis-0 grow`">
         <XLogoType
           :logo="uc.brand?.logo"
           :classes="{ text: 'x-font-title text-lg font-bold' }"
@@ -58,7 +63,7 @@ const vis = vue.ref(false)
       </XLink>
 
       <!-- Desktop Nav -->
-      <nav class="hidden md:flex space-x-6">
+      <nav class="hidden md:flex space-x-6 grow-0">
         <XLink
           v-for="item in nav"
           :key="item.href"
@@ -74,7 +79,7 @@ const vis = vue.ref(false)
       </nav>
 
       <!-- Desktop Actions -->
-      <div class="hidden md:flex items-center gap-4">
+      <div class="hidden md:flex items-center gap-4 basis-0 grow justify-end">
         <XButton
           v-if="!user && !isEditable"
           :href="getFictionAuthUrl({ fictionAdmin, site: card.site, redirect: uc.redirectAfterLogin })"
@@ -84,6 +89,8 @@ const vis = vue.ref(false)
         >
           Sign In
         </XButton>
+
+        <SubscribeButton :card />
 
         <XDropDown
           v-if="user"
@@ -101,12 +108,12 @@ const vis = vue.ref(false)
       </div>
 
       <!-- Mobile Menu -->
-      <div class="md:hidden flex items-center">
+      <div class="md:hidden flex items-center basis-0 grow justify-end relative">
         <div :class="`flex items-center gap-2 p-2 pr-0 cursor-pointer ${hoverClass}`" @click.stop="vis = !vis">
           <ElAvatar v-if="user" class="size-8" :user="user" />
           <XIcon class="size-8 text-theme-600 dark:text-theme-400 hover:dark:text-theme-0 active:dark:text-theme-0" :media="{ class: 'i-tabler-menu' }" />
         </div>
-        <NavMobile :nav="nav" :vis @update:vis="vis = $event" />
+        <NavMobile :card :nav :vis @update:vis="vis = $event" />
       </div>
     </div>
   </CardWrap>

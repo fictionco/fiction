@@ -17,6 +17,7 @@ const props = defineProps<{
   org: Organization
 }>()
 
+const createSiteLink = vue.computed(() => siteLink({ site: props.card.site, location: { path: '/sites' } }))
 const siteEditLink = vue.computed(() => siteLink({ site: props.card.site, location: { path: '/edit-site', query: { siteId: props.primarySite?.siteId } } }))
 
 const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
@@ -108,8 +109,11 @@ const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
           </div>
         </div>
 
-        <div v-else class="w-full h-full flex items-center justify-center border border-theme-200 dark:border-theme-700 rounded-md bg-theme-50 dark:bg-theme-900">
-          <span class="text-theme-400">No site available</span>
+        <div
+          v-else
+          class="p-6 w-full h-full flex items-center justify-center border border-theme-200 dark:border-theme-700 rounded-md bg-theme-50 dark:bg-theme-900"
+        >
+          <span class="text-theme-400">No site added. <a :href="createSiteLink" class="text-primary-400">Create one</a>.</span>
         </div>
       </div>
     </div>
