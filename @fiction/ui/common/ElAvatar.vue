@@ -3,6 +3,8 @@ import type { MediaObject, Organization, User } from '@fiction/core'
 import { gravatarUrlSync, vue } from '@fiction/core'
 import XMedia from '../media/XMedia.vue'
 
+defineOptions({ name: 'ElAvatar' })
+
 const {
   user,
   org,

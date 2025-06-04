@@ -66,26 +66,33 @@ const primaryNav = vue.computed<NavListItem[]>(() => {
     }
   })
 
-  const resultSorted = sortPriority(r)
+  const resultSorted = sortPriority(r) as NavListItem[]
+  const currentViewId = site.siteRouter.params.value.viewId
+  resultSorted.push({
+    label: 'Settings',
+    href: `/settings`,
+    icon: { class: 'i-tabler-settings' },
+    isActive: currentViewId === 'settings',
+  })
 
   return resultSorted || []
 })
 
-const bottomNav = vue.computed<NavListItem[]>(() => {
-  const site = card.site
-  if (!site)
-    return []
-  const currentViewId = site.siteRouter.params.value.viewId
-  const activeOrganization = fictionUser.activeOrganization.value
-  return [
-    {
-      label: 'Settings',
-      href: `/settings`,
-      icon: { class: 'i-tabler-settings' },
-      isActive: currentViewId === 'settings',
-    },
-  ] satisfies NavListItem[]
-})
+// const bottomNav = vue.computed<NavListItem[]>(() => {
+//   const site = card.site
+//   if (!site)
+//     return []
+//   const currentViewId = site.siteRouter.params.value.viewId
+//   const activeOrganization = fictionUser.activeOrganization.value
+//   return [
+//     {
+//       label: 'Settings',
+//       href: `/settings`,
+//       icon: { class: 'i-tabler-settings' },
+//       isActive: currentViewId === 'settings',
+//     },
+//   ] satisfies NavListItem[]
+// })
 
 const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
   return [
@@ -164,7 +171,7 @@ const icon = { format: 'component', el: FictionLogo } as MediaObject
               class="md:static md:flex h-dvh w-[60%] md:w-[calc(16rem+3vw)] shrink-0 md:opacity-100 will-change-auto transition-all  duration-300 border-theme-300/50 dark:border-theme-600/50 fixed top-0 z-30 justify-end border-r"
               :class="showMobileNav ? 'left-0 opacity-100' : '-left-full opacity-0'"
             >
-              <DashNav class="md:pl-12 md:pr-6" :icon :nav="primaryNav" :nav-bottom="bottomNav" :card />
+              <DashNav class="md:pl-12 md:pr-6" :icon :nav="primaryNav" :card />
               <ElClose v-if="showMobileNav" class="absolute -right-16 top-4" @click="showMobileNav = false" />
             </div>
             <Transition name="backdrop">

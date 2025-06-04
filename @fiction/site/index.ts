@@ -160,7 +160,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
         cardConfigCustom<SiteAdminTemplates>({
           templateId: 'dash',
           slug: 'edit-site',
-          title: 'Edit Website',
+          title: 'Website',
           description: 'Customize and configure your website settings',
           cards: [
             cardConfigCustom<SiteAdminTemplates>({
