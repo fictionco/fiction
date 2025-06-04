@@ -15,10 +15,7 @@ export const theme = new Theme({
   getBaseConfig: () => ({
     userConfig: {
       standard: {
-        fonts: {
-          title: { family: 'Lora', stack: 'serif' },
-          body: { family: 'Inter', stack: 'sans' },
-        },
+        fonts: { },
       },
     },
   }),
