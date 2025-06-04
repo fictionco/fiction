@@ -229,6 +229,11 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       if (r?.data) {
         await this?.updateUser(() => r.data, { reason: 'watchRouteUserChanges' })
       }
+
+      // refresh the page
+      if (typeof window !== 'undefined' && window.location) {
+        window.location.reload()
+      }
     }
   }
 

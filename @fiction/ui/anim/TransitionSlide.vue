@@ -42,7 +42,7 @@ function resetMaxHeight(el: HTMLElement) {
 <style lang="less" scoped>
 .height-animation-enter-active,
 .height-animation-leave-active {
-  transition: max-height .30s cubic-bezier(.65,.01,.38,.99), opacity .25s cubic-bezier(.65,.01,.38,.99);
+  transition: max-height .20s cubic-bezier(.65,.01,.38,.99), opacity .15s cubic-bezier(.65,.01,.38,.99);
   overflow: hidden;
   user-select: none;
   will-change: transform, height, opacity;
