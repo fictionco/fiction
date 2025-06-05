@@ -127,6 +127,80 @@ describe('subscription endpoint', async () => {
     expect(r.indexMeta?.count).toBe(2)
   })
 
+  it('current contact without update', async () => {
+    const r = await fictionContact.queries.ManageContact.serve({
+      _action: 'current',
+      targetOrgId: orgId,
+      userId: userId3,
+    }, { server: true })
+
+    expect(r.status).toBe('success')
+    expect(r.data?.length).toBe(1)
+    expect(r.data?.[0]?.userId).toBe(userId3)
+    expect(r.data?.[0]?.status).toBe('active')
+  })
+
+  it('current contact with update fields', async () => {
+    // Update contact through current action (self-service)
+    const r = await fictionContact.queries.ManageContact.serve({
+      _action: 'current',
+      targetOrgId: orgId,
+      userId: userId3,
+      fields: { status: 'unsubscribed', level: 'premium' },
+    }, { server: true })
+
+    expect(r.status).toBe('success')
+    expect(r.data?.length).toBe(1)
+    expect(r.data?.[0]?.userId).toBe(userId3)
+    expect(r.data?.[0]?.status).toBe('unsubscribed')
+    expect(r.data?.[0]?.level).toBe('premium')
+
+    // Verify the update persisted
+    const r2 = await fictionContact.queries.ManageContact.serve({
+      _action: 'current',
+      targetOrgId: orgId,
+      userId: userId3,
+    }, { server: true })
+
+    expect(r2.status).toBe('success')
+    expect(r2.data?.[0]?.status).toBe('unsubscribed')
+    expect(r2.data?.[0]?.level).toBe('premium')
+  })
+
+  it('current contact resubscribe', async () => {
+    // Contact can resubscribe themselves
+    const r = await fictionContact.queries.ManageContact.serve({
+      _action: 'current',
+      targetOrgId: orgId,
+      userId: userId3,
+      fields: { status: 'active' },
+    }, { server: true })
+
+    expect(r.status).toBe('success')
+    expect(r.data?.[0]?.status).toBe('active')
+  })
+
+  it('current contact with missing targetOrgId', async () => {
+    // @ts-expect-error test
+    const r = await fictionContact.queries.ManageContact.serve({
+      _action: 'current',
+      userId: userId3,
+    }, { server: true })
+
+    expect(r.status).toBe('error')
+    expect(r.message).toBe('Missing targetOrgId')
+  })
+
+  it('current contact with no userId', async () => {
+    const r = await fictionContact.queries.ManageContact.serve({
+      _action: 'current',
+      targetOrgId: orgId,
+    }, { server: true })
+
+    expect(r.status).toBe('success')
+    expect(r.data).toBeUndefined()
+  })
+
   it('delete one', async () => {
     const r = await fictionContact.queries.ManageContact.serve({
       _action: 'delete',

@@ -29,7 +29,7 @@ export type ManageContactRequest =
   | { _action: 'count', orgId: string, filters?: ComplexDataFilter[] }
   | { _action: 'update', orgId: string, where: WhereSubscription[], fields: Partial<TableContactConfig> }
   | { _action: 'delete', orgId: string, where: WhereSubscription[] }
-  | { _action: 'current', targetOrgId: string, userId?: string }
+  | { _action: 'current', targetOrgId: string, userId?: string, fields?: Partial<TableContactConfig> }
 
 export type ManageContactParams = ManageContactRequest & IndexQuery
 
@@ -139,12 +139,37 @@ export class ManageContactQuery extends SubscribeEndpoint {
   }
 
   private async getCurrentContact(params: ManageContactParams & { _action: 'current' }, meta: EndpointMeta): Promise<ManageContactResponse> {
-    const { targetOrgId, userId = meta.bearer?.userId } = params
+    const { targetOrgId, userId = meta.bearer?.userId, fields } = params
 
     if (!targetOrgId)
       return { status: 'error', message: 'Missing targetOrgId' }
     if (!userId)
       return { status: 'success', data: undefined }
+
+    // If fields are provided, update the contact first
+    if (fields && Object.keys(fields).length > 0) {
+      const prepped = this.settings.fictionDb.prep({ type: 'update', fields, meta, table: t.contact })
+      const updatedAt = new Date().toISOString()
+
+      // Get previous status for metrics tracking
+      const existingContact = await this.db().table(t.contact).select('status').where({ orgId: targetOrgId, userId }).first<{ status: SyndicateStatus }>()
+
+      const previousStatus = existingContact?.status
+
+      await this.db().table(t.contact).where({ orgId: targetOrgId, userId }).update({ ...prepped, updatedAt })
+
+      // Track metrics for the update
+      const updatedContact = await this.db().table(t.contact).select('*').where({ orgId: targetOrgId, userId }).first<TableContactConfig>()
+
+      if (updatedContact) {
+        await trackContactMetrics({
+          fictionContact: this.settings.fictionContact,
+          orgId: targetOrgId,
+          previousStatus,
+          contact: updatedContact,
+        }, meta)
+      }
+    }
 
     const data = await this.db().table(t.contact).select('*').where({ orgId: targetOrgId, userId })
 

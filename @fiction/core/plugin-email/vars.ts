@@ -89,14 +89,25 @@ async function getOrCreateUser(args: {
 function buildUrls(args: { origin: string, callbackPath: string }) {
   const { origin, callbackPath } = args
   const cleanPath = (path: string) => path.replace(/^\/+|\/+$/g, '')
-  const joinPaths = (...paths: string[]) =>
-    paths.filter(Boolean).map(cleanPath).join('/')
+  const joinPaths = (...paths: string[]) => paths.filter(Boolean).map(cleanPath).join('/')
 
   return {
     origin,
     callback: joinPaths(origin, callbackPath),
     unsubscribe: joinPaths(origin, 'm', 'preferences'),
   }
+}
+
+export type CardbackQueryVars = {
+  redirect?: string
+  userId?: string
+  email?: string
+  code?: string
+  token?: string
+  action?: string
+  tags?: string[]
+  targetOrgId?: string
+  [key: string]: string | string[] | undefined
 }
 
 function createAuthVars<T extends Record<string, string>>(args: {

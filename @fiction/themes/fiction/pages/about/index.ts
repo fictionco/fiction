@@ -81,8 +81,9 @@ export async function getAboutPage() {
   const teamCard = cardConfig({
     templateId: 'cardPeopleV1',
     userConfig: {
-      subTitle: `Here to Make It Easy`,
-      title: `Meet Your Team`,
+
+      title: `Team`,
+      subTitle: 'Meet the Founders',
       items: [
         {
           title: 'Andrew Powers',

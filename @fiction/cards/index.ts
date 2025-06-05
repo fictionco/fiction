@@ -59,6 +59,7 @@ const cardTemplateImports = [
   () => import('./standard/textEffects'),
   () => import('./standard/error404'),
   () => import('./standard/transaction'),
+  () => import('./standard/manage'),
 ] as const
 
 // templateTypes.ts

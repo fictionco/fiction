@@ -121,7 +121,7 @@ export function ensureStandardPages(args: { site?: Site, pages: Card[] }): Card[
       slug: '_manage',
       title: 'Manage Account',
       isSystem: true,
-      cards: [{ templateId: 'cardSinglePostV1' }],
+      cards: [{ templateId: 'cardManageContactV1' }],
     }))
   }
 

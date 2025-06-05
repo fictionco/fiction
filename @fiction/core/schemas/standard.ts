@@ -6,7 +6,7 @@ export const PostStatusSchema = z.enum(['draft', 'scheduled', 'processing', 'fai
 export type PostStatus = z.infer<typeof PostStatusSchema>
 export const ProgressStatusSchema = z.enum(['pending', 'requested', 'processing', 'ready', 'error', 'cancelled', 'skipped'])
 export type ProgressStatus = z.infer<typeof ProgressStatusSchema>
-export const SyndicateStatusSchema = z.enum(['active', 'unsubscribed', 'pending', 'complained', 'deleted', 'cleaned'])
+export const SyndicateStatusSchema = z.enum(['active', 'unsubscribed', 'pending', 'bounced', 'spam_complaint', 'blocked', 'deleted'])
 export type SyndicateStatus = z.infer<typeof SyndicateStatusSchema>
 
 export const ButtonColorThemeSchema = z.enum(colorThemeUser)
