@@ -5,7 +5,6 @@
     "@fiction/site": "workspace:*",
     "@fiction/admin": "workspace:*",
     "@fiction/theme-fiction": "workspace:*",
-    "@fiction/theme-minimal": "workspace:*",
     "@fiction/ui": "workspace:*"
   },
   "license": "MIT",

@@ -14,7 +14,6 @@ import { FictionOnboard } from '@fiction/onboard/index.js'
 import { FictionAi } from '@fiction/plugin-ai'
 import { FictionContact } from '@fiction/plugin-contact'
 import { FictionPosts } from '@fiction/posts/index.js'
-import * as minimalTheme from '@fiction/theme-minimal'
 
 import { FictionSites } from '../index.js'
 import { Site } from '../site.js'
@@ -91,11 +90,7 @@ export async function createSiteTestUtils(args: {
 
   out.fictionPosts = new FictionPosts({ ...(out as SiteTestUtils) })
 
-  const themes = async () => Promise.all([
-    minimalTheme.theme,
-    testTheme.theme,
-    ...(args.themes || []),
-  ])
+  const themes = async () => Promise.all([testTheme.theme, ...(args.themes || [])])
 
   out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), themes })
   out.fictionCards = new FictionCards({ ...out, fictionSites: out.fictionSites, fictionRouterSites: out.fictionRouterSites })

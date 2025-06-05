@@ -14,9 +14,6 @@
     "multer": "1.4.5-lts.1",
     "papaparse": "^5.5.3"
   },
-  "devDependencies": {
-    "@fiction/theme-minimal": "workspace:*"
-  },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "license": "MIT",
   "main": "index.ts",

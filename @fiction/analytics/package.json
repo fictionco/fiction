@@ -22,9 +22,6 @@
     "stacktrace-js": "^2.0.2",
     "ua-parser-js": "^2.0.3"
   },
-  "devDependencies": {
-    "@fiction/theme-minimal": "workspace:*"
-  },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "license": "MIT",
   "main": "index.ts",

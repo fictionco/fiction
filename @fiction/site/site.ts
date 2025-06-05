@@ -168,10 +168,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   async loadTheme(args: { isNewSite?: boolean } = {}) {
     const { isNewSite = false } = args
-    const theme = this.fictionSites.themes.value.find(t => t.themeId === this.themeId.value)
-    if (!theme) {
-      throw new Error(`Theme with ID ${this.themeId.value} not found`)
-    }
+    const allThemes = this.fictionSites.themes.value
+    const theme = allThemes.find(t => t.themeId === this.themeId.value) || allThemes[0]
 
     this.themeConfig.value = await theme.getThemeConfig({ site: this, isNewSite })
   }
