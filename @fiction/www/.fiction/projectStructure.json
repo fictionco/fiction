@@ -279,6 +279,12 @@
           "ElCard.vue": null,
           "index.ts": null
         },
+        "manage": {
+          "XCard.vue": null,
+          "__XCard copy.vue": null,
+          "index.ts": null,
+          "manage.uiux.test.ts": null
+        },
         "mediaModal": {
           "ElCard.vue": null,
           "config.ts": null,
@@ -293,7 +299,8 @@
           "NavMobile.vue": null,
           "NavMobileItem.vue": null,
           "NavMobilePanel.vue": null,
-          "UserMenu.vue": null,
+          "SubscribeButton.vue": null,
+          "__UserMenu.vue": null,
           "config.ts": null,
           "img": {
             "screen-dark.svg": null,
@@ -1268,6 +1275,24 @@
       }
     },
     "themes": {
+      "__minimal": {
+        "config.ts": null,
+        "img": {
+          "dark-desktop.png": null,
+          "light-desktop.png": null
+        },
+        "index.ts": null,
+        "package.json": null
+      },
+      "__prestige": {
+        "config.ts": null,
+        "img": {
+          "dark-desktop.png": null,
+          "light-desktop.png": null
+        },
+        "index.ts": null,
+        "package.json": null
+      },
       "base": {
         "img": {
           "dark-desktop.png": null,
@@ -1374,14 +1399,14 @@
         "pages": {
           "about": {
             "img": {
-              "ap.webp": null,
               "fiction-office.webp": null,
               "girl-computer.webp": null,
               "morgan.jpg": null,
               "people2.webp": null,
               "pro.webp": null,
-              "profile-andrew.webp": null,
-              "spectrum.jpg": null
+              "spectrum.jpg": null,
+              "team-ap.webp": null,
+              "team-mj.webp": null
             },
             "index.ts": null
           },
@@ -1438,24 +1463,6 @@
           "profile-woman-9.png": null
         },
         "templates.ts": null
-      },
-      "minimal": {
-        "config.ts": null,
-        "img": {
-          "dark-desktop.png": null,
-          "light-desktop.png": null
-        },
-        "index.ts": null,
-        "package.json": null
-      },
-      "prestige": {
-        "config.ts": null,
-        "img": {
-          "dark-desktop.png": null,
-          "light-desktop.png": null
-        },
-        "index.ts": null,
-        "package.json": null
       }
     },
     "ui": {

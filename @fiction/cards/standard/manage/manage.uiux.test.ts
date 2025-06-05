@@ -1,6 +1,6 @@
 import { isCi } from '@fiction/core'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils'
-import { afterAll, describe, expect, it } from 'vitest'
+import { afterAll, describe } from 'vitest'
 
 describe('contact transaction UI flow', { retry: isCi() ? 3 : 0 }, async () => {
   const kit = await createSiteUiTestingKit({ initUser: true, headless: isCi(), slowMo: 0 })

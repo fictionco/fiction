@@ -59,8 +59,6 @@ env:
   MIXPANEL_API_SECRET: ${{ secrets.MIXPANEL_API_SECRET }}
   SENTRY_PUBLIC_DSN: ${{ secrets.SENTRY_PUBLIC_DSN }}
 
-
-
 jobs:
 
   check-flags:
