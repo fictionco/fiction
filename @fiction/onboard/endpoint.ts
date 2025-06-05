@@ -251,9 +251,12 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
       this.ManageUser.serve({ _action: 'update', where: { userId }, fields: userFields }, { ...meta, server: true }),
     ])
 
-    return {
-      org: orgResult?.data,
-      user: userResult?.data,
+    const out = { org: orgResult?.data, user: userResult?.data }
+
+    if (profile.needsOnboarding === false) {
+      this.settings.fictionUser.hooks.run('newUserOnboarded', out)
     }
+
+    return out
   }
 }

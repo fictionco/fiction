@@ -239,7 +239,7 @@ function updatePost(config: TablePostConfig) {
 <template>
   <ElTool v-bind="{ tool, site }">
     <FormEngine
-      :model-value="post.toConfig()"
+      :model-value="post?.toConfig()"
       state-key="revision"
       :options="o"
       :input-props="{ site, tool, post, card }"

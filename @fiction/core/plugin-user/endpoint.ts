@@ -340,7 +340,12 @@ export class QueryManageUser extends UserBaseQuery {
     const orgName = fields.orgName || fields.fullName || defaultOrgName(email)
 
     const response = await fictionUser.queries.ManageOrganization.serve(
-      { _action: 'create', userId, fields: { orgName, orgEmail: email, orgId, needsOnboarding }, withDefaults: true },
+      {
+        _action: 'create',
+        userId,
+        fields: { orgName, orgEmail: email, orgId, needsOnboarding, ownerId: userId },
+        withDefaults: true,
+      },
       { server: true, ...meta },
     )
 
@@ -561,7 +566,14 @@ export class QueryManageUser extends UserBaseQuery {
     return { user: finalUser, isNew }
   }
 
-  private async prepareResponse(args: { _action: ManageUserParams['_action'], user?: User, isNew: boolean, token?: string, message?: string, params: ManageUserParams }, meta: EndpointMeta): Promise<ManageUserResponse> {
+  private async prepareResponse(args: {
+    _action: ManageUserParams['_action']
+    user?: User
+    isNew: boolean
+    token?: string
+    message?: string
+    params: ManageUserParams
+  }, meta: EndpointMeta): Promise<ManageUserResponse> {
     const { isNew, token, message, params, _action } = args
 
     const user = this.settings.fictionDb.prep({ type: 'return', fields: args.user, table: t.user, meta })

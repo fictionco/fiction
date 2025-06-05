@@ -48,8 +48,11 @@ export async function trackPostMetrics(args: {
   status?: 'published' | 'all'
   fictionPosts: FictionPosts
   post?: TablePostConfig
+  track: 'create' | 'update' | 'delete'
 }, _meta: EndpointMeta): Promise<ReturnType<typeof getPostMetrics>> {
-  const { orgId, fictionPosts, post } = args
+  const { orgId, fictionPosts, post, track } = args
+
+  const { fictionAnalytics, fictionMonitor } = fictionPosts.settings
 
   if (post) {
     await updatePostWordCount(args)
@@ -58,8 +61,9 @@ export async function trackPostMetrics(args: {
   const metrics = await getPostMetrics({ orgId, fictionPosts })
 
   await Promise.all([
-    fictionPosts.settings.fictionAnalytics.track({ orgId, event: 'contentTotalWordsPosts', value: metrics.totalWords }),
-    fictionPosts.settings.fictionAnalytics.track({ orgId, event: 'contentTotalPosts', value: metrics.totalPostsCount }),
+    fictionAnalytics.track({ orgId, event: 'contentTotalWordsPosts', value: metrics.totalWords }),
+    fictionAnalytics.track({ orgId, event: 'contentTotalPosts', value: metrics.totalPostsCount }),
+    fictionMonitor?.track(`post:${track}`, { orgId, post }),
   ])
 
   return metrics

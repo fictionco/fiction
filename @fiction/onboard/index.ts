@@ -2,6 +2,7 @@ import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { FictionApp, FictionEmail, FictionMedia, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import type { FictionPluginSettings } from '@fiction/core/plugin.js'
 import type { FictionAi } from '@fiction/plugins/plugin-ai/index.js'
+import type { FictionMonitor } from '@fiction/plugins/plugin-monitor/index.js'
 import type { FictionPosts } from '@fiction/posts/index.js'
 import type { FictionSites } from '@fiction/site/index.js'
 import { cardConfig } from '@fiction/cards/index.js'
@@ -26,6 +27,7 @@ export type FictionOnboardSettings = {
   fictionAi: FictionAi
   fictionPosts: FictionPosts
   fictionSites: FictionSites
+  fictionMonitor?: FictionMonitor
   proxycurlApiKey?: string
 } & FictionPluginSettings
 

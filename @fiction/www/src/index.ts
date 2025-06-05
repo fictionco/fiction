@@ -58,6 +58,7 @@ const envVarNames = [
   'SMTP_PASSWORD',
   'SMTP_USER',
   'SLACK_WEBHOOK_URL',
+  'DISCORD_WEBHOOK_URL',
   'SENTRY_PUBLIC_DSN',
   'AWS_ACCESS_KEY',
   'AWS_ACCESS_KEY_SECRET',
@@ -71,6 +72,7 @@ const envVarNames = [
   'APOLLO_API_KEY',
   'CLICKHOUSE_URL',
   'PROXYCURL_API_KEY',
+  'MIXPANEL_TOKEN',
 ] as const
 
 const v = getEnvVars(fictionEnv, envVarNames)
@@ -93,6 +95,8 @@ const {
   openaiApiKey,
   anthropicApiKey,
   xaiApiKey,
+  mixpanelToken,
+  discordWebhookUrl,
 } = v
 
 const comboPort = +fictionEnv.var('APP_PORT')
@@ -158,7 +162,7 @@ const fictionAnalytics = new FictionAnalytics({
   beaconUrlLive: URLS.beacon,
 })
 
-const fictionMonitor = new FictionMonitor({ ...base, fictionUser, slackWebhookUrl, sentryPublicDsn })
+const fictionMonitor = new FictionMonitor({ ...base, fictionUser, slackWebhookUrl, sentryPublicDsn, mixpanelToken, discordWebhookUrl })
 const basicService = { ...base, fictionRevision, fictionUser, fictionMonitor, fictionAnalytics, fictionCache }
 
 const fictionAws = new FictionAws({ ...basicService, awsAccessKey, awsAccessKeySecret })

@@ -7,10 +7,12 @@
   "main": "index.ts",
   "dependencies": {
     "@fiction/core": "workspace:*",
-    "@sentry/browser": "^9.25.1",
-    "@sentry/node": "^9.25.1",
-    "@sentry/vue": "^9.25.1",
-    "@slack/webhook": "^7.0.5"
+    "@sentry/browser": "^9.27.0",
+    "@sentry/node": "^9.27.0",
+    "@sentry/vue": "^9.27.0",
+    "@slack/webhook": "^7.0.5",
+    "@types/mixpanel-browser": "^2.60.0",
+    "mixpanel-browser": "^2.65.0"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "publishConfig": {
