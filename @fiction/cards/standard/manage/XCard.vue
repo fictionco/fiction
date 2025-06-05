@@ -1,216 +1,221 @@
 <script lang="ts" setup>
-import type { ActionButton, NavListItem, SyndicateStatus } from '@fiction/core'
+import type { NavListItem, SyndicateStatus, vue } from '@fiction/core'
 import type { CardbackQueryVars } from '@fiction/core/plugin-email/vars'
 import type { Card } from '@fiction/site/card'
-import { vue } from '@fiction/core'
+import { useService } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
-import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
-import { createOption } from '@fiction/ui/inputs/index.js'
+import ElInput from '@fiction/ui/inputs/ElInput.vue'
+import { computed, onMounted, ref } from 'vue'
 import CardWrap from '../../CardWrap.vue'
 
-defineOptions({ name: 'ContactTransaction' })
+const props = defineProps({
+  card: { type: Object as vue.PropType<Card>, required: true },
+})
 
-const props = defineProps<{
-  card: Card
-}>()
+const { fictionUser } = useService()
 
-const loading = vue.ref(true)
-const contact = vue.ref()
-const formData = vue.ref<{ status?: SyndicateStatus, password?: string }>({})
+const loading = ref(true)
+const contact = ref()
+const status = ref<SyndicateStatus>('active')
 
-const site = vue.computed(() => props.card.site!)
-const query = vue.computed(() => site.value.siteRouter.query.value as CardbackQueryVars)
+const site = computed(() => props.card.site!)
+const query = computed(() => site.value.siteRouter.query.value as CardbackQueryVars)
 
-type ConfigType = {
+type ActionConfig = {
   title: string
   message: string
-  autoRedirect: boolean
-  showForm: boolean
-  options?: ReturnType<typeof createOption>[]
+  icon: string
+  iconClass: string
+  autoAction?: (() => Promise<void>) | null
+  showOptions?: boolean
 }
 
-const config = vue.computed(() => {
-  const { action } = query.value
+const actionConfig: Record<string, ActionConfig> = {
+  verifySubscribe: {
+    title: 'Subscription Verified',
+    message: 'Your subscription has been confirmed',
+    icon: 'i-tabler-check',
+    iconClass: 'bg-green-900/30 text-green-300',
+    autoAction: () => updateContact('active'),
+    showOptions: false,
+  },
+  unsubscribeOneClick: {
+    title: 'Unsubscribed Successfully',
+    message: 'You have been unsubscribed from our newsletter',
+    icon: 'i-tabler-check',
+    iconClass: 'bg-green-900/30 text-green-300',
+    autoAction: () => updateContact('unsubscribed'),
+    showOptions: false,
+  },
+  manage: {
+    title: 'Manage Subscription',
+    message: 'Update your subscription preferences',
+    icon: 'i-tabler-settings',
+    iconClass: 'bg-blue-900/30 text-blue-300',
+    autoAction: null,
+    showOptions: true,
+  },
+  noContact: {
+    title: 'Contact Not Found',
+    message: 'We could not find your subscription',
+    icon: 'i-tabler-x',
+    iconClass: 'bg-rose-900/30 text-rose-300',
+    showOptions: false,
+  },
+} as const
 
-  const configs = {
-    verifySubscribe: {
-      title: 'Subscription Verified',
-      message: 'Your subscription has been confirmed',
-      autoRedirect: true,
-      showForm: false,
-    },
-    unsubscribe: {
-      title: 'Manage Subscription',
-      message: 'Update your subscription preferences',
-      autoRedirect: false,
-      showForm: true,
-      options: [
-        createOption({
-          key: 'status',
-          input: 'InputSelect',
-          label: 'Subscription Status',
-          list: [
-            { value: 'active', label: 'Subscribed' },
-            { value: 'unsubscribed', label: 'Unsubscribed' },
-            { value: 'bounced', label: 'Bounced' },
-          ] as NavListItem[],
-        }),
-      ],
-    },
-    changePassword: {
-      title: 'Change Password',
-      message: 'Create a new password for your account',
-      autoRedirect: false,
-      showForm: true,
-      options: [
-        createOption({
-          key: 'password',
-          input: 'InputPassword',
-          label: 'New Password',
-          isRequired: true,
-        }),
-      ],
-    },
-  } satisfies Record<string, ConfigType>
+const statusOptions: NavListItem[] = [
+  { value: 'active', label: 'Subscribed' },
+  { value: 'unsubscribed', label: 'Unsubscribed' },
+  { value: 'bounced', label: 'Bounced' },
+]
 
-  return configs[action as keyof typeof configs] || configs.verifySubscribe
+const currentAction = computed(() => {
+  if (query.value.action === 'verifySubscribe')
+    return 'verifySubscribe'
+  if (query.value.action === 'unsubscribeOneClick')
+    return 'unsubscribeOneClick'
+  return 'manage'
 })
 
-const message = vue.computed(() => {
-  if (loading.value)
-    return 'Processing...'
-  return contact.value ? config.value.message : 'Request failed'
-})
-
-const success = vue.computed(() => !loading.value && contact.value)
-
-const buttons = vue.computed((): ActionButton[] => {
-  const redirect = query.value.redirect
-
-  if (!config.value.showForm || !contact.value) {
-    return redirect
-      ? [{ label: 'Continue', href: redirect, theme: 'primary' }]
-      : []
+const config = computed(() => {
+  if (!contact.value) {
+    return actionConfig.noContact
   }
-
-  return [
-    { label: 'Update', theme: 'primary', onClick: () => handleUpdate() },
-    ...(redirect ? [{ label: 'Cancel', href: redirect }] : []),
-  ]
+  return actionConfig[currentAction.value]
 })
+
+function api() {
+  return site.value.fictionSites.settings.fictionContact?.requests.ManageContact
+}
+
+async function loginUser() {
+  const { token, code } = query.value
+  if (!token)
+    return
+
+  const userService = site.value.fictionSites.settings.fictionUser
+  const response = await userService?.requests.ManageUser.request({
+    _action: 'getUserWithToken',
+    token,
+    code,
+  })
+
+  if (response?.status === 'success' && response.data) {
+    await userService?.setCurrentUser({
+      user: response.data,
+      token,
+      reason: 'contactTransaction',
+    })
+  }
+}
 
 async function loadContact() {
   const { targetOrgId, userId } = query.value
-  if (!targetOrgId || !userId)
-    return null
-
-  const api = site.value.fictionSites.settings.fictionContact?.requests.ManageContact
-  const response = await api?.request({ _action: 'current', targetOrgId, userId })
-
-  return response?.data?.[0]
-}
-
-async function updateContact(fields: Record<string, any>) {
-  const { targetOrgId, userId } = query.value
-  if (!targetOrgId || !userId)
+  if (!targetOrgId || !userId) {
+    contact.value = null
     return
+  }
 
-  const api = site.value.fictionSites.settings.fictionContact?.requests.ManageContact
-  return api?.request({ _action: 'current', targetOrgId, userId, fields })
+  const response = await api()?.request({
+    _action: 'current',
+    targetOrgId,
+    userId,
+  })
+
+  contact.value = response?.data?.[0]
+  status.value = contact.value?.status || 'active'
 }
 
-async function handleUpdate() {
-  await updateContact(formData.value)
-
-  const redirect = query.value.redirect
-  if (redirect && typeof window !== 'undefined') {
-    window.location.href = redirect
+async function updateContact(newStatus: SyndicateStatus) {
+  const { targetOrgId, userId } = query.value
+  if (!contact.value || !targetOrgId || !userId) {
+    throw new Error('Missing required contact information')
   }
+
+  await api()?.request({
+    _action: 'current',
+    targetOrgId,
+    userId,
+    fields: { status: newStatus },
+  })
+
+  await loadContact()
+}
+
+async function handleStatusChange(newStatus: SyndicateStatus) {
+  await updateContact(newStatus)
+  status.value = newStatus
 }
 
 async function processAction() {
-  const { action } = query.value
-
-  if (action === 'verifySubscribe') {
-    await updateContact({ status: 'active' })
-  }
-
-  const redirect = query.value.redirect
-  if (config.value.autoRedirect && redirect && typeof window !== 'undefined') {
-    setTimeout(() => window.location.href = redirect, 1500)
+  const actionHandler = config.value.autoAction
+  if (actionHandler) {
+    await actionHandler()
   }
 }
 
-vue.onMounted(async () => {
-  try {
-    contact.value = await loadContact()
-
-    if (contact.value) {
-      formData.value = { status: contact.value.status }
-      await processAction()
-    }
+function redirectIfNeeded() {
+  const redirect = query.value.redirect
+  if (redirect && typeof window !== 'undefined') {
+    setTimeout(() => {
+      window.location.href = redirect
+    }, 2000) // 2 second delay for user to see confirmation
   }
-  catch {}
+}
 
-  loading.value = false
+onMounted(async () => {
+  try {
+    await loginUser()
+    await loadContact()
+    await processAction()
+    redirectIfNeeded()
+  }
+  catch (error) {
+    console.error('Contact transaction error:', error)
+  }
+  finally {
+    loading.value = false
+  }
 })
 </script>
 
 <template>
   <CardWrap content-width="full" :card>
     <div class="min-h-[50vh] flex items-center justify-center p-8">
-      <div class="max-w-md text-center space-y-8">
+      <div class="max-w-sm text-center space-y-8">
         <!-- Loading State -->
         <div
           v-if="loading"
           class="w-6 h-6 border-2 border-theme-300 border-t-primary-600 rounded-full animate-spin mx-auto"
         />
 
-        <!-- Result State -->
+        <!-- Content State -->
         <template v-else>
-          <!-- Status Indicator -->
           <div>
             <div
               class="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center"
-              :class="success ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400'
-                : 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400'"
+              :class="config.iconClass"
             >
-              <div class="w-6 h-6" :class="success ? 'i-tabler-check' : 'i-tabler-x'" />
+              <div class="w-6 h-6" :class="config.icon" />
             </div>
-
-            <h1 class="text-xl font-medium mb-2">
+            <h1 class="text-xl font-medium">
               {{ config.title }}
             </h1>
-
-            <p class="text-theme-600 dark:text-theme-400">
-              {{ message }}
+            <p class="text-theme-400 mt-2">
+              {{ config.message }}
             </p>
           </div>
 
-          <!-- Form Options -->
-          <div v-if="config.showForm && contact && config.options">
-            <FormEngine
-              :model-value="formData"
-              :options="config.options"
-              :buttons="buttons"
-              ui-size="md"
-              format="input"
-              @update:model-value="formData = $event"
+          <!-- Subscription Management Options -->
+          <div v-if="config.showOptions && contact">
+            <ElInput
+              input="InputSelect"
+              :model-value="status"
+              :list="statusOptions"
+              label="Subscription Status"
+              @update:model-value="handleStatusChange"
             />
-          </div>
-
-          <!-- Action Buttons (non-form) -->
-          <div v-else-if="buttons.length" class="flex justify-center gap-3">
-            <XButton
-              v-for="button in buttons"
-              :key="button.label"
-              :href="button.href"
-              :theme="button.theme || 'default'"
-              size="md"
-              @click="button.onClick?.({ event: $event, item: contact })"
-            >
-              {{ button.label }}
-            </XButton>
           </div>
         </template>
       </div>
