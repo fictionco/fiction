@@ -200,7 +200,7 @@ const fictionCards = new FictionCards({ ...s, fictionSites })
 
 const fictionPosts = new FictionPosts({ fictionContact, fictionSites, ...s })
 
-const fictionOnboard = new FictionOnboard({ ...s, fictionPosts, fictionSites, proxycurlApiKey: v.proxycurlApiKey })
+const fictionOnboard = new FictionOnboard({ ...s, fictionContact, fictionPosts, fictionSites, proxycurlApiKey: v.proxycurlApiKey })
 
 const baseService = { ...s, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionContact, fictionPosts, fictionOnboard }
 

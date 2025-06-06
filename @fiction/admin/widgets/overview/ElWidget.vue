@@ -2,6 +2,7 @@
 import type { Organization } from '@fiction/core'
 import type { Card, Site } from '@fiction/site'
 import type { WidgetConfig } from '..'
+import CardLink from '@fiction/cards/el/CardLink.vue'
 import { vue } from '@fiction/core'
 import ElSitePreviewFrame from '@fiction/site/admin/ElSitePreviewFrame.vue'
 import { siteLink } from '@fiction/site/utils/manage'
@@ -72,9 +73,11 @@ const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
 
       <!-- Site preview with hover overlay -->
       <div class="w-full lg:w-2/5 flex flex-col">
-        <div
+        <CardLink
           v-if="primarySite"
+          :card
           class="relative h-full border border-theme-200 dark:border-theme-700 rounded-md overflow-hidden group"
+          :href="siteEditLink"
         >
           <!-- Site preview iframe -->
           <ElSitePreviewFrame
@@ -83,31 +86,10 @@ const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
           />
 
           <!-- Hover overlay -->
-          <div class="absolute inset-0 bg-theme-900/80 flex flex-col items-center justify-center gap-6 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <XButton
-              :href="siteEditLink"
-              size="md"
-              theme="primary"
-              rounding="md"
-              icon="i-tabler-edit"
-              class="w-44"
-            >
-              Edit Site
-            </XButton>
-
-            <XButton
-              :href="liveSiteUrl"
-              target="_blank"
-              size="md"
-              theme="white"
-              rounding="md"
-              icon="i-tabler-external-link"
-              class="w-44"
-            >
-              View Live Site
-            </XButton>
+          <div class="absolute text-sm font-semibold inset-0 bg-theme-900/80 backdrop-blur-xs rounded-md flex flex-col items-center justify-center gap-6 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <span>Edit Site</span>
           </div>
-        </div>
+        </CardLink>
 
         <div
           v-else

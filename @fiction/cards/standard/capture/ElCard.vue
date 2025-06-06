@@ -56,7 +56,7 @@ function handleDismiss(mode: DismissMode) {
   modalState.value = ''
 }
 
-async function createSubscription() {
+async function requestSubscription() {
   loading.value = true
 
   try {
@@ -66,7 +66,7 @@ async function createSubscription() {
     if (!orgId.value)
       throw new Error('Organization is required')
 
-    const r = await service.fictionContact.createSubscription({
+    const r = await service.fictionContact.requestSubscription({
       email: email.value,
       targetOrgId: orgId.value,
     })
@@ -128,7 +128,7 @@ const details = vue.computed<PostObject>(() => {
           </div>
           <ElForm
             class="flex flex-col gap-5 sm:flex-row sm:flex-wrap"
-            @submit="createSubscription()"
+            @submit="requestSubscription()"
           >
             <ElEmail
               v-model="email"

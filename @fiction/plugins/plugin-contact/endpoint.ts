@@ -265,10 +265,7 @@ export class ManageContactQuery extends SubscribeEndpoint {
       .returning('*')
 
     // Track metrics in parallel
-    trackContactMetrics({
-      orgId,
-      fictionContact: this.settings.fictionContact,
-    }, meta)
+    trackContactMetrics({ orgId, fictionContact: this.settings.fictionContact }, meta)
 
     return {
       status: 'success',

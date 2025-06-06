@@ -38,6 +38,9 @@ interface ipApiResponse {
 }
 
 export async function getGeoFree(ip?: string): Promise<GeoData | undefined> {
+  if (!ip)
+    return undefined
+
   try {
     const fetched = await fetchWithTimeout(`http://ip-api.com/json/${ip}`, {
       method: 'GET',
@@ -259,6 +262,10 @@ export async function setUserGeolocation(): Promise<UserGeolocation | void> {
     latitude,
     longitude,
     metroCode: metro_code,
+  }
+
+  if (!geo.ip) {
+    return
   }
 
   geo.name = getUserGeolocationName(geo)

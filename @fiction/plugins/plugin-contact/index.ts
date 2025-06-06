@@ -78,22 +78,16 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
         }),
       ],
       getTemplates: async () => [
-        cardTemplate({
-          templateId: 'tplContactSingle',
-          el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')),
-        }),
-        cardTemplate({
-          templateId: 'tplContactManage',
-          el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')),
-        }),
+        cardTemplate({ templateId: 'tplContactSingle', el: vue.defineAsyncComponent(async () => import('./admin/ViewSingle.vue')) }),
+        cardTemplate({ templateId: 'tplContactManage', el: vue.defineAsyncComponent(async () => import('./admin/ViewManage.vue')) }),
       ],
     })
   }
 
-  async createSubscription(args: { email: string, tags?: string[], targetOrgId: string, createUserFields?: Partial<User> }) {
+  async requestSubscription(args: { email: string, tags?: string[], targetOrgId: string, createUserFields?: Partial<User> }) {
     const { email, tags, targetOrgId } = args
     const fictionUser = this.settings.fictionUser
-    const r = await fictionUser.requests.ManageUserEmail.request({ _action: 'verifySubscribe', email, targetOrgId, tags, caller: 'createSubscription' })
+    const r = await fictionUser.requests.ManageUserEmail.request({ _action: 'verifySubscribe', email, targetOrgId, tags, caller: 'requestSubscription' })
 
     return r
   }

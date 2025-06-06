@@ -10,7 +10,7 @@ const { title, buttons } = defineProps<{
 
 <template>
   <div
-    class="drop-target relative @container/widget border border-theme-200 dark:border-theme-700/90 rounded-lg shadow-sm bg-white dark:bg-theme-800/50 overflow-hidden"
+    class="drop-target relative @container/widget border border-theme-200 dark:border-theme-700/70 rounded-lg shadow-sm bg-white dark:bg-theme-800/30 overflow-hidden"
   >
     <div class="flex flex-col transition-all ">
       <div
@@ -28,7 +28,7 @@ const { title, buttons } = defineProps<{
         </div>
       </div>
 
-      <div class="p-6">
+      <div class="p-6 lg:p-8">
         <slot />
       </div>
     </div>

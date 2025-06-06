@@ -93,7 +93,7 @@ export class FictionDbTable {
       new Col({ key: 'createdAt', sec: 'permanent', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).notNullable().defaultTo(db.fn.now()) }),
       new Col({ key: 'updatedAt', sec: 'setting', sch: ({ z }) => z.string(), make: ({ s, col, db }) => s.string(col.k).notNullable().defaultTo(db.fn.now()) }),
     ]
-    return [...cols, ...tsCols] as Col[]
+    return [...tsCols, ...cols] as Col[]
   }
 
   async createColumns(db: Knex) {

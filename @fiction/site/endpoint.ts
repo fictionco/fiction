@@ -518,11 +518,7 @@ export class ManageSite extends SitesQuery {
 
     const finalSite = await this.fetchSiteWithDetails({ selector: { siteId: site.siteId }, scope })
 
-    if (finalSite?.siteId !== 'admin') {
-      await this.settings.fictionMonitor?.notify({ message: '*New Site Created*', data: finalSite })
-    }
-
-    return { status: 'success', data: site, message: 'site created' }
+    return { status: 'success', data: finalSite, message: 'site created' }
   }
 
   private async retrieveSite(params: ManageSiteParams & { _action: 'retrieve' }, _meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {
