@@ -285,11 +285,11 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
 
     try {
     // Add andrew@fiction.com to user's contact list
-      await fictionContact.requests.ManageContact.request({ _action: 'create', orgId, contact: { email: andrewEmail, tags: ['fiction'], status: 'active' } }, { server: true, ...meta })
+      await fictionContact.queries.ManageContact.serve({ _action: 'create', orgId, contact: { email: andrewEmail, tags: ['fiction'], status: 'active' } }, { server: true, ...meta })
 
       // Subscribe user to Fiction's system org
       if (systemOrgId) {
-        await fictionContact.requests.ManageContact.request({ _action: 'create', orgId: systemOrgId, contact: { email: userEmail, userId, tags: ['fiction'], status: 'active' } }, { server: true, ...meta })
+        await fictionContact.queries.ManageContact.serve({ _action: 'create', orgId: systemOrgId, contact: { email: userEmail, userId, tags: ['fiction'], status: 'active' } }, { server: true, ...meta })
       }
     }
     catch (error) {

@@ -1,5 +1,5 @@
-import type { ColorThemeBright } from '../utils'
 import { z } from 'zod/v4'
+import { ColorThemeBrightSchema } from '../utils'
 import { MediaSchema } from './media'
 
 const SocialAccountSchema = z.object({
@@ -33,8 +33,8 @@ export type SocialPlatform = keyof z.infer<typeof SocialAccountsSchema>
 export type SocialAccounts = z.infer<typeof SocialAccountsSchema>
 
 export const BillingSchema = z.object({
-  customerId: z.string().optional(),
-  customerIdTest: z.string().optional(),
+  customerId: z.string().nullable().optional(), // allow null to unset
+  customerIdTest: z.string().nullable().optional(), // allow null to unset
   plan: z.string().optional(),
   specialPlan: z.enum(['vip', 'npo']).optional(),
 })
@@ -64,7 +64,7 @@ export type OrgAiSettings = z.infer<typeof AiSettingsSchema>
 export const BrandingSchema = z.object({
   logo: MediaSchema.optional(),
   icon: MediaSchema.optional(),
-  primaryColor: z.string().optional() as z.Schema<ColorThemeBright | ''>,
+  primaryColor: ColorThemeBrightSchema.optional(),
 })
 export type OrgBranding = z.infer<typeof BrandingSchema>
 

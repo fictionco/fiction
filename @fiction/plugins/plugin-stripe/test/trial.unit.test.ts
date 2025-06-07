@@ -119,11 +119,11 @@ describe('queryStripeTrial', async () => {
       expect(result.message).toMatchInlineSnapshot(`undefined`)
       expect(Object.keys(result.data || {}).sort()).toMatchInlineSnapshot(`
         [
+          "contactId",
           "customerId",
           "paymentIntentId",
           "priceId",
           "setupIntentId",
-          "contactId",
           "trialType",
         ]
       `)

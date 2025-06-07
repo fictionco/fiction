@@ -1,5 +1,4 @@
 import type { Organization } from '@fiction/core'
-import type { Site } from '@fiction/site'
 import fictionIcon from '@fiction/ui/brand/icon.png'
 import { describe, expect, it } from 'vitest'
 import { getDefaultIconUrl, getHeadIconConfig, getSiteIcons } from '../icon'
@@ -9,9 +8,8 @@ describe('icon Utils', () => {
     title: { value: 'Test Site' },
     org: {
       value: {
-        icon: { url: 'custom-icon.png' },
-        shareImage: { url: 'custom-share.png' },
-      } satisfies Site['fullConfig']['value'],
+        branding: { icon: { url: 'custom-icon.png' } },
+      } satisfies Organization,
     },
   } as any // Type as any to avoid full Site implementation
 
@@ -83,10 +81,13 @@ describe('icon Utils', () => {
       ]
 
       tests.forEach(({ ext, expected }) => {
-        const orgMock = {
+        const orgMock: Organization = {
           orgName: 'Test Org',
-          icon: { url: `icon.${ext}` },
-        } as Organization
+          branding: {
+            icon: { url: `icon.${ext}` },
+          },
+
+        }
 
         const config = getHeadIconConfig({ org: orgMock })
         expect(config.faviconType).toBe(expected)

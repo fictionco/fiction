@@ -1,4 +1,5 @@
 import type { MockedFunction } from 'vitest'
+import { Obj } from '@fiction/core/obj'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -150,32 +151,28 @@ describe('queryManageOnboard endpoint', async () => {
     expect(result.status).toBe('success')
     expect(result.data).toMatchInlineSnapshot(`
       {
-        "about": "Experienced professional passionate about creating innovative solutions.",
+        "accounts": {
+          "linkedin": {
+            "followerCount": 0,
+            "handle": "johndoe",
+          },
+        },
         "avatar": {
           "format": "image",
           "height": undefined,
           "url": "https://processed-image-url.jpg",
           "width": undefined,
         },
-        "city": undefined,
-        "clout": 0,
-        "country": undefined,
-        "goal": "Build a personal brand.",
         "handle": "johndoe",
-        "headline": "Product Designer & Technology Leader",
-        "industry": undefined,
-        "influences": [],
-        "interests": [
-          "UX Design",
-          "Product Strategy",
-          "Leadership",
-        ],
-        "linkedinFollowers": undefined,
-        "linkedinHandle": "johndoe",
+        "location": {
+          "city": "",
+          "country": "",
+          "state": "",
+        },
         "name": "John Doe",
-        "pillars": [],
-        "promise": "Grow Your Influence",
-        "state": undefined,
+        "profile": {
+          "industry": "",
+        },
       }
     `)
   })
@@ -203,10 +200,12 @@ describe('queryManageOnboard endpoint', async () => {
   it('should update profile with provided fields', async () => {
     const profileUpdate = {
       name: 'Jane Smith',
-      headline: 'Design Systems Architect',
-      about: 'Building scalable design systems for modern applications',
-      interests: ['Design Systems', 'Component Libraries', 'UX Patterns'],
-      influences: ['Steve Jobs', 'Alan Cooper'],
+      profile: {
+        headline: 'Design Systems Architect',
+        about: 'Building scalable design systems for modern applications',
+        interests: ['Design Systems', 'Component Libraries', 'UX Patterns'],
+        influences: ['Steve Jobs', 'Alan Cooper'],
+      },
     }
 
     const result = await queryOnboard.run(
@@ -214,15 +213,19 @@ describe('queryManageOnboard endpoint', async () => {
       { server: true },
     )
 
-    // Verify organization was updated
+    // Verify organization was updated with the correctly mapped fields
     expect(fictionUser.queries.ManageOrganization.serve).toHaveBeenCalledWith(
       expect.objectContaining({
         _action: 'update',
+        where: { orgId },
         fields: expect.objectContaining({
           orgName: 'Jane Smith',
-          headline: 'Design Systems Architect',
-          interests: ['Design Systems', 'Component Libraries', 'UX Patterns'],
-          influences: ['Steve Jobs', 'Alan Cooper'],
+          profile: expect.objectContaining({
+            headline: 'Design Systems Architect',
+            about: 'Building scalable design systems for modern applications',
+            interests: ['Design Systems', 'Component Libraries', 'UX Patterns'],
+            influences: ['Steve Jobs', 'Alan Cooper'],
+          }),
         }),
       }),
       expect.anything(),
@@ -231,7 +234,8 @@ describe('queryManageOnboard endpoint', async () => {
     expect(result.status).toBe('success')
     expect(result.data).toEqual(expect.objectContaining({
       name: 'John Doe', // From the mocked organization response
-      headline: 'Creative Product Strategist', // From the mocked organization response
+      handle: 'johndoe', // From the mocked organization response
+      profile: expect.any(Object),
     }))
   })
 
@@ -247,12 +251,32 @@ describe('queryManageOnboard endpoint', async () => {
       { server: true },
     )
 
-    // Should use fallback values
     expect(result.status).toBe('success')
     expect(result.data).toEqual(expect.objectContaining({
-      headline: expect.any(String),
-      about: expect.any(String),
-      interests: expect.any(Array),
+      name: expect.any(String),
+      handle: expect.any(String),
+      avatar: expect.any(Object),
+      accounts: {
+        linkedin: {
+          handle: testLinkedInHandle,
+          followerCount: expect.any(Number),
+        },
+      },
+      profile: expect.objectContaining({
+        industry: expect.any(String),
+        headline: expect.any(String),
+        summary: expect.any(String),
+        interests: expect.any(Array),
+        influences: expect.any(Array),
+        pillars: expect.any(Array),
+        clout: expect.any(Number),
+        goal: expect.any(String),
+      }),
+      location: {
+        city: expect.any(String),
+        state: expect.any(String),
+        country: expect.any(String),
+      },
     }))
   })
 })
