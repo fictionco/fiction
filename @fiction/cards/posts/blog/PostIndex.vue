@@ -65,16 +65,28 @@ const items = vue.computed(() => posts.map((post, i) => {
 </script>
 
 <template>
-  <div class="space-y-24 @container/index">
+  <div class="space-y-12 md:space-y-24 @container/index">
     <header v-if="header?.title || header?.subTitle || header?.media" class="header">
-      <div class="flex justify-between items-center gap-8 md:gap-12">
+      <div class="flex flex-col justify-start gap-2 sm:gap-4">
+        <div
+          v-if="header?.media"
+          class="flex-shrink-0 pt-2 md:pt-0"
+        >
+          <div class="size-10 md:size-16 lg:size-24 rounded-full overflow-hidden bg-theme-800 relative">
+            <XMedia
+              :media="header.media"
+              class="w-full h-full object-cover"
+            />
+            <div class="absolute w-full rounded-full inset-0 z-10 ring-white ring-2 ring-inset" />
+          </div>
+        </div>
         <div class="flex-1 max-w-3xl">
-          <div class="flex flex-col gap-4">
+          <div class="flex flex-col md:gap-4">
             <CardText
               path="title"
               :card
               tag="h1"
-              class="font-semibold x-font-title text-3xl md:text-5xl lg:text-6xl"
+              class="font-semibold x-font-title text-3xl md:text-5xl lg:text-6xl md:text-pretty"
               placeholder="Magazine Title"
               :animate="true"
             />
@@ -87,19 +99,6 @@ const items = vue.computed(() => posts.map((post, i) => {
               placeholder="Description or tagline"
               :animate="true"
             />
-          </div>
-        </div>
-
-        <div
-          v-if="header?.media"
-          class="hidden md:block flex-shrink-0 pt-2"
-        >
-          <div class="size-16 lg:size-24 rounded-full overflow-hidden bg-theme-800 relative">
-            <XMedia
-              :media="header.media"
-              class="w-full h-full object-cover"
-            />
-            <div class="absolute w-full rounded-full inset-0 z-10 ring-white ring-2 ring-inset" />
           </div>
         </div>
       </div>
@@ -140,22 +139,22 @@ const items = vue.computed(() => posts.map((post, i) => {
       </div>
 
       <!-- Content Row -->
-      <div class="flex justify-between gap-12 @[900px]/index:gap-20">
+      <div class="flex justify-between gap-4 md:gap-12 @[900px]/index:gap-20 items-start">
         <div class="flex-1 space-y-4 max-w-[800px]">
           <XLink class="block hover:opacity-80" :href="item.post.href.value">
             <XText
               :tag="item.isFeatured ? 'h1' : 'h2'"
-              class="font-semibold text-2xl lg:text-4xl x-font-title leading-[1.25]"
+              class="font-semibold text-lg md:text-2xl lg:text-4xl x-font-title leading-[1.25]"
               :model-value="item.post.title?.value"
             />
           </XLink>
           <XText
             v-if="item.post.subTitle?.value"
             :model-value="item.post.subTitle.value"
-            class="text-theme-400 text-2xl"
+            class="text-theme-400 text-base md:text-2xl"
           />
 
-          <div class="text-theme-400 text-sm pt-4 font-mono">
+          <div class="text-theme-400 text-xs md:text-sm pt-4 font-mono">
             <template v-for="(stat, i) in item.stats" :key="stat.key">
               <span
                 :class="[

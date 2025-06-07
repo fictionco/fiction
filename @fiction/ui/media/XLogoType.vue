@@ -272,7 +272,7 @@ vue.onBeforeUnmount(() => {
     :data-logo-variant="variant"
     :data-media-scale="activeLogo?.scale"
   >
-    <ElAvatar v-if="org?.avatar?.url" :org class="size-[1.5em] shrink-0" />
+    <ElAvatar v-if="org?.avatar?.url" :org class="size-[1.5em] shrink-0 hidden" />
     <span :style="typographyStyle" class="min-w-0 truncate">
       {{ activeLogo.typography?.label || (org?.name || 'Logo') }}
     </span>

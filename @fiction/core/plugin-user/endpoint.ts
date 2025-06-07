@@ -331,9 +331,7 @@ export class QueryManageUser extends UserBaseQuery {
 
   private async createDefaultOrganization(fields: CreateUserFields, meta: EndpointMeta): Promise<Organization> {
     const { fictionUser } = this.settings
-    const { userId, email, orgId } = fields
-
-    const onboard = fields.onboard || { phase: 'initial' }
+    const { userId, email, orgId, onboard } = fields
 
     if (!userId)
       throw abort('userId required to make default org')
