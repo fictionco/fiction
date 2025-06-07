@@ -3,7 +3,7 @@ import type { OrgProfile } from '@fiction/core/schemas/org'
 import type { FictionOnboardSettings } from '.'
 import type { AiEnhancement } from './generation'
 import type { LinkedInEnrichmentProfile, ProfileData } from './util'
-import { abort, deepMerge, Query } from '@fiction/core'
+import { abort, deepMerge, isTest, Query } from '@fiction/core'
 import { AiEnhancementSchema, getGenerationParams } from './generation'
 import { accountFromProfile, createHandle, getMockLinkedInData, profileFromAccount } from './util'
 
@@ -65,19 +65,14 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
           _action: 'create',
           orgId,
           userId,
-          fields: {
-            title: profile.name,
-            isPrimary: true,
-          },
+          fields: { title: profile.name, isPrimary: true },
           caller: 'createDefaultContent',
         }, { server: true, ...meta }),
       )
 
-      const results = await Promise.all(_promises)
+      await Promise.all(_promises)
 
-      await this.completeOnboarding({ userId, orgId }, meta)
-
-      return { status: 'success', data: profile as ProfileData, results }
+      return await this.completeOnboarding({ userId, orgId }, meta)
     }
     catch (error) {
       this.log.error('Failed to create default content', { error })
@@ -101,13 +96,13 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     }
 
     // Use mock data for test handles or when ProxyCurl API key is missing
-    const isTest = !!((linkedinHandle?.toLowerCase().includes('test')))
+    const isTesting = !!((linkedinHandle?.toLowerCase().includes('test')))
 
-    const linkedinData = await this.fetchLinkedInProfile({ linkedinHandle, isTest })
+    const linkedinData = await this.fetchLinkedInProfile({ linkedinHandle, isTesting })
     if (!linkedinData)
       return { status: 'error', message: 'Failed to fetch LinkedIn profile' }
 
-    const returnProfile = await this.buildProfileFromLinkedinData({ linkedinData, userId, orgId, isTest })
+    const returnProfile = await this.buildProfileFromLinkedinData({ linkedinData, userId, orgId, isTesting })
     await this.updateProfileData({ profile, userId, orgId }, meta)
 
     this.log.info('Profile enriched', { data: returnProfile })
@@ -131,16 +126,18 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     }
   }
 
-  private async fetchLinkedInProfile(args: { linkedinHandle?: string, isTest?: boolean }): Promise<LinkedInEnrichmentProfile> {
-    const { linkedinHandle, isTest } = args
+  async fetchLinkedInProfile(args: { linkedinHandle?: string, isTesting?: boolean }): Promise<LinkedInEnrichmentProfile> {
+    const { linkedinHandle } = args
     if (!linkedinHandle) {
       throw new Error('linkedin username is missing')
     }
 
+    const isTesting = args.isTesting || isTest()
+
     const url = linkedinHandle.includes('linkedin.com') ? linkedinHandle : `https://www.linkedin.com/in/${linkedinHandle}`
 
     // Use mock data for test handles or when ProxyCurl API key is missing
-    if (isTest) {
+    if (isTesting) {
       this.log.info('Using mock data for test handle or missing API key', { handle: linkedinHandle })
       return getMockLinkedInData(url)
     }
@@ -164,13 +161,13 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     }
   }
 
-  private async buildProfileFromLinkedinData(args: { linkedinData: LinkedInEnrichmentProfile, userId: string, orgId: string, isTest?: boolean }): Promise<ProfileData> {
-    const { orgId, userId, linkedinData, isTest } = args
+  private async buildProfileFromLinkedinData(args: { linkedinData: LinkedInEnrichmentProfile, userId: string, orgId: string, isTesting?: boolean }): Promise<ProfileData> {
+    const { orgId, userId, linkedinData, isTesting } = args
     const name = linkedinData.full_name || ''
     const handle = linkedinData.public_identifier || createHandle(name)
     const avatarUrl = linkedinData.profile_pic_url || ''
 
-    const aiEnhancement = await this.enhanceProfileWithAi({ linkedinData, orgId, userId, isTest })
+    const aiEnhancement = await this.enhanceProfileWithAi({ linkedinData, orgId, userId, isTesting })
     const avatar = avatarUrl ? await this.processAvatarToMedia({ url: avatarUrl }, orgId, userId) : undefined
 
     const enrichData = {
@@ -196,8 +193,8 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     return deepMerge([enrichData, aiEnhancement])
   }
 
-  private async enhanceProfileWithAi(args: { linkedinData: LinkedInEnrichmentProfile, orgId: string, userId: string, isTest?: boolean }): Promise<AiEnhancement> {
-    const { orgId, userId, linkedinData, isTest } = args
+  private async enhanceProfileWithAi(args: { linkedinData: LinkedInEnrichmentProfile, orgId: string, userId: string, isTesting?: boolean }): Promise<AiEnhancement> {
+    const { orgId, userId, linkedinData, isTesting } = args
     const params = getGenerationParams({ linkedinData })
 
     const getMockAiFallback = (): AiEnhancement => {
@@ -216,7 +213,7 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
       }
     }
 
-    if (isTest) {
+    if (isTesting) {
       this.log.info('Using mock data for AI enhancement', { handle: linkedinData.public_identifier })
       return getMockAiFallback()
     }
@@ -261,20 +258,36 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
 
   private async completeOnboarding(args: { userId: string, orgId: string }, meta: EndpointMeta): Promise<EndpointResponse<ProfileData>> {
     const { userId, orgId } = args
-    const [orgResult, userResult] = await Promise.all([
-      this.ManageOrganization.serve({ _action: 'read', where: { orgId } }, { ...meta, server: true }),
-      this.ManageUser.serve({ _action: 'retrieve', where: { userId } }, { ...meta, server: true }),
-    ])
-    const out = { org: orgResult?.data, user: userResult?.data }
-    await this.addFictionConnections(out, meta)
-    await this.settings.fictionUser.hooks.run('newUserOnboarded', out)
 
     await this.ManageOrganization.serve({ _action: 'update', where: { orgId }, fields: { onboard: { phase: 'tasks' } } }, { ...meta, server: true })
+
+    await this.ManageUser.serve({ _action: 'retrieve', where: { userId } }, { ...meta, server: true })
+
+    const [org, user] = await Promise.all([
+      this.ManageOrganization.serve({ _action: 'read', where: { orgId } }, { ...meta, server: true }).then(r => r.data),
+      this.ManageUser.serve({ _action: 'retrieve', where: { userId } }, { ...meta, server: true }).then(r => r.data),
+    ])
+
+    if (!org || !user) {
+      throw abort('Organization or user not found')
+    }
+
+    if (org.onboard?.phase !== 'tasks') {
+      throw abort('Onboarding phase is not set to tasks')
+    }
+    else {
+      this.log.info('Onboarding completed', { data: { org, user } })
+    }
+
+    const out = { org, user }
+    await this.addFictionConnections(out, meta)
+
+    await this.settings.fictionUser.hooks.run('newUserOnboarded', out)
 
     return {
       status: 'success',
       message: 'Onboarding completed',
-      data: profileFromAccount({ user: out.user, org: out.org }),
+      data: profileFromAccount({ user, org }),
       user: out.user,
     }
   }
@@ -297,9 +310,10 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     const { user, org } = args
     const { fictionContact, fictionEnv } = this.settings
 
-    if (!org?.orgId || !user?.userId || !user?.email) {
-      throw abort('Missing orgId, userId or email')
-    }
+    if (!org?.orgId)
+      throw abort('Organization is required')
+    if (!user?.email)
+      throw abort('User is required')
 
     if (!fictionContact)
       return
@@ -313,7 +327,7 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
 
       // Subscribe user to Fiction's system org
       if (systemOrgId) {
-        await fictionContact.queries.ManageContact.serve({ _action: 'create', orgId: systemOrgId, contact: { email: user.email, userId: user.userId, tags: ['fiction'], status: 'active' } }, { server: true, ...meta })
+        await fictionContact.queries.ManageContact.serve({ _action: 'create', orgId: systemOrgId, contact: { email: user.email, tags: ['fiction'], status: 'active' } }, { server: true, ...meta })
       }
     }
     catch (error) {

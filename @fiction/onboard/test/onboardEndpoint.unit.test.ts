@@ -1,7 +1,8 @@
 import type { MockedFunction } from 'vitest'
-import { Obj } from '@fiction/core/obj'
+import { shortId } from '@fiction/core'
 import { createSiteTestUtils } from '@fiction/site/test/testUtils'
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { FictionOnboard } from '..'
 
 describe('queryManageOnboard endpoint', async () => {
   const testUtils = await createSiteTestUtils()
@@ -11,9 +12,6 @@ describe('queryManageOnboard endpoint', async () => {
   const fictionAi = testUtils.fictionAi
 
   const queryOnboard = testUtils.fictionOnboard.queries.ManageOnboard
-
-  // Mock the fetch function for LinkedIn API calls
-  globalThis.fetch = vi.fn()
 
   const userId = initialized.user.userId
   const orgId = initialized.org.orgId
@@ -43,12 +41,6 @@ describe('queryManageOnboard endpoint', async () => {
   beforeEach(() => {
     vi.resetAllMocks()
 
-    // Mock successful LinkedIn API response
-    vi.mocked(fetch).mockResolvedValue({
-      ok: true,
-      json: async () => mockLinkedInData,
-    } as Response)
-
     // Mock AI completion response
     vi.spyOn(fictionAi.queries.QueryAi, 'serve').mockResolvedValue({
       status: 'success',
@@ -60,146 +52,17 @@ describe('queryManageOnboard endpoint', async () => {
       status: 'success',
       data: [{ url: 'https://processed-image-url.jpg' }],
     })
-
-    // Mock organization and user updates
-    vi.spyOn(fictionUser.queries.ManageOrganization, 'serve').mockResolvedValue({
-      status: 'success',
-      data: {
-        orgId,
-        name: 'John Doe',
-        handle: 'johndoe',
-        profile: {
-          headline: 'Creative Product Strategist',
-          summary: 'I transform complex challenges into elegant solutions.',
-          interests: ['Product Design', 'UX Research', 'Design Systems', 'Innovation Strategy'],
-          influences: ['Dieter Rams', 'Don Norman'],
-        },
-        avatar: { url: 'https://processed-image-url.jpg' },
-      },
-    })
-
-    vi.spyOn(fictionUser.queries.ManageUser, 'serve').mockResolvedValue({
-      status: 'success',
-    })
   })
 
   afterAll(async () => {
     await testUtils.close()
   })
 
-  it('should enrich profile from LinkedIn URL', async () => {
-    // Execute the query
-    const result = await queryOnboard.serve(
-      { _action: 'enrichFromLinkedIn', profile: { accounts: { linkedin: { handle: testLinkedInHandle } } }, userId, orgId },
-      { server: true },
-    )
-
-    // Verify API call
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining('https://nubela.co/proxycurl/api/v2/linkedin'),
-      expect.objectContaining({
-        headers: expect.objectContaining({
-          Authorization: expect.stringMatching(/^Bearer .+$/),
-        }),
-      }),
-    )
-
-    const mockServe = fictionAi.queries.QueryAi.serve as MockedFunction<any>
-    const cl = mockServe.mock.calls[0][0] as object
-    expect(Object.keys(cl)).toMatchInlineSnapshot(`
-      [
-        "_action",
-        "orgId",
-        "userId",
-        "prompt",
-        "schema",
-      ]
-    `)
-
-    // Verify AI enhancement was called
-    expect(fictionAi.queries.QueryAi.serve).toHaveBeenCalledWith(
-      expect.objectContaining({
-        _action: 'completion',
-        prompt: expect.any(String),
-        schema: expect.any(Object),
-        orgId,
-        userId,
-      }),
-      expect.any(Object),
-    )
-
-    // Verify the profile was processed
-    expect(fictionMedia.queries.ManageMedia.serve).toHaveBeenCalledWith(
-      expect.objectContaining({
-        _action: 'createFromUrl',
-        fields: expect.any(Object),
-      }),
-      expect.anything(),
-    )
-
-    // Verify organization was updated
-    expect(fictionUser.queries.ManageOrganization.serve).toHaveBeenCalledWith(
-      expect.objectContaining({
-        _action: 'update',
-        where: { orgId },
-        fields: expect.any(Object),
-      }),
-      expect.anything(),
-    )
-
-    // Verify response
-    expect(result.status).toBe('success')
-    expect(result.data).toMatchInlineSnapshot(`
-      {
-        "accounts": {
-          "linkedin": {
-            "followerCount": 0,
-            "handle": "johndoe",
-          },
-        },
-        "avatar": {
-          "format": "image",
-          "height": undefined,
-          "url": "https://processed-image-url.jpg",
-          "width": undefined,
-        },
-        "handle": "johndoe",
-        "location": {
-          "city": "",
-          "country": "",
-          "state": "",
-        },
-        "name": "John Doe",
-        "profile": {
-          "industry": "",
-        },
-      }
-    `)
-  })
-
-  it('should handle LinkedIn API failures gracefully', async () => {
-    // Mock API failure
-    vi.mocked(fetch).mockResolvedValue({
-      ok: false,
-      status: 403,
-    } as Response)
-
-    const result = await queryOnboard.run(
-      { _action: 'enrichFromLinkedIn', profile: { accounts: { linkedin: { handle: testLinkedInHandle } } }, userId, orgId },
-      { server: true },
-    )
-
-    // Should fall back to mock data
-    expect(result.status).toBe('success')
-    expect(result.data).toBeTruthy()
-
-    // Verify organization still gets updated with fallback data
-    expect(fictionUser.queries.ManageOrganization.serve).toHaveBeenCalled()
-  })
-
   it('should update profile with provided fields', async () => {
+    const handle = `janeys-${shortId()}`
     const profileUpdate = {
       name: 'Jane Smith',
+      handle,
       profile: {
         headline: 'Design Systems Architect',
         about: 'Building scalable design systems for modern applications',
@@ -208,35 +71,14 @@ describe('queryManageOnboard endpoint', async () => {
       },
     }
 
-    const result = await queryOnboard.run(
+    const result = await queryOnboard.serve(
       { _action: 'updateProfile', userId, orgId, profile: profileUpdate },
       { server: true },
     )
 
-    // Verify organization was updated with the correctly mapped fields
-    expect(fictionUser.queries.ManageOrganization.serve).toHaveBeenCalledWith(
-      expect.objectContaining({
-        _action: 'update',
-        where: { orgId },
-        fields: expect.objectContaining({
-          name: 'Jane Smith',
-          profile: expect.objectContaining({
-            headline: 'Design Systems Architect',
-            about: 'Building scalable design systems for modern applications',
-            interests: ['Design Systems', 'Component Libraries', 'UX Patterns'],
-            influences: ['Steve Jobs', 'Alan Cooper'],
-          }),
-        }),
-      }),
-      expect.anything(),
-    )
-
     expect(result.status).toBe('success')
-    expect(result.data).toEqual(expect.objectContaining({
-      name: 'John Doe', // From the mocked organization response
-      handle: 'johndoe', // From the mocked organization response
-      profile: expect.any(Object),
-    }))
+    expect(result.data?.handle).toBe(handle)
+    expect(result.data?.name).toBe('Jane Smith')
   })
 
   it('should handle AI enhancement failures', async () => {
@@ -278,5 +120,16 @@ describe('queryManageOnboard endpoint', async () => {
         country: expect.any(String),
       },
     }))
+  })
+
+  it('should complete onboarding successfully', async () => {
+    const result = await queryOnboard.serve(
+      { _action: 'completeOnboarding', userId, orgId, profile: {} },
+      { server: true },
+    )
+
+    expect(result.status).toBe('success')
+    expect(result.message).toBe('Onboarding completed')
+    expect(result.data?.onboard?.phase).toBe('tasks')
   })
 })

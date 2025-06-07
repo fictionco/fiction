@@ -35,6 +35,10 @@ export const theme = new Theme({
                 featuredCount: 1,
                 title: '[@hero]',
                 subTitle: 'Latest articles by [@name]',
+                media: {
+                  format: 'image',
+                  url: '[@avatar]',
+                },
               },
             }),
           ],

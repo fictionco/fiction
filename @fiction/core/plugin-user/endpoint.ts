@@ -60,10 +60,12 @@ export class QueryManageUser extends UserBaseQuery {
     const { fictionUser } = this.settings
 
     const { _action } = params
+
     switch (_action) {
-      case 'retrieve':
+      case 'retrieve':{
         user = await this.getUser(params, meta)
         break
+      }
       case 'create': {
         user = await this.createUser(params, meta)
         isNew = true

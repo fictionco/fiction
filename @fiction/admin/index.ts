@@ -142,6 +142,7 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
       await card.goto('/auth', { isRedirect: true, caller: 'Admin Client Mount: Not Logged In' })
     }
     else if (service.fictionUser.activeOrganization.value?.onboard?.phase === 'initial') {
+      this.log.info('Admin Client Mount: Needs Onboarding', { data: { org: service.fictionUser.activeOrganization } })
       await card.goto('/onboard', { retainQueryVars: true, isRedirect: true, caller: 'Admin Client Mount: Needs Onboarding' })
     }
 

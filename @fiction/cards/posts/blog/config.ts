@@ -57,14 +57,18 @@ const options = [
 ]
 
 // Main config function
-export async function getConfig(args: { templateId: string, factory: CardFactory }) {
+export async function getConfig(_args: { templateId: string, factory: CardFactory }) {
+  const defaultUserConfig: UserConfig = {
+    featuredCount: 1,
+    title: '[@hero]',
+    subTitle: 'Latest articles by [@name]',
+    media: {
+      url: '[@avatar]',
+    },
+  }
   return {
     options,
     schema,
-    userConfig: {
-      featuredCount: 1,
-      title: '[@hero]',
-      subTitle: 'Latest articles by [@name]',
-    },
+    userConfig: defaultUserConfig,
   }
 }
