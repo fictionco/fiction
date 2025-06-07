@@ -29,7 +29,7 @@ const uc = vue.computed(() => props.card.userConfig.value || {})
       :key="i"
       :class="[
         uc.layout === 'mediabox'
-          ? 'flex flex-col md:flex-row md:items-start gap-8'
+          ? 'flex flex-col md:flex-row md:items-start gap-6 md:gap-12'
           : 'flex flex-col',
       ]"
     >
@@ -46,7 +46,7 @@ const uc = vue.computed(() => props.card.userConfig.value || {})
       />
 
       <!-- Member details with balanced spacing -->
-      <div class="mt-6 @container/txt grow" :class="uc.layout === 'mediabox' ? 'md:mt-0' : ''">
+      <div class="@container/txt grow" :class="uc.layout === 'mediabox' ? 'md:mt-0' : ''">
         <CardText
           animate="fade"
           :card

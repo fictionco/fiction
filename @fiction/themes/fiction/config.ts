@@ -21,6 +21,7 @@ const social: NavItem[] = [
   { key: 'linkedin', href: 'https://www.linkedin.com/company/fictionco', target: '_blank', label: 'LinkedIn', media: { iconId: `brand-linkedin` } },
   { key: 'github', href: 'https://github.com/fictionco', target: '_blank', label: 'Github', media: { iconId: `brand-github` } },
   { key: 'x', href: 'https://www.x.com/fictionplatform', target: '_blank', label: 'X', media: { iconId: `brand-x` } },
+  { key: 'discord', href: 'https://discord.gg/e5wNxdDW8u', target: '_blank', label: 'Discord', media: { iconId: `brand-discord` } },
 ]
 
 export async function getConfig(args: {
@@ -120,18 +121,25 @@ export async function getConfig(args: {
                       label: 'Contact',
                       theme: 'default',
                       icon: { iconId: 'phone' },
-                      href: 'mailto:hello@fiction.com',
+                      href: 'https://discord.gg/e5wNxdDW8u',
+                      target: '_blank',
                     },
                   ],
                 },
               },
               menus: [
+
                 {
-                  title: 'Links',
+                  title: 'Using Fiction',
+                  items: [
+                    { href: '/app?_reload=1', label: 'Dashboard' },
+                  ],
+                },
+                {
+                  title: 'Company',
                   items: [
                     { href: '/about', label: 'About' },
                     { href: '/tour', label: 'Tour' },
-                    { href: '/app?_reload=1', label: 'Dashboard' },
                   ],
                 },
               ],
@@ -147,6 +155,13 @@ export async function getConfig(args: {
 
               badges: {
                 buttons: [
+                  {
+                    href: 'https://discord.gg/e5wNxdDW8u',
+                    target: '_blank',
+                    label: 'Fiction on Discord',
+                    icon: { iconId: 'brand-discord' },
+                    theme: 'indigo',
+                  },
                   {
                     href: 'https://stripe.com/partners',
                     target: '_blank',

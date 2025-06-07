@@ -30,54 +30,6 @@ export async function getAboutPage() {
     },
   })
 
-  const missionHeroCard = cardConfig({
-    templateId: 'cardHeroV1',
-    userConfig: {
-      items: [
-        {
-          superTitle: {
-            icon: { class: 'i-tabler-x' },
-            text: 'The Struggle',
-            theme: 'red',
-          },
-          title: `“This Feels Impossible”`,
-          subTitle: `74% of professionals have no online presence. Clunky tools, tech overwhelm, and fear of looking unprofessional stop them cold.`,
-
-          media: {
-            format: 'image',
-            url: ImageGirlComputer,
-          },
-          layout: 'left',
-          action: { buttons: [] },
-        },
-      ],
-    },
-  })
-
-  const missionHeroCard2 = cardConfig({
-    templateId: 'cardHeroV1',
-    userConfig: {
-      items: [
-        {
-          superTitle: {
-            icon: { class: 'i-tabler-users' },
-            text: 'Our Promise',
-            theme: 'green',
-          },
-          title: `Authentic Presence, Made Simple`,
-          subTitle: `You're not a tech expert, and you shouldn't have to be. Fiction lets you create a polished, authentic digital identity with ease—no coding, no stress.`,
-
-          media: {
-            format: 'image',
-            url: ImagePro,
-          },
-          layout: 'right',
-          action: { buttons: [] },
-        },
-      ],
-    },
-  })
-
   const teamCard = cardConfig({
     templateId: 'cardPeopleV1',
     userConfig: {
@@ -155,8 +107,6 @@ export async function getAboutPage() {
         templateId: 'cardPageAreaV1',
         cards: [
           topHeroCard,
-          missionHeroCard,
-          missionHeroCard2,
           teamCard,
           mapCard,
         ],
