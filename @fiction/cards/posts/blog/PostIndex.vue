@@ -67,7 +67,7 @@ const items = vue.computed(() => posts.map((post, i) => {
 <template>
   <div class="space-y-12 md:space-y-24 @container/index">
     <header v-if="header?.title || header?.subTitle || header?.media" class="header">
-      <div class="flex flex-col justify-start gap-2 sm:gap-4">
+      <div class="flex flex-col justify-start gap-2 sm:gap-6">
         <div
           v-if="header?.media"
           class="flex-shrink-0 pt-2 md:pt-0"
