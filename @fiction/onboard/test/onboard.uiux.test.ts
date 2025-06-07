@@ -116,7 +116,7 @@ describe('onboard UX', { retry: isCi() ? 3 : 0 }, async () => {
     const org = r.data?.orgs?.[0]
     expect(org, 'Organization should be created').toBeTruthy()
     expect(org?.handle, 'Organization handle should match').toContain(testHandle)
-    expect(org?.orgName, 'Organization name should match').toBe(testName)
+    expect(org?.name, 'Organization name should match').toBe(testName)
     const profile = org?.profile || {}
     expect(profile?.headline, 'Organization headline should match').toBe(testHeadline)
     expect(profile?.summary, 'Organization about should match').toBe(testAbout)

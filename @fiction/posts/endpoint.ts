@@ -622,7 +622,7 @@ export class QueryManagePost extends PostsQuery {
     ])
 
     // Check if this is a test organization or user
-    const isTestRun = org?.orgName?.toLowerCase().includes('testing')
+    const isTestRun = org?.name?.toLowerCase().includes('testing')
 
     if (!userId)
       throw abort('userId required for new post', meta)
@@ -636,7 +636,7 @@ export class QueryManagePost extends PostsQuery {
       let generatedFields: Partial<TablePostConfig>
 
       if (isTestRun) {
-        generatedFields = getSamplePost({ mode, prefix: org.orgName || 'Test' })
+        generatedFields = getSamplePost({ mode, prefix: org.name || 'Test' })
       }
       else {
         const generationParams = getGenerationParams({ org, mode, post: fields })

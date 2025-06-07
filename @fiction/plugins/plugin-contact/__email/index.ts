@@ -12,7 +12,7 @@ export function getEmails(args: { fictionContact: FictionContact }) {
   const subscribe = new EmailAction<{
     transactionArgs: { userId: string, code?: string, where: { orgId: string }, tags?: string[] }
     transactionResponse: EndpointResponse<Contact>
-    queryVars: { orgId: string, orgName?: string, orgEmail?: string }
+    queryVars: { orgId: string, name?: string, email?: string }
   }>({
     fictionTransactions,
     actionId: 'subscribe',
@@ -28,8 +28,8 @@ export function getEmails(args: { fictionContact: FictionContact }) {
         throw new Error('Organization not found')
       }
 
-      const senderName = org.orgName
-      const senderEmail = org.orgEmail
+      const senderName = org.name
+      const senderEmail = org.email
       const avatar = getOrgAvatar(org, { size: 200 })
 
       emailVars.masks = { ...emailVars.masks, avatarUrl: avatar?.url }

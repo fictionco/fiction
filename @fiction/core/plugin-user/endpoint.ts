@@ -28,7 +28,7 @@ export abstract class UserBaseQuery extends Query<UserQuerySettings> {
 
 export type WhereUser = { email: string } | { userId: string } | { handle: string } | { googleId: string }
 
-type CreateUserFields = Partial<User> & { email: string, password?: string, orgName?: string, orgId?: string }
+type CreateUserFields = Partial<User> & { email: string, password?: string, name?: string, orgId?: string }
 
 export type ManageUserParams =
   | { _action: 'create', fields: CreateUserFields, withGeo?: boolean }
@@ -337,13 +337,13 @@ export class QueryManageUser extends UserBaseQuery {
     if (!userId)
       throw abort('userId required to make default org')
 
-    const orgName = fields.orgName || fields.fullName || defaultOrgName(email)
+    const name = fields.name || fields.fullName || defaultOrgName(email)
 
     const response = await fictionUser.queries.ManageOrganization.serve(
       {
         _action: 'create',
         userId,
-        fields: { orgName, orgEmail: email, orgId, needsOnboarding, ownerId: userId },
+        fields: { name, email: email, orgId, needsOnboarding, ownerId: userId },
         withDefaults: true,
       },
       { server: true, ...meta },
@@ -592,9 +592,9 @@ export class QueryManageUser extends UserBaseQuery {
       // this ensures that a user has at least one org
       if (orgsResponse.status === 'success' && !hasOrgs) {
         const p = params as ManageUserParams & { _action: 'create' }
-        const orgName = p.fields?.orgName
+        const name = p.fields?.name
         const orgId = p.fields?.orgId
-        const r = await this.createDefaultOrganization({ email: user.email as string, ...user, orgName, orgId }, meta)
+        const r = await this.createDefaultOrganization({ email: user.email as string, ...user, name, orgId }, meta)
 
         if (r)
           user.orgs = [r]

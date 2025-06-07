@@ -27,7 +27,7 @@ const icon = `<svg
     <div class="max-w-5xl mx-auto px-4 flex flex-col gap-8 justify-center items-center text-sm font-sans">
       <!-- Terms Above -->
       <nav class="flex justify-center md:justify-end gap-4 items-center">
-        <span>&copy; {{ card.site?.org.value.orgName }}</span>
+        <span>&copy; {{ card.site?.org.value.name }}</span>
         &middot;
         <CardLink :card :href="fictionEnv.meta?.privacyUrl">
           Privacy

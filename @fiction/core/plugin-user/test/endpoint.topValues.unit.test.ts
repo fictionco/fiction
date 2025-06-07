@@ -35,7 +35,7 @@ describe('get top values', async () => {
       {
         orgId,
         _action: 'create',
-        fields: { userId: user.userId, memberAccess: 'admin', tags },
+        fields: { userId: user.userId, access: 'admin', tags },
       },
       { server: true },
     )
@@ -155,7 +155,7 @@ describe('get top values', async () => {
     // Test with regular column like 'handle'
     const response = await fictionUser.queries.GetTopValues.serve({
       table,
-      column: 'memberAccess',
+      column: 'access',
       arrayColumn: false,
       where,
     }, {})

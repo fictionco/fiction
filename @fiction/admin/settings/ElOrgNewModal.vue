@@ -19,8 +19,8 @@ const { fictionUser } = useService()
 
 const router = vueRouter.useRouter()
 const form = vue.ref({
-  orgName: '',
-  orgEmail: '',
+  name: '',
+  email: '',
 })
 const formError = vue.ref('')
 const sending = vue.ref(false)
@@ -43,7 +43,7 @@ async function send(args: ClickCallbackArgs): Promise<void> {
 
   sending.value = true
 
-  const { orgName, orgEmail } = form.value
+  const { name, email } = form.value
 
   const userId = fictionUser.activeUser.value?.userId
 
@@ -52,7 +52,7 @@ async function send(args: ClickCallbackArgs): Promise<void> {
 
   const r = await fictionUser.requests.ManageOrganization.request({
     userId,
-    fields: { orgName, orgEmail, needsOnboarding: true },
+    fields: { name, email, needsOnboarding: true },
     _action: 'create',
   })
 
@@ -67,14 +67,14 @@ async function send(args: ClickCallbackArgs): Promise<void> {
 const options = vue.computed(() => {
   return [
     createOption({
-      key: 'orgName',
+      key: 'name',
       label: 'Title',
       input: 'InputText',
       placeholder: 'My Workspace',
       isRequired: true,
     }),
     createOption({
-      key: 'orgEmail',
+      key: 'email',
       label: 'Primary Email',
       subLabel: 'Used for notifications and billing',
       placeholder: 'Enter an email address',

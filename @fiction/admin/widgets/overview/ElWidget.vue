@@ -33,7 +33,7 @@ const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
         <div class="flex justify-between items-center">
           <div>
             <h2 class="text-2xl font-semibold x-font-title">
-              {{ org?.orgName }}
+              {{ org?.name }}
             </h2>
             <a
               :href="liveSiteUrl"

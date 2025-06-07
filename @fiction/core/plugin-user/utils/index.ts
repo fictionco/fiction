@@ -14,9 +14,9 @@ export function defaultOrgName(email: string, suffix: string = ''): string {
 
   const capitalized = toLabel(handle).replace(/\W/g, '').replace(/\d+$/, '')
 
-  const orgName = [capitalized, suffix].join(' ').trim()
+  const name = [capitalized, suffix].join(' ').trim()
 
-  return orgName
+  return name
 }
 /**
  * A random 6 digit number, ideal for verification code
@@ -174,8 +174,8 @@ export function debugUser(user?: User) {
     googleId: user?.googleId,
     orgs: user?.orgs?.map(org => ({
       orgId: org.orgId,
-      orgName: org.orgName,
-      orgEmail: org.orgEmail,
+      name: org.name,
+      email: org.email,
       billing: org.billing,
     })),
   }

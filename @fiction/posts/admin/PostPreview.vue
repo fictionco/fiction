@@ -99,8 +99,8 @@ const org = vue.computed(() => service.fictionUser.activeOrganization?.value)
           :email-bar="{
             subject: post.subject.value || 'No subject',
             preview: post.preview.value || 'No preview',
-            senderEmail: org?.orgEmail || '',
-            senderName: org?.orgName || 'No sender',
+            senderEmail: org?.email || '',
+            senderName: org?.name || 'No sender',
             avatar: org?.avatar,
             dateAt: post.publishAt.value,
           }"

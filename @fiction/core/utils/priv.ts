@@ -12,37 +12,37 @@ export const userCapabilities = {
 
 export type UserCapability = keyof typeof userCapabilities
 
-export function getAccessLevel(memberAccess?: MemberAccess): number {
-  if (memberAccess === 'owner')
+export function getAccessLevel(access?: MemberAccess): number {
+  if (access === 'owner')
     return 1000
-  else if (memberAccess === 'admin')
+  else if (access === 'admin')
     return 500
-  else if (memberAccess === 'manager')
+  else if (access === 'manager')
     return 300
-  else if (memberAccess === 'editor')
+  else if (access === 'editor')
     return 200
-  else if (memberAccess === 'observer')
+  else if (access === 'observer')
     return 100
-  else if (memberAccess === 'profile')
+  else if (access === 'profile')
     return 50
   else return 0
 }
 
 export function userCan(opts: {
   capability: keyof typeof userCapabilities
-  memberAccess?: MemberAccess
+  access?: MemberAccess
 }) {
-  const { capability, memberAccess } = opts
+  const { capability, access } = opts
 
-  if (!opts.memberAccess)
+  if (!opts.access)
     return false
 
-  const accessLevel = getAccessLevel(memberAccess)
+  const accessLevel = getAccessLevel(access)
   return accessLevel >= userCapabilities[capability]
 }
 
-export function hasAccessLevel(memberAccess: MemberAccess, meta: EndpointMeta) {
-  const reqAccess = getAccessLevel(memberAccess)
+export function hasAccessLevel(access: MemberAccess, meta: EndpointMeta) {
+  const reqAccess = getAccessLevel(access)
 
   const bearerAccess = meta.bearer?.relation?.accessLevel || 0
 
@@ -50,7 +50,7 @@ export function hasAccessLevel(memberAccess: MemberAccess, meta: EndpointMeta) {
 
   if (!hasAccess) {
     throw _stop(
-      `not enough access (${meta.bearer?.relation?.memberAccess ?? 'unknown'})`,
+      `not enough access (${meta.bearer?.relation?.access ?? 'unknown'})`,
     )
   }
 

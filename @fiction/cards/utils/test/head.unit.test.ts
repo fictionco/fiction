@@ -23,7 +23,7 @@ function createMockSite(overrides = {}) {
     url: { value: 'https://example.com' },
     org: {
       value: {
-        orgName: 'Test Org',
+        name: 'Test Org',
         avatar: {
           url: 'https://example.com/avatar.jpg',
         },

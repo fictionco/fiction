@@ -12,7 +12,7 @@ import ElInput from '@fiction/ui/inputs/ElInput.vue'
 
 // Types
 type UserConfig = { logo?: MediaObject, termsUrl?: string, privacyUrl?: string }
-type OrgData = { orgId: string, orgName: string, primaryDomain?: string }
+type OrgData = { orgId: string, name: string, primaryDomain?: string }
 
 // Props
 const props = defineProps({
@@ -27,7 +27,7 @@ const privacyUrl = vue.computed(() => userConfig.value.privacyUrl || fictionEnv.
 const form = vue.reactive({
   email: '',
   fullName: '',
-  orgName: '',
+  name: '',
   password: '',
   passwordConfirm: '',
   oneTimeCode: '',
@@ -142,8 +142,8 @@ const authState = vue.computed<AuthStateKey>(() => {
 
 const currentState = vue.computed(() => {
   const s = { ...states[authState.value] }
-  if (state.orgData?.orgName && s.title === 'Sign in') {
-    s.title = `Sign in to ${state.orgData.orgName}`
+  if (state.orgData?.name && s.title === 'Sign in') {
+    s.title = `Sign in to ${state.orgData.name}`
   }
   return s
 })
@@ -151,7 +151,7 @@ const currentState = vue.computed(() => {
 const isCodeConfirmState = vue.computed(() => !!currentState.value.showCodeInput)
 const isSuccessState = vue.computed(() => !!currentState.value.isSuccess)
 const pageTitle = vue.computed(() =>
-  `${state.orgData ? `${state.orgData.orgName} - ` : ''}${authState.value === 'welcome' ? 'Sign in' : 'Create account'} - ${fictionEnv.meta?.name}`)
+  `${state.orgData ? `${state.orgData.name} - ` : ''}${authState.value === 'welcome' ? 'Sign in' : 'Create account'} - ${fictionEnv.meta?.name}`)
 
 // Lifecycle hooks
 vue.onMounted(() => {

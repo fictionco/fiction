@@ -111,16 +111,16 @@ export class ManageContactQuery extends SubscribeEndpoint {
 
   //   const emailConfig: EmailSendConfig = {
   //     ...await this.settings.fictionEmail?.defaultEmailConfig(),
-  //     subject: `${org.orgName}: Confirm your subscription`,
+  //     subject: `${org.name}: Confirm your subscription`,
   //     title: 'Confirm Your Subscription',
   //     subTitle: 'Just click to complete',
-  //     content: `Click the button to confirm you'd like to follow <strong>${org.orgName}</strong>.`,
+  //     content: `Click the button to confirm you'd like to follow <strong>${org.name}</strong>.`,
   //     to: email,
-  //     senderName: org.orgName,
-  //     senderEmail: org.orgEmail,
+  //     senderName: org.name,
+  //     senderEmail: org.email,
   //     emailType: 'alert' as const,
   //     buttons: [{ label: 'Confirm', href: emailVars.callbackUrl, theme: 'primary' }],
-  //     superTitle: { text: org.orgName, icon: org.avatar },
+  //     superTitle: { text: org.name, icon: org.avatar },
   //   }
 
   //   await this.settings.fictionEmail?.renderAndSendEmail(emailConfig, { caller: 'subscribe', ...meta })

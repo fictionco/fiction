@@ -75,7 +75,7 @@ export async function createTestUser(args: {
   const email = getTestEmail()
 
   const fullName = faker.person.fullName()
-  const orgName = faker.company.name()
+  const name = faker.company.name()
 
   const r = await fictionUser.queries.ManageUser.serve(
     { fields: {
@@ -83,7 +83,7 @@ export async function createTestUser(args: {
       password: testUserPassword,
       emailVerified: true,
       fullName,
-      orgName,
+      name,
       needsOnboarding: false,
       ...fields,
     }, _action: 'create' },

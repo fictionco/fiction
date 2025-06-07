@@ -130,9 +130,9 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
           throw new Error('updateOrganization hook missing orgId')
         }
 
-        const { orgId, orgEmail, orgName } = org
+        const { orgId, email, name } = org
         await this.queries.ManageCustomer.serve(
-          { _action: 'update', orgId, fields: { email: orgEmail, name: orgName } },
+          { _action: 'update', orgId, fields: { email: email, name: name } },
           { server: true },
         )
       }

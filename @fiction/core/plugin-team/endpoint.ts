@@ -71,7 +71,7 @@ export class QueryTeamInvite extends TeamQuery {
   async run(
     params: {
       orgId: string
-      invites: { email: string, memberAccess: MemberAccess }[]
+      invites: { email: string, access: MemberAccess }[]
     },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<boolean>> {
@@ -100,11 +100,11 @@ export class QueryTeamInvite extends TeamQuery {
       throw abort('Organization not found')
 
     const inviterName = bearer?.fullName || 'Someone'
-    const invitedById = bearer?.userId
+    const inviterId = bearer?.userId
 
     // Process each invitation
     const invitePromises = invites.map(async (invite) => {
-      const { memberAccess } = invite
+      const { access } = invite
       const email = invite.email.toLowerCase().trim()
 
       // Use getCreate to simplify user creation/retrieval
@@ -113,7 +113,7 @@ export class QueryTeamInvite extends TeamQuery {
           _action: 'getCreate',
           where: { email },
           createUserFields: {
-            invitedById,
+            inviterId,
             email,
             // Set the loadOrgId to the inviting org
             loadOrgId: orgId,
@@ -130,7 +130,7 @@ export class QueryTeamInvite extends TeamQuery {
       // Add user to organization with specified access level
       await fictionUser.queries.ManageMemberRelation.serve({
         _action: 'create',
-        fields: { userId: user.userId, memberAccess, invitedById },
+        fields: { userId: user.userId, access, inviterId },
         orgId,
       }, meta)
 
@@ -143,8 +143,8 @@ export class QueryTeamInvite extends TeamQuery {
 
       const accessLabel = isNew ? 'Accept Invitation' : 'Sign In to Access'
 
-      const subject = `${inviterName} has invited you to "${org.orgName}"`
-      const invitationText = `${inviterName} has invited you to join the **${org.orgName}** workspace on Fiction.\n\n`
+      const subject = `${inviterName} has invited you to "${org.name}"`
+      const invitationText = `${inviterName} has invited you to join the **${org.name}** workspace on Fiction.\n\n`
 
       // Prepare complete email configuration
       const emailConfig: EmailSendConfig = {
@@ -160,7 +160,7 @@ export class QueryTeamInvite extends TeamQuery {
         fromOrgId: org.orgId,
         superTitle: {
           icon: getOrgAvatar(org),
-          text: org.orgName,
+          text: org.name,
           theme: 'primary',
         },
         companyName: 'Fiction.com',
@@ -188,7 +188,7 @@ export class QueryTeamInvite extends TeamQuery {
     return {
       status: 'success',
       message: 'Invitations sent successfully',
-      more: `Team members have been invited to ${org.orgName}.`,
+      more: `Team members have been invited to ${org.name}.`,
       user,
     }
   }

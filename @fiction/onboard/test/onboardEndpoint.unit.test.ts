@@ -66,7 +66,7 @@ describe('queryManageOnboard endpoint', async () => {
       status: 'success',
       data: {
         orgId,
-        orgName: 'John Doe',
+        name: 'John Doe',
         handle: 'johndoe',
         profile: {
           headline: 'Creative Product Strategist',
@@ -219,7 +219,7 @@ describe('queryManageOnboard endpoint', async () => {
         _action: 'update',
         where: { orgId },
         fields: expect.objectContaining({
-          orgName: 'Jane Smith',
+          name: 'Jane Smith',
           profile: expect.objectContaining({
             headline: 'Design Systems Architect',
             about: 'Building scalable design systems for modern applications',

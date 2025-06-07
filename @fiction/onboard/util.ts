@@ -54,7 +54,7 @@ export function profileFromAccount(args: { user?: User, org?: Organization }): P
   const { user, org } = args
 
   return {
-    name: org?.orgName || user?.fullName,
+    name: org?.name || user?.fullName,
     handle: org?.handle || user?.handle,
     profile: org?.profile,
     accounts: org?.accounts,
@@ -77,7 +77,7 @@ export function accountFromProfile(profile: ProfileData): {
   }
 
   const orgFields: Partial<Organization> = {
-    orgName: profile.name,
+    name: profile.name,
     handle: profile.handle,
     profile: profile.profile,
     avatar: profile.avatar,

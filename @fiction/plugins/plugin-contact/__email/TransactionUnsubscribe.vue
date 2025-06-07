@@ -34,7 +34,7 @@ const content = vue.computed<TransactionProps>(() => {
   else if (response.value) {
     return {
       superTitle: { text: response.value.status },
-      title: props.queryVars.orgName || 'Subscribe',
+      title: props.queryVars.name || 'Subscribe',
       subTitle: response.value.message,
       status: response.value.status as 'success' | 'error' | 'pending',
       buttons: [

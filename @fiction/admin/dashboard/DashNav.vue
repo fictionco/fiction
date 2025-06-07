@@ -30,7 +30,7 @@ const workspaceItems = vue.computed<NavListItem[]>(() => {
   const orgs = fictionUser.activeOrganizations.value || []
 
   const orgItems = orgs.map(org => ({
-    label: org.orgName || org.handle || 'Unnamed Workspace',
+    label: org.name || org.handle || 'Unnamed Workspace',
     value: org.orgId,
     icon: { class: 'i-tabler-building' },
     isActive: org.orgId === activeOrg?.orgId,
@@ -105,7 +105,7 @@ const cls = {
               />
               <div class="min-w-0 flex-1">
                 <div class="font-medium text-theme-900 dark:text-theme-100 truncate">
-                  {{ activeOrg?.orgName || activeOrg?.handle || 'No Workspace' }}
+                  {{ activeOrg?.name || activeOrg?.handle || 'No Workspace' }}
                 </div>
               </div>
               <XIcon

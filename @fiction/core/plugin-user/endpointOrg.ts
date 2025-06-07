@@ -293,8 +293,8 @@ export class QueryManageOrganization extends OrgQuery {
 
   private async createOrganization(params: ManageOrganizationParams & { _action: 'create' }, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
     const { fields, userId, withDefaults } = params
-    const { orgName, orgEmail, orgId } = fields
-    const defaultName = orgEmail?.split('@')[0] || 'Untitled Organization'
+    const { name, email, orgId } = fields
+    const defaultName = email?.split('@')[0] || 'Untitled Organization'
 
     const createFields = this.settings.fictionDb.prep({ type: meta.server ? 'internal' : 'insert', fields, meta, table: t.org })
 
@@ -316,7 +316,7 @@ export class QueryManageOrganization extends OrgQuery {
       const [newOrg] = await this.db()
         .insert({
           orgId: orgId || objectId({ prefix: 'org' }),
-          orgName: orgName || defaultName,
+          name: name || defaultName,
           ...createFields,
         })
         .into(t.org)
@@ -403,8 +403,8 @@ export class QueryManageOrganization extends OrgQuery {
         orgId,
         fields: {
           userId,
-          memberAccess: accessType,
-          memberStatus: 'active',
+          access: accessType,
+          status: 'active',
         },
       },
       meta,

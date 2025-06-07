@@ -40,7 +40,7 @@ async function maybeDeleteOrganization(): Promise<void> {
 
 <template>
   <ElInput
-    :label="`Permanently Delete Organization (You are an ${fictionUser.activeRelation.value?.memberAccess})`"
+    :label="`Permanently Delete Organization (You are an ${fictionUser.activeRelation.value?.access})`"
     sub-label="Permanently delete this organization and its data."
   >
     <div class="my-2 rounded-md">
@@ -50,7 +50,7 @@ async function maybeDeleteOrganization(): Promise<void> {
         size="sm"
         @click="maybeDeleteOrganization()"
       >
-        Permanently Delete Organization: "{{ org?.orgName }}"
+        Permanently Delete Organization: "{{ org?.name }}"
       </XButton>
     </div>
   </ElInput>

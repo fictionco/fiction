@@ -70,8 +70,8 @@ describe('queryPortalSession', async () => {
         _action: 'create',
         userId,
         fields: {
-          orgName: 'Test No Customer Org',
-          orgEmail: 'no-customer@test.com',
+          name: 'Test No Customer Org',
+          email: 'no-customer@test.com',
         },
       }, { server: true })
 
@@ -222,8 +222,8 @@ describe('queryCheckoutSession', async () => {
         _action: 'create',
         userId,
         fields: {
-          orgName: 'Test No Customer Org',
-          orgEmail: 'no-customer-checkout@test.com',
+          name: 'Test No Customer Org',
+          email: 'no-customer-checkout@test.com',
         },
       }, { server: true })
 
@@ -326,8 +326,8 @@ describe('queryManageCustomer', async () => {
         _action: 'create',
         userId,
         fields: {
-          orgName: 'Test Create Org',
-          orgEmail: 'test@create.com',
+          name: 'Test Create Org',
+          email: 'test@create.com',
         },
       }, { server: true })
 
@@ -372,8 +372,8 @@ describe('queryManageCustomer', async () => {
         _action: 'create',
         userId,
         fields: {
-          orgName: 'Test Update Org',
-          orgEmail: 'test@update.com',
+          name: 'Test Update Org',
+          email: 'test@update.com',
         },
       }, { server: true })
 
@@ -417,8 +417,8 @@ describe('queryManageCustomer', async () => {
         _action: 'create',
         userId,
         fields: {
-          orgName: 'Test Retrieve Org',
-          orgEmail: 'test@retrieve.com',
+          name: 'Test Retrieve Org',
+          email: 'test@retrieve.com',
         },
       }, { server: true })
 

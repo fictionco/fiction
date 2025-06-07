@@ -662,8 +662,8 @@ describe('manageSite query', async () => {
         expect(response.data?.org).toEqual(org)
         expect(response.data?.org).toEqual(expect.objectContaining({
           orgId,
-          orgName: expect.any(String),
-          orgEmail: expect.any(String),
+          name: expect.any(String),
+          email: expect.any(String),
         }))
       })
 

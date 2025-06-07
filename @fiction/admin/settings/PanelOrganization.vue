@@ -22,7 +22,7 @@ const org = vue.computed(() => service.fictionUser.activeOrganization.value)
 
 const avatarUrl = vue.computed(() => {
   const o = org.value
-  return o?.avatar ? o?.avatar : (gravatarUrlSync(o?.orgEmail, { size: 400 }))
+  return o?.avatar ? o?.avatar : (gravatarUrlSync(o?.email, { size: 400 }))
 })
 
 const isDirty = vue.ref(false)
@@ -71,7 +71,7 @@ const opts = vue.computed(() => {
       options: [
         createOption({
           schema,
-          key: 'orgName',
+          key: 'name',
           label: 'Name',
           input: 'InputText',
           placeholder: 'Enter a name',
@@ -80,7 +80,7 @@ const opts = vue.computed(() => {
         }),
         createOption({
           schema,
-          key: 'orgEmail',
+          key: 'email',
           label: 'Email',
           input: 'InputEmail',
           isRequired: true,
@@ -276,7 +276,7 @@ const opts = vue.computed(() => {
 
 const header = vue.computed(() => {
   return {
-    title: org.value?.orgName,
+    title: org.value?.name,
     subTitle: `Brand - id:${org.value?.orgId}`,
     media: avatarUrl.value,
   }

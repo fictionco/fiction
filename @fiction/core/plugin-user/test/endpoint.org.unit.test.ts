@@ -31,7 +31,7 @@ describe('org handling', async () => {
 
     const response = await testUtils?.fictionUser.queries.ManageOrganization.serve(
       {
-        fields: { orgName: `test` },
+        fields: { name: `test` },
         userId: workingUser.userId,
         _action: 'create',
       },
@@ -47,7 +47,7 @@ describe('org handling', async () => {
     expect(userHasOrg).toBeTruthy()
 
     expect(workingOrg?.orgId).toBeTruthy()
-    expect(workingOrg?.orgName).toBe('test')
+    expect(workingOrg?.name).toBe('test')
   })
 
   it('updates an organization', async () => {
@@ -59,12 +59,12 @@ describe('org handling', async () => {
       {
         _action: 'update',
         where: { orgId: workingOrg.orgId },
-        fields: { orgName: updatedName },
+        fields: { name: updatedName },
       },
       { bearer: workingUser },
     )
 
-    expect(updateResponse?.data?.orgName).toBe(updatedName)
+    expect(updateResponse?.data?.name).toBe(updatedName)
   })
 
   it('runs org query', async () => {

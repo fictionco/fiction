@@ -45,16 +45,16 @@ describe('settings e2e', async () => {
       caller: 'org-settings',
       path: '/app/settings/org',
       actions: [
-        { type: 'fill', selector: '[data-option-path="orgName"] input', text: 'Updated Org Name' },
-        { type: 'fill', selector: '[data-option-path="orgEmail"] input', text: 'updated@example.com' },
+        { type: 'fill', selector: '[data-option-path="name"] input', text: 'Updated Org Name' },
+        { type: 'fill', selector: '[data-option-path="email"] input', text: 'updated@example.com' },
         { type: 'fill', selector: '[data-option-path="profile.headline"] input', text: 'Updated headline' },
         { type: 'click', selector: '[data-test-id="saveButton"]', waitAfter: 2000 },
       ],
     })
 
     const org = await getOrg()
-    expect(org?.orgName).toBe('Updated Org Name')
-    expect(org?.orgEmail).toBe('updated@example.com')
+    expect(org?.name).toBe('Updated Org Name')
+    expect(org?.email).toBe('updated@example.com')
     expect(org?.profile?.headline).toBe('Updated headline')
   })
 
@@ -92,7 +92,7 @@ describe('settings e2e', async () => {
       path: '/app/settings/manage-organizations',
       actions: [
         { type: 'click', selector: '[data-test-id="create-org-button"]' },
-        { type: 'fill', selector: '[data-option-path="orgName"] input', text: 'New Test Org' },
+        { type: 'fill', selector: '[data-option-path="name"] input', text: 'New Test Org' },
         { type: 'click', selector: '[data-test-id="create-workspace-button"]', waitAfter: 3000 },
       ],
     })

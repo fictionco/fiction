@@ -157,7 +157,7 @@ describe('user endpoint tests', async () => {
       fields: {
         email,
         password: 'testtest123A#',
-        orgName: 'Test Org',
+        name: 'Test Org',
       },
       isVerifyEmail: false,
     } as const

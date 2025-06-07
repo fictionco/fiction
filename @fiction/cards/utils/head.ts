@@ -31,7 +31,7 @@ export function getStructuredData(args: { site?: Site }) {
       {
         '@type': 'Person',
         '@id': `${url}/#person`,
-        'name': org.orgName || site.title.value,
+        'name': org.name || site.title.value,
         'url': url,
         'image': siteConfig?.shareImage?.url || org?.avatar?.url,
         'description': siteConfig?.standard?.description,

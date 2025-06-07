@@ -20,7 +20,7 @@ const serv = useService<{ fictionSites: FictionSites, fictionRouterSites: Fictio
 
 const { fictionSites, fictionRouterSites, fictionEnv, fictionUser } = serv
 
-const form = vue.ref<Partial<TableSiteConfig>>({ title: fictionUser.activeOrganization.value?.orgName, themeId: 'base', userConfig: { } })
+const form = vue.ref<Partial<TableSiteConfig>>({ title: fictionUser.activeOrganization.value?.name, themeId: 'base', userConfig: { } })
 const isLoading = vue.ref(false)
 
 async function requestCreateSite() {

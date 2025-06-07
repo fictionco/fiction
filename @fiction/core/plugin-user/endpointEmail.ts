@@ -92,7 +92,7 @@ async function getOrganization(orgId: string, fictionUser: FictionUser) {
 
 function getEmailConfig(_action: EmailAction, vars: EmailVars, org?: any) {
   const { appName, code, callbackUrl } = vars
-  const orgName = org?.orgName || appName
+  const name = org?.name || appName
   const btn = (label: string) => [{ label, href: callbackUrl, theme: 'primary' as const }]
 
   const emails: Record<EmailAction, Omit<EmailSendConfig, 'caller' | 'to'>> = {
@@ -117,14 +117,14 @@ function getEmailConfig(_action: EmailAction, vars: EmailVars, org?: any) {
       content: `Verify your account with this code:<br><br><h2>${code}</h2>`,
     },
     verifySubscribe: {
-      subject: `${orgName}: Confirm your subscription`,
+      subject: `${name}: Confirm your subscription`,
       title: 'Confirm Your Subscription',
       subTitle: 'Just click to complete',
-      content: `Click the button to confirm you'd like to follow <strong>${orgName}</strong>.`,
+      content: `Click the button to confirm you'd like to follow <strong>${name}</strong>.`,
       buttons: btn('Confirm'),
-      senderName: orgName,
-      senderEmail: org?.orgEmail,
-      superTitle: org && { text: orgName, icon: org.avatar },
+      senderName: name,
+      senderEmail: org?.email,
+      superTitle: org && { text: name, icon: org.avatar },
     },
   }
 

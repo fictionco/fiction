@@ -296,7 +296,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     await this.fictionUser.userInitialized({ caller: 'getUserInfo' })
 
-    const { orgId, orgName } = this.fictionUser.activeOrganization.value ?? {}
+    const { orgId, name } = this.fictionUser.activeOrganization.value ?? {}
 
     const { userId, fullName } = this.fictionUser.activeUser.value ?? {}
 
@@ -313,7 +313,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
         return
     }
 
-    return { orgId, orgName, userId, fullName, anonymousId }
+    return { orgId, name, userId, fullName, anonymousId }
   }
 
   async upload(args: {

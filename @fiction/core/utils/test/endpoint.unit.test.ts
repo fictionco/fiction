@@ -27,7 +27,7 @@ describe('setAuthorizedUser', () => {
       orgs: [{
         orgId: 'test-org-123',
         relation: {
-          memberAccess: 'owner',
+          access: 'owner',
         },
       }],
     }

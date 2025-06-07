@@ -14,12 +14,12 @@ describe('team invite functionality', async () => {
   it('should send invitation to new user', async () => {
     const { orgId } = initialized
     const testEmail = `test-invite-${Date.now()}@example.com`
-    const memberAccess: MemberAccess = 'admin'
+    const access: MemberAccess = 'admin'
 
     const response = await testUtils.fictionTeam.queries.TeamInvite.serve(
       {
         orgId,
-        invites: [{ email: testEmail, memberAccess }],
+        invites: [{ email: testEmail, access }],
       },
       { bearer: initialized.user, server: true },
     )
@@ -39,8 +39,8 @@ describe('team invite functionality', async () => {
       {
         orgId,
         invites: [
-          { email: testEmails[0], memberAccess: 'editor' },
-          { email: testEmails[1], memberAccess: 'admin' },
+          { email: testEmails[0], access: 'editor' },
+          { email: testEmails[1], access: 'admin' },
         ],
       },
       { bearer: initialized.user, server: true },
@@ -52,13 +52,13 @@ describe('team invite functionality', async () => {
   it('should add users to organization with correct access level', async () => {
     const { orgId } = initialized
     const testEmail = `test-invite-access-${Date.now()}@example.com`
-    const memberAccess: MemberAccess = 'admin'
+    const access: MemberAccess = 'admin'
 
     // Send invitation
     await testUtils.fictionTeam.queries.TeamInvite.serve(
       {
         orgId,
-        invites: [{ email: testEmail, memberAccess }],
+        invites: [{ email: testEmail, access }],
       },
       { bearer: initialized.user, server: true },
     )
@@ -77,8 +77,8 @@ describe('team invite functionality', async () => {
 
     const invitedMember = membersResponse.data?.find(m => m.email === testEmail)
     expect(invitedMember, 'Invited member should exist').toBeDefined()
-    expect(invitedMember?.memberAccess, 'Member access should match invitation').toBe(memberAccess)
-    expect(invitedMember?.memberStatus, 'New member should have pending status').toBe('pending')
+    expect(invitedMember?.access, 'Member access should match invitation').toBe(access)
+    expect(invitedMember?.status, 'New member should have pending status').toBe('pending')
   })
 
   it('should reject invitation with invalid org ID', async () => {
@@ -88,7 +88,7 @@ describe('team invite functionality', async () => {
     const response = await testUtils.fictionTeam.queries.TeamInvite.serve(
       {
         orgId: invalidOrgId,
-        invites: [{ email: testEmail, memberAccess: 'admin' }],
+        invites: [{ email: testEmail, access: 'admin' }],
       },
       { bearer: initialized.user, server: true },
     )
@@ -184,8 +184,8 @@ describe('workspace team tests', async () => {
       'email',
       'userId',
       'lastSeenAt',
-      'memberAccess',
-      'memberStatus',
+      'access',
+      'status',
     ]
 
     keys.forEach((k) => {
@@ -198,11 +198,11 @@ describe('workspace team tests', async () => {
           "createdAt": "[datetime:TRUTHY]",
           "email": "[email:TRUTHY]",
           "fullName": "**MASKED**",
-          "invitedById": "null",
+          "inviterId": "null",
           "lastSeenAt": {},
-          "memberAccess": "owner",
+          "access": "owner",
           "memberId": "[id:TRUTHY]",
-          "memberStatus": "active",
+          "status": "active",
           "needsOnboarding": "false",
           "orgId": "[id:TRUTHY]",
           "priority": "null",

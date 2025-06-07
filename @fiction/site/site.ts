@@ -201,7 +201,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   shortcodes = new Shortcodes({
     fictionEnv: this.fictionSites.fictionEnv,
     shortcodes: [
-      { shortcode: 'name', handler: () => this.org.value?.orgName || '' },
+      { shortcode: 'name', handler: () => this.org.value?.name || '' },
       { shortcode: 'handle', handler: () => this.org.value?.handle || '' },
       { shortcode: 'headline', handler: () => this.org.value?.profile?.headline || '' },
       { shortcode: 'summary', handler: () => this.org.value?.profile?.summary || '' },

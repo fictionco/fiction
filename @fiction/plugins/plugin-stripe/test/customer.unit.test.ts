@@ -78,7 +78,7 @@ describe('customerState', async () => {
 
     const r = await testUtils.fictionUser.requests.ManageOrganization.projectRequest({
       _action: 'create',
-      fields: { orgName: 'New Org' },
+      fields: { name: 'New Org' },
     }, { caller: 'test' })
 
     const { orgId: newOrgId } = r.data || {}

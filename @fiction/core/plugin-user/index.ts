@@ -186,10 +186,10 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       return
     Object.entries(userCapabilities).forEach(([key, _value]) => {
       const k = key as keyof typeof userCapabilities
-      relation[k] = !!(relation && userCan({ capability: k, memberAccess: relation.memberAccess }))
+      relation[k] = !!(relation && userCan({ capability: k, access: relation.access }))
     })
 
-    relation.accessLevel = getAccessLevel(relation.memberAccess)
+    relation.accessLevel = getAccessLevel(relation.access)
     return this.activeOrganization.value?.relation
   })
 

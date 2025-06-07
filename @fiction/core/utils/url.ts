@@ -268,9 +268,9 @@ export function getOrgAvatar(org: Organization, options: {
   }
 
   // Fallback to email gravatar with initials
-  return gravatarUrlSync(org.orgEmail, {
+  return gravatarUrlSync(org.email, {
     size,
-    default: org.orgName ? 'initials' : 'color',
-    name: org.orgName,
+    default: org.name ? 'initials' : 'color',
+    name: org.name,
   })
 }

@@ -14,8 +14,8 @@ export async function getEmailForPost(args: {
   const isTest = fictionEnv?.isTest.value
   const env = fictionEnv.isProd.value ? 'prod' : isTest ? 'test' : 'dev'
 
-  const senderName = org.orgName
-  const senderEmail = org.orgEmail
+  const senderName = org.name
+  const senderEmail = org.email
   const avatar = org.avatar
   const websiteUrl = `https://${org.handle}.fiction.com`
   const companyName = 'Fiction Inc.'

@@ -103,7 +103,7 @@ export async function setAuthorizedUser(args: { fictionUser: FictionUser, reques
       const relation = user.orgs?.find(org => org.orgId === o)?.relation
 
       if (relation)
-        relation.accessLevel = getAccessLevel(relation?.memberAccess)
+        relation.accessLevel = getAccessLevel(relation?.access)
 
       user.relation = relation
 

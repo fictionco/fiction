@@ -153,7 +153,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
         },
       },
       org: {
-        orgName: 'No Organization',
+        name: 'No Organization',
       },
     }
   }

@@ -41,8 +41,8 @@ const list = vue.computed<NavListItem[]>(() => {
   const activeOrgId = service.fictionUser.activeOrgId.value
 
   return activeOrganizations.map((org) => {
-    const label = org.orgName || 'Untitled'
-    const role = org.relation?.memberAccess || 'Unknown'
+    const label = org.name || 'Untitled'
+    const role = org.relation?.access || 'Unknown'
     const joinedAt = org.relation?.createdAt
 
     const description = [

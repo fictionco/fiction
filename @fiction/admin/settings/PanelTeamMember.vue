@@ -57,7 +57,7 @@ const saveUtil = new AutosaveUtility({
 
 const canChangeRole = vue.computed(() => {
   const user = fictionUser.activeUser.value
-  const privs = user?.relation?.memberAccess === 'owner' || user?.relation?.memberAccess === 'admin'
+  const privs = user?.relation?.access === 'owner' || user?.relation?.access === 'admin'
 
   const notCurrentUser = userId.value !== fictionUser.activeUser.value?.userId
 
@@ -82,7 +82,7 @@ async function setMemberRelation(_action: 'update' | 'delete'): Promise<void> {
     {
       where: { userId: userId.value },
       orgId,
-      fields: { memberAccess: member.value?.memberAccess ?? 'observer' },
+      fields: { access: member.value?.access ?? 'observer' },
       _action,
     },
     { debug: true },
@@ -117,7 +117,7 @@ async function send(): Promise<void> {
 
 async function resendInvite(): Promise<void> {
   const orgId = fictionUser.activeOrganization.value?.orgId
-  const { email, memberAccess = 'observer' } = member.value ?? {}
+  const { email, access = 'observer' } = member.value ?? {}
   if (!orgId || !email)
     return
 
@@ -125,7 +125,7 @@ async function resendInvite(): Promise<void> {
 
   await fictionTeam.requests.TeamInvite.request({
     orgId,
-    invites: [{ email, memberAccess }],
+    invites: [{ email, access }],
   })
   sending.value = false
 }
@@ -154,7 +154,7 @@ const detailOptions = [
           onClick: () => resendInvite(),
           theme: 'primary',
           design: 'outline',
-          disabled: member.value?.memberStatus === 'active',
+          disabled: member.value?.status === 'active',
           icon: { class: 'i-tabler-send' },
         },
         {
@@ -193,8 +193,8 @@ const header = vue.computed(() => {
     title: member.value?.fullName || member.value?.email,
     subTitle: 'Membership Details',
     media: getAvatarUrl(member.value),
-    theme: member.value?.memberStatus === 'active' ? 'green' : 'orange',
-    status: member.value?.memberStatus === 'active' ? 'active' : 'pending',
+    theme: member.value?.status === 'active' ? 'green' : 'orange',
+    status: member.value?.status === 'active' ? 'active' : 'pending',
   } as const
 })
 </script>

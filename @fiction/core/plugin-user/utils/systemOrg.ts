@@ -13,7 +13,7 @@ export async function setupSystemOrg(args: { fictionUser: FictionUser }) {
     throw new Error('No email or name for app')
 
   const r = await fictionUser.queries.ManageOrganization.serve(
-    { _action: 'create', fields: { orgId: systemOrgId, orgName: name, orgEmail: email } },
+    { _action: 'create', fields: { orgId: systemOrgId, name: name, email: email } },
     { server: true },
   )
 
@@ -37,7 +37,7 @@ export async function setupSystemOrg(args: { fictionUser: FictionUser }) {
       await fictionUser.queries.ManageMemberRelation.serve({
         _action: 'create',
         orgId,
-        fields: { userId: admin.userId, memberAccess: 'admin', memberStatus: 'active' },
+        fields: { userId: admin.userId, access: 'admin', status: 'active' },
       }, { server: true })
     }
   }))

@@ -82,7 +82,7 @@ describe('icon Utils', () => {
 
       tests.forEach(({ ext, expected }) => {
         const orgMock: Organization = {
-          orgName: 'Test Org',
+          name: 'Test Org',
           branding: {
             icon: { url: `icon.${ext}` },
           },

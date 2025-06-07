@@ -88,7 +88,7 @@ export type OrganizationMember = Partial<
     email: string
     userId: string
     lastSeenAt: string
-    memberAccess: MemberAccess
+    access: MemberAccess
     accessLevel: number
     avatar?: MediaObject
   } & UserCapabilities
@@ -121,12 +121,12 @@ export type MemberStatus = 'pending' | 'active' | 'inactive' | 'disabled'
 export interface OrganizationMembership {
   orgId: string
   userId: string
-  memberAccess: MemberAccess
-  memberStatus: MemberStatus
+  access: MemberAccess
+  status: MemberStatus
   tags?: string[]
-  invitedById?: string
+  inviterId?: string
 }
 
-export const orgFields = ['orgId', 'orgName']
+export const orgFields = ['orgId', 'name']
 
 export type TokenFields = Partial<User> & { userId: string, iat: number }

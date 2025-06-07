@@ -23,7 +23,7 @@ const invites = vue.computed(() => {
   return emails.value.map((email) => {
     return {
       email,
-      memberAccess: 'admin' as MemberAccess,
+      access: 'admin' as MemberAccess,
     }
   })
 })
@@ -85,7 +85,7 @@ onResetUi(() => {
             Invite Team Members
           </h2>
           <p class="text-theme-500 mt-2">
-            Add people to collaborate with you in the "{{ fictionUser.activeOrganization.value?.orgName }}" workspace
+            Add people to collaborate with you in the "{{ fictionUser.activeOrganization.value?.name }}" workspace
           </p>
         </div>
 

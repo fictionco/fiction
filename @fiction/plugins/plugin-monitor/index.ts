@@ -53,19 +53,19 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
 
     const { cityName, regionName, countryCode } = user?.geo || {}
     await this.notify({
-      message: `🎉 New user: ${user?.email} - ${org?.orgName}`,
+      message: `🎉 New user: ${user?.email} - ${org?.name}`,
       data: {
         name: user?.fullName || 'No Name',
         verified: user?.emailVerified ? 'Yes' : 'No',
         location: [cityName, regionName, countryCode].filter(Boolean).join(', ') || 'Unknown',
         clout: org?.profile?.clout || 0,
-        email: org?.orgEmail || user?.email,
+        email: org?.email || user?.email,
         summary: org?.profile?.summary || 'No summary',
         handle: org?.handle || user?.handle || 'No Handle',
       },
     })
 
-    this.track('user_onboarded', { orgName: org?.orgName, userId: user?.userId, email: user?.email, verified: user?.emailVerified })
+    this.track('user_onboarded', { name: org?.name, userId: user?.userId, email: user?.email, verified: user?.emailVerified })
   }
 
   async notify(args: { message: string, data?: Record<string, unknown> }): Promise<void> {
