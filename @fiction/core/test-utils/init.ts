@@ -84,7 +84,6 @@ export async function createTestUser(args: {
       emailVerified: true,
       fullName,
       name,
-      needsOnboarding: false,
       ...fields,
     }, _action: 'create' },
     { server: true, caller: `createTestUser-${caller}`, returnAuthority: ['verify'] },

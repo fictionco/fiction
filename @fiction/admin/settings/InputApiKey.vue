@@ -51,17 +51,17 @@ async function generateKey(confirmNew?: boolean): Promise<void> {
 
 <template>
   <div class="space-y-6">
-    <template v-if="fictionUser.activeOrganization.value?.apiSecret">
+    <template v-if="fictionUser.activeOrganization.value?.tokens?.apiSecret">
       <InputText
         v-if="showApiSecret"
         ui-size="xl"
-        :value="fictionUser.activeOrganization.value?.apiSecret"
+        :value="fictionUser.activeOrganization.value?.tokens?.apiSecret"
         readonly
       />
       <InputPassword
         v-else
         ui-size="xl"
-        :value="fictionUser.activeOrganization.value?.apiSecret"
+        :value="fictionUser.activeOrganization.value?.tokens?.apiSecret"
         readonly
       />
       <div class="my-4 space-x-3">

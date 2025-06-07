@@ -1,6 +1,11 @@
 import type { Knex } from 'knex'
 import type { ComplexDataFilter, DataFilter } from '../types'
 
+export function dbMergeJsonData(args: { db: Knex, column: string, mergeData: object }) {
+  const { db, column, mergeData } = args
+  return db.raw(`COALESCE(??, '{}') || ?`, [column, JSON.stringify(mergeData)])
+}
+
 function applyDataFilter(query: Knex.QueryBuilder, filter: DataFilter): Knex.QueryBuilder {
   const { field, operator, value } = filter
 

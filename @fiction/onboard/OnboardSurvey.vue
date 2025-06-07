@@ -20,7 +20,7 @@ const { card } = defineProps<{ card: Card }>()
 const { fictionUser, fictionOnboard, fictionEnv } = useService<{ fictionUser: FictionUser, fictionOnboard: FictionOnboard }>()
 
 const profile = vue.ref<ProfileData>({
-  needsOnboarding: true,
+  onboard: { phase: 'initial' },
   accounts: {
     linkedin: {
       handle: '',
@@ -35,9 +35,7 @@ const profile = vue.ref<ProfileData>({
     interests: [],
     influences: [],
   },
-  branding: {
-    primaryColor: 'blue',
-  },
+  branding: { },
   avatar: undefined,
   promptImageKey: 'swissPrecision',
   promptContentKey: 'hero',
@@ -295,13 +293,12 @@ const stepConfig: StepConfig<StepKey> = {
           theme: 'green',
           icon: { class: 'i-tabler-bolt' },
         },
-        title: 'You\'re All Set!',
-        subTitle: 'An incredible future awaits. Let\'s begin...',
+        title: 'Your profile is ready!',
+        subTitle: 'Excited? Let\'s begin...',
         button: {
           label: 'Go to Dashboard',
           theme: 'primary',
           size: 'lg',
-          icon: 'i-tabler-bolt',
           iconAfter: 'i-tabler-arrow-right',
         },
         class: 'max-w-lg',
@@ -309,12 +306,7 @@ const stepConfig: StepConfig<StepKey> = {
         onClick: async () => {
           isLoading.value = 'ready'
           try {
-            profile.value.needsOnboarding = false
-            const r = await saveUtil.forceSync()
-
-            if (r?.status === 'success') {
-              await card.goto('/?_view=welcome')
-            }
+            await card.goto('/?_view=welcome')
           }
           finally {
             isLoading.value = ''
@@ -411,7 +403,7 @@ const stepConfig: StepConfig<StepKey> = {
             <ElInput
               :model-value="profile.profile?.headline"
               input="InputText"
-              label="Headline"
+              label="Profile Headline"
               placeholder="Leader and innovator."
               description="A concise description of what you do"
               data-test-id="headline"

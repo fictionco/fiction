@@ -4,8 +4,8 @@ import type { FictionEmail } from '../plugin-email/index.js'
 import type { FictionEnv } from '../plugin-env/index.js'
 import type { EndpointResponse } from '../types/index.js'
 import type { EndpointMeta } from '../utils/endpoint.js'
-import type { FictionUser, OnboardSettings, Organization } from './index.js'
-import type { User } from './types.js'
+import type { FictionUser, Organization } from './index.js'
+import type { OnboardSettings, User } from './types.js'
 import { Query } from '../query.js'
 import { standardTable as t } from '../tbl.js'
 import { getGeoFree } from '../utils/geo.js'
@@ -28,7 +28,7 @@ export abstract class UserBaseQuery extends Query<UserQuerySettings> {
 
 export type WhereUser = { email: string } | { userId: string } | { handle: string } | { googleId: string }
 
-type CreateUserFields = Partial<User> & { email: string, password?: string, name?: string, orgId?: string }
+export type CreateUserFields = Partial<User> & { email: string, password?: string, name?: string, orgId?: string, onboard?: OnboardSettings }
 
 export type ManageUserParams =
   | { _action: 'create', fields: CreateUserFields, withGeo?: boolean }
@@ -39,11 +39,10 @@ export type ManageUserParams =
   | { _action: 'verifyEmail', email: string, code: string, password?: string }
   | { _action: 'requestCode', where: WhereUser, context?: string }
   | { _action: 'getUserWithToken', token: string, code?: string }
-  | { _action: 'login', where: WhereUser, password?: string, createUserFields?: Partial<User>, createOnEmpty?: boolean }
-  | { _action: 'loginGoogle', credential?: string, code?: string, createUserFields?: Partial<User>, createOnEmpty?: boolean }
+  | { _action: 'login', where: WhereUser, password?: string, createUserFields?: Partial<CreateUserFields>, createOnEmpty?: boolean }
+  | { _action: 'loginGoogle', credential?: string, code?: string, createUserFields?: Partial<CreateUserFields>, createOnEmpty?: boolean }
   | { _action: 'loginWithCode', where: WhereUser, code: string, newPassword?: string, keepCode?: boolean }
   | { _action: 'event', eventName: 'resetPassword', where: WhereUser }
-  | { _action: 'manageOnboard', settings: OnboardSettings, orgId?: string, userId?: string }
 
 export type ManageUserResponse = EndpointResponse<User> & {
   isNew?: boolean
@@ -122,9 +121,7 @@ export class QueryManageUser extends UserBaseQuery {
       case 'event':
         user = await this.handleUserEvent(params, meta)
         break
-      case 'manageOnboard':
-        user = await this.manageOnboard(params, meta)
-        break
+
       default:
         return { status: 'error', message: 'Invalid action', isNew }
     }
@@ -181,7 +178,7 @@ export class QueryManageUser extends UserBaseQuery {
     // User doesn't exist - create if email provided
     const { email } = where as { email?: string }
     if (email) {
-      const fields: CreateUserFields = { needsOnboarding: true, ...createUserFields, email }
+      const fields: CreateUserFields = { onboard: { phase: 'initial' }, ...createUserFields, email }
       user = await this.createUser({ _action: 'create', fields }, { ..._meta, server: true })
       return { user, isNew: true }
     }
@@ -332,7 +329,9 @@ export class QueryManageUser extends UserBaseQuery {
 
   private async createDefaultOrganization(fields: CreateUserFields, meta: EndpointMeta): Promise<Organization> {
     const { fictionUser } = this.settings
-    const { userId, email, orgId, needsOnboarding } = fields
+    const { userId, email, orgId } = fields
+
+    const onboard = fields.onboard || { phase: 'initial' }
 
     if (!userId)
       throw abort('userId required to make default org')
@@ -343,7 +342,7 @@ export class QueryManageUser extends UserBaseQuery {
       {
         _action: 'create',
         userId,
-        fields: { name, email: email, orgId, needsOnboarding, ownerId: userId },
+        fields: { name, email, orgId, onboard, ownerId: userId },
         withDefaults: true,
       },
       { server: true, ...meta },
@@ -611,27 +610,5 @@ export class QueryManageUser extends UserBaseQuery {
       response.user = user
 
     return response
-  }
-
-  async manageOnboard(params: ManageUserParams & { _action: 'manageOnboard' }, _meta: EndpointMeta): Promise<User | undefined> {
-    const { settings, orgId, userId } = params
-    const columnKey = 'onboard'
-    const newSettings = JSON.stringify(settings)
-
-    const setter = this.db().raw(
-      `jsonb_merge_patch(${columnKey}::jsonb, ?::jsonb)`,
-      [newSettings],
-    )
-
-    if (!orgId && !userId)
-      throw new Error('orgId or userId required')
-
-    const [responseUser] = await this.db()
-      .table(t.user)
-      .update({ onboard: setter })
-      .where({ userId })
-      .returning<User[]>('*')
-
-    return responseUser
   }
 }

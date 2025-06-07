@@ -9,7 +9,7 @@ describe('onboard UX', { retry: isCi() ? 3 : 0 }, async () => {
     setup,
     slowMo: 0,
     initUser: true,
-    userFields: { needsOnboarding: true },
+    userFields: { onboard: { phase: 'initial' } },
   })
 
   afterAll(async () => kit?.close())
@@ -109,11 +109,12 @@ describe('onboard UX', { retry: isCi() ? 3 : 0 }, async () => {
     )
 
     // Assertions for user profile updates
-    expect(r.data?.needsOnboarding, 'User should complete onboarding').toBeFalsy()
+
     expect(r.data?.fullName, 'User name should be updated').toBe(testName)
 
     // Check organization data
     const org = r.data?.orgs?.[0]
+    expect(org?.onboard?.phase, 'User should complete onboarding').toBe('tasks')
     expect(org, 'Organization should be created').toBeTruthy()
     expect(org?.handle, 'Organization handle should match').toContain(testHandle)
     expect(org?.name, 'Organization name should match').toBe(testName)

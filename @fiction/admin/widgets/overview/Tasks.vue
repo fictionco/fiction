@@ -23,7 +23,7 @@ const availableTasks = vue.ref<UserTask[]>([
 
 // Get organizational onboarding data
 const orgOnboardSettings = vue.computed(() => fictionUser?.activeOrganization?.value?.onboard || {})
-const onboardTasks = vue.computed(() => orgOnboardSettings.value.tasks || {})
+const onboardTasks = vue.computed(() => orgOnboardSettings.value.items || {})
 const tasks = vue.computed(() => availableTasks.value)
 
 // Calculate progress metrics

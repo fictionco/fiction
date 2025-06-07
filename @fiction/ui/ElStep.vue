@@ -34,11 +34,11 @@ const step = vue.computed(() => {
       class="relative z-10 mx-auto w-full p-4 md:p-10 rounded-xl shadow-xl"
       :class="step.class"
     >
-      <div class="relative z-10 mb-4 flex gap-4 md:text-center md:justify-center">
+      <div class="relative z-10 mb-4 flex gap-4 text-center justify-center">
         <div class="space-y-5">
           <XSuperTitle
             v-if="step.superTitle"
-            class="md:justify-center"
+            class="justify-center"
             size="sm"
             :super-title="step.superTitle"
           />

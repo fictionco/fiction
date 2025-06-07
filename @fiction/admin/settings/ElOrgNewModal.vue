@@ -52,7 +52,7 @@ async function send(args: ClickCallbackArgs): Promise<void> {
 
   const r = await fictionUser.requests.ManageOrganization.request({
     userId,
-    fields: { name, email, needsOnboarding: true },
+    fields: { name, email, onboard: { phase: 'initial' } },
     _action: 'create',
   })
 

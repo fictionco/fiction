@@ -1,5 +1,5 @@
 import type { Organization, User } from '@fiction/core/plugin-user'
-import { MediaSchema } from '@fiction/core'
+import { MediaSchema, OnboardSchema } from '@fiction/core'
 import { ArchetypeKeySchema, getArchetypesStyles, getImageStyles, ImageStyleKeySchema } from '@fiction/core/schemas/motifs'
 import { BrandingSchema, GeoLocationSchema, ProfileSchema, SocialAccountsSchema } from '@fiction/core/schemas/org'
 import { z } from 'zod/v4'
@@ -14,7 +14,7 @@ export const ProfileDataSchema = z.object({
   branding: BrandingSchema.optional(),
   promptImageKey: ImageStyleKeySchema.optional(),
   promptContentKey: ArchetypeKeySchema.optional(),
-  needsOnboarding: z.boolean().optional(),
+  onboard: OnboardSchema.optional(),
 })
 
 export type ProfileData = z.infer<typeof ProfileDataSchema>
@@ -59,7 +59,7 @@ export function profileFromAccount(args: { user?: User, org?: Organization }): P
     profile: org?.profile,
     accounts: org?.accounts,
     branding: org?.branding,
-    needsOnboarding: org?.needsOnboarding,
+    onboard: org?.onboard,
   }
 }
 
@@ -73,7 +73,6 @@ export function accountFromProfile(profile: ProfileData): {
   const userFields: Partial<User> = {
     fullName: profile.name,
     avatar: profile.avatar,
-    needsOnboarding: profile.needsOnboarding,
   }
 
   const orgFields: Partial<Organization> = {
@@ -81,7 +80,7 @@ export function accountFromProfile(profile: ProfileData): {
     handle: profile.handle,
     profile: profile.profile,
     avatar: profile.avatar,
-    needsOnboarding: profile.needsOnboarding,
+    onboard: profile.onboard,
     prompt: {
       image: getImageStyles().find(a => a.value === profile.promptImageKey)?.info || '',
       content: getArchetypesStyles().find(a => a.value === profile.promptContentKey)?.info || '',

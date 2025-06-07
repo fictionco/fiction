@@ -301,7 +301,7 @@ async function sendOneTimeCode(next: AuthStateKey, args: { caller?: string } = {
   const response = await fictionUser.requests.ManageUserEmail.request({
     _action: 'oneTimeCode',
     email,
-    createUserFields: { ...form, needsOnboarding: true },
+    createUserFields: { ...form, onboard: { phase: 'initial' } },
     queryVars: emailQueryVars.value || {},
     caller: 'authCard-sendOneTimeCode',
   })
@@ -320,7 +320,7 @@ async function passwordLogin() {
     where: { email: form.email },
     password: form.password,
     createOnEmpty: true,
-    createUserFields: { fullName: form.fullName, needsOnboarding: true },
+    createUserFields: { fullName: form.fullName, onboard: { phase: 'initial' } },
   })
   if (response?.status !== 'success')
     throw new Error(response?.message || 'Login failed')

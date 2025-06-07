@@ -1,5 +1,5 @@
 import type { MainFileSetup, ServiceList } from '../plugin-env/index.js'
-import type { User } from '../plugin-user/types.js'
+import type { CreateUserFields } from '../plugin-user/endpoint.js'
 import type { InitializedTestUtils, TestUtils } from './init.js'
 import { log } from '../plugin-log/index.js'
 import { createTestBrowser, performActions } from './buildTest.js'
@@ -25,7 +25,7 @@ export async function createUiTestingKit<T extends MainFileSetup = MainFileSetup
   slowMo?: number
   setup?: T
   envFiles?: string[]
-  userFields?: Partial<User>
+  userFields?: Partial<CreateUserFields>
 } = {}): Promise<TestingKit<T>> {
   const { headless = true, setup = mainFileSetup, slowMo, envFiles = [], initUser, userFields = {} } = args
   const serviceConfig = await setup({ context: 'node', envFiles })

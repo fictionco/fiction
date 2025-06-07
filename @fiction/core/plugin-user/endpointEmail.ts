@@ -2,6 +2,7 @@ import type { EmailSendConfig } from '../plugin-email'
 import type { EmailVars } from '../plugin-email/vars'
 import type { EndpointResponse } from '../types'
 import type { EndpointMeta } from '../utils'
+import type { CreateUserFields } from './endpoint'
 import type { FictionUser, User } from './index.js'
 import { createEmailVars } from '../plugin-email/vars'
 import { abort } from '../utils'
@@ -16,7 +17,7 @@ export type ManageUserEmailParams = {
   targetOrgId?: string
   tags?: string[]
   queryVars?: Record<string, string>
-  createUserFields?: Partial<User>
+  createUserFields?: Partial<CreateUserFields>
   caller: string
 }
 

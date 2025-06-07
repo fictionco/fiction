@@ -1,11 +1,11 @@
-import type { OnboardSettings, PushSubscriptionDetail } from './types.js'
+import type { PushSubscriptionDetail } from './types.js'
 import { z } from 'zod/v4'
 import { Col, FictionDbTable } from '../plugin-db/index.js'
 import { MediaSchema } from '../schemas/index.js'
-import { AiSettingsSchema, BillingSchema, BrandingSchema, GeoLocationSchema, ProfileSchema, SocialAccountsSchema, TrackingSchema } from '../schemas/org.js'
+import { AiSettingsSchema, BillingSchema, BrandingSchema, GeoLocationSchema, OrgTokenSchema, ProfileSchema, SocialAccountsSchema, TrackingSchema } from '../schemas/org.js'
 import { createTableSchema, standardTable as t } from '../tbl.js'
 import { GeoDataSchema } from '../utils/geo.js'
-import { EntityStatusEnum, UserRoleEnum } from './types.js'
+import { EntityStatusEnum, OnboardSchema, UserRoleEnum } from './types.js'
 
 export type VerificationCode = {
   code: string
@@ -36,8 +36,6 @@ export const userColumns = [
   new Col({ key: 'geo', sec: 'setting', sch: () => GeoDataSchema, make: ({ s, col }) => s.jsonb(col.k) }),
   new Col({ key: 'tags', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
   new Col({ key: 'systemRole', sch: () => UserRoleEnum, make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('subscriber') }),
-  new Col({ key: 'needsOnboarding', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
-  new Col({ key: 'onboard', sec: 'setting', sch: () => z.record(z.string(), z.any()) as z.Schema<OnboardSettings>, make: ({ s, col }) => s.jsonb(col.k) }),
 ] as const
 
 export const UserSchema = createTableSchema(userColumns)
@@ -56,10 +54,8 @@ export const orgColumns = [
   new Col({ key: 'branding', sec: 'setting', sch: () => BrandingSchema, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'prompt', sec: 'setting', sch: () => AiSettingsSchema, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
   new Col({ key: 'tracking', sec: 'setting', sch: () => TrackingSchema, make: ({ s, col }) => s.jsonb(col.k), prepare: ({ value }) => JSON.stringify(value) }),
-  new Col({ key: 'accessTokens', sec: 'authority', sch: () => z.record(z.string(), z.string()), make: ({ s, col }) => s.jsonb(col.k) }),
-  new Col({ key: 'apiSecret', sec: 'settingPrivate', sch: () => z.string(), make: ({ s, col }) => s.string(col.k) }),
-  new Col({ key: 'needsOnboarding', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
-  new Col({ key: 'onboard', sec: 'setting', sch: () => z.record(z.string(), z.any()) as z.Schema<OnboardSettings>, make: ({ s, col }) => s.jsonb(col.k) }),
+  new Col({ key: 'tokens', sec: 'settingPrivate', sch: () => OrgTokenSchema, make: ({ s, col }) => s.jsonb(col.k) }),
+  new Col({ key: 'onboard', sec: 'setting', sch: () => OnboardSchema, make: ({ s, col }) => s.jsonb(col.k) }),
 ] as const
 
 export const OrgSchema = createTableSchema(orgColumns)

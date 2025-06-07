@@ -81,3 +81,7 @@ export type GeoLocation = z.infer<typeof GeoLocationSchema>
 export const TrackingSchema = z.object({
   googleAnalyticsId: z.string().optional(),
 })
+
+export const OrgTokenSchema = z.object({
+  api: z.string().optional().meta({ description: 'API access token for the organization' }),
+}).loose()

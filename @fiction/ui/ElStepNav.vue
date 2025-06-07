@@ -212,7 +212,7 @@ const isNextButtonDisabled = vue.computed(() => {
             :class="!hasBack ? 'justify-center' : 'justify-between'"
           >
             <XButton
-              :class="!hasBack ? 'hidden' : ''"
+              v-if="hasBack"
               tag="div"
               icon="i-tabler-arrow-left"
               :size="step.button?.size || 'lg'"

@@ -1,4 +1,4 @@
-import type { EndpointMeta, EndpointResponse, MediaObject } from '@fiction/core'
+import type { EndpointMeta, EndpointResponse, MediaObject, Organization, User } from '@fiction/core'
 import type { OrgProfile } from '@fiction/core/schemas/org'
 import type { FictionOnboardSettings } from '.'
 import type { AiEnhancement } from './generation'
@@ -11,6 +11,7 @@ export type OnboardRequest =
   | { _action: 'enrichFromLinkedIn', userId: string, orgId: string, profile: Partial<ProfileData> }
   | { _action: 'updateProfile', userId: string, orgId: string, profile: Partial<ProfileData> }
   | { _action: 'createDefaultContent', userId: string, orgId: string, profile: Partial<ProfileData> }
+  | { _action: 'completeOnboarding', userId: string, orgId: string, profile: Partial<ProfileData> }
 
 export class QueryManageOnboard extends Query<FictionOnboardSettings> {
   enrichCount = 0
@@ -26,6 +27,8 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
           return await this.handleUpdateProfile(params, meta)
         case 'createDefaultContent':
           return await this.handleCreateDefaultContent(params, meta)
+        case 'completeOnboarding':
+          return await this.completeOnboarding(params, meta)
         default:
           throw abort('Invalid action')
       }
@@ -71,6 +74,8 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
       )
 
       const results = await Promise.all(_promises)
+
+      await this.completeOnboarding({ userId, orgId }, meta)
 
       return { status: 'success', data: profile as ProfileData, results }
     }
@@ -254,6 +259,26 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     }
   }
 
+  private async completeOnboarding(args: { userId: string, orgId: string }, meta: EndpointMeta): Promise<EndpointResponse<ProfileData>> {
+    const { userId, orgId } = args
+    const [orgResult, userResult] = await Promise.all([
+      this.ManageOrganization.serve({ _action: 'read', where: { orgId } }, { ...meta, server: true }),
+      this.ManageUser.serve({ _action: 'retrieve', where: { userId } }, { ...meta, server: true }),
+    ])
+    const out = { org: orgResult?.data, user: userResult?.data }
+    await this.addFictionConnections(out, meta)
+    await this.settings.fictionUser.hooks.run('newUserOnboarded', out)
+
+    await this.ManageOrganization.serve({ _action: 'update', where: { orgId }, fields: { onboard: { phase: 'tasks' } } }, { ...meta, server: true })
+
+    return {
+      status: 'success',
+      message: 'Onboarding completed',
+      data: profileFromAccount({ user: out.user, org: out.org }),
+      user: out.user,
+    }
+  }
+
   private async updateProfileData(args: { userId: string, orgId: string, profile: Partial<ProfileData> }, meta: EndpointMeta) {
     const { userId, orgId, profile } = args
     const { orgFields = {}, userFields = {} } = accountFromProfile(profile)
@@ -265,17 +290,16 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
 
     const out = { org: orgResult?.data, user: userResult?.data }
 
-    if (profile.needsOnboarding === false) {
-      this.addFictionConnections({ userId, orgId, userEmail: userResult.data?.email || '' }, meta)
-      this.settings.fictionUser.hooks.run('newUserOnboarded', out)
-    }
-
     return out
   }
 
-  private async addFictionConnections(args: { userId: string, orgId: string, userEmail: string }, meta: EndpointMeta): Promise<void> {
-    const { userId, orgId, userEmail } = args
+  private async addFictionConnections(args: { user?: User, org?: Organization }, meta: EndpointMeta): Promise<void> {
+    const { user, org } = args
     const { fictionContact, fictionEnv } = this.settings
+
+    if (!org?.orgId || !user?.userId || !user?.email) {
+      throw abort('Missing orgId, userId or email')
+    }
 
     if (!fictionContact)
       return
@@ -285,11 +309,11 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
 
     try {
     // Add andrew@fiction.com to user's contact list
-      await fictionContact.queries.ManageContact.serve({ _action: 'create', orgId, contact: { email: andrewEmail, tags: ['fiction'], status: 'active' } }, { server: true, ...meta })
+      await fictionContact.queries.ManageContact.serve({ _action: 'create', orgId: org.orgId, contact: { email: andrewEmail, tags: ['fiction'], status: 'active' } }, { server: true, ...meta })
 
       // Subscribe user to Fiction's system org
       if (systemOrgId) {
-        await fictionContact.queries.ManageContact.serve({ _action: 'create', orgId: systemOrgId, contact: { email: userEmail, userId, tags: ['fiction'], status: 'active' } }, { server: true, ...meta })
+        await fictionContact.queries.ManageContact.serve({ _action: 'create', orgId: systemOrgId, contact: { email: user.email, userId: user.userId, tags: ['fiction'], status: 'active' } }, { server: true, ...meta })
       }
     }
     catch (error) {

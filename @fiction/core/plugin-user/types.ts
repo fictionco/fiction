@@ -4,7 +4,7 @@ import type { ColType } from '../tbl.js'
 import type { UserCapability } from '../utils/priv.js'
 import type { membersColumns, orgColumns, userColumns } from './schema.js'
 import { z } from 'zod/v4'
-import { MediaSchema } from '../schemas/index.js'
+import { MediaSchema, ProgressStatusSchema } from '../schemas/index.js'
 
 export const EntityStatusEnum = z.enum(['active', 'inactive', 'suspended', 'pending'])
 export const UserRoleEnum = z.enum([
@@ -43,27 +43,20 @@ export type Organization = Partial<ColType<typeof orgColumns>> & {
   relation?: OrganizationMember
 }
 
-export interface OnboardingItem {
-  key: string
-  status: ProgressStatus
-  completedAt?: string
-  data?: Record<string, unknown>
-}
+export const OnboardingItemSchema = z.object({
+  key: z.string().meta({ description: 'Unique task identifier' }),
+  status: ProgressStatusSchema.meta({ description: 'Task completion state' }),
+  completedAt: z.string().optional().meta({ description: 'When completed' }),
+  data: z.record(z.string(), z.unknown()).optional().meta({ description: 'Task-specific metadata' }),
+})
 
-export type OnboardSettings = {
-  // Post-signup survey
-  surveys?: Record<string, OnboardingItem>
+export const OnboardSchema = z.object({
+  phase: z.enum(['initial', 'tasks', 'dismissed']).optional().meta({ description: 'Current onboarding phase' }),
+  items: z.record(z.string(), OnboardingItemSchema).optional().meta({ description: 'Onboarding tasks by key' }),
+  dismissedAt: z.string().optional().meta({ description: 'When user dismissed onboarding' }),
+})
 
-  // Onboarding tasks
-  tasks?: Record<string, OnboardingItem>
-
-  // Welcome content (modals, videos, tours)
-  welcomeContent?: Record<string, OnboardingItem>
-
-  lastUpdated?: string
-
-  [key: string]: any
-}
+export type OnboardSettings = z.infer<typeof OnboardSchema>
 
 export type PushSubscriptionDetail = {
   endpoint: string

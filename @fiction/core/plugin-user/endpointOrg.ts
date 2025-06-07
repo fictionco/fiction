@@ -2,7 +2,7 @@ import type { Knex } from 'knex'
 import type { EndpointResponse } from '../types/index.js'
 import type { EndpointMeta } from '../utils/endpoint.js'
 import type { FictionUser, OrganizationMember, UserPluginSettings } from './index.js'
-import type { MemberAccess, Organization, OrganizationMembership, User } from './types.js'
+import type { MemberAccess, OnboardSettings, Organization, OrganizationMembership, User } from './types.js'
 import { Query } from '../query.js'
 import { standardTable as t } from '../tbl.js'
 import { abort } from '../utils/error.js'
@@ -248,6 +248,7 @@ export type ManageOrganizationParams =
   | { _action: 'delete', where: WhereOrg }
   | { _action: 'read', where: WhereOrg }
   | { _action: 'generateApiSecret', where: WhereOrg }
+  | { _action: 'manageOnboard', settings: OnboardSettings, orgId?: string, userId?: string }
 
 export class QueryManageOrganization extends OrgQuery {
   async run(params: ManageOrganizationParams, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
@@ -262,6 +263,8 @@ export class QueryManageOrganization extends OrgQuery {
         return this.readOrganization(params, meta)
       case 'generateApiSecret':
         return this.generateApiSecret(params, meta)
+      case 'manageOnboard':
+        return this.manageOnboard(params, meta)
       default:
         throw abort('Invalid action')
     }
@@ -274,13 +277,13 @@ export class QueryManageOrganization extends OrgQuery {
 
     const { default: uuidAPIKey } = await import('uuid-apikey')
 
-    const update: Record<string, any> = {
-      apiSecret: uuidAPIKey.create().apiKey,
-    }
+    const api = uuidAPIKey.create().apiKey
 
     const [responseOrg] = await this.db()
       .table(t.org)
-      .update(update)
+      .update({
+        tokens: this.db().raw(`COALESCE(??, '{}') || ?`, ['tokens', JSON.stringify({ api })]),
+      })
       .where(where)
       .limit(1)
       .returning<Organization[]>('*')
@@ -416,5 +419,27 @@ export class QueryManageOrganization extends OrgQuery {
     const user = await this.returnUser(meta)
 
     return { status: 'success', message, user, data: org }
+  }
+
+  async manageOnboard(params: ManageOrganizationParams & { _action: 'manageOnboard' }, meta: EndpointMeta): Promise<EndpointResponse<Organization>> {
+    const { settings, orgId, userId } = params
+    const columnKey = 'onboard'
+    const newSettings = JSON.stringify(settings)
+
+    const setter = this.db().raw(
+      `jsonb_merge_patch(${columnKey}::jsonb, ?::jsonb)`,
+      [newSettings],
+    )
+
+    if (!orgId && !userId)
+      throw new Error('orgId or userId required')
+
+    const [responseOrg] = await this.db()
+      .table(t.org)
+      .update({ onboard: setter })
+      .where({ orgId })
+      .returning<Organization[]>('*')
+
+    return this.prepareResponse({ org: responseOrg, meta })
   }
 }

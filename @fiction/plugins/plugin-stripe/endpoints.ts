@@ -110,7 +110,7 @@ export class QueryManageCustomer extends StripeEndpoint {
 
     const org = await this.getOrgData({ orgId, caller }, _meta)
 
-    const { email: email, name: name } = org
+    const { email, name } = org
 
     const customer = await this.stripe().customers.create({
       email,

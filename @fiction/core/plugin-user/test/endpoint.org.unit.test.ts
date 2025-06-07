@@ -88,14 +88,14 @@ describe('org handling', async () => {
 
     expect(response?.status).toBe('success')
 
-    expect(response?.data?.apiSecret?.length).toBeGreaterThan(10)
+    expect(response?.data?.tokens?.api?.length).toBeGreaterThan(10)
 
     const getOrg = await testUtils.fictionUser.queries.ManageOrganization.serve(
       { _action: 'read', where },
       { bearer: workingUser },
     )
 
-    expect(getOrg?.data?.apiSecret?.length).toBeGreaterThan(10)
+    expect(getOrg?.data?.tokens?.api?.length).toBeGreaterThan(10)
   })
 
   it('deletes an organization with proper permissions', async () => {
