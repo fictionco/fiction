@@ -36,7 +36,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   buttons: [
                     {
                       label: 'Own Your Story',
-                      href: '/app/auth/register?_reload=1',
+                      href: '/app/auth?_reload=1',
                       theme: 'primary',
                       design: 'solid',
                       iconAfter: 'i-tabler-arrow-big-right-lines',
@@ -205,7 +205,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                       {
                         label: 'Start Now',
                         icon: 'i-tabler-rocket',
-                        href: '/app/auth/register?_reload=1',
+                        href: '/app/auth?_reload=1',
                         theme: 'primary',
                       },
                     ],

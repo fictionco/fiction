@@ -11,7 +11,7 @@ async function purchaseUrl(args: { priceLookupKey: string, site: Site }) {
 
   const { fictionStripe, fictionUser } = site.fictionSites.fictionEnv.getService<{ fictionStripe: FictionStripe }>()
 
-  const loginPath = '/app/auth/register?_reload=1'
+  const loginPath = '/app/auth?_reload=1'
 
   if (typeof window === 'undefined') {
     return loginPath

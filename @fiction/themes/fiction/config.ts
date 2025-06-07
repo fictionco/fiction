@@ -114,7 +114,7 @@ export async function getConfig(args: {
                       label: 'Start',
                       theme: 'primary',
                       icon: { iconId: 'bolt' },
-                      href: '/app/auth/register?_reload=1',
+                      href: '/app/auth?_reload=1',
                     },
                     {
                       label: 'Contact',

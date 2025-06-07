@@ -180,7 +180,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                     buttons: [
                       {
                         label: 'Build Your Brand',
-                        href: '/app/auth/register?_reload=1',
+                        href: '/app/auth?_reload=1',
                         theme: 'overlay',
                         icon: 'i-tabler-user-circle',
                         design: 'solid',

@@ -47,7 +47,7 @@ describe('settings e2e', async () => {
       actions: [
         { type: 'fill', selector: '[data-option-path="orgName"] input', text: 'Updated Org Name' },
         { type: 'fill', selector: '[data-option-path="orgEmail"] input', text: 'updated@example.com' },
-        { type: 'fill', selector: '[data-option-path="headline"] input', text: 'Updated headline' },
+        { type: 'fill', selector: '[data-option-path="profile.headline"] input', text: 'Updated headline' },
         { type: 'click', selector: '[data-test-id="saveButton"]', waitAfter: 2000 },
       ],
     })
@@ -64,7 +64,6 @@ describe('settings e2e', async () => {
       path: '/app/settings/account',
       actions: [
         { type: 'fill', selector: '[data-option-path="fullName"] input', text: 'Updated Full Name' },
-        { type: 'fill', selector: '[data-option-path="headline"] input', text: 'Updated user headline' },
         { type: 'click', selector: '[data-test-id="saveButton"]', waitAfter: 2000 },
 
       ],
