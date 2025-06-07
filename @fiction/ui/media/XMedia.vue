@@ -107,7 +107,7 @@ async function initVideoFirstFrame(video: HTMLVideoElement) {
 }
 
 vue.onMounted(async () => {
-  isMobile.value = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+  isMobile.value = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 'ontouchstart' in window
 
   vue.watch(
     () => media?.url,
