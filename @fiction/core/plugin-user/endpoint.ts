@@ -10,7 +10,7 @@ import { Query } from '../query.js'
 import { standardTable as t } from '../tbl.js'
 import { getGeoFree } from '../utils/geo.js'
 import { ensureUniqueHandle } from '../utils/handle.js'
-import { abort, dayjs, getRequestIpAddress } from '../utils/index.js'
+import { abort, dayjs, deepMerge, getRequestIpAddress } from '../utils/index.js'
 import { checkPasswordIsComplicated, comparePassword, defaultOrgName, emailExists, getCode, hashPassword, validateNewEmail, verifyCode } from './utils/index.js'
 
 export type UserQuerySettings = {
@@ -180,7 +180,10 @@ export class QueryManageUser extends UserBaseQuery {
     // User doesn't exist - create if email provided
     const { email } = where as { email?: string }
     if (email) {
-      const fields: CreateUserFields = { onboard: { phase: 'initial' }, ...createUserFields, email }
+    // Ensure onboard is properly merged
+      const defaultFields = { email, onboard: { phase: 'initial' } } as const
+      const fields = deepMerge([defaultFields, createUserFields || {}]) as CreateUserFields
+
       user = await this.createUser({ _action: 'create', fields }, { ..._meta, server: true })
       return { user, isNew: true }
     }
@@ -329,31 +332,40 @@ export class QueryManageUser extends UserBaseQuery {
     return user
   }
 
-  private async createDefaultOrganization(fields: CreateUserFields, meta: EndpointMeta): Promise<Organization> {
+  private async createDefaultOrganization(fields: CreateUserFields, meta: EndpointMeta) {
     const { fictionUser } = this.settings
     const { userId, email, orgId, onboard } = fields
-
+    const db = this.db()
     if (!userId)
       throw abort('userId required to make default org')
 
     const name = fields.name || fields.fullName || defaultOrgName(email)
 
+    const createFields = {
+      name,
+      email,
+      orgId,
+      onboard,
+      ownerId: userId,
+    }
+
     const response = await fictionUser.queries.ManageOrganization.serve(
       {
         _action: 'create',
         userId,
-        fields: { name, email, orgId, onboard, ownerId: userId },
+        fields: createFields,
         withDefaults: true,
       },
       { server: true, ...meta },
     )
 
     const org = response.data
-
-    if (!org)
+    if (!org?.orgId)
       throw abort('problem creating default org')
 
-    return org
+    const [user] = await db(t.user).update({ loadOrgId: org?.orgId, primaryOrgId: org?.orgId }).where({ userId }).returning<User[]>('*')
+
+    return { user, org }
   }
 
   private async updateCurrentUser(params: ManageUserParams & { _action: 'updateCurrentUser' }, meta: EndpointMeta): Promise<User | undefined> {
@@ -408,7 +420,8 @@ export class QueryManageUser extends UserBaseQuery {
 
     const table = t.user
     const verify = { code: getCode(), expiresAt: dayjs().add(1, 'day').toISOString(), context: 'create' }
-    const insertFields = fictionDb.prep({ type: 'internal', fields: { ...fields, verify }, meta: { server: true }, table })
+    const f = deepMerge([fields, { verify }])
+    const insertFields = fictionDb.prep({ type: 'internal', fields: f, meta: { server: true }, table })
 
     const [user] = await db.insert(insertFields).into(table).returning<User[]>('*')
 
@@ -590,13 +603,14 @@ export class QueryManageUser extends UserBaseQuery {
 
       // this ensures that a user has at least one org
       if (orgsResponse.status === 'success' && !hasOrgs) {
-        const p = params as ManageUserParams & { _action: 'create' }
-        const name = p.fields?.name
-        const orgId = p.fields?.orgId
-        const r = await this.createDefaultOrganization({ email: user.email as string, ...user, name, orgId }, meta)
+        const p = params as ManageUserParams & { _action: 'create', createUserFields?: CreateUserFields }
+        const createFields = deepMerge([p.fields || p.createUserFields, { email: user.email, userId: user.userId }]) as CreateUserFields
+        const { org } = await this.createDefaultOrganization(createFields, meta)
 
-        if (r)
-          user.orgs = [r]
+        if (org) {
+          user.orgs = [org, ...(user.orgs || [])]
+          user.loadOrgId = org.orgId
+        }
       }
     }
 

@@ -357,8 +357,6 @@ export class QueryManageOrganization extends OrgQuery {
       updatedFields.handle = await ensureUniqueHandle({ db: this.db(), table: t.org, handle: updatedFields.handle, excludeId: where.orgId, idColumn: 'orgId' })
     }
 
-    this.log.debug('updateOrganization', { data: { where, updatedFields, fields } })
-
     const [responseOrg] = await this.db()
       .update(updatedFields)
       .where(where)

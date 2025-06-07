@@ -16,15 +16,30 @@ export async function setupSystemOrg(args: { fictionUser: FictionUser }) {
 
   const adminUsers = await Promise.all(adminList.map(async (email) => {
     const { data: admin } = await fictionUser.queries.ManageUser.serve(
-      { _action: 'getCreate', where: { email } },
+      {
+        _action: 'getCreate',
+        where: { email },
+        createUserFields: {
+          onboard: { phase: 'initial' },
+          isSuperAdmin: true,
+          emailVerified: true,
+          systemRole: 'admin',
+        },
+      },
       { server: true },
     )
 
     return admin
   }))
 
+  const ownerId = adminUsers[0]?.userId
+
+  if (!ownerId) {
+    throw new Error('No ownerId found for system org setup')
+  }
+
   const r = await fictionUser.queries.ManageOrganization.serve(
-    { _action: 'create', fields: { orgId: systemOrgId, name, email, ownerId: adminUsers[0]?.userId } },
+    { _action: 'create', fields: { orgId: systemOrgId, name, email, ownerId } },
     { server: true },
   )
 

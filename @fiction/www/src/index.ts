@@ -28,7 +28,7 @@ function META(): MetaAppDetails {
   return {
     version,
     name: 'Fiction',
-    email: 'admin@fiction.com',
+    email: 'hello@fiction.com',
     url: 'https://www.fiction.com',
     domain: 'fiction.com',
     termsUrl: 'https://docs.fiction.com/resources/terms.html',
