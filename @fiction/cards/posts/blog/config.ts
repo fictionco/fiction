@@ -63,7 +63,8 @@ export async function getConfig(args: { templateId: string, factory: CardFactory
     schema,
     userConfig: {
       featuredCount: 1,
-      title: '[@promise]',
+      title: '[@hero]',
+      subTitle: 'Latest articles by [@name]',
     },
   }
 }

@@ -33,7 +33,8 @@ export const theme = new Theme({
               templateId: 'cardBlogV1',
               userConfig: {
                 featuredCount: 1,
-                title: '[@promise]',
+                title: '[@hero]',
+                subTitle: 'Latest articles by [@name]',
               },
             }),
           ],

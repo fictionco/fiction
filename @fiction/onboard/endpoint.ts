@@ -1,8 +1,9 @@
 import type { EndpointMeta, EndpointResponse, MediaObject } from '@fiction/core'
+import type { OrgProfile } from '@fiction/core/schemas/org'
 import type { FictionOnboardSettings } from '.'
 import type { AiEnhancement } from './generation'
 import type { LinkedInEnrichmentProfile, ProfileData } from './util'
-import { abort, Query } from '@fiction/core'
+import { abort, deepMerge, Query } from '@fiction/core'
 import { AiEnhancementSchema, getGenerationParams } from './generation'
 import { accountFromProfile, createHandle, getMockLinkedInData, profileFromAccount } from './util'
 
@@ -85,7 +86,7 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
   ): Promise<EndpointResponse<ProfileData>> {
     const { userId, orgId, profile } = params
 
-    const { linkedinHandle } = params.profile
+    const linkedinHandle = params.profile.accounts?.linkedin?.handle
 
     if (!linkedinHandle)
       throw abort('LinkedIn handle is required')
@@ -167,41 +168,52 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     const aiEnhancement = await this.enhanceProfileWithAi({ linkedinData, orgId, userId, isTest })
     const avatar = avatarUrl ? await this.processAvatarToMedia({ url: avatarUrl }, orgId, userId) : undefined
 
-    return {
+    const enrichData = {
       name,
       handle,
-      industry: linkedinData.industry,
-      city: linkedinData?.city,
-      state: linkedinData?.state,
-      country: linkedinData?.country,
+      profile: {
+        industry: linkedinData.industry || '',
+      },
+      location: {
+        city: linkedinData?.city || '',
+        state: linkedinData?.state || '',
+        country: linkedinData?.country || '',
+      },
       avatar,
-      linkedinFollowers: linkedinData.follower_count,
-      linkedinHandle: linkedinData.public_identifier,
-      ...aiEnhancement,
+      accounts: {
+        linkedin: {
+          handle,
+          followerCount: linkedinData.follower_count || 0,
+        },
+      },
     }
+
+    return deepMerge([enrichData, aiEnhancement])
   }
 
   private async enhanceProfileWithAi(args: { linkedinData: LinkedInEnrichmentProfile, orgId: string, userId: string, isTest?: boolean }): Promise<AiEnhancement> {
     const { orgId, userId, linkedinData, isTest } = args
     const params = getGenerationParams({ linkedinData })
 
-    const getDefaultData = () => {
+    const getMockAiFallback = (): AiEnhancement => {
       const { headline, summary = '', skills } = linkedinData
       return {
-        promise: 'Grow Your Influence',
-        headline: headline || 'Leader',
-        about: summary || 'An experienced professional with a passion for innovation.',
-        interests: skills?.slice(0, 5).map(s => s.name) || ['Innovation', 'Technology'],
-        influences: [],
-        pillars: [],
-        clout: 0,
-        goal: 'Build a personal brand.',
+        profile: {
+          hero: 'Grow Your Influence',
+          headline: headline || 'Leader',
+          summary: summary || 'An experienced professional with a passion for innovation.',
+          interests: skills?.slice(0, 5).map(s => s.name) || ['Innovation', 'Technology'],
+          influences: [],
+          pillars: [],
+          clout: 0,
+          goal: 'Build a personal brand.',
+        },
       }
     }
 
     if (isTest) {
       this.log.info('Using mock data for AI enhancement', { handle: linkedinData.public_identifier })
-      return getDefaultData()
+      return getMockAiFallback()
     }
 
     try {
@@ -215,7 +227,7 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
     }
     catch (error) {
       this.log.error('AI enhancement failed', { error })
-      return getDefaultData()
+      return getMockAiFallback()
     }
   }
 

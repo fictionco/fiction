@@ -22,16 +22,16 @@ ${post.title
 ${post.content ? `Existing: ${post.content.substring(0, 200)}${post.content.length > 200 ? '...' : ''}` : ''}
 
 Brand Context:
-${org.promise ? `Content Promise: ${org.promise}` : ''}
-${org.headline ? `Brand Headline: ${org.headline}` : ''}
-${org.about ? `About Brand: ${org.about}` : ''}
-${org.interests ? `Interests: ${org.interests.join(', ')}` : ''}
-${org.influences ? `Influences: ${org.influences.join(', ')}` : ''}
-${org.pillars ? `Pillars: ${org.pillars.join(', ')}` : ''}
+${org.profile?.hero ? `Hero Title: ${org.profile?.hero}` : ''}
+${org.profile?.headline ? `Brand Headline: ${org.profile?.headline}` : ''}
+${org.profile?.summary ? `About Brand: ${org.profile.summary}` : ''}
+${org.profile?.interests ? `Interests: ${org.profile.interests.join(', ')}` : ''}
+${org.profile?.influences ? `Influences: ${org.profile.influences.join(', ')}` : ''}
+${org.profile?.pillars ? `Pillars: ${org.profile.pillars.join(', ')}` : ''}
 
 
 CRITICAL STYLE GUIDE:
-${org.promptContent || ''}
+${org.prompt?.content || ''}
 - Be concise, less is more. If in doubt, cut it out.
 - Avoid jargon and overly technical/verbose wording
 - Avoid cliches and overused phrases

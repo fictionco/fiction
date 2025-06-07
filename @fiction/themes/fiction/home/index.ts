@@ -37,7 +37,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                     text: 'Your Personal Brand Made Easy',
                     icon: { class: 'i-tabler-trending-up' },
                   },
-                  title: `Your Digital Presence in Under [@text_effect type=line]3 Minutes[/@text_effect].`,
+                  title: `Create Your Personal Brand in Under [@text_effect type=line]3 Minutes[/@text_effect].`,
                   subTitle: `Fiction is the best way to create and share your content and portfolio online. Designed for the next-generation of leaders.`,
 
                   action: {
@@ -162,8 +162,8 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                     icon: { class: 'i-tabler-rocket' },
                     text: 'AI-Optimize Your Personal Brand',
                   },
-                  title: 'Create Your Digital Self',
-                  content: 'Use Fiction to tell your story, express your expertise, and build your network.',
+                  title: 'Your Digital Self',
+                  content: 'Ready for the AI future? Use Fiction to tell your story, express your expertise, and build your network.',
                   theme: 'blue',
                   themeMode: 'dark',
                   verticalPosition: 'bottom',

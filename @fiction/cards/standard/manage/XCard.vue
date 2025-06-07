@@ -35,7 +35,7 @@ const actionConfig: Record<string, ActionConfig> = {
     message: 'Your subscription has been confirmed',
     icon: 'i-tabler-check',
     iconClass: 'bg-green-900/30 text-green-300',
-    autoAction: () => updateContact('active'),
+    autoAction: () => createOrUpdateContact('active'),
     showOptions: false,
   },
   unsubscribeOneClick: {
@@ -43,7 +43,7 @@ const actionConfig: Record<string, ActionConfig> = {
     message: 'You have been unsubscribed from our newsletter',
     icon: 'i-tabler-check',
     iconClass: 'bg-green-900/30 text-green-300',
-    autoAction: () => updateContact('unsubscribed'),
+    autoAction: () => createOrUpdateContact('unsubscribed'),
     showOptions: false,
   },
   manage: {
@@ -78,7 +78,8 @@ const currentAction = computed(() => {
 })
 
 const config = computed(() => {
-  if (!contact.value) {
+  // Only show "no contact" error for manage action when contact doesn't exist
+  if (!contact.value && currentAction.value === 'manage') {
     return actionConfig.noContact
   }
   return actionConfig[currentAction.value]
@@ -93,19 +94,10 @@ async function loginUser() {
   if (!token)
     return
 
-  const userService = site.value.fictionSites.settings.fictionUser
-  const response = await userService?.requests.ManageUser.request({
-    _action: 'getUserWithToken',
-    token,
-    code,
-  })
+  const response = await fictionUser?.requests.ManageUser.request({ _action: 'getUserWithToken', token, code })
 
   if (response?.status === 'success' && response.data) {
-    await userService?.setCurrentUser({
-      user: response.data,
-      token,
-      reason: 'contactTransaction',
-    })
+    await fictionUser?.setCurrentUser({ user: response.data, token, reason: 'contactTransaction' })
   }
 }
 
@@ -126,24 +118,41 @@ async function loadContact() {
   status.value = contact.value?.status || 'active'
 }
 
-async function updateContact(newStatus: SyndicateStatus) {
-  const { targetOrgId, userId } = query.value
-  if (!contact.value || !targetOrgId || !userId) {
-    throw new Error('Missing required contact information')
+async function createOrUpdateContact(newStatus: SyndicateStatus) {
+  const { targetOrgId, userId, email } = query.value
+
+  if (!targetOrgId) {
+    throw new Error('Missing targetOrgId')
   }
 
-  await api()?.request({
-    _action: 'current',
-    targetOrgId,
-    userId,
-    fields: { status: newStatus },
-  })
+  if (!email) {
+    throw new Error('Missing email')
+  }
 
+  // If contact exists, update it
+  if (contact.value) {
+    await api()?.request({
+      _action: 'current',
+      targetOrgId,
+      userId,
+      fields: { status: newStatus },
+    })
+  }
+  else {
+    // Create new contact if it doesn't exist
+    await api()?.request({
+      _action: 'create',
+      orgId: targetOrgId,
+      contact: { email, status: newStatus },
+    })
+  }
+
+  // Reload contact data
   await loadContact()
 }
 
 async function handleStatusChange(newStatus: SyndicateStatus) {
-  await updateContact(newStatus)
+  await createOrUpdateContact(newStatus)
   status.value = newStatus
 }
 

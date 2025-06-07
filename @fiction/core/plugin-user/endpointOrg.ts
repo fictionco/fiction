@@ -114,7 +114,7 @@ export class QueryOrganizationsByUserId extends QueryOrganization {
 
     // use development/test values for customer in development mode
     if (this.settings.fictionEnv?.isTest.value) {
-      org.customerId = org.customerIdTest
+      org.billing = { ...org.billing, customerId: org.billing?.customerIdTest }
     }
 
     // remove nulls from empty joins

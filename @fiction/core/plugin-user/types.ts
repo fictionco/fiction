@@ -1,6 +1,7 @@
 import type stripe from 'stripe'
 import type { MediaObject, ProgressStatus } from '../schemas/index.js'
 import type { ColType } from '../tbl.js'
+import type { ColorThemeBright } from '../utils/colors.js'
 import type { UserCapability } from '../utils/priv.js'
 import type { membersColumns, orgColumns, userColumns } from './schema.js'
 import { z } from 'zod/v4'
@@ -81,53 +82,6 @@ export type User = Partial<ColType<typeof userColumns>> & {
   orgs?: Organization[]
   relation?: OrganizationMember
 }
-
-export type SocialAccounts = Partial<{
-  github?: string
-  x?: string
-  linkedin?: string
-  facebook?: string
-  crunchbase?: string
-  instagram?: string
-  youtube?: string
-  pinterest?: string
-  snapchat?: string
-  tiktok?: string
-  calendar?: string
-  discord?: string
-  reddit?: string
-  twitch?: string
-  patreon?: string
-  substack?: string
-  medium?: string
-  whatsapp?: string
-  telegram?: string
-}>
-
-export type UserCompany = Partial<{
-  name: string
-  role: string
-  seniority: string
-  websiteUrl: string
-  employeeCount: number
-  industry: string
-  location: string
-  description: string
-  keywords: string[]
-  founded: string
-  funding: string
-  revenue: string
-  accounts: SocialAccounts
-  address: StreetAddress
-}>
-
-export type StreetAddress = Partial<{
-  street: string
-  city: string
-  state: string
-  postalCode: string
-  country: string
-}>
 
 export type OrganizationMember = Partial<
   ColType<typeof membersColumns> & {

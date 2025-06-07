@@ -51,6 +51,7 @@ export type SitesPluginSettings = {
 } & FictionPluginSettings
 
 export type SiteHookEvents = {
+  siteCreated: (args: { site: Site }) => Promise<void>
   setPages: (args: { cards: CardConfigPortable[], site: Site | undefined }) => Promise<void>
 }
 

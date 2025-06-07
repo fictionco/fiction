@@ -55,7 +55,7 @@ describe('settings e2e', async () => {
     const org = await getOrg()
     expect(org?.orgName).toBe('Updated Org Name')
     expect(org?.orgEmail).toBe('updated@example.com')
-    expect(org?.headline).toBe('Updated headline')
+    expect(org?.profile?.headline).toBe('Updated headline')
   })
 
   it('updates user account settings', { timeout: 60000, retry: isCi() ? 2 : 0 }, async () => {
@@ -72,7 +72,6 @@ describe('settings e2e', async () => {
 
     const user = await getUser()
     expect(user?.fullName).toBe('Updated Full Name')
-    expect(user?.headline).toBe('Updated user headline')
   })
 
   it('manages team members', { timeout: 60000, retry: isCi() ? 2 : 0 }, async () => {

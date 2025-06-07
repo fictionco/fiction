@@ -1,21 +1,14 @@
 import type { LinkedInEnrichmentProfile } from './util'
-import { ColorThemeBrightSchema } from '@fiction/core'
 import { ArchetypeKeySchema, ImageStyleKeySchema } from '@fiction/core/schemas/motifs'
+import { BrandingSchema, ProfileSchema } from '@fiction/core/schemas/org'
 
 import { z } from 'zod/v4'
 
 export const AiEnhancementSchema = z.object({
-  headline: z.string().min(5).max(160).describe('Concise 2-4 positioning statement. Tagline suitable for hero headline, social media bio, and email signature. Simple, catchy, and memorable. Avoid cliche words like "innovator", "expert" or "leader".'),
-  promise: z.string().min(5).max(160).describe('Concise 2-4 content value promise. What value users will get from the content. Simple, catchy, and memorable. Avoid cliches and jargon. Example: Grow with Data, Master Barbecue Cooking, Learn the Movie Business.'),
-  about: z.string().min(10).max(400).describe('Short 10-25 word bio suitable for personal brand, blog about section, and professional profiles. Example "I build products that matter. Currently exploring the intersection of AI and human creativity, one breakthrough at a time.'),
-  interests: z.array(z.string()).min(1).max(5).describe('Areas of interest (e.g., history, ai, ux-design, pottery, ecommerce)'),
-  influences: z.array(z.string()).min(1).max(3).describe('Specific people, characters influencing voice and style (e.g, steve-jobs, johnny-depp, cicero)'),
-  pillars: z.array(z.string()).min(0).max(5).describe('Niche topics for content creation (e.g., ai, mobile ux-design, ai-ecommerce)'),
-  goal: z.string().min(10).max(200).describe('Specific, 2-5 word objective for the personal brand, guiding content creation based on current project (e.g., Create Influence in MedTech, Get More Followers, Market My Book, Share Ideas on AI)'),
-  promptImageKey: ImageStyleKeySchema.optional().describe('Image style for the brand, based on influences and interests'),
-  promptContentKey: ArchetypeKeySchema.optional().describe('Content style for the brand, based on influences and interests'),
-  primaryColor: ColorThemeBrightSchema.optional().describe('Primary color for the brand'),
-  clout: z.number().min(0).max(100).describe('Estimated score based on positions at known companies, education quality, location (US and wealthy countries higher), influence (followers, etc): 0(spam), 10(average), to 100(extremely influential)'),
+  profile: ProfileSchema.optional().meta({ description: 'Profile data enriched from LinkedIn or other sources. Includes name, handle, avatar, accounts, location, profile, branding.' }),
+  branding: BrandingSchema.pick({ primaryColor: true }).optional().meta({ description: 'Branding data enriched from LinkedIn or other sources. Includes primary color, image style, content style.' }),
+  promptImageKey: ImageStyleKeySchema.optional().meta({ description: 'Image style for the brand, based on influences and interests' }),
+  promptContentKey: ArchetypeKeySchema.optional().meta({ description: 'Content style for the brand, based on influences and interests' }),
 })
 
 export type AiEnhancement = z.infer<typeof AiEnhancementSchema>
@@ -32,12 +25,12 @@ Objectives
 - Impact: Create memorable, professional outputs that stand out in crowded digital spaces.
 - Conciseness: Deliver sharp, specific content with minimal word count.
 Output Structure
-- Headline: 2-4 word position statement. Capturing unique professional value. Avoid jargon (e.g., "expert," "leader").
+- Description: 2-4 word position statement. Capturing unique professional value. Avoid jargon (e.g., "expert," "leader").
 - Bio: 10-30 words in HTML, highlighting specific achievements and personality. Use vivid details, avoid buzzwords (e.g., "passionate," "innovative").
 - Content Interests: 1-3 interests inferred from hobbies, experience, or background (e.g., sustainability, fitness, tech trends).
 - Influences: 1-3 specific figures or styles shaping tone (e.g., Elon Musk, Marie Forleo, Bauhaus, Stoicism). Base on profile cues or industry trends.
 - Content Pillars: 1-3 niche topics for content creation (e.g., AI ethics, fintech UX, green startups). Align with expertise and interests.
-- Promise: 2-4 word content value promise. What users will gain from the content (e.g., "Mastering AI for Business"). Avoid cliches and jargon.
+- Hero title: 2-4 word content value promise. What users will gain from the content (e.g., "Mastering AI for Business"). Avoid cliches and jargon.
 - Goal: 2-6 word measurable objective for personal brand (e.g., show my work portfolio, discuss movies and latest news). Align with current projects or aspirations.
 - Clout Score: 0-100 based on:
     - Positions at legit companies, high-level work (+10-20).

@@ -106,7 +106,7 @@ function getTitleTag() {
 const iconUrls = vue.computed(() => getHeadIconConfig({ org: org.value }))
 
 const colors = vue.computed(() => {
-  const primaryColor = org.value?.primaryColor || 'blue'
+  const primaryColor = org.value?.branding?.primaryColor || 'blue'
   const themeColor = 'gray'
 
   return {

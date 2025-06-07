@@ -75,7 +75,7 @@ export class QueryManageCustomer extends StripeEndpoint {
     }
 
     if (!liveStripe) {
-      org.customerId = org.customerIdTest
+      org.billing = {...org.billing, customerId: org.billing?.customerIdTest  }
     }
 
     return org
@@ -92,11 +92,11 @@ export class QueryManageCustomer extends StripeEndpoint {
 
     const org = await this.getOrgData({ orgId, caller }, meta)
 
-    if (!org.customerId)
+    if (!org.billing?.customerId)
       return
 
     try {
-      return await stripe.customers.retrieve(org.customerId) as Stripe.Customer & { deleted?: boolean }
+      return await stripe.customers.retrieve(org.billing?.customerId) as Stripe.Customer & { deleted?: boolean }
     }
     catch (error) {
       this.log.error('Payment API Error: Failed to retrieve customer from OrgData', { error, org })

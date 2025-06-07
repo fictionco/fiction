@@ -195,22 +195,6 @@ const detailOptions = [
       createOption({ key: 'inlineUser.avatar', label: 'Contact Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
     ],
   }),
-  createOption({
-    key: 'control.inlineUser.phone',
-    testId: 'contact-phone',
-    label: 'Contact Phone',
-    subLabel: 'The phone number of the contact',
-    input: 'InputControl',
-    valueDisplay: () => {
-      return {
-        status: contact.value?.inlineUser?.phone ? 'ready' : 'optional',
-        data: contact.value?.inlineUser?.phone,
-      }
-    },
-    options: [
-      createOption({ key: 'inlineUser.phone', label: 'Contact Phone', input: 'InputPhone', placeholder: '+1 555 555 5555' }),
-    ],
-  }),
 ]
 
 const adminOptions = [

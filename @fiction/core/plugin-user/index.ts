@@ -20,7 +20,6 @@ import { QueryManageUser } from './endpoint.js'
 import { ManageUserEmail } from './endpointEmail.js'
 import { QueryManageMemberRelation, QueryManageOrganization, QueryOrganizationsByUserId } from './endpointOrg.js'
 import { GetTopValues } from './endpointTopValues.js'
-import { FictionUserEnrich } from './enrich/pluginEnrich.js'
 import { getAdminTables } from './schema.js'
 import { setupSystemOrg } from './utils/systemOrg.js'
 // https://github.com/microsoft/TypeScript/issues/48212
@@ -71,7 +70,6 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   userTokenKey = 'fictionAuthToken'
   activeUser = vue.ref<User>()
   initialized?: Promise<boolean>
-  fictionUserEnrich?: FictionUserEnrich
   resolveUser?: (value: boolean | PromiseLike<boolean>) => void
   events = new TypedEventTarget<UserEventMap>({ fictionEnv: this.settings.fictionEnv })
   tokenSecret = this.settings.tokenSecret
@@ -107,9 +105,6 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     this.serverHandling()
 
     fictionRouter?.addReplacers({ orgId: this.activeOrgId })
-
-    if (!fictionEnv.isApp.value)
-      this.fictionUserEnrich = new FictionUserEnrich({ ...settings, fictionUser: this })
 
     this.initBrowser()
 

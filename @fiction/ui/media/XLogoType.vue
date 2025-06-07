@@ -39,10 +39,10 @@ const activeLogo = vue.computed((): LogoObject => {
     console.error('Organization object is required for brandLogo and brandName variants')
   }
 
-  if (v === 'brandLogo' && org?.logo?.url) {
+  if (v === 'brandLogo' && org?.branding?.logo?.url) {
     return {
       variant: 'media',
-      media: org.logo,
+      media: org.branding?.logo,
     }
   }
 

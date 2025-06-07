@@ -39,7 +39,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
       return
 
     // User events
-    settings.fictionUser.events.on('currentUser', ({ detail: { user } }) => this.identifyUser(user))
+    settings.fictionUser.hooks.on('currentUser', 'monitor:currentUser', ({ user }) => this.identifyUser(user))
     settings.fictionUser.hooks.on('newUserOnboarded', 'monitor:newUserOnboarded', ({ user, org }) => this.handleNewUser({ user, org }))
 
     // Browser monitoring
@@ -58,9 +58,9 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
         name: user?.fullName || 'No Name',
         verified: user?.emailVerified ? 'Yes' : 'No',
         location: [cityName, regionName, countryCode].filter(Boolean).join(', ') || 'Unknown',
-        clout: org?.clout || 0,
+        clout: org?.profile?.clout || 0,
         email: org?.orgEmail || user?.email,
-        headline: org?.headline || 'No Headline',
+        summary: org?.profile?.summary || 'No summary',
         handle: org?.handle || user?.handle || 'No Handle',
       },
     })
@@ -155,7 +155,12 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
   private async setupMixpanel(): Promise<void> {
     try {
       const mixpanel = await import('mixpanel-browser')
-      mixpanel.init(this.settings.mixpanelToken!, { debug: !this.settings.fictionEnv?.isProd.value })
+      mixpanel.init(this.settings.mixpanelToken!, {
+        debug: !this.settings.fictionEnv?.isProd.value,
+        autocapture: true,
+        track_pageview: true,
+        persistence: 'localStorage',
+      })
       window.mixpanel = mixpanel
     }
     catch (error) {

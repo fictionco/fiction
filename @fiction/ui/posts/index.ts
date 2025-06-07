@@ -15,7 +15,7 @@ export async function getDemoPosts(args: { limit?: number, card: Card }) {
       slug: 'typography-essentials',
       authors: [{
         fullName: 'Sarah Chen',
-        title: 'Design Lead',
+        description: 'Design Lead',
         email: 'sarah@example.com',
         avatar: stock.getRandomByTags(['person']),
       }],
@@ -73,7 +73,7 @@ export async function getDemoPosts(args: { limit?: number, card: Card }) {
       slug: 'code-review-tips',
       authors: [{
         fullName: 'Marcus Chen',
-        title: 'Senior Engineer',
+        description: 'Senior Engineer',
         email: 'marcus@tech.co',
         avatar: stock.getRandomByTags(['person']),
       }],
@@ -149,7 +149,7 @@ Nullish coalescing is perfect for these cases.`,
       slug: 'styling-edge-cases',
       authors: [{
         fullName: 'Test Engineer',
-        title: 'QA Specialist',
+        description: 'QA Specialist',
         email: 'test@example.com',
         avatar: stock.getRandomByTags(['person']),
       }],
@@ -217,7 +217,7 @@ const veryLongFunctionName = (param1, param2, param3, param4) => someVeryLongCal
       slug: 'performance-metrics',
       authors: [{
         fullName: 'Alex Rivera',
-        title: 'Performance Engineer',
+        description: 'Performance Engineer',
         email: 'alex@perf.com',
         avatar: stock.getRandomByTags(['person']),
       }],

@@ -67,10 +67,12 @@ describe('queryManageOnboard endpoint', async () => {
         orgId,
         orgName: 'John Doe',
         handle: 'johndoe',
-        headline: 'Creative Product Strategist',
-        about: 'I transform complex challenges into elegant solutions.',
-        interests: ['Product Design', 'UX Research', 'Design Systems', 'Innovation Strategy'],
-        influences: ['Dieter Rams', 'Don Norman'],
+        profile: {
+          headline: 'Creative Product Strategist',
+          summary: 'I transform complex challenges into elegant solutions.',
+          interests: ['Product Design', 'UX Research', 'Design Systems', 'Innovation Strategy'],
+          influences: ['Dieter Rams', 'Don Norman'],
+        },
         avatar: { url: 'https://processed-image-url.jpg' },
       },
     })
@@ -87,7 +89,7 @@ describe('queryManageOnboard endpoint', async () => {
   it('should enrich profile from LinkedIn URL', async () => {
     // Execute the query
     const result = await queryOnboard.serve(
-      { _action: 'enrichFromLinkedIn', profile: { linkedinHandle: testLinkedInHandle }, userId, orgId },
+      { _action: 'enrichFromLinkedIn', profile: { accounts: { linkedin: { handle: testLinkedInHandle } } }, userId, orgId },
       { server: true },
     )
 
@@ -186,7 +188,7 @@ describe('queryManageOnboard endpoint', async () => {
     } as Response)
 
     const result = await queryOnboard.run(
-      { _action: 'enrichFromLinkedIn', profile: { linkedinHandle: testLinkedInHandle }, userId, orgId },
+      { _action: 'enrichFromLinkedIn', profile: { accounts: { linkedin: { handle: testLinkedInHandle } } }, userId, orgId },
       { server: true },
     )
 
@@ -241,7 +243,7 @@ describe('queryManageOnboard endpoint', async () => {
     })
 
     const result = await queryOnboard.run(
-      { _action: 'enrichFromLinkedIn', profile: { linkedinHandle: testLinkedInHandle }, userId, orgId },
+      { _action: 'enrichFromLinkedIn', profile: { accounts: { linkedin: { handle: testLinkedInHandle } } }, userId, orgId },
       { server: true },
     )
 

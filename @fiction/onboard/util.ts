@@ -1,39 +1,23 @@
-import type { ColorThemeBright } from '@fiction/core'
 import type { Organization, User } from '@fiction/core/plugin-user'
-import type { ArchetypeKey, ImageStyleKey } from '@fiction/core/schemas/motifs'
-import { getArchetypesStyles, getImageStyles } from '@fiction/core/schemas/motifs'
+import { MediaSchema } from '@fiction/core'
+import { ArchetypeKeySchema, getArchetypesStyles, getImageStyles, ImageStyleKeySchema } from '@fiction/core/schemas/motifs'
+import { BrandingSchema, GeoLocationSchema, ProfileSchema, SocialAccountsSchema } from '@fiction/core/schemas/org'
+import { z } from 'zod/v4'
 
-export type ProfileData = {
-  name?: string
-  handle?: string
-  avatar?: { url?: string }
+export const ProfileDataSchema = z.object({
+  name: z.string().optional(),
+  handle: z.string().optional(),
+  avatar: MediaSchema.optional(),
+  accounts: SocialAccountsSchema.optional(),
+  location: GeoLocationSchema.optional(),
+  profile: ProfileSchema.optional(),
+  branding: BrandingSchema.optional(),
+  promptImageKey: ImageStyleKeySchema.optional(),
+  promptContentKey: ArchetypeKeySchema.optional(),
+  needsOnboarding: z.boolean().optional(),
+})
 
-  linkedinHandle?: string
-  linkedinFollowers?: number
-
-  city?: string
-  state?: string
-  country?: string
-
-  goal?: string
-  headline?: string
-  promise?: string
-  about?: string
-  interests?: string[]
-  influences?: string[]
-  industry?: string
-  pillars?: string[]
-  postTitles?: string[]
-
-  clout?: number
-
-  promptImageKey?: ImageStyleKey
-  promptContentKey?: ArchetypeKey
-  primaryColor?: ColorThemeBright | ''
-
-  needsOnboarding?: boolean
-
-}
+export type ProfileData = z.infer<typeof ProfileDataSchema>
 
 export type LinkedInEnrichmentProfile = {
   public_identifier?: string
@@ -72,15 +56,10 @@ export function profileFromAccount(args: { user?: User, org?: Organization }): P
   return {
     name: org?.orgName || user?.fullName,
     handle: org?.handle || user?.handle,
-    headline: org?.headline,
-    promise: org?.promise,
-    about: org?.about || user?.about,
-    avatar: org?.avatar || user?.avatar,
-    interests: org?.interests || [],
-    influences: org?.influences || [],
-    linkedinHandle: org?.accounts?.linkedin || user?.accounts?.linkedin,
-    needsOnboarding: org?.needsOnboarding || user?.needsOnboarding,
-    primaryColor: org?.primaryColor,
+    profile: org?.profile,
+    accounts: org?.accounts,
+    branding: org?.branding,
+    needsOnboarding: org?.needsOnboarding,
   }
 }
 
@@ -93,8 +72,6 @@ export function accountFromProfile(profile: ProfileData): {
 } {
   const userFields: Partial<User> = {
     fullName: profile.name,
-    handle: profile.handle,
-    about: profile.about,
     avatar: profile.avatar,
     needsOnboarding: profile.needsOnboarding,
   }
@@ -102,17 +79,16 @@ export function accountFromProfile(profile: ProfileData): {
   const orgFields: Partial<Organization> = {
     orgName: profile.name,
     handle: profile.handle,
-    headline: profile.headline,
-    promise: profile.promise,
-    about: profile.about,
-    interests: profile.interests,
-    influences: profile.influences,
+    profile: profile.profile,
     avatar: profile.avatar,
     needsOnboarding: profile.needsOnboarding,
-    goal: profile.goal,
-    promptContent: getArchetypesStyles().find(a => a.value === profile.promptContentKey)?.info || '',
-    promptImage: getImageStyles().find(a => a.value === profile.promptImageKey)?.info || '',
-    primaryColor: profile.primaryColor,
+    prompt: {
+      image: getImageStyles().find(a => a.value === profile.promptImageKey)?.info || '',
+      content: getArchetypesStyles().find(a => a.value === profile.promptContentKey)?.info || '',
+    },
+    branding: profile.branding,
+    location: profile.location,
+    accounts: profile.accounts,
   }
 
   return { userFields, orgFields }

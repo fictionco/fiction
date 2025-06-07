@@ -96,7 +96,7 @@ const opts = vue.computed(() => {
         }),
         createOption({
           schema,
-          key: 'headline',
+          key: 'profile.headline',
           label: 'Headline',
           input: 'InputUrl',
           isRequired: true,
@@ -105,8 +105,8 @@ const opts = vue.computed(() => {
         }),
         createOption({
           schema,
-          key: 'about',
-          label: 'About',
+          key: 'profile.summary',
+          label: 'About / Summary',
           input: 'InputTextarea',
           isRequired: true,
           placeholder: 'Enter a description',
@@ -121,7 +121,7 @@ const opts = vue.computed(() => {
         }),
         createOption({
           schema,
-          key: 'logo',
+          key: 'branding.logo',
           label: 'Logo',
           subLabel: 'For visual identity',
           input: 'InputMedia',
@@ -129,7 +129,7 @@ const opts = vue.computed(() => {
         }),
         createOption({
           schema,
-          key: 'primaryColor',
+          key: 'branding.primaryColor',
           label: 'Primary Color',
           input: 'InputColorTheme',
           placeholder: 'Default',
@@ -206,7 +206,7 @@ const opts = vue.computed(() => {
 
         createOption({
           schema,
-          key: 'googleAnalyticsId',
+          key: 'tracking.googleAnalyticsId',
           label: 'Google Analytics ID',
           description: 'Your Measurement ID (G-XXXXXXXXXX) to enable website analytics tracking.',
           input: 'InputText',
@@ -228,7 +228,13 @@ const opts = vue.computed(() => {
       input: 'group',
       isHidden: !service.fictionUser.activeUser.value?.isSuperAdmin,
       options: [
-        createOption({ schema, key: 'specialPlan', label: 'Assign a Special Pricing Plan', input: 'InputSelect', list: ['standard', 'vip', 'non-profit'] }),
+        createOption({
+          schema,
+          key: 'billing.specialPlan',
+          label: 'Assign a Special Pricing Plan',
+          input: 'InputSelect',
+          list: ['standard', 'vip', 'non-profit'],
+        }),
         createOption({
           key: 'control.delete',
           testId: 'deleteOrg',

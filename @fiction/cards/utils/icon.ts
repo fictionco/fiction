@@ -39,7 +39,7 @@ export function getHeadIconConfig(args: { org?: Organization }) {
   // Get configured icons or defaults
   const defaultIcons = getSiteIcons()
 
-  const icon = org?.icon?.url || org?.avatar?.url
+  const icon = org?.branding?.icon?.url || org?.avatar?.url
 
   const faviconUrl = icon || defaultIcons.favicon
   const iconUrl = icon || defaultIcons.appleTouchIcon

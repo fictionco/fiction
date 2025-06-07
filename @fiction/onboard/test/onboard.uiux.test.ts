@@ -117,12 +117,13 @@ describe('onboard UX', { retry: isCi() ? 3 : 0 }, async () => {
     expect(org, 'Organization should be created').toBeTruthy()
     expect(org?.handle, 'Organization handle should match').toContain(testHandle)
     expect(org?.orgName, 'Organization name should match').toBe(testName)
-    expect(org?.headline, 'Organization headline should match').toBe(testHeadline)
-    expect(org?.about, 'Organization about should match').toBe(testAbout)
-    expect(org?.promise, 'Organization promise should match').toBe(testPromise)
-    expect(org?.interests, 'Organization interests should match').toEqual(expect.arrayContaining(testInterests.map(i => toSlug(i))))
-    expect(org?.influences, 'Organization influences should match').toEqual(expect.arrayContaining(testInfluences.map(i => toSlug(i))))
-    expect(org?.primaryColor, 'Organization primary color should match').toBe('blue')
+    const profile = org?.profile || {}
+    expect(profile?.headline, 'Organization headline should match').toBe(testHeadline)
+    expect(profile?.summary, 'Organization about should match').toBe(testAbout)
+    expect(profile?.hero, 'Organization promise should match').toBe(testPromise)
+    expect(profile?.interests, 'Organization interests should match').toEqual(expect.arrayContaining(testInterests.map(i => toSlug(i))))
+    expect(profile?.influences, 'Organization influences should match').toEqual(expect.arrayContaining(testInfluences.map(i => toSlug(i))))
+    expect(org?.branding?.primaryColor, 'Organization primary color should match').toBe('blue')
 
     // Verify content was created
     const postsResponse = await kit.testUtils?.fictionPosts.queries.ManagePost.serve(

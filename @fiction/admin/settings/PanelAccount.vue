@@ -56,8 +56,6 @@ const detailOptions: InputOption[] = [
   createOption({ schema, key: 'fullName', label: 'Full Name', input: 'InputText', placeholder: 'Enter Your Name', isRequired: true }),
   createOption({ schema, key: 'avatar', label: 'User Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
   createOption({ schema, key: 'handle', label: 'Username', input: 'InputHandle', placeholder: 'my-username', props: { table: 'fiction_user', columns: [{ name: 'username' }] } }),
-  createOption({ schema, key: 'headline', label: 'Profile Headline', input: 'InputText', placeholder: 'Enter Headline' }),
-  createOption({ schema, key: 'about', label: 'About', input: 'InputTextarea', placeholder: 'Enter a short bio' }),
 ]
 
 const options = vue.computed(() => {
@@ -68,22 +66,6 @@ const options = vue.computed(() => {
       icon: { class: 'i-tabler-user' },
       input: 'group',
       options: detailOptions,
-    }),
-    createOption({
-      key: 'userDetails',
-      label: 'Social',
-      input: 'group',
-      icon: { class: 'i-tabler-social' },
-      options: [
-        createOption({ schema, key: 'accounts.x', label: 'X / Twitter Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.instagram', label: 'Instagram Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.linkedin', label: 'LinkedIn Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.facebook', label: 'Facebook Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.github', label: 'GitHub Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.youtube', label: 'YouTube Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.pinterest', label: 'Pinterest Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.tiktok', label: 'TikTok Username', input: 'InputText', placeholder: 'username' }),
-      ],
     }),
   ]
 })

@@ -92,7 +92,7 @@ const details = vue.computed<PostObject>(() => {
   const name = org?.orgName
   return {
     title: config?.title || name,
-    subTitle: config?.subTitle || org?.about || `Stay updated with the latest from ${name || 'this publication'}.`,
+    subTitle: config?.subTitle || org?.profile?.summary || `Stay updated with the latest from ${name || 'this publication'}.`,
     media: org?.avatar,
     theme: 'primary',
   }

@@ -145,7 +145,8 @@ export class QueryAi extends Query<QueryAiSettings> {
     const stock = await createStockMediaHandler()
     const org = await this.getOrg({ orgId })
 
-    const primaryColor = org?.primaryColor ? getColorScheme(org?.primaryColor, { outputFormat: 'hex' }) : undefined
+    const primaryColor = org?.branding?.primaryColor
+    const primaryColorScheme = primaryColor ? getColorScheme(primaryColor, { outputFormat: 'hex' }) : undefined
 
     const sc = new Shortcodes<{
       image_url: { orientation?: 'portrait' | 'landscape' | 'squarish', subject?: string }
@@ -161,8 +162,8 @@ export class QueryAi extends Query<QueryAiSettings> {
           const prompt = [
             `Prompt: ${s}`,
             `Constraints: make SURE the image has no text, logos, or watermarks on it.`,
-            `Style: ${org?.promptImage || 'Golden ratio, extremely minimalist, high contrast, sharp focus, Clean.'}`,
-            `${primaryColor ? `Color: Brand primary color is ${org?.primaryColor} (${primaryColor[600]}). Optionally use this color and its compliments. Not required.` : ''}`,
+            `Style: ${org?.prompt?.image || 'Golden ratio, extremely minimalist, high contrast, sharp focus, Clean.'}`,
+            `${primaryColorScheme ? `Color: Brand primary color is ${primaryColor} (${primaryColorScheme[600]}). Optionally use this color and its compliments. Not required.` : ''}`,
 
           ].filter(Boolean).join('\n')
 
@@ -325,105 +326,4 @@ export class QueryAi extends Query<QueryAiSettings> {
     }
   }
 
-  //   // System message templates
-  //   private getWebsiteCopyGuidelines(): string {
-  //     return `<expert_copywriter>
-  // You are an elite copywriter with 20+ years of experience creating sharp, concise marketing copy.
-  // Your goal is to craft compelling, customer-centric content that converts.
-
-  // <principles>
-  // - Write with precision and clarity - every word must earn its place
-  // - Focus on customer pain points and practical solutions
-  // - Use direct language that builds credibility and trust
-  // - Employ neurolinguistic patterns that motivate action
-  // - Create copy that's both SEO-effective and human-engaging
-  // </principles>
-
-  // <avoid>
-  // - Clichés, buzzwords, and marketing jargon
-  // - Excessive adjectives and adverbs
-  // - Hyperbole and unsubstantiated claims
-  // - Generic statements that could apply to any business
-  // - Redundancy and unnecessary words
-  // </avoid>
-  // </expert_copywriter>`
-  //   }
-
-  //   private getAutocompleteGuidelines(): string {
-  //     return `<autocomplete_assistant>
-  // You are an elite writing assistant specializing in precise, engaging suggestions.
-
-  // <output_guidelines>
-  // - Provide concise, impactful completions (3-16 words)
-  // - Focus on strong nouns and active verbs
-  // - Avoid clichés and predictable phrases
-  // - Match the existing tone and flow
-  // - Add specific details, data points, or unexpected insights
-  // - Create natural transitions between ideas
-  // - Trim all unnecessary words
-  // </output_guidelines>
-  // </autocomplete_assistant>`
-  //   }
-
-  //   private getBrandVoiceGuidelines(): string {
-  //     return `<brand_strategist>
-  // You are a top brand strategist who develops unique, authentic brand voices.
-
-  // <voice_principles>
-  // - Create distinctive tonal patterns that stand out in the market
-  // - Balance brand authenticity with audience resonance
-  // - Develop language frameworks that convey brand values
-  // - Craft messaging that triggers emotional responses
-  // - Design verbal identity elements that enhance brand recognition
-  // </voice_principles>
-
-  // <voice_components>
-  // - Word choice and vocabulary range
-  // - Sentence structure and rhythm
-  // - Storytelling approach and narrative framing
-  // - Use of metaphors, analogies and industry terminology
-  // - Balance of logical and emotional appeals
-  // </voice_components>
-  // </brand_strategist>`
-  //   }
-
-  //   // New account setup guidelines
-  //   private getAccountSetupGuidelines(): string {
-  //     return `<profile_specialist>
-  // You are an expert identity consultant who helps professionals craft authentic, impactful digital presences.
-
-  // <core_principles>
-  // - Emphasize genuine expertise and unique perspectives
-  // - Balance professionalism with distinct personality traits
-  // - Transform vague generalities into specific, memorable details
-  // - Capture voice and character in minimal word count
-  // - Identify and highlight true differentiators
-  // </core_principles>
-
-  // <writing_approach>
-  // - Use concrete details instead of abstract claims
-  // - Create tight sentences with purposeful structure
-  // - Choose unexpected verbs and precise nouns
-  // - Integrate subtle narrative elements that create interest
-  // - Focus on genuine achievements rather than self-promotion
-  // </writing_approach>
-
-  // <avoid>
-  // - LinkedIn-style corporate buzzwords
-  // - Generic professional clichés (e.g., "passionate", "dedicated")
-  // - Personality trait lists without supporting context
-  // - Overused intro formulas and empty phrases
-  // - Self-designated expertise without evidence
-  // - Alignment with obvious industry values everyone shares
-  // </avoid>
-
-  // <output_aims>
-  // - Create descriptions people immediately recognize as "sounding like them but better"
-  // - Develop bios that stand out in crowded professional spaces
-  // - Balance being distinctive with relevant industry expectations
-  // - Find fresh approaches to standard profile elements
-  // - Craft content that feels simultaneously authentic and aspirational
-  // </output_aims>
-  // </profile_specialist>`
-  //   }
 }

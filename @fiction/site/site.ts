@@ -1,4 +1,4 @@
-import type { FictionRouter, FontFamily, SocialAccounts } from '@fiction/core'
+import type { FictionRouter, FontFamily } from '@fiction/core'
 import type { Contact } from '@fiction/plugins/plugin-contact/schema.js'
 import type { Card, CardTemplate } from './card.js'
 import type { FictionSites, ThemeConfig } from './index.js'
@@ -10,6 +10,7 @@ import type { QueryVarHook } from './utils/site.js'
 import { deepMerge, FictionObject, objectId, resetUi, Shortcodes, vue, waitFor } from '@fiction/core'
 import { TypedEventTarget } from '@fiction/core/utils/eventTarget.js'
 import { AutosaveUtility } from '@fiction/core/utils/save.js'
+import { getSocialUrlByOrg } from '@fiction/core/utils/social.js'
 import { siteEditorController } from './plugin-builder/tools/tools.js'
 import { activeSiteFont } from './utils/fonts.js'
 import { SiteFrameTools } from './utils/frame.js'
@@ -82,9 +83,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     return this.isPrimary.value && orgHandle ? orgHandle : `stage-${this.handle.value}`
   })
 
-  url = vue.computed(() => {
-    return this.getUrl()
-  })
+  url = vue.computed(() => this.getUrl())
+  scripts = []
 
   getUrl(args?: { scope: 'draft' | 'publish', path?: string }): string {
     const { scope, path = this.currentPath.value } = args || {}
@@ -163,6 +163,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     await site.loadConfig(options)
 
+    await site.fictionSites.hooks.run('siteCreated', { site })
+
     return site
   }
 
@@ -201,15 +203,12 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     shortcodes: [
       { shortcode: 'name', handler: () => this.org.value?.orgName || '' },
       { shortcode: 'handle', handler: () => this.org.value?.handle || '' },
-      { shortcode: 'headline', handler: () => this.org.value?.headline || '' },
-      { shortcode: 'about', handler: () => this.org.value?.about || '' },
-      { shortcode: 'promise', handler: () => this.org.value?.promise || this.org.value?.headline || '' },
-      { shortcode: 'avatar', handler: () => {
-        return this.org.value?.avatar?.url || ''
-      } },
+      { shortcode: 'headline', handler: () => this.org.value?.profile?.headline || '' },
+      { shortcode: 'summary', handler: () => this.org.value?.profile?.summary || '' },
+      { shortcode: 'hero', handler: () => this.org.value?.profile?.hero || this.org.value?.profile?.hero || '' },
+      { shortcode: 'avatar', handler: () => this.org.value?.avatar?.url || '' },
       { shortcode: 'social_url', handler: ({ attributes }) => {
-        const src = attributes?.src as keyof SocialAccounts | undefined
-        return (src && this.org.value?.accounts?.[src || '']) || ''
+        return getSocialUrlByOrg({ org: this.org.value, platform: attributes?.platform as string | undefined }) || ''
       } },
     ],
   })

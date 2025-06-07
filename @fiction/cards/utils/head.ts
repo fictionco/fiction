@@ -1,3 +1,4 @@
+import type { unhead } from '@fiction/core'
 import type { Site } from '@fiction/site'
 import { getColorScheme } from '@fiction/core'
 
@@ -52,7 +53,7 @@ export function getStructuredData(args: { site?: Site }) {
   return JSON.stringify(structuredData)
 }
 
-export function getHeadScripts(args: { site?: Site, noscript?: boolean }) {
+export function getHeadScripts(args: { site?: Site, noscript?: boolean }): unhead.Script[] {
   const { site, noscript = false } = args
 
   const gtmContainerId = site?.fullConfig.value?.googleTagManagerId
@@ -69,7 +70,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
       : []
   }
   else {
-    const script = [
+    const script: unhead.Script[] = [
       {
         innerHTML: 'document.addEventListener(\'DOMContentLoaded\', function() { document.documentElement.style.visibility = \'visible\'; });',
         type: 'text/javascript',

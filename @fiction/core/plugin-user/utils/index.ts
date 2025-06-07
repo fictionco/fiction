@@ -176,9 +176,7 @@ export function debugUser(user?: User) {
       orgId: org.orgId,
       orgName: org.orgName,
       orgEmail: org.orgEmail,
-      createdByUserId: org.createdByUserId,
-      customerId: org.customerId,
-      customerIdTest: org.customerIdTest,
+      billing: org.billing,
     })),
   }
 }

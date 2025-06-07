@@ -100,7 +100,7 @@ async function getDefaultConfig(args: { factory: CardFactory, stock: StockMedia 
 
     action: {
       buttons: [
-        { label: 'Follow on X', href: '[@social_url src=x]', icon: { iconId: 'brand-x' } },
+        { label: 'Follow on X', href: '[@social_url platform=x]', icon: { iconId: 'brand-x' } },
       ],
     },
   }
