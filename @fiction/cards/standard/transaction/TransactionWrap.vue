@@ -44,7 +44,7 @@ const ico = vue.computed(() => iconThemes[props.status as keyof typeof iconTheme
         <ElSpinner class="h-10 w-10" />
       </div>
       <div v-else :key="status" :data-transaction-status="status" class="space-y-8">
-        <div v-if="title || subTitle" :key="title" class="mb-6 md:text-center md:flex md:flex-col space-y-4  items-center justify-center">
+        <div v-if="title || subTitle" :key="title" class="mb-6 text-center flex flex-col space-y-4  items-center justify-center">
           <div
             v-if="icon || ico.icon"
             class="rounded-full size-10 md:size-12 inline-flex items-center justify-center border"

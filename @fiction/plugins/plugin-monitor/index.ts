@@ -148,13 +148,13 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
       })
     }
     catch (error) {
-      this.log.error('Sentry setup failed:', error)
+      this.log.error('Sentry setup failed:', { error })
     }
   }
 
   private async setupMixpanel(): Promise<void> {
     try {
-      const mixpanel = await import('mixpanel-browser')
+      const { default: mixpanel } = await import('mixpanel-browser')
       mixpanel.init(this.settings.mixpanelToken!, {
         debug: !this.settings.fictionEnv?.isProd.value,
         autocapture: true,
@@ -164,7 +164,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
       window.mixpanel = mixpanel
     }
     catch (error) {
-      this.log.error('Mixpanel setup failed:', error)
+      this.log.error('Mixpanel setup failed:', { error })
     }
   }
 

@@ -68,7 +68,7 @@ describe('team invite functionality', async () => {
       {
         _action: 'list',
         orgId,
-        filters: [[{ field: 'email', operator: '=', value: testEmail }]],
+        filters: [[{ field: 'fiction_user.email', operator: '=', value: testEmail }]],
       },
       { server: true },
     )
@@ -195,17 +195,16 @@ describe('workspace team tests', async () => {
     expect(snap(q?.data, { maskedKeys: ['fullName'] })).toMatchInlineSnapshot(`
       [
         {
+          "access": "owner",
           "createdAt": "[datetime:TRUTHY]",
           "email": "[email:TRUTHY]",
           "fullName": "**MASKED**",
           "inviterId": "null",
           "lastSeenAt": {},
-          "access": "owner",
           "memberId": "[id:TRUTHY]",
-          "status": "active",
-          "needsOnboarding": "false",
           "orgId": "[id:TRUTHY]",
           "priority": "null",
+          "status": "active",
           "tags": "null",
           "updatedAt": "[datetime:TRUTHY]",
           "userId": "[id:TRUTHY]",
