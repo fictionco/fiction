@@ -42,8 +42,8 @@ export abstract class QueryOrganization extends OrgQuery {
       ['full_name', t.user],
       ['last_seen_at', t.user],
       ['avatar', t.user],
-      ['member_access', t.member],
-      ['member_status', t.member],
+      ['access', t.member],
+      ['status', t.member],
       ['created_at', t.member],
       ['updated_at', t.member],
 

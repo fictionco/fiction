@@ -73,7 +73,6 @@ export const membersColumns = [
   new Col({ key: 'inviterId', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.user}.user_id`) }),
   new Col({ key: 'priority', sch: () => z.number().int(), make: ({ s, col }) => s.integer(col.k) }),
   new Col({ key: 'tags', sec: 'setting', sch: () => z.array(z.string()), make: ({ s, col }) => s.specificType(col.k, 'text[]') }),
-  new Col({ key: 'needsOnboarding', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
 ] as const
 
 export const userTable = new FictionDbTable({
