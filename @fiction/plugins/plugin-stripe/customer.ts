@@ -65,12 +65,7 @@ export class CustomerState extends FictionObject<CustomerStateSettings> {
         throw new Error(data.message || 'Failed to fetch customer data')
       }
 
-      this.setState({
-        status: 'ready',
-        data: data.data,
-        lastUpdated: new Date().toISOString(),
-        error: undefined,
-      })
+      this.setState({ status: 'ready', data: data.data, lastUpdated: new Date().toISOString(), error: undefined })
 
       return data.data
     }
@@ -99,9 +94,7 @@ export class CustomerState extends FictionObject<CustomerStateSettings> {
     }
 
     // Wait for user to be ready
-    const user = await this.settings.fictionStripe.settings.fictionUser.userInitialized({
-      caller: 'stripe.customer',
-    })
+    const user = await this.settings.fictionStripe.settings.fictionUser.userInitialized({ caller: 'stripe.customer' })
 
     if (!user) {
       this.log.warn('Customer initialization skipped: user not ready', { data: { caller } })

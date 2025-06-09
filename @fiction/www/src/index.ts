@@ -73,6 +73,7 @@ const envVarNames = [
   'CLICKHOUSE_URL',
   'PROXYCURL_API_KEY',
   'MIXPANEL_TOKEN',
+  'AMPLITUDE_API_KEY',
 ] as const
 
 const v = getEnvVars(fictionEnv, envVarNames)
@@ -97,6 +98,7 @@ const {
   xaiApiKey,
   mixpanelToken,
   discordWebhookUrl,
+  amplitudeApiKey,
 } = v
 
 const comboPort = +fictionEnv.var('APP_PORT')
@@ -162,7 +164,7 @@ const fictionAnalytics = new FictionAnalytics({
   beaconUrlLive: URLS.beacon,
 })
 
-const fictionMonitor = new FictionMonitor({ ...base, fictionUser, slackWebhookUrl, sentryPublicDsn, mixpanelToken, discordWebhookUrl })
+const fictionMonitor = new FictionMonitor({ ...base, fictionUser, slackWebhookUrl, sentryPublicDsn, mixpanelToken, discordWebhookUrl, amplitudeApiKey })
 const basicService = { ...base, fictionRevision, fictionUser, fictionMonitor, fictionAnalytics, fictionCache }
 
 const fictionAws = new FictionAws({ ...basicService, awsAccessKey, awsAccessKeySecret })

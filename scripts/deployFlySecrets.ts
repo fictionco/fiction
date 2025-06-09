@@ -68,7 +68,7 @@ async function updateAppSecrets(appName: string, envContent: string): Promise<vo
 
 function verifyProdVars(envVars: EnvVars): void {
   const prodIndicators = [
-    { key: 'POSTGRES_URL', prod: 'supabase.co', dev: 'localhost' },
+    { key: 'POSTGRES_URL', prod: 'neon.tech', dev: 'localhost' },
     { key: 'REDIS_URL', prod: 'redis-cloud.com', dev: 'localhost' },
     { key: 'CLICKHOUSE_URL', prod: 'fiction-clickhouse.fly.dev', dev: 'localhost' },
   ]

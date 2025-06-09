@@ -6,6 +6,8 @@
   "license": "MIT",
   "main": "index.ts",
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.17.8",
+    "@amplitude/plugin-session-replay-browser": "^1.16.13",
     "@fiction/core": "workspace:*",
     "@sentry/browser": "^9.27.0",
     "@sentry/node": "^9.27.0",

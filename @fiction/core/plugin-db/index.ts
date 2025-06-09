@@ -85,14 +85,6 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
 
     this.isInitialized = true
 
-    const connection = {
-      user: this.connectionUrl.username,
-      host: this.connectionUrl.hostname,
-      password: this.connectionUrl.password,
-      port: Number.parseInt(this.connectionUrl.port),
-      database: this.connectionUrl.pathname.replace(/\//g, ''),
-    }
-
     const knexOptions: Knex.Config & {
       recursiveStringcase: (obj: any, name: string) => boolean
       appStringcase: (key: string) => string
@@ -100,17 +92,12 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
     } = {
       client: 'pg',
       version: '16.2',
-      connection,
+      connection: this.connectionUrl.toString(),
       // https://github.com/knex/knex/issues/3523#issuecomment-722574083
       pool: { min: 0, max: 4 },
       appStringcase: key => toCamel(key, { allowPeriods: true }), // change all nested snake_case results to camelCase
       // change all nested snake_case results to camelCase
-      recursiveStringcase: (_obj: any, _name: string): boolean => {
-        return true
-        // if (name.includes("project_events")) {
-        //   return false
-        // } else return true
-      },
+      recursiveStringcase: (_obj: any, _name: string): boolean => true,
     }
 
     /**

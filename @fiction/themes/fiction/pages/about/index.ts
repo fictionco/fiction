@@ -2,8 +2,8 @@ import type { MapUserConfig } from '@fiction/cards/user/maps'
 import { cardConfig } from '@fiction/cards'
 import ImageOffice from './img/fiction-office.webp'
 import ImageGirlComputer from './img/girl-computer.webp'
-import ImagePro from './img/pro.webp'
 import ImageAndrew from './img/team-ap.webp'
+import ImageDean from './img/team-ds.webp'
 import ImageMorgan from './img/team-mj.webp'
 
 export async function getAboutPage() {
@@ -68,6 +68,23 @@ export async function getAboutPage() {
               theme: 'cyan',
               icon: { class: 'i-tabler-brand-linkedin' },
               href: 'https://www.linkedin.com/in/morgan-jones-mba',
+            }],
+          },
+        },
+        {
+          title: 'Dean Stoecker',
+          subTitle: 'Special Advisor',
+          content: `Dean, a visionary in AI and data, guides Fiction's strategic direction with his wealth of experience.`,
+          media: {
+            format: 'image',
+            url: ImageDean,
+          },
+          action: {
+            buttons: [{
+              label: 'LinkedIn',
+              theme: 'cyan',
+              icon: { class: 'i-tabler-brand-linkedin' },
+              href: 'https://www.linkedin.com/in/deanstoecker',
             }],
           },
         },
