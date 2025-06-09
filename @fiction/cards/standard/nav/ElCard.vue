@@ -57,13 +57,13 @@ const isSubscribed = vue.computed(() => card.site?.activeContact?.value?.status 
         <XLogoType
           :logo="uc.brand?.logo"
           :classes="{ text: 'x-font-title text-lg font-bold' }"
-          :media-handling="{ height: 2 }"
+          :media-handling="{ height: 1.8 }"
           :org="card.site?.org.value"
         />
       </XLink>
 
       <!-- Desktop Nav -->
-      <nav class="hidden md:flex space-x-6 grow-0">
+      <nav class="hidden md:flex space-x-6 grow-0 font-sans">
         <XLink
           v-for="item in nav"
           :key="item.href"

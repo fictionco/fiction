@@ -1,6 +1,6 @@
 // cronTool.test.ts
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { CronTool } from '../cron.js' // Adjust the import path as needed
+import { CronTool } from './cron.js' // Adjust the import path as needed
 
 describe('cronTool', () => {
   let task: () => void

@@ -1,5 +1,5 @@
 import type { CronJob as CronJobType } from 'cron'
-import { log } from '../plugin-log'
+import { log } from '../../plugin-log'
 
 export class CronTool {
   private job?: CronJobType

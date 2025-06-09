@@ -21,8 +21,8 @@ function getLayoutClasses(layout: string = 'center') {
     center: {
       container: 'text-center space-y-8',
       content: 'mx-auto max-w-4xl space-y-6',
-      title: 'mx-auto max-w-xl',
-      subtitle: 'mx-auto max-w-xl',
+      title: 'mx-auto max-w-2xl',
+      subtitle: 'mx-auto max-w-2xl',
       media: 'mx-auto max-w-2xl',
       actions: 'justify-center',
       supertitle: 'justify-center',

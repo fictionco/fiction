@@ -87,7 +87,7 @@ export async function getConfig(args: {
               brand: {
                 logo: {
                   variant: 'media',
-                  media: stock.getLocalMedia({ key: 'fictionLogo' }),
+                  media: stock.getLocalMedia({ key: 'fictionIconInline' }),
                 },
               },
               hideSubscribe: true,
@@ -105,7 +105,7 @@ export async function getConfig(args: {
               brand: {
                 logo: {
                   variant: 'media',
-                  media: stock.getLocalMedia({ key: 'fictionLogo' }),
+                  media: stock.getLocalMedia({ key: 'fictionIconInline' }),
                   typography: { label: 'Fiction' },
                 },
                 tagline: `Your story begins here...`,
@@ -117,13 +117,13 @@ export async function getConfig(args: {
                       icon: { iconId: 'bolt' },
                       href: '/app/auth?_reload=1',
                     },
-                    {
-                      label: 'Contact',
-                      theme: 'default',
-                      icon: { iconId: 'phone' },
-                      href: 'https://discord.gg/e5wNxdDW8u',
-                      target: '_blank',
-                    },
+                    // {
+                    //   label: 'Contact',
+                    //   theme: 'default',
+                    //   icon: { iconId: 'phone' },
+                    //   href: 'https://discord.gg/e5wNxdDW8u',
+                    //   target: '_blank',
+                    // },
                   ],
                 },
               },
