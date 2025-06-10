@@ -94,15 +94,31 @@ const shouldHandleHover = vue.computed(() => {
 })
 
 async function initVideoFirstFrame(video: HTMLVideoElement) {
-  try {
-    video.currentTime = 0
-    if (!shouldAutoplay.value) {
-      await video.play()
-      await video.pause()
+  // This function attempts to play and pause the video to show the first frame.
+  // On mobile, this must wait until the browser confirms data is ready.
+  const loadFrame = async () => {
+    // Check if the video is still paused to avoid interfering with real autoplay.
+    if (video.paused) {
+      video.currentTime = 0 // Ensure we are at the beginning.
+      try {
+        await video.play()
+        video.pause()
+      }
+      catch (error) {
+        // This programmatic play() is the part that can fail on mobile.
+        // The `muted` and `playsinline` attributes give it the best chance of success.
+        console.warn('Could not programmatically play to show first frame.', error)
+      }
     }
   }
-  catch (err) {
-    console.warn('Could not init video first frame:', err)
+
+  // The 'loadeddata' event signals a frame is available. readyState >= 2 means it has already loaded.
+  if (video.readyState >= 2) {
+    await loadFrame()
+  }
+  else {
+    // Wait for the event, and use { once: true } to auto-remove the listener.
+    video.addEventListener('loadeddata', loadFrame, { once: true })
   }
 }
 
@@ -321,7 +337,7 @@ function handleMediaClick(event: MouseEvent) {
           shouldHandleHover ? 'hover:opacity-90' : '',
         ]"
         poster=""
-        :src="validMediaUrl"
+        :src="`${validMediaUrl}#t=0.1`"
         :aria-label="media?.alt"
         :style="filterStyle"
         v-bind="videoAttrs"

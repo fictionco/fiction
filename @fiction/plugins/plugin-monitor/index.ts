@@ -187,7 +187,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
 
   private async setupAmplitude(): Promise<void> {
     try {
-      const {default: amplitude} = await import('@amplitude/analytics-browser')
+      const amplitude = await import('@amplitude/analytics-browser')
 
       // Initialize Amplitude with configuration
       amplitude.init(this.settings.amplitudeApiKey!, {
@@ -200,7 +200,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
           sessions: true,
           pageViews: true,
         },
-        serverZone: this.settings.fictionEnv?.var('AMPLITUDE_SERVER_ZONE') === 'EU' ? 'EU' : 'US',
+        serverZone: 'US',
       })
 
       // Setup Session Replay if enabled
@@ -211,7 +211,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
       window.amplitude = amplitude
     }
     catch (error) {
-      this.log.error('Amplitude setup failed:', {error})
+      this.log.error('Amplitude setup failed:', { error })
     }
   }
 
