@@ -326,7 +326,7 @@ const stepConfig: StepConfig<StepKey> = {
   >
     <div class="fixed inset-0 z-10 overflow-y-auto">
       <div class="text-white absolute py-4 md:py-8 px-4 md:px-16 w-full flex justify-between">
-        <XMedia class="h-[35px]" :media="localMedia.fictionIconInline" />
+        <div><XMedia class="h-[35px]" :media="localMedia.fictionIconInline" /></div>
         <ElSavingSignal change-type="publish" :is-dirty="saveUtil.isDirty.value" />
       </div>
       <div

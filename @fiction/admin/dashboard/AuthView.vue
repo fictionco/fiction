@@ -382,7 +382,7 @@ async function passwordLogin() {
             >
               Verify Code
             </XButton>
-            <div class="text-theme-500 dark:text-theme-400 text-xs text-center">
+            <div class="text-theme-500 dark:text-theme-400 text-xs text-center font-sans">
               <p>Didn't receive the code?</p>
               <XButton
                 size="xs"

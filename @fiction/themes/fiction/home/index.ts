@@ -35,16 +35,15 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                 {
                   superTitle: {
                     theme: 'orange',
-                    text: 'No more painful website builders',
+                    text: 'The easiest way to share your story.',
                     icon: { class: 'i-tabler-trending-up' },
                   },
-                  title: `Create Your Personal Website in Under [@text_effect type=line]3 Minutes[/@text_effect].`,
-                  subTitle: `Fiction is the easiest way to create a personal website that showcases your expertise and builds your professional network.`,
-
+                  title: `Create Your Personal Website in [@text_effect type=line]3 Minutes[/@text_effect].`,
+                  subTitle: `The digital presence platform for leaders and influencers.`,
                   action: {
                     buttons: [
                       {
-                        label: 'Get Started',
+                        label: 'Start',
                         href: '/app/auth?_reload=1',
                         theme: 'primary',
                         design: 'solid',

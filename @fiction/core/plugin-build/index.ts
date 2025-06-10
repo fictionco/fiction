@@ -236,7 +236,7 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
       },
       server: {
         fs: { strict: false },
-        allowedHosts: ['.lan.com', 'localhost'],
+        allowedHosts: ['.lan.com', 'localhost', 'oriole-amazed-wren.ngrok-free.app'],
         hmr,
         watch: {
           ignored: [
