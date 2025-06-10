@@ -25,6 +25,8 @@ const emit = defineEmits<{
   (event: 'update:vis', payload: boolean): void
 }>()
 
+const uc = vue.computed(() => card.userConfig.value || {})
+
 const { fictionUser, fictionAdmin } = useService<{ fictionAdmin: FictionAdmin }>()
 const user = vue.computed(() => fictionUser.activeUser?.value)
 
@@ -59,7 +61,7 @@ function closePanel() {
             size="lg"
             format="block"
             data-test-id="mobile-sign-in-button"
-            :href="getFictionAuthUrl({ fictionAdmin })"
+            :href="getFictionAuthUrl({ fictionAdmin, site: card.site, redirect: uc.redirectAfterLogin })"
             icon="i-tabler-north-star"
           >
             Sign In to Fiction
