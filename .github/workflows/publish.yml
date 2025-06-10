@@ -554,7 +554,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   notify-discord:
-    needs: [unit-tests, integration-tests, e2e-tests, deploy-app, deploy-gateway, release]
+    needs: [unit-tests, unit-special, integration-tests, e2e-tests, card-ui-tests, build-tests, deploy-app, deploy-gateway, deploy-beacon]
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -564,5 +564,5 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_DEV }}
         with:
           args: |
-            ${{ job.status == 'success' && '✅' || '❌' }} **${{ github.workflow }}** workflow on **${{ github.ref_name }}** (commit: `${{ github.sha }}`) completed with status: **${{ job.status }}**
+            ${{ contains(needs.*.result, 'failure') && '❌ **FAILED**' || '✅ **SUCCESS**' }} - Workflow **${{ github.workflow }}** on **${{ github.ref_name }}** (commit: `${{ github.sha }}`)
             ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
