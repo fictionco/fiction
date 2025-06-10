@@ -30,7 +30,7 @@ const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
       <!-- Organization info and tasks -->
       <div class="flex flex-col w-full lg:w-3/5 space-y-12 min-h-[40vh]">
         <!-- Header -->
-        <div class="flex justify-between items-center">
+        <div class="flex flex-col sm:flex-row justify-between items-center">
           <div>
             <h2 class="text-2xl font-semibold x-font-title">
               {{ org?.name }}

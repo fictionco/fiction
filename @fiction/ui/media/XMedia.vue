@@ -94,15 +94,15 @@ const shouldHandleHover = vue.computed(() => {
 })
 
 async function initVideoFirstFrame(video: HTMLVideoElement) {
-  if (!shouldAutoplay.value) {
-    try {
-      video.currentTime = 0
+  try {
+    video.currentTime = 0
+    if (!shouldAutoplay.value) {
       await video.play()
       await video.pause()
     }
-    catch (err) {
-      console.warn('Could not init video first frame:', err)
-    }
+  }
+  catch (err) {
+    console.warn('Could not init video first frame:', err)
   }
 }
 
@@ -134,6 +134,7 @@ vue.onMounted(async () => {
       if (videoEl.value) {
         videoEl.value.muted = true
         videoEl.value.setAttribute('muted', '')
+        videoEl.value.currentTime = 0
 
         // Initialize first frame
         await initVideoFirstFrame(videoEl.value)
@@ -181,7 +182,7 @@ const videoAttrs = vue.computed(() => {
     loop: controls.loop ?? true,
     muted: controls.muted ?? true,
     controls: controls.controls,
-    preload: isMobile.value ? 'metadata' : (controls.preload ?? 'auto'),
+    preload: controls.preload ?? 'metadata',
     playsinline: controls.playsinline ?? true,
   })
 })
@@ -319,6 +320,7 @@ function handleMediaClick(event: MouseEvent) {
           classes.media,
           shouldHandleHover ? 'hover:opacity-90' : '',
         ]"
+        poster=""
         :src="validMediaUrl"
         :aria-label="media?.alt"
         :style="filterStyle"

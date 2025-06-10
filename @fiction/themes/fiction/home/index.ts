@@ -3,7 +3,7 @@ import type { StockMedia } from '@fiction/ui/stock/index.js'
 import { cardConfig } from '@fiction/cards/index.js'
 import ImageAndrew from './img/andrew.jpg'
 import ImageBrian from './img/brian.jpg'
-import ImageDean from './img/dean2.jpg'
+import ImageDean from './img/dean-profile.webp'
 import ImageMorgan from './img/morgan.jpg'
 import ImageSelena from './img/selena.jpg'
 
@@ -20,7 +20,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
     priority: 50,
     userConfig: {
       standard: {
-        title: 'Create A Personal Website in 3 Minutes',
+        title: 'Personal Website and Newsletter in Seconds',
         description: 'Create a personal brand that displays your ideal digital self. Build an AI-enhanced personal brand and professional network with Fiction.',
       },
     },
@@ -35,11 +35,11 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                 {
                   superTitle: {
                     theme: 'orange',
-                    text: 'The easiest way to share your story.',
-                    icon: { class: 'i-tabler-trending-up' },
+                    text: 'Own your story.',
+                    icon: { class: 'i-tabler-book' },
                   },
-                  title: `Create Your Personal Website in [@text_effect type=line]3 Minutes[/@text_effect].`,
-                  subTitle: `The digital presence platform for leaders and influencers.`,
+                  title: `Your Website and Newsletter in [@text_effect type=line]3 Minutes[/@text_effect].`,
+                  subTitle: `The AI-enhanced content platform trusted by 100s of leaders, creators, and entrepreneurs.`,
                   action: {
                     buttons: [
                       {
@@ -58,6 +58,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
           cardConfig({
             templateId: 'cardMarqueeV1',
             userConfig: {
+              stagger: true,
               items: [
                 {
                   title: 'Andrew Powers',

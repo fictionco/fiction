@@ -217,7 +217,7 @@ const stepConfig: StepConfig<StepKey> = {
         isLoading: isLoading.value === 'account',
         onClick: async (args) => {
           const { changeStep } = args
-          await saveUtil.forceSync()
+          saveUtil.forceSync()
           changeStep({ dir: 'next' })
         },
       },
@@ -233,7 +233,7 @@ const stepConfig: StepConfig<StepKey> = {
         allowSkip: false,
         onClick: async (args) => {
           const { changeStep } = args
-          await saveUtil.forceSync()
+          saveUtil.forceSync()
           changeStep({ dir: 'next' })
         },
       },
@@ -249,7 +249,7 @@ const stepConfig: StepConfig<StepKey> = {
         allowSkip: false,
         onClick: async (args) => {
           const { changeStep } = args
-          await saveUtil.forceSync()
+          saveUtil.forceSync()
           changeStep({ dir: 'next' })
         },
       },
@@ -265,7 +265,7 @@ const stepConfig: StepConfig<StepKey> = {
         allowSkip: false,
         onClick: async (args) => {
           const { changeStep } = args
-          await saveUtil.forceSync()
+          saveUtil.forceSync()
           changeStep({ dir: 'next' })
         },
       },
@@ -326,7 +326,9 @@ const stepConfig: StepConfig<StepKey> = {
   >
     <div class="fixed inset-0 z-10 overflow-y-auto">
       <div class="text-white absolute py-4 md:py-8 px-4 md:px-16 w-full flex justify-between">
-        <div><XMedia class="h-[35px]" :media="localMedia.fictionIconInline" /></div>
+        <div>
+          <XMedia class="h-[35px]" image-mode="inline" :media="localMedia.fictionIconInline" />
+        </div>
         <ElSavingSignal change-type="publish" :is-dirty="saveUtil.isDirty.value" />
       </div>
       <div

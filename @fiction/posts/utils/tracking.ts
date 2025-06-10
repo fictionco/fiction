@@ -193,8 +193,11 @@ export async function trackingEndpointHandler(args: {
         })
     }
     else {
-      fictionPublish.log.warn('Cannot update email record - missing IDs', {
-        data: { postId: userVariables?.postId, contactId: userVariables?.contactId },
+      fictionPublish.log.warn('Cannot update email record - missing postId or contactId', {
+        data: {
+          postId: userVariables?.postId,
+          contactId: userVariables?.contactId,
+        },
       })
     }
 

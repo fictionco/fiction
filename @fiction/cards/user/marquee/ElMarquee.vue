@@ -17,7 +17,7 @@ const temp = vue.computed(() => {
   const it = []
   // for loop 10 times
   for (let i = 0; i < 15; i++) {
-    const items = uc.value.items || []
+    const items = (uc.value.items || []).sort(() => Math.random() - 0.5)
     // add it to the end of the array
     it.push(...items)
   }
