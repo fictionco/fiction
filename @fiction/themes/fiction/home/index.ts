@@ -20,7 +20,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
     priority: 50,
     userConfig: {
       standard: {
-        title: 'A Personal Website in 3 Minutes',
+        title: 'Create A Personal Website in 3 Minutes',
         description: 'Create a personal brand that displays your ideal digital self. Build an AI-enhanced personal brand and professional network with Fiction.',
       },
     },
@@ -35,20 +35,20 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                 {
                   superTitle: {
                     theme: 'orange',
-                    text: 'Join 100,000+ People',
-                    icon: { class: 'i-tabler-users' },
+                    text: 'No more painful website builders',
+                    icon: { class: 'i-tabler-trending-up' },
                   },
-                  title: `A Beautiful Personal Website in Under [@text_effect type=line]3 Minutes[/@text_effect].`,
-                  subTitle: `Magically create and share your content and portfolio online.`,
+                  title: `Create Your Personal Website in Under [@text_effect type=line]3 Minutes[/@text_effect].`,
+                  subTitle: `Fiction is the easiest way to create a personal website that showcases your expertise and builds your professional network.`,
 
                   action: {
                     buttons: [
                       {
-                        label: 'Create Account',
+                        label: 'Get Started',
                         href: '/app/auth?_reload=1',
                         theme: 'primary',
                         design: 'solid',
-                        iconAfter: 'i-tabler-arrow-big-right-lines',
+                        iconAfter: 'i-tabler-arrow-right',
                       },
                     ],
                   },
