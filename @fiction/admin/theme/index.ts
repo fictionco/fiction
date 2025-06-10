@@ -29,6 +29,8 @@ export async function getTemplates(args: { site: Site }) {
 export type AdminTemplates = Awaited<ReturnType<typeof getTemplates>>
 
 export async function getPages(args: { factory: CardFactory, site: Site }) {
+  const { factory } = args
+  const stock = await factory.getStockMedia()
   return [
     cardConfigCustom<AdminTemplates>({
       regionId: 'main',
@@ -48,7 +50,7 @@ export async function getPages(args: { factory: CardFactory, site: Site }) {
           templateId: 'authPage',
           userConfig: {
             homeUrl: 'https://www.fiction.com',
-            logo: { format: 'html' as const, html: fictionLogo },
+            logo: stock.getLocalMedia({ key: 'fictionIconInline' }),
             standard: { spaceSize: 'none', showOnSingle: true },
           },
         }),

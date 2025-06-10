@@ -34,11 +34,12 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
               items: [
                 {
                   superTitle: {
-                    text: 'Create Your Ideal Digital Self',
-                    icon: { class: 'i-tabler-trending-up' },
+                    theme: 'orange',
+                    text: 'Join 100,000+ People',
+                    icon: { class: 'i-tabler-users' },
                   },
                   title: `A Beautiful Personal Website in Under [@text_effect type=line]3 Minutes[/@text_effect].`,
-                  subTitle: `Use AI to create and share your content and portfolio online. Designed for the next-generation of leaders.`,
+                  subTitle: `Magically create and share your content and portfolio online.`,
 
                   action: {
                     buttons: [
