@@ -109,7 +109,7 @@ vue.onMounted(() => {
           <ElClose class="relative z-10" @click="close" />
         </div>
 
-        <div class="h-full relative z-10 overflow-y-scroll">
+        <div class="h-full relative z-10 overflow-y-scroll no-scrollbar">
           <slot />
         </div>
       </div>

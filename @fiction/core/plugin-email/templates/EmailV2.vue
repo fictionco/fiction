@@ -41,7 +41,7 @@ const previewText = computed(() => preview || [title, subTitle].filter(Boolean).
 const baseStyles = {
   container: `width:100%;max-width:600px;margin:0 auto;padding:32px 0;font-family:${fontStack};color:${textColor.value};`,
   link: `color:${textColor.value};text-decoration:none;`,
-  hr: `border:none;border-top:1px solid ${hrColor.value};margin:2em 0; width: 5em;`,
+  hr: `border:none;border-top:1px solid ${hrColor.value};margin:2em 0; width: 100%;`,
   hrFooter: `border:none;border-top:1px solid ${subtleBorderColor.value};margin:3em 0 2em; width: 100%;`,
 }
 
@@ -274,51 +274,51 @@ unhead.useHead({
 
     <!-- Main Container -->
     <div :style="baseStyles.container">
-      <!-- Super Title -->
-      <table v-if="superTitle" style="margin-bottom:16px;">
-        <tbody>
-          <tr>
-            <td v-if="superTitle.icon?.url">
-              <img
-                :src="superTitle.icon.url"
-                width="22"
-                alt="Logo"
-                :style="{
-                  display: 'block',
-                  borderRadius: '5px',
-                  border: '1.5px solid #ffffff',
-                  width: '22px',
-                  height: '22px',
-                  objectFit: 'cover',
-                  marginRight: '6px',
-                }"
-              >
-            </td>
-            <td>
-              <a
-                v-if="superTitle?.text"
-                :href="superTitle.href"
-                :style="{
-                  color: textColorAlt, textDecoration: 'none', fontWeight: 500, fontSize: `14px` }"
-              >{{ superTitle?.text }}</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
       <!-- Title Section -->
       <div id="themed-content" class="themed-content">
         <h1
-          style="margin:0 0 8px;font-size:24px;line-height:1.33;"
+          style="margin:0 0 8px;font-size:24px;font-weight:600;line-height:1.33;"
         >
           {{ title }}
         </h1>
         <h3
           v-if="subTitle"
-          style="margin:0;font-weight:normal;font-size:24px;line-height:1.33;"
+          style="margin:0;font-weight:600;font-size:24px;line-height:1.33;"
           :style="{ color: textColorAlt }"
           v-html="subTitle"
         />
+
+        <!-- Super Title -->
+        <table v-if="superTitle" style="margin:16px 0;">
+          <tbody>
+            <tr>
+              <td v-if="superTitle.icon?.url">
+                <img
+                  :src="superTitle.icon.url"
+                  width="25"
+                  alt="Logo"
+                  :style="{
+                    display: 'block',
+                    borderRadius: '50px',
+                    border: '1.5px solid #ffffff',
+                    width: '25px',
+                    height: '25px',
+                    objectFit: 'cover',
+                    marginRight: '10px',
+                  }"
+                >
+              </td>
+              <td>
+                <a
+                  v-if="superTitle?.text"
+                  :href="superTitle.href"
+                  :style="{
+                    color: textColorAlt, textDecoration: 'none', fontWeight: 500, fontSize: `14px` }"
+                >{{ superTitle?.text }}</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
         <hr :style="baseStyles.hr">
 

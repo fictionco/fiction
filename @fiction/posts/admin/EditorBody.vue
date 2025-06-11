@@ -70,8 +70,8 @@ const statusMap = vue.computed<NavListItem>(() => {
           >
             <div class="relative max-h-[100%] grow overflow-scroll w-full min-h-0 dark:bg-theme-950/80 no-scrollbar">
               <div class=" pt-6 md:pt-10 pb-[10vh] px-6 md:px-12 max-w-[800px] mx-auto focus:outline-none space-y-12">
-                <div class="py-2 px-4 sticky top-0 bg-theme-50 dark:bg-theme-950 z-10 -mx-4 flex items-center justify-between gap-4">
-                  <ProseEditorToolbar v-if="proseEditorEl?.editor.value" :editor="proseEditorEl?.editor.value" />
+                <div class="py-2 px-4 sticky top-0 z-10 -mx-4 flex items-center justify-between gap-4">
+                  <ProseEditorToolbar v-if="proseEditorEl?.editorEl" :editor="proseEditorEl?.editorEl" />
                   <div class="flex items-center gap-2">
                     <ElSavingSignal
                       v-if="post"
@@ -95,11 +95,11 @@ const statusMap = vue.computed<NavListItem>(() => {
                 </div>
 
                 <div class="flex gap-12 items-center">
-                  <div class="space-y-4 grow font-serif">
+                  <div class="flex flex-col gap-4 grow ">
                     <XText
                       :model-value="post.title.value"
                       tag="h1"
-                      class="text-balance my-0 text-xl @[400px]/editor:text-4xl !leading-[1.2] font-medium"
+                      class="text-balance my-0 text-xl @[400px]/editor:text-4xl !leading-[1.2] font-semibold"
                       :is-editable="true"
                       placeholder="Enter Title"
                       data-test-id="post-editor-title"
@@ -109,7 +109,7 @@ const statusMap = vue.computed<NavListItem>(() => {
                     <XText
                       :model-value="post.subTitle.value"
                       tag="h3"
-                      class="dark:text-theme-300 text-base @[350px]/editor:text-base @[700px]/editor:text-2xl !leading-[1.2] font-normal"
+                      class="dark:text-theme-300 text-base @[400px]/editor:text-2xl !leading-[1.2] font-normal"
                       :is-editable="true"
                       placeholder="Enter Subtitle"
                       data-test-id="post-editor-subTitle"
@@ -122,7 +122,7 @@ const statusMap = vue.computed<NavListItem>(() => {
                       v-model="post.media.value"
                       ui-size="sm"
                       data-test-id="featured-post-media"
-                      class="w-32"
+                      class="w-16 @[400px]/editor:w-32"
                       aspect-class="aspect-[1/1]"
                       :full-width="true"
                     />
@@ -135,7 +135,7 @@ const statusMap = vue.computed<NavListItem>(() => {
 
                 <ProseEditor
                   ref="proseEditorEl"
-                  class="font-serif min-h-[500px]"
+                  class="min-h-[500px]"
                   :model-value="post.content.value"
                   :is-content-completion-disabled="post.userConfig.value?.contentCompletion?.enabled"
                   :supplemental="{ title: post.title.value, subTitle: post.subTitle.value }"

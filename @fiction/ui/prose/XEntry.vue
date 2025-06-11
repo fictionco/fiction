@@ -106,6 +106,7 @@ const themeColors = vue.computed(() => {
   p {
     margin: 0 0 1em;
     line-height: 1.75;
+    font-weight: 400;
   }
 
   /* Sections */

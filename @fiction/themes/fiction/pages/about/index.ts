@@ -84,7 +84,7 @@ export async function getAboutPage() {
               label: 'LinkedIn',
               theme: 'cyan',
               icon: { class: 'i-tabler-brand-linkedin' },
-              href: 'https://www.linkedin.com/in/deanstoecker',
+              href: 'https://www.linkedin.com/in/dean-stoecker',
             }],
           },
         },

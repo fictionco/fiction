@@ -54,7 +54,7 @@ vue.onMounted(() => {
 const editorEl = vue.computed(() => editor.value)
 
 // Expose the editor instance
-defineExpose({ editor })
+defineExpose({ editorEl })
 </script>
 
 <template>

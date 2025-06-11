@@ -190,6 +190,7 @@ vue.watch(
 
 vue.onMounted(async () => {
   unhead.useHead({
+    htmlAttrs: { class: () => 'dark' },
     bodyAttrs: { class: () => 'dark' },
   })
 })
@@ -300,26 +301,16 @@ body,
   background-color: var(--color-theme-900, #000);
 }
 
+html.dark,
+body.dark {
+  color-scheme: dark;
+}
 // can't be on root do to variables
 .x-site{
   .x-font-title {
     font-family: var(--font-family-title, unset);
     letter-spacing: var(--font-letter-spacing-title, -.02em);
-    // &.font-semibold {
-    //   font-weight: var(--font-weight-title, 600);
-    // }
-    // &.font-bold {
-    //   font-weight: var(--font-weight-title, 700);
-    // }
-    // &.font-light {
-    //   font-weight: var(--font-weight-title, 300);
-    // }
-    // &.font-normal {
-    //   font-weight: var(--font-weight-title, 400);
-    // }
-    // &.font-medium {
-    //   font-weight: var(--font-weight-title, 500);
-    // }
+
   }
   .x-font-entry {
     font-family: var(--font-family-entry, unset);

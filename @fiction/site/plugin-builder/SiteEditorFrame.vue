@@ -150,7 +150,7 @@ function getStablePageHash(page: Card): string {
 <template>
   <div
     v-if="site"
-    class="space-y-4 p-4 lg:p-6 @container bg-theme-800 overflow-scroll"
+    class="space-y-4 p-4 lg:p-6 @container bg-theme-800 overflow-scroll no-scrollbar"
   >
     <div v-if="!site.editingPageId.value" class="flex gap-2 items-baseline">
       <div class="font-semibold">

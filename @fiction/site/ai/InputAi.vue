@@ -136,7 +136,7 @@ async function applyChanges() {
         <h2 class="font-semibold text-lg x-font-title ">
           Accept Generated Content
         </h2>
-        <div class=" divide-y divide-theme-200 dark:divide-theme-700  max-h-[400px] overflow-scroll">
+        <div class=" divide-y divide-theme-200 dark:divide-theme-700  max-h-[400px] overflow-scroll no-scrollbar">
           <div v-for="(field, key) in completion" :key="key" class="py-4 flex gap-8 rounded-md">
             <div class="space-y-2 font-semibold text-xs w-32 text-right shrink-0 text-theme-400 dark:text-theme-500">
               <div>{{ toLabel(key) }}</div>

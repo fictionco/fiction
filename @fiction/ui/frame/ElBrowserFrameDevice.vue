@@ -154,7 +154,7 @@ vue.onMounted(async () => {
 
     <div
       :id="`${frameId}-wrap`"
-      class="relative max-h-[100%] overflow-scroll w-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
+      class="relative max-h-[100%] overflow-scroll no-scrollbar w-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.33,1)]"
       :class="dimensions.aspectClass"
     >
       <iframe

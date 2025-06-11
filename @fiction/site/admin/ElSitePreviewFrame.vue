@@ -16,8 +16,9 @@ defineProps<{
     <iframe
       v-if="url"
       :src="url"
-      class="absolute inset-0  w-[500%] h-[500%] transform scale-[20%] origin-top-left pointer-events-none"
+      class="absolute inset-0  w-[500%] h-[500%] transform scale-[20%] origin-top-left pointer-events-none bg-theme-900"
       loading="lazy"
+      style="background-color: #111827; color-scheme: dark;"
       title="Site preview"
     />
     <div v-else class="flex items-center justify-center h-full text-theme-400 dark:text-theme-500">

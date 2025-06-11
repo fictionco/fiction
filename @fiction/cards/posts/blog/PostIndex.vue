@@ -86,7 +86,7 @@ const items = vue.computed(() => posts.map((post, i) => {
               path="title"
               :card
               tag="h1"
-              class="font-semibold x-font-title text-3xl md:text-5xl lg:text-6xl md:text-pretty"
+              class="font-semibold x-font-title text-3xl md:text-5xl lg:text-6xl md:text-pretty !leading-[1.15]"
               placeholder="Magazine Title"
               :animate="true"
             />

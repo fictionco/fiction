@@ -68,7 +68,7 @@ vue.watch(
 </script>
 
 <template>
-  <div class="h-full overflow-scroll">
+  <div class="h-full overflow-scroll no-scrollbar">
     <div v-if="activeFormat === 'email'" class="w-full h-full" v-html="emailHtml" />
     <SinglePost v-else :post :card :loading class="pb-24 lg:pb-36" />
   </div>

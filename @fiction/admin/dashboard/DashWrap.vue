@@ -160,9 +160,9 @@ const icon = { format: 'component', el: FictionLogo } as MediaObject
         />
       </template>
       <template v-else-if="uc.layoutFormat === 'full'">
-        <ElEngine tag="div" class="h-full overflow-y-scroll" :card />
+        <ElEngine tag="div" class="h-full overflow-y-scroll no-scrollbar" :card />
       </template>
-      <div v-else class="relative min-h-0 grow overflow-scroll">
+      <div v-else class="relative min-h-0 grow overflow-scroll no-scrollbar">
         <div class="page-area h-full">
           <div
             class="work-area relative block min-h-0 w-full overflow-hidden md:flex md:h-full md:overflow-visible"
@@ -191,7 +191,7 @@ const icon = { format: 'component', el: FictionLogo } as MediaObject
                 :icon
               />
               <div
-                class="mx-auto bg-theme-0 dark:bg-theme-950 grow overflow-scroll w-full"
+                class="mx-auto bg-theme-0 dark:bg-theme-950 grow overflow-scroll w-full no-scrollbar"
               >
                 <div
                   v-if="loading"

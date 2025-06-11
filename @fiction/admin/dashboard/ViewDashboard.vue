@@ -37,7 +37,7 @@ vue.onMounted(async () => load())
 </script>
 
 <template>
-  <div class="max-w-[960px] mx-auto p-6 md:p-12 flex flex-col gap-4 lg:gap-8 xl:gap-12 justify-center min-h-[100dvh] overflow-scroll">
+  <div class="max-w-[960px] mx-auto p-6 md:p-12 flex flex-col gap-4 lg:gap-8 xl:gap-12 justify-center min-h-[100dvh] overflow-scroll no-scrollbar">
     <component
       :is="widget.el"
       v-for="(widget, i) in widgets"

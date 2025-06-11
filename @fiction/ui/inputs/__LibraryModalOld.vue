@@ -248,7 +248,7 @@ vue.onUnmounted(() => {
           </div>
 
           <!-- Tool Content Area -->
-          <div ref="optionsContainer" class="flex-1 p-4 bg-theme-50/50 dark:bg-theme-800/50 max-h-[350px] overflow-scroll">
+          <div ref="optionsContainer" class="flex-1 p-4 bg-theme-50/50 dark:bg-theme-800/50 max-h-[350px] overflow-scroll no-scrollbar">
             <div>
               <FormEngine
                 state-key="mediaSetup"

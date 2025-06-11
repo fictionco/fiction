@@ -31,7 +31,7 @@ const editor = vue.computed(() => {
 <template>
   <div class="@container w-full entry border rounded-lg border-theme-200 dark:border-theme-600/70 dark:bg-theme-900 ">
     <ProseEditorToolbar v-if="editor" :editor />
-    <div class="@[1000px]:p-12 @[500px]:p-8 p-4 max-h-[350px] overflow-y-scroll overflow-x-clip">
+    <div class="@[1000px]:p-12 @[500px]:p-8 p-4 max-h-[350px] overflow-y-scroll overflow-x-clip no-scrollbar">
       <ProseEditor
         ref="proseEditorEl"
         class="w-full"

@@ -164,10 +164,10 @@ const parentPanelProps = vue.computed(() => {
               </CardLink>
             </div>
           </div>
-          <div v-else-if="parentPanel && isDesktop" :key="parentPanel.cardId" class="grow lg:overflow-scroll pb-32">
+          <div v-else-if="parentPanel && isDesktop" :key="parentPanel.cardId" class="grow lg:overflow-scroll no-scrollbar pb-32">
             <component :is="parentPanelProps.is" v-bind="parentPanelProps" />
           </div>
-          <div v-else :key="currentItemId || 'default'" class="grow lg:overflow-scroll pb-32">
+          <div v-else :key="currentItemId || 'default'" class="grow lg:overflow-scroll no-scrollbar pb-32">
             <component :is="itemPanelProps.is" v-bind="itemPanelProps" />
           </div>
         </transition>
@@ -175,7 +175,7 @@ const parentPanelProps = vue.computed(() => {
       <div
         v-if="currentPanel && isDesktop"
 
-        class="grow lg:overflow-scroll pb-32"
+        class="grow lg:overflow-scroll no-scrollbar pb-32"
       >
         <transition name="fade" mode="out-in">
           <component :is="itemPanelProps.is" v-bind="itemPanelProps" :key="currentPanelKey" />
