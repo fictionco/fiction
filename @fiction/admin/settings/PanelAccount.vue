@@ -36,7 +36,7 @@ const avatarUrl = vue.computed(() => {
 async function save() {
   sending.value = 'saving'
   const endpoint = service.fictionUser.requests.ManageUser
-  const fields = user.value
+  const fields = userModel.value
   const userId = fields?.userId
 
   if (!userId)
