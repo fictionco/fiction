@@ -5,6 +5,7 @@ import type { InputOption } from '@fiction/ui/index.js'
 import type { FictionAdmin } from '..'
 import { gravatarUrlSync, useService, vue } from '@fiction/core'
 import { UserSchema as schema } from '@fiction/core/plugin-user/schema'
+import { AutosaveUtility } from '@fiction/core/utils/save'
 import ElModal from '@fiction/ui/ElModal.vue'
 import { createOption } from '@fiction/ui/index.js'
 import ElForm from '@fiction/ui/inputs/ElForm.vue'
@@ -25,6 +26,8 @@ const isDirty = vue.ref(false)
 
 const user = vue.computed(() => service.fictionUser.activeUser.value)
 
+const userModel = vue.ref<User>(user.value || {})
+
 const avatarUrl = vue.computed(() => {
   const o = user.value
   return o?.avatar ? o?.avatar : (gravatarUrlSync(o?.email, { size: 400 }))
@@ -41,21 +44,27 @@ async function save() {
 
   await endpoint.projectRequest({ _action: 'update', fields, where: { userId } })
 
+  userModel.value = user.value || {}
+
   isDirty.value = false
 
   sending.value = ''
 }
 
-function update(userNew: User) {
-  service.fictionUser.activeUser.value = userNew
+const saveUtil = new AutosaveUtility({
+  onSave: () => save(),
+})
 
-  isDirty.value = true
+function update(userNew: User) {
+  userModel.value = userNew
+
+  saveUtil.autosave({ caller: 'panelAccount' })
 }
 
 const detailOptions: InputOption[] = [
   createOption({ schema, key: 'fullName', label: 'Full Name', input: 'InputText', placeholder: 'Enter Your Name', isRequired: true }),
   createOption({ schema, key: 'avatar', label: 'User Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
-  createOption({ schema, key: 'handle', label: 'Username', input: 'InputHandle', placeholder: 'my-username', props: { table: 'fiction_user', columns: [{ name: 'username' }] } }),
+  createOption({ schema, key: 'handle', label: 'Username', input: 'InputHandle', placeholder: 'my-username', props: { table: 'fiction_user', columns: [{ name: 'handle' }] } }),
 ]
 
 const options = vue.computed(() => {
@@ -179,15 +188,16 @@ const toolFormOptions = vue.computed<InputOption[]>(() => {
     :action="{
       buttons: [{
         testId: 'saveButton',
-        label: isDirty ? 'Save Changes' : 'Saved',
+        label: saveUtil.isDirty.value ? 'Saving' : 'Saved',
         onClick: () => save(),
-        theme: isDirty ? 'primary' : 'default',
+        design: 'outline',
+        theme: saveUtil.isDirty.value ? 'orange' : 'primary',
         loading: sending === 'saving',
-        icon: isDirty ? 'i-tabler-upload' : 'i-tabler-check',
+        icon: saveUtil.isDirty.value ? 'i-tabler-upload' : 'i-tabler-check',
       }] }"
   >
     <FormEngine
-      :model-value="user"
+      :model-value="userModel"
       state-key="settingsTool"
       input-wrap-class="max-w-lg w-full"
       ui-size="lg"

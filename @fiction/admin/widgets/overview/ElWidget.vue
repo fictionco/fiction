@@ -30,7 +30,7 @@ const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
       <!-- Organization info and tasks -->
       <div class="flex flex-col w-full lg:w-3/5 space-y-12 min-h-[40vh]">
         <!-- Header -->
-        <div class="flex flex-col sm:flex-row justify-between items-center">
+        <div class="flex flex-col sm:flex-row sm:text-left text-center gap-4 justify-between items-center">
           <div>
             <h2 class="text-2xl font-semibold x-font-title">
               {{ org?.name }}
@@ -54,7 +54,7 @@ const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
               dropdown-alignment="end"
             >
               <XButton
-                size="md"
+                size="sm"
                 design="outline"
                 theme="primary"
                 icon-after="i-tabler-chevron-down"
@@ -82,7 +82,7 @@ const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
           <!-- Site preview iframe -->
           <ElSitePreviewFrame
             :url="primarySite?.frame.framePageUrl()"
-            class="w-full h-full"
+            class="w-full h-full aspect-[11/16] md:aspect-[3/4]"
           />
 
           <!-- Hover overlay -->

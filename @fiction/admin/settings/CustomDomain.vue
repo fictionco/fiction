@@ -5,11 +5,6 @@ import { useService, validHost, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import InputText from '@fiction/ui/inputs/InputText.vue'
 
-const props = defineProps({
-  modelValue: { type: Array as vue.PropType<TableDomainConfig[]>, default: () => ([]) },
-})
-
-const emit = defineEmits(['update:modelValue'])
 const { fictionSites, fictionUser } = useService<{ fictionSites: FictionSites }>()
 const newHostname = vue.ref('')
 const addNew = vue.ref(false)
@@ -18,10 +13,7 @@ const error = vue.ref('')
 const isInitialLoading = vue.ref(true)
 
 const orgId = vue.computed(() => fictionUser.activeOrganization.value?.orgId)
-const domains = vue.computed({
-  get: () => props.modelValue || [],
-  set: v => emit('update:modelValue', v),
-})
+const domains = vue.ref<TableDomainConfig[]>([])
 
 // Load domains on mount
 vue.onMounted(async () => {
@@ -142,8 +134,8 @@ function deleteDomain(domain: TableDomainConfig) {
             :theme="domain.isPrimary ? 'primary' : 'default'"
             design="ghost"
             :loading="busy === 'update'"
-            @click="updateDomain(domain, { isPrimary: true })"
             rounding="md"
+            @click="updateDomain(domain, { isPrimary: true })"
           >
             {{ domain.isPrimary ? 'Primary' : 'Set' }}
           </XButton>
@@ -196,16 +188,18 @@ function deleteDomain(domain: TableDomainConfig) {
           icon="i-tabler-plus"
           :loading="busy === 'create'"
           :disabled="!!busy"
-          @click="addDomain"
           rounding="md"
-        >Add</XButton>
+          @click="addDomain"
+        >
+          Add
+        </XButton>
 
         <XButton
           icon="i-tabler-x"
           design="ghost"
           :disabled="!!busy"
-          @click="addNew = false"
           rounding="md"
+          @click="addNew = false"
         />
       </div>
     </div>

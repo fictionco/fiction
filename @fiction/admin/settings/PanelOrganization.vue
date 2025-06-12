@@ -3,6 +3,7 @@ import type { ActionButton, Organization } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { gravatarUrlSync, useService, vue } from '@fiction/core'
 import { OrgSchema as schema } from '@fiction/core/plugin-user/schema'
+import { AutosaveUtility } from '@fiction/core/utils/save'
 import { createOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import InputApiKey from './InputApiKey.vue'
@@ -31,10 +32,12 @@ const initialGroupKey = vue.computed(() => {
   return card.site?.siteRouter.query.value?.tab as string | undefined
 })
 
+const orgModel = vue.ref<Organization | undefined>(org.value)
+
 async function save() {
   sending.value = 'saving'
   const endpoint = service.fictionUser.requests.ManageOrganization
-  const fields = org.value
+  const fields = orgModel.value
   const orgId = fields?.orgId
 
   if (!orgId)
@@ -42,14 +45,22 @@ async function save() {
 
   await endpoint.projectRequest({ _action: 'update', fields, where: { orgId } })
 
+  orgModel.value = service.fictionUser.activeOrganization.value
+
   isDirty.value = false
   sending.value = ''
 }
 
-function update(orgNew: Organization) {
-  service.fictionUser.activeOrganization.value = orgNew
+const saveUtil = new AutosaveUtility({
+  onSave: () => save(),
+})
 
-  isDirty.value = true
+function update(changedOrg: Organization) {
+  orgModel.value = changedOrg
+
+  // service.fictionUser.activeOrganization.value = orgNew
+
+  saveUtil.autosave({ caller: 'updateOrg' })
 }
 
 const orgHostname = vue.computed(() => {
@@ -186,14 +197,14 @@ const opts = vue.computed(() => {
       input: 'group',
       icon: { class: 'i-tabler-social' },
       options: [
-        createOption({ schema, key: 'accounts.x', label: 'X / Twitter Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.instagram', label: 'Instagram Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.linkedin', label: 'LinkedIn Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.facebook', label: 'Facebook Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.github', label: 'GitHub Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.youtube', label: 'YouTube Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.pinterest', label: 'Pinterest Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.tiktok', label: 'TikTok Username', input: 'InputText', placeholder: 'username' }),
+        createOption({ schema, key: 'accounts.x.handle', label: 'X / Twitter Username', input: 'InputText', placeholder: 'username' }),
+        createOption({ schema, key: 'accounts.instagram.handle', label: 'Instagram Username', input: 'InputText', placeholder: 'username' }),
+        createOption({ schema, key: 'accounts.linkedin.handle', label: 'LinkedIn Username', input: 'InputText', placeholder: 'username' }),
+        createOption({ schema, key: 'accounts.facebook.handle', label: 'Facebook Username', input: 'InputText', placeholder: 'username' }),
+        createOption({ schema, key: 'accounts.github.handle', label: 'GitHub Username', input: 'InputText', placeholder: 'username' }),
+        createOption({ schema, key: 'accounts.youtube.handle', label: 'YouTube Username', input: 'InputText', placeholder: 'username' }),
+        createOption({ schema, key: 'accounts.pinterest.handle', label: 'Pinterest Username', input: 'InputText', placeholder: 'username' }),
+        createOption({ schema, key: 'accounts.tiktok.handle', label: 'TikTok Username', input: 'InputText', placeholder: 'username' }),
       ],
     }),
     createOption({
@@ -295,18 +306,19 @@ vue.onMounted(async () => {
     :action="{
       buttons: [{
         testId: 'saveButton',
-        label: isDirty ? 'Save Changes' : 'Changes Saved',
+        label: saveUtil.isDirty.value ? 'Saving' : 'Changes Saved',
         onClick: () => save(),
-        theme: isDirty ? 'primary' : 'default',
+        theme: saveUtil.isDirty.value ? 'orange' : 'primary',
+        design: 'outline',
         loading: sending === 'saving',
-        icon: isDirty ? 'i-tabler-upload' : 'i-tabler-check',
+        icon: saveUtil.isDirty.value ? 'i-tabler-rotate-clockwise' : 'i-tabler-check',
         animate: false,
       }],
     }"
     :header
   >
     <FormEngine
-      :model-value="org"
+      :model-value="orgModel"
       state-key="settingsTool"
       ui-size="lg"
       :options="opts"

@@ -53,22 +53,6 @@ const uc = vue.computed(() => card.userConfig.value)
       </div>
 
       <div class="flex items-center h-full justify-end gap-4 md:gap-5 md:min-w-[150px] py-2 px-3">
-        <div class="flex items-center" :data-customer="JSON.stringify(customer)">
-          <CardButton
-            v-if="customer"
-            :card
-            design="ghost"
-            size="sm"
-            theme="default"
-            href="/settings/billing"
-            :icon="customer?.tier && customer.tier >= 10 ? `i-tabler-star` : `i-tabler-currency-dollar-off`"
-            data-test-id="plan-status-button"
-          >
-            {{ customer?.plan?.name }}
-            {{ customer?.tier && customer.tier >= 10 ? `Member` : `Free Version` }}
-            <span v-if="customer?.isTrialing" class="text-theme-500 dark:text-theme-400">(Trial)</span>
-          </CardButton>
-        </div>
         <DashBarMenu
           size="md"
           direction="left"

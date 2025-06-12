@@ -79,12 +79,12 @@ const cls = {
 </script>
 
 <template>
-  <div class="flex h-full min-w-0 grow flex-col justify-between py-6">
+  <div class="flex h-full min-w-0 grow flex-col justify-between py-6 px-4">
     <div class="space-y-6 font-sans">
       <div class="flex items-center justify-start space-x-3">
         <div class="rounded-full flex items-center justify-start">
-          <CardLink :card href="/" class="px-2 text-xl transition-all rounded-md">
-            <XMedia class="h-[36px]" :media="icon" />
+          <CardLink :card href="/" class="px-2.5 text-xl transition-all rounded-md">
+            <XMedia class="h-[34px]" :media="icon" />
           </CardLink>
         </div>
       </div>

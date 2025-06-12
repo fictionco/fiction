@@ -5,18 +5,19 @@ defineOptions({
 
 defineProps<{
   url: string
+  scale?: 20 | 25 | 33 | 50
 }>()
 </script>
 
 <template>
   <div
     v-if="url"
-    class="relative overflow-hidden bg-theme-50 dark:bg-theme-950 aspect-[1/1]"
+    class="relative overflow-hidden bg-theme-50 dark:bg-theme-950"
   >
     <iframe
       v-if="url"
       :src="url"
-      class="absolute inset-0  w-[500%] h-[500%] transform scale-[20%] origin-top-left pointer-events-none bg-theme-900"
+      class="absolute inset-0 size-[400%] md:size-[500%] transform scale-[25%] md:scale-[20%] origin-top-left pointer-events-none bg-theme-900"
       loading="lazy"
       title="Site preview"
     />

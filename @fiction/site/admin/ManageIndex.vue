@@ -113,7 +113,10 @@ function getActions() {
                 </div>
               </div>
 
-              <ElSitePreviewFrame :url="item.stagingUrl" class="aspect-square border-b border-theme-200 dark:border-theme-700 w-96" />
+              <ElSitePreviewFrame
+                :url="item.stagingUrl"
+                class="aspect-square border-b border-theme-200 dark:border-theme-700 w-96 "
+              />
             </XLink>
           </div>
         </template>
