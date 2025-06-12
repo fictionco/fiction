@@ -9,10 +9,16 @@ const { card, primarySite } = defineProps<{
   primarySite?: Site
 }>()
 
-type ModalType = 'welcome' | 'share' | null
+const ModalValues = ['share'] as const
+
+type ModalType = (typeof ModalValues)[number]
 
 const activeModal = vue.computed({
-  get: () => card.site?.siteRouter.query.value._view as ModalType ?? null,
+  get: () => {
+    const viewValue = card.site?.siteRouter.query.value._view as ModalType ?? null
+
+    return ModalValues.includes(viewValue) ? viewValue : null
+  },
   set: (value: ModalType) => {
     if (card.site) {
       const query = { ...card.site.siteRouter.query.value, _view: value ?? undefined }
@@ -25,12 +31,12 @@ const activeModal = vue.computed({
 <template>
   <ElModal
     :vis="!!activeModal"
-    :title="activeModal === 'welcome' ? 'Welcome to Fiction' : 'Your Fiction Link'"
     :has-close="true"
     modal-class="w-full max-w-2xl"
+    :title="activeModal === 'share' ? 'Your Website URL' : ''"
     @update:vis="activeModal = null"
   >
-    <template v-if="activeModal === 'welcome'">
+    <!-- <template v-if="activeModal === 'welcome'">
       <div class="overflow-hidden rounded-md">
         <iframe
           class="aspect-video w-full"
@@ -41,9 +47,9 @@ const activeModal = vue.computed({
           allowfullscreen
         />
       </div>
-    </template>
+    </template> -->
 
-    <div v-else-if="activeModal === 'share'" class="p-8">
+    <div v-if="activeModal === 'share'" class="p-8">
       <UrlShare :url="primarySite?.url.value || ''" />
     </div>
   </ElModal>

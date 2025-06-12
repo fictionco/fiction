@@ -16,9 +16,9 @@ type UserTask = {
 
 // Simplified tasks data - removed buttons array in favor of direct href
 const availableTasks = vue.ref<UserTask[]>([
-  { key: 'profile', title: 'Add your name and profile details', status: 'ready', href: card.link('/settings/profile') },
-  { key: 'post', title: 'Publish your first post', status: 'ready', href: card.link('/settings/profile') },
-  { key: 'share', title: 'Share your site', status: 'pending', href: card.link('/settings/profile') },
+  { key: 'profile', title: 'Add your name and profile details', status: 'ready', href: card.link('/settings') },
+  { key: 'post', title: 'Publish your first post', status: 'ready', href: card.link('/posts') },
+  { key: 'share', title: 'Share your site', status: 'pending', href: card.link('/?_view=share') },
 ])
 
 // Get organizational onboarding data
