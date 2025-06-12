@@ -6,6 +6,8 @@ import { getColorScheme, vue } from '@fiction/core'
 import { fontFamilyByKey } from '@fiction/site/utils/fonts'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 
+defineOptions({ name: 'CardWrap' })
+
 const { card, contentWidth = 'md', verticalSpacing = 'md' } = defineProps<{
   card: Card<CardOptionsWithStandard>
   contentWidth?: StandardSizeComplete

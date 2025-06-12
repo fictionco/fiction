@@ -15,7 +15,7 @@ import { siteEditorController } from './plugin-builder/tools/tools.js'
 import { activeSiteFont } from './utils/fonts.js'
 import { SiteFrameTools } from './utils/frame.js'
 import { SiteHistory } from './utils/history.js'
-import { flattenCards, setLayoutOrder } from './utils/layout.js'
+import { flattenCards, RenderOrderUtility, setLayoutOrder } from './utils/layout.js'
 import { activePageIdByRoute, getPageById, getViewMap } from './utils/page.js'
 import { addNewCard, removeCard } from './utils/region.js'
 import { saveSite, scrollActiveCardIntoView, setSections, setupRouteWatcher, updateSite } from './utils/site.js'
@@ -215,6 +215,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   pages = vue.shallowRef([] as Card[])
   availableCards = vue.computed(() => flattenCards([this.currentPage.value, ...Object.values(this.sections.value)]))
+  renderOrder = new RenderOrderUtility(this)
   currentPath = vue.computed({
     get: () => this.siteRouter.current.value.fullPath,
     set: async v => this.siteRouter.push(v, { caller: 'currentPath' }),

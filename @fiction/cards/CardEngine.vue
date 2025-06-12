@@ -4,7 +4,9 @@ import { Card } from '@fiction/site/card'
 import CardToolDropdown from './CardToolDropdown.vue'
 import EffectTransitionCardList from './EffectTransitionCardList.vue'
 
-const { card, tag = 'div', isEditable = false } = defineProps<{ card?: Card, tag?: string, isEditable?: boolean }>()
+defineOptions({ name: 'CardEngine' })
+
+const { card, tag = 'div', isEditable = false } = defineProps<{ card: Card, tag?: string, isEditable?: boolean }>()
 
 function handleCardClick(args: { cardId: string, event: MouseEvent }) {
   const { event, cardId } = args

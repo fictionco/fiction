@@ -1,5 +1,6 @@
 import type { Card } from '../card.js'
 import type { Site } from '../site.js'
+import { vue } from '@fiction/core'
 
 export const selectors = {
   dragZone: '[data-drag-zone]',
@@ -22,6 +23,44 @@ export function flattenCards(cardsToFlatten: Card[]): Card[] {
   return cardsToFlatten.flatMap(card =>
     [card, ...flattenCards(card.cards?.value || [])],
   ).filter(Boolean)
+}
+
+export class RenderOrderUtility {
+  private site: Site
+  private renderedCardIds = vue.ref(new Set<string>())
+  private isClient = typeof window !== 'undefined'
+
+  constructor(site: Site) {
+    this.site = site
+  }
+
+  renderOrder = vue.computed(() => {
+    return this.site.availableCards.value.map(c => c.cardId)
+  })
+
+  shouldCardRender(cardId: string): boolean {
+    // In SSR, always render all cards
+    if (!this.isClient)
+      return true
+
+    const index = this.renderOrder.value.indexOf(cardId)
+    if (index === 0)
+      return true // First card always renders
+
+    // Check if all previous cards are rendered
+    const previousCards = this.renderOrder.value.slice(0, index)
+    return previousCards.every(id => this.renderedCardIds.value.has(id))
+  }
+
+  markCardRendered(cardId: string): void {
+    if (this.isClient) {
+      this.renderedCardIds.value.add(cardId)
+    }
+  }
+
+  reset(): void {
+    this.renderedCardIds.value.clear()
+  }
 }
 
 export function layoutOrderCards(args: { availableCards: Card[], order: LayoutOrder[] }): Card[] {

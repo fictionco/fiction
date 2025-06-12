@@ -118,7 +118,8 @@ const colors = vue.computed(() => {
 })
 
 unhead.useHead({
-  htmlAttrs: { lang: 'en', dir: 'ltr' },
+  htmlAttrs: { lang: 'en', dir: 'ltr', class: 'dark' },
+  bodyAttrs: { class: 'dark' },
   title: () => getTitleTag(),
   meta: [
     { charset: 'UTF-8' },
@@ -190,7 +191,6 @@ vue.watch(
 
 vue.onMounted(async () => {
   unhead.useHead({
-    htmlAttrs: { class: () => 'dark' },
     bodyAttrs: { class: () => 'dark' },
   })
 })
@@ -297,8 +297,9 @@ body,
 #app,
 .x-site,
 .x-engine{
+
   min-height: 100dvh;
-  background-color: var(--color-theme-900, #000);
+  background-color: var(--color-theme-950, #000);
 }
 
 html.dark,
@@ -308,28 +309,27 @@ body.dark {
 // can't be on root do to variables
 .x-site{
   .x-font-title {
-    font-family: var(--font-family-title, unset);
+    font-family: var(--font-family-title, 'system-ui'), 'system-ui', sans-serif;
     letter-spacing: var(--font-letter-spacing-title, -.02em);
-
   }
   .x-font-entry {
-    font-family: var(--font-family-entry, unset);
+    font-family: var(--font-family-entry, 'system-ui'), 'system-ui', sans-serif;
   }
   .x-font-highlight {
-    font-family: var(--font-family-highlight, unset);
+    font-family: var(--font-family-highlight, 'system-ui'), 'system-ui', sans-serif;
   }
 
   .x-font-body {
-    font-family: var(--font-family-body, unset);
+    font-family: var(--font-family-body, 'system-ui'), 'system-ui', sans-serif;
   }
   .x-font-input {
-    font-family: var(--font-family-input, unset);
+    font-family: var(--font-family-input, 'system-ui'), 'system-ui', sans-serif;
   }
   .x-font-mono {
-    font-family: var(--font-family-mono, unset);
+    font-family: var(--font-family-mono, 'monospace'), monospace;
   }
   .x-font-sans {
-    font-family: var(--font-family-sans, unset);
+    font-family: var(--font-family-sans, 'system-ui'), 'system-ui', sans-serif;
   }
 
 }

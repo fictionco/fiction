@@ -28,7 +28,6 @@ defineProps({
 }
 
 .cardList-leave-active {
-  position: absolute;
   width: 100%;
   transition: none;
 }

@@ -20,7 +20,7 @@ defineProps({
     <ElEngine
       tag="main"
       :card
-      class="min-h-[40vh] grow"
+      class="min-h-[40vh] grow will-change-contents"
       :is-editable="card?.site?.isEditable.value"
     />
     <ElEngine
@@ -28,6 +28,10 @@ defineProps({
       :card="card.site.sections.value.footer"
       :is-editable="card?.site?.isEditable.value"
     />
-    <ElEngine tag="div" class="hidden" :card="card.site.sections.value.hidden" />
+    <ElEngine
+      tag="div"
+      class="hidden"
+      :card="card.site.sections.value.hidden"
+    />
   </div>
 </template>

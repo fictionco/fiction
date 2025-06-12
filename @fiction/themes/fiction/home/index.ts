@@ -35,11 +35,11 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                 {
                   superTitle: {
                     theme: 'orange',
-                    text: 'Own your story.',
+                    text: 'Personal Branding Meets AI',
                     icon: { class: 'i-tabler-book' },
                   },
-                  title: `Your Website and Newsletter in [@text_effect type=line]3 Minutes[/@text_effect].`,
-                  subTitle: `The AI-enhanced content platform trusted by 100s of leaders, creators, and entrepreneurs.`,
+                  title: `Create Your Personal Website in [@text_effect type=line]3 Minutes[/@text_effect].`,
+                  subTitle: `Fiction is a revolutionary platform that helps you build a personal brand with AI.`,
                   action: {
                     buttons: [
                       {
