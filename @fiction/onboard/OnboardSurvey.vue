@@ -11,7 +11,7 @@ import { AutosaveUtility } from '@fiction/core/utils/save'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
 import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import XProgress from '@fiction/ui/loaders/XProgress.vue'
-import XMedia from '@fiction/ui/media/XMedia.vue'
+import XLogoType from '@fiction/ui/media/XLogoType.vue'
 import { localMedia } from '@fiction/ui/stock/localMedia'
 import { profileFromAccount, ProfileDataSchema as schema } from './util'
 
@@ -327,7 +327,10 @@ const stepConfig: StepConfig<StepKey> = {
     <div class="fixed inset-0 z-10 overflow-y-auto">
       <div class="text-white absolute py-4 md:py-8 px-4 md:px-16 w-full flex justify-between">
         <div>
-          <XMedia class="h-[35px]" image-mode="inline" :media="localMedia.fictionIconInline" />
+          <XLogoType
+            :logo="{ variant: 'media', media: localMedia.fictionIconInline }"
+            :media-handling="{ height: 2 }"
+          />
         </div>
         <ElSavingSignal change-type="publish" :is-dirty="saveUtil.isDirty.value" />
       </div>

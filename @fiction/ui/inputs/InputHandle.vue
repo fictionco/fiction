@@ -28,40 +28,45 @@ const emit = defineEmits<{
 
 const { fictionDb } = useService()
 const initialValue = vue.ref(props.modelValue)
-const status = vue.ref<ResponseStatus>(props.modelValue ? 'success' : 'unknown')
-const reason = vue.ref<ValidationReason>(props.modelValue ? 'current' : 'unknown')
+const status = vue.ref<ResponseStatus>('unknown')
+const reason = vue.ref<ValidationReason>('unknown')
+const isValid = vue.ref(false)
 const inputRef = vue.ref<HTMLInputElement>()
-const isValid = vue.ref(-1)
+
 const reasonText = vue.computed(() => {
-  const r = {
-    short: 'Too short',
-    long: 'Too long',
-    invalid: 'Invalid characters',
-    success: 'Available',
-    current: 'Current',
-    error: 'There was a problem',
-    loading: 'Checking...',
-    taken: 'Not available',
-    reserved: 'Reserved',
+  const messages = {
+    short: `At least ${props.minLength} characters required`,
+    long: `Maximum ${props.maxLength} characters allowed`,
+    invalid: 'Only lowercase letters, numbers, and hyphens allowed',
+    success: 'Available!',
+    current: 'This is your current handle',
+    error: 'Unable to check availability. Please try again.',
+    loading: 'Checking availability...',
+    taken: 'This handle is already in use',
+    reserved: 'This handle is not available',
+    required: 'Handle is required',
     unknown: '',
   } as const
 
-  return r[reason.value as keyof typeof r]
+  return messages[reason.value as keyof typeof messages]
 })
 
-async function handleEmit(target: EventTarget | null) {
-  const el = target as HTMLInputElement
-  const value = el.value
+const icon = vue.computed(() => {
+  const icons = {
+    success: { icon: 'i-tabler-check', color: 'text-green-500' },
+    error: { icon: 'i-tabler-exclamation-circle', color: 'text-red-500' },
+    loading: { icon: 'i-tabler-reload animate-spin', color: 'text-theme-400' },
+    fail: { icon: 'i-tabler-x', color: 'text-red-500' },
+    unknown: { icon: 'i-tabler-line-dashed', color: 'text-theme-400' },
+  }
 
-  const columns = props.columns.map(c => ({ ...c, value: !c.value ? value : c.value }))
+  return icons[status.value]
+})
 
-  emit('update:modelValue', value)
-
-  // Reset status when empty
+async function validateHandle(value: string) {
   if (!value) {
     status.value = 'unknown'
     reason.value = 'unknown'
-    isValid.value = -1
     inputRef.value?.setCustomValidity('')
     return
   }
@@ -69,8 +74,11 @@ async function handleEmit(target: EventTarget | null) {
   if (value === initialValue.value) {
     status.value = 'success'
     reason.value = 'current'
+    inputRef.value?.setCustomValidity('')
+    return
   }
-  else if (value.length < props.minLength) {
+
+  if (value.length < props.minLength) {
     status.value = 'fail'
     reason.value = 'short'
   }
@@ -82,46 +90,50 @@ async function handleEmit(target: EventTarget | null) {
     status.value = 'fail'
     reason.value = 'invalid'
   }
-  else {
+  else if (props.table) {
     status.value = 'loading'
+    reason.value = 'loading'
 
     try {
-      const r = await fictionDb.requests.CheckHandle.request({ table: props.table, columns })
+      const columns = props.columns.map(c => ({ ...c, value: c.value || value }))
+      const response = await fictionDb.requests.CheckHandle.request({
+        table: props.table,
+        columns,
+      })
 
-      status.value = r.data?.available || 'error'
-      reason.value = r.data?.reason ?? 'unknown'
+      status.value = response.data?.available || 'error'
+      reason.value = response.data?.reason ?? 'unknown'
     }
-    catch (e) {
+    catch {
       status.value = 'error'
       reason.value = 'error'
-      throw e
     }
   }
-
-  if (status.value === 'success') {
-    inputRef.value?.setCustomValidity('')
-    isValid.value = 1
-  }
   else {
-    inputRef.value?.setCustomValidity(reasonText.value)
-    isValid.value = 0
+    status.value = 'success'
+    reason.value = 'success'
   }
+
+  // Only set as valid if status is success
+  isValid.value = status.value === 'success'
+  inputRef.value?.setCustomValidity(isValid.value ? '' : reasonText.value)
+}
+
+async function handleInput(event: Event) {
+  const rawValue = (event.target as HTMLInputElement).value
+  emit('update:modelValue', rawValue)
+  await validateHandle(rawValue)
 }
 
 function focusInput() {
   inputRef.value?.focus()
 }
 
-const icon = vue.computed(() => {
-  const i = {
-    success: { icon: 'i-tabler-check', color: 'text-green-500' },
-    error: { icon: 'i-tabler-exclamation-circle', color: 'text-red-500' },
-    loading: { icon: 'i-tabler-reload animate-spin', color: 'text-theme-400' },
-    fail: { icon: 'i-tabler-x', color: 'text-red-500' },
-    unknown: { icon: 'i-tabler-line-dashed', color: 'text-theme-400' },
+// Validate on mount if there's an initial value
+vue.onMounted(() => {
+  if (props.modelValue) {
+    validateHandle(props.modelValue)
   }
-
-  return i[status.value]
 })
 
 const cls = vue.computed(() => inputClasses({ uiSize: props.uiSize }))
@@ -143,16 +155,16 @@ const cls = vue.computed(() => inputClasses({ uiSize: props.uiSize }))
       </div>
       <input
         ref="inputRef"
-        class="grow px-0 min-w-0 w-full"
+        class="grow px-0 min-w-0 w-full lowercase"
         :class="[cls.padY, cls.reset]"
         :style="{ fontSize: 'inherit' }"
         type="text"
         :value="modelValue"
         :placeholder="placeholder"
         spellcheck="false"
+        :required="required"
         :data-is-valid="isValid"
-        :required="required ? 'true' : undefined"
-        @input="handleEmit($event.target)"
+        @input="handleInput"
       >
       <div
         v-if="afterInput"
