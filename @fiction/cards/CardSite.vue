@@ -158,7 +158,7 @@ unhead.useHead({
   script: () => getHeadScripts({ site: site.value }),
   style: [
     {
-      innerHTML: 'html { opacity: 0; transform: scale(.96); transition: opacity 0.7s, transform 0.7s ease; } body.dark { background: #000; }',
+      innerHTML: 'html { color-scheme: dark; opacity: 0; transform: scale(.96); transition: opacity 0.7s, transform 0.7s ease; } body.dark { background: #000; }',
     },
   ],
   noscript: () => getHeadScripts({ site: site.value, noscript: true }),
@@ -299,7 +299,7 @@ body,
 .x-engine{
 
   min-height: 100dvh;
-  background-color: var(--color-theme-950, #000);
+  background-color: var(--color-theme-900, #000);
 }
 
 html.dark,
@@ -318,7 +318,6 @@ body.dark {
   .x-font-highlight {
     font-family: var(--font-family-highlight, 'system-ui'), 'system-ui', sans-serif;
   }
-
   .x-font-body {
     font-family: var(--font-family-body, 'system-ui'), 'system-ui', sans-serif;
   }
@@ -332,6 +331,11 @@ body.dark {
     font-family: var(--font-family-sans, 'system-ui'), 'system-ui', sans-serif;
   }
 
+}
+
+iframe {
+  background-color: #030712 !important;
+  color-scheme: dark !important;
 }
 
 /* Chrome, Safari and Opera */

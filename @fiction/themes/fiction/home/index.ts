@@ -20,8 +20,8 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
     priority: 50,
     userConfig: {
       standard: {
-        title: 'Personal Website and Newsletter in Seconds',
-        description: 'Create a personal brand that displays your ideal digital self. Build an AI-enhanced personal brand and professional network with Fiction.',
+        title: 'Create Your Personal Website in 3 Minutes',
+        description: 'Fiction helps you create a personal website, newsletter, and content hub in minutes.',
       },
     },
     cards: [
@@ -35,7 +35,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                 {
                   superTitle: {
                     theme: 'orange',
-                    text: 'Personal Branding Meets AI',
+                    text: 'Built for Leaders and Creators',
                     icon: { class: 'i-tabler-book' },
                   },
                   title: `Create Your Personal Website in [@text_effect type=line]3 Minutes[/@text_effect].`,

@@ -87,7 +87,7 @@ const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
 
           <!-- Hover overlay -->
           <div class="absolute text-sm font-semibold inset-0 bg-theme-900/80 backdrop-blur-xs rounded-md flex flex-col items-center justify-center gap-6 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <span>Edit Site</span>
+            <span class="rounded-full ring-1 ring-white px-4 py-1">Edit Site</span>
           </div>
         </CardLink>
 

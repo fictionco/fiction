@@ -15,6 +15,7 @@ const base = vue.computed(() => {
  * Set base for relative links using native <base> tag
  */
 unhead.useHead({
+  htmlAttrs: { lang: 'en', dir: 'ltr', class: 'dark', style: 'color-scheme: dark;' },
   base: {
     href: () => base.value,
   },
