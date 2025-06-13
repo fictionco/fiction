@@ -1,5 +1,4 @@
 import type { EndpointMeta, EndpointResponse, MediaObject, Organization, User } from '@fiction/core'
-import type { OrgProfile } from '@fiction/core/schemas/org'
 import type { FictionOnboardSettings } from '.'
 import type { AiEnhancement } from './generation'
 import type { LinkedInEnrichmentProfile, ProfileData } from './util'

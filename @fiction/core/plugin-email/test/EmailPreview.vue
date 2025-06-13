@@ -19,8 +19,8 @@ vue.onMounted(async () => {
       senderName: 'Fiction.com',
       senderEmail: 'admin@fiction.com',
       subject: `Test Space (test email 👀)`,
-      title: 'Voyage to Space 🚀',
-      subTitle: 'This is to test formatting of various elements.🧪',
+      title: 'Testing Email Layout',
+      subTitle: 'Testing the Fiction email layout',
       content: sampleHtml,
       buttons: [
         {

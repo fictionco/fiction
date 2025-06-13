@@ -15,6 +15,7 @@ import { FictionAi } from '@fiction/plugin-ai'
 import { FictionContact } from '@fiction/plugin-contact'
 import { FictionPosts } from '@fiction/posts/index.js'
 
+import { FictionThemes } from '@fiction/themes/index.js'
 import { FictionSites } from '../index.js'
 import { Site } from '../site.js'
 import * as testTheme from './test-theme'
@@ -23,6 +24,7 @@ import { setup } from './testUtils.main.js'
 export type SiteTestUtils = TestUtils & {
   fictionSites: FictionSites
   fictionCards: FictionCards
+  fictionThemes: FictionThemes
   fictionRouterSites: FictionRouter
   fictionAppSites: FictionApp
   fictionMedia: FictionMedia
@@ -94,6 +96,7 @@ export async function createSiteTestUtils(args: {
 
   out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), themes })
   out.fictionCards = new FictionCards({ ...out, fictionSites: out.fictionSites, fictionRouterSites: out.fictionRouterSites })
+  out.fictionThemes = new FictionThemes({ ...out, fictionSites: out.fictionSites, fictionCards: out.fictionCards })
 
   out.fictionOnboard = new FictionOnboard({ ...(out as SiteTestUtils), proxycurlApiKey: v.proxycurlApiKey })
 

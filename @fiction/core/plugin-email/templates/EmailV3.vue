@@ -70,9 +70,10 @@ const colors = computed(() => {
     primary: isDark ? themeColors[400] : themeColors[600],
     primaryHover: themeColors[500],
     text: isDark ? colorList.gray[0] : colorList.gray[950],
-    textMuted: isDark ? colorList.gray[400] : colorList.gray[600],
+    textMuted: isDark ? colorList.gray[400] : colorList.gray[500],
     textSubtle: isDark ? colorList.gray[500] : colorList.gray[400],
     border: isDark ? colorList.gray[700] : colorList.gray[200],
+    borderDark: isDark ? colorList.gray[600] : colorList.gray[300],
     bg: isDark ? colorList.gray[900] : colorList.gray[0],
     panel: isDark ? colorList.gray[800] : colorList.gray[50],
     highlight: isDark ? colorList.yellow[800] : colorList.yellow[200],
@@ -117,7 +118,7 @@ const styles = computed(() => ({
   `,
   senderHeader: `
     font-size: ${typography.sizes.sm};
-    color: ${colors.value.textMuted};
+    color: ${colors.value.text};
     margin: 0 0 ${spacing['5xl']};
   `,
   senderName: `
@@ -417,7 +418,7 @@ unhead.useHead({
 
       /* Media & Figures */
       .prose figure {
-        margin: ${spacing.lg} 0;
+        margin: ${spacing['2xl']} 0;
         text-align: center;
       }
       .prose figure img {
@@ -573,7 +574,7 @@ unhead.useHead({
               }"
             >
               <a href="https://fiction.com" target="_blank" rel="noopener">
-                Powered by Fiction
+                Powered by Fiction.com
               </a>
             </td>
           </tr>

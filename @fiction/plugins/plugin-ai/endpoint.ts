@@ -325,5 +325,4 @@ export class QueryAi extends Query<QueryAiSettings> {
       return mediaItem as MediaObject
     }
   }
-
 }

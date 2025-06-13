@@ -50,8 +50,7 @@
         "SettingsBoard.vue": null,
         "SettingsMain.vue": null,
         "SettingsPanel.vue": null,
-        "SettingsPanelHeader.vue": null,
-        "__PanelDev.vue": null
+        "SettingsPanelHeader.vue": null
       },
       "test": {
         "__snapshots__": {
@@ -282,8 +281,8 @@
         "manage": {
           "XCard.vue": null,
           "__XCard copy.vue": null,
-          "index.ts": null,
-          "manage.uiux.test.ts": null
+          "__manage.uiux.test.ts": null,
+          "index.ts": null
         },
         "mediaModal": {
           "ElCard.vue": null,
@@ -668,9 +667,10 @@
         },
         "templates": {
           "EmailV2.vue": null,
-          "__EmailStandard.vue": null
+          "EmailV3.vue": null
         },
         "test": {
+          "EmailPreview.vue": null,
           "endpoint.unit.test.ts": null
         },
         "util.ts": null,
@@ -780,17 +780,6 @@
         "endpointEmail.ts": null,
         "endpointOrg.ts": null,
         "endpointTopValues.ts": null,
-        "enrich": {
-          "endpoint.ts": null,
-          "pluginEnrich.ts": null,
-          "test": {
-            "enrichEndpoint.unit.test.ts": null,
-            "enrichUtil.unit.test.ts": null,
-            "exampleResponse.json": null
-          },
-          "types.ts": null,
-          "util.ts": null
-        },
         "google.ts": null,
         "img": {
           "org-avatar.png": null,
@@ -828,6 +817,7 @@
         "media.ts": null,
         "motifs.ts": null,
         "navItem.ts": null,
+        "org.ts": null,
         "post.ts": null,
         "standard.ts": null,
         "typography.ts": null
@@ -873,7 +863,6 @@
         "casing.ts": null,
         "colors.ts": null,
         "cookie.ts": null,
-        "cron.ts": null,
         "crypto.ts": null,
         "db.ts": null,
         "draggable.ts": null,
@@ -925,6 +914,7 @@
         "schemas.ts": null,
         "serverHealth.ts": null,
         "snapshot.ts": null,
+        "social.ts": null,
         "socket.ts": null,
         "ssr.ts": null,
         "static.ts": null,
@@ -940,7 +930,6 @@
           "clean.unit.test.ts": null,
           "colors.unit.test.ts": null,
           "cookie.unit.test.ts": null,
-          "cron.unit.test.ts": null,
           "crypto.unit.test.ts": null,
           "db.unit.test.ts": null,
           "endpoint.unit.test.ts": null,
@@ -989,6 +978,163 @@
         "count.ts": null,
         "index.ts": null
       }
+    },
+    "fiction": {
+      "__demos": {
+        "DemoGrid.vue": null,
+        "index.ts": null
+      },
+      "affiliate": {
+        "el": {
+          "ElCard.vue": null,
+          "both-ways-arrow.svg": null
+        },
+        "index.ts": null
+      },
+      "config.ts": null,
+      "developer": {
+        "el": {
+          "ElBenefits.vue": null,
+          "ElCard.vue": null,
+          "ElCta.vue": null,
+          "ElFeatures.vue": null,
+          "dash.svg": null,
+          "fig": {
+            "ElLogo.vue": null,
+            "FictionLogo.svg": null,
+            "FigureDashboard.vue": null,
+            "FigureLiveChanges.vue": null,
+            "FigurePlugins.vue": null,
+            "FigurePoweredBy.vue": null,
+            "FigureSplash.vue": null,
+            "FigureThemes.vue": null,
+            "img": {
+              "figure-lc.svg": null,
+              "figure-powered-nodejs.svg": null,
+              "figure-powered-typescript.svg": null,
+              "figure-powered-vite.svg": null,
+              "figure-powered-vue.svg": null,
+              "figure-splash-code-editor.svg": null,
+              "figure-splash-dashboard.svg": null,
+              "figure-splash-mobile-device.svg": null,
+              "figure-splash-notify.svg": null,
+              "figure-splash-ssr.svg": null,
+              "figure-splash-terminal.svg": null,
+              "icon-analytics.svg": null,
+              "icon-aws.svg": null,
+              "icon-docs.svg": null,
+              "icon-feed.svg": null,
+              "icon-forms.svg": null,
+              "icon-gallery.svg": null,
+              "icon-plugin-blog.svg": null,
+              "icon-plugin-bugsnag.svg": null,
+              "icon-plugin-contact-form.svg": null,
+              "icon-plugin-email-list.svg": null,
+              "icon-plugin-forum.svg": null,
+              "icon-plugin-gtm.svg": null,
+              "icon-plugin-job-board.svg": null,
+              "icon-plugin-seo.svg": null,
+              "icon-plugin-sitemap.svg": null,
+              "icon-plugin-syntax-highlight.svg": null,
+              "icon-socialize.svg": null,
+              "icon-subscriptions.svg": null,
+              "icon-themes.svg": null,
+              "pattern-dot.svg": null,
+              "theme-alpha-yellow.jpg": null,
+              "theme-alpha.jpg": null,
+              "theme-ultra.jpg": null
+            }
+          }
+        },
+        "index.ts": null
+      },
+      "home": {
+        "img": {
+          "abstract1.webp": null,
+          "abstract2.webp": null,
+          "abstract3.webp": null,
+          "andrew.jpg": null,
+          "brian.jpg": null,
+          "dean-profile.webp": null,
+          "dean2.jpg": null,
+          "mercedes-bazan.webp": null,
+          "morgan.jpg": null,
+          "obama.webp": null,
+          "rogan.jpg": null,
+          "selena.jpg": null
+        },
+        "index.ts": null
+      },
+      "index.ts": null,
+      "package.json": null,
+      "pages": {
+        "about": {
+          "img": {
+            "fiction-office.webp": null,
+            "girl-computer.webp": null,
+            "morgan.jpg": null,
+            "people2.webp": null,
+            "pro.webp": null,
+            "spectrum.jpg": null,
+            "team-ap.webp": null,
+            "team-ds.webp": null,
+            "team-mj.webp": null
+          },
+          "index.ts": null
+        },
+        "pricing": {
+          "index.ts": null
+        },
+        "tour": {
+          "img": {
+            "FigurePhone.vue": null,
+            "ReviewRequestSms.vue": null,
+            "ai.png": null,
+            "audience.png": null,
+            "fig-contact-screen.svg": null,
+            "fig-email-alt-1.svg": null,
+            "fig-email-screen.svg": null,
+            "fig-money-alt-1.svg": null,
+            "fig-money-screen.svg": null,
+            "fig-subscribe-alt-1.svg": null,
+            "fig-subscribe-screen.svg": null,
+            "fig-website-alt-1.svg": null,
+            "fig-website-screen.svg": null,
+            "invisible.png": null,
+            "man-smiling.png": null,
+            "meeting.png": null,
+            "person-brene.webp": null,
+            "person-ferris.webp": null,
+            "person-simon.jpg": null,
+            "site1.jpg": null,
+            "site2.webp": null,
+            "site3.jpg": null,
+            "site4.mp4": null,
+            "website.svg": null
+          },
+          "index.ts": null
+        }
+      },
+      "static": {
+        "profile-man-1.png": null,
+        "profile-man-2.png": null,
+        "profile-man-3.png": null,
+        "profile-man-4.png": null,
+        "profile-man-5.png": null,
+        "profile-man-6.png": null,
+        "profile-man-7.png": null,
+        "profile-man-8.png": null,
+        "profile-woman-1.png": null,
+        "profile-woman-2.png": null,
+        "profile-woman-3.png": null,
+        "profile-woman-4.png": null,
+        "profile-woman-5.png": null,
+        "profile-woman-6.png": null,
+        "profile-woman-7.png": null,
+        "profile-woman-8.png": null,
+        "profile-woman-9.png": null
+      },
+      "templates.ts": null
     },
     "onboard": {
       "OnboardSurvey.vue": null,
@@ -1268,7 +1414,6 @@
           "layout.unit.test.ts": null,
           "page.unit.test.ts": null,
           "region.unit.test.ts": null,
-          "schema.unit.test.ts": null,
           "site.unit.test.ts": null
         },
         "themeStructure.ts": null
@@ -1309,161 +1454,8 @@
           "standard.ts": null
         }
       },
-      "fiction": {
-        "__demos": {
-          "DemoGrid.vue": null,
-          "index.ts": null
-        },
-        "affiliate": {
-          "el": {
-            "ElCard.vue": null,
-            "both-ways-arrow.svg": null
-          },
-          "index.ts": null
-        },
-        "config.ts": null,
-        "developer": {
-          "el": {
-            "ElBenefits.vue": null,
-            "ElCard.vue": null,
-            "ElCta.vue": null,
-            "ElFeatures.vue": null,
-            "dash.svg": null,
-            "fig": {
-              "ElLogo.vue": null,
-              "FictionLogo.svg": null,
-              "FigureDashboard.vue": null,
-              "FigureLiveChanges.vue": null,
-              "FigurePlugins.vue": null,
-              "FigurePoweredBy.vue": null,
-              "FigureSplash.vue": null,
-              "FigureThemes.vue": null,
-              "img": {
-                "figure-lc.svg": null,
-                "figure-powered-nodejs.svg": null,
-                "figure-powered-typescript.svg": null,
-                "figure-powered-vite.svg": null,
-                "figure-powered-vue.svg": null,
-                "figure-splash-code-editor.svg": null,
-                "figure-splash-dashboard.svg": null,
-                "figure-splash-mobile-device.svg": null,
-                "figure-splash-notify.svg": null,
-                "figure-splash-ssr.svg": null,
-                "figure-splash-terminal.svg": null,
-                "icon-analytics.svg": null,
-                "icon-aws.svg": null,
-                "icon-docs.svg": null,
-                "icon-feed.svg": null,
-                "icon-forms.svg": null,
-                "icon-gallery.svg": null,
-                "icon-plugin-blog.svg": null,
-                "icon-plugin-bugsnag.svg": null,
-                "icon-plugin-contact-form.svg": null,
-                "icon-plugin-email-list.svg": null,
-                "icon-plugin-forum.svg": null,
-                "icon-plugin-gtm.svg": null,
-                "icon-plugin-job-board.svg": null,
-                "icon-plugin-seo.svg": null,
-                "icon-plugin-sitemap.svg": null,
-                "icon-plugin-syntax-highlight.svg": null,
-                "icon-socialize.svg": null,
-                "icon-subscriptions.svg": null,
-                "icon-themes.svg": null,
-                "pattern-dot.svg": null,
-                "theme-alpha-yellow.jpg": null,
-                "theme-alpha.jpg": null,
-                "theme-ultra.jpg": null
-              }
-            }
-          },
-          "index.ts": null
-        },
-        "home": {
-          "img": {
-            "abstract1.webp": null,
-            "abstract2.webp": null,
-            "abstract3.webp": null,
-            "andrew.jpg": null,
-            "brian.jpg": null,
-            "dean2.jpg": null,
-            "mercedes-bazan.webp": null,
-            "morgan.jpg": null,
-            "obama.webp": null,
-            "rogan.jpg": null,
-            "selena.jpg": null
-          },
-          "index.ts": null
-        },
-        "index.ts": null,
-        "package.json": null,
-        "pages": {
-          "about": {
-            "img": {
-              "fiction-office.webp": null,
-              "girl-computer.webp": null,
-              "morgan.jpg": null,
-              "people2.webp": null,
-              "pro.webp": null,
-              "spectrum.jpg": null,
-              "team-ap.webp": null,
-              "team-mj.webp": null
-            },
-            "index.ts": null
-          },
-          "pricing": {
-            "index.ts": null
-          },
-          "tour": {
-            "img": {
-              "FigurePhone.vue": null,
-              "ReviewRequestSms.vue": null,
-              "ai.png": null,
-              "audience.png": null,
-              "fig-contact-screen.svg": null,
-              "fig-email-alt-1.svg": null,
-              "fig-email-screen.svg": null,
-              "fig-money-alt-1.svg": null,
-              "fig-money-screen.svg": null,
-              "fig-subscribe-alt-1.svg": null,
-              "fig-subscribe-screen.svg": null,
-              "fig-website-alt-1.svg": null,
-              "fig-website-screen.svg": null,
-              "invisible.png": null,
-              "man-smiling.png": null,
-              "meeting.png": null,
-              "person-brene.webp": null,
-              "person-ferris.webp": null,
-              "person-simon.jpg": null,
-              "site1.jpg": null,
-              "site2.webp": null,
-              "site3.jpg": null,
-              "site4.mp4": null,
-              "website.svg": null
-            },
-            "index.ts": null
-          }
-        },
-        "static": {
-          "profile-man-1.png": null,
-          "profile-man-2.png": null,
-          "profile-man-3.png": null,
-          "profile-man-4.png": null,
-          "profile-man-5.png": null,
-          "profile-man-6.png": null,
-          "profile-man-7.png": null,
-          "profile-man-8.png": null,
-          "profile-woman-1.png": null,
-          "profile-woman-2.png": null,
-          "profile-woman-3.png": null,
-          "profile-woman-4.png": null,
-          "profile-woman-5.png": null,
-          "profile-woman-6.png": null,
-          "profile-woman-7.png": null,
-          "profile-woman-8.png": null,
-          "profile-woman-9.png": null
-        },
-        "templates.ts": null
-      }
+      "index.ts": null,
+      "package.json": null
     },
     "ui": {
       "ElBadge.vue": null,
@@ -1868,6 +1860,7 @@
   "pnpm-workspace.yaml": null,
   "scripts": {
     "cloudinaryUrls.ts": null,
+    "deployFlySecrets.ts": null,
     "genGoogleFontList.ts": null,
     "project_structure.py": null,
     "systemMessage.md": null,

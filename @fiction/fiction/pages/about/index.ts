@@ -1,7 +1,6 @@
 import type { MapUserConfig } from '@fiction/cards/user/maps'
 import { cardConfig } from '@fiction/cards'
 import ImageOffice from './img/fiction-office.webp'
-import ImageGirlComputer from './img/girl-computer.webp'
 import ImageAndrew from './img/team-ap.webp'
 import ImageDean from './img/team-ds.webp'
 import ImageMorgan from './img/team-mj.webp'

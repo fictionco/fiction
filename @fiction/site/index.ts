@@ -207,9 +207,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     this.themes.value = [defaultTheme, baseTheme, ...addedThemes]
   }
 
-  cleanup() {
-    this.themes.value = []
-  }
+  cleanup() { }
 
   async trackWebsiteEvents({ site }: { site?: Site }) {
     const { fictionAnalytics } = this.settings

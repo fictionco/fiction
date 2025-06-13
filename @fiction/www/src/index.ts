@@ -15,6 +15,7 @@ import { FictionMonitor } from '@fiction/plugin-monitor/index.js'
 import { FictionStripe } from '@fiction/plugin-stripe/index.js'
 import { FictionPosts } from '@fiction/posts'
 import { FictionSites } from '@fiction/site/index.js'
+import { FictionThemes } from '@fiction/themes'
 import { FictionUi } from '@fiction/ui/index.js'
 import { version } from '../package.json'
 import { commands } from './commands.js'
@@ -199,12 +200,13 @@ const fictionSites = new FictionSites({
   themes,
 })
 const fictionCards = new FictionCards({ ...s, fictionSites })
+const fictionThemes = new FictionThemes({ ...s, fictionSites, fictionCards })
 
 const fictionPosts = new FictionPosts({ fictionContact, fictionSites, ...s })
 
 const fictionOnboard = new FictionOnboard({ ...s, fictionContact, fictionPosts, fictionSites, proxycurlApiKey: v.proxycurlApiKey })
 
-const baseService = { ...s, fictionAnalytics, fictionSites, fictionCards, fictionTeam, fictionUi, fictionStripe, fictionContact, fictionPosts, fictionOnboard }
+const baseService = { ...s, fictionAnalytics, fictionSites, fictionCards, fictionThemes, fictionTeam, fictionUi, fictionStripe, fictionContact, fictionPosts, fictionOnboard }
 
 export type SpecificService = typeof baseService
 

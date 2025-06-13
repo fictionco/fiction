@@ -134,7 +134,7 @@ export async function useElementVisible(args: { caller: string, selector: string
   let count = 0
   // Function to check for element and start observing
   const checkAndObserve = () => {
-    if(typeof document === 'undefined') {
+    if (typeof document === 'undefined') {
       console.warn('Document is not available, cannot observe element.')
       clearInterval(intervalId)
       return

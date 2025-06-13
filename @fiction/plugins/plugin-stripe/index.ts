@@ -132,7 +132,7 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
 
         const { orgId, email, name } = org
         await this.queries.ManageCustomer.serve(
-          { _action: 'update', orgId, fields: { email: email, name: name } },
+          { _action: 'update', orgId, fields: { email, name } },
           { server: true },
         )
       }

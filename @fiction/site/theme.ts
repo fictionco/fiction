@@ -1,6 +1,7 @@
 import type { FictionAdmin } from '@fiction/admin/index.js'
 import type { ColorThemeBright, CoreServices, FictionEnv, MediaObject, Organization, ServiceList } from '@fiction/core'
 import type { CardTemplate } from './card.js'
+import type { FictionSites } from './index.js'
 import type { SiteGlobalUserConfig } from './schema.js'
 import type { SiteSettings } from './site.js'
 import type { CardConfigPortable } from './tables.js'
@@ -157,4 +158,13 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
       },
     }
   }
+}
+
+export function getActiveThemes(args: { fictionSites: FictionSites, themes: Theme[] }) {
+  const { fictionSites, themes } = args
+  const defaultTheme = new Theme({
+    themeId: 'empty',
+    root: import.meta.url,
+    getConfig: async () => ({ userConfig: {}, pages: [], sections: {} }),
+  })
 }

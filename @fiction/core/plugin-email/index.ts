@@ -67,7 +67,7 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
     const { fileURLToPath } = await import('node:url')
     const path = await import('node:path')
 
-    const templatePath = path.join(path.dirname(fileURLToPath(import.meta.url)), 'templates', 'EmailV2.vue')
+    const templatePath = path.join(path.dirname(fileURLToPath(import.meta.url)), 'templates', 'EmailV3.vue')
 
     const renderer = await this.getNodeRenderer()
 
