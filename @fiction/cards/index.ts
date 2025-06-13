@@ -160,6 +160,13 @@ export function getUiDemoCardTemplates() {
       component: vue.defineAsyncComponent(() => import('@fiction/ui/buttons/test/TestButtonsAll.vue')),
     },
     {
+      templateId: 'xemail',
+      title: 'Email',
+      description: 'HTML Email Template',
+      icon: 'i-tabler-mail',
+      component: vue.defineAsyncComponent(() => import('@fiction/core/plugin-email/test/EmailPreview.vue')),
+    },
+    {
       templateId: 'xinput',
       title: 'Inputs',
       description: 'Standard input styles',

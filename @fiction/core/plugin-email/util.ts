@@ -17,6 +17,7 @@ export type EmailSendConfig = {
   theme?: ColorThemeBright
 
   // footer and links
+  readOnSiteUrl?: string
   mediaFooter?: MediaObject
   streetAddress?: string
   companyName?: string
