@@ -188,6 +188,7 @@ vue.onBeforeUnmount(() => {
                 :content="currentItem?.title || ''"
                 class="x-font-title z-20 font-bold md:w-[170%]"
                 :min-size="40"
+                :max-size="220"
               >
                 <CardText :card tag="span" :path="pathCheck(`items.${currentItemIndex}.title`, schema)" />
               </EffectFitText>
@@ -195,6 +196,7 @@ vue.onBeforeUnmount(() => {
                 v-if="currentItem?.subTitle"
                 :lines="1"
                 :min-size="28"
+                :max-size="80"
                 :content="currentItem?.subTitle || ''"
                 class="x-font-title z-20 font-medium md:w-[160%] mt-4"
               >
