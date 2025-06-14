@@ -152,8 +152,9 @@ export function getPageOptions(args: {
       input: 'InputHandle',
       placeholder: 'page-slug',
       isRequired: true,
+      disabled: page?.isHome,
       props: {
-        beforeInput: `example.com/`,
+        beforeInput: `site.com/`,
         table: t.pages,
         columns: [
           { name: 'slug', allowReserved: true },
