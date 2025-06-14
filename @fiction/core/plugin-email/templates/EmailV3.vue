@@ -84,13 +84,19 @@ const colors = computed(() => {
 const styles = computed(() => ({
   container: `
     width: 100%;
-    max-width: 600px;
+    max-width: 550px;
     margin: 0 auto;
-    padding: ${spacing['4xl']} ${spacing.md};
+    padding: ${spacing['xl']} ${spacing.xs};
     font-family: ${typography.sans};
     font-size: ${typography.sizes.base};
     line-height: ${typography.leading.golden};
     color: ${colors.value.text};
+  `,
+  topDivider: `
+    border: none;
+    border-top: 1px solid ${colors.value.border};
+    margin: 0 0 ${spacing['3xl']};
+    width: 5rem;
   `,
   divider: `
     border: none;
@@ -119,7 +125,7 @@ const styles = computed(() => ({
   senderHeader: `
     font-size: ${typography.sizes.sm};
     color: ${colors.value.text};
-    margin: 0 0 ${spacing['5xl']};
+    margin: 0 0 ${spacing['2xl']};
   `,
   senderName: `
     font-family: ${typography.sans};
@@ -174,7 +180,7 @@ unhead.useHead({
 
       /* Tufte-style Typography Hierarchy */
       .title {
-        font-size: ${typography.sizes.xl};
+        font-size: ${typography.sizes.lg};
         line-height: ${typography.leading.tight};
         font-weight: normal;
         margin: 0 0 ${spacing.xs};
@@ -182,7 +188,7 @@ unhead.useHead({
       }
 
       .subtitle {
-        font-size: ${typography.sizes.lg};
+        font-size: ${typography.sizes.md};
         line-height: ${typography.leading.normal};
         font-weight: normal;
         margin: 0 0 ${spacing['2xl']};
@@ -512,7 +518,7 @@ unhead.useHead({
       </header>
 
       <!-- Divider after header - 6rem width -->
-      <hr v-if="title || subTitle" :style="[styles.divider, { width: '6rem' }]">
+      <hr v-if="title || subTitle" :style="[styles.topDivider]">
 
       <!-- Featured Media -->
       <figure v-if="mediaFeatured?.url" class="media">

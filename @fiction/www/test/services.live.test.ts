@@ -7,7 +7,7 @@ describe('service health checks', () => {
   const services = [
     { url: 'https://www.fiction.com' },
     { url: 'https://docs.fiction.com/', checkForText: 'fiction', noApi: true },
-    { url: 'https://theme-minimal.fiction.com' },
+    { url: 'https://theme-base.fiction.com' },
     { url: 'https://arpowers.fictionsites.com' },
     { url: 'https://www.andrewpowers.com' },
     { url: 'https://beacon.fiction.com', isEndpoint: true },

@@ -115,7 +115,7 @@ function getEmailConfig(_action: EmailAction, vars: EmailVars, org?: any) {
       subject: `${appName}: Your code is ${code}`,
       title: 'Your verification code',
       subTitle: 'Use this code to verify your account',
-      content: `Verify your account with this code:<br><br><h2>${code}</h2>`,
+      content: `Verify your account with this code:<h2>${code}</h2>`,
     },
     verifySubscribe: {
       subject: `${name}: Confirm your subscription`,
