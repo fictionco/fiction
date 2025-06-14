@@ -98,10 +98,10 @@ function updateValue(update: Record<string, any>) {
     </div>
 
     <!-- Preview slot - Optional -->
-    <div class="grow min-h-0 flex flex-col max-h-[70vh]">
+    <div class="grow min-h-0 flex flex-col ">
       <slot name="preview" />
 
-      <div class="flex-1 w-full grow max-h-[40vh] overflow-scroll no-scrollbar ">
+      <div class="flex-1 w-full grow overflow-scroll no-scrollbar ">
         <div>
           <FormEngine
             state-key="optionsEngine"

@@ -42,7 +42,7 @@ function selectIcon(iconId: IconName) {
 </script>
 
 <template>
-  <div class="space-y-4">
+  <div class="space-y-4 ">
     <!-- Search and Category Filter -->
     <div class="flex gap-4">
       <ElInput
@@ -66,7 +66,7 @@ function selectIcon(iconId: IconName) {
 
     <!-- Icons Grid -->
     <div
-      class="p-4 grid grid-cols-8 gap-4 rounded-lg border border-theme-200 dark:border-theme-800 no-scrollbar"
+      class="p-4 grid grid-cols-8 gap-4 rounded-lg border border-theme-200 dark:border-theme-800 max-h-[40vh] overflow-y-auto no-scrollbar"
     >
       <button
         v-for="iconId in filteredIcons"
