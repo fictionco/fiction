@@ -71,9 +71,9 @@ export class SSR extends FictionObject<SSRSettings> {
   cache = new Map<string, RenderedHtmlParts>()
 
   getCacheKey(runVars: Partial<RunVars>) {
-    const { RUN_MODE, URL, BUILD_COMMIT } = runVars
+    const { RUN_MODE, URL, BUILD_COMMIT, HOSTNAME } = runVars
 
-    return fastHash({ RUN_MODE, URL, BUILD_COMMIT })
+    return fastHash({ RUN_MODE, URL, BUILD_COMMIT, HOSTNAME })
   }
 
   async getParts(args: { runVars: Partial<RunVars> }) {
@@ -84,6 +84,7 @@ export class SSR extends FictionObject<SSRSettings> {
     const cacheKey = this.getCacheKey(runVars)
 
     let cacheStatus: 'miss' | 'hit' | 'bypass' = mode === 'prod' ? 'miss' : 'bypass'
+
 
     if (mode === 'prod') {
       if (this.cache.has(cacheKey) && mode === 'prod') {
