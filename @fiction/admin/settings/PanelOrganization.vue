@@ -63,12 +63,12 @@ function update(changedOrg: Organization) {
   saveUtil.autosave({ caller: 'updateOrg' })
 }
 
-const orgHostname = vue.computed(() => {
+const orgCnameHostname = vue.computed(() => {
   const handle = org.value?.handle
   if (!handle)
     return ''
 
-  return `https://${handle}.fiction.com`
+  return `https://${handle}.fictionsites.com`
 })
 
 const opts = vue.computed(() => {
@@ -185,7 +185,7 @@ const opts = vue.computed(() => {
           label: 'Setup Instructions',
           input: vue.defineAsyncComponent(() => import('./CustomDomainInstructions.vue')),
           props: {
-            destination: orgHostname.value,
+            destination: orgCnameHostname.value,
           },
         }),
 

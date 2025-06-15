@@ -47,7 +47,8 @@
     "docs:dev": "vitepress dev docs --host",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "structure": "python ./scripts/project_structure.py > structure.json"
+    "structure": "python ./scripts/project_structure.py > structure.json",
+    "gateway": "npm -w @fiction/www exec -- fiction run gateway"
   },
   "workspaces": [
     "@fiction/core",
