@@ -4,6 +4,7 @@
     "@fiction/analytics": "workspace:*",
     "@fiction/cards": "workspace:*",
     "@fiction/core": "workspace:*",
+    "@fiction/onboard": "workspace:*",
     "@fiction/plugin-ai": "workspace:*",
     "@fiction/plugin-contact": "workspace:*",
     "@fiction/plugin-metrics": "workspace:*",
@@ -11,11 +12,10 @@
     "@fiction/plugin-stripe": "workspace:*",
     "@fiction/posts": "workspace:*",
     "@fiction/site": "workspace:*",
-    "@fiction/onboard": "workspace:*",
     "@fiction/theme-fiction": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@types/mapbox-gl": "^3.4.1",
-    "mapbox-gl": "^3.12.0"
+    "mapbox-gl": "^3.13.0"
   },
   "devDependencies": {
     "dotenv": "^16.5.0"

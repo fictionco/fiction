@@ -76,7 +76,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   themeConfig = vue.ref<ThemeConfig>()
   fullConfig = vue.computed(() => deepMerge([this.themeConfig.value?.userConfig, this.userConfig.value]))
   nav = vue.computed(() => this.settings.nav || {})
-  org = vue.computed(() => deepMerge([this.themeConfig.value?.org, this.settings.org]))
+  org = vue.ref(this.settings.org || {})
 
   subDomain = vue.computed(() => {
     const orgHandle = this.org.value?.handle
@@ -301,6 +301,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       handle: this.handle.value,
       pages,
       sections,
+      org: this.org.value,
     }
 
     return onlyKeys.length

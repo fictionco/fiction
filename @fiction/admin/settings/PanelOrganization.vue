@@ -6,6 +6,7 @@ import { OrgSchema as schema } from '@fiction/core/plugin-user/schema'
 import { AutosaveUtility } from '@fiction/core/utils/save'
 import { createOption } from '@fiction/ui/index.js'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
+import { getOrgSettings } from './index.js'
 import InputApiKey from './InputApiKey.vue'
 import SettingsPanel from './SettingsPanel.vue'
 
@@ -57,156 +58,17 @@ const saveUtil = new AutosaveUtility({
 
 function update(changedOrg: Organization) {
   orgModel.value = changedOrg
-
-  // service.fictionUser.activeOrganization.value = orgNew
-
   saveUtil.autosave({ caller: 'updateOrg' })
 }
 
-const orgCnameHostname = vue.computed(() => {
-  const handle = org.value?.handle
-  if (!handle)
-    return ''
-
-  return `https://${handle}.fictionsites.com`
-})
-
 const opts = vue.computed(() => {
+  const o = org.value
+
+  const orgOptions = getOrgSettings({ org: o })
   return [
-    createOption({
-      schema,
-      label: 'Essentials',
-      key: 'group.essentials',
-      input: 'group',
-      icon: { class: 'i-tabler-north-star' },
-      options: [
-        createOption({
-          schema,
-          key: 'name',
-          label: 'Name',
-          input: 'InputText',
-          placeholder: 'Enter a name',
-          isRequired: true,
-          description: 'A concise name defining your identity, displayed prominently on your profile.',
-        }),
-        createOption({
-          schema,
-          key: 'email',
-          label: 'Email',
-          input: 'InputEmail',
-          isRequired: true,
-          description: 'A primary contact email for communication and account verification.',
-        }),
-        createOption({
-          key: 'handle',
-          label: 'Handle',
-          input: 'InputHandle',
-          placeholder: 'my-handle',
-          props: { table: 'fiction_org', columns: [{ name: 'handle' }] },
-          description: 'A unique identifier for your profile, used in URLs and mentions.',
-        }),
-        createOption({
-          schema,
-          key: 'profile.headline',
-          label: 'Headline',
-          input: 'InputUrl',
-          isRequired: true,
-          placeholder: 'Enter a headline',
-          description: 'A sharp, 220-character tagline capturing your essence, shown in search results and on your profile.',
-        }),
-        createOption({
-          schema,
-          key: 'profile.summary',
-          label: 'About / Summary',
-          input: 'InputTextarea',
-          isRequired: true,
-          placeholder: 'Enter a description',
-          description: 'A compelling 2,600-character narrative detailing your mission, values, and story.',
-        }),
-        createOption({
-          schema,
-          key: 'avatar',
-          label: 'Avatar',
-          input: 'InputMedia',
-          description: 'A signature image embodying your identity, prominently featured on your profile and in searches.',
-        }),
-        createOption({
-          schema,
-          key: 'branding.logo',
-          label: 'Logo',
-          subLabel: 'For visual identity',
-          input: 'InputMedia',
-          description: 'An emblem reinforcing your visual identity across the platform.',
-        }),
-        createOption({
-          schema,
-          key: 'branding.primaryColor',
-          label: 'Primary Color',
-          input: 'InputColorTheme',
-          placeholder: 'Default',
-          description: 'A defining color shaping your visual theme and consistency.',
-          props: {
-            mode: 'bright',
-          },
-        }),
-      ],
-    }),
-
-    createOption({
-      schema,
-      key: 'group.domain',
-      label: 'Domain',
-      input: 'group',
-      icon: { class: 'i-tabler-world-upload' },
-      options: [
-        createOption({
-          schema,
-          key: 'handle',
-          label: 'Fiction Domain',
-          input: 'InputHandle',
-          isRequired: true,
-          props: {
-            beforeInput: 'https://',
-            afterInput: '.fiction.com',
-            table: 'fiction_org',
-            columns: [{ name: 'handle' }],
-            uiSize: 'md',
-          },
-        }),
-        createOption({
-          key: 'customDomains',
-          label: 'Enter Custom Domain',
-          subLabel: 'Add custom domains for this site (e.g. www.example.com)',
-          input: vue.defineAsyncComponent(() => import('./CustomDomain.vue')),
-          isRequired: true,
-        }),
-        createOption({
-          key: 'domainSetupInstructions',
-          label: 'Setup Instructions',
-          input: vue.defineAsyncComponent(() => import('./CustomDomainInstructions.vue')),
-          props: {
-            destination: orgCnameHostname.value,
-          },
-        }),
-
-      ],
-    }),
-    createOption({
-      key: 'group.social',
-      label: 'Social',
-      input: 'group',
-      icon: { class: 'i-tabler-social' },
-      options: [
-        createOption({ schema, key: 'accounts.x.handle', label: 'X / Twitter Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.instagram.handle', label: 'Instagram Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.linkedin.handle', label: 'LinkedIn Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.facebook.handle', label: 'Facebook Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.github.handle', label: 'GitHub Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.youtube.handle', label: 'YouTube Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.pinterest.handle', label: 'Pinterest Username', input: 'InputText', placeholder: 'username' }),
-        createOption({ schema, key: 'accounts.tiktok.handle', label: 'TikTok Username', input: 'InputText', placeholder: 'username' }),
-      ],
-    }),
+    orgOptions.essentials,
+    orgOptions.domain,
+    orgOptions.social,
     createOption({
       schema,
       key: 'group.additional',

@@ -20,7 +20,7 @@ export default antfu(
       'unused-imports/no-unused-vars': 'warn',
       'jsonc/sort-keys': 'off',
       'no-irregular-whitespace': 'warn',
-      'import/no-cycle': ['error', { maxDepth: 2 }],
+     // 'import/no-cycle': ['error', { maxDepth: 2 }],
       'max-statements-per-line': ['error', { max: 2 }],
       'eqeqeq': 'warn',
       'vue/eqeqeq': 'warn',

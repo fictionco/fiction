@@ -6,12 +6,12 @@
   "license": "MIT",
   "main": "index.ts",
   "dependencies": {
-    "@amplitude/analytics-browser": "^2.17.9",
-    "@amplitude/plugin-session-replay-browser": "^1.17.0",
+    "@amplitude/analytics-browser": "^2.17.10",
+    "@amplitude/plugin-session-replay-browser": "^1.19.0",
     "@fiction/core": "workspace:*",
-    "@sentry/browser": "^9.29.0",
-    "@sentry/node": "^9.29.0",
-    "@sentry/vue": "^9.29.0",
+    "@sentry/browser": "^9.30.0",
+    "@sentry/node": "^9.30.0",
+    "@sentry/vue": "^9.30.0",
     "@slack/webhook": "^7.0.5",
     "@types/mixpanel-browser": "^2.60.0",
     "mixpanel-browser": "^2.65.0"

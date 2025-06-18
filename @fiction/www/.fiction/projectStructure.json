@@ -50,7 +50,8 @@
         "SettingsBoard.vue": null,
         "SettingsMain.vue": null,
         "SettingsPanel.vue": null,
-        "SettingsPanelHeader.vue": null
+        "SettingsPanelHeader.vue": null,
+        "index.ts": null
       },
       "test": {
         "__snapshots__": {

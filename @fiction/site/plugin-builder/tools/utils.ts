@@ -11,17 +11,10 @@ export function getSiteOptions(args: { card: Card }) {
     global: createOption({
       schema: SiteSchema,
       key: 'siteGlobal',
-      label: 'Metatags',
+      label: 'Settings',
       input: 'group',
       icon: { class: 'i-tabler-world-latitude' },
       options: [
-        createOption({
-          schema: SiteSchema,
-          key: 'title',
-          label: 'Site Title',
-          input: 'InputText',
-          isRequired: true,
-        }),
         createOption({
           key: 'about',
           label: 'Workspace Settings',
