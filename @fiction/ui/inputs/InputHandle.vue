@@ -20,6 +20,7 @@ const props = defineProps({
   minLength: { type: Number, default: 4 },
   uiSize: { type: String as vue.PropType<UiElementSize>, default: 'md' },
   required: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
 })
 
 const emit = defineEmits<{
@@ -39,7 +40,7 @@ const reasonText = vue.computed(() => {
     long: `Maximum ${props.maxLength} characters allowed`,
     invalid: 'Only lowercase letters, numbers, and hyphens allowed',
     success: 'Available!',
-    current: 'This is your current handle',
+    current: 'Saved',
     error: 'Unable to check availability. Please try again.',
     loading: 'Checking availability...',
     taken: 'This handle is already in use',

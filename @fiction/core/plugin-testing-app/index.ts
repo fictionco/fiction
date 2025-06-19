@@ -25,8 +25,8 @@ type FictionTestingAppSettings = {
   port?: number
   head?: string
   body?: string
-} & TestingConfig &
-FictionPluginSettings
+} & TestingConfig
+& FictionPluginSettings
 export class FictionTestingApp extends FictionPlugin<FictionTestingAppSettings> {
   port = this.settings.port
   liveUrl = this.settings.liveUrl

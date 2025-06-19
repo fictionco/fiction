@@ -321,16 +321,16 @@ type MediaCreate = {
   noCache?: boolean
 }
 
-export type ManageMediaRequest =
-  | { _action: 'create', orgId: string, userId?: string } & MediaCreate
-  | { _action: 'createFromUrl', orgId: string, userId?: string, fields: { sourceImageUrl: string } & Partial<TableMediaConfig> } & MediaCreate
-  | { _action: 'createFromBase64', orgId: string, userId?: string, base64Data: string & Partial<TableMediaConfig> } & MediaCreate
-  | { _action: 'checkAndCreate', orgId: string, userId?: string } & MediaCreate
-  | { _action: 'list', orgId: string, where?: Partial<TableMediaConfig>, limit?: number, offset?: number, page?: number }
-  | { _action: 'count', orgId: string, filters?: ComplexDataFilter[] }
-  | { _action: 'update', orgId: string, where: WhereMedia[], fields: Partial<TableMediaConfig> }
-  | { _action: 'delete', orgId: string, where: WhereMedia[] }
-  | { _action: 'retrieve', orgId: string, where: WhereMedia }
+export type ManageMediaRequest
+  = | { _action: 'create', orgId: string, userId?: string } & MediaCreate
+    | { _action: 'createFromUrl', orgId: string, userId?: string, fields: { sourceImageUrl: string } & Partial<TableMediaConfig> } & MediaCreate
+    | { _action: 'createFromBase64', orgId: string, userId?: string, base64Data: string & Partial<TableMediaConfig> } & MediaCreate
+    | { _action: 'checkAndCreate', orgId: string, userId?: string } & MediaCreate
+    | { _action: 'list', orgId: string, where?: Partial<TableMediaConfig>, limit?: number, offset?: number, page?: number }
+    | { _action: 'count', orgId: string, filters?: ComplexDataFilter[] }
+    | { _action: 'update', orgId: string, where: WhereMedia[], fields: Partial<TableMediaConfig> }
+    | { _action: 'delete', orgId: string, where: WhereMedia[] }
+    | { _action: 'retrieve', orgId: string, where: WhereMedia }
 
 export type MediaParams = ManageMediaRequest & IndexQuery
 export class QueryManageMedia extends MediaQuery {

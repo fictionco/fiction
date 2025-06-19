@@ -1,4 +1,4 @@
-import type { ComplexDataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
+import type { ComplexDataFilter, EndpointMeta, EndpointResponse, Organization } from '@fiction/core'
 import type { Knex } from 'knex'
 import type { FictionSites, Site, SitesPluginSettings } from './index.js'
 import type { WhereSite } from './load.js'
@@ -83,14 +83,14 @@ type PageStandardFields = {
 
 type WherePage = { cardId?: string, slug?: string } & ({ cardId: string } | { slug: string })
 
-export type ManagePageRequestParams =
-  | { _action: 'upsert', fields: CardConfigPortable[] }
-  | { _action: 'retrieve', where: WherePage[] }
-  | { _action: 'update', where: WherePage[], fields: Partial<CardConfigPortable> }
-  | { _action: 'delete', where: WherePage[] }
-  | { _action: 'list', where?: Partial<TableCardConfig>, limit?: number, offset?: number, page?: number }
-  | { _action: 'count', filters?: ComplexDataFilter[] }
-  | { _action: 'saveDraft', fields: CardConfigPortable[] }
+export type ManagePageRequestParams
+  = | { _action: 'upsert', fields: CardConfigPortable[] }
+    | { _action: 'retrieve', where: WherePage[] }
+    | { _action: 'update', where: WherePage[], fields: Partial<CardConfigPortable> }
+    | { _action: 'delete', where: WherePage[] }
+    | { _action: 'list', where?: Partial<TableCardConfig>, limit?: number, offset?: number, page?: number }
+    | { _action: 'count', filters?: ComplexDataFilter[] }
+    | { _action: 'saveDraft', fields: CardConfigPortable[] }
 
 export type ManagePageParams = ManagePageRequestParams & PageStandardFields
 
@@ -422,14 +422,14 @@ type SiteStandardFields = {
   revisionId?: string
 }
 
-export type ManageSiteRequestParams =
-  | { _action: 'create', fields: Partial<TableSiteConfig> }
-  | { _action: 'update', where: WhereSite, fields: Partial<TableSiteConfig> }
-  | { _action: 'saveDraft', where: WhereSite, fields: Partial<TableSiteConfig> }
-  | { _action: 'revertDraft', where: WhereSite }
-  | { _action: 'delete', where: WhereSite }
-  | { _action: 'retrieve', where: WhereSite }
-  | { _action: 'restoreFromRevision', where: WhereSite, revisionId: string }
+export type ManageSiteRequestParams
+  = | { _action: 'create', fields: Partial<TableSiteConfig> }
+    | { _action: 'update', where: WhereSite, fields: Partial<TableSiteConfig> }
+    | { _action: 'saveDraft', where: WhereSite, fields: Partial<TableSiteConfig> }
+    | { _action: 'revertDraft', where: WhereSite }
+    | { _action: 'delete', where: WhereSite }
+    | { _action: 'retrieve', where: WhereSite }
+    | { _action: 'restoreFromRevision', where: WhereSite, revisionId: string }
 
 export type ManageSiteParams = ManageSiteRequestParams & SiteStandardFields
 
@@ -547,12 +547,19 @@ export class ManageSite extends SitesQuery {
     }
 
     const selector = await this.getSiteSelector(where)
-
-    const prepped = this.settings.fictionDb.prep({ type: 'update', fields, table: t.sites, meta })
-
     const db = this.settings.fictionDb.client()
 
-    if (fields.isPrimary) {
+    // Extract org fields if present
+    const { org: orgFields, ...siteFields } = fields as typeof fields & { org?: Partial<Organization> }
+
+    const prepped = this.settings.fictionDb.prep({
+      type: 'update',
+      fields: siteFields,
+      table: t.sites,
+      meta,
+    })
+
+    if (siteFields.isPrimary) {
       await db(t.sites)
         .where({ orgId })
         .whereNot(selector)
@@ -562,6 +569,7 @@ export class ManageSite extends SitesQuery {
     let updatedSite: TableSiteConfig | undefined
 
     await db.transaction(async (trx) => {
+    // Update site
       [updatedSite] = await trx(t.sites)
         .update({ orgId, userId, ...prepped, draft: {} })
         .where({ orgId, ...selector })
@@ -576,17 +584,32 @@ export class ManageSite extends SitesQuery {
       }
     })
 
+    // Update organization profile if org fields provided
+    if (orgFields && Object.keys(orgFields).length > 0) {
+      await this.settings.fictionUser?.queries.ManageOrganization.serve({
+        _action: 'update',
+        where: { orgId },
+        fields: orgFields,
+      }, meta)
+    }
+
     if (!updatedSite)
       throw abort('updated site not found')
 
-    if (fields.pages && fields.pages.length) {
-      await this.updateSitePages({ siteId: updatedSite.siteId, fields: fields.pages, userId, orgId, scope }, meta)
+    if (siteFields.pages && siteFields.pages.length) {
+      await this.updateSitePages({
+        siteId: updatedSite.siteId,
+        fields: siteFields.pages,
+        userId,
+        orgId,
+        scope,
+      }, meta)
     }
 
     const finalSite = await this.fetchSiteWithDetails({ selector, scope })
 
     if (updatedSite && scope === 'publish') {
-      // Create revision when publishing
+    // Create revision when publishing
       await this.settings.fictionRevision.createRevision({
         itemId: updatedSite.siteId,
         itemType: 'site',
@@ -598,7 +621,11 @@ export class ManageSite extends SitesQuery {
       }, { skipTimeCheck: true })
     }
 
-    return { status: 'success', data: finalSite, message: 'site saved' }
+    return {
+      status: 'success',
+      data: finalSite,
+      message: orgFields ? 'Site and organization settings saved' : 'Site saved',
+    }
   }
 
   private async saveDraft(params: ManageSiteParams & { _action: 'saveDraft' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {

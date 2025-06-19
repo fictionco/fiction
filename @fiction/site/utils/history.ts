@@ -9,8 +9,8 @@ export type HistoryEntry = {
   timestamp?: number
   description: string
 } & (
-  { type: 'card', cardConfig: Partial<CardConfigPortable> } |
-  { type: 'site', siteConfig: Partial<TableSiteConfig> }
+  { type: 'card', cardConfig: Partial<CardConfigPortable> }
+  | { type: 'site', siteConfig: Partial<TableSiteConfig> }
 )
 export class SiteHistory {
   past: vue.Ref<HistoryEntry[]> = vue.ref<HistoryEntry[]>([])

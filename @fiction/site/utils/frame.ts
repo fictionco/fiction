@@ -8,17 +8,17 @@ import type { HistoryEntry } from './history.js'
 import { FictionObject, resetUi, vue } from '@fiction/core'
 import { updateSite } from './site.js'
 
-export type FramePostMessageList =
-  | { messageType: 'setSite', data: { siteConfig: Partial<TableSiteConfig>, caller?: string } }
-  | { messageType: 'setCard', data: { cardConfig: CardConfigPortable, caller?: string } }
-  | { messageType: 'resetUi', data: { cause: string, scope: ResetUiScope, trigger: ResetUiTrigger } }
-  | { messageType: 'setActiveCard', data: { cardId: string, caller?: string } }
-  | { messageType: 'setEditPath', data: { cardId: string, path: string, caller?: string } }
-  | { messageType: 'setToolId', data: { toolId: ToolKeys | '' } }
-  | { messageType: 'navigate', data: { pageCardId: string, siteId: string } }
-  | { messageType: 'frameReady', data: undefined }
-  | { messageType: 'keypress', data: { key: string, direction: 'up' | 'down' } }
-  | { messageType: 'historyEntry', data: { historyEntry: HistoryEntry } }
+export type FramePostMessageList
+  = | { messageType: 'setSite', data: { siteConfig: Partial<TableSiteConfig>, caller?: string } }
+    | { messageType: 'setCard', data: { cardConfig: CardConfigPortable, caller?: string } }
+    | { messageType: 'resetUi', data: { cause: string, scope: ResetUiScope, trigger: ResetUiTrigger } }
+    | { messageType: 'setActiveCard', data: { cardId: string, caller?: string } }
+    | { messageType: 'setEditPath', data: { cardId: string, path: string, caller?: string } }
+    | { messageType: 'setToolId', data: { toolId: ToolKeys | '' } }
+    | { messageType: 'navigate', data: { pageCardId: string, siteId: string } }
+    | { messageType: 'frameReady', data: undefined }
+    | { messageType: 'keypress', data: { key: string, direction: 'up' | 'down' } }
+    | { messageType: 'historyEntry', data: { historyEntry: HistoryEntry } }
 
 export type SiteFrameUtilityParams = {
   site: Site

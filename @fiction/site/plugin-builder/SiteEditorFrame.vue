@@ -145,6 +145,14 @@ vue.watch(
 function getStablePageHash(page: Card): string {
   return stableHashes.value[page.cardId] || ''
 }
+
+function updatePage(args: { page: Card, path: string, value: string }) {
+  const { page, path, value } = args
+  if (!props.site)
+    return
+
+  page.update({ [path]: value }, { caller: 'updatePage' })
+}
 </script>
 
 <template>
@@ -180,7 +188,7 @@ function getStablePageHash(page: Card): string {
             title="Current Page Title"
             class="font-mono text-sm font-semibold whitespace-nowrap"
             :is-editable="true"
-            @update:model-value="currentPage.title.value = $event"
+            @update:model-value="updatePage({ page: currentPage, path: 'title', value: $event })"
           />
 
           <div class="font-mono font-medium text-sm text-theme-500 dark:text-theme-400 flex items-center gap-0.5">
@@ -194,7 +202,7 @@ function getStablePageHash(page: Card): string {
               title="Page Slug"
               class="whitespace-nowrap"
               :is-editable="true"
-              @update:model-value="currentPage.slug.value = $event"
+              @update:model-value="updatePage({ page: currentPage, path: 'slug', value: $event })"
             />
           </div>
         </div>

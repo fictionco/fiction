@@ -85,7 +85,6 @@ export class SSR extends FictionObject<SSRSettings> {
 
     let cacheStatus: 'miss' | 'hit' | 'bypass' = mode === 'prod' ? 'miss' : 'bypass'
 
-
     if (mode === 'prod') {
       if (this.cache.has(cacheKey) && mode === 'prod') {
         cacheStatus = 'hit'

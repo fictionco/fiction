@@ -344,14 +344,14 @@ export function getDeviceType(width: number): 'mobile' | 'tablet' | 'laptop' | '
     return 'laptop'
   else return 'desktop'
 }
-export type OffloadEvent =
-  | 'pagehide'
-  | 'unload'
-  | 'visibilitychange'
-  | 'historyChange'
-  | 'leftIdle'
-  | 'windowBlur'
-  | 'expireSession'
+export type OffloadEvent
+  = | 'pagehide'
+    | 'unload'
+    | 'visibilitychange'
+    | 'historyChange'
+    | 'leftIdle'
+    | 'windowBlur'
+    | 'expireSession'
 
 type EventCallback = (offloadType: OffloadEvent) => void
 

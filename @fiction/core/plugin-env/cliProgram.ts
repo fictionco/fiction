@@ -26,12 +26,12 @@ class CLIError extends Error {
   }
 }
 
-type ErrorCode =
-  | 'SETUP_MISSING'
-  | 'ENV_MISSING'
-  | 'PACKAGE_LOAD_FAILED'
-  | 'COMMAND_FAILED'
-  | 'INSPECTOR_FAILED'
+type ErrorCode
+  = | 'SETUP_MISSING'
+    | 'ENV_MISSING'
+    | 'PACKAGE_LOAD_FAILED'
+    | 'COMMAND_FAILED'
+    | 'INSPECTOR_FAILED'
 
 async function loadPackageJson(cwd: string): Promise<PackageJson> {
   try {

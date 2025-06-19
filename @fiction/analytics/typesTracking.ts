@@ -185,17 +185,17 @@ interface FictionEventSendFields {
 }
 
 type GenType = 'internal' | 'core' | 'user'
-type ClientTrackType =
-  | 'track'
-  | 'page'
-  | 'identify'
-  | 'group'
-  | 'session'
-  | 'debug'
-  | 'loop'
-  | 'exit'
-  | 'internal'
-  | 'custom'
+type ClientTrackType
+  = | 'track'
+    | 'page'
+    | 'identify'
+    | 'group'
+    | 'session'
+    | 'debug'
+    | 'loop'
+    | 'exit'
+    | 'internal'
+    | 'custom'
 
 interface EmailDetails {
   emailId?: string

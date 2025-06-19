@@ -98,8 +98,8 @@ export type ShortcodeMatch<T extends BaseShortcodeAttributes = BaseShortcodeAttr
 }
 
 // Handler accepts a generic type for attributes
-export type ShortcodeHandler<T extends BaseShortcodeAttributes = BaseShortcodeAttributes> =
-  (args: { content?: string, attributes?: T, fullMatch: string }) => string | Promise<string>
+export type ShortcodeHandler<T extends BaseShortcodeAttributes = BaseShortcodeAttributes>
+  = (args: { content?: string, attributes?: T, fullMatch: string }) => string | Promise<string>
 
 // Loader accepts a generic for the shortcode name and its attributes
 export type ShortcodeLoader<

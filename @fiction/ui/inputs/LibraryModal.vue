@@ -11,6 +11,7 @@ import LibraryBackground from './LibraryBackground.vue'
 import LibraryIcon from './LibraryIcon.vue'
 import LibraryMediaGallery from './LibraryMediaGallery.vue'
 import TabbedOptions from './TabbedOptions.vue'
+
 // Define valid tool options
 type ToolOptionKey = 'upload' | 'media' | 'icons' | 'background' | 'html'
 

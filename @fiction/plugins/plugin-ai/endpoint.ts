@@ -13,15 +13,15 @@ export type CommandMessage = {
   content: string
 }
 
-export type ContentFormat =
-  | 'websiteCopy'
-  | 'contentAutocomplete'
-  | 'brandVoice'
-  | 'accountSetup' // Added new format
+export type ContentFormat
+  = | 'websiteCopy'
+    | 'contentAutocomplete'
+    | 'brandVoice'
+    | 'accountSetup' // Added new format
 
 // Request types
-export type AiRequest =
-  | {
+export type AiRequest
+  = | {
     _action: 'completion'
     format?: ContentFormat
     prompt: string

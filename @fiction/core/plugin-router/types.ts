@@ -11,10 +11,10 @@ export interface BaseCompiledConfig {
   menus: string
 }
 
-export type NavigateRoute =
-  | boolean
-  | vueRouter.RouteLocationRaw
-  | Promise<boolean | vueRouter.RouteLocationRaw>
+export type NavigateRoute
+  = | boolean
+    | vueRouter.RouteLocationRaw
+    | Promise<boolean | vueRouter.RouteLocationRaw>
 
 export type RouteAuthCallback = (args: {
   user?: User

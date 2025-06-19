@@ -30,19 +30,19 @@ export type WhereUser = { email: string } | { userId: string } | { handle: strin
 
 export type CreateUserFields = Partial<User> & { email: string, password?: string, name?: string, orgId?: string, onboard?: OnboardSettings }
 
-export type ManageUserParams =
-  | { _action: 'create', fields: CreateUserFields, withGeo?: boolean }
-  | { _action: 'getCreate', where: WhereUser, createUserFields?: Partial<CreateUserFields>, refreshCode?: boolean }
-  | { _action: 'update', fields: Partial<User> & { password?: string }, where: WhereUser, code?: string }
-  | { _action: 'updateCurrentUser', fields: Partial<User> & { password?: string } }
-  | { _action: 'retrieve', select?: (keyof User)[] | ['*'], where: WhereUser }
-  | { _action: 'verifyEmail', email: string, code: string, password?: string }
-  | { _action: 'requestCode', where: WhereUser, context?: string }
-  | { _action: 'getUserWithToken', token: string, code?: string }
-  | { _action: 'login', where: WhereUser, password?: string, createUserFields?: Partial<CreateUserFields>, createOnEmpty?: boolean }
-  | { _action: 'loginGoogle', credential?: string, code?: string, createUserFields?: Partial<CreateUserFields>, createOnEmpty?: boolean }
-  | { _action: 'loginWithCode', where: WhereUser, code: string, newPassword?: string, keepCode?: boolean }
-  | { _action: 'event', eventName: 'resetPassword', where: WhereUser }
+export type ManageUserParams
+  = | { _action: 'create', fields: CreateUserFields, withGeo?: boolean }
+    | { _action: 'getCreate', where: WhereUser, createUserFields?: Partial<CreateUserFields>, refreshCode?: boolean }
+    | { _action: 'update', fields: Partial<User> & { password?: string }, where: WhereUser, code?: string }
+    | { _action: 'updateCurrentUser', fields: Partial<User> & { password?: string } }
+    | { _action: 'retrieve', select?: (keyof User)[] | ['*'], where: WhereUser }
+    | { _action: 'verifyEmail', email: string, code: string, password?: string }
+    | { _action: 'requestCode', where: WhereUser, context?: string }
+    | { _action: 'getUserWithToken', token: string, code?: string }
+    | { _action: 'login', where: WhereUser, password?: string, createUserFields?: Partial<CreateUserFields>, createOnEmpty?: boolean }
+    | { _action: 'loginGoogle', credential?: string, code?: string, createUserFields?: Partial<CreateUserFields>, createOnEmpty?: boolean }
+    | { _action: 'loginWithCode', where: WhereUser, code: string, newPassword?: string, keepCode?: boolean }
+    | { _action: 'event', eventName: 'resetPassword', where: WhereUser }
 
 export type ManageUserResponse = EndpointResponse<User> & {
   isNew?: boolean

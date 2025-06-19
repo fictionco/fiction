@@ -28,19 +28,19 @@ export abstract class PostsQuery extends Query<PostsQuerySettings> {
 
 export type WherePost = { postId?: string, slug?: string, orgId?: string } & ({ postId: string } | { slug: string, orgId: string })
 
-export type ManagePostParamsRequest =
-  | { _action: 'create', fields: Partial<TablePostConfig>, defaultTitle?: string }
-  | { _action: 'update', where: WherePost, fields: Partial<TablePostConfig>, isAutosave?: boolean, loadDraft?: boolean, orgId: string, userId: string }
-  | { _action: 'get', select?: (keyof TablePostConfig | '*')[], loadDraft?: boolean } & ({ orgId: string, where: WherePost & { orgId?: string } } | { where: WherePost & { orgId: string } })
-  | { _action: 'delete', where: WherePost }
-  | { _action: 'saveDraft', where: WherePost, fields: Partial<TablePostConfig>, userId: string, orgId: string }
-  | { _action: 'revertDraft', where: WherePost }
-  | { _action: 'list', type?: string, loadDraft?: boolean } & IndexQuery & ({ orgId: string, where?: { orgId?: string } } | { where: { orgId: string } })
-  | { _action: 'deletePosts', selectedIds?: string[], orgId: string, userId: string }
-  | { _action: 'restoreFromRevision', where: WherePost, revisionId: string }
-  | { _action: 'emailSendTest', where: WherePost, testEmails: string[], maxEmails?: number }
-  | { _action: 'generate', where?: WherePost, mode: 'outline' | 'full', fields: Partial<TablePostConfig>, orgId: string }
-  | { _action: 'view', where: WherePost }
+export type ManagePostParamsRequest
+  = | { _action: 'create', fields: Partial<TablePostConfig>, defaultTitle?: string }
+    | { _action: 'update', where: WherePost, fields: Partial<TablePostConfig>, isAutosave?: boolean, loadDraft?: boolean, orgId: string, userId: string }
+    | { _action: 'get', select?: (keyof TablePostConfig | '*')[], loadDraft?: boolean } & ({ orgId: string, where: WherePost & { orgId?: string } } | { where: WherePost & { orgId: string } })
+    | { _action: 'delete', where: WherePost }
+    | { _action: 'saveDraft', where: WherePost, fields: Partial<TablePostConfig>, userId: string, orgId: string }
+    | { _action: 'revertDraft', where: WherePost }
+    | { _action: 'list', type?: string, loadDraft?: boolean } & IndexQuery & ({ orgId: string, where?: { orgId?: string } } | { where: { orgId: string } })
+    | { _action: 'deletePosts', selectedIds?: string[], orgId: string, userId: string }
+    | { _action: 'restoreFromRevision', where: WherePost, revisionId: string }
+    | { _action: 'emailSendTest', where: WherePost, testEmails: string[], maxEmails?: number }
+    | { _action: 'generate', where?: WherePost, mode: 'outline' | 'full', fields: Partial<TablePostConfig>, orgId: string }
+    | { _action: 'view', where: WherePost }
 
 export type ManagePostParams = ManagePostParamsRequest & {
   userId?: string

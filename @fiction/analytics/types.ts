@@ -27,37 +27,37 @@ export type MetricDisplayItemWithData = MetricDisplayItem & {
 export type MetricSelectorResult = MetricSelector & { data: DataCompared<DataPointChart<'value'>> }
 export type MetricSelectorResultResponse = EndpointResponse<MetricSelectorResult[]>
 
-export type StandardPeriod =
-  | 'hour'
-  | 'hour4'
-  | 'today'
-  | 'yesterday'
-  | 'recent'
-  | 'week'
-  | 'month'
-  | 'quarter'
-  | 'year'
-  | 'yearToDate'
+export type StandardPeriod
+  = | 'hour'
+    | 'hour4'
+    | 'today'
+    | 'yesterday'
+    | 'recent'
+    | 'week'
+    | 'month'
+    | 'quarter'
+    | 'year'
+    | 'yearToDate'
 
-export type ComparePeriods =
-  | 'period'
-  | 'week'
-  | 'month'
-  | 'quarter'
-  | 'year'
-  | 'none'
+export type ComparePeriods
+  = | 'period'
+    | 'week'
+    | 'month'
+    | 'quarter'
+    | 'year'
+    | 'none'
 
 export type TimeLineInterval = 'minute' | '15min' | '30min' | 'hour' | 'day' | 'week' | 'month' | 'year'
 
-export type AggregationFormat =
-  | 'enriched'
-  | 'country'
-  | 'city'
-  | 'url'
-  | 'standard'
-  | 'size'
-  | 'percent'
-  | 'ip'
+export type AggregationFormat
+  = | 'enriched'
+    | 'country'
+    | 'city'
+    | 'url'
+    | 'standard'
+    | 'size'
+    | 'percent'
+    | 'ip'
 
 export type AggregationRow = {
   count: string | number

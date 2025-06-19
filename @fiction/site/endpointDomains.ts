@@ -17,13 +17,13 @@ type WhereDomain = {
   orgId?: string
 } & ({ domainId: string } | { hostname: string } | { orgId: string })
 
-export type ManageDomainRequestParams =
-  | { _action: 'create', fields: Partial<TableDomainConfig> }
-  | { _action: 'retrieve', where: WhereDomain }
-  | { _action: 'update', where: WhereDomain, fields: Partial<TableDomainConfig> }
-  | { _action: 'delete', where: WhereDomain }
-  | { _action: 'list', where?: Partial<TableDomainConfig>, limit?: number, offset?: number }
-  | { _action: 'count', filters?: ComplexDataFilter[] }
+export type ManageDomainRequestParams
+  = | { _action: 'create', fields: Partial<TableDomainConfig> }
+    | { _action: 'retrieve', where: WhereDomain }
+    | { _action: 'update', where: WhereDomain, fields: Partial<TableDomainConfig> }
+    | { _action: 'delete', where: WhereDomain }
+    | { _action: 'list', where?: Partial<TableDomainConfig>, limit?: number, offset?: number }
+    | { _action: 'count', filters?: ComplexDataFilter[] }
 
 export type ManageDomainParams = ManageDomainRequestParams & DomainStandardFields
 

@@ -96,9 +96,9 @@ export abstract class EmailQuery extends Query<EmailQuerySettings> {
   }
 }
 
-export type TransactionalEmailParams =
-  | { _action: 'send', fields: EmailSendConfig }
-  | { _action: 'unsubscribe', fields: { email: string } }
+export type TransactionalEmailParams
+  = | { _action: 'send', fields: EmailSendConfig }
+    | { _action: 'unsubscribe', fields: { email: string } }
 
 type NodeMailOptions = Omit<Mail.Options, 'to' | 'html' | 'text'> & { to: string, html: string, text?: string }
 

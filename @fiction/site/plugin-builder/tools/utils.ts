@@ -16,6 +16,13 @@ export function getSiteOptions(args: { card: Card }) {
       icon: { class: 'i-tabler-world-latitude' },
       options: [
         createOption({
+          schema: SiteSchema,
+          key: 'title',
+          label: 'Site Title',
+          input: 'InputText',
+          isRequired: true,
+        }),
+        createOption({
           key: 'about',
           label: 'Workspace Settings',
           description: 'To customize branding, colors, and other settings for your workspace, please visit the workspace settings page.',
@@ -142,12 +149,11 @@ export function getPageOptions(args: {
       testId: 'add-page-slug',
       key: 'slug',
       label: 'Slug',
+      subLabel: page?.isHome ? 'Unused when set to home page' : '',
       input: 'InputHandle',
       placeholder: 'page-slug',
       isRequired: true,
-      disabled: page?.isHome,
       props: {
-        beforeInput: `site.com/`,
         table: t.pages,
         columns: [
           { name: 'slug', allowReserved: true },
@@ -159,10 +165,11 @@ export function getPageOptions(args: {
     createOption({
       schema: PageSchema,
       key: 'nav',
-      label: 'Navigation',
-      input: 'InputRadioButton',
-      list: [{ value: 'show' }, { value: 'hide' }],
+      label: 'Show in Navigation',
+      input: 'InputToggle',
       props: {
+        valueOn: 'show',
+        valueOff: 'hide',
         defaultValue: 'show',
       },
     }),
@@ -174,7 +181,8 @@ export function getPageOptions(args: {
         schema: PageSchema,
         key: 'isHome',
         label: 'Set as Home Page',
-        subLabel: 'If active, this page will be the default landing page for your site',
+        subLabel: page?.isHome ? 'Currently the home page' : 'Set this page as the home page',
+        description: page?.isHome ? 'To change, go to another page and set it as home' : 'Setting a page as home will replace the current home page',
         input: 'InputToggle',
         props: {
           onlyOn: page?.isHome,
@@ -219,7 +227,7 @@ export function getPageOptions(args: {
           schema: PageSchema,
           testId: 'page-seo-title',
           key: 'userConfig.standard.title',
-          label: 'Meta Title',
+          label: 'SEO Title',
           input: 'InputTextarea',
           placeholder: 'Enter Title',
           props: { rows: 3 },
@@ -228,7 +236,7 @@ export function getPageOptions(args: {
           schema: PageSchema,
           testId: 'page-seo-description',
           key: 'userConfig.standard.description',
-          label: 'Meta Description',
+          label: 'SEO Description',
           input: 'InputTextarea',
           placeholder: 'Enter Description',
           props: { rows: 3 },

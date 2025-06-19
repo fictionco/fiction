@@ -29,11 +29,12 @@ const parsedList = vue.computed<ListItem[]>(() => {
 </script>
 
 <template>
-  <div>
+  <div class="relative">
     <select
       :value="modelValue"
       :class="textInputClasses({ inputClass, uiSize })"
       :data-size="uiSize"
+      class="pr-8 cursor-pointer"
       @input="emit('update:modelValue', ($event.target as HTMLSelectElement).value)"
     >
       <option value>
@@ -52,5 +53,11 @@ const parsedList = vue.computed<ListItem[]>(() => {
         </option>
       </template>
     </select>
+    <!-- Chevron -->
+    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+      <svg class="h-4 w-4 text-theme-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
   </div>
 </template>

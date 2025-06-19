@@ -203,7 +203,7 @@ async function applyChanges() {
                     :id="`opt-${key}`"
                     :model-value="getUserEnabled(opt).value"
                     input-class="bg-theme-0 dark:bg-theme-600"
-                    @update:model-value="getUserEnabled(opt).value = $event"
+                    @update:model-value="getUserEnabled(opt).value = !!$event"
                   />
                 </div>
                 <label :for="`opt-${key}`" class="w-24 truncate font-semibold cursor-pointer select-none">

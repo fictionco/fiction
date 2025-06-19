@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@fiction/admin": "workspace:*",
     "@fiction/core": "workspace:*",
     "@fiction/plugin-ai": "workspace:*",
     "@fiction/plugin-monitor": "workspace:*",

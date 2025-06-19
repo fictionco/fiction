@@ -16,10 +16,10 @@ export interface FrameMessage<T = unknown> {
 
 export type MsgAuth = { from?: 'fiction' }
 
-export type MsgStandard =
-  | { messageType: 'frameReady', data: string }
-  | { messageType: 'navigate', data: string }
-  | { messageType: 'close', data: boolean }
+export type MsgStandard
+  = | { messageType: 'frameReady', data: string }
+    | { messageType: 'navigate', data: string }
+    | { messageType: 'close', data: boolean }
 
 export type MsgUnknown = MsgStandard | { messageType: string, data: unknown }
 

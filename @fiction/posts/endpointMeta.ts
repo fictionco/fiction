@@ -4,10 +4,10 @@ import { abort } from '@fiction/core'
 import { PostsQuery } from './endpoint'
 import { t } from './schema'
 
-export type LikePostParamsRequest =
-  | { _action: 'like', where: { postId: string, orgId: string }, userId?: string }
-  | { _action: 'unlike', where: { postId: string, orgId: string }, userId?: string }
-  | { _action: 'getLikes', where: { postId: string, orgId: string }, limit?: number, offset?: number, userId?: string }
+export type LikePostParamsRequest
+  = | { _action: 'like', where: { postId: string, orgId: string }, userId?: string }
+    | { _action: 'unlike', where: { postId: string, orgId: string }, userId?: string }
+    | { _action: 'getLikes', where: { postId: string, orgId: string }, limit?: number, offset?: number, userId?: string }
 
 export class QueryPostLikes extends PostsQuery {
   async run(params: LikePostParamsRequest, meta: EndpointMeta): Promise<EndpointResponse<TableLikeConfig[]>> {
@@ -193,12 +193,12 @@ export class QueryPostLikes extends PostsQuery {
   }
 }
 
-export type CommentPostParamsRequest =
-  | { _action: 'addComment', where: { postId: string, orgId: string }, userId?: string, content: string, parentId?: string }
-  | { _action: 'getComments', where: { postId: string, orgId: string }, limit?: number, offset?: number, parentId?: string | null, userId?: string }
-  | { _action: 'updateComment', where: { commentId: string, orgId: string }, userId?: string, content: string }
-  | { _action: 'deleteComment', where: { commentId: string, orgId: string }, userId?: string }
-  | { _action: 'reportComment', where: { commentId: string, orgId: string }, userId?: string, reason: string }
+export type CommentPostParamsRequest
+  = | { _action: 'addComment', where: { postId: string, orgId: string }, userId?: string, content: string, parentId?: string }
+    | { _action: 'getComments', where: { postId: string, orgId: string }, limit?: number, offset?: number, parentId?: string | null, userId?: string }
+    | { _action: 'updateComment', where: { commentId: string, orgId: string }, userId?: string, content: string }
+    | { _action: 'deleteComment', where: { commentId: string, orgId: string }, userId?: string }
+    | { _action: 'reportComment', where: { commentId: string, orgId: string }, userId?: string, reason: string }
 
 export class QueryPostComments extends PostsQuery {
   async run(params: CommentPostParamsRequest, meta: EndpointMeta): Promise<EndpointResponse<TableCommentConfig[]>> {

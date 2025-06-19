@@ -20,11 +20,11 @@ export type RevisionQuerySettings = {
 
 type WhereRevision = { itemId: string } | { revisionId: string }
 
-export type ManageRevisionRequestParams =
-  | { _action: 'create', fields: TableRevisionConfig & { itemId: string, itemType: string, itemData: Record<string, unknown> } }
-  | { _action: 'delete', where: WhereRevision }
-  | { _action: 'retrieve', where: WhereRevision }
-  | { _action: 'list', where: WhereRevision, limit?: number, offset?: number, filters?: ComplexDataFilter[] }
+export type ManageRevisionRequestParams
+  = | { _action: 'create', fields: TableRevisionConfig & { itemId: string, itemType: string, itemData: Record<string, unknown> } }
+    | { _action: 'delete', where: WhereRevision }
+    | { _action: 'retrieve', where: WhereRevision }
+    | { _action: 'list', where: WhereRevision, limit?: number, offset?: number, filters?: ComplexDataFilter[] }
 
 export type ManageRevisionParams = ManageRevisionRequestParams & RevisionStandardFields
 

@@ -206,17 +206,17 @@ interface TrackingEventSendFields {
 }
 
 type GenType = 'internal' | 'core' | 'user'
-type ClientTrackType =
-  | 'track'
-  | 'page'
-  | 'identify'
-  | 'group'
-  | 'session'
-  | 'debug'
-  | 'loop'
-  | 'exit'
-  | 'internal'
-  | 'custom'
+type ClientTrackType
+  = | 'track'
+    | 'page'
+    | 'identify'
+    | 'group'
+    | 'session'
+    | 'debug'
+    | 'loop'
+    | 'exit'
+    | 'internal'
+    | 'custom'
 
 export interface TrackingEventUserDefined {
   name?: string
@@ -235,10 +235,10 @@ export interface TrackingEventUserDefined {
 /**
  * Standard event tracking (matches segment API)
  */
-export type TrackingEvent = TrackingEventUserDefined &
-  TrackingEventBrowser &
-  TrackingEventSendFields &
-  TrackingEventServer
+export type TrackingEvent = TrackingEventUserDefined
+  & TrackingEventBrowser
+  & TrackingEventSendFields
+  & TrackingEventServer
 
 export interface TrackingEventServer {
   eventId?: string

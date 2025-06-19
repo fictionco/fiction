@@ -19,11 +19,11 @@ export abstract class StripeEndpoint extends Query<StripeEndpointSettings> {
 }
 
 // Union type for all possible action parameters
-type ManageCustomerRequestParams =
-  | { _action: 'create' }
-  | { _action: 'update', fields: { email?: string, name?: string } }
-  | { _action: 'retrieve' }
-  | { _action: 'delete' }
+type ManageCustomerRequestParams
+  = | { _action: 'create' }
+    | { _action: 'update', fields: { email?: string, name?: string } }
+    | { _action: 'retrieve' }
+    | { _action: 'delete' }
 
 type ManageCustomerParams = ManageCustomerRequestParams & { orgId: string, userId?: string }
 

@@ -55,6 +55,73 @@ describe('site plugin tests', async () => {
     expect(siteConfig.pages.length, 'should have 2 pages in created site').toBe(defaultNumPages)
   })
 
+  it('updates site with organization profile', async () => {
+    if (!site?.siteId || !testUtils?.fictionSites)
+      throw new Error('missing site or testUtils')
+
+    const siteTitle = 'testSiteWithOrgUpdate'
+    const orgName = 'Updated Organization Name'
+    const orgEmail = 'updated@example.com'
+    const orgProfile = {
+      description: 'Updated organization description',
+      headline: 'New org headline',
+    }
+
+    // Get initial org data
+    const initialOrgResponse = await testUtils.fictionUser.queries.ManageOrganization.serve(
+      {
+        _action: 'read',
+        where: { orgId },
+      },
+      { server: true },
+    )
+
+    const initialOrg = initialOrgResponse.data
+    expect(initialOrg).toBeTruthy()
+
+    // Update site with org fields
+    const updateResponse = await testUtils.fictionSites.queries.ManageSite.serve(
+      {
+        _action: 'update',
+        fields: {
+          title: siteTitle,
+          org: {
+            name: orgName,
+            email: orgEmail,
+            profile: orgProfile,
+          },
+        },
+        where: { siteId: site.siteId },
+        userId,
+        orgId,
+        caller: 'siteWithOrgUpdateTest',
+      },
+      { server: true },
+    )
+
+    expect(updateResponse.status).toBe('success')
+    expect(updateResponse.data?.title).toBe(siteTitle)
+
+    // Verify organization was updated
+    const updatedOrgResponse = await testUtils.fictionUser.queries.ManageOrganization.serve(
+      {
+        _action: 'read',
+        where: { orgId },
+      },
+      { server: true },
+    )
+
+    const updatedOrg = updatedOrgResponse.data
+    expect(updatedOrg).toBeTruthy()
+    expect(updatedOrg?.name).toBe(orgName)
+    expect(updatedOrg?.email).toBe(orgEmail)
+    expect(updatedOrg?.profile?.headline).toBe(orgProfile.headline)
+
+    // Verify site data includes updated org
+    expect(updateResponse.data?.org?.name).toBe(orgName)
+    expect(updateResponse.data?.org?.email).toBe(orgEmail)
+  })
+
   it('updates site', async () => {
     const title = 'testUpdate'
 
@@ -140,7 +207,7 @@ describe('site plugin tests', async () => {
     expect(region.slug).toBe(slug)
     expect(region.siteId).toBe(site.siteId)
 
-    expect(snap(region, { maskedKeys: [] })).toMatchInlineSnapshot(`
+    expect(snap(region, { maskedKeys: ['media'] })).toMatchInlineSnapshot(`
       {
         "cardId": "[id:TRUTHY]",
         "cards": [],
@@ -314,7 +381,7 @@ describe('site plugin tests', async () => {
 
     const cardNumInitial = cards?.value?.length ?? 0
 
-    expect(snap(site.currentPage.value?.toConfig())).toMatchInlineSnapshot(`
+    expect(snap(site.currentPage.value?.toConfig(), { maskedKeys: ['media'] })).toMatchInlineSnapshot(`
       {
         "cardId": "[id:TRUTHY]",
         "cards": [],
@@ -347,98 +414,6 @@ describe('site plugin tests', async () => {
 
     await waitFor(200)
 
-    expect(snap(site.currentPage.value?.toConfig())).toMatchInlineSnapshot(`
-      {
-        "cardId": "[id:TRUTHY]",
-        "cards": [
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "items": [
-                {
-                  "action": {
-                    "buttons": [],
-                  },
-                  "media": {
-                    "alt": "Example Image",
-                    "aspect": "landscape",
-                    "format": "image",
-                    "slug": "arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_70f59d52-1d22-42c3-8408-d12af87deaae_zgtllj",
-                    "tags": [
-                      "aspect:landscape",
-                      "color:warm",
-                      "image",
-                      "object",
-                      "annotated",
-                    ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725062/arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_70f59d52-1d22-42c3-8408-d12af87deaae_zgtllj.png",
-                  },
-                  "subTitle": "Add a subtitle to your hero section",
-                  "title": "Hero Title",
-                },
-              ],
-            },
-          },
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "standard": {
-                "spaceSize": "none",
-                "widthSize": "none",
-              },
-            },
-          },
-        ],
-        "createdAt": "[datetime:TRUTHY]",
-        "description": "",
-        "draft": {},
-        "editor": {},
-        "generation": {},
-        "isHome": "false",
-        "layoutId": "[id:TRUTHY]",
-        "nav": "null",
-        "orgId": "[id:TRUTHY]",
-        "pageTemplateId": "null",
-        "priority": "null",
-        "regionId": "[id:TRUTHY]",
-        "scope": "undefined",
-        "siteId": "[id:TRUTHY]",
-        "slug": "testalpha",
-        "templateId": "[id:TRUTHY]",
-        "title": "testAlpha",
-        "updatedAt": "[datetime:TRUTHY]",
-        "userConfig": {},
-        "userId": "null",
-        "wordCount": "0",
-      }
-    `)
-
     expect(cards?.value?.length).toBe(cardNumInitial + 2)
     expect(cards?.value?.map(c => c.cardId).filter(_ => _).length).toBe(cardNumInitial + 2)
 
@@ -462,163 +437,6 @@ describe('site plugin tests', async () => {
 
     expect(site.currentPage.value?.cards?.value.find(_ => _.cardId === testId)?.cards.value[0]?.templateId.value).toBe('cardPageAreaV1')
 
-    expect(snap(site.currentPage.value?.toConfig(), { maskedKeys: [''] })).toMatchInlineSnapshot(`
-      {
-        "cardId": "[id:TRUTHY]",
-        "cards": [
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "items": [
-                {
-                  "action": {
-                    "buttons": [],
-                  },
-                  "media": {
-                    "alt": "Example Image",
-                    "aspect": "landscape",
-                    "format": "image",
-                    "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_3de3e268-6afc-44e3-bf16-84a357273bc4_zcxjz9",
-                    "tags": [
-                      "annotated",
-                      "aspect:landscape",
-                      "aspect:square",
-                      "color:warm",
-                      "object",
-                      "image",
-                    ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556202/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_3de3e268-6afc-44e3-bf16-84a357273bc4_zcxjz9.png",
-                  },
-                  "subTitle": "Add a subtitle to your hero section",
-                  "title": "Hero Title",
-                },
-              ],
-            },
-          },
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "items": [
-                {
-                  "action": {
-                    "buttons": [],
-                  },
-                  "media": {
-                    "alt": "Example Image",
-                    "aspect": "landscape",
-                    "format": "image",
-                    "slug": "arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_70f59d52-1d22-42c3-8408-d12af87deaae_zgtllj",
-                    "tags": [
-                      "aspect:landscape",
-                      "color:warm",
-                      "image",
-                      "object",
-                      "annotated",
-                    ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725062/arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_70f59d52-1d22-42c3-8408-d12af87deaae_zgtllj.png",
-                  },
-                  "subTitle": "Add a subtitle to your hero section",
-                  "title": "Hero Title",
-                },
-              ],
-            },
-          },
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [
-              {
-                "cardId": "[id:TRUTHY]",
-                "cards": [],
-                "depth": "2",
-                "description": "undefined",
-                "isHome": "false",
-                "layoutId": "undefined",
-                "nav": "undefined",
-                "parentId": "[id:TRUTHY]",
-                "priority": "undefined",
-                "regionId": "[id:TRUTHY]",
-                "scope": "undefined",
-                "slug": "undefined",
-                "templateId": "[id:TRUTHY]",
-                "title": "undefined",
-                "userConfig": {
-                  "standard": {
-                    "spaceSize": "none",
-                    "widthSize": "none",
-                  },
-                },
-              },
-            ],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "standard": {
-                "spaceSize": "none",
-                "widthSize": "none",
-              },
-            },
-          },
-        ],
-        "createdAt": "[datetime:TRUTHY]",
-        "description": "",
-        "draft": {},
-        "editor": {},
-        "generation": {},
-        "isHome": "false",
-        "layoutId": "[id:TRUTHY]",
-        "nav": "null",
-        "orgId": "[id:TRUTHY]",
-        "pageTemplateId": "null",
-        "priority": "null",
-        "regionId": "[id:TRUTHY]",
-        "scope": "undefined",
-        "siteId": "[id:TRUTHY]",
-        "slug": "testalpha",
-        "templateId": "[id:TRUTHY]",
-        "title": "testAlpha",
-        "updatedAt": "[datetime:TRUTHY]",
-        "userConfig": {},
-        "userId": "null",
-        "wordCount": "0",
-      }
-    `)
-
     const firstCardCards = site.currentPage.value?.cards.value.find(c => c.cardId === testId)?.cards.value ?? []
 
     expect(firstCardCards.length).toBe(1)
@@ -627,163 +445,6 @@ describe('site plugin tests', async () => {
   it('sets correct layout', async () => {
     if (!site || !testUtils?.fictionSites)
       throw new Error('missing site or testUtils')
-
-    expect(snap(site.currentPage.value?.toConfig(), { maskedKeys: [''] })).toMatchInlineSnapshot(`
-      {
-        "cardId": "[id:TRUTHY]",
-        "cards": [
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "items": [
-                {
-                  "action": {
-                    "buttons": [],
-                  },
-                  "media": {
-                    "alt": "Example Image",
-                    "aspect": "landscape",
-                    "format": "image",
-                    "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_3de3e268-6afc-44e3-bf16-84a357273bc4_zcxjz9",
-                    "tags": [
-                      "annotated",
-                      "aspect:landscape",
-                      "aspect:square",
-                      "color:warm",
-                      "object",
-                      "image",
-                    ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556202/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_3de3e268-6afc-44e3-bf16-84a357273bc4_zcxjz9.png",
-                  },
-                  "subTitle": "Add a subtitle to your hero section",
-                  "title": "Hero Title",
-                },
-              ],
-            },
-          },
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "items": [
-                {
-                  "action": {
-                    "buttons": [],
-                  },
-                  "media": {
-                    "alt": "Example Image",
-                    "aspect": "landscape",
-                    "format": "image",
-                    "slug": "arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_70f59d52-1d22-42c3-8408-d12af87deaae_zgtllj",
-                    "tags": [
-                      "aspect:landscape",
-                      "color:warm",
-                      "image",
-                      "object",
-                      "annotated",
-                    ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725062/arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_70f59d52-1d22-42c3-8408-d12af87deaae_zgtllj.png",
-                  },
-                  "subTitle": "Add a subtitle to your hero section",
-                  "title": "Hero Title",
-                },
-              ],
-            },
-          },
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [
-              {
-                "cardId": "[id:TRUTHY]",
-                "cards": [],
-                "depth": "2",
-                "description": "undefined",
-                "isHome": "false",
-                "layoutId": "undefined",
-                "nav": "undefined",
-                "parentId": "[id:TRUTHY]",
-                "priority": "undefined",
-                "regionId": "[id:TRUTHY]",
-                "scope": "undefined",
-                "slug": "undefined",
-                "templateId": "[id:TRUTHY]",
-                "title": "undefined",
-                "userConfig": {
-                  "standard": {
-                    "spaceSize": "none",
-                    "widthSize": "none",
-                  },
-                },
-              },
-            ],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "standard": {
-                "spaceSize": "none",
-                "widthSize": "none",
-              },
-            },
-          },
-        ],
-        "createdAt": "[datetime:TRUTHY]",
-        "description": "",
-        "draft": {},
-        "editor": {},
-        "generation": {},
-        "isHome": "false",
-        "layoutId": "[id:TRUTHY]",
-        "nav": "null",
-        "orgId": "[id:TRUTHY]",
-        "pageTemplateId": "null",
-        "priority": "null",
-        "regionId": "[id:TRUTHY]",
-        "scope": "undefined",
-        "siteId": "[id:TRUTHY]",
-        "slug": "testalpha",
-        "templateId": "[id:TRUTHY]",
-        "title": "testAlpha",
-        "updatedAt": "[datetime:TRUTHY]",
-        "userConfig": {},
-        "userId": "null",
-        "wordCount": "0",
-      }
-    `)
 
     expect(Object.entries(site.layout.value).map(([key, comp]) => `${key}-${comp?.cards.value.length}`).sort()).toMatchInlineSnapshot(`
       [
@@ -799,163 +460,6 @@ describe('site plugin tests', async () => {
   it('handles cards correctly', async () => {
     if (!site || !testUtils?.fictionSites)
       throw new Error('missing site or testUtils')
-
-    expect(snap(site.currentPage.value?.toConfig(), { maskedKeys: [''] })).toMatchInlineSnapshot(`
-      {
-        "cardId": "[id:TRUTHY]",
-        "cards": [
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "items": [
-                {
-                  "action": {
-                    "buttons": [],
-                  },
-                  "media": {
-                    "alt": "Example Image",
-                    "aspect": "landscape",
-                    "format": "image",
-                    "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_3de3e268-6afc-44e3-bf16-84a357273bc4_zcxjz9",
-                    "tags": [
-                      "annotated",
-                      "aspect:landscape",
-                      "aspect:square",
-                      "color:warm",
-                      "object",
-                      "image",
-                    ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556202/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_3de3e268-6afc-44e3-bf16-84a357273bc4_zcxjz9.png",
-                  },
-                  "subTitle": "Add a subtitle to your hero section",
-                  "title": "Hero Title",
-                },
-              ],
-            },
-          },
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "items": [
-                {
-                  "action": {
-                    "buttons": [],
-                  },
-                  "media": {
-                    "alt": "Example Image",
-                    "aspect": "landscape",
-                    "format": "image",
-                    "slug": "arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_70f59d52-1d22-42c3-8408-d12af87deaae_zgtllj",
-                    "tags": [
-                      "aspect:landscape",
-                      "color:warm",
-                      "image",
-                      "object",
-                      "annotated",
-                    ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725062/arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_70f59d52-1d22-42c3-8408-d12af87deaae_zgtllj.png",
-                  },
-                  "subTitle": "Add a subtitle to your hero section",
-                  "title": "Hero Title",
-                },
-              ],
-            },
-          },
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [
-              {
-                "cardId": "[id:TRUTHY]",
-                "cards": [],
-                "depth": "2",
-                "description": "undefined",
-                "isHome": "false",
-                "layoutId": "undefined",
-                "nav": "undefined",
-                "parentId": "[id:TRUTHY]",
-                "priority": "undefined",
-                "regionId": "[id:TRUTHY]",
-                "scope": "undefined",
-                "slug": "undefined",
-                "templateId": "[id:TRUTHY]",
-                "title": "undefined",
-                "userConfig": {
-                  "standard": {
-                    "spaceSize": "none",
-                    "widthSize": "none",
-                  },
-                },
-              },
-            ],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "standard": {
-                "spaceSize": "none",
-                "widthSize": "none",
-              },
-            },
-          },
-        ],
-        "createdAt": "[datetime:TRUTHY]",
-        "description": "",
-        "draft": {},
-        "editor": {},
-        "generation": {},
-        "isHome": "false",
-        "layoutId": "[id:TRUTHY]",
-        "nav": "null",
-        "orgId": "[id:TRUTHY]",
-        "pageTemplateId": "null",
-        "priority": "null",
-        "regionId": "[id:TRUTHY]",
-        "scope": "undefined",
-        "siteId": "[id:TRUTHY]",
-        "slug": "testalpha",
-        "templateId": "[id:TRUTHY]",
-        "title": "testAlpha",
-        "updatedAt": "[datetime:TRUTHY]",
-        "userConfig": {},
-        "userId": "null",
-        "wordCount": "0",
-      }
-    `)
 
     await site.addCard({ templateId: 'cardMarqueeV1', cardId: 'testId_1' })
     await site.addCard({ templateId: 'cardHeroV1', cardId: 'testId_2' })
@@ -981,342 +485,6 @@ describe('site plugin tests', async () => {
     await site.addCard({ templateId: 'cardHeroV1', addToCardId: 'testId_2', cardId: 'nestedTestId1' })
     site.activeCard.value?.update({ userConfig: { foo: 'bar' } }, { caller: 'test' })
     expect(site.activeCard.value?.userConfig.value.foo).toBe('bar')
-
-    expect(snap(site.currentPage.value?.toConfig(), { maskedKeys: [''] })).toMatchInlineSnapshot(`
-      {
-        "cardId": "[id:TRUTHY]",
-        "cards": [
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "hello": "world",
-            },
-          },
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [
-              {
-                "cardId": "[id:TRUTHY]",
-                "cards": [],
-                "depth": "2",
-                "description": "undefined",
-                "isHome": "false",
-                "layoutId": "undefined",
-                "nav": "undefined",
-                "parentId": "[id:TRUTHY]",
-                "priority": "undefined",
-                "regionId": "[id:TRUTHY]",
-                "scope": "undefined",
-                "slug": "undefined",
-                "templateId": "[id:TRUTHY]",
-                "title": "undefined",
-                "userConfig": {
-                  "foo": "bar",
-                },
-              },
-            ],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "hello": "world",
-            },
-          },
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "direction": "left",
-              "items": [
-                {
-                  "href": "#",
-                  "media": {
-                    "alt": "Example Image",
-                    "format": "image",
-                    "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_851b3067-f015-416c-bcbd-6744165c6848_e2b4be",
-                    "tags": [
-                      "annotated",
-                      "aspect:portrait",
-                      "aspect:square",
-                      "color:cool",
-                      "object",
-                      "image",
-                    ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556234/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_851b3067-f015-416c-bcbd-6744165c6848_e2b4be.png",
-                  },
-                  "subTitle": "Shape your narrative",
-                  "title": "Visual Storytelling",
-                },
-                {
-                  "href": "#",
-                  "media": {
-                    "alt": "Example Image",
-                    "format": "image",
-                    "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_beda1d16-a6d3-46af-9fa5-6508f8d3ce52_oc8s3f",
-                    "tags": [
-                      "annotated",
-                      "aspect:portrait",
-                      "aspect:square",
-                      "color:warm",
-                      "object",
-                      "image",
-                    ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556374/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_beda1d16-a6d3-46af-9fa5-6508f8d3ce52_oc8s3f.png",
-                  },
-                  "subTitle": "Craft with purpose",
-                  "title": "Dynamic Design",
-                },
-                {
-                  "href": "#",
-                  "media": {
-                    "alt": "Example Image",
-                    "format": "image",
-                    "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_62a15087-100b-4880-8932-1bf4f2375052_sio7al",
-                    "tags": [
-                      "annotated",
-                      "aspect:portrait",
-                      "color:warm",
-                      "man",
-                      "midshot",
-                      "person",
-                      "image",
-                    ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440966/arpowers_minimal_stock_background_for_profile_photo_professiona_62a15087-100b-4880-8932-1bf4f2375052_sio7al.png",
-                  },
-                  "subTitle": "Inspire movement",
-                  "title": "Creative Flow",
-                },
-                {
-                  "href": "#",
-                  "media": {
-                    "alt": "Example Image",
-                    "format": "image",
-                    "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_6f8ea27a-32d3-44b6-bce8-02e065379fa5_xmrloy",
-                    "tags": [
-                      "annotated",
-                      "aspect:portrait",
-                      "color:warm",
-                      "man",
-                      "person",
-                      "silhouette",
-                      "wideshot",
-                      "image",
-                    ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724440974/arpowers_minimal_stock_background_for_profile_photo_professiona_6f8ea27a-32d3-44b6-bce8-02e065379fa5_xmrloy.png",
-                  },
-                  "subTitle": "Lead with clarity",
-                  "title": "Bold Vision",
-                },
-                {
-                  "href": "#",
-                  "media": {
-                    "alt": "Example Image",
-                    "format": "image",
-                    "slug": "arpowers_minimal_stock_background_for_profile_photo_professiona_f93ca937-ccce-4be7-8e01-6476f6e8c9c9_y56mbj",
-                    "tags": [
-                      "annotated",
-                      "aspect:portrait",
-                      "color:warm",
-                      "person",
-                      "image",
-                    ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724441014/arpowers_minimal_stock_background_for_profile_photo_professiona_f93ca937-ccce-4be7-8e01-6476f6e8c9c9_y56mbj.png",
-                  },
-                  "subTitle": "Guide with style",
-                  "title": "Artistic Direction",
-                },
-              ],
-              "showAllText": "false",
-              "speed": "7",
-              "stagger": "false",
-            },
-          },
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "items": [
-                {
-                  "action": {
-                    "buttons": [],
-                  },
-                  "media": {
-                    "alt": "Example Image",
-                    "aspect": "landscape",
-                    "format": "image",
-                    "slug": "arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_3de3e268-6afc-44e3-bf16-84a357273bc4_zcxjz9",
-                    "tags": [
-                      "annotated",
-                      "aspect:landscape",
-                      "aspect:square",
-                      "color:warm",
-                      "object",
-                      "image",
-                    ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1724556202/arpowers_minimal_midshot_photo_of_object_ancient_greek_ideal_be_3de3e268-6afc-44e3-bf16-84a357273bc4_zcxjz9.png",
-                  },
-                  "subTitle": "Add a subtitle to your hero section",
-                  "title": "Hero Title",
-                },
-              ],
-            },
-          },
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "items": [
-                {
-                  "action": {
-                    "buttons": [],
-                  },
-                  "media": {
-                    "alt": "Example Image",
-                    "aspect": "landscape",
-                    "format": "image",
-                    "slug": "arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_70f59d52-1d22-42c3-8408-d12af87deaae_zgtllj",
-                    "tags": [
-                      "aspect:landscape",
-                      "color:warm",
-                      "image",
-                      "object",
-                      "annotated",
-                    ],
-                    "url": "https://res.cloudinary.com/fiction-com-inc/image/upload/f_auto,q_auto/v1726725062/arpowers_Minimalist_futuristic_interpretation_of_a_athena_elega_70f59d52-1d22-42c3-8408-d12af87deaae_zgtllj.png",
-                  },
-                  "subTitle": "Add a subtitle to your hero section",
-                  "title": "Hero Title",
-                },
-              ],
-            },
-          },
-          {
-            "cardId": "[id:TRUTHY]",
-            "cards": [
-              {
-                "cardId": "[id:TRUTHY]",
-                "cards": [],
-                "depth": "2",
-                "description": "undefined",
-                "isHome": "false",
-                "layoutId": "undefined",
-                "nav": "undefined",
-                "parentId": "[id:TRUTHY]",
-                "priority": "undefined",
-                "regionId": "[id:TRUTHY]",
-                "scope": "undefined",
-                "slug": "undefined",
-                "templateId": "[id:TRUTHY]",
-                "title": "undefined",
-                "userConfig": {
-                  "standard": {
-                    "spaceSize": "none",
-                    "widthSize": "none",
-                  },
-                },
-              },
-            ],
-            "depth": "1",
-            "description": "undefined",
-            "isHome": "false",
-            "layoutId": "undefined",
-            "nav": "undefined",
-            "parentId": "[id:TRUTHY]",
-            "priority": "undefined",
-            "regionId": "[id:TRUTHY]",
-            "scope": "undefined",
-            "slug": "undefined",
-            "templateId": "[id:TRUTHY]",
-            "title": "undefined",
-            "userConfig": {
-              "standard": {
-                "spaceSize": "none",
-                "widthSize": "none",
-              },
-            },
-          },
-        ],
-        "createdAt": "[datetime:TRUTHY]",
-        "description": "",
-        "draft": {},
-        "editor": {},
-        "generation": {},
-        "isHome": "false",
-        "layoutId": "[id:TRUTHY]",
-        "nav": "null",
-        "orgId": "[id:TRUTHY]",
-        "pageTemplateId": "null",
-        "priority": "null",
-        "regionId": "[id:TRUTHY]",
-        "scope": "undefined",
-        "siteId": "[id:TRUTHY]",
-        "slug": "testalpha",
-        "templateId": "[id:TRUTHY]",
-        "title": "testAlpha",
-        "updatedAt": "[datetime:TRUTHY]",
-        "userConfig": {},
-        "userId": "null",
-        "wordCount": "0",
-      }
-    `)
   })
 
   it('saves the site', async () => {

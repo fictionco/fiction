@@ -6,11 +6,11 @@ import { abort, deepMerge, isTest, Query } from '@fiction/core'
 import { AiEnhancementSchema, getGenerationParams } from './generation'
 import { accountFromProfile, createHandle, getMockLinkedInData, profileFromAccount } from './util'
 
-export type OnboardRequest =
-  | { _action: 'enrichFromLinkedIn', userId: string, orgId: string, profile: Partial<ProfileData> }
-  | { _action: 'updateProfile', userId: string, orgId: string, profile: Partial<ProfileData> }
-  | { _action: 'createDefaultContent', userId: string, orgId: string, profile: Partial<ProfileData> }
-  | { _action: 'completeOnboarding', userId: string, orgId: string, profile: Partial<ProfileData> }
+export type OnboardRequest
+  = | { _action: 'enrichFromLinkedIn', userId: string, orgId: string, profile: Partial<ProfileData> }
+    | { _action: 'updateProfile', userId: string, orgId: string, profile: Partial<ProfileData> }
+    | { _action: 'createDefaultContent', userId: string, orgId: string, profile: Partial<ProfileData> }
+    | { _action: 'completeOnboarding', userId: string, orgId: string, profile: Partial<ProfileData> }
 
 export class QueryManageOnboard extends Query<FictionOnboardSettings> {
   enrichCount = 0

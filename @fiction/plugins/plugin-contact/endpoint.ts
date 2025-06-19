@@ -22,14 +22,14 @@ abstract class SubscribeEndpoint extends Query<ContactEndpointSettings> {
 export type WhereSubscription = { userId?: string, email?: string, contactId?: string } & ({ userId: string } | { email: string } | { contactId: string })
 
 export type ContactCreate = { email?: string, userId?: string } & Partial<TableContactConfig> & ({ userId: string } | { email: string })
-export type ManageContactRequest =
-  | { _action: 'create', orgId: string, contact: ContactCreate }
-  | { _action: 'bulkCreate', orgId: string, contacts: ContactCreate[] }
-  | { _action: 'list', orgId: string, where?: Partial<TableContactConfig>, limit?: number, offset?: number, page?: number }
-  | { _action: 'count', orgId: string, filters?: ComplexDataFilter[] }
-  | { _action: 'update', orgId: string, where: WhereSubscription[], fields: Partial<TableContactConfig> }
-  | { _action: 'delete', orgId: string, where: WhereSubscription[] }
-  | { _action: 'current', targetOrgId: string, userId?: string, fields?: Partial<TableContactConfig> }
+export type ManageContactRequest
+  = | { _action: 'create', orgId: string, contact: ContactCreate }
+    | { _action: 'bulkCreate', orgId: string, contacts: ContactCreate[] }
+    | { _action: 'list', orgId: string, where?: Partial<TableContactConfig>, limit?: number, offset?: number, page?: number }
+    | { _action: 'count', orgId: string, filters?: ComplexDataFilter[] }
+    | { _action: 'update', orgId: string, where: WhereSubscription[], fields: Partial<TableContactConfig> }
+    | { _action: 'delete', orgId: string, where: WhereSubscription[] }
+    | { _action: 'current', targetOrgId: string, userId?: string, fields?: Partial<TableContactConfig> }
 
 export type ManageContactParams = ManageContactRequest & IndexQuery
 

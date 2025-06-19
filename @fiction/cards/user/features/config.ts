@@ -76,7 +76,7 @@ const options: InputOption[] = [
           createOption({
             key: 'items.0.columns',
             label: 'Column Span (Masonry Mode)',
-            subLabel: 'Set the width in masonry layout',
+            description: 'Set the width in masonry layout',
             input: 'InputSelect',
             props: { list: ['1', '2', '3', '4'] },
             schema,
@@ -86,18 +86,8 @@ const options: InputOption[] = [
             label: 'Links',
             key: 'linkGroup',
             options: [
-              createOption({
-                key: 'items.0.href',
-                label: 'Link URL',
-                input: 'InputSiteRoute',
-                schema,
-              }),
-              createOption({
-                key: 'items.0.action.buttons',
-                label: 'Actions',
-                input: 'InputActions',
-                schema,
-              }),
+              createOption({ key: 'items.0.href', label: 'Link URL', input: 'InputSiteRoute', schema }),
+              createOption({ key: 'items.0.action.buttons', label: 'Actions', input: 'InputActions', schema }),
             ],
           }),
 

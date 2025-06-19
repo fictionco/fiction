@@ -134,11 +134,11 @@ export class QueryOrganizationsByUserId extends QueryOrganization {
 
 export type WhereMember = { userId: string }
 
-export type ManageMemberRelationParams =
-  | { _action: 'create', orgId: string, fields: Partial<OrganizationMembership> }
-  | { _action: 'update', orgId: string, where: WhereMember, fields: Partial<OrganizationMembership> }
-  | { _action: 'delete', orgId: string, where: WhereMember }
-  | { _action: 'list', orgId: string, limit?: number, offset?: number }
+export type ManageMemberRelationParams
+  = | { _action: 'create', orgId: string, fields: Partial<OrganizationMembership> }
+    | { _action: 'update', orgId: string, where: WhereMember, fields: Partial<OrganizationMembership> }
+    | { _action: 'delete', orgId: string, where: WhereMember }
+    | { _action: 'list', orgId: string, limit?: number, offset?: number }
 
 export class QueryManageMemberRelation extends OrgQuery {
   async run(
@@ -242,13 +242,13 @@ export class QueryManageMemberRelation extends OrgQuery {
 
 export type WhereOrg = { orgId: string } | { handle: string }
 
-export type ManageOrganizationParams =
-  | { _action: 'create', fields: Partial<Organization>, userId?: string, withDefaults?: boolean }
-  | { _action: 'update', where: WhereOrg, fields: Partial<Organization> }
-  | { _action: 'delete', where: WhereOrg }
-  | { _action: 'read', where: WhereOrg }
-  | { _action: 'generateApiSecret', where: WhereOrg }
-  | { _action: 'manageOnboard', settings: OnboardSettings, orgId?: string, userId?: string }
+export type ManageOrganizationParams
+  = | { _action: 'create', fields: Partial<Organization>, userId?: string, withDefaults?: boolean }
+    | { _action: 'update', where: WhereOrg, fields: Partial<Organization> }
+    | { _action: 'delete', where: WhereOrg }
+    | { _action: 'read', where: WhereOrg }
+    | { _action: 'generateApiSecret', where: WhereOrg }
+    | { _action: 'manageOnboard', settings: OnboardSettings, orgId?: string, userId?: string }
 
 export class QueryManageOrganization extends OrgQuery {
   async run(params: ManageOrganizationParams, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {

@@ -86,7 +86,7 @@ const styles = computed(() => ({
     width: 100%;
     max-width: 550px;
     margin: 0 auto;
-    padding: ${spacing['xl']} ${spacing.xs};
+    padding: ${spacing.xl} ${spacing.xs};
     font-family: ${typography.sans};
     font-size: ${typography.sizes.base};
     line-height: ${typography.leading.golden};

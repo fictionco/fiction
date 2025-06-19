@@ -65,8 +65,8 @@ export type EndpointMap<T extends Record<string, Query>> = {
   [P in keyof T]: Endpoint<T[P]>
 }
 
-export type EndpointSettings<T extends Query = Query> = EndpointOptions &
-  EndpointMethodOptions<T>
+export type EndpointSettings<T extends Query = Query> = EndpointOptions
+  & EndpointMethodOptions<T>
 
 export type RequestOptions = {
   useRouteParams?: boolean
