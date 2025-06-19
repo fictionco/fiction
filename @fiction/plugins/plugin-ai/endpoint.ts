@@ -17,7 +17,7 @@ export type ContentFormat
   = | 'websiteCopy'
     | 'contentAutocomplete'
     | 'brandVoice'
-    | 'accountSetup' // Added new format
+    | 'accountSetup'
 
 // Request types
 export type AiRequest

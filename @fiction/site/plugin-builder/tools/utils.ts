@@ -1,5 +1,5 @@
 import type { Card, CardConfigPortable, PageTemplate, Site } from '@fiction/site'
-import { colorThemeUser, toLabel, vue } from '@fiction/core'
+import { toLabel, vue } from '@fiction/core'
 import { TablePageSchema as PageSchema, TableSiteSchema as schema } from '@fiction/site/tables'
 import { createOption } from '@fiction/ui'
 import { t } from '../../tables'

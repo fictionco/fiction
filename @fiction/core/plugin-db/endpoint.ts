@@ -15,7 +15,7 @@ export type CheckColumnValue = {
   allowAnyValue?: boolean
 }
 
-type CheckHandleParams = { table: string, columns: CheckColumnValue[], currentOrgId?: string  }
+type CheckHandleParams = { table: string, columns: CheckColumnValue[], currentOrgId?: string }
 
 export class CheckHandle extends Query<QuerySettings> {
   isUrlFriendly(handle: string): boolean {

@@ -101,7 +101,7 @@ async function validateHandle(value: string) {
       const response = await fictionDb.requests.CheckHandle.request({
         table: props.table,
         columns,
-        currentOrgId: fictionUser.activeOrgId.value
+        currentOrgId: fictionUser.activeOrgId.value,
       })
 
       status.value = response.data?.available || 'error'

@@ -34,8 +34,6 @@
       "index.ts": null,
       "package.json": null,
       "settings": {
-        "CustomDomain.vue": null,
-        "CustomDomainInstructions.vue": null,
         "ElHeader.vue": null,
         "ElOrgNewModal.vue": null,
         "ElTeamInvite.vue": null,
@@ -1334,6 +1332,8 @@
         "ViewPreview.vue": null,
         "index.ts": null,
         "tools": {
+          "CustomDomain.vue": null,
+          "CustomDomainInstructions.vue": null,
           "InputAddElements.vue": null,
           "InputManageLayout.vue": null,
           "InputRevisionHistory.vue": null,
@@ -1342,6 +1342,7 @@
           "ToolCardEdit.vue": null,
           "ToolPageAdd.vue": null,
           "ToolPageEdit.vue": null,
+          "ToolRevisions.vue": null,
           "ToolSectionsAdd.vue": null,
           "ToolSectionsLayout.vue": null,
           "ToolSettings.vue": null,
