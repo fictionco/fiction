@@ -192,7 +192,7 @@ export async function saveSite(args: {
     caller: 'saveSite',
   }, { minTime })
 
-  await updateSite({ site, newConfig: r.data || {}, caller: 'saveSite', noSave: true })
+  await updateSite({ site, newConfig: r.data || {}, caller: 'saveSite', noSave: true, noSync: true, noHistory: true })
 
   site.saveUtil.clear()
 

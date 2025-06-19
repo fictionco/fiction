@@ -33,7 +33,6 @@ describe('getSiteSelector', async () => {
       fields: {
         title: 'Domain Test Site',
         themeId: 'test',
-        subDomain: `test-${objectId({ prefix: 'sub' })}`,
         handle: `hndl-${objectId({ prefix: 'sub' })}`,
         isPrimary: true,
         ...fields,

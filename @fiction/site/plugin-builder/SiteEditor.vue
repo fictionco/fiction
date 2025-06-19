@@ -137,15 +137,15 @@ async function resetToPublished() {
               design="link"
             />
           </div>
-          <div class="flex space-x-1 font-semibold items-center">
-            <span class="text-theme-500">Edit Site</span>
-            <span class="i-tabler-slash text-xl dark:text-theme-500" />
+          <div class="flex space-x-1 font-medium items-center text-sm">
+            <span class="text-theme-100">Edit Site</span>
+            <span class="i-tabler-slash text-xl dark:text-theme-500/80" />
             <XText
               v-if="site"
               :model-value="displayDomain(site.url.value)"
-              title="Site Title"
-              :is-editable="true"
-              class="hover:bg-theme-100 hover:dark:bg-theme-700 whitespace-nowrap"
+              title="Site Domain"
+              :is-editable="false"
+              class="hover:bg-theme-100 dark:text-theme-400 hover:dark:bg-theme-700 whitespace-nowrap"
             />
           </div>
         </template>
@@ -164,7 +164,7 @@ async function resetToPublished() {
               target="_blank"
               size="md"
               icon-after="i-tabler-arrow-up-right"
-              design="solid"
+              design="outline"
               data-test-id="viewSiteButton"
               :href="site.getUrl({ scope: 'draft' })"
             >

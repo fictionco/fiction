@@ -47,7 +47,7 @@ export async function requestManageSite(args: RequestManageSiteParams) {
 
   const routeScope = siteRouter.query.value._scope as string | undefined
 
-  let scope: 'publish' | 'draft' = routeScope === 'draft' ? 'publish' : 'publish'
+  const scope: 'publish' | 'draft' = routeScope === 'draft' ? 'publish' : 'publish'
 
   if (['update', 'delete', 'retrieve'].includes(_action)) {
     const { _action, where } = args
@@ -63,14 +63,9 @@ export async function requestManageSite(args: RequestManageSiteParams) {
     }
   }
 
-  if (_action === 'retrieve') {
-    if (['designer', 'editable'].includes(siteMode))
-      scope = 'draft'
-  }
-
   const requestArgs = { ...pass, caller, _action, fields, where, scope } as ManageSiteParams
 
-  logger.info('fetching site', { data: { caller } })
+  logger.info('fetching site', { data: { caller, scope } })
 
   const r = await fictionSites.requests.ManageSite.projectRequest(requestArgs, { caller: `requestManageSite:${caller}`, userOptional: _action === 'retrieve' })
 
