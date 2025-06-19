@@ -36,9 +36,11 @@ async function handleCopy(): Promise<void> {
 </script>
 
 <template>
-  <div class="custom-domains p-6 rounded-md bg-theme-50 dark:bg-theme-800 text-sm">
-    <h3 class="text-lg font-semibold mb-4 text-theme-900 dark:text-theme-100 ">Connect Your Domain</h3>
-    <ol class="list-decimal ml-4 space-y-2">
+  <div class="custom-domains p-4 rounded-md bg-theme-50 dark:bg-theme-700/70 text-sm">
+    <h3 class="text-base font-semibold mb-4 text-theme-900 dark:text-theme-100 ">
+      Connect Your Domain
+    </h3>
+    <ol class="list-decimal ml-6 space-y-3 text-xs font-sans">
       <li>Log in to your domain provider (e.g., GoDaddy, Namecheap).</li>
       <li>Go to DNS settings (often called "DNS Management").</li>
       <li>
@@ -71,8 +73,10 @@ async function handleCopy(): Promise<void> {
         </div>
       </li>
     </ol>
-    <div class="mt-4 text-xs text-theme-500 dark:text-theme-400">
-      <p class="font-semibold">Notes:</p>
+    <div class="mt-2 text-xs text-theme-500 dark:text-theme-400">
+      <p class="font-semibold">
+        Notes:
+      </p>
       <ul class="list-disc pl-6 space-y-1">
         <li>DNS updates typically take 15-30 minutes.</li>
         <li>

@@ -1354,7 +1354,6 @@
       "site.ts": null,
       "styling.ts": null,
       "tables.ts": null,
-      "tailwind.config.cjs": null,
       "test": {
         "__cert.unit.test.ts": null,
         "admin.siteEditing.spot.test.ts": null,
@@ -1864,6 +1863,7 @@
     "deployFlySecrets.ts": null,
     "genGoogleFontList.ts": null,
     "project_structure.py": null,
+    "reviewCodebase.ts": null,
     "systemMessage.md": null,
     "verify-commit.mjs": null,
     "xcache.sh": null

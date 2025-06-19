@@ -1,31 +1,72 @@
 import type { Card, CardConfigPortable, PageTemplate, Site } from '@fiction/site'
-import { toLabel, vue } from '@fiction/core'
-import { TablePageSchema as PageSchema, TableSiteSchema as SiteSchema } from '@fiction/site/tables'
+import { colorThemeUser, toLabel, vue } from '@fiction/core'
+import { TablePageSchema as PageSchema, TableSiteSchema as schema } from '@fiction/site/tables'
 import { createOption } from '@fiction/ui'
 import { t } from '../../tables'
 
-export function getSiteOptions(args: { card: Card }) {
+export function getSiteOptions(args: { card: Card, site: Site }) {
   const { card } = args
+  const org = card.site?.org.value
 
   return {
-    global: createOption({
-      schema: SiteSchema,
-      key: 'siteGlobal',
-      label: 'Settings',
+    domain: createOption({
+      schema,
+      key: 'domain.group',
+      label: 'Domain',
       input: 'group',
-      icon: { class: 'i-tabler-world-latitude' },
+      icon: { class: 'i-tabler-world-upload' },
       options: [
         createOption({
-          schema: SiteSchema,
-          key: 'title',
-          label: 'Site Title',
-          input: 'InputText',
+          schema,
+          key: 'org.handle',
+          label: 'Fiction Domain',
+          input: 'InputHandle',
+          isRequired: true,
+          props: {
+            beforeInput: 'https://',
+            afterInput: '.fiction.com',
+            table: 'fiction_org',
+            columns: [{ name: 'handle' }],
+            uiSize: 'md',
+          },
+        }),
+        createOption({
+          key: 'customDomains',
+          label: 'Enter Custom Domain',
+          description: 'Add your custom domain, you\'ll need to set up DNS records for it to work.',
+          input: vue.defineAsyncComponent(() => import('./CustomDomain.vue')),
           isRequired: true,
         }),
         createOption({
+          key: 'domainSetupInstructions',
+          label: 'Setup Instructions',
+          input: vue.defineAsyncComponent(() => import('./CustomDomainInstructions.vue')),
+          props: {
+            destination: `https://${org?.handle}.fictionsites.com`,
+          },
+        }),
+      ],
+    }),
+    global: createOption({
+      schema,
+      key: 'siteGlobal',
+      label: 'Brand',
+      input: 'group',
+      icon: { class: 'i-tabler-world-latitude' },
+      options: [
+        createOption({ schema, key: `org.name`, label: 'Name', input: 'InputText', placeholder: 'Enter a name', isRequired: true, description: 'Your brand name' }),
+        createOption({ schema, key: 'org.email', label: 'Email', input: 'InputEmail', isRequired: true, description: 'Your primary contact email.' }),
+        createOption({ schema, key: 'org.handle', label: 'Handle', input: 'InputHandle', placeholder: 'my-handle', props: { table: 'fiction_org', columns: [{ name: 'handle' }] }, description: 'Used in URLs and mentions.' }),
+        createOption({ schema, key: 'org.profile.headline', label: 'Headline', input: 'InputUrl', isRequired: true, placeholder: 'Enter a headline' }),
+        createOption({ schema, key: 'org.profile.summary', label: 'About', input: 'InputTextarea', isRequired: true, placeholder: 'Enter a description' }),
+        createOption({ schema, key: 'org.avatar', label: 'Avatar', input: 'InputMedia' }),
+        createOption({ schema, key: 'org.branding.logo', label: 'Logo', subLabel: 'For visual identity', input: 'InputMedia' }),
+        createOption({ schema, key: 'org.branding.primaryColor', label: 'Primary Color', input: 'InputColorTheme', placeholder: 'Default', props: { mode: 'bright' } }),
+
+        createOption({
           key: 'about',
-          label: 'Workspace Settings',
-          description: 'To customize branding, colors, and other settings for your workspace, please visit the workspace settings page.',
+          label: 'All Settings',
+          subLabel: 'Additional settings found in workspace settings',
           input: 'InputActionList',
           props: {
             buttons: () => {
@@ -41,24 +82,16 @@ export function getSiteOptions(args: { card: Card }) {
             },
           },
         }),
+
         // createOption({
-        //   schema: SiteSchema,
-        //   key: 'userConfig.standard.primaryColor',
-        //   label: 'Primary Color',
-        //   subLabel: 'Used for buttons, links, and important elements',
-        //   input: 'InputColorTheme',
-        //   list: colorThemeUser,
-        //   placeholder: 'Default',
-        // }),
-        // createOption({
-        //   schema: SiteSchema,
+        //   schema: schema,
         //   key: 'userConfig.favicon',
         //   label: 'Favicon',
         //   description: 'Upload a square image (at least 32x32px) that represents your site in browser tabs and bookmarks',
         //   input: 'InputMedia',
         // }),
         // createOption({
-        //   schema: SiteSchema,
+        //   schema: schema,
         //   key: 'userConfig.shareImage',
         //   label: 'Social Card Image',
         //   description: 'Upload an image (1200x630px recommended) to appear when your site is shared on social platforms like Facebook, Twitter, or LinkedIn',
@@ -66,7 +99,7 @@ export function getSiteOptions(args: { card: Card }) {
         // }),
 
         // createOption({
-        //   schema: SiteSchema,
+        //   schema: schema,
         //   key: 'userConfig.googleAnalyticsId',
         //   label: 'Google Analytics ID',
         //   description: 'Enter your Google Analytics Measurement ID to enable website analytics. Format: G-XXXXXXXXXX',

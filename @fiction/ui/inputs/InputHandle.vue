@@ -27,7 +27,8 @@ const emit = defineEmits<{
   (event: 'update:modelValue', payload: string): void
 }>()
 
-const { fictionDb } = useService()
+const { fictionDb, fictionUser } = useService()
+
 const initialValue = vue.ref(props.modelValue)
 const status = vue.ref<ResponseStatus>('unknown')
 const reason = vue.ref<ValidationReason>('unknown')
@@ -72,12 +73,12 @@ async function validateHandle(value: string) {
     return
   }
 
-  if (value === initialValue.value) {
-    status.value = 'success'
-    reason.value = 'current'
-    inputRef.value?.setCustomValidity('')
-    return
-  }
+  // if (value === initialValue.value) {
+  //   status.value = 'success'
+  //   reason.value = 'current'
+  //   inputRef.value?.setCustomValidity('')
+  //   return
+  // }
 
   if (value.length < props.minLength) {
     status.value = 'fail'
@@ -100,12 +101,14 @@ async function validateHandle(value: string) {
       const response = await fictionDb.requests.CheckHandle.request({
         table: props.table,
         columns,
+        currentOrgId: fictionUser.activeOrgId.value
       })
 
       status.value = response.data?.available || 'error'
       reason.value = response.data?.reason ?? 'unknown'
     }
-    catch {
+    catch (error) {
+      console.error('Error checking handle availability:', { message: (error as Error).message, value })
       status.value = 'error'
       reason.value = 'error'
     }
@@ -131,8 +134,9 @@ function focusInput() {
 }
 
 // Validate on mount if there's an initial value
-vue.onMounted(() => {
+vue.onMounted(async () => {
   if (props.modelValue) {
+    await fictionUser.userInitialized({ caller: 'InputHandle' })
     validateHandle(props.modelValue)
   }
 })

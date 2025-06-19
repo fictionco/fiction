@@ -15,7 +15,7 @@ export type CheckColumnValue = {
   allowAnyValue?: boolean
 }
 
-type CheckHandleParams = { table: string, columns: CheckColumnValue[] }
+type CheckHandleParams = { table: string, columns: CheckColumnValue[], currentOrgId?: string  }
 
 export class CheckHandle extends Query<QuerySettings> {
   isUrlFriendly(handle: string): boolean {
@@ -32,7 +32,7 @@ export class CheckHandle extends Query<QuerySettings> {
   ): Promise<EndpointResponse<HandleResult>> {
     const wordsSet = await this.getWords()
     const { fictionDb } = this.settings
-    const { table, columns } = params
+    const { table, columns, currentOrgId } = params
 
     let result: HandleResult = { available: 'loading', reason: 'loading' }
 
@@ -65,8 +65,10 @@ export class CheckHandle extends Query<QuerySettings> {
         }).first()
 
         if (r) {
-          result = { available: 'fail', reason: 'taken' }
-          break
+          if ((currentOrgId && r.orgId !== currentOrgId) || !currentOrgId) {
+            result = { available: 'fail', reason: 'taken' }
+            break
+          }
         }
       }
 

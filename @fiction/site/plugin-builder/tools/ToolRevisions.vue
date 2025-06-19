@@ -19,7 +19,7 @@ const props = defineProps<{
 const v = vue.computed({
   get: () => props.site.toConfig(),
   set: async (v) => {
-    await updateSite({ site: props.site, newConfig: v, caller: 'updateGlobalSettings' })
+    await updateSite({ site: props.site, newConfig: v, caller: 'updateRevisions' })
   },
 })
 
@@ -37,7 +37,7 @@ const options = getSiteOptions(props)
       class="my-4"
       state-key="optionsEngine"
       ui-size="md"
-      :options="[options.global, options.domain]"
+      :options="[options.history]"
       :disable-group-hide="true"
       :input-props="{ site: props.site, tool: props.tool }"
     />

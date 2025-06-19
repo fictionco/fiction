@@ -326,7 +326,7 @@ const engineProps = vue.computed(() => ({
             :data-test-id="opt.settings.testId || opt.key.value"
             @click="handleTabChange(i)"
           >
-            <div class="flex items-center gap-2 font-semibold">
+            <div class="flex items-center gap-2 font-semibold cursor-pointer">
               <XIcon v-if="opt.settings.icon" class="size-[1.1em]" :media="opt.settings.icon" />
               <span class=" whitespace-nowrap" v-html="opt.label.value" />
             </div>

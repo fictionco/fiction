@@ -497,8 +497,8 @@ export class ManageSite extends SitesQuery {
 
     const scope = 'publish'
 
-    const defaultSubDomain = meta.bearer?.email?.split('@')[0] || 'site'
-    const mergedFields = deepMerge([themeSite, { subDomain: `${defaultSubDomain}-${shortId({ len: 4 })}`, isPrimary }, fields])
+    const defaultHandle = meta.bearer?.email?.split('@')[0] || 'site'
+    const mergedFields = deepMerge([themeSite, { handle: `${defaultHandle}-${shortId({ len: 4 })}`, isPrimary }, fields])
 
     // If this site should be primary, unset primary on other sites
     if (isPrimary) {
@@ -827,11 +827,12 @@ export class ManageSite extends SitesQuery {
     }
 
     try {
-      const siteOrg = await this.getOrg({ orgId: site.orgId })
+      let siteOrg = await this.getOrg({ orgId: site.orgId })
 
       // Apply draft changes if needed
       if (scope === 'draft') {
         site = deepMerge([site, site.draft as TableSiteConfig])
+        siteOrg = deepMerge([siteOrg, site.draft?.org || {}]) // Merge org draft if exists
       }
 
       // Get pages

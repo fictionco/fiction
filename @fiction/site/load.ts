@@ -47,7 +47,7 @@ export async function requestManageSite(args: RequestManageSiteParams) {
 
   const routeScope = siteRouter.query.value._scope as string | undefined
 
-  let scope: 'publish' | 'draft' = routeScope === 'draft' ? 'draft' : 'publish'
+  let scope: 'publish' | 'draft' = routeScope === 'draft' ? 'publish' : 'publish'
 
   if (['update', 'delete', 'retrieve'].includes(_action)) {
     const { _action, where } = args
@@ -134,7 +134,7 @@ export async function loadSiteFromTheme(args: {
     throw new Error(msg)
   }
 
-  const site = await theme.toSite({ fictionSites, subDomain, siteId, orgId, siteRouter, siteMode, isStatic: true, org })
+  const site = await theme.toSite({ fictionSites, siteId, orgId, siteRouter, siteMode, isStatic: true, org })
 
   return site
 }

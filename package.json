@@ -98,10 +98,10 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.14.1",
+    "@antfu/eslint-config": "^4.15.0",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.29.0",
-    "@playwright/test": "^1.53.0",
+    "@playwright/test": "^1.53.1",
     "@types/express": "^5.0.3",
     "@types/node": "^22.15.32",
     "@vitest/coverage-istanbul": "^3.2.4",
@@ -112,7 +112,7 @@
     "ngrok": "5.0.0-beta.2",
     "nodemon": "^3.1.10",
     "npm-package-json-lint": "^8.0.0",
-    "playwright": "^1.53.0",
+    "playwright": "^1.53.1",
     "prettier": "^3.5.3",
     "sharp": "^0.34.2",
     "simple-git-hooks": "^2.13.0",

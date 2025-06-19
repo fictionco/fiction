@@ -13,3 +13,6 @@ packages:
   - '@fiction/onboard'
   - '@fiction/themes/*'
   - '@fiction/plugins/*'
+
+# Configuration settings
+shamefullyHoist: true

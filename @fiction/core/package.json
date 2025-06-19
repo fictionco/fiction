@@ -14,10 +14,10 @@
   ],
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.830.0",
-    "@aws-sdk/client-s3": "^3.830.0",
+    "@aws-sdk/client-s3": "^3.832.0",
     "@egoist/tailwindcss-icons": "^1.9.0",
     "@faker-js/faker": "^9.8.0",
-    "@iconify-json/carbon": "^1.2.9",
+    "@iconify-json/carbon": "^1.2.10",
     "@iconify-json/ci": "^1.2.2",
     "@iconify-json/clarity": "^1.2.2",
     "@iconify-json/flag": "^1.2.6",
@@ -112,7 +112,7 @@
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "path-browserify-esm": "^1.0.6",
-    "pg": "^8.16.0",
+    "pg": "^8.16.1",
     "prettyoutput": "^1.2.0",
     "process": "^0.11.10",
     "querystring-browser": "^1.0.4",
@@ -144,7 +144,7 @@
     "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {
-    "@playwright/test": "^1.53.0",
+    "@playwright/test": "^1.53.1",
     "@types/bcrypt": "^5.0.2",
     "@types/body-parser": "^1.19.6",
     "@types/compression": "^1.8.1",
@@ -174,9 +174,9 @@
     "deep-object-diff": "^1.1.9",
     "fake-indexeddb": "^6.0.1",
     "ngrok": "5.0.0-beta.2",
-    "playwright": "^1.53.0",
+    "playwright": "^1.53.1",
     "react-dom": "^19.1.0",
-    "rollup": "^4.43.0",
+    "rollup": "^4.44.0",
     "rollup-plugin-visualizer": "^5.14.0",
     "util": "^0.12.5",
     "websocket-polyfill": "^1.0.0"

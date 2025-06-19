@@ -36,6 +36,8 @@ export type CardConfigPortable<T extends Record<string, unknown> = Record<string
   cards?: CardConfigPortable[]
 }
 
+type yy = TableCardConfig['cardId']
+
 export const domainCols = [
   new Col({ key: 'domainId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('dmn')`)).index() }),
   new Col({ key: 'orgId', sec: 'permanent', sch: () => z.string(), make: ({ s, col }) => s.string(col.k).references(`${t.org}.org_id`).onDelete('CASCADE').onUpdate('CASCADE').index() }),
@@ -54,7 +56,6 @@ export const siteCols = [
   new Col({ key: 'title', sec: 'setting', sch: () => z.string().min(1), make: ({ s, col }) => s.string(col.k).defaultTo('') }),
   new Col({ key: 'themeId', sec: 'setting', sch: () => z.string().min(1), make: ({ s, col }) => s.string(col.k).notNullable() }),
   new Col({ key: 'isPrimary', sec: 'setting', sch: () => z.boolean(), make: ({ s, col }) => s.boolean(col.k).defaultTo(false) }),
-  new Col({ key: 'subDomain', sec: 'setting', sch: () => z.string().min(1), make: ({ s, col, db }) => s.string(col.k).unique().notNullable().defaultTo(db.raw(`short_id(9)`)).index(), prepare: ({ value }) => (value).replaceAll(/[^\w-]+/g, '').toLowerCase() }),
   new Col({ key: 'handle', sec: 'setting', sch: () => z.string().min(1), make: ({ s, col, db }) => s.string(col.k).unique().notNullable().defaultTo(db.raw(`short_id(9)`)).index(), prepare: ({ value }) => (value).replaceAll(/[^\w-]+/g, '').toLowerCase() }),
   new Col({ key: 'status', sec: 'setting', sch: () => z.enum(['pending', 'active', 'inactive']), make: ({ s, col }) => s.string(col.k).notNullable().defaultTo('pending') }),
   new Col({ key: 'userConfig', sec: 'setting', sch: () => z.record(z.string(), z.unknown()) as z.ZodType<SiteGlobalUserConfig & Record<string, unknown>>, make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
@@ -65,13 +66,13 @@ export const siteCols = [
   new Col({ key: 'draft', sec: 'setting', sch: () => z.record(z.string(), z.unknown()), make: ({ s, col }) => s.jsonb(col.k).defaultTo({}), prepare: ({ value }) => JSON.stringify(value) }),
 ] as const
 
-export const TableSiteSchema = createTableSchema(siteCols)
-
 export type TableSiteConfig = Omit<ColType<typeof siteCols>, 'draft'> & st & {
   pages: CardConfigPortable[]
   draft?: TableSiteConfig
   org: Organization
 }
+
+export const TableSiteSchema = createTableSchema(siteCols) as z.ZodType<TableSiteConfig>
 
 export const pageCols = [
   new Col({ key: 'cardId', sec: 'permanent', sch: () => z.string(), make: ({ s, col, db }) => s.string(col.k).primary().defaultTo(db.raw(`object_id('card')`)).index() }),
@@ -97,7 +98,7 @@ export const pageCols = [
 ] as const
 
 export const TablePageSchema = createTableSchema(pageCols)
-export type TablePageCardConfig = z.infer<typeof TablePageSchema>
+export type TablePageCardConfig = ColType<typeof pageCols>
 
 export const tables = [
   new FictionDbTable({

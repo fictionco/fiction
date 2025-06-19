@@ -6,7 +6,7 @@ import type { Site } from '../site'
 import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import CardButton from '@fiction/cards/CardButton.vue'
-import { onResetUi, resetUi, useService, vue } from '@fiction/core'
+import { displayDomain, onResetUi, resetUi, useService, vue } from '@fiction/core'
 import XText from '@fiction/ui/common/XText.vue'
 import ElSpinner from '@fiction/ui/loaders/ElSpinner.vue'
 import El404 from '@fiction/ui/page/El404.vue'
@@ -138,9 +138,15 @@ async function resetToPublished() {
             />
           </div>
           <div class="flex space-x-1 font-semibold items-center">
-            <span class="text-theme-500">Site Editor</span>
+            <span class="text-theme-500">Edit Site</span>
             <span class="i-tabler-slash text-xl dark:text-theme-500" />
-            <XText v-if="site" v-model="site.title.value" title="Site Title" :is-editable="true" class="hover:bg-theme-100 hover:dark:bg-theme-700 whitespace-nowrap" />
+            <XText
+              v-if="site"
+              :model-value="displayDomain(site.url.value)"
+              title="Site Title"
+              :is-editable="true"
+              class="hover:bg-theme-100 hover:dark:bg-theme-700 whitespace-nowrap"
+            />
           </div>
         </template>
         <template v-if="site" #headerRight>
@@ -154,18 +160,18 @@ async function resetToPublished() {
             />
             <CardButton
               :card
-              theme="default"
+              theme="primary"
               target="_blank"
               size="md"
-              icon="i-tabler-eye"
-              design="ghost"
+              icon-after="i-tabler-arrow-up-right"
+              design="solid"
               data-test-id="viewSiteButton"
               :href="site.getUrl({ scope: 'draft' })"
             >
-              View Site
+              View Live Site
             </CardButton>
           </div>
-          <CardButton
+          <!-- <CardButton
             v-if="site.editor.value.savedNeedsPublish"
             :card
             theme="primary"
@@ -189,7 +195,7 @@ async function resetToPublished() {
             @click.prevent="save()"
           >
             Published
-          </CardButton>
+          </CardButton> -->
         </template>
         <template #default>
           <El404 v-if="!site && !loading" title="Site Not Found" sub-title="Site is missing at this url" :buttons="[{ href: card.link('/sites'), label: 'View Sites' }]" />

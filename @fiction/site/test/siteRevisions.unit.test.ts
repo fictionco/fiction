@@ -22,7 +22,6 @@ describe('site revision handling', async () => {
     userId,
     title: 'Revision Test Site',
     themeId: 'test',
-    subDomain: `test-${objectId({ prefix: 'sub' })}`,
     userConfig: {
       site: {
         description: 'Initial site description',

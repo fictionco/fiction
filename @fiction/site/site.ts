@@ -277,7 +277,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   saveTimeout: ReturnType<typeof setTimeout> | null = null // Store timeout reference
 
   saveUtil = new AutosaveUtility({
-    onSave: async () => { this.save({ scope: 'draft' }) },
+    onSave: async () => { this.save({ scope: 'publish' }) },
   })
 
   toConfig(args: { onlyKeys?: (keyof TableSiteConfig)[] | readonly (keyof TableSiteConfig)[] } = {}): { siteId: string } & Partial<TableSiteConfig> {
@@ -294,7 +294,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       themeId: this.themeId.value,
       status: this.status.value,
       title: this.title.value,
-      subDomain: this.subDomain.value,
       isPrimary: this.isPrimary.value,
       userConfig: this.userConfig.value,
       nav: this.nav.value,
@@ -315,8 +314,9 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     const { caller, noSave = false, withHistory = false, onlyKeys } = args
     this.frame.syncSite(args)
 
-    if (!noSave)
+    if (!noSave && this.siteMode.value === 'designer') {
       this.saveUtil.autosave({ caller: `syncChange-${caller}` })
+    }
 
     if (withHistory)
       this.history.saveState({ description: caller, type: 'site', siteConfig: this.toConfig({ onlyKeys }) })

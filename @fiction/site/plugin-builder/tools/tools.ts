@@ -3,7 +3,7 @@ import type { Site } from '../../site'
 import { AdminEditorController } from '@fiction/admin'
 import { vue } from '@fiction/core'
 
-export type ToolKeys = 'pages' | 'pageAdd' | 'pageEdit' | 'sectionsAdd' | 'sectionsLayout' | 'siteSettings' | 'cardEdit' | 'allPages'
+export type ToolKeys = 'pages' | 'pageAdd' | 'pageEdit' | 'sectionsAdd' | 'sectionsLayout' | 'siteSettings' | 'cardEdit' | 'allPages' | 'revisions'
 
 export function getTools(args: { site: Site }) {
   const { site } = args
@@ -30,6 +30,14 @@ export function getTools(args: { site: Site }) {
       icon: { class: 'i-tabler-file-plus' },
       el: vue.defineAsyncComponent(async () => import('./ToolPageAdd.vue')),
       design: 'modal',
+    },
+    {
+      toolId: 'revisions',
+      title: 'Revisions',
+      icon: { class: 'i-tabler-history' },
+      el: vue.defineAsyncComponent(async () => import('./ToolRevisions.vue')),
+      design: 'drawer',
+      isPrimary: 'bottom',
     },
     {
       toolId: 'sectionsLayout',

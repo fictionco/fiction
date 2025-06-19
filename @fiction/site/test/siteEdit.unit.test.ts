@@ -32,10 +32,10 @@ describe('site plugin tests', async () => {
     if (!testUtils?.fictionSites)
       throw new Error('missing testUtils')
 
-    const subDomain = shortId()
+    const handle = shortId()
     const title = 'test'
     const themeId = testTheme.themeId
-    const result = await requestManageSite({ _action: 'create', fields: { title, themeId, subDomain }, caller: ctx.task.name, ...common })
+    const result = await requestManageSite({ _action: 'create', fields: { title, themeId, handle }, caller: ctx.task.name, ...common })
 
     const r = result.response
 
@@ -47,7 +47,7 @@ describe('site plugin tests', async () => {
     expect(r.status).toMatchInlineSnapshot(`"success"`)
     expect(r.message).toMatchInlineSnapshot(`undefined`)
     expect(siteConfig).toBeTruthy()
-    expect(siteConfig.subDomain).toBe(subDomain)
+    expect(siteConfig.handle).toBe(handle)
     expect(siteConfig.title).toBe(title)
     expect(siteConfig.themeId).toBe(themeId)
     expect(siteConfig.pages.length).toMatchInlineSnapshot(`2`)
