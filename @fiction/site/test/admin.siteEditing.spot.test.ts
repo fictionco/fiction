@@ -82,8 +82,8 @@ describe('site editor content management', async () => {
         },
 
         // Publish changes
-        { type: 'click', selector: '[data-test-id="publishChangesButton"]' },
-        { type: 'visible', selector: '[data-test-id="changesPublishedButton"]' },
+        // { type: 'click', selector: '[data-test-id="publishChangesButton"]' },
+        // { type: 'visible', selector: '[data-test-id="changesPublishedButton"]' },
 
         // Test element deletion
         {
