@@ -10,7 +10,7 @@ import XMedia from '@fiction/ui/media/XMedia.vue'
 import DashBarMenu from './DashBarMenu.vue'
 
 const { accountMenu = [], card, customer, showMobileNav, icon } = defineProps<{
-  accountMenu: NavItem[]
+  accountMenu?: NavItem[]
   card: Card<UserConfig>
   customer?: CustomerData
   showMobileNav: boolean

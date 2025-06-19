@@ -22,7 +22,6 @@ const isSubscribed = vue.computed(() => card.site?.activeContact?.value?.status 
     :theme="isSubscribed ? 'default' : 'primary'"
     :design="isSubscribed ? 'ghost' : 'solid'"
     :href="isSubscribed ? undefined : `?_subscribe=1`"
-    icon="i-tabler-thumbs-up"
   >
     {{ isSubscribed ? 'Subscribed' : 'Subscribe' }}
   </XButton>

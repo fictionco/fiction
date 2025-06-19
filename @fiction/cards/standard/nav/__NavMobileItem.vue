@@ -33,7 +33,7 @@ const linkProps = vue.computed(() => {
   <div>
     <div
       role="menuitem"
-      class="x-action-item font-sans relative group flex gap-x-2 items-center justify-between "
+      class="x-action-item font-sans relative group"
       :data-is-active="item.isActive"
       :data-depth="depth"
     >
@@ -46,12 +46,6 @@ const linkProps = vue.computed(() => {
           @click="handleClick"
         >
           <span v-html="item.label" />
-          <XIcon
-            v-if="item.icon"
-            class="size-[1em] text-theme-500"
-            :class="item.isActive ? 'text-theme-900 dark:text-theme-0' : 'text-theme-400 dark:text-theme-700'"
-            :media="item.icon"
-          />
         </component>
       </span>
     </div>

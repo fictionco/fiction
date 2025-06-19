@@ -154,10 +154,7 @@ const icon = { format: 'component', el: FictionLogo } as MediaObject
         />
       </template>
       <template v-else-if="!memberHasAccess">
-        <El404
-          title="No Access"
-          sub-title="You don't have access to this page."
-        />
+        <El404 title="No Access" sub-title="You don't have access to this page." />
       </template>
       <template v-else-if="uc.layoutFormat === 'full'">
         <ElEngine tag="div" class="h-full overflow-y-scroll no-scrollbar" :card />

@@ -32,7 +32,7 @@ function getLineClass(index: number) {
 
 <template>
   <button
-    class="inline-flex items-center justify-center rounded-lg hover:bg-theme-50 focus:outline-none focus:ring-2 focus:ring-theme-100 dark:hover:bg-theme-800 dark:focus:ring-theme-700"
+    class="inline-flex items-center justify-center rounded-lg hover:bg-theme-50 focus:outline-none dark:hover:bg-theme-800 dark:focus:ring-theme-700"
     aria-label="Toggle menu"
     type="button"
   >
