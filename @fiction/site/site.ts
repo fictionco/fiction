@@ -277,7 +277,9 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   saveTimeout: ReturnType<typeof setTimeout> | null = null // Store timeout reference
 
   saveUtil = new AutosaveUtility({
-    onSave: async () => { this.save({ scope: 'publish' }) },
+    onSave: async () => {
+      this.save({ scope: 'publish' })
+    },
   })
 
   toConfig(args: { onlyKeys?: (keyof TableSiteConfig)[] | readonly (keyof TableSiteConfig)[] } = {}): { siteId: string } & Partial<TableSiteConfig> {
@@ -309,7 +311,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   update = async (newConfig: Partial<TableSiteConfig>, opts: Partial<Parameters<typeof updateSite>[0]>) => updateSite({ site: this, newConfig, ...opts })
-  save = async (args: { minTime?: number, scope?: 'draft' | 'publish' } = {}) => saveSite({ site: this, successMessage: 'Site Saved', ...args })
+  save = async (args: { minTime?: number, scope?: 'draft' | 'publish' } = {}) => saveSite({ site: this, ...args })
   syncChange(args: { caller: string, noSave?: boolean, withHistory?: boolean, onlyKeys?: (keyof TableSiteConfig)[] }) {
     const { caller, noSave = false, withHistory = false, onlyKeys } = args
     this.frame.syncSite(args)

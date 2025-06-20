@@ -149,7 +149,7 @@ export async function saveSite(args: {
   scope?: 'draft' | 'publish'
   onlyKeys?: (keyof TableSiteConfig)[]
   delayUntilSaveConfig?: Partial<TableSiteConfig>
-  successMessage: string
+  successMessage?: string
   isPublishingDomains?: boolean
   minTime?: number
 }): Promise<Partial<TableSiteConfig>> {

@@ -621,11 +621,7 @@ export class ManageSite extends SitesQuery {
       }, { skipTimeCheck: true })
     }
 
-    return {
-      status: 'success',
-      data: finalSite,
-      message: orgFields ? 'Site and organization settings saved' : 'Site saved',
-    }
+    return { status: 'success', data: finalSite }
   }
 
   private async saveDraft(params: ManageSiteParams & { _action: 'saveDraft' }, meta: EndpointMeta): Promise<EndpointResponse<TableSiteConfig>> {

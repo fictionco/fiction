@@ -375,15 +375,17 @@ export class Card<
     }
     else {
       this.site.frame.syncCard({ caller: `card:syncCard:${args.caller}`, cardConfig })
-      if (!args.noSave)
-        this.site?.saveUtil.autosave({ caller: `syncCard-${caller}` })
+      if (this.site.siteMode.value === 'designer') {
+        if (!args.noSave)
+          this.site?.saveUtil.autosave({ caller: `syncCard-${caller}` })
 
-      if (!noHistory && this.site?.siteMode.value === 'designer') {
-        this.site?.history.saveState({
-          description: `Card updated: ${this.tpl.value?.settings.title}`,
-          type: 'card',
-          cardConfig,
-        })
+        if (!noHistory) {
+          this.site?.history.saveState({
+            description: `Card updated: ${this.tpl.value?.settings.title}`,
+            type: 'card',
+            cardConfig,
+          })
+        }
       }
     }
   }
