@@ -71,7 +71,7 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                     text: 'Content',
                     theme: 'purple',
                   },
-                  title: `Great ideas need a platform`,
+                  title: `Great ideas? You need a platform.`,
                   subTitle: `Brilliant thoughts. Zero followers. You know what to say but algorithms bury you. Fiction amplifies your voice without the social media circus.`,
                   // IMAGE: Person staring at blank screen with thought bubbles full of great ideas, then arrow to engaging content being created
                   media: { url: ImageAudience },
@@ -84,8 +84,8 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                     text: 'Influence',
                     theme: 'yellow',
                   },
-                  title: `AI-Enhanced Authenticity`,
-                  subTitle: ` Fiction learns your voice, your style, your goals. AI that enhances, never replaces.`,
+                  title: `No time? Not sure how?`,
+                  subTitle: `This is exactly why Fiction exists. Our mission is to help you create your ideal self without the time and frustration of legacy platforms.`,
                   // IMAGE: Before/after of bland corporate text vs engaging, personality-filled content in the person's actual voice
                   media: { url: ImageMeeting },
 

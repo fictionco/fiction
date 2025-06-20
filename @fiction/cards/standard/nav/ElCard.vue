@@ -55,7 +55,7 @@ const showMobileNav = vue.ref(false)
 <template>
   <CardWrap :card class="border-b border-theme-700 bg-theme-900/50" vertical-spacing="none">
     <div class="flex items-center justify-between">
-      <div class="flex items-center gap-3 -ml-3 md:ml-0">
+      <div class="flex items-center gap-3 -ml-3 md:ml-0 basis-0 grow">
         <div class="flex md:hidden px-2 py-2">
           <XMenuButton
             class="size-8"

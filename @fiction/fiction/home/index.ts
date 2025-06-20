@@ -35,7 +35,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                 {
                   superTitle: {
                     theme: 'orange',
-                    text: 'Built for Leaders and Creators',
+                    text: 'Digital Presence for the AI Era',
                     icon: { class: 'i-tabler-book' },
                   },
                   title: `Create Your Personal Website in [@text_effect type=line]3 Minutes[/@text_effect].`,
