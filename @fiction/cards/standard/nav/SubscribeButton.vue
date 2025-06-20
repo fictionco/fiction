@@ -20,7 +20,7 @@ const isSubscribed = vue.computed(() => card.site?.activeContact?.value?.status 
   <XButton
     v-if="showSubscribeButton"
     :theme="isSubscribed ? 'default' : 'primary'"
-    :design="isSubscribed ? 'ghost' : 'solid'"
+    :design="isSubscribed ? 'ghost' : 'outline'"
     :href="isSubscribed ? undefined : `?_subscribe=1`"
   >
     {{ isSubscribed ? 'Subscribed' : 'Subscribe' }}

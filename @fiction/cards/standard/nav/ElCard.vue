@@ -50,28 +50,38 @@ const showSubscribeButton = vue.computed(() => !isEditable.value && !uc.value.hi
 const isSubscribed = vue.computed(() => card.site?.activeContact?.value?.status === 'active')
 
 const showMobileNav = vue.ref(false)
+
+const fictionItems = vue.computed(() => getFictionNavItems({ fictionAdmin, fictionUser }))
 </script>
 
 <template>
   <CardWrap :card class="border-b border-theme-700 bg-theme-900/50" vertical-spacing="none">
     <div class="flex items-center justify-between">
-      <div class="flex items-center gap-3 -ml-3 md:ml-0 basis-0 grow">
-        <div class="flex md:hidden px-2 py-2">
-          <XMenuButton
-            class="size-8"
-            :is-open="showMobileNav"
-            @click.stop="showMobileNav = !showMobileNav"
-          />
-        </div>
+      <div class="flex justify-start items-center gap-6 basis-0 grow">
         <!-- Logo -->
-        <XLink :card href="/" :class="`py-3 ${hoverClass} flex items-center gap-2 basis-0 grow`">
+        <XLink
+          :card
+          href="/"
+          class="relative z-40 py-3 will-change-transform transition-transform duration-300 ease-out"
+          :class="[hoverClass, showMobileNav ? '' : '']"
+          @click="showMobileNav = false"
+        >
           <XLogoType
             :logo="uc.brand?.logo"
             :classes="{ text: 'x-font-title text-lg font-bold' }"
-            :media-handling="{ height: 1.8 }"
+            :media-handling="{ height: 2 }"
             :org="card.site?.org.value"
           />
         </XLink>
+
+        <XButton
+          class="md:hidden"
+          icon-after="i-tabler-chevron-down"
+          design="link"
+          @click.stop="showMobileNav = !showMobileNav"
+        >
+          Menu
+        </XButton>
       </div>
 
       <!-- Desktop Nav -->
@@ -91,7 +101,7 @@ const showMobileNav = vue.ref(false)
       </nav>
 
       <!-- Desktop Actions -->
-      <div class="flex items-center gap-2 md:gap-4 basis-0 grow justify-end">
+      <div class="hidden md:flex items-center gap-2 md:gap-4 basis-0 grow justify-end">
         <XButton
           v-if="!user && !isEditable"
           :href="getFictionAuthUrl({ fictionAdmin, site: card.site, redirect: uc.redirectAfterLogin })"
@@ -107,7 +117,7 @@ const showMobileNav = vue.ref(false)
         <XDropDown
           v-if="user"
           :site="card.site"
-          :items="getFictionNavItems({ fictionAdmin, fictionUser })"
+          :items="fictionItems"
           dropdown-alignment="end"
           mode="click"
           :classes="{ width: 'w-64' }"
@@ -124,26 +134,42 @@ const showMobileNav = vue.ref(false)
     </Transition>
     <div
       v-if="nav.length"
-      class="md:hidden h-dvh w-[60%] shrink-0 will-change-auto transition-all  duration-300 border-theme-300/50 dark:border-theme-600/50 fixed top-0 z-30 justify-end border-r"
+      class="md:hidden h-dvh w-[75%] max-w-[350px] shrink-0 will-change-auto transition-all  duration-300 border-theme-300/50 dark:border-theme-600/50 fixed top-0 z-30 justify-end border-r"
       :class="showMobileNav ? 'left-0 opacity-100 bg-theme-900/80' : '-left-full opacity-0'"
       @click.stop
     >
-      <div class="p-7 pb-32 flex flex-col justify-between gap-16 h-full">
-        <div class="grow flex flex-col justify-between">
-          <div v-if="nav.length" class="space-y-3 grow">
-            <ul class="space-y-3 text-right">
-              <li v-for="(item, idx) in nav" :key="idx">
-                <XLink
-                  :href="item.href"
-                  class="text-3xl flex gap-2 justify-end items-center font-medium font-sans"
-                  @click="showMobileNav = false"
-                >
-                  <span>{{ item.label }}</span>
-                </XLink>
-              </li>
-            </ul>
-          </div>
+      <div class="px-8 py-24 flex flex-col gap-16 h-full ">
+        <div class="  flex flex-col gap-12">
+          <ul v-if="nav.length" class="space-y-3 ">
+            <li class="text-theme-500 text-lg">
+              Pages
+            </li>
+            <li v-for="(item, idx) in nav" :key="idx">
+              <XLink
+                :href="item.href"
+                class="text-xl flex gap-2 items-center font-medium font-sans"
+                @click="showMobileNav = false"
+              >
+                <span>{{ item.label }}</span>
+              </XLink>
+            </li>
+          </ul>
+          <ul class="space-y-3">
+            <li class="text-theme-500 text-lg">
+              Fiction
+            </li>
+            <li v-for="(item, idx) in fictionItems" :key="idx">
+              <XLink
+                :href="item.href"
+                class="text-xl flex gap-2 items-center font-medium font-sans"
+                @click="showMobileNav = false"
+              >
+                <span>{{ item.label }}</span>
+              </XLink>
+            </li>
+          </ul>
         </div>
+        <SubscribeButton :card size="lg" />
       </div>
       <ElClose v-if="showMobileNav" class="absolute -right-16 top-4" @click="showMobileNav = false" />
     </div>

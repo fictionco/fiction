@@ -38,7 +38,7 @@ export function getFictionNavItems(args: { fictionAdmin: FictionAdmin, fictionUs
   const isLoggedIn = fictionUser.activeUser.value
   return isLoggedIn
     ? [
-        { label: 'Dashboard', href: urls.dashboard, icon: { class: 'i-tabler-north-star' } },
+        { label: 'Your Dashboard', href: urls.dashboard, icon: { class: 'i-tabler-north-star' } },
         { label: 'Sign Out', href: '/?_logout=1', icon: { class: 'i-tabler-arrow-down-left' } },
       ]
     : [

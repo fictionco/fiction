@@ -114,9 +114,9 @@ const iconAdjust = vue.computed(() => {
     'xs': { gap: 'gap-1' },
     'sm': { gap: 'gap-1.5' },
     'md': { gap: 'gap-1.5' },
-    'lg': { gap: 'gap-2.5' },
-    'xl': { gap: 'gap-3' },
-    '2xl': { gap: 'gap-4' },
+    'lg': { gap: 'gap-1.5' },
+    'xl': { gap: 'gap-2' },
+    '2xl': { gap: 'gap-3' },
   }
 
   return {
