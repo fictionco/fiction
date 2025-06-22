@@ -146,7 +146,7 @@ export class QueryManageOnboard extends Query<FictionOnboardSettings> {
 
     try {
       const response = await fetch(
-        `https://nubela.co/proxycurl/api/v2/linkedin?linkedin_profile_url=${encodeURIComponent(url)}&extra=include&skills=include`,
+        `https://enrichlayer.com/api/v2/profile?linkedin_profile_url=${encodeURIComponent(url)}&extra=include&skills=include`,
         { headers: { Authorization: `Bearer ${this.settings.proxycurlApiKey}` } },
       )
 
