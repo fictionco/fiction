@@ -593,7 +593,7 @@ export class QueryManageUser extends UserBaseQuery {
     const fictionUser = this.settings.fictionUser
     if (user?.userId) {
       const orgsResponse = await fictionUser.queries.OrganizationsByUserId.serve(
-        { userId: user.userId, loadOrgId: user.loadOrgId },
+        { userId: user.userId, loadOrgId: user.loadOrgId, caller: `processUserGetOrgs` },
         { ...meta, caller: 'processUserGetOrgs', server: true },
       )
 

@@ -10,6 +10,7 @@ import { EnvVar, vars } from '@fiction/core'
 import { FictionPlugin } from '@fiction/core/plugin.js'
 import { safeDirname, sortPriority, vue } from '@fiction/core/utils'
 import { cardTemplate } from '@fiction/site/index.js'
+import { CompletionTaskEngine } from './tasks.js'
 
 export * from './tools/tools.js'
 export * from './types.js'
@@ -35,6 +36,8 @@ type PageLoader = (args: { factory: CardFactory }) => (Promise<CardConfigPortabl
 type AdminFeature = { key: string, getPages?: PageLoader, getTemplates?: () => Promise<CardTemplate<any>[]> }
 
 export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
+  tasks = new CompletionTaskEngine(this.settings)
+
   constructor(settings: FictionAdminSettings) {
     super('FictionAdmin', { root: safeDirname(import.meta.url), ...settings })
   }

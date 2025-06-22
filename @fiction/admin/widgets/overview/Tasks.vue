@@ -1,40 +1,38 @@
 <script lang="ts" setup>
-import type { ProgressStatus } from '@fiction/core'
+import type { FictionAdmin } from '@fiction/admin'
+import type { CompletionTaskWithStatus } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { useService, vue } from '@fiction/core'
 
+defineOptions({
+  name: 'TasksWidget',
+})
+
 const { card } = defineProps<{ card: Card }>()
-const { fictionUser } = useService()
+const { fictionAdmin } = useService<{ fictionAdmin: FictionAdmin }>()
 
-// Simplified task type
-type UserTask = {
-  key: string
-  title: string
-  status: ProgressStatus
-  href?: string
-}
-
-// Simplified tasks data - removed buttons array in favor of direct href
-const availableTasks = vue.ref<UserTask[]>([
-  { key: 'profile', title: 'Add your name and profile details', status: 'ready', href: card.link('/settings') },
-  { key: 'post', title: 'Publish your first post', status: 'ready', href: card.link('/posts') },
-  { key: 'share', title: 'Share your site', status: 'pending', href: card.link('/?_view=share') },
-])
-
-// Get organizational onboarding data
-const orgOnboardSettings = vue.computed(() => fictionUser?.activeOrganization?.value?.onboard || {})
-const onboardTasks = vue.computed(() => orgOnboardSettings.value.items || {})
-const tasks = vue.computed(() => availableTasks.value)
+const loading = vue.ref(true)
+const availableTasks = vue.ref<CompletionTaskWithStatus[]>([])
 
 // Calculate progress metrics
-const completedCount = vue.computed(() => tasks.value.filter(task => task.status === 'ready').length)
-const totalCount = vue.computed(() => tasks.value.length)
+const completedCount = vue.computed(() => availableTasks.value.filter(task => task.status === 'ready').length)
+const totalCount = vue.computed(() => availableTasks.value.length)
 const progressPercent = vue.computed(() => (completedCount.value / totalCount.value) * 100)
-const currentIndex = vue.computed(() => tasks.value.findIndex(task => task.status !== 'ready'))
+const currentIndex = vue.computed(() => availableTasks.value.findIndex(task => task.status !== 'ready'))
+
+vue.onMounted(async () => {
+  loading.value = true
+  try {
+    availableTasks.value = await fictionAdmin.tasks.getTasks()
+  }
+  finally {
+    loading.value = false
+  }
+})
 </script>
 
 <template>
-  <div class="space-y-4">
+  <div v-if="!loading" class="space-y-4">
     <!-- Header with progress indicator -->
     <div class="flex items-center justify-between text-sm">
       <div class="font-medium">
@@ -51,10 +49,10 @@ const currentIndex = vue.computed(() => tasks.value.findIndex(task => task.statu
     <!-- Task list -->
     <div class="space-y-3">
       <a
-        v-for="(task, i) in tasks"
+        v-for="(task, i) in availableTasks"
         :key="task.key"
         :href="task.href"
-        class="group flex items-center gap-3 py-2 px-3 -mx-3 rounded-md transition-colors"
+        class="group flex items-center gap-3 py-2 px-3 -mx-3 rounded-md transition-colors hover:bg-theme-50 dark:hover:bg-theme-800"
       >
         <!-- Status indicator -->
         <div
@@ -71,7 +69,7 @@ const currentIndex = vue.computed(() => tasks.value.findIndex(task => task.statu
         <!-- Task title -->
         <span
           class="flex-grow transition-colors"
-          :class="task.status === 'ready' ? 'text-theme-400 dark:text-theme-500' : ''"
+          :class="task.status === 'ready' ? 'text-theme-400 dark:text-theme-500 line-through' : ''"
         >
           {{ task.title }}
         </span>

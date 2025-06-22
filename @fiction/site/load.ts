@@ -101,7 +101,7 @@ export async function loadSiteFromTheme(args: {
 }): Promise<Site> {
   const { themeId, siteRouter, fictionSites, siteMode, caller } = args
   const availableThemes = fictionSites.themes.value
-  const theme = availableThemes.find(t => t.themeId === themeId)
+  const theme = availableThemes.find(t => t?.themeId === themeId)
   const orgId = fictionSites.fictionEnv.meta.systemOrgId
   const fictionUser = fictionSites.settings.fictionUser
 

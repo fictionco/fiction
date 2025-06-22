@@ -43,16 +43,26 @@ export type Organization = Partial<ColType<typeof orgColumns>> & {
   relation?: OrganizationMember
 }
 
-export const OnboardingItemSchema = z.object({
+export type CompletionTask<T = string> = {
+  key: T
+  title: string
+  description?: string
+  href?: string
+  priority?: number
+}
+
+export const CompletionTaskStatusSchema = z.object({
   key: z.string().meta({ description: 'Unique task identifier' }),
   status: ProgressStatusSchema.meta({ description: 'Task completion state' }),
   completedAt: z.string().optional().meta({ description: 'When completed' }),
   data: z.record(z.string(), z.unknown()).optional().meta({ description: 'Task-specific metadata' }),
 })
 
+export type CompletionTaskWithStatus = z.infer<typeof CompletionTaskStatusSchema> & CompletionTask
+
 export const OnboardSchema = z.object({
   phase: z.enum(['initial', 'tasks', 'dismissed']).optional().meta({ description: 'Current onboarding phase' }),
-  items: z.record(z.string(), OnboardingItemSchema).optional().meta({ description: 'Onboarding tasks by key' }),
+  items: z.record(z.string(), CompletionTaskStatusSchema).optional().meta({ description: 'Onboarding tasks by key' }),
   dismissedAt: z.string().optional().meta({ description: 'When user dismissed onboarding' }),
 })
 

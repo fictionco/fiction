@@ -73,7 +73,7 @@ describe('org handling', async () => {
     if (!userId)
       throw new Error('no user')
 
-    const result = await testUtils?.fictionUser.queries.OrganizationsByUserId.serve({ userId }, { server: true })
+    const result = await testUtils?.fictionUser.queries.OrganizationsByUserId.serve({ userId, caller: 'test' }, { server: true })
 
     expect(result?.data?.length).toMatchInlineSnapshot('1')
   })

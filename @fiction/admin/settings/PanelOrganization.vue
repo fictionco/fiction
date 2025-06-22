@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { ActionButton, Organization } from '@fiction/core'
 import type { Card } from '@fiction/site'
+import type { FictionAdmin } from '../index.js'
 import { gravatarUrlSync, useService, vue } from '@fiction/core'
 import { OrgSchema as schema } from '@fiction/core/plugin-user/schema'
 import { AutosaveUtility } from '@fiction/core/utils/save'
@@ -15,7 +16,7 @@ type UserConfig = {
 }
 
 const { card } = defineProps<{ card: Card<UserConfig> }>()
-const service = useService()
+const service = useService<{ fictionAdmin: FictionAdmin }>()
 
 const loading = vue.ref(true)
 const sending = vue.ref('')
@@ -44,7 +45,10 @@ async function save() {
   if (!orgId)
     return
 
-  await endpoint.projectRequest({ _action: 'update', fields, where: { orgId } })
+  await endpoint.projectRequest({ _action: 'update', fields, where: { orgId } }, { caller: 'onboardSave' })
+
+  // Mark brand setup task as complete
+  await service.fictionAdmin.tasks.markTaskStatus({ key: 'profile', status: 'ready' })
 
   orgModel.value = service.fictionUser.activeOrganization.value
 

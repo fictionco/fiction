@@ -85,7 +85,7 @@ export abstract class QueryOrganization extends OrgQuery {
 }
 
 export class QueryOrganizationsByUserId extends QueryOrganization {
-  async run(params: { userId: string, loadOrgId?: string }, _meta: EndpointMeta): Promise<EndpointResponse<Organization[]>> {
+  async run(params: { userId: string, loadOrgId?: string, caller: string }, _meta: EndpointMeta): Promise<EndpointResponse<Organization[]>> {
     const { userId, loadOrgId } = params
 
     const db = this.db()
@@ -242,13 +242,15 @@ export class QueryManageMemberRelation extends OrgQuery {
 
 export type WhereOrg = { orgId: string } | { handle: string }
 
-export type ManageOrganizationParams
+export type ManageOrganizationRequest
   = | { _action: 'create', fields: Partial<Organization>, userId?: string, withDefaults?: boolean }
     | { _action: 'update', where: WhereOrg, fields: Partial<Organization> }
     | { _action: 'delete', where: WhereOrg }
     | { _action: 'read', where: WhereOrg }
     | { _action: 'generateApiSecret', where: WhereOrg }
     | { _action: 'manageOnboard', settings: OnboardSettings, orgId?: string, userId?: string }
+
+type ManageOrganizationParams = ManageOrganizationRequest & { caller?: string }
 
 export class QueryManageOrganization extends OrgQuery {
   async run(params: ManageOrganizationParams, meta: EndpointMeta): Promise<EndpointResponse<Organization> & { user?: User }> {
@@ -402,11 +404,7 @@ export class QueryManageOrganization extends OrgQuery {
       {
         _action: 'create',
         orgId,
-        fields: {
-          userId,
-          access: accessType,
-          status: 'active',
-        },
+        fields: { userId, access: accessType, status: 'active' },
       },
       meta,
     )
@@ -424,10 +422,7 @@ export class QueryManageOrganization extends OrgQuery {
     const columnKey = 'onboard'
     const newSettings = JSON.stringify(settings)
 
-    const setter = this.db().raw(
-      `jsonb_merge_patch(${columnKey}::jsonb, ?::jsonb)`,
-      [newSettings],
-    )
+    const setter = this.db().raw(`jsonb_merge_patch(${columnKey}::jsonb, ?::jsonb)`, [newSettings])
 
     if (!orgId && !userId)
       throw new Error('orgId or userId required')

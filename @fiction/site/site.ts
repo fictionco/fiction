@@ -65,8 +65,9 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   isAnimationDisabled = vue.ref(false)
   themeId = vue.ref(this.settings.themeId || 'base')
   theme = vue.computed(() => {
+    const currentThemeId = this.themeId.value
     const themes = this.fictionSites.themes.value
-    const found = themes.find(t => t.themeId === this.themeId.value)
+    const found = themes.find(t => t?.themeId === currentThemeId)
     return found || themes[0]
   })
 

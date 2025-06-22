@@ -12,12 +12,14 @@ export type OnboardRequest
     | { _action: 'createDefaultContent', userId: string, orgId: string, profile: Partial<ProfileData> }
     | { _action: 'completeOnboarding', userId: string, orgId: string, profile: Partial<ProfileData> }
 
+type OnboardRequestParams = OnboardRequest & { caller?: string }
+
 export class QueryManageOnboard extends Query<FictionOnboardSettings> {
   enrichCount = 0
   ManageUser = this.settings.fictionUser.queries.ManageUser
   ManageOrganization = this.settings.fictionUser.queries.ManageOrganization
 
-  async run(params: OnboardRequest, meta: EndpointMeta): Promise<EndpointResponse<ProfileData>> {
+  async run(params: OnboardRequestParams, meta: EndpointMeta): Promise<EndpointResponse<ProfileData>> {
     try {
       switch (params._action) {
         case 'enrichFromLinkedIn':
