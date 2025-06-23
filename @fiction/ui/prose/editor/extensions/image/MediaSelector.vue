@@ -175,7 +175,7 @@ const items = vue.computed<NavItem[]>(() => {
       <div
         contenteditable="true"
         placeholder="Add a caption..."
-        class="cptn w-full text-center text-sm mt-4 text-theme-500 dark:text-theme-400"
+        class="cptn w-full text-center text-sm mt-4 text-theme-500 dark:text-theme-400 font-mono"
         spellcheck="false"
         @input="updateCaption($event)"
         @click="isEditing = true"

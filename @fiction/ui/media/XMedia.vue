@@ -180,8 +180,8 @@ const classes = vue.computed(() => {
 
   return {
     container: c.includes('absolute') ? '' : 'relative',
-    wrap: inlineImage ? (constraint === 'height' ? 'h-full' : '') : 'h-full w-full',
-    media: inlineImage ? inlineClasses : 'absolute h-full w-full',
+    wrap: inlineImage ? (constraint === 'height' ? 'h-full' : '') : 'h-full w-full flex',
+    media: inlineImage ? inlineClasses : 'relative h-full w-full',
     html: inlineImage ? inlineClasses : 'h-full w-full *:w-full *:h-full',
     el: inlineImage ? inlineClasses : 'h-full w-full',
   }
@@ -283,6 +283,7 @@ function handleMediaClick(event: MouseEvent) {
     caller="media"
     :class="[classes.container, aspectClass]"
     :animate="animate"
+    :data-image-mode="imageMode"
     :data-format="mediaFormat || 'none'"
     :data-media-width="media?.width"
     :data-media-height="media?.height"

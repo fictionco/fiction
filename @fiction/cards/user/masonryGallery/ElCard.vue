@@ -116,11 +116,13 @@ function showLightbox(index: number) {
         @click="showLightbox(index)"
       >
         <!-- Media Layer -->
-        <XMedia
-          :media="item?.media"
-          :animate="true"
-          class="absolute inset-0 object-cover group-hover:scale-110 transition-all duration-500 ease-out"
-        />
+        <div class="absolute inset-0 h-full w-full scale-100 group-hover:scale-110  transition-all duration-500 ease-out">
+          <XMedia
+            :media="item?.media"
+            :animate="true"
+            class="absolute h-full w-full"
+          />
+        </div>
 
         <!-- Overlay Layer with Gradient -->
         <div :class="getOverlayClasses(item)" />
@@ -129,12 +131,12 @@ function showLightbox(index: number) {
         <div class="absolute inset-0 flex items-end">
           <div :class="getContentClasses(item)">
             <h3
-              class="text-xl md:text-2xl font-semibold x-font-title transform "
+              class="text-lg md:text-xl x-font-title transform font-medium"
             >
               {{ item?.title }}
             </h3>
             <p
-              class="text-base md:text-lg opacity-90 line-clamp-3"
+              class="text-sm md:text-base opacity-90 line-clamp-3 leading-[1.4]"
             >
               {{ item?.content }}
             </p>

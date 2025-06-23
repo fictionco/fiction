@@ -60,8 +60,8 @@ export const xImage = Node.create({
     const widthPercent = node.attrs.width
     const w = Number.parseInt(widthPercent.replace('%', ''), 10)
     const wrapperMargin = w > 100 ? `0 -${(w - 100) / 2}%` : '0 auto'
-    const wrapperStyle = `margin: ${wrapperMargin}; width: ${node.attrs.width}; ${node.attrs.aspectRatio ? `aspect-ratio: ${node.attrs.aspectRatio};` : ''} overflow: hidden; display: inline-block;`
-    const mediaStyle = 'width: 100%; height: 100%; object-fit: cover;'
+    const wrapperStyle = `margin: ${wrapperMargin}; width: ${node.attrs.width}; ${node.attrs.aspectRatio && node.attrs.aspectRatio !== 'auto' ? `aspect-ratio: ${node.attrs.aspectRatio};` : ''} overflow: hidden; display: block; position: relative;`
+    const mediaStyle = 'width: 100%; height: 100%; object-fit: cover; object-position: center;'
     const figureStyle = `text-align: ${node.attrs.align};`
 
     const mediaElement = isVideo
