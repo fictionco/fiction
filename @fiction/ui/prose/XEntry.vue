@@ -48,7 +48,7 @@ const themeColors = vue.computed(() => {
 --background-alt-color: color-mix(in srgb, var(--color-theme-700) 40%, transparent 50%);
 --background-alt-color-subtle: color-mix(in srgb, var(--color-theme-700) 30%, transparent 70%);
   /* Base typography */
-  font-size: 1.3em;
+  font-size: 1.1em;
   line-height: 1.75;
   font-feature-settings: "kern", "liga", "calt";
   text-rendering: optimizeLegibility;

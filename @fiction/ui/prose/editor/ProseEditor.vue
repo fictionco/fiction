@@ -63,7 +63,7 @@ defineExpose({ editorEl })
     class="tiptap-wrap @container/prose"
     :data-ai-disabled="isContentCompletionDisabled ? 1 : 0"
   >
-    <div class="text-sm @[350px]/prose:text-base @[700px]/prose:text-2xl">
+    <div class="text-sm @[350px]/prose:text-base @[700px]/prose:text-xl">
       <div
         v-if="!editorEl"
         class="flex py-24 justify-center h-[90dvh] text-theme-300 dark:text-theme-700"

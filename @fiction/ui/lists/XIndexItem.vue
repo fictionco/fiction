@@ -74,7 +74,7 @@ const metaItems = vue.computed(() => {
                 </span>
               </div>
               <!-- Dropdown menu -->
-              <div>
+              <div v-if="dropdownItems.length" class="relative">
                 <XDropDown
                   v-if="true"
                   mode="click"

@@ -18,11 +18,11 @@ const hasNoEmailRecipients = vue.computed(() =>
 <template>
   <div class="space-y-6">
     <!-- Distribution summary -->
-    <div class="grid grid-cols-2 gap-4 border-t border-theme-200 dark:border-theme-700 py-4">
+    <div class="grid grid-cols-1 gap-4 border-t border-theme-200 dark:border-theme-700 py-4">
       <!-- Web publishing -->
       <div>
         <div class="text-sm text-theme-400 dark:text-theme-500 mb-1">
-          Web
+          Publish on Website
         </div>
         <div class="flex items-center gap-2">
           <XIcon
@@ -36,7 +36,7 @@ const hasNoEmailRecipients = vue.computed(() =>
       <!-- Email delivery -->
       <div>
         <div class="text-sm text-theme-400 dark:text-theme-500 mb-1">
-          Email
+          Email / Newsletter
         </div>
         <div class="flex items-center gap-2">
           <XIcon

@@ -82,6 +82,7 @@ export const theme = new Theme({
         icon: { url: icon, format: 'image' },
         standard: {
           fonts: {
+            title: { stack: 'sans' },
             body: { stack: 'sans' },
             sans: { stack: 'sans' },
           },

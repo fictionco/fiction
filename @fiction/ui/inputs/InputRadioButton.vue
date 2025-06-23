@@ -36,8 +36,8 @@ const sizeClasses = vue.computed(() => {
     'xs': { wrap: 'gap-1 py-0.5' },
     'sm': { wrap: 'gap-1.5 py-0.5' },
     'md': { wrap: 'gap-2 py-1' },
-    'lg': { wrap: 'gap-3 py-2' },
-    'xl': { wrap: 'gap-4 py-3' },
+    'lg': { wrap: 'gap-3 py-1' },
+    'xl': { wrap: 'gap-4 py-1' },
     '2xl': { wrap: 'gap-5 py-4' },
   }
 

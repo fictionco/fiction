@@ -5,6 +5,7 @@ import type { Card } from '@fiction/site'
 import type { InputOption } from '@fiction/ui'
 import type { FictionPosts, TablePostConfig } from '..'
 import type { Post } from '../post.js'
+import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import ViewEditor from '@fiction/admin/ViewEditor.vue'
 import { useService, vue } from '@fiction/core'
 import XButton from '@fiction/ui/buttons/XButton.vue'
@@ -113,20 +114,33 @@ async function savePost(postConfig?: Partial<TablePostConfig>) {
             design="link"
           />
         </div>
-        <div class="flex space-x-1 font-semibold items-center">
-          <span class="text-theme-500">Post Editor</span>
+        <div class="flex space-x-1 font-semibold items-center text-sm">
+          <span class="">Post Editor</span>
           <span class="i-tabler-slash text-xl dark:text-theme-500" />
-          <XText v-if="post" v-model="post.title.value" title="Post Title" :is-editable="true" class="hover:bg-theme-100 hover:dark:bg-theme-700 whitespace-nowrap truncate max-w-[300px]" />
+          <XText
+            v-if="post"
+            v-model="post.title.value"
+            title="Post Title"
+            :is-editable="true"
+            class="dark:text-theme-500 hover:bg-theme-100 hover:dark:bg-theme-700 whitespace-nowrap truncate max-w-[400px]"
+          />
         </div>
       </template>
       <template #headerRight>
+        <ElSavingSignal
+          :is-dirty="post?.saveUtil.isDirty.value"
+          data-test-id="draft-control-dropdown"
+          :classes="{ text: 'hidden md:inline' }"
+          ui-size="sm"
+          class="mr-2"
+        />
         <XButton
-          theme="default"
+          theme="primary"
           target="_blank"
           size="md"
           icon="i-tabler-eye"
           data-test-id="preview-post-button"
-          design="ghost"
+          design="outline"
           @click.stop="modal = 'preview'"
         >
           Preview
@@ -138,10 +152,10 @@ async function savePost(postConfig?: Partial<TablePostConfig>) {
             design="solid"
             size="md"
             data-test-id="next-button-top"
-            icon-after="i-tabler-arrow-right"
+            icon="i-tabler-send"
             @click.stop="modal = 'review'"
           >
-            Review & Publish
+            Publish
           </XButton>
         </template>
         <template v-else-if="post?.status">

@@ -70,7 +70,7 @@ const statusMap = vue.computed<NavListItem>(() => {
           >
             <div class="relative max-h-[100%] grow overflow-scroll w-full min-h-0 dark:bg-theme-950/80 no-scrollbar">
               <div class=" pt-6 md:pt-10 pb-[10vh] px-6 md:px-12 max-w-[800px] mx-auto focus:outline-none space-y-12">
-                <div class="py-2 px-4 sticky top-0 z-10 -mx-4 flex items-center justify-between gap-4">
+                <div class="py-3 px-4 sticky top-0 z-10 -mx-4 flex items-center justify-between gap-4 bg-theme-900">
                   <ProseEditorToolbar v-if="proseEditorEl?.editorEl" :editor="proseEditorEl?.editorEl" />
                   <div class="flex items-center gap-2">
                     <ElSavingSignal
@@ -109,7 +109,7 @@ const statusMap = vue.computed<NavListItem>(() => {
                     <XText
                       :model-value="post.subTitle.value"
                       tag="h3"
-                      class="dark:text-theme-300 text-base @[400px]/editor:text-2xl !leading-[1.2] font-normal"
+                      class="dark:text-theme-300 text-base @[400px]/editor:text-2xl !leading-[1.4] font-normal"
                       :is-editable="true"
                       placeholder="Enter Subtitle"
                       data-test-id="post-editor-subTitle"

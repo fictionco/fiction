@@ -36,6 +36,17 @@ const list = vue.computed<NavListItem[]>(() => {
       href: card.link(`/audience/view?itemId=${p.contactId}`),
       media: p.user?.avatar || p.avatar,
       isActive: querySubscriptionId && querySubscriptionId === p.contactId,
+      dropdown: {
+        items: [{
+          label: 'Delete Contact',
+          icon: 'i-tabler-trash',
+          onClick: async () => {
+            if (!p.contactId)
+              return
+            await service.fictionContact.deleteContacts({ where: [{ contactId: p.contactId }] })
+          },
+        }],
+      },
     } as NavListItem
   })
 })

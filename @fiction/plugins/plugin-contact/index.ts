@@ -2,6 +2,7 @@ import type { FictionAdmin } from '@fiction/admin'
 import type { dashTemplate } from '@fiction/admin/dashboard/templates'
 import type { FictionAnalytics } from '@fiction/analytics'
 import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser, User } from '@fiction/core'
+import type { WhereSubscription } from './endpoint'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card.js'
 import { ManageContactQuery, SubscriptionAnalytics } from './endpoint'
@@ -52,6 +53,19 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
     })
 
     return response
+  }
+
+  async deleteContacts(args: { where: WhereSubscription[] }) {
+    const { where } = args
+    const confirmed = confirm(`Are you sure? This action cannot be undone.`)
+
+    if (!confirmed) {
+      return
+    }
+
+    await this.requests.ManageContact.projectRequest({ _action: 'delete', where })
+
+    this.cacheKey.value += 1 // Trigger UI update
   }
 
   admin() {

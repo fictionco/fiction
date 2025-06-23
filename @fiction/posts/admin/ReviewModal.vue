@@ -91,6 +91,7 @@ const reviewOptions = vue.computed(() => {
           schema,
           key: 'publishMode',
           input: 'InputRadioButton',
+          label: 'Publication Time',
           props: {
             uiSize: 'xl',
             list: [
@@ -103,6 +104,7 @@ const reviewOptions = vue.computed(() => {
           schema,
           key: 'publishAt',
           input: 'InputDate',
+          label: 'Schedule Publication Time',
           isVisible: () => post?.publishMode.value === 'schedule',
           props: {
             dateMode: 'future',

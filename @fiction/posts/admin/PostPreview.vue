@@ -97,8 +97,8 @@ const org = vue.computed(() => service.fictionUser.activeOrganization?.value)
           frame-id="post-preview-iframe"
           :browser-bar="true"
           :email-bar="{
-            subject: post.subject.value || 'No subject',
-            preview: post.preview.value || 'No preview',
+            subject: post.subject.value || post.title.value,
+            preview: post.preview.value || post.subTitle.value,
             senderEmail: org?.email || '',
             senderName: org?.name || 'No sender',
             avatar: org?.avatar,
