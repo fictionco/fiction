@@ -99,7 +99,7 @@ const statusMap = vue.computed<NavListItem>(() => {
                     <XText
                       :model-value="post.title.value"
                       tag="h1"
-                      class="text-balance my-0 text-xl @[400px]/editor:text-4xl !leading-[1.2] font-semibold"
+                      class="text-balance my-0 text-xl @[400px]/editor:text-4xl !leading-[1.3] font-medium"
                       :is-editable="true"
                       placeholder="Enter Title"
                       data-test-id="post-editor-title"

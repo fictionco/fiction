@@ -54,7 +54,6 @@ const themeColors = vue.computed(() => {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--text-color);
 
   /* Drop cap styling */
   &.drop-cap p:first-of-type:first-letter {
@@ -69,18 +68,21 @@ const themeColors = vue.computed(() => {
   /* Headings with golden ratio progression */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-family-title, inherit);
-    font-weight: 600;
     line-height: 1.15;
     margin: 0;
     text-wrap: pretty;
     letter-spacing: -.02em;
+    margin: 1.7em 0 0.5em;
+    &:first-child {
+      margin-top: 0;
+    }
   }
 
-  h1 { font-size: 2em; margin: 1.5em 0 0.4em; }
-  h2 { font-size: 1.618em; margin: 1.5em 0 0.75em; line-height: 1.2; }
-  h3 { font-size: 1.309em; margin: 1em 0 0.35em; line-height: 1.4; }
-  h4 { font-size: 1.159em; margin: 0.9em 0 0.3em; line-height: 1.5; }
-  h5 { font-size: 1.05em; margin: 0.8em 0 0.3em; line-height: 1.6;}
+  h1 { font-size: 2em;  }
+  h2 { font-size: 1.618em;  line-height: 1.4; }
+  h3 { font-size: 1.309em; line-height: 1.4; }
+  h4 { font-size: 1.159em;  line-height: 1.5; }
+  h5 { font-size: 1.05em;  line-height: 1.6;}
   h6 {
     font-size: 1em;
     margin: 0.7em 0 0.3em;
@@ -88,11 +90,6 @@ const themeColors = vue.computed(() => {
     text-transform: uppercase;
     letter-spacing: 0.03em;
     line-height: 1.6;
-  }
-
-  h2{
-    padding-bottom: .5em;
-    border-bottom: 1px solid var(--border-color);
   }
 
   /* Remove top margin for first headings */
@@ -104,9 +101,10 @@ const themeColors = vue.computed(() => {
 
   /* Paragraphs */
   p {
-    margin: 0 0 1em;
-    line-height: 1.75;
+    margin: 0 0 1.6em;
+    line-height: 1.5;
     font-weight: 400;
+    color: var(--text-color);
   }
 
   /* Sections */

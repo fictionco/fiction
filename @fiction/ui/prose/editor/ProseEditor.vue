@@ -86,11 +86,13 @@ defineExpose({ editorEl })
 <style lang="less">
 .tiptap-wrap{
   position: relative;
+  --placeholder-color: color-mix(in srgb, var(--color-theme-600) 70%, transparent 0%);
+
   .autocomplete-suggestion{
-    color: rgba(var(--theme-600) / .5);
+    color: var(--placeholder-color);
   }
   .dark .autocomplete-suggestion{
-    color: rgba(var(--theme-600) / .5);
+    color: var(--placeholder-color);
   }
 
   .img-placeholder {
@@ -113,7 +115,7 @@ defineExpose({ editorEl })
 
   /* Placeholder (on every new line) */
   .is-empty:not(:has(.autocomplete-suggestion))::before {
-    color: rgba(var(--theme-600) / .5);
+    color: var(--placeholder-color);
     content: attr(data-placeholder);
     float: left;
     height: 0;
@@ -121,7 +123,7 @@ defineExpose({ editorEl })
   }
 
   .dark .is-empty:not(:has(.autocomplete-suggestion))::before {
-    color: rgba(var(--theme-600) / .5);
+    color: var(--placeholder-color);
   }
 
   // for editing text in image component, etc.
