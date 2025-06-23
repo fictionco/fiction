@@ -52,7 +52,7 @@ async function paginate(dir: 'prev' | 'next') {
       <ElSpinner class="h-6 w-6" />
     </div>
     <div v-else>
-      <div class="mb-6 flex justify-between items-end" :data-list-count="indexMeta.count">
+      <div class="pb-4 flex justify-between items-center border-b border-theme-300 dark:border-theme-700/70" :data-list-count="indexMeta.count">
         <div class="text-base font-semibold leading-4 text-theme-300 dark:text-theme-500 antialiased">
           {{ listTitle }} <span v-if="indexMeta.count">({{ indexMeta.count }} total)</span>
         </div>
@@ -94,6 +94,7 @@ async function paginate(dir: 'prev' | 'next') {
               :index="i"
               :theme
               :is-last="i === list.length - 1"
+              :dropdown-items="item.dropdown?.items || []"
             />
           </div>
           <div v-else-if="empty">

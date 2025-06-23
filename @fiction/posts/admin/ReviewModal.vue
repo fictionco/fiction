@@ -1,9 +1,10 @@
 <script lang="ts" setup>
+import type { FictionAdmin } from '@fiction/admin'
 import type { Card } from '@fiction/site'
 import type { TablePostConfig } from '..'
 import type { Post } from '../post.js'
 import type { EditorLocation, ModalLocation } from './EditorWrap.vue'
-import { dayjs, vue, waitFor } from '@fiction/core'
+import { dayjs, useService, vue, waitFor } from '@fiction/core'
 import { createOption } from '@fiction/ui'
 import XButton from '@fiction/ui/buttons/XButton.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
@@ -11,10 +12,10 @@ import ElForm from '@fiction/ui/inputs/ElForm.vue'
 import FormEngine from '@fiction/ui/inputs/FormEngine.vue'
 import ElModalConfirm from '@fiction/ui/modal/ElModalConfirm.vue'
 import SuccessModal from '@fiction/ui/modal/SuccessModal.vue'
+
 import { TablePostSchema as schema } from '../schema.js'
 
 import InputPostReview from './InputPostReview.vue'
-
 import PostPreview from './PostPreview.vue'
 
 const { post, card, modal } = defineProps<{
@@ -28,6 +29,9 @@ const emit = defineEmits<{
   (event: 'update:modal', payload: ModalLocation): void
   (event: 'update:post', payload: TablePostConfig): void
 }>()
+
+const { fictionAdmin } = useService<{ fictionAdmin: FictionAdmin }>()
+
 const sending = vue.ref<string | undefined>()
 
 const publishSuccess = vue.computed(() => {
@@ -53,14 +57,15 @@ async function saveAndSchedule() {
     const p = post
     const publishMode = p?.publishMode.value
     const publishAt = publishMode === 'schedule' ? p?.publishAt.value : dayjs().toISOString()
-    p?.update({
-      status: publishMode === 'now' ? 'published' : 'scheduled',
-      emailStatus: 'scheduled',
-      publishAt,
-    }, { caller: 'saveAndSchedule' })
+    const status = publishMode === 'now' ? 'published' : 'scheduled'
+
+    p?.update({ status, emailStatus: 'scheduled', publishAt }, { caller: 'saveAndSchedule' })
     await p?.save({ caller: 'saveAndSchedule' })
 
     await waitFor(100)
+
+    // mark task complete
+    fictionAdmin.tasks.markTaskStatus({ key: 'publishContent', status: 'ready' })
 
     emit('update:modal', 'success')
     emit('update:location', 'overview')
@@ -87,7 +92,7 @@ const reviewOptions = vue.computed(() => {
           key: 'publishMode',
           input: 'InputRadioButton',
           props: {
-            uiSize: 'lg',
+            uiSize: 'xl',
             list: [
               { label: 'Publish Now', value: 'now', icon: { class: 'i-tabler-clock' } },
               { label: 'Schedule for Later', value: 'schedule', icon: { class: 'i-tabler-calendar' } },

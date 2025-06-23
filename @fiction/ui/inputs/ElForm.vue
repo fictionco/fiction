@@ -92,9 +92,8 @@ vue.watch(() => props.data, () => vue.nextTick(setValid), { deep: true })
       <div v-if="notify" class="p-2 bg-rose-100 dark:bg-rose-900/30 font-sans mb-4 rounded-lg  text-xs text-center text-rose-700 dark:text-rose-400">
         {{ notify }}
       </div>
-      <slot />
-
       <input class="submit hidden" type="submit" value="">
+      <slot />
     </template>
   </form>
 </template>

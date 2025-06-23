@@ -9,7 +9,7 @@ const { card } = defineProps<{ card: Card }>()
 const panels = [
   new Card<NavCardUserConfig>({
     slug: 'subscribers',
-    title: 'Contact List',
+    title: 'Subscribers',
     description: 'View, filter, and manage your complete list',
     el: vue.defineAsyncComponent(async () => import('../admin/ViewIndex.vue')),
     userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus' },

@@ -18,7 +18,7 @@ const showAddContactsModal = vue.ref(false)
 </script>
 
 <template>
-  <SettingsPanel title="Contact List" :action>
+  <SettingsPanel title="Subscribers" :action>
     <div :class="isParent ? 'px-6 py-12' : 'p-4 md:p-6 xl:p-12'">
       <ElSubscriberList :card :ui-size="isParent ? 'xs' : 'md'" />
     </div>

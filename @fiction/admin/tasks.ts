@@ -7,6 +7,9 @@ type TaskKeys = 'profile' | 'editSite' | 'publishContent' | 'shareSite'
 export class CompletionTaskEngine extends FictionPlugin<FictionAdminSettings> {
   private tasks: CompletionTask<TaskKeys>[] = [
     { key: 'profile', title: 'Setup your profile details', href: '/app/settings' },
+    { key: 'editSite', title: 'Edit your site details', href: '/app/edit-site' },
+    { key: 'publishContent', title: 'Publish your first post', href: '/app/posts' },
+    { key: 'shareSite', title: 'Share your site with others', href: '/app?_view=share' },
   ]
 
   constructor(settings: FictionAdminSettings) {

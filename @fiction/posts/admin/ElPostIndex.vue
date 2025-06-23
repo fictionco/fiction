@@ -43,7 +43,9 @@ const list = vue.computed<NavListItemPost[]>(() => {
         items: [
           {
             label: 'Delete Post',
-            onClick: () => fictionPosts.requests.ManagePost.projectRequest({ _action: 'delete', where: { postId: p.postId } }),
+            onClick: async () => {
+              await fictionPosts.deletePost(p.postId)
+            },
           },
         ],
       },

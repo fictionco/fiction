@@ -77,6 +77,14 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
     this.settings.fictionRouter?.update(getRoutes())
   }
 
+  async deletePost(postId: string) {
+    const confirmed = window.confirm(`Are you sure? This will permanently delete the post.`)
+    if (!confirmed)
+      return
+    await this.requests.ManagePost.projectRequest({ _action: 'delete', where: { postId } })
+    this.cacheKey.value += 1
+  }
+
   adminUi() {
     const { fictionAdmin } = this.settings
 

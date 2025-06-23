@@ -199,6 +199,9 @@ export async function saveSite(args: {
   if (!r.data)
     throw new Error('no data returned from saveSite')
 
+  // Mark brand setup task as complete
+  await site.fictionSites.settings.fictionAdmin.tasks.markTaskStatus({ key: 'editSite', status: 'ready' })
+
   return r.data
 }
 

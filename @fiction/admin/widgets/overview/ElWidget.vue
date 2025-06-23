@@ -50,6 +50,9 @@ const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
               :items="[
                 { key: 'edit', label: 'Edit Site', href: siteEditLink },
                 { key: 'settings', label: 'Settings', href: props.card.link('/settings') },
+                { key: 'customDomain', label: 'Custom Domain', href: props.card.link('/settings?tab=domain') },
+                { key: 'viewMembers', label: 'View Subscribers', href: props.card.link('/audience') },
+                { key: 'viewBilling', label: 'View Billing', href: props.card.link('/settings/billing') },
               ]"
               dropdown-alignment="end"
             >
@@ -87,7 +90,7 @@ const liveSiteUrl = vue.computed(() => props.primarySite?.url.value || '')
 
           <!-- Hover overlay -->
           <div class="absolute text-sm font-semibold inset-0 bg-theme-900/80 backdrop-blur-xs rounded-md flex flex-col items-center justify-center gap-6 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <span class="rounded-full ring-1 ring-white px-4 py-1">Edit Site</span>
+            <span class="rounded-full ring-1 ring-white px-4 py-1  hover:opacity-70">Edit Site</span>
           </div>
         </CardLink>
 

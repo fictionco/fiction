@@ -88,7 +88,7 @@ const socialLinks = vue.computed<NavListItem[]>(() => [
         :theme="copied ? 'green' : 'primary'"
         @click="copyToClipboard"
       >
-        {{ copied ? 'Copied' : '' }}
+        {{ copied ? 'Copied' : 'Copy' }}
       </XButton>
 
       <XDropDown

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { Card, Site } from '@fiction/site'
-import { vue } from '@fiction/core'
+import type { FictionAdmin } from '..'
+import { useService, vue } from '@fiction/core'
 import UrlShare from '@fiction/ui/blocks/UrlShare.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 
@@ -8,6 +9,8 @@ const { card, primarySite } = defineProps<{
   card: Card
   primarySite?: Site
 }>()
+
+const { fictionAdmin } = useService<{ fictionAdmin: FictionAdmin }>()
 
 const ModalValues = ['share'] as const
 
@@ -26,6 +29,16 @@ const activeModal = vue.computed({
     }
   },
 })
+
+vue.watch(
+  () => activeModal.value,
+  async (v) => {
+    if (v === 'share') {
+      await fictionAdmin.tasks.markTaskStatus({ key: 'shareSite', status: 'ready' })
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -33,7 +46,7 @@ const activeModal = vue.computed({
     :vis="!!activeModal"
     :has-close="true"
     modal-class="w-full max-w-2xl"
-    :title="activeModal === 'share' ? 'Your Website URL' : ''"
+    :title="activeModal === 'share' ? 'Your URL' : ''"
     @update:vis="activeModal = null"
   >
     <!-- <template v-if="activeModal === 'welcome'">

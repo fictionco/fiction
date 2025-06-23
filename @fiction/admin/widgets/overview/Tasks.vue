@@ -3,6 +3,7 @@ import type { FictionAdmin } from '@fiction/admin'
 import type { CompletionTaskWithStatus } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import { useService, vue } from '@fiction/core'
+import XLink from '@fiction/ui/common/XLink.vue'
 
 defineOptions({
   name: 'TasksWidget',
@@ -48,11 +49,12 @@ vue.onMounted(async () => {
 
     <!-- Task list -->
     <div class="space-y-3">
-      <a
+      <XLink
         v-for="(task, i) in availableTasks"
         :key="task.key"
         :href="task.href"
         class="group flex items-center gap-3 py-2 px-3 -mx-3 rounded-md transition-colors hover:bg-theme-50 dark:hover:bg-theme-800"
+        @click.stop
       >
         <!-- Status indicator -->
         <div
@@ -76,7 +78,7 @@ vue.onMounted(async () => {
 
         <!-- Action indicator -->
         <i class="i-tabler-chevron-right text-theme-300 dark:text-theme-600 group-hover:text-theme-500 dark:group-hover:text-theme-400 transition-colors" />
-      </a>
+      </XLink>
     </div>
   </div>
 </template>

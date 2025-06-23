@@ -44,11 +44,10 @@ const metaItems = vue.computed(() => {
     <component
       :is="getNavComponentType(item)"
       v-bind="linkProps"
-      class="flex items-center justify-between p-4 border-t border-theme-200/60 dark:border-theme-700/80 hover:bg-theme-25 dark:hover:bg-theme-800/30 transition-colors duration-150"
+      class="flex items-center justify-between px-4 py-6 lg:py-8 hover:bg-theme-25 dark:hover:bg-theme-800/30 transition-colors duration-150"
       :class="{
         'bg-theme-25 dark:bg-theme-800 border-theme-200 dark:border-theme-700': isActive,
         'cursor-pointer': item.href || item.onClick,
-        'border-b': isLast,
       }"
       @click.stop="item.onClick && item.onClick({ item, event: $event })"
     >
