@@ -93,108 +93,12 @@ function updateContact(contactNew: Contact) {
 }
 
 const detailOptions = [
-  createOption({
-    key: 'control.email',
-    testId: 'contact-email',
-    label: 'Contact Email',
-    subLabel: 'The email address of the contact',
-    input: 'InputControl',
-    valueDisplay: () => {
-      return {
-        status: contact.value?.email ? 'ready' : 'optional',
-        data: contact.value?.email,
-      }
-    },
-    options: [
-      createOption({ key: 'email', label: 'Contact Email', input: 'InputText', placeholder: 'Enter Headline' }),
-    ],
-  }),
-  createOption({
-    key: 'control.status',
-    testId: 'contact-status',
-    label: 'Status',
-    subLabel: 'The recipient status of the contact',
-    input: 'InputControl',
-    valueDisplay: () => {
-      return {
-        status: contact.value?.status ? 'ready' : 'incomplete',
-        data: contact.value?.status,
-      }
-    },
-    options: [
-      createOption({ key: 'status', label: 'Status', input: 'InputSelectCustom', list: [
-        'active',
-        'unsubscribed',
-        'cleaned',
-        'pending',
-      ] }),
-    ],
-  }),
-  createOption({
-    key: 'control.tags',
-    testId: 'contact-tags',
-    label: 'Tags',
-    subLabel: 'Tags associated with the contact',
-    input: 'InputControl',
-    valueDisplay: () => {
-      return {
-        status: contact.value?.tags?.length ? 'ready' : 'optional',
-        data: contact.value?.tags?.join(', '),
-      }
-    },
-    options: [
-      createOption({ key: 'tags', label: 'Tags', input: 'InputTags' }),
-    ],
-  }),
-  createOption({
-    key: 'control.createdAt',
-    testId: 'contact-created-at',
-    label: 'Connection Created At',
-    subLabel: 'The date the contact was added to the list',
-    input: 'InputControl',
-    valueDisplay: () => {
-      return {
-        status: contact.value?.createdAt ? 'ready' : 'incomplete',
-        data: standardDate(contact.value?.createdAt, { withTime: true }),
-      }
-    },
-    options: [
-      createOption({ key: 'createdAt', label: 'Created At Date', input: 'InputDate', props: { includeTime: true } }),
-    ],
-  }),
-  createOption({
-    key: 'control.inlineUser.fullName',
-    testId: 'contact-name',
-    label: 'Contact Name',
-    subLabel: 'The name of the contact',
-    input: 'InputControl',
-    valueDisplay: () => {
-      return {
-        status: contact.value?.inlineUser?.fullName ? 'ready' : 'optional',
-        data: contact.value?.inlineUser?.fullName,
-      }
-    },
-    options: [
-      createOption({ key: 'inlineUser.fullName', label: 'Contact Name', input: 'InputText', placeholder: 'Enter Name' }),
-    ],
-  }),
-  createOption({
-    key: 'control.inlineUser.avatar',
-    testId: 'contact-avatar',
-    label: 'Contact Avatar',
-    subLabel: 'The avatar of the contact',
-    input: 'InputControl',
-    valueDisplay: () => {
-      return {
-        status: contact.value?.inlineUser?.avatar?.url ? 'ready' : 'optional',
-        data: contact.value?.inlineUser?.avatar,
-        format: 'media',
-      }
-    },
-    options: [
-      createOption({ key: 'inlineUser.avatar', label: 'Contact Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
-    ],
-  }),
+  createOption({ key: 'email', label: 'Contact Email', input: 'InputText', placeholder: 'Enter Headline' }),
+  createOption({ key: 'status', label: 'Status', input: 'InputSelectCustom', list: ['active', 'unsubscribed', 'cleaned', 'pending'] }),
+  createOption({ key: 'tags', label: 'Tags', input: 'InputTags' }),
+  createOption({ key: 'createdAt', label: 'Created At Date', input: 'InputDate', props: { includeTime: true } }),
+  createOption({ key: 'inlineUser.fullName', label: 'Contact Name', input: 'InputText', placeholder: 'Enter Name' }),
+  createOption({ key: 'inlineUser.avatar', label: 'Contact Avatar', input: 'InputMedia', subLabel: 'Upload a square image or it will be cropped' }),
 ]
 
 const adminOptions = [
@@ -202,28 +106,30 @@ const adminOptions = [
     key: 'deleteContact',
     label: 'Delete Contact',
     subLabel: 'This action cannot be undone',
-    input: 'InputControl',
-    actions: () => [
-      {
-        label: 'Delete Contact...',
-        theme: 'rose',
-        design: 'ghost',
-        icon: 'i-tabler-trash',
-        loading: loading.value,
-        onClick: async () => {
-          const endpoint = service.fictionContact.requests.ManageContact
+    input: 'InputActionList',
+    props: {
+      buttons: () => [
+        {
+          label: 'Delete Contact...',
+          theme: 'rose',
+          design: 'ghost',
+          icon: 'i-tabler-trash',
+          loading: loading.value,
+          onClick: async () => {
+            const endpoint = service.fictionContact.requests.ManageContact
 
-          const confirmed = confirm('Are you sure you want to delete this contact?')
+            const confirmed = confirm('Are you sure you want to delete this contact?')
 
-          if (confirmed && contact.value.contactId) {
-            sending.value = 'delete'
-            await endpoint.projectRequest({ _action: 'delete', where: [{ contactId: contact.value.contactId }] })
-            await card.goto('/audience', { caller: 'deleteContact' })
-            sending.value = ''
-          }
+            if (confirmed && contact.value.contactId) {
+              sending.value = 'delete'
+              await endpoint.projectRequest({ _action: 'delete', where: [{ contactId: contact.value.contactId }] })
+              await card.goto('/audience', { caller: 'deleteContact' })
+              sending.value = ''
+            }
+          },
         },
-      },
-    ],
+      ],
+    },
   }),
 ]
 
@@ -234,14 +140,12 @@ const options = vue.computed(() => {
       label: 'Contact Details',
       input: 'group',
       options: detailOptions,
-      format: 'control',
     }),
     createOption({
       key: 'userDanger',
       label: 'Danger Zone',
       input: 'group',
       options: adminOptions,
-      format: 'control',
     }),
   ]
 })

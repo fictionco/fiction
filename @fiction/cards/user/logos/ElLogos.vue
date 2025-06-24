@@ -5,6 +5,7 @@ import { vue } from '@fiction/core'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import { getColorThemeStyles } from '@fiction/ui/utils'
 import CardWrap from '../../CardWrap.vue'
+import CardLink from '../../el/CardLink.vue'
 
 const props = defineProps({
   card: {
@@ -70,9 +71,10 @@ function getLogoStyle(item: LogoConfig) {
             : `md:space-y-0 flex justify-center flex-wrap md:grid grid-cols-1 ${getInlineLogoCols()}`
           "
         >
-          <a
+          <CardLink
             v-for="(logo, i) in uc.items"
             :key="i"
+            :card
             :href="logo.href"
             class="group/logo logo-link inline-flex items-center justify-center h-[80px] w-[40%] md:w-full max-w-[200px] relative rounded-xl"
             :class="[
@@ -96,7 +98,7 @@ function getLogoStyle(item: LogoConfig) {
             >
               {{ logo.label }}
             </div>
-          </a>
+          </CardLink>
         </div>
       </div>
     </div>

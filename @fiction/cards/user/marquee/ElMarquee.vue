@@ -5,6 +5,7 @@ import { getNavComponentType, vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import CardWrap from '../../CardWrap.vue'
+import CardLink from '../../el/CardLink.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
@@ -63,11 +64,10 @@ vue.onMounted(() => {
       <div class="marquee relative z-10 mx-auto" :class="loaded ? '' : 'opacity-0'">
         <div class="marquee-track" :class="uc.direction === 'right' ? 'reverse' : ''">
           <div class="marquee-grid grid gap-4 lg:gap-8">
-            <component
-              :is="getNavComponentType(item)"
+            <CardLink
               v-for="(item, i) in temp"
               :key="i"
-              :to="item.href"
+              :card
               :href="item.href"
               class="group/marquee marquee-item relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.33,1)] hover:-translate-y-1 hover:scale-105 hover:z-10"
               :class="[getStagger(i)]"
@@ -97,7 +97,7 @@ vue.onMounted(() => {
                   </div>
                 </div>
               </div>
-            </component>
+            </CardLink>
           </div>
         </div>
       </div>

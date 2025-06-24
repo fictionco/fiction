@@ -20,7 +20,7 @@ const emit = defineEmits(['update:vis'])
   >
     <div class="pb-16">
       <div class="flex justify-between mb-6 py-4 px-6">
-        <div class="text-base font-semibold x-font-title">
+        <div class="text-lg font-semibold x-font-title">
           Add Contacts
         </div>
       </div>

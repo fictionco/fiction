@@ -28,7 +28,7 @@ const options = [
     input: 'group',
     key: 'itemsGroup',
     label: 'Marquee Items',
-    icon: { class: 'i-tabler-map-photo' },
+    icon: { class: 'i-tabler-carousel-horizontal' },
     options: [
       createOption({
         schema,

@@ -73,7 +73,7 @@ vue.onMounted(() => {
         sub="This element doesn't have any settings."
         :icon="{ class: 'i-tabler-settings' }"
       />
-      <template v-else>
+      <div v-else class="py-6">
         <FormEngine
           :key="activeCardConfig.cardId"
           state-key="cardEdit"
@@ -88,7 +88,7 @@ vue.onMounted(() => {
           @update:model-value="setActiveCardConfig($event)"
           @update:active-path="props.site?.setEditPath({ path: $event, caller: 'toolCardEdit' })"
         />
-      </template>
+      </div>
     </transition>
   </ElTool>
 </template>

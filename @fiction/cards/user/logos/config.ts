@@ -93,18 +93,6 @@ export function getUserConfig(args: { stock: StockMedia, withColor: boolean }): 
         theme: withColor ? 'blue' : undefined,
       },
       {
-        label: 'Roblox',
-        media: stock.getLocalMedia({ key: 'logoRoblox' }),
-        href: '#',
-        theme: withColor ? 'green' : undefined,
-      },
-      {
-        label: 'Balenciaga',
-        media: stock.getLocalMedia({ key: 'logoBalenciaga' }),
-        href: '#',
-        theme: withColor ? 'pink' : undefined,
-      },
-      {
         label: 'SpaceX',
         media: stock.getLocalMedia({ key: 'logoSpaceX' }),
         href: '#',

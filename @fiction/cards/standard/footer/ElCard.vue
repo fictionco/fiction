@@ -40,22 +40,13 @@ const icon = `<svg
 
       <XButton
         href="https://www.fiction.com"
-        size="md"
+        size="xs"
         design="outline"
         theme="primary"
         :icon="{ format: 'html', html: icon }"
       >
-        Tell Your Story
+        Powered by Fiction
       </XButton>
-      <div class="flex gap-1 items-center font-sans text-theme-400">
-        Powered by <CardLink
-          :card
-          class="text-sm font-medium underline underline-offset-4"
-          href="https://www.fiction.com"
-        >
-          Fiction
-        </CardLink>
-      </div>
     </div>
   </CardWrap>
 </template>

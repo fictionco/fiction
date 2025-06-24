@@ -214,7 +214,7 @@ async function importSubscribers() {
                 {{ info.validCount || 0 }}
               </div>
             </div>
-            <div v-if="info.invalidCount" >
+            <div v-if="info.invalidCount">
               <div class="text-theme-500 font-normal text-sm">
                 Invalid Emails
               </div>
@@ -242,7 +242,7 @@ async function importSubscribers() {
           <div class=" flex-grow max-h-[300px] overflow-y-auto">
             <ElIndexGrid list-title="Sample" :list="info.emailItems" ui-size="xs" />
 
-            <div v-if="info.emails.length > SAMPLE_EMAIL_NO" class="text-theme-500 text-sm p-4 text-theme-500 text-center">
+            <div v-if="info.emails.length > SAMPLE_EMAIL_NO" class="text-theme-500 text-sm p-4 text-center">
               And {{ info.emails.length - SAMPLE_EMAIL_NO }} more...
             </div>
           </div>
@@ -259,7 +259,7 @@ async function importSubscribers() {
               { label: 'Comma Separated', value: 'text', icon: { class: 'i-tabler-text-scan-2' } },
             ]"
             default-text="Select Import Method"
-            ui-size="sm"
+            ui-size="md"
           />
           <CardButton
             v-if="!info.emails.length"

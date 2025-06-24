@@ -16,125 +16,91 @@ const props = defineProps({
 })
 
 const uc = vue.computed(() => props.card.userConfig.value || {})
-const layout = vue.computed(() => uc.value.layout || 'accordion')
 
-// Track open state for accordion/toggle layouts
+// Only toggle mode: each item can be opened/closed independently
 const openItems = vue.ref<Set<number>>(new Set())
 
 function toggleItem(index: number) {
-  if (layout.value === 'accordion') {
-    openItems.value = new Set(openItems.value.has(index) ? [] : [index])
+  const newSet = new Set(openItems.value)
+  if (newSet.has(index)) {
+    newSet.delete(index)
   }
-  else if (layout.value === 'toggle') {
-    const newSet = new Set(openItems.value)
-    if (newSet.has(index)) {
-      newSet.delete(index)
-    }
-    else {
-      newSet.add(index)
-    }
-    openItems.value = newSet
+  else {
+    newSet.add(index)
   }
+  openItems.value = newSet
 }
 
 function isItemOpen(index: number) {
-  return layout.value === 'visible' || openItems.value.has(index)
+  return openItems.value.has(index)
 }
 </script>
 
 <template>
-  <CardWrap :card :data-layout-mode="layout">
-    <!-- FAQ Items List -->
-    <div class="max-w-screen-md mx-auto space-y-4">
+  <CardWrap :card>
+    <div class="mx-auto max-w-2xl">
       <div
         v-for="(item, i) in uc.items"
         :key="i"
-        class="group rounded-xl ring ring-theme-300/30 dark:ring-theme-600/30"
-        :class="[layout !== 'visible' ? 'cursor-pointer hover:ring-theme-300/50 dark:hover:ring-theme-600/60' : '']"
+        class="py-4 border-b border-theme-100 dark:border-theme-800 last:border-b-0"
       >
-        <!-- Question/Title Row -->
+        <!-- Question Row -->
         <div
-          class="relative p-4 lg:p-6 xl:p-8 flex items-start gap-5"
-          @click="layout !== 'visible' && toggleItem(i)"
+          class="flex items-center gap-2 cursor-pointer group justify-between"
+          @click="toggleItem(i)"
         >
-          <!-- Icon -->
-          <XIcon
-            v-if="item.icon"
-            :media="item.icon"
-            class="flex-shrink-0 size-7 text-primary-500 dark:text-primary-400"
+          <CardText
+            :card
+            :path="pathCheck(`items.${i}.title`, schema)"
+            class="x-font-title text-lg sm:text-xl font-medium text-theme-900 dark:text-theme-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors tracking-tight"
           />
-
-          <div class="flex-grow">
-            <div class="flex justify-between">
+          <span class="flex-shrink-0 ml-3">
+            <XIcon
+              :media="{ class: isItemOpen(i) ? 'i-tabler-x' : 'i-tabler-plus' }"
+              class="size-5 text-theme-400 group-hover:text-primary-500 transition-all duration-200"
+              :style="isItemOpen(i) ? 'transform: rotate(45deg);' : 'transform: rotate(0deg);'"
+            />
+          </span>
+        </div>
+        <!-- Content Area with Slide Animation -->
+        <TransitionSlide>
+          <div v-show="isItemOpen(i)" class="">
+            <div v-if="item.media" class="flex justify-center my-5">
+              <XMedia
+                :media="item.media"
+                :animate="true"
+                class="rounded-lg overflow-hidden shadow-sm border border-theme-200 dark:border-theme-700 bg-theme-50 dark:bg-theme-900 aspect-video w-full max-w-md"
+              />
+            </div>
+            <XEntry>
               <CardText
                 :card
-                :path="pathCheck(`items.${i}.title`, schema)"
-                class="x-font-title text-xl lg:text-3xl font-semibold text-theme-900 dark:text-theme-100 transition-colors"
-                :class="[
-                  isItemOpen(i) && 'text-primary-600 dark:text-primary-400',
-                ]"
+                :path="pathCheck(`items.${i}.content`, schema)"
+                class="text-base sm:text-lg text-theme-700 dark:text-theme-300 !leading-relaxed mt-2 sm:mt-3 mb-1 sm:mb-2"
               />
-              <!-- Toggle Button -->
-              <button
-                v-if="layout !== 'visible'"
-                type="button"
-                class="flex-shrink-0 "
-                @click.stop="toggleItem(i)"
-              >
-                <XIcon
-                  :media="{ class: 'i-tabler-chevron-down' }"
-                  class="size-6 text-theme-400 transition-transform duration-200"
-                  :class="isItemOpen(i) && 'rotate-180'"
-                />
-              </button>
-            </div>
-
-            <!-- Content Area -->
-            <TransitionSlide>
-              <div v-show="isItemOpen(i)" class="relative">
-                <div
-                  class="space-y-4 pt-4"
-                >
-                  <!-- Media if present -->
-                  <XMedia
-                    v-if="item.media"
-                    :media="item.media"
-                    class="rounded-lg overflow-hidden bg-theme-100 dark:bg-theme-800 aspect-video w-96 my-6"
-                  />
-
-                  <XEntry>
-                    <CardText
-                      :card
-                      :path="pathCheck(`items.${i}.content`, schema)"
-                      class="text-lg sm:text-xl lg:text-2xl !leading-relaxed"
-                    />
-                  </XEntry>
-                </div>
-              </div>
-            </TransitionSlide>
+            </XEntry>
           </div>
-        </div>
+        </TransitionSlide>
       </div>
     </div>
 
     <!-- Support Section -->
     <div
       v-if="uc.support?.text || uc.support?.action?.buttons?.length"
-      class="mt-10 text-center max-w-[768px] mx-auto space-y-6"
+      class="mt-4 text-center max-w-xl mx-auto space-y-4 border-t border-theme-100 dark:border-theme-800 pt-4"
     >
       <CardText
         v-if="uc.support.text"
         :card
         :path="pathCheck(`support.text`, schema)"
-        class="text-lg text-theme-600 dark:text-theme-400 x-font-title"
+        class="text-base text-theme-600 dark:text-theme-400 x-font-title"
       />
-
       <CardActionArea
         v-if="uc.support.action"
         :card
         :base-path="pathCheck(`support.action`, schema)"
         :action="uc.support.action"
-        :classes="{ buttons: 'flex gap-4 justify-center  flex-wrap ' }"
+        :classes="{ buttons: 'flex gap-4 justify-center flex-wrap' }"
       />
     </div>
   </CardWrap>
