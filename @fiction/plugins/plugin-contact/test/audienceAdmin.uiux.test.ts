@@ -1,4 +1,5 @@
 import type { Contact } from '../schema'
+
 import { isCi } from '@fiction/core'
 import { createSiteUiTestingKit } from '@fiction/site/test/testUtils.js'
 import { afterAll, describe, expect, it } from 'vitest'
@@ -27,20 +28,12 @@ describe('admin audience-subscribe', async () => {
         { type: 'click', selector: `[data-test-id="add-confirm-button"]` },
         { type: 'exists', selector: `[data-list-count="2"]` },
         { type: 'click', selector: `[data-test-id="index-item-0"] a` },
-        { type: 'click', selector: `[data-test-id="contact-email-edit-button"]` },
         { type: 'fill', selector: `[data-option-path="email"] input`, text: 'testing@testing.com' },
-        { type: 'click', selector: `[data-test-id="contact-email-modal-apply"]` },
-        { type: 'click', selector: `[data-test-id="contact-name-edit-button"]` },
         { type: 'fill', selector: `[data-option-path="inlineUser.fullName"] input`, text: 'Test Name' },
-        { type: 'click', selector: `[data-test-id="contact-name-modal-apply"]` },
-        { type: 'click', selector: `[data-test-id="contact-status-edit-button"]` },
         { type: 'click', selector: `[data-option-path="status"]` },
         { type: 'click', selector: `[data-option-path="status"] [data-value="pending"]` },
-        { type: 'click', selector: `[data-test-id="contact-status-modal-apply"]` },
-        { type: 'click', selector: `[data-test-id="contact-tags-edit-button"]` },
         { type: 'fill', selector: `[data-option-path="tags"] input`, text: 'test 1, test 2' },
         { type: 'keyboard', key: `Enter` },
-        { type: 'click', selector: `[data-test-id="contact-tags-modal-apply"]` },
         { type: 'click', selector: `[data-test-id="contact-save-button"]`, waitAfter: 3000 },
         { type: 'dataValue', selector: `[data-form-engine-depth="0"]`, onValue: (value) => {
           const v = value as Contact

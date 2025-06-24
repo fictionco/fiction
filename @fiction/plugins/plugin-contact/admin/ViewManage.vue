@@ -9,17 +9,32 @@ const { card } = defineProps<{ card: Card }>()
 const panels = [
   new Card<NavCardUserConfig>({
     slug: 'subscribers',
-    title: 'Subscribers',
-    description: 'View, filter, and manage your complete list',
-    el: vue.defineAsyncComponent(async () => import('../admin/ViewIndex.vue')),
-    userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus' },
+    title: 'All Subscribers',
+    el: vue.defineAsyncComponent(async () => import('./ViewIndex.vue')),
+    userConfig: {
+      isNavItem: true,
+      navIcon: 'i-tabler-users',
+      navIconAlt: 'i-tabler-users-plus',
+      query: { _view: 'list' },
+    },
+  }),
+  new Card<NavCardUserConfig>({
+    slug: 'import',
+    title: 'Add / Import',
+    el: vue.defineAsyncComponent(async () => import('./ViewImportPanel.vue')),
+    userConfig: {
+      isNavItem: true,
+      navIcon: 'i-tabler-users',
+      navIconAlt: 'i-tabler-users-plus',
+      query: { _view: 'import' },
+    },
   }),
   new Card<NavCardUserConfig>({
     slug: 'view',
     title: 'Contact Details',
     description: 'View individual subscriber information and history',
-    el: vue.defineAsyncComponent(async () => import('../admin/ViewSingle.vue')),
-    userConfig: { navIcon: 'i-tabler-user', parentItemId: 'subscribers' },
+    el: vue.defineAsyncComponent(async () => import('./ViewSingle.vue')),
+    userConfig: { navIcon: 'i-tabler-user' },
   }),
 ]
 </script>

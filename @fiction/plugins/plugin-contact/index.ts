@@ -2,7 +2,9 @@ import type { FictionAdmin } from '@fiction/admin'
 import type { dashTemplate } from '@fiction/admin/dashboard/templates'
 import type { FictionAnalytics } from '@fiction/analytics'
 import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser, User } from '@fiction/core'
+
 import type { WhereSubscription } from './endpoint'
+import { cardConfigCustom } from '@fiction/cards'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { cardTemplate } from '@fiction/site/card.js'
 import { ManageContactQuery, SubscriptionAnalytics } from './endpoint'
@@ -73,22 +75,32 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
 
     fictionAdmin.addFeature({
       key: 'audience',
-      getPages: async ({ factory }) => [
-        await factory.fromTemplate<typeof dashTemplate>({
-          templateId: 'dash',
-          slug: 'subscriber-view',
-          title: 'Connection Profile',
-          description: 'View and manage individual contact details',
-          cards: [await factory.fromTemplate({ templateId: 'tplContactSingle' })],
-          userConfig: { navIcon: 'i-tabler-user', parentNavItemSlug: 'audience' },
-        }),
-        await factory.fromTemplate<typeof dashTemplate>({
+      getPages: async () => [
+        cardConfigCustom({
           templateId: 'dash',
           slug: 'audience',
           title: 'Audience',
           description: 'Your subscribers, followers, and contacts',
           userConfig: { isNavItem: true, navIcon: 'i-tabler-users', navIconAlt: 'i-tabler-users-plus', priority: 50 },
-          cards: [await factory.fromTemplate({ templateId: 'tplContactManage' })],
+          cards: [
+            cardConfigCustom({
+              templateId: 'tplContactManage',
+              userConfig: {},
+            }),
+          ],
+        }),
+        cardConfigCustom({
+          templateId: 'dash',
+          slug: 'edit-contact',
+          title: 'Connection Profile',
+          description: 'View and manage individual contact details',
+          userConfig: { navIcon: 'i-tabler-user', parentNavItemSlug: 'audience' },
+          cards: [
+            cardConfigCustom({
+              templateId: 'tplContactSingle',
+              userConfig: {},
+            }),
+          ],
         }),
       ],
       getTemplates: async () => [

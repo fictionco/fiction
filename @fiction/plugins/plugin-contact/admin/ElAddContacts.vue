@@ -240,7 +240,7 @@ async function importSubscribers() {
             </div>
           </div>
           <div class=" flex-grow max-h-[300px] overflow-y-auto">
-            <ElIndexGrid list-title="Sample" :list="info.emailItems" ui-size="xs" />
+            <ElIndexGrid list-title="Emails" :list="info.emailItems" ui-size="xs" />
 
             <div v-if="info.emails.length > SAMPLE_EMAIL_NO" class="text-theme-500 text-sm p-4 text-center">
               And {{ info.emails.length - SAMPLE_EMAIL_NO }} more...
