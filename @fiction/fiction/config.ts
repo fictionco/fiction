@@ -84,11 +84,9 @@ export async function getConfig(args: {
           cardConfig({
             templateId: 'cardSiteNavV1',
             userConfig: {
-              brand: {
-                logo: {
-                  variant: 'media',
-                  media: stock.getLocalMedia({ key: 'fictionIconInline' }),
-                },
+              logo: {
+                variant: 'media',
+                media: stock.getLocalMedia({ key: 'fictionIconInline' }),
               },
               hideSubscribe: true,
               redirectAfterLogin: '/app',

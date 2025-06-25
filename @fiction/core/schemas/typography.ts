@@ -1,5 +1,6 @@
 import { z } from 'zod/v4'
 import { colorThemeUser } from '../utils/colors.js'
+import { ActionAreaSchema } from './actions.js'
 import { MediaSchema } from './media.js'
 import { FontWeightsSchema } from './standard.js'
 
@@ -42,6 +43,8 @@ export const logoSchema = z.object({
   media: MediaSchema.optional().meta({ ai: true }),
   typography: typographySchema.optional().meta({ ai: false }),
   scale: z.number().optional().meta({ ai: false }),
+  href: z.string().optional(),
+  tagline: z.string().optional(),
 })
 
 export type LogoObject = z.infer<typeof logoSchema>

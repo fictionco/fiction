@@ -56,7 +56,7 @@ const fictionItems = vue.computed(() => getFictionNavItems({ fictionAdmin, ficti
 
 <template>
   <CardWrap :card class="border-b border-theme-700 bg-theme-900/50" vertical-spacing="none">
-    <div class="flex items-center justify-between min-h-16">
+    <div class="flex justify-between min-h-16">
       <div class="flex justify-start items-center gap-6 basis-0 grow">
         <!-- Logo -->
         <XLink
@@ -67,7 +67,7 @@ const fictionItems = vue.computed(() => getFictionNavItems({ fictionAdmin, ficti
           @click="showMobileNav = false"
         >
           <XLogoType
-            :logo="uc.brand?.logo"
+            :logo="uc?.logo"
             :classes="{ text: 'x-font-title text-lg font-bold' }"
             :media-handling="{ height: 2 }"
             :org="card.site?.org.value"
@@ -75,29 +75,29 @@ const fictionItems = vue.computed(() => getFictionNavItems({ fictionAdmin, ficti
         </XLink>
       </div>
 
-      <!-- Mobile Menu Button (right side on mobile) -->
-      <XButton
-        class="md:hidden"
-        icon-after="i-tabler-chevron-down"
-        design="link"
-        @click.stop="showMobileNav = !showMobileNav"
-      >
-        Menu
-      </XButton>
+      <div class="md:hidden flex items-center justify-end">
+        <XButton
+          icon-after="i-tabler-chevron-down"
+          design="link"
+          @click.stop="showMobileNav = !showMobileNav"
+        >
+          Menu
+        </XButton>
+      </div>
 
       <!-- Desktop Nav -->
-      <nav class="hidden md:flex space-x-6 grow-0 font-sans">
+      <nav class="hidden md:flex items-center space-x-6 grow-0 font-sans">
         <XLink
           v-for="item in nav"
           :key="item.href"
           :card
           :href="item.href"
-          class="relative py-4 px-1 text-sm font-medium transition-colors duration-200"
+          class="h-full flex items-center relative py-4 px-1 text-sm font-medium transition-colors duration-200"
           :class="item.isActive
             ? 'text-theme-900 dark:text-theme-0'
             : 'text-theme-600 dark:text-theme-400 hover:text-theme-900 dark:hover:text-theme-0'"
         >
-          {{ item.label }}
+          <span>{{ item.label }}</span>
           <!-- Active indicator line -->
           <div
             v-if="item.isActive"
