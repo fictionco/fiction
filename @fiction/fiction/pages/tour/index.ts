@@ -25,17 +25,17 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
             userConfig: {
               items: [{
                 superTitle: {
-                  text: 'Why Fiction?',
+                  text: 'The Problem',
                   theme: 'red',
-                  icon: { class: 'i-tabler-north-star' },
+                  icon: { class: 'i-tabler-user-off' },
                 },
-                title: `They Looked You Up [@text_effect type=scribble]Before[/@text_effect] Coffee`,
-                subTitle: `That investor. That client. That date. They all did the same thing: searched your name. What did they find? Fiction controls that moment.`,
+                title: `Your Digital Self [@text_effect type=scribble]Doesn't Exist[/@text_effect]`,
+                subTitle: `When people search your name, they find nothing. Or worse, they find someone else. Your opportunities are disappearing while you're invisible online.`,
 
                 action: {
                   buttons: [
                     {
-                      label: 'Own Your Story',
+                      label: 'Create Your Digital Self',
                       href: '/app/auth?_reload=1',
                       theme: 'primary',
                       design: 'solid',
@@ -55,39 +55,48 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                   layout: 'right',
                   superTitle: {
                     icon: { iconId: 'ghost' },
-                    text: 'Presence',
+                    text: 'Invisible',
                     theme: 'orange',
                   },
-                  title: `Invisible = Irrelevant`,
-                  subTitle: `No LinkedIn? Stale website? Random Google results? You're handing opportunities to louder voices. Fiction builds your stage.`,
+                  title: `No Digital Self = No Opportunities`,
+                  subTitle: `When clients, investors, or employers search your name, they find empty results. Your expertise is hidden. Your digital self doesn't exist.`,
                   // IMAGE: Split screen showing "Before" - empty Google search results with maybe outdated LinkedIn vs "After" - polished Fiction profile at top of results
-                  media: { url: ImageInvisible },
+                  media: {
+                    url: ImageInvisible,
+                    alt: 'Split screen comparison: Left shows empty Google search results for a person\'s name, right shows a professional Fiction profile dominating the search results',
+                  },
                   action: {},
                 },
                 {
                   layout: 'left',
                   superTitle: {
                     icon: { iconId: 'brain' },
-                    text: 'Content',
+                    text: 'Silent',
                     theme: 'purple',
                   },
-                  title: `Great ideas? You need a platform.`,
-                  subTitle: `Brilliant thoughts. Zero followers. You know what to say but algorithms bury you. Fiction amplifies your voice without the social media circus.`,
+                  title: `Your Ideas Have No Home`,
+                  subTitle: `You have valuable insights, but nowhere to share them. Social media buries your content. Your digital self has no voice.`,
                   // IMAGE: Person staring at blank screen with thought bubbles full of great ideas, then arrow to engaging content being created
-                  media: { url: ImageAudience },
+                  media: {
+                    url: ImageAudience,
+                    alt: 'Person at computer with thought bubbles containing brilliant ideas, then arrow pointing to engaging content being published on their professional website',
+                  },
                   action: {},
                 },
                 {
                   layout: 'right',
                   superTitle: {
                     icon: { class: 'i-tabler-bolt' },
-                    text: 'Influence',
+                    text: 'Unprepared',
                     theme: 'yellow',
                   },
-                  title: `No time? Not sure how?`,
-                  subTitle: `This is exactly why Fiction exists. Our mission is to help you create your ideal self without the time and frustration of legacy platforms.`,
+                  title: `Every Search is a Missed Chance`,
+                  subTitle: `Someone looked you up today. They found nothing. That opportunity is gone. Your digital self needs to be ready 24/7.`,
                   // IMAGE: Before/after of bland corporate text vs engaging, personality-filled content in the person's actual voice
-                  media: { url: ImageMeeting },
+                  media: {
+                    url: ImageMeeting,
+                    alt: 'Before/after comparison: Left shows generic corporate profile, right shows engaging personal content that captures attention and builds trust',
+                  },
 
                   action: {},
                 },
@@ -106,17 +115,17 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
               items: [
                 {
                   label: 'Professionals',
-                  description: 'Now Discoverable Online',
+                  description: 'Now Have Digital Selves',
                   value: 12847,
                 },
                 {
-                  label: 'Deal-Closing Conversations',
-                  description: 'Started from Fiction Profiles',
+                  label: 'Opportunities',
+                  description: 'Captured This Month',
                   value: 89600,
                 },
                 {
-                  label: 'Lost Opportunities',
-                  description: 'Recovered This Month',
+                  label: 'Missed Chances',
+                  description: 'Recovered with Fiction',
                   value: 2340,
                 },
               ],
@@ -195,16 +204,16 @@ export async function getTourPage(args: { factory: CardFactory, stock: StockMedi
                 {
                   superTitle: {
                     icon: { iconId: 'clock' },
-                    text: 'Time\'s Up',
-                    theme: 'red',
+                    text: 'The Solution',
+                    theme: 'green',
                   },
-                  title: `A digital presence in [@text_effect type=squiggle]3 minutes[/@text_effect] or less`,
-                  subTitle: `Every day you wait, someone else claims your space. Fiction builds your presence in seconds, not months.`,
+                  title: `Your Digital Self [@text_effect type=squiggle]Always Ready[/@text_effect]`,
+                  subTitle: `Stop losing opportunities. Create your professional digital self in minutes. Be found. Be trusted. Be ready.`,
                   action: {
                     buttons: [
                       {
-                        label: 'Start Now',
-                        icon: 'i-tabler-rocket',
+                        label: 'Create Your Digital Self',
+                        icon: 'i-tabler-user-circle',
                         href: '/app/auth?_reload=1',
                         theme: 'primary',
                       },

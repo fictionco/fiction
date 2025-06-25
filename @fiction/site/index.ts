@@ -11,6 +11,7 @@ import { initializeClientTag } from '@fiction/analytics/tag/entry.js'
 import { cardConfigCustom } from '@fiction/cards/index.js'
 import { FictionPlugin, getAnonymousId, HooksUtil, isNode, safeDirname, vue } from '@fiction/core'
 import { EnvVar, vars } from '@fiction/core/plugin-env'
+import { theme as baseTheme } from '@fiction/theme-base/index.js'
 import { cardTemplate } from './card.js'
 import { CardQueryHandler } from './cardQuery.js'
 import { ManagePage, ManageSite, ManageSites } from './endpoint.js'
@@ -65,7 +66,15 @@ function getTemplates() {
 type SiteAdminTemplates = AdminTemplates & ReturnType<typeof getTemplates>
 
 export class FictionSites extends FictionPlugin<SitesPluginSettings> {
-  themes = vue.shallowRef<Theme[]>([])
+  themes = vue.shallowRef<Theme[]>([
+    new Theme({
+      themeId: 'empty',
+      root: import.meta.url,
+      getConfig: async () => ({ userConfig: {}, pages: [], sections: {} }),
+    }),
+    baseTheme,
+  ])
+
   previewRoute = '/admin/preview'
 
   hooks = new HooksUtil<SiteHookEvents>()
@@ -192,19 +201,11 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
   }
 
   override async afterSetup() {
-    const defaultTheme = new Theme({
-      themeId: 'empty',
-      root: import.meta.url,
-      getConfig: async () => ({ userConfig: {}, pages: [], sections: {} }),
-    })
-
-    const { theme: baseTheme } = await import('@fiction/theme-base/index.js')
-
     const addedThemes = await this.settings.themes()
 
     addedThemes.forEach(theme => this.fictionEnv.addUiRoot(theme.settings.root))
 
-    this.themes.value = [defaultTheme, baseTheme, ...addedThemes]
+    this.themes.value = [...this.themes.value, ...addedThemes]
   }
 
   cleanup() { }

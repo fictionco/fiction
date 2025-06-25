@@ -20,8 +20,8 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
     priority: 50,
     userConfig: {
       standard: {
-        title: 'Create Your Personal Website in 3 Minutes',
-        description: 'Fiction helps you create a personal website, newsletter, and content hub in minutes.',
+        title: 'Your Professional Digital Self',
+        description: 'Create a polished online presence that opens doors. Website, content tools, and audience building in one platform.',
       },
     },
     cards: [
@@ -35,15 +35,15 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                 {
                   superTitle: {
                     theme: 'orange',
-                    text: 'Digital Presence for the AI Era',
-                    icon: { class: 'i-tabler-book' },
+                    text: 'Professional Digital Presence',
+                    icon: { class: 'i-tabler-user-circle' },
                   },
-                  title: `Create Your Personal Website in [@text_effect type=line]3 Minutes[/@text_effect].`,
-                  subTitle: `Fiction is a revolutionary platform that helps you build a personal brand with AI.`,
+                  title: `Your Digital Self. [@text_effect type=line]Always Ready.[/@text_effect]`,
+                  subTitle: `Create a professional digital version of yourself that works 24/7. Showcase your expertise, capture leads, and build your audience while you sleep.`,
                   action: {
                     buttons: [
                       {
-                        label: 'Start',
+                        label: 'Build Your Digital Self',
                         href: '/app/auth?_reload=1',
                         theme: 'primary',
                         design: 'solid',
@@ -160,11 +160,11 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   cols: 12,
                   rows: 3,
                   superTitle: {
-                    icon: { class: 'i-tabler-rocket' },
-                    text: 'AI-Optimize Your Personal Brand',
+                    icon: { class: 'i-tabler-user-circle' },
+                    text: 'Your Digital Self',
                   },
-                  title: 'Your Digital Self',
-                  content: 'Ready for the AI future? Use Fiction to tell your story, express your expertise, and build your network.',
+                  title: 'Always Professional',
+                  content: 'Your digital self never has a bad day. Present your best version 24/7 with a website that captures leads, showcases your work, and builds your authority.',
                   theme: 'blue',
                   themeMode: 'dark',
                   verticalPosition: 'bottom',
@@ -180,7 +180,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   action: {
                     buttons: [
                       {
-                        label: 'Build Your Brand',
+                        label: 'Create Your Digital Self',
                         href: '/app/auth?_reload=1',
                         theme: 'overlay',
                         icon: 'i-tabler-user-circle',
@@ -194,11 +194,11 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   cols: 4,
                   rows: 2,
                   superTitle: {
-                    icon: { class: 'i-tabler-rocket' },
-                    text: 'Homebase',
+                    icon: { class: 'i-tabler-world' },
+                    text: 'Your Website',
                   },
-                  title: 'Your Website',
-                  content: 'A stunning personal website with effortless customization.',
+                  title: 'Your Digital Home',
+                  content: 'A polished website that converts visitors into clients and opportunities.',
                   theme: 'orange',
                   themeMode: 'dark',
                   verticalPosition: 'bottom',
@@ -210,10 +210,10 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   rows: 2,
                   superTitle: {
                     icon: { class: 'i-tabler-mail' },
-                    text: 'Inbox',
+                    text: 'Your Audience',
                   },
-                  title: 'Your Newsletter',
-                  content: 'Capture your audience, then send them a newsletter.',
+                  title: 'Capture & Convert',
+                  content: 'Turn website visitors into email subscribers and paying clients.',
                   theme: 'blue',
                   themeMode: 'dark',
                   verticalPosition: 'bottom',
@@ -225,11 +225,11 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                   cols: 4,
                   rows: 2,
                   superTitle: {
-                    icon: { class: 'i-tabler-bolt' },
-                    text: 'Content',
+                    icon: { class: 'i-tabler-file-text' },
+                    text: 'Your Content',
                   },
-                  title: 'Your Ideas',
-                  content: 'Put all your content in one place, syndicate it elsewhere.',
+                  title: 'Showcase Expertise',
+                  content: 'Publish articles, case studies, and insights that establish your authority.',
                   theme: 'green',
                   themeMode: 'dark',
                   verticalPosition: 'bottom',
