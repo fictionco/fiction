@@ -62,7 +62,7 @@ const fictionItems = vue.computed(() => getFictionNavItems({ fictionAdmin, ficti
         <XLink
           :card
           href="/"
-          class="relative z-40 py-3 will-change-transform transition-transform duration-300 ease-out"
+          class="relative flex items-center z-40 will-change-transform transition-transform duration-300 ease-out"
           :class="[hoverClass, showMobileNav ? '' : '']"
           @click="showMobileNav = false"
         >
@@ -97,6 +97,11 @@ const fictionItems = vue.computed(() => getFictionNavItems({ fictionAdmin, ficti
             : 'text-theme-600 dark:text-theme-400 hover:text-theme-900 dark:hover:text-theme-0'"
         >
           {{ item.label }}
+          <!-- Active indicator line -->
+          <div
+            v-if="item.isActive"
+            class="absolute bottom-0 left-0 right-0 h-0.5 bg-theme-900 dark:bg-theme-0"
+          />
         </XLink>
       </nav>
 
