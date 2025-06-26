@@ -84,7 +84,7 @@ const gapClass = vue.computed(() => {
                     :card
                     :path="pathCheck(`items.${i}.title`, schema)"
                     tag="h3"
-                    class="text-2xl @xs:text-3xl @xl:text-4xl @5xl:text-6xl @xl:mb-2 @5xl:mb-4 text-balance font-semibold  x-font-title"
+                    class="text-2xl @xs:text-3xl @xl:text-4xl @5xl:text-6xl @xl:mb-2 @5xl:mb-4 text-balance x-font-title"
                     :style="getContentStyles(item, 'text', bentoWrapEl)"
                   />
 

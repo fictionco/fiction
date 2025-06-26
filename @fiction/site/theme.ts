@@ -144,7 +144,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
           fonts: {
             mono: { family: 'DM Mono', stack: 'monospace' },
             input: { family: 'DM Mono', stack: 'sans' },
-            title: { family: 'Poppins', stack: 'sans' },
+            title: { stack: 'sans' },
             body: { stack: 'sans' },
             entry: { },
             sans: { stack: 'sans' },

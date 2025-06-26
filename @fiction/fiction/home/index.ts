@@ -35,11 +35,11 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                 {
                   superTitle: {
                     theme: 'orange',
-                    text: 'Professional Digital Presence',
+                    text: 'Create a Personal Brand with AI',
                     icon: { class: 'i-tabler-user-circle' },
                   },
-                  title: `Your Digital Self. [@text_effect type=line]Always Ready.[/@text_effect]`,
-                  subTitle: `Create a professional digital version of yourself that works 24/7. Showcase your expertise, capture leads, and build your audience while you sleep.`,
+                  title: `The [@text_effect type=line]Digital Self[/@text_effect] Platform.`,
+                  subTitle: `Create a professional personal brand that works 24/7. Showcase your expertise, capture leads, and build your audience while you sleep.`,
                   action: {
                     buttons: [
                       {
@@ -163,7 +163,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                     icon: { class: 'i-tabler-user-circle' },
                     text: 'Your Digital Self',
                   },
-                  title: 'Always Professional',
+                  title: 'Always Look Your Best',
                   content: 'Your digital self never has a bad day. Present your best version 24/7 with a website that captures leads, showcases your work, and builds your authority.',
                   theme: 'blue',
                   themeMode: 'dark',

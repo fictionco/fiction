@@ -55,8 +55,8 @@ const fictionItems = vue.computed(() => getFictionNavItems({ fictionAdmin, ficti
 </script>
 
 <template>
-  <CardWrap :card class="border-b border-theme-700 bg-theme-900/50" vertical-spacing="none">
-    <div class="flex justify-between min-h-16">
+  <CardWrap :card class="" vertical-spacing="none">
+    <div class="flex justify-between min-h-14">
       <div class="flex justify-start items-center gap-6 basis-0 grow">
         <!-- Logo -->
         <XLink

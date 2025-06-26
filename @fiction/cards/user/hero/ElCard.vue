@@ -19,10 +19,10 @@ const uc = vue.computed(() => card.userConfig.value || {})
 function getLayoutClasses(layout: string = 'center') {
   const layouts = {
     center: {
-      container: 'text-center space-y-8',
-      content: 'mx-auto max-w-4xl space-y-6',
-      title: 'mx-auto max-w-2xl',
-      subtitle: 'mx-auto max-w-2xl',
+      container: 'text-center space-y-12 md:space-y-12 @container',
+      content: 'mx-auto max-w-4xl space-y-8 @container',
+      title: 'mx-auto max-w-2xl text-pretty @lg:text-6xl @md:text-5xl @sm:text-4xl text-3xl',
+      subtitle: 'mx-auto max-w-2xl text-pretty @lg:text-2xl @md:text-xl text-lg text-slate-600 dark:text-slate-300',
       media: 'mx-auto max-w-2xl',
       actions: 'justify-center',
       supertitle: 'justify-center',
@@ -30,8 +30,8 @@ function getLayoutClasses(layout: string = 'center') {
     left: {
       container: 'text-left space-y-8 md:space-y-0 md:grid md:grid-cols-2 md:gap-16 md:items-center',
       content: 'space-y-6',
-      title: '',
-      subtitle: 'max-w-xl',
+      title: 'text-3xl md:text-4xl lg:text-5xl text-pretty',
+      subtitle: 'max-w-xl text-lg md:text-xl text-slate-600 dark:text-slate-300 text-pretty',
       media: 'w-full',
       actions: 'justify-start',
       supertitle: 'justify-start',
@@ -39,8 +39,8 @@ function getLayoutClasses(layout: string = 'center') {
     right: {
       container: 'text-left space-y-8 md:space-y-0 md:grid md:grid-cols-2 md:gap-16 md:items-center',
       content: 'space-y-6 md:order-2',
-      title: '',
-      subtitle: 'max-w-xl',
+      title: 'text-3xl md:text-4xl lg:text-5xl text-pretty',
+      subtitle: 'max-w-xl text-lg md:text-xl text-slate-600 dark:text-slate-300 text-pretty',
       media: 'w-full md:order-1',
       actions: 'justify-start',
       supertitle: 'justify-start',
@@ -48,8 +48,8 @@ function getLayoutClasses(layout: string = 'center') {
     justify: {
       container: 'text-left space-y-8',
       content: 'space-y-6 md:flex md:justify-between md:items-end md:gap-12',
-      title: '',
-      subtitle: 'max-w-md',
+      title: 'text-3xl md:text-4xl lg:text-5xl text-pretty',
+      subtitle: 'max-w-md text-lg md:text-xl text-slate-600 dark:text-slate-300 text-pretty',
       media: 'w-full',
       actions: 'justify-end',
       supertitle: 'justify-start',
@@ -92,10 +92,11 @@ function getOverlayClasses(position: string = 'bottomRight') {
         v-for="(item, i) in uc.items"
         :key="i"
         :class="getLayoutClasses(item.layout).container"
+        v-bind="item.layout === 'center' ? { style: { containerType: 'inline-size' } } : {}"
       >
         <!-- Content -->
         <div class="hero-content" :class="getLayoutClasses(item.layout).content">
-          <div class="space-y-4" :class="item.layout === 'justify' ? 'md:flex-1' : ''">
+          <div class="space-y-4 lg:space-y-6" :class="item.layout === 'justify' ? 'md:flex-1' : ''">
             <XSuperTitle
               :card
               :base-path="pathCheck(`items.${i}.superTitle`, schema)"
@@ -105,7 +106,7 @@ function getOverlayClasses(position: string = 'bottomRight') {
             <CardText
               tag="h1"
               :card
-              class="x-font-title font-semibold text-3xl md:text-4xl lg:text-5xl leading-tight text-pretty"
+              class="x-font-title leading-tight text-pretty"
               :class="getLayoutClasses(item.layout).title"
               :path="pathCheck(`items.${i}.title`, schema)"
               placeholder="Hero Title"
@@ -114,7 +115,7 @@ function getOverlayClasses(position: string = 'bottomRight') {
             <CardText
               tag="p"
               :card
-              class="text-lg md:text-xl text-slate-600 dark:text-slate-300 leading-relaxed text-balance"
+              class="leading-relaxed text-pretty"
               :class="getLayoutClasses(item.layout).subtitle"
               :path="pathCheck(`items.${i}.subTitle`, schema)"
               placeholder="Supporting description"

@@ -213,6 +213,12 @@ vue.onMounted(async () => {
         document.documentElement.style.setProperty(`--font-family-${stack}`, stackFonts)
       }
 
+      // Set font weight for title if available
+      const titleWeight = site.value?.fullConfig.value?.standard?.fonts?.title?.weight
+      if (titleWeight) {
+        document.documentElement.style.setProperty('--font-weight-title', titleWeight)
+      }
+
       // Update Google Fonts link
       const fontLink = document.getElementById('font-link') as HTMLLinkElement
       if (fontLink && fontsUrl) {
@@ -292,12 +298,14 @@ vue.onMounted(async () => {
 </style>
 
 <style lang="less">
+// =========================
+// Layout & Root Styles
+// =========================
 html,
 body,
 #app,
 .x-site,
-.x-engine{
-
+.x-engine {
   min-height: 100dvh;
   background-color: var(--color-theme-900, #000);
 }
@@ -306,38 +314,65 @@ html.dark,
 body.dark {
   color-scheme: dark;
 }
-// can't be on root do to variables
-.x-site{
+
+// =========================
+// Font Family & Weight Classes
+// =========================
+.x-site {
+  // --- Title Font ---
   .x-font-title {
     font-family: var(--font-family-title, 'system-ui'), 'system-ui', sans-serif;
+    font-weight: var(--font-weight-title, 500);
     letter-spacing: var(--font-letter-spacing-title, -.02em);
   }
+  // Utility font-weight overrides for title
+  .x-font-title.font-bold { font-weight: 700; }
+  .x-font-title.font-semibold { font-weight: 600; }
+  .x-font-title.font-medium { font-weight: 500; }
+  .x-font-title.font-normal { font-weight: 400; }
+  .x-font-title.font-light { font-weight: 300; }
+
+  // --- Body Font ---
+  .x-font-body {
+    font-family: var(--font-family-body, 'system-ui'), 'system-ui', sans-serif;
+    font-weight: var(--font-weight-body, 400);
+  }
+  // Utility font-weight overrides for body
+  .x-font-body.font-bold { font-weight: 700; }
+  .x-font-body.font-semibold { font-weight: 600; }
+  .x-font-body.font-medium { font-weight: 500; }
+  .x-font-body.font-normal { font-weight: 400; }
+  .x-font-body.font-light { font-weight: 300; }
+
+  // --- Entry Font ---
   .x-font-entry {
     font-family: var(--font-family-entry, 'system-ui'), 'system-ui', sans-serif;
   }
+
+  // --- Highlight Font ---
   .x-font-highlight {
     font-family: var(--font-family-highlight, 'system-ui'), 'system-ui', sans-serif;
   }
-  .x-font-body {
-    font-family: var(--font-family-body, 'system-ui'), 'system-ui', sans-serif;
-  }
+
+  // --- Input Font ---
   .x-font-input {
     font-family: var(--font-family-input, 'system-ui'), 'system-ui', sans-serif;
   }
+
+  // --- Mono Font ---
   .x-font-mono {
     font-family: var(--font-family-mono, 'monospace'), monospace;
   }
+
+  // --- Sans Font ---
   .x-font-sans {
     font-family: var(--font-family-sans, 'system-ui'), 'system-ui', sans-serif;
   }
-
 }
 
-iframe {
-  background-color: #030712 !important;
-  color-scheme: dark !important;
-}
-
+// =========================
+// Utility & Miscellaneous
+// =========================
 /* Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
