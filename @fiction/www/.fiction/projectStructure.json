@@ -51,6 +51,7 @@
         "SettingsPanelHeader.vue": null,
         "index.ts": null
       },
+      "tasks.ts": null,
       "test": {
         "__snapshots__": {
           "signin.uiux.test.ts.snap": null
@@ -294,11 +295,7 @@
         },
         "nav": {
           "ElCard.vue": null,
-          "NavMobile.vue": null,
-          "NavMobileItem.vue": null,
-          "NavMobilePanel.vue": null,
           "SubscribeButton.vue": null,
-          "__UserMenu.vue": null,
           "config.ts": null,
           "img": {
             "screen-dark.svg": null,
@@ -1166,16 +1163,12 @@
         }
       },
       "plugin-contact": {
-        "__email": {
-          "TransactionSubscribe.vue": null,
-          "TransactionUnsubscribe.vue": null,
-          "index.ts": null
-        },
         "admin": {
           "ChartSubs.vue": null,
           "ElAddContacts.vue": null,
           "ElAddContactsModal.vue": null,
           "ElSubscriberList.vue": null,
+          "ViewImportPanel.vue": null,
           "ViewIndex.vue": null,
           "ViewManage.vue": null,
           "ViewSingle.vue": null,
@@ -1247,9 +1240,6 @@
         "ReviewModal.vue": null,
         "ViewManage.vue": null,
         "ViewPreview.vue": null,
-        "__InputAudienceFilter.vue": null,
-        "__PostLoad.vue": null,
-        "__PostOverview.vue": null,
         "email": {
           "EmailPreview.vue": null,
           "InputAudience.vue": null,
@@ -1456,7 +1446,10 @@
         }
       },
       "index.ts": null,
-      "package.json": null
+      "package.json": null,
+      "prestige": {
+        "index.ts": null
+      }
     },
     "ui": {
       "ElBadge.vue": null,

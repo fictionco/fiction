@@ -20,7 +20,7 @@
     "metadata-scraper": "^0.2.61",
     "sql-formatter": "^15.6.5",
     "stacktrace-js": "^2.0.2",
-    "ua-parser-js": "^2.0.3"
+    "ua-parser-js": "^2.0.4"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "license": "MIT",

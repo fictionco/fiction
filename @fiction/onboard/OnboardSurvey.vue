@@ -6,6 +6,7 @@ import type { ProfileData } from './util'
 
 import ElSavingSignal from '@fiction/admin/el/ElSavingSignal.vue'
 import { deepMerge, pathCheck, setNested, useService, vue } from '@fiction/core'
+import { log } from '@fiction/core/plugin-log'
 import { getArchetypesStyles, getImageStyles } from '@fiction/core/schemas/motifs'
 import { AutosaveUtility } from '@fiction/core/utils/save'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
@@ -13,9 +14,12 @@ import ElInput from '@fiction/ui/inputs/ElInput.vue'
 import XProgress from '@fiction/ui/loaders/XProgress.vue'
 import XLogoType from '@fiction/ui/media/XLogoType.vue'
 import { localMedia } from '@fiction/ui/stock/localMedia'
+
 import { profileFromAccount, ProfileDataSchema as schema } from './util'
 
 const { card } = defineProps<{ card: Card }>()
+
+const logger = log.contextLogger('OnboardSurvey')
 
 const { fictionUser, fictionOnboard, fictionEnv } = useService<{ fictionUser: FictionUser, fictionOnboard: FictionOnboard }>()
 
@@ -164,11 +168,13 @@ async function performContentGeneration(args: StepActions<StepKey>) {
       }, 1000)
     }
     else {
-      resetOnboard({ message: 'There was a problem', data: r, stepActions: args, step: 'content' })
+      logger.error('performContentGeneration', { r })
+      resetOnboard({ message: 'There was an issue creating your content. Let\'s try again.', data: r, stepActions: args, step: 'content' })
     }
   }
   catch (error) {
-    resetOnboard({ message: 'An error occurred', data: error, stepActions: args })
+    logger.error('performContentGeneration', { error })
+    resetOnboard({ message: 'There was an issue creating your content. Let\'s try again.', data: error, stepActions: args })
   }
 }
 

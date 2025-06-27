@@ -1,6 +1,5 @@
 import { z } from 'zod/v4'
 import { colorThemeUser } from '../utils/colors.js'
-import { ActionAreaSchema } from './actions.js'
 import { MediaSchema } from './media.js'
 import { FontWeightsSchema } from './standard.js'
 

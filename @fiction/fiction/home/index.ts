@@ -20,7 +20,7 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
     priority: 50,
     userConfig: {
       standard: {
-        title: 'Your Professional Digital Self',
+        title: 'The Digital Self Platform',
         description: 'Create a polished online presence that opens doors. Website, content tools, and audience building in one platform.',
       },
     },
@@ -35,10 +35,10 @@ export async function getHomePage(args: { factory: CardFactory, stock: StockMedi
                 {
                   superTitle: {
                     theme: 'orange',
-                    text: 'Create a Personal Brand with AI',
+                    text: 'The Digital Self Platform',
                     icon: { class: 'i-tabler-user-circle' },
                   },
-                  title: `The [@text_effect type=line]Digital Self[/@text_effect] Platform.`,
+                  title: `Launch Your Personal Brand in [@text_effect type=line]3 Minutes[/@text_effect].`,
                   subTitle: `Create a professional personal brand that works 24/7. Showcase your expertise, capture leads, and build your audience while you sleep.`,
                   action: {
                     buttons: [

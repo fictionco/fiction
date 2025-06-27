@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '@fiction/site'
 import type { UserConfig } from './config'
-import { getNavComponentType, vue } from '@fiction/core'
+import { vue } from '@fiction/core'
 import { animateItemEnter, useElementVisible } from '@fiction/ui/anim'
 import XMedia from '@fiction/ui/media/XMedia.vue'
 import CardWrap from '../../CardWrap.vue'

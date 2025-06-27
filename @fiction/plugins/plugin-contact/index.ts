@@ -1,5 +1,4 @@
 import type { FictionAdmin } from '@fiction/admin'
-import type { dashTemplate } from '@fiction/admin/dashboard/templates'
 import type { FictionAnalytics } from '@fiction/analytics'
 import type { FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionServer, FictionUser, User } from '@fiction/core'
 
