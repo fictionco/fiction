@@ -481,9 +481,7 @@ async function passwordLogin() {
               </div>
               <div v-if="currentState.showTerms" class="text-xs px-4 text-pretty font-sans">
                 By continuing, you agree to the
-                <a class="underline hover:text-theme-600 dark:hover:text-theme-300" :href="termsUrl" target="_blank">Terms</a>
-                and
-                <a class="underline hover:text-theme-600 dark:hover:text-theme-300" :href="privacyUrl" target="_blank">Privacy Policy</a>
+                <a class="underline hover:text-theme-600 dark:hover:text-theme-300" :href="termsUrl" target="_blank">Terms</a>.
               </div>
             </div>
           </template>

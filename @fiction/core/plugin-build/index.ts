@@ -187,6 +187,7 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
         'path-browserify',
         '@shopify/draggable',
         '@tiptap/core',
+        '@tiptap/vue-3',
         'dayjs',
         'dayjs/plugin/timezone',
         'dayjs/plugin/utc',
