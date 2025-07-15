@@ -120,10 +120,11 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.35.0",
     "vitepress": "^1.6.3",
-    "vue-tsc": "2.2.8"
+    "vue-tsc": "^2.2.8"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "@tailwindcss/oxide",
       "bcrypt",
       "esbuild",
       "msw",

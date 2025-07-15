@@ -40,7 +40,7 @@ export const mockStripeSubscription: Stripe.Subscription = {
   object: 'subscription',
   application: null,
   application_fee_percent: null,
-
+  billing_mode: { type: 'classic' },
   automatic_tax: {
     enabled: false,
     liability: null,

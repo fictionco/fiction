@@ -138,7 +138,6 @@ function getOverlayClasses(position: string = 'bottomRight') {
           :card
           :classes="{ buttons: `flex gap-4 ${getLayoutClasses(item.layout).actions}` }"
           size="lg"
-          class="md:hidden"
         />
 
         <!-- Media -->
@@ -179,15 +178,6 @@ function getOverlayClasses(position: string = 'bottomRight') {
             </div>
           </div>
         </div>
-
-        <!-- Actions for non-justify layouts on desktop -->
-        <CardActionArea
-          v-if="item.layout !== 'justify'"
-          :base-path="pathCheck(`items.${i}.action`, schema)"
-          :card
-          :classes="{ buttons: `hidden md:flex gap-4 ${getLayoutClasses(item.layout).actions}` }"
-          size="lg"
-        />
       </div>
     </div>
   </CardWrap>

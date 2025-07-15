@@ -3,7 +3,6 @@ import type { vue } from '@fiction/core/utils'
 
 export * from '@fiction/cards'
 export * from '@fiction/core'
-export * from '@fiction/site'
 export * from '@fiction/ui'
 
 export interface CreateSiteSettings {
