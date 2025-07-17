@@ -3,10 +3,10 @@
     "@fiction/core": "workspace:*",
     "@stripe/stripe-js": "^7.4.0",
     "express": "^4.21.2",
-    "stripe": "^18.2.1"
+    "stripe": "^18.3.0"
   },
   "devDependencies": {
-    "dotenv": "^16.6.0"
+    "dotenv": "^16.6.1"
   },
   "license": "MIT",
   "main": "index.ts",

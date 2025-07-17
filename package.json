@@ -10,7 +10,7 @@
     "access": "restricted"
   },
   "engines": {
-    "node": ">=23.6.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "render": "npm exec -- fiction run render",
@@ -74,7 +74,6 @@
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@fiction/www": "workspace:*",
-    "@google-cloud/vision": "^5.2.0",
     "@vitejs/plugin-vue": "^5.2.4",
     "@vitest/browser": "^3.2.4",
     "axios": "^1.10.0",
@@ -83,7 +82,7 @@
     "conventional-changelog-cli": "^5.0.0",
     "cross-env": "^7.0.3",
     "deepmerge": "^4.3.1",
-    "dotenv": "^16.6.0",
+    "dotenv": "^16.6.1",
     "execa": "^9.6.0",
     "fake-indexeddb": "^6.0.1",
     "fs-extra": "^11.3.0",
@@ -98,29 +97,29 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.16.1",
+    "@antfu/eslint-config": "^4.17.0",
     "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.29.0",
-    "@playwright/test": "^1.53.1",
+    "@eslint/js": "^9.31.0",
+    "@playwright/test": "^1.54.1",
     "@types/express": "^5.0.3",
-    "@types/node": "^22.15.33",
+    "@types/node": "^22.16.4",
     "@vitest/coverage-istanbul": "^3.2.4",
     "@vue/test-utils": "^2.4.6",
-    "eslint": "^9.29.0",
+    "eslint": "^9.31.0",
     "happy-dom": "^17.6.3",
     "jsdom": "^26.1.0",
     "ngrok": "5.0.0-beta.2",
     "nodemon": "^3.1.10",
     "npm-package-json-lint": "^8.0.0",
-    "playwright": "^1.53.1",
+    "playwright": "^1.54.1",
     "prettier": "^3.6.2",
-    "sharp": "^0.34.2",
+    "sharp": "^0.34.3",
     "simple-git-hooks": "^2.13.0",
     "tslib": "^2.8.1",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.35.0",
+    "typescript-eslint": "^8.37.0",
     "vitepress": "^1.6.3",
-    "vue-tsc": "^2.2.8"
+    "vue-tsc": "^3.0.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

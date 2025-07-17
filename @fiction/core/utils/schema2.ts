@@ -21,9 +21,9 @@ export class SchemaUtility {
   processSchemas<T extends readonly SchemaItem[]>(
     schemas: T,
   ): {
-      combinedSchema: CombinedSchemaType<T>
-      aiDotPaths: Record<string, ZodType>
-    } {
+    combinedSchema: CombinedSchemaType<T>
+    aiDotPaths: Record<string, ZodType>
+  } {
     const combinedShape: Record<string, ZodType> = {}
     const aiDotPaths: Record<string, ZodType> = {}
 
@@ -99,9 +99,9 @@ export class SchemaUtility {
 export function processSchemas<T extends readonly SchemaItem[]>(
   schemas: T,
 ): {
-    combinedSchema: CombinedSchemaType<T>
-    aiDotPaths: Record<string, ZodType>
-  } {
+  combinedSchema: CombinedSchemaType<T>
+  aiDotPaths: Record<string, ZodType>
+} {
   const utility = new SchemaUtility()
   return utility.processSchemas(schemas)
 }

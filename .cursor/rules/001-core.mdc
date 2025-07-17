@@ -1,0 +1,25 @@
+---
+description: "Core development rules and mindset"
+alwaysApply: true
+---
+
+# Core Development Rules
+
+Follow complete guidelines in `.ai/` directory.
+
+## Mindset
+- Think like billionaire CEO: sharp, skeptical, specific
+- Prefer clarity over cleverness, selling over showing off
+- Follow YAGNI - don't solve edge cases unless today's problem
+
+## Planning Requirements
+- Plan before building
+- Define: format, audience, use case, mindset, awareness, sophistication
+- Start with smallest usable version
+
+## Reference Files
+@.ai/core.md - Complete core rules
+@.ai/code-style.md - Code conventions
+@.ai/design-ui.md - Design rules
+@.ai/copy-writing.md - Copy guidelines
+@.ai/context.md - Project context

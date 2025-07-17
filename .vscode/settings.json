@@ -18,7 +18,6 @@
     "**/*.test.*",
     ".eslintcache"
   ],
-
   // Auto fix
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
@@ -94,7 +93,9 @@
     "**/dist/*": true,
     "**/dist/**/*": true
   },
-  "files.associations": {},
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
   "[makefile]": {
     "editor.insertSpaces": false,
     "editor.detectIndentation": false

@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import type { Omit, Record } from '@sinclair/typebox'
 import chalk from 'chalk'
 import dayjs from 'dayjs'
 /**

@@ -8,7 +8,7 @@
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@types/mapbox-gl": "^3.4.1",
-    "@vueuse/core": "^13.4.0",
+    "@vueuse/core": "^13.5.0",
     "mapbox-gl": "^3.13.0"
   },
   "devDependencies": {
