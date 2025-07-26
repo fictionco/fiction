@@ -76,6 +76,9 @@ Secondary headlines can use emotional hooks and pain points to create resonance:
 - Example: Your expertise, packaged. Your content, automated. Your inbound, solved.
 
 ### Headline Hierarchy
+
 1. **Primary (H1)**: Always specific product description + concrete outcome
 2. **Secondary (H2)**: Emotional hooks, transformations, pain points
 3. **Tertiary (H3)**: Feature benefits, social proof, specific results
+
+Consider the hero's journey in the copy.

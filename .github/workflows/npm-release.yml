@@ -1,0 +1,60 @@
+name: NPM Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version type
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  CI: true
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+jobs:
+  release:
+    name: Release to NPM
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23.5.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run unit tests
+        run: npm exec -- vitest run unit -u
+
+      - name: Release
+        run: npm exec -- fiction run release --${{ github.event.inputs.version }} --with-changes
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -47,6 +47,14 @@ export function useSSRData<T = any, S = any>(options: {
   const hasInitialized = vue.ref(false)
   const previousKey = vue.ref(keyRef.value)
 
+  // Check for SSR data synchronously on initialization
+  if (typeof window !== 'undefined') {
+    const currentKey = keyRef.value
+    if (window.__INITIAL_STATE__?.[currentKey] !== undefined) {
+      hasInitialized.value = true
+    }
+  }
+
   // Check for server-rendered data
   const getInitialData = async (): Promise<T | undefined> => {
     let initialData: any = undefined

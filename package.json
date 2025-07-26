@@ -98,6 +98,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.17.0",
+    "@biomejs/biome": "2.1.2",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.31.0",
     "@playwright/test": "^1.54.1",
