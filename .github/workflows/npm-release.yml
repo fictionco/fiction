@@ -1,6 +1,9 @@
 name: NPM Release
 
 on:
+  push:
+    branches:
+      - dev
   workflow_dispatch:
     inputs:
       version:
@@ -21,11 +24,13 @@ env:
   CI: true
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  SHOULD_RELEASE: ${{ contains(github.event.head_commit.message, '-r') }}
 
 jobs:
   release:
     name: Release to NPM
     runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '-r')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,6 +60,9 @@ jobs:
         run: npm exec -- vitest run unit -u
 
       - name: Release
-        run: npm exec -- fiction run release --${{ github.event.inputs.version }} --with-changes
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            npm exec -- fiction run release --${{ github.event.inputs.version }} --with-changes
+          else
+            npm exec -- fiction run release --patch --with-changes
+          fi
