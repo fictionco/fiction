@@ -1684,7 +1684,6 @@
           "ProseEditorToolbar.vue": null,
           "el": {
             "BubbleLinkMenu.vue": null,
-            "BubbleMenuEngine.vue": null,
             "ButtonMenu.vue": null,
             "menu.ts": null
           },
