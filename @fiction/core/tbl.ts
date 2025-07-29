@@ -52,5 +52,5 @@ export function createTableSchema<T extends readonly Col<any, any>[]>(cols: T) {
   const schema = z.object({ ...shape, createdAt: z.string().optional(), updatedAt: z.string().optional() }).partial()
 
   // Return the schema but with proper type inference
-  return schema as z.ZodType<ColType<T>>
+  return schema as unknown as z.ZodType<ColType<T>>
 }

@@ -67,7 +67,22 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
       this.log.error(`error parsing server-only module ${id}`, { error })
     }
 
-    const modExports = fileExports.filter(_ => _ !== 'default' && !namedExports[_])
+    // Filter out invalid export names and those already in namedExports
+    const modExports = fileExports.filter((_) => {
+      // Skip default export
+      if (_ === 'default')
+        return false
+
+      // Skip if already in namedExports
+      if (namedExports[_])
+        return false
+
+      // Skip invalid JavaScript identifiers (like module.exports)
+      if (!/^[a-z_$][\w$]*$/i.test(_))
+        return false
+
+      return true
+    })
 
     const mock = `{}`
 
@@ -75,8 +90,13 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
 
     // construct exports from object
     const additional = Object.entries(namedExports).map(([imp, importValue]) => {
+      // Also validate custom named exports
+      if (!/^[a-z_$][\w$]*$/i.test(imp)) {
+        this.log.warn(`Skipping invalid export name: ${imp}`)
+        return ''
+      }
       return `export const ${imp} = ${importValue}`
-    })
+    }).filter(Boolean)
 
     moduleNamedExports.push(...additional)
 
@@ -227,7 +247,6 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
         '@tiptap/starter-kit',
         '@tiptap/suggestion',
         'tiptap-extension-auto-joiner',
-        'tiptap-markdown',
       ],
     }
   }

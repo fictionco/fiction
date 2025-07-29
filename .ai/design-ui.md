@@ -26,7 +26,6 @@
   - Use media to support content, not to distract
 - Keep images, media and figures proportional to their emphasis. Often a popup can be called rather than video shown inline.
 
-
 ## Conversion & Sales Psychology Principles
 
 - Clarity and specificity: Don't write to impress or amuse — write to sell.

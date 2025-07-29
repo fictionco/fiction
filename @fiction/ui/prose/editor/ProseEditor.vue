@@ -71,8 +71,6 @@ defineExpose({ editorEl })
         <ElSpinner class="h-12 w-12" />
       </div>
       <template v-else>
-        <!-- <BubbleMenuEngine :editor="editor" /> -->
-
         <EditorContent
           class=" focus:outline-none"
           :editor="editorEl"

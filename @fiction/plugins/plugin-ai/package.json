@@ -2,9 +2,9 @@
   "dependencies": {
     "@ai-sdk/anthropic": "^1.2.12",
     "@ai-sdk/openai": "^1.3.23",
-    "@ai-sdk/xai": "^1.2.17",
+    "@ai-sdk/xai": "^1.2.18",
     "@fiction/core": "workspace:*",
-    "@pinecone-database/pinecone": "^6.1.1",
+    "@pinecone-database/pinecone": "^6.1.2",
     "ai": "^4.3.19",
     "openai": "^4.104.0"
   },

@@ -1,22 +1,22 @@
-  type BrowserEventMap = {
-    load: Event
-    mousemove: MouseEvent
-    mousedown: MouseEvent
-    touchstart: TouchEvent
-    click: MouseEvent
-    keypress: KeyboardEvent
-    keydown: KeyboardEvent
-    keyup: KeyboardEvent
-    scroll: Event
-    init: Event // Note: 'init' is not a standard DOM event, so using Event as a fallback
-    blur: FocusEvent
-    focus: FocusEvent
-    pagehide: PageTransitionEvent
-    beforeunload: BeforeUnloadEvent
-    visibilitychange: Event
-    dragstart: DragEvent
-    error: ErrorEvent
-  }
+type BrowserEventMap = {
+  load: Event
+  mousemove: MouseEvent
+  mousedown: MouseEvent
+  touchstart: TouchEvent
+  click: MouseEvent
+  keypress: KeyboardEvent
+  keydown: KeyboardEvent
+  keyup: KeyboardEvent
+  scroll: Event
+  init: Event // Note: 'init' is not a standard DOM event, so using Event as a fallback
+  blur: FocusEvent
+  focus: FocusEvent
+  pagehide: PageTransitionEvent
+  beforeunload: BeforeUnloadEvent
+  visibilitychange: Event
+  dragstart: DragEvent
+  error: ErrorEvent
+}
 
 export type BrowserEvent = keyof BrowserEventMap
 

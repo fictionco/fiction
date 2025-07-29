@@ -1845,9 +1845,6 @@
     "static.Dockerfile": null,
     "supereon.www.toml": null
   },
-  "icon-blue.png": null,
-  "icon-elite.png": null,
-  "icon-red.png": null,
   "index.ts": null,
   "package.json": null,
   "pnpm-lock.yaml": null,
@@ -1864,6 +1861,5 @@
   },
   "supereon.png": null,
   "tsconfig.json": null,
-  "tsconfig.vue-tsc.json": null,
   "vitest.config.ts": null
 }

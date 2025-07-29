@@ -1,4 +1,3 @@
-
 # Primary Headline Swipe - Specific product description + concrete outcome
 - Your website, newsletter, and authority — built in 2.5 minutes
 

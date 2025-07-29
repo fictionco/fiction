@@ -6,15 +6,14 @@
   "license": "MIT",
   "main": "index.ts",
   "dependencies": {
-    "@amplitude/analytics-browser": "^2.18.2",
-    "@amplitude/plugin-session-replay-browser": "^1.20.1",
+    "@amplitude/analytics-browser": "^2.20.1",
+    "@amplitude/plugin-session-replay-browser": "^1.21.1",
     "@fiction/core": "workspace:*",
-    "@sentry/browser": "^9.38.0",
-    "@sentry/node": "^9.38.0",
-    "@sentry/vue": "^9.38.0",
+    "@sentry/browser": "^9.42.1",
+    "@sentry/node": "^9.42.1",
+    "@sentry/vue": "^9.42.1",
     "@slack/webhook": "^7.0.5",
-    "@types/mixpanel-browser": "^2.60.0",
-    "mixpanel-browser": "^2.66.0"
+    "mixpanel-browser": "^2.67.0"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "publishConfig": {

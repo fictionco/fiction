@@ -41,9 +41,9 @@ type AdminEditorControllerSettings = {
   tools: readonly EditorTool<any, any>[]
 }
 
- type CardSurface = {
-   toolIds: string
- }
+type CardSurface = {
+  toolIds: string
+}
 
 // Utility type to merge two types
 type MergeTypes<T, U> = T & Omit<U, keyof T>
