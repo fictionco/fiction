@@ -1,14 +1,10 @@
 {
   "dependencies": {
-    "@fiction/cards": "workspace:*",
     "@fiction/core": "workspace:*",
-    "@fiction/site": "workspace:*",
-    "@fiction/admin": "workspace:*",
-    "@fiction/theme-fiction": "workspace:*",
     "@fiction/ui": "workspace:*"
   },
   "license": "MIT",
-  "main": "src/index.ts",
+  "main": "index.ts",
   "name": "@fiction/platform",
   "publishConfig": {
     "access": "public"

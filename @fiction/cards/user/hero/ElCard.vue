@@ -30,7 +30,7 @@ function getLayoutClasses(layout: string = 'center') {
     left: {
       container: 'text-left space-y-8 md:space-y-0 md:grid md:grid-cols-2 md:gap-16 md:items-center',
       content: 'space-y-6',
-      title: 'text-3xl md:text-4xl lg:text-5xl text-pretty',
+      title: 'text-3xl md:text-5xl lg:text-5xl text-pretty',
       subtitle: 'max-w-xl text-lg md:text-xl text-slate-600 dark:text-slate-300 text-pretty',
       media: 'w-full',
       actions: 'justify-start',
@@ -39,7 +39,7 @@ function getLayoutClasses(layout: string = 'center') {
     right: {
       container: 'text-left space-y-8 md:space-y-0 md:grid md:grid-cols-2 md:gap-16 md:items-center',
       content: 'space-y-6 md:order-2',
-      title: 'text-3xl md:text-4xl lg:text-5xl text-pretty',
+      title: 'text-3xl md:text-5xl lg:text-5xl text-pretty',
       subtitle: 'max-w-xl text-lg md:text-xl text-slate-600 dark:text-slate-300 text-pretty',
       media: 'w-full md:order-1',
       actions: 'justify-start',
@@ -48,7 +48,7 @@ function getLayoutClasses(layout: string = 'center') {
     justify: {
       container: 'text-left space-y-8',
       content: 'space-y-6 md:flex md:justify-between md:items-end md:gap-12',
-      title: 'text-3xl md:text-4xl lg:text-5xl text-pretty',
+      title: 'text-3xl md:text-5xl lg:text-5xl text-pretty',
       subtitle: 'max-w-md text-lg md:text-xl text-slate-600 dark:text-slate-300 text-pretty',
       media: 'w-full',
       actions: 'justify-end',
@@ -106,7 +106,7 @@ function getOverlayClasses(position: string = 'bottomRight') {
             <CardText
               tag="h1"
               :card
-              class="x-font-title leading-tight text-pretty"
+              class="x-font-title leading-tight text-pretty font-semibold"
               :class="getLayoutClasses(item.layout).title"
               :path="pathCheck(`items.${i}.title`, schema)"
               placeholder="Hero Title"
