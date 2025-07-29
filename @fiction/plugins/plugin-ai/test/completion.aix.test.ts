@@ -67,7 +67,17 @@ describe('ai completions', async () => {
 
     expect(Object.keys(completion?.images?.[0] || {}).sort()).toStrictEqual(['url'])
 
-    expect(r4.data?.completion).toMatchInlineSnapshot()
+    expect(r4.data?.completion).toMatchInlineSnapshot(`
+      {
+        "images": [
+          {
+            "url": "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1752&q=80",
+          },
+        ],
+        "subTitle": "A well-designed homepage serves as your digital storefront, creating memorable first impressions while driving engagement, conversions, and brand loyalty.",
+        "title": "Discover the Advantages of a Powerful Homepage",
+      }
+    `)
   }, 90000)
 
   it('gets a autocomplete completion', async () => {
@@ -89,7 +99,7 @@ describe('ai completions', async () => {
 
     expect(r4.data?.completion).toMatchInlineSnapshot(`
       {
-        "suggestion1": "we were battling hurricane-force winds, the next we found ourselves in the eerie calm of the eye.",
+        "suggestion1": "Write about 5 effective time management strategies for busy professionals, including techniques like the Pomodoro method, time blocking, and task prioritization.",
       }
     `)
 
