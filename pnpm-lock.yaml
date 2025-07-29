@@ -782,21 +782,9 @@ importers:
 
   '@fiction/platform':
     dependencies:
-      '@fiction/admin':
-        specifier: workspace:*
-        version: link:../admin
-      '@fiction/cards':
-        specifier: workspace:*
-        version: link:../cards
       '@fiction/core':
         specifier: workspace:*
         version: link:../core
-      '@fiction/site':
-        specifier: workspace:*
-        version: link:../site
-      '@fiction/theme-fiction':
-        specifier: workspace:*
-        version: link:../fiction
       '@fiction/ui':
         specifier: workspace:*
         version: link:../ui
@@ -1170,7 +1158,7 @@ importers:
         version: 5.0.0
       lucide-vue-next:
         specifier: latest
-        version: 0.525.0(vue@3.5.17(typescript@5.8.3))
+        version: 0.533.0(vue@3.5.17(typescript@5.8.3))
       monaco-editor:
         specifier: ^0.52.2
         version: 0.52.2
@@ -3193,6 +3181,7 @@ packages:
   '@smithy/middleware-endpoint@4.1.14':
     resolution: {integrity: sha512-+BGLpK5D93gCcSEceaaYhUD/+OCGXM1IDaq/jKUQ+ujB0PTWlWN85noodKw/IPFZhIKFCNEe19PGd/reUMeLSQ==}
     engines: {node: '>=18.0.0'}
+    deprecated: Please upgrade to @smithy/middleware-endpoint@4.1.15 or higher to fix a bug preventing the resolution of ENV and config file custom endpoints https://github.com/smithy-lang/smithy-typescript/issues/1645
 
   '@smithy/middleware-retry@4.1.15':
     resolution: {integrity: sha512-iKYUJpiyTQ33U2KlOZeUb0GwtzWR3C0soYcKuCnTmJrvt6XwTPQZhMfsjJZNw7PpQ3TU4Ati1qLSrkSJxnnSMQ==}
@@ -6804,8 +6793,8 @@ packages:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
 
-  lucide-vue-next@0.525.0:
-    resolution: {integrity: sha512-Xf8+x8B2DrnGDV/rxylS+KBp2FIe6ljwDn2JsGTZZvXIfhmm/q+nv8RuGO1OyoMjOVkkz7CqtUqJfwtFPRbB2w==}
+  lucide-vue-next@0.533.0:
+    resolution: {integrity: sha512-1wkoSaEdRTscIc3rwNool7VRDd8DWpE4863rpOx1hVDZ7y3avTYZeIbMPWxNvKA2kaMnSpeAHXa5xcC/rXZBag==}
     peerDependencies:
       vue: '>=3.0.1'
 
@@ -15970,7 +15959,7 @@ snapshots:
     dependencies:
       yallist: 4.0.0
 
-  lucide-vue-next@0.525.0(vue@3.5.17(typescript@5.8.3)):
+  lucide-vue-next@0.533.0(vue@3.5.17(typescript@5.8.3)):
     dependencies:
       vue: 3.5.17(typescript@5.8.3)
 
