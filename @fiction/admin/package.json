@@ -9,7 +9,7 @@
     "@fiction/ui": "workspace:*",
     "@types/mapbox-gl": "^3.4.1",
     "@vueuse/core": "^13.6.0",
-    "mapbox-gl": "^3.13.0"
+    "mapbox-gl": "^3.14.0"
   },
   "devDependencies": {
     "zod-to-json-schema": "^3.24.6"

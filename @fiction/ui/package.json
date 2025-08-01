@@ -46,7 +46,7 @@
     "tailwindcss": "^4.1.11",
     "tippy.js": "^6.3.7",
     "tiptap-extension-auto-joiner": "^0.1.3",
-    "zod": "^4.0.13",
+    "zod": "^4.0.14",
     "zod-to-json-schema": "^3.24.6"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",

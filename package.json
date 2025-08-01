@@ -115,9 +115,9 @@
     "playwright": "^1.54.1",
     "prettier": "^3.6.2",
     "sharp": "^0.34.3",
-    "simple-git-hooks": "^2.13.0",
+    "simple-git-hooks": "^2.13.1",
     "tslib": "^2.8.1",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.2",
     "typescript-eslint": "^8.38.0",
     "vitepress": "^1.6.3",
     "vue-tsc": "^3.0.4"

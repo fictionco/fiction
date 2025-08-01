@@ -15,7 +15,7 @@
     "@fiction/theme-fiction": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@types/mapbox-gl": "^3.4.1",
-    "mapbox-gl": "^3.13.0"
+    "mapbox-gl": "^3.14.0"
   },
   "devDependencies": {
     "dotenv": "^16.6.1"
