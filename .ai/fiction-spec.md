@@ -1,35 +1,26 @@
 # Fiction Platform (https://www.fiction.com)
 
-# Fiction MVP Definition
+## The Billion-Dollar Problem
+Every expert loses 1,000 conversations they could've monetized. Your knowledge dies with your calendar.
 
-## What Fiction Is
-A platform that builds your professional website by analyzing your existing online presence - no forms, no setup, just results.
+## What Fiction Does
+Clone your expertise into an AI that sells while you sleep. Not a chatbot—a revenue-generating digital twin.
 
-## How It Works (3 Steps)
-1. **Connect** - Link your LinkedIn/Twitter/existing content
-2. **Generate** - AI creates a complete professional website showcasing your expertise
-3. **Publish** - Your site goes live with one click
+## The 3-Minute Setup
+1. **Connect LinkedIn/portfolio** (30 seconds)
+2. **AI maps your expertise DNA** (2 minutes)
+3. **Deploy your digital twin** (30 seconds)
 
-## MVP Features (Ship These Only)
+### Your AI Agent Delivers
+1. **Authority** - Mirrors your exact expertise and communication style
+2. **Proof** - Showcases your best work automatically
+3. **Conversion** - Qualifies leads and books calls 24/7
+4. **Scale** - Handle 1,000 conversations simultaneously
 
-### Core Loop
-- **Input**: Social profile URL (LinkedIn primary)
-- **Process**: Extract expertise signals from profile + posts
-- **Output**: Live website at fiction.com/[username]
+## Why This Prints Money
 
-### Website Components
-1. **Hero** - Name, title, one-line value prop (auto-generated)
-2. **Expertise** - 3-5 key areas pulled from profile
-3. **Proof** - Recent posts/articles as portfolio
-4. **Contact** - Simple email capture
+**The Hook**: "Your Digital Self: Scale your expertise without scaling your time."
 
-## What Makes This Sellable
+**The Physics**: Your expertise × Infinite availability = Exponential revenue
 
-**The Hook**: "See your professional website in 60 seconds"
-
-**The Demo**:
-1. User enters LinkedIn URL
-2. Live preview generates while they watch
-3. One-click publish
-
-**The Aha**: Their messy social presence becomes a clean professional site instantly
+**The Moat**: First platform where experts become products, not service providers.

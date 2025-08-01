@@ -89,6 +89,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Configure NPM Auth
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
       - name: Run Docker Compose (DB)
         run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
 
