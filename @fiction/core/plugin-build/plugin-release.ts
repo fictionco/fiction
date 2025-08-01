@@ -278,12 +278,12 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
      * CREATE RELEASE BRANCH AND COMMIT CHANGES
      */
     const releaseBranch = `release/v${targetVersion}`
-    
+
     this.log.info(`ensuring dev branch is up to date`)
     await this.commit('git', ['fetch', 'origin', 'dev'])
     await this.commit('git', ['checkout', 'dev'])
     await this.commit('git', ['pull', 'origin', 'dev'])
-    
+
     this.log.info(`creating release branch: ${releaseBranch}`)
     await this.commit('git', ['checkout', '-b', releaseBranch])
 
@@ -300,7 +300,7 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     /**
      * TAG AND PUSH RELEASE BRANCH TO REPO
      */
-    this.log.info(`\nChecking git remote configuration...`)
+    this.log.info(`\nChecking git remote config...`)
     await this.commit('git', ['remote', '-v'])
 
     this.log.info(`\nTagging git release`)
@@ -314,7 +314,7 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
       `refs/tags/v${targetVersion}`,
     ])
     await this.commit('git', ['push', '--no-verify', '--set-upstream', 'origin', releaseBranch])
-    
+
     this.log.info(`\nSwitching back to dev branch`)
     await this.commit('git', ['checkout', 'dev'])
     /**
