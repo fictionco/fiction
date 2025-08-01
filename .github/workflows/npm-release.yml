@@ -89,9 +89,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Configure NPM Auth
+      - name: Verify NPM Authentication
         run: |
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          echo "Checking NPM authentication..."
+          npm whoami
+          echo "Checking access to @fiction scope..."
+          npm access list packages @fiction/core || echo "Note: If this fails, the token may not have access to this package"
+          echo "NPM authentication check completed"
 
       - name: Run Docker Compose (DB)
         run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
