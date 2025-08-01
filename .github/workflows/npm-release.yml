@@ -98,6 +98,8 @@ jobs:
           echo "Checking access to @fiction scope..."
           NPM_TOKEN=${{ secrets.NPM_TOKEN }} npm access list packages @fiction/core || echo "Note: If this fails, the token may not have access to this package"
           echo "NPM authentication check completed"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Run Docker Compose (DB)
         run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
