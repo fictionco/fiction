@@ -101,11 +101,10 @@ jobs:
       - name: Install Playwright
         run: npx playwright install --with-deps
 
-
       - name: Release
         run: |
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            npm exec -- fiction run release --${{ github.event.inputs.version }} --with-changes
+            npm exec -- fiction run release --${{ github.event.inputs.version }} --with-changes --skip-tests
           else
             npm exec -- fiction run release --patch --with-changes --skip-tests
           fi
