@@ -1,7 +1,7 @@
 {
   "name": "@fiction/plugin-monitor",
   "type": "module",
-  "version": "6.0.35",
+  "version": "6.0.36",
   "author": "Fiction",
   "license": "MIT",
   "main": "index.ts",
