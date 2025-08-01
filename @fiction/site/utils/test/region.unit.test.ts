@@ -94,8 +94,10 @@ describe('addNewCard', async () => {
         "example",
         "_p",
         "_archive",
+        "_manage",
         "p",
         "archive",
+        "m",
         "_404",
       ]
     `)

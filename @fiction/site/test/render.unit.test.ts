@@ -49,6 +49,7 @@ describe('siteRendering Tests', async () => {
         "home",
         "_p",
         "_archive",
+        "_manage",
       ]
     `)
 

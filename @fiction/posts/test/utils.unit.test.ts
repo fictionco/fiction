@@ -23,6 +23,7 @@ describe('post utils', async () => {
 
     expect(snap(post?.toConfig())).toMatchInlineSnapshot(`
       {
+        "action": {},
         "archiveAt": "null",
         "audience": "all",
         "audienceFilters": [],
@@ -66,6 +67,7 @@ describe('post utils', async () => {
         "updatedAt": "[datetime:TRUTHY]",
         "userConfig": {},
         "userId": "[id:TRUTHY]",
+        "viewCount": "0",
         "visibility": "public",
         "wordCount": "3",
       }

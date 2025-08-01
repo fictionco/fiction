@@ -80,6 +80,7 @@ describe('cardTemplate', async () => {
         "cardTextEffectV1",
         "card404ErrorV1",
         "cardTransactionViewV1",
+        "cardManageContactV1",
         "testWrap",
         "testBlog",
       ]

@@ -123,217 +123,332 @@ describe('transactional email', async () => {
       expect(result.data?.html).toMatchInlineSnapshot(`
         "<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
         <html xmlns="http://www.w3.org/1999/xhtml"  lang="en" dir="ltr"><head>
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Test Space (test email 👀)</title>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8">
-        <meta name="description" content="Voyage to Space 🚀 -- This is to test formatting of various elements.🧪">
-        <meta name="color-scheme" content="light dark">
-        <meta name="supported-color-schemes" content="light dark">
         <style>
-               /* Base typography */
-                body { line-height: 1.6; font-size: 18px; }
+              /* Reset & Base */
+              * { margin: 0; padding: 0; box-sizing: border-box; }
+              body, table, td { border-collapse: collapse; }
+              img { border: 0; outline: none; text-decoration: none; max-width: 100%; height: auto; }
 
-                p, ul, ol, dl {
-                margin-top: 1.5em;
-                margin-bottom: 1.5em;
-                }
+              /* Tufte-style Typography Hierarchy */
+              .title {
+                font-size: 24px;
+                line-height: 1.2;
+                font-weight: normal;
+                margin: 0 0 8px;
+                letter-spacing: -0.02em;
+              }
 
-
-
-                figure,  pre, table, .x-button-container {
-                 margin-top: 2em;
-                 margin-bottom: 2em;
-                }
-
-                p, ul, ol, dl, blockquote, pre, table {
+              .subtitle {
                 font-size: 18px;
-                }
+                line-height: 1.5;
+                font-weight: normal;
+                margin: 0 0 48px;
+                color: #646E82;
+              }
 
-                /* Headers */
-                h1, h2, h3, h4, h5, h6 {
-                margin: 1.5em 0 0.75em;
-                line-height: 1.3;
-                }
-                h1 { font-size: 36px; }
-                h2 { font-size: 27px; }
-                h3 { font-size: 22px; }
-                h4 { font-size: 20px; }
-                h5 { font-size: 18px; }
-                h6 { font-size: 18px; }
-
-                /* Lists and definition terms */
-                ul, ol, dl {
-                padding-left: 1.5em;
+              /* Content Prose - Typography */
+              .prose p { margin: 24px 0; }
+              .prose h1 {
+                font-size: 32px;
+                font-weight: normal;
+                margin: 56px 0 24px;
+                line-height: 1.2;
+                letter-spacing: -0.02em;
+              }
+              .prose h2 {
+                font-size: 24px;
+                font-weight: normal;
+                margin: 48px 0 24px;
+                line-height: 1.2;
+                letter-spacing: -0.02em;
+              }
+              .prose h3 {
                 font-size: 18px;
-                }
-                ul {list-style-type: disc;}
-                ol {list-style-type: decimal;}
-                li { margin: 0.5em 0; }
-                li p { margin: 0; }
-                dt {
                 font-weight: 600;
-                margin-top: 1em;
-                }
-                dd { margin-left: 1.5em; }
+                margin: 40px 0 16px;
+                letter-spacing: -0.02em;
+              }
+              .prose h4 {
+                font-size: 16px;
+                font-weight: 600;
+                margin: 32px 0 16px;
+              }
+              .prose h5 {
+                font-size: 14px;
+                font-weight: 600;
+                margin: 32px 0 16px;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+              }
+              .prose h6 {
+                font-size: 14px;
+                font-weight: normal;
+                margin: 24px 0 16px;
+                color: #646E82;
+                font-style: italic;
+              }
 
+              /* Text formatting */
+              .prose strong { font-weight: 600; }
+              .prose em { font-style: italic; }
+              .prose mark {
+                background: #fef08a;
+                padding: 4px 8px;
+                border-radius: 3px;
+              }
+              .prose del {
+                text-decoration: line-through;
+                color: #646E82;
+              }
+              .prose sup, .prose sub {
+                font-size: 11px;
+                line-height: 0;
+                position: relative;
+                vertical-align: baseline;
+              }
+              .prose sup { top: -0.5em; }
+              .prose sub { bottom: -0.25em; }
 
-
-                blockquote {
-
-                  margin-left: 1em;
-                  padding-left: 1.5em;
-                  font-style: italic;
-                  border-left: 3px solid #b3b9c5;
-                }
-
-                blockquote p, blockquote{
-                  line-height: 1.5;
-                  font-size: 20px;
-                }
-
-                blockquote p {
-                  margin: 1em 0;
-                }
-                blockquote p:first-child {
-                  margin-top: 0;
-                }
-                blockquote p:last-child {
-                  margin-bottom: 0;
-                }
-
-                pre{
-                  padding: 1em;
-                  background-color: #e6e9f1;
-                  border-radius: 0.5em;
-                  overflow-x: auto;
-                  font-size:16px;
-                }
-                pre code {
-                  background-color: transparent;
-                  padding: 0;
-                  border-radius: 0;
-                }
-
-                code {
-                  background-color: #e6e9f1;
-                  padding: 0.1em 0.3em;
-                  border-radius: 0.3em;
-                  font-size:16px;
-                }
-
-                .prose-content table {
-                  width: 100%;
-                  border-collapse: collapse;
-                  margin: 1.5em 0;
-                }
-                .prose-content tbody tr:nth-child(odd) {
-                  background-color: rgba(0,0,0,.05);
-                }
-                .prose-content table td {
-                  vertical-align: top;
-                  text-align: center;
-                }
-
-                /* Images and figures */
-                img {
-                  max-width: 100%;
-                  height: auto;
-                  border-radius: 0.5em;
-                }
-                img[data-emoji] {
-                  display: inline;
-                  border-radius: 0;
-                  vertical-align: -0.1em;
-                }
-                figure {
-                  text-align: center;
-                }
-                figcaption {
-                  margin-top: 0.75em;
-                  font-size: 16px;
-                  color: #394151;
-                }
-                /* Links */
-                #themed-content a{
-                  color: #e11d48;
-                  text-decoration: underline;
-                }
-                #themed-content a:hover {
-                  color: #f43f5e;
-                }
-
-                #themed-footer {
-                  color: #0e0f11
-                }
-                #themed-footer a {
-                  color: inherit;
-                  text-decoration: none;
-                }
-                #themed-footer a:hover {
+              /* Links - underlined, same color as surrounding text */
+              .prose a {
+                color: inherit;
                 text-decoration: underline;
-                }
+              }
+              .prose a:hover {
+                color: #e11d48;
+              }
 
-                #last-line a, #last-line span, #last-line  {
-                  font-size: 13px;
-                }
-                #last-line a {
-                  color: #646E82;
-                  text-decoration: none;
-                }
-                #last-line a:hover {
-                  text-decoration: underline;
-                }
+              /* Lists */
+              .prose ul, .prose ol {
+                margin: 24px 0;
+                padding-left: 24px;
+              }
+              .prose li { margin: 8px 0; }
 
-                #last-line span {
-                  opacity: 0.6;
-                  margin: 0 1em;
-                }
+              /* Definition Lists */
+              .prose dl {
+                margin: 24px 0;
+              }
+              .prose dt {
+                font-weight: 600;
+                margin-top: 24px;
+                margin-bottom: 8px;
+              }
+              .prose dd {
+                margin-left: 24px;
+                margin-bottom: 8px;
+                color: #646E82;
+              }
+
+              /* Blockquotes */
+              .prose blockquote {
+                margin: 32px 0;
+                padding-left: 24px;
+                border-left: 2px solid #DEDFE2;
+                font-style: italic;
+                color: #646E82;
+              }
+              .prose blockquote footer {
+                margin-top: 16px;
+                font-size: 14px;
+                font-style: normal;
+                color: #7A8599;
+              }
+
+              /* Code */
+              .prose code {
+                font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
+                font-size: 14px;
+                background: #F8F9FD;
+                padding: 4px 8px;
+                border-radius: 3px;
+              }
+
+              .prose pre {
+                font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
+                font-size: 14px;
+                background: #F8F9FD;
+                padding: 24px;
+                border-radius: 8px;
+                margin: 32px 0;
+                overflow-x: auto;
+                line-height: 1.5;
+              }
+              .prose pre code {
+                background: transparent;
+                padding: 0;
+                border-radius: 0;
+              }
+
+              /* Horizontal Rules */
+              .prose hr {
+                border: none;
+                border-top: 1px solid #DEDFE2;
+                margin: 48px 0;
+                width: 100%;
+              }
+
+              /* Table Styling */
+              .prose table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 32px 0;
+                font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
+                font-size: 14px;
+              }
+              .prose table th {
+                text-align: left;
+                font-weight: 600;
+                padding: 16px 8px;
+                border-bottom: 2px solid #DEDFE2;
+                background: #F8F9FD;
+              }
+              .prose table td {
+                padding: 16px 8px;
+                border-bottom: 1px solid #DEDFE2;
+                vertical-align: top;
+              }
+              .prose table tbody tr:nth-child(even) {
+                background: #F8F9FD;
+              }
+
+              /* Callouts & Editor's Pick */
+              .prose .callout, .prose .editors-pick {
+                background: #F8F9FD;
+                padding: 24px;
+                border-radius: 8px;
+                margin: 32px 0;
+                border: 1px solid #DEDFE2;
+              }
+
+              /* Footnotes */
+              .prose .footnotes {
+                margin-top: 56px;
+                font-size: 14px;
+                color: #646E82;
+              }
+              .prose .footnotes hr {
+                margin: 32px 0 24px;
+              }
+              .prose .footnotes ol {
+                font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
+                font-size: 11px;
+              }
+
+              /* Buttons */
+              .prose .x-button-container, .prose .button-container {
+                margin: 32px 0;
+                text-align: center;
+              }
+
+              .prose .x-button, .prose .button {
+                display: inline-block;
+                padding: 16px 24px;
+                background-color: #e11d48;
+                color: #fff !important;
+                text-decoration: none !important;
+                border-radius: 32px;
+                font-weight: 600;
+                font-size: 14px;
+                line-height: 1.2;
+                margin: 8px;
+              }
+
+              .prose .x-button.lg {
+                padding: 24px 32px;
+                font-size: 18px;
+              }
+
+              .prose .x-button:hover, .prose .button:hover {
+                background-color: #f43f5e;
+              }
+
+              /* Footer */
+              .footer {
+                font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
+                font-size: 11px;
+                color: #7A8599;
+                line-height: 1.5;
+              }
+              .footer a { color: inherit; text-decoration: none; }
+              .footer a:hover { text-decoration: underline; }
+
+              /* Media & Figures */
+              .prose figure {
+                margin: 48px 0;
+                text-align: center;
+              }
+              .prose figure img {
+                border-radius: 8px;
+                display: block;
+                margin: 0 auto;
+              }
+              .prose figcaption {
+                margin-top: 16px;
+                font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
+                font-size: 11px;
+                color: #646E82;
+                text-align: center;
+                font-style: italic;
+              }
+              .prose figcaption a {
+                color: inherit;
+                text-decoration: underline;
+              }
+              .prose figcaption a:hover {
+                color: #e11d48;
+              }
+
+              .media {
+                margin: 32px 0;
+                text-align: center;
+              }
+              .media img {
+                border-radius: 8px;
+                display: block;
+                margin: 0 auto;
+              }
+              .media-caption {
+                margin-top: 16px;
+                font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
+                font-size: 11px;
+                color: #646E82;
+                text-align: center;
+                font-style: italic;
+              }
+
+              /* Sender Header */
+              .sender-header a {
+                color: inherit;
+                text-decoration: underline;
+              }
+              .sender-header a:hover {
+                color: #e11d48;
+              }
+            </style>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="description" content="Voyage to Space 🚀 - This is to test formatting of various elements.🧪">
+        <meta name="color-scheme" content="light dark">
+        </head><body  style="margin:0;padding:0;background-color:#ffffff;font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;font-size:16px;line-height:1.618;color:#0A0B0D">
 
 
-                .x-button {
-                  display: inline-block;
-                  padding: 12px 18px;
-                  background-color: #e11d48;
-                  color: #ffffff !important;
-                  text-decoration: none !important;
-                  border-radius: 9999px;
-                  font-weight: 600;
-                  margin: 0 auto;
-                  text-align: center;
-                  mso-padding-alt: 0;
-                  mso-text-raise: 7.5pt;
-                  font-size: 16px;
-                  line-height: 1;
-                }
-
-                .x-button.naked {
-                  background-color: rgba(229,231,235,0.4);
-                  color: #e11d48;
-                }
-
-                .x-button img {
-                  vertical-align: -0.3em;
-                }
-
-                .x-button:hover {
-                  background-color: #f43f5e;
-                }
-
-                .x-button.sm{
-                  padding: 8px 16px;
-                  font-size: 14px;
-                }
-
-                .x-button.lg{
-                  padding: 14px 24px;
-                  font-size: 18px;
-                }
-
-                hr { border: none; border-top: 1px solid rgba(0,0,0,.1); margin: 2em 0; }</style>
-        </head><body  style="margin:0;padding:0;background-color:#ffffff;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif;font-size:18px;color:#0e0f11">
-
-
-        <div><!-- Preview Text Hack --><div style="display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font-family:sans-serif;">Voyage to Space 🚀 -- This is to test formatting of various elements.🧪 <!-- Prevent Gmail app from showing funky characters --> ‌ ‌ ‌ ‌ ‌  ‌ ‌ ‌ ‌ ‌  ‌ ‌ ‌ ‌ ‌  <!-- Force preview text to fill available space --> ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ ͏ </div><!-- Main Container --><div style="width:100%;max-width:600px;margin:0 auto;padding:32px 16px;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif;color:#0e0f11;"><!-- Super Title --><table style="margin-bottom:16px;"><tbody><tr><td><img src="https://fiction-media-dev.s3.amazonaws.com/fiction-relative-media/med67bbf278308514c8c9f01f66-fiction-icon.png?blurhash=U9EMLDD%2500%3Fb9FWBay%25M00Rj%7Eqxu_3%25Mt74n" width="22" alt="Logo" style="display:block;border-radius:5px;border:1.5px solid #ffffff;width:22px;height:22px;object-fit:cover;margin-right:8px;"></td><td><a href="https://www.fiction.com" style="color:#394151;text-decoration:none;font-weight:600;font-size:14px;">Fiction</a></td></tr></tbody></table><!-- Title Section --><div id="themed-content" class="themed-content"><h1 style="margin:0 0 8px;font-size:24px;line-height:1.33;">Voyage to Space 🚀</h1><h3 style="margin:0;font-weight:normal;font-size:24px;line-height:1.33;color:#394151;">This is to test formatting of various elements.🧪</h3><hr style="border:none;border-top:1px solid #b3b9c5;margin:3em 0; width: 5em;"><!-- Featured Image --><!----><!-- Content --><div class="prose-content"><h1>Welcome to the <a href="#">Galactic Gazette</a>! Your Ultimate Source for Space Adventures!</h1>
+        <div><!-- Preview Text --><div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">Voyage to Space 🚀 - This is to test formatting of various elements.🧪 ​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​</div><!-- Main Container --><div style="
+            width: 100%;
+            max-width: 550px;
+            margin: 0 auto;
+            padding: 40px 8px;
+            font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.618;
+            color: #0A0B0D;
+          "><!-- Header --><header><!-- Simplified Sender Header --><div class="sender-header" style="
+            font-size: 14px;
+            color: #0A0B0D;
+            margin: 0 0 48px;
+          "><table style="width:100%;" cellpadding="0" cellspacing="0"><tr><td style="width:28px;vertical-align:middle;"><img src="https://media.fiction.com/_assets/fiction-icon.png" width="20" height="20" alt="" style="border-radius:50%;display:block;"></td><td style="vertical-align:middle;font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif;font-weight:normal;">Fiction</td></tr></table></div><h1 class="title">Voyage to Space 🚀</h1><h2 class="subtitle">This is to test formatting of various elements.🧪</h2></header><!-- Divider after header - 6rem width --><hr style="border:none;border-top:1px solid #DEDFE2;margin:0 0 56px;width:5rem;"><!-- Featured Media --><!----><!-- Content --><div class="prose"><h1>Welcome to the <a href="#">Galactic Gazette</a>! Your Ultimate Source for Space Adventures!</h1>
         <p><em>Discover the universe, one newsletter at a time! ✨</em></p>
 
         <figure>
@@ -486,7 +601,23 @@ describe('transactional email', async () => {
             <li id="fn1">Mission details available at <a href="https://www.fiction.com/mars-mission">fiction.com/mars-mission</a> <a href="#fnref1">↩</a></li>
           </ol>
         </div>
-        </div><!-- Buttons --><div style="margin:32px 0;"><!--[--><a href="#" class="x-button">Confirm email address &#x2192;</a><!--]--></div></div><hr style="border:none;border-top:1px solid #b3b9c5;margin:3em 0; width: 5em;"><!-- Footer --><div id="themed-footer" style="margin-top:2em;"><!-- Footer Links --><div style="margin-bottom:32px;"><!--[--><a href="https://www.fiction.com" style="margin-right:16px;font-weight:600;color:inherit;font-size:13px;">View Website</a><!--]--></div><!-- CompanyName Info --><div style="font-size:13px;"><div>© 2025 Fiction Company, Inc.</div><div style="margin-top:4px;">1234 Fiction St, Fiction City, FI 12345</div></div><!-- Legal Footer --><table id="last-line" style="width:100%;margin-top:32px;" cellpadding="0" cellspacing="0"><tbody><tr><td><a href="https://www.fiction.com/unsubscribe">Unsubscribe</a><span>•</span><a href="mailto:admin@fiction.com">Report Abuse</a></td><td style="text-align:right;"><a href="https://www.fiction.com" target="_blank" rel="noopener"> Powered by Fiction.com </a></td></tr></tbody></table></div></div></div>
+        </div><!-- Action Buttons --><div style="margin:40px 0;"><!--[--><a href="#" class="btn" style="
+            display: inline-block;
+            padding: 16px 24px;
+            background-color: #e11d48;
+            color: #fff !important;
+            text-decoration: none !important;
+            border-radius: 32px;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 1.2;
+            margin: 8px 8px 8px 0;
+          ">Confirm email address &#x2192;</a><!--]--></div><!-- Footer Divider --><hr style="
+            border: none;
+            border-top: 1px solid #DEDFE2;
+            margin: 56px 0;
+            width: 100%;
+          "><!-- Footer --><footer class="footer"><!-- Footer Links --><div style="margin-bottom:32px;"><!--[--><a href="https://www.fiction.com" style="margin-right:16px;font-weight:500;">View Website</a><!--]--></div><!-- Company Info --><div style="margin-bottom:24px;"><div style="font-weight:500;margin-bottom:4px;"> © 2025 Fiction Company, Inc.</div><div>1234 Fiction St, Fiction City, FI 12345</div></div><!-- Legal Footer --><table style="width:100%;" cellpadding="0" cellspacing="0"><tr><td><a href="https://www.fiction.com/unsubscribe">Unsubscribe</a><span style="margin:0 8px;opacity:0.6;">•</span><a href="mailto:admin@fiction.com">Report</a></td><td style="text-align:right;"><a href="https://fiction.com" target="_blank" rel="noopener"> Powered by Fiction.com </a></td></tr></table></footer></div></div>
 
 
         </body></html>"

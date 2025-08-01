@@ -53,6 +53,7 @@ describe('section handling defaults', async () => {
         "test",
         "header",
         "footer",
+        "hidden",
       ]
     `)
 

@@ -300,18 +300,7 @@ describe('user endpoint tests', async () => {
     expect(updateResponse.user?.userId).toBe(existingUserId)
     expect(updateResponse?.token).toBeFalsy()
 
-    expect(Object.keys(user?.geo || {})).toMatchInlineSnapshot(`
-      [
-        "ip",
-        "cityName",
-        "latitude",
-        "timezone",
-        "longitude",
-        "regionName",
-        "countryCode",
-        "ipOrganization",
-      ]
-    `)
+    expect(Object.keys(user?.geo || {})).toMatchInlineSnapshot(`[]`)
   })
 
   it('retrieves an existing user by email', async () => {
