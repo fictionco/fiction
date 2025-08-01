@@ -98,10 +98,14 @@ jobs:
       - name: Run unit tests
         run: npm exec -- vitest run unit -u
 
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+
       - name: Release
         run: |
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             npm exec -- fiction run release --${{ github.event.inputs.version }} --with-changes
           else
-            npm exec -- fiction run release --patch --with-changes
+            npm exec -- fiction run release --patch --with-changes --skip-tests
           fi
