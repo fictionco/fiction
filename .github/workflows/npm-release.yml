@@ -89,6 +89,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Run Docker Compose (DB)
+        run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
+
+      - name: Create Tables
+        run: npm -w @fiction/www exec -- fiction run generate
+
       - name: Run unit tests
         run: npm exec -- vitest run unit -u
 
