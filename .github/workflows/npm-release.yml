@@ -92,10 +92,17 @@ jobs:
       - name: Verify NPM Authentication
         run: |
           echo "Checking NPM authentication..."
+          echo "NPM_TOKEN length: ${#NPM_TOKEN}"
+          echo "NPM_TOKEN first 10 chars: ${NPM_TOKEN:0:10}..."
+          echo "Checking .npmrc file..."
+          cat .npmrc
+          echo "Testing npm whoami..."
           npm whoami
           echo "Checking access to @fiction scope..."
           npm access list packages @fiction/core || echo "Note: If this fails, the token may not have access to this package"
           echo "NPM authentication check completed"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Run Docker Compose (DB)
         run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d

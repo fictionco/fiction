@@ -275,11 +275,21 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     // await this.commit('pnpm', ['i'])
 
     /**
-     * COMMIT CHANGES LOCALLY
+     * CREATE RELEASE BRANCH AND COMMIT CHANGES
      */
+    const releaseBranch = `release/v${targetVersion}`
+    
+    this.log.info(`ensuring dev branch is up to date`)
+    await this.commit('git', ['fetch', 'origin', 'dev'])
+    await this.commit('git', ['checkout', 'dev'])
+    await this.commit('git', ['pull', 'origin', 'dev'])
+    
+    this.log.info(`creating release branch: ${releaseBranch}`)
+    await this.commit('git', ['checkout', '-b', releaseBranch])
+
     const { stdout } = await this.run('git', ['diff'], { stdio: 'pipe' })
     if (stdout) {
-      this.log.info('committing git changes...')
+      this.log.info('committing git changes to release branch...')
       await this.commit('git', ['add', '-A'])
       await this.commit('git', ['commit', '-m', `release: v${targetVersion} [skip]`])
     }
@@ -287,10 +297,8 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
       this.log.info('no changes to commit')
     }
 
-    this.log.info('pushing changes to origin...')
-
     /**
-     * TAG AND PUSH TO REPO
+     * TAG AND PUSH RELEASE BRANCH TO REPO
      */
     this.log.info(`\nChecking git remote configuration...`)
     await this.commit('git', ['remote', '-v'])
@@ -298,14 +306,17 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     this.log.info(`\nTagging git release`)
     await this.commit('git', ['tag', `v${targetVersion}`])
 
-    this.log.info(`\nPushing to Remote`)
+    this.log.info(`\nPushing release branch and tag to Remote`)
     await this.commit('git', [
       'push',
       '--no-verify',
       'origin',
       `refs/tags/v${targetVersion}`,
     ])
-    await this.commit('git', ['push', '--no-verify'])
+    await this.commit('git', ['push', '--no-verify', '--set-upstream', 'origin', releaseBranch])
+    
+    this.log.info(`\nSwitching back to dev branch`)
+    await this.commit('git', ['checkout', 'dev'])
     /**
      * PUBLISH TO NPM
      */
