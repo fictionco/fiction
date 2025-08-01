@@ -1,7 +1,7 @@
 {
   "name": "fiction-os",
   "type": "module",
-  "version": "6.0.36",
+  "version": "6.0.37",
   "private": true,
   "author": "Fiction",
   "license": "MIT",
