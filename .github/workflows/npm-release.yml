@@ -89,38 +89,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Verify NPM Authentication
-        run: |
-          # Check if NPM_TOKEN is set
-          if [ -z "$NPM_TOKEN" ]; then
-            echo "::error::NPM_TOKEN is not set"
-            exit 1
-          fi
-
-          # Verify authentication works
-          echo "Checking NPM authentication..."
-          npm whoami --registry=https://registry.npmjs.org/
-
-          # Verify access to @fiction org
-          echo "Verifying @fiction org access..."
-          npm org ls @fiction --json || {
-            echo "::error::Cannot access @fiction org"
-            exit 1
-          }
-
-          # Check if user has publish permissions
-          echo "Checking publish permissions..."
-          npm access ls-packages @fiction | grep -q "read-write" || {
-            echo "::error::No publish permissions for @fiction packages"
-            exit 1
-          }
-
-          # Optionally list specific package permissions
-          echo "Package permissions:"
-          npm access ls-packages @fiction
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: Run Docker Compose (DB)
         run: docker compose -f ./docker/docker-compose.yml pull && docker compose -f ./docker/docker-compose.yml up --build -d
 
@@ -142,3 +110,4 @@ jobs:
           fi
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
