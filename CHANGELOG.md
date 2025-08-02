@@ -1,3 +1,25 @@
+## [6.0.39](https://github.com/fictionco/fiction/compare/v6.0.38...v6.0.39) (2025-08-02)
+
+
+### Bug Fixes
+
+* release ([8df42d5](https://github.com/fictionco/fiction/commit/8df42d5bcdd8e7b3631cdd4f38d8961d59242c1a))
+
+
+### Features
+
+* check whoami -r ([6717a02](https://github.com/fictionco/fiction/commit/6717a024cc03f2f476f491873f6dca38058df78d))
+* fix release -d ([23069d6](https://github.com/fictionco/fiction/commit/23069d689a3ecdf9130b2085835f875431d10f55))
+* move old themes -r ([69c484e](https://github.com/fictionco/fiction/commit/69c484eefa5280ac8dbbaf830f1088d7a8ed4960))
+* new release ([cc6a825](https://github.com/fictionco/fiction/commit/cc6a8250c199eb5a09fe3062a91a3040fb7e78d6))
+* no checking npmrc ([996db2b](https://github.com/fictionco/fiction/commit/996db2b28c0a49af12bd042c4d4a757f61dd7c3b))
+* release again ([013987c](https://github.com/fictionco/fiction/commit/013987c3cedbfb034cdd883c7aa8e3ebab62695c))
+* try again -r ([74f3b15](https://github.com/fictionco/fiction/commit/74f3b15b1e65fb2967a8771a2b22dc33da4d1df9))
+* try new approach ([651a0ac](https://github.com/fictionco/fiction/commit/651a0ac744be8792bfc0782ead0133347ae46be9))
+* try release ([4cd4bd5](https://github.com/fictionco/fiction/commit/4cd4bd55a8f0c4f0a77bd3589fb3045c730b8206))
+
+
+
 ## [6.0.38](https://github.com/fictionco/fiction/compare/v6.0.37...v6.0.38) (2025-08-01)
 
 
