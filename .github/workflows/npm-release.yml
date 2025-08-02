@@ -94,14 +94,17 @@ jobs:
           node-version: 24.5.0
           cache: pnpm
 
-      - name: Create .npmrc
+      - name: Configure NPM Authentication
         run: |
-          cat << EOF > ~/.npmrc
-          //registry.npmjs.org/:_authToken=\${NPM_TOKEN}
-          registry=https://registry.npmjs.org/
-          always-auth=true
-          EOF
-          echo "Created .npmrc file"
+          # Create .npmrc with the actual token value
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
+
+          # Also set it in the project root
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+          echo "registry=https://registry.npmjs.org/" >> .npmrc
+
+          echo "Created .npmrc files"
 
       - name: Verify NPM Authentication
         run: |
