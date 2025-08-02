@@ -51,7 +51,7 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
   }
 
   commit = async (
-    ...commandArgs: [string, string[], Record<string, string>?]
+    ...commandArgs: [string, string[], Record<string, any>?]
   ): Promise<void | ResultPromise> => {
     const [bin, args, opts] = commandArgs
     try {
@@ -123,8 +123,14 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
 
     this.log.info(`publishing ${pkg.name}...${process.cwd()}`)
     try {
-      await this.commit('pnpm', ['publish', '-r', '--filter', pkg.name, '--access', access, '--publish-branch', 'dev'], {
+      // Change to npm publish from the package directory
+      await this.commit('npm', ['publish', '--access', access], {
         stdio: 'pipe',
+        cwd: pkg.cwd,
+        env: {
+          ...process.env as Record<string, string>,
+          NODE_AUTH_TOKEN: process.env.NPM_TOKEN ?? '',
+        },
       })
 
       this.log.info(`successfully published ${pkg.name}@${version}`)
