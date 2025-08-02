@@ -85,12 +85,10 @@ jobs:
       - name: Configure NPM Authentication
         run: |
           # Create .npmrc with the actual token value
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-          echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN-''}" > ~/.npmrc
 
           # Also set it in the project root
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
-          echo "registry=https://registry.npmjs.org/" >> .npmrc
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN-''}" > .npmrc
 
           echo "Created .npmrc files"
 
