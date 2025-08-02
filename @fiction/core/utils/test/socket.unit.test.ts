@@ -105,7 +105,7 @@ describe('sockets', async () => {
           {
             "bearer": {
               "email": "[email:TRUTHY]",
-              "exp": "1754630688",
+              "exp": "1754707004",
               "iat": "888",
               "systemRole": "",
               "userId": "[id:TRUTHY]",

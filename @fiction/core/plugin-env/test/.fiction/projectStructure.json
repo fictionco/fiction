@@ -1411,24 +1411,6 @@
       }
     },
     "themes": {
-      "__minimal": {
-        "config.ts": null,
-        "img": {
-          "dark-desktop.png": null,
-          "light-desktop.png": null
-        },
-        "index.ts": null,
-        "package.json": null
-      },
-      "__prestige": {
-        "config.ts": null,
-        "img": {
-          "dark-desktop.png": null,
-          "light-desktop.png": null
-        },
-        "index.ts": null,
-        "package.json": null
-      },
       "base": {
         "img": {
           "dark-desktop.png": null,
@@ -1446,10 +1428,7 @@
         }
       },
       "index.ts": null,
-      "package.json": null,
-      "prestige": {
-        "index.ts": null
-      }
+      "package.json": null
     },
     "ui": {
       "ElBadge.vue": null,
