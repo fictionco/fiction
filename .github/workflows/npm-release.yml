@@ -4,17 +4,6 @@ on:
   push:
     branches:
       - dev
-  workflow_dispatch:
-    inputs:
-      version:
-        description: Version type
-        required: true
-        type: choice
-        options:
-          - patch
-          - minor
-          - major
-        default: patch
 
 permissions:
   contents: write
@@ -63,7 +52,6 @@ jobs:
   release:
     name: Release to NPM
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '-r')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -112,8 +100,9 @@ jobs:
           npm whoami || (echo "::error::NPM authentication failed" && exit 1)
           echo "Successfully authenticated as: $(npm whoami)"
 
-          # Check access to @fiction scope
-          npm access ls-packages @fiction || echo "::warning::Could not verify @fiction scope access"
+          # Check access to a specific @fiction package
+          echo "Checking access to @fiction/core..."
+          npm view @fiction/core name || echo "::warning::Could not verify @fiction/core access"
 
       - name: Install dependencies
         run: pnpm install
@@ -131,12 +120,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Release
-        run: |
-          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            npm exec -- fiction run release --${{ github.event.inputs.version }} --with-changes --skip-tests
-          else
-            npm exec -- fiction run release --patch --with-changes --skip-tests
-          fi
+        run: npm exec -- fiction run release --patch --with-changes --skip-tests
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

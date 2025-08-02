@@ -51,7 +51,7 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
   }
 
   commit = async (
-    ...commandArgs: [string, string[], Record<string, any>?]
+    ...commandArgs: [string, string[], Record<string, string>?]
   ): Promise<void | ResultPromise> => {
     const [bin, args, opts] = commandArgs
     try {
@@ -123,14 +123,8 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
 
     this.log.info(`publishing ${pkg.name}...${process.cwd()}`)
     try {
-      // Change to npm publish from the package directory
-      await this.commit('npm', ['publish', '--access', access], {
+      await this.commit('pnpm', ['publish', '-r', '--filter', pkg.name, '--access', access, '--publish-branch', 'release'], {
         stdio: 'pipe',
-        cwd: pkg.cwd,
-        env: {
-          ...process.env as Record<string, string>,
-          NODE_AUTH_TOKEN: process.env.NPM_TOKEN ?? '',
-        },
       })
 
       this.log.info(`successfully published ${pkg.name}@${version}`)
@@ -210,6 +204,10 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     if (!versionOnly)
       await this.ensureCleanGit(options)
 
+    // Store current branch (should be dev)
+    const { stdout: currentBranch } = await this.run('git', ['branch', '--show-current'], { stdio: 'pipe' })
+    const originalBranch = (currentBranch as string)?.trim()
+
     let targetVersion: string | undefined
 
     if (patch)
@@ -261,13 +259,28 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     if (!skipTests)
       await this.runUnitTests()
 
+    // Switch to release branch and sync with current branch
+    this.log.info('switching to release branch...')
+    try {
+      await this.commit('git', ['checkout', 'release'])
+    }
+    catch {
+      // Create release branch if it doesn't exist
+      this.log.info('creating release branch...')
+      await this.commit('git', ['checkout', '-b', 'release'])
+    }
+
+    this.log.info(`syncing release branch with ${originalBranch}...`)
+    await this.commit('git', ['merge', originalBranch])
+
     /**
-     * UPDATE PACKAGE.JSON VERSION NUMBERS
+     * UPDATE PACKAGE.JSON VERSION NUMBERS ON RELEASE BRANCH
      */
     await this.updateVersions(targetVersion)
 
     if (versionOnly) {
       this.log.info('versions updated.')
+      await this.commit('git', ['checkout', originalBranch])
       return
     }
 
@@ -277,22 +290,9 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     this.log.info('generate changelog...')
     await this.commit('npm', ['run', 'changelog'])
 
-    // this.log.info(`update lockfile... ${process.cwd()}`)
-    // await this.commit('pnpm', ['i'])
-
     /**
-     * CREATE RELEASE BRANCH AND COMMIT CHANGES
+     * COMMIT CHANGES TO RELEASE BRANCH
      */
-    const releaseBranch = `release/v${targetVersion}`
-
-    this.log.info(`ensuring dev branch is up to date`)
-    await this.commit('git', ['fetch', 'origin', 'dev'])
-    await this.commit('git', ['checkout', 'dev'])
-    await this.commit('git', ['pull', 'origin', 'dev'])
-
-    this.log.info(`creating release branch: ${releaseBranch}`)
-    await this.commit('git', ['checkout', '-b', releaseBranch])
-
     const { stdout } = await this.run('git', ['diff'], { stdio: 'pipe' })
     if (stdout) {
       this.log.info('committing git changes to release branch...')
@@ -303,26 +303,23 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
       this.log.info('no changes to commit')
     }
 
-    /**
-     * TAG AND PUSH RELEASE BRANCH TO REPO
-     */
-    this.log.info(`\nChecking git remote config...`)
-    await this.commit('git', ['remote', '-v'])
+    this.log.info('pushing release branch to origin...')
 
+    /**
+     * TAG AND PUSH RELEASE BRANCH
+     */
     this.log.info(`\nTagging git release`)
     await this.commit('git', ['tag', `v${targetVersion}`])
 
-    this.log.info(`\nPushing release branch and tag to Remote`)
+    this.log.info(`\nPushing release branch and tags`)
+    await this.commit('git', ['push', '--no-verify', 'origin', 'release'])
     await this.commit('git', [
       'push',
       '--no-verify',
       'origin',
       `refs/tags/v${targetVersion}`,
     ])
-    await this.commit('git', ['push', '--no-verify', '--set-upstream', 'origin', releaseBranch])
 
-    this.log.info(`\nSwitching back to dev branch`)
-    await this.commit('git', ['checkout', 'dev'])
     /**
      * PUBLISH TO NPM
      */
@@ -333,6 +330,10 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
       await this.publishPackage(pkg, targetVersion)
 
     await this.commit('gh', ['auth', 'status'])
+
+    // Switch back to original branch (dev)
+    this.log.info(`switching back to ${originalBranch} branch...`)
+    await this.commit('git', ['checkout', originalBranch])
 
     // if (tag) {
     //   const txt = tag === true ? targetVersion : `${targetVersion} - ${tag}`
