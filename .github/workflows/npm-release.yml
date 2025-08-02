@@ -91,13 +91,33 @@ jobs:
 
       - name: Verify NPM Authentication
         run: |
+          # Check if NPM_TOKEN is set
+          if [ -z "$NPM_TOKEN" ]; then
+            echo "::error::NPM_TOKEN is not set"
+            exit 1
+          fi
+
+          # Verify authentication works
           echo "Checking NPM authentication..."
-          echo "NPM_TOKEN is set: ${NPM_TOKEN:+yes}"
-          echo "Running npm whoami..."
-          NPM_TOKEN=${{ secrets.NPM_TOKEN }} npm whoami
-          echo "Checking access to @fiction scope..."
-          NPM_TOKEN=${{ secrets.NPM_TOKEN }} npm access list packages @fiction/core || echo "Note: If this fails, the token may not have access to this package"
-          echo "NPM authentication check completed"
+          npm whoami --registry=https://registry.npmjs.org/
+
+          # Verify access to @fiction org
+          echo "Verifying @fiction org access..."
+          npm org ls @fiction --json || {
+            echo "::error::Cannot access @fiction org"
+            exit 1
+          }
+
+          # Check if user has publish permissions
+          echo "Checking publish permissions..."
+          npm access ls-packages @fiction | grep -q "read-write" || {
+            echo "::error::No publish permissions for @fiction packages"
+            exit 1
+          }
+
+          # Optionally list specific package permissions
+          echo "Package permissions:"
+          npm access ls-packages @fiction
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
