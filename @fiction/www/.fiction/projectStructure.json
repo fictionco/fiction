@@ -1839,5 +1839,6 @@
   },
   "supereon.png": null,
   "tsconfig.json": null,
+  "vitest-debug-reporter.js": null,
   "vitest.config.ts": null
 }

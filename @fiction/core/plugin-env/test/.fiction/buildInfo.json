@@ -1,7 +1,7 @@
 {
-  "BUILD_COMMIT": "",
+  "BUILD_COMMIT": "996db2b28c0a49af12bd042c4d4a757f61dd7c3b",
   "BUILD_VERSION": "",
-  "BUILD_TIME": "",
-  "BUILD_NUMBER": "",
-  "BUILD_BRANCH": ""
+  "BUILD_TIME": "2025-08-02T15:02:06Z",
+  "BUILD_NUMBER": "28",
+  "BUILD_BRANCH": "dev"
 }

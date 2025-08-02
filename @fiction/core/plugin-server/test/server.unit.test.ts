@@ -52,6 +52,7 @@ describe('server test', async () => {
         "message",
         "duration",
         "timestamp",
+        "commit",
         "memoryUsage",
         "cpuUsage",
         "loadAverage",
