@@ -116,8 +116,10 @@ export class FictionClickHouse extends FictionPlugin<FictionClickHouseSettings> 
       const check = await fetch(this.connectionUrl.href, { method: 'GET' })
       const checkText = await check.text()
 
-      if (checkText.trim() !== 'Ok.')
+      if (checkText.trim() !== 'Ok.') {
+        this.log.error('CLICKHOUSE SERVER PROBLEM', { data: { url: this.connectionUrl.hostname, port: `[ ${this.connectionUrl.port} ]` } })
         throw new Error('clickhouse not alive')
+      }
 
       this.log.info('CLICKHOUSE INITIALIZED', { data: { url: this.connectionUrl.hostname, port: `[ ${this.connectionUrl.port} ]` } })
       this.initialized = true

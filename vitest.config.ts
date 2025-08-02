@@ -40,6 +40,16 @@ export default defineConfig({
     },
     testTimeout: 60000,
     hookTimeout: 40000,
+    // Better debugging for hanging tests
+    bail: process.env.CI ? 1 : 0, // Stop on first failure in CI
+    maxConcurrency: process.env.CI ? 2 : 5, // Reduce concurrency in CI, better debugging
+
+    poolOptions: {
+      threads: {
+        minThreads: 1,
+        maxThreads: process.env.CI ? 2 : 4,
+      },
+    },
     env: {
       NODE_ENV: 'development',
     },
