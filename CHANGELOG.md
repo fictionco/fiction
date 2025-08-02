@@ -1,3 +1,15 @@
+## [6.0.39](https://github.com/fictionco/fiction/compare/v6.0.38...v6.0.39) (2025-08-02)
+
+
+### Features
+
+* check whoami -r ([6717a02](https://github.com/fictionco/fiction/commit/6717a024cc03f2f476f491873f6dca38058df78d))
+* fix release -d ([23069d6](https://github.com/fictionco/fiction/commit/23069d689a3ecdf9130b2085835f875431d10f55))
+* move old themes -r ([69c484e](https://github.com/fictionco/fiction/commit/69c484eefa5280ac8dbbaf830f1088d7a8ed4960))
+* try again -r ([74f3b15](https://github.com/fictionco/fiction/commit/74f3b15b1e65fb2967a8771a2b22dc33da4d1df9))
+
+
+
 ## [6.0.38](https://github.com/fictionco/fiction/compare/v6.0.37...v6.0.38) (2025-08-01)
 
 
