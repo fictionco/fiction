@@ -123,7 +123,12 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
 
     this.log.info(`publishing ${pkg.name}...${process.cwd()}`)
     try {
-      await this.commit('pnpm', ['publish', '-r', '--filter', pkg.name, '--access', access, '--publish-branch', 'dev'], {
+      // Get current branch to allow publishing from release branches
+      const { stdout: currentBranch } = await this.run('git', ['rev-parse', '--abbrev-ref', 'HEAD'], { stdio: 'pipe' })
+      const branch = currentBranch as string
+      const publishBranch = branch.trim().startsWith('release/') ? branch.trim() : 'dev'
+
+      await this.commit('pnpm', ['publish', '-r', '--filter', pkg.name, '--access', access, '--publish-branch', publishBranch], {
         stdio: 'pipe',
       })
 
@@ -187,6 +192,157 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     await this.commit('git', ['merge', 'dev'])
     await this.commit('git', ['push'])
     await this.commit('git', ['checkout', 'dev'])
+  }
+
+  releaseBranchRoutine = async (options?: {
+    patch?: boolean
+    skipTests?: boolean
+    withChanges?: boolean
+    tag?: string | true
+    versionOnly?: boolean
+  }): Promise<void> => {
+    const { patch, skipTests, versionOnly } = options || {}
+
+    this.log.info(`publish new version [live] using release branch`)
+    this.log.info(`current version: ${this.currentVersion()}`)
+
+    if (!versionOnly)
+      await this.ensureCleanGit(options)
+
+    let targetVersion: string | undefined
+
+    if (patch)
+      targetVersion = semver.inc(this.currentVersion(), 'patch') as string
+
+    if (!targetVersion) {
+      // no explicit version, offer suggestions
+      const { release } = await prompt<{ release: string }>({
+        type: 'select',
+        name: 'release',
+        message: 'Select release type',
+        choices: this.versionChoices(),
+      })
+
+      if (release === 'custom') {
+        const { version } = await prompt<{ version: string }>({
+          type: 'input',
+          name: 'version',
+          message: 'Input custom version',
+          initial: this.currentVersion(),
+        })
+        targetVersion = version
+      }
+      else {
+        const v = release.match(/\((.*)\)/)
+        targetVersion = v ? v[1] : undefined
+      }
+    }
+
+    if (!targetVersion)
+      throw new Error('no target version')
+    else if (!semver.valid(targetVersion))
+      throw new Error(`invalid target version: ${targetVersion}`)
+
+    if (!patch) {
+      const { yes } = await prompt<{ yes: boolean }>({
+        type: 'confirm',
+        name: 'yes',
+        message: `Releasing v${targetVersion}. Confirm?`,
+      })
+
+      if (!yes)
+        return
+    }
+
+    // Create release branch
+    const releaseBranch = `release/v${targetVersion}`
+    this.log.info(`Creating release branch: ${releaseBranch}`)
+
+    try {
+      await this.commit('git', ['checkout', '-b', releaseBranch])
+    }
+    catch (error) {
+      // Branch might already exist, try to checkout
+      this.log.info(`Branch might exist, trying to checkout...`)
+      await this.commit('git', ['checkout', releaseBranch])
+    }
+
+    // Merge latest dev changes
+    this.log.info('Merging latest dev changes...')
+    await this.commit('git', ['merge', 'dev'])
+
+    if (!versionOnly)
+      await this.runTypeCheck()
+
+    if (!skipTests)
+      await this.runUnitTests()
+
+    /**
+     * UPDATE PACKAGE.JSON VERSION NUMBERS IN RELEASE BRANCH
+     */
+    await this.updateVersions(targetVersion)
+
+    if (versionOnly) {
+      this.log.info('versions updated in release branch.')
+      await this.commit('git', ['checkout', 'dev'])
+      return
+    }
+
+    this.log.info('building packages...')
+    await this.commit('npm', ['exec', '--', 'fiction', 'run', 'bundle'])
+
+    this.log.info('generate changelog...')
+    await this.commit('npm', ['run', 'changelog'])
+
+    /**
+     * COMMIT CHANGES IN RELEASE BRANCH
+     */
+    const { stdout } = await this.run('git', ['diff'], { stdio: 'pipe' })
+    if (stdout) {
+      this.log.info('committing git changes in release branch...')
+      await this.commit('git', ['add', '-A'])
+      await this.commit('git', ['commit', '-m', `release: v${targetVersion} [skip]`])
+    }
+    else {
+      this.log.info('no changes to commit')
+    }
+
+    this.log.info('pushing release branch to origin...')
+
+    /**
+     * TAG AND PUSH RELEASE BRANCH
+     */
+    this.log.info(`\nChecking git remote configuration...`)
+    await this.commit('git', ['remote', '-v'])
+
+    this.log.info(`\nTagging git release`)
+    await this.commit('git', ['tag', `v${targetVersion}`])
+
+    this.log.info(`\nPushing release branch to Remote`)
+    await this.commit('git', ['push', '--no-verify', '-u', 'origin', releaseBranch])
+    await this.commit('git', [
+      'push',
+      '--no-verify',
+      'origin',
+      `refs/tags/v${targetVersion}`,
+    ])
+
+    /**
+     * PUBLISH TO NPM FROM RELEASE BRANCH
+     */
+    this.log.info('publishing packages from release branch...')
+    const publicPackages = getPackages({ publicOnly: true })
+
+    for (const pkg of publicPackages)
+      await this.publishPackage(pkg, targetVersion)
+
+    await this.commit('gh', ['auth', 'status'])
+
+    // Switch back to dev branch
+    this.log.info('Switching back to dev branch...')
+    await this.commit('git', ['checkout', 'dev'])
+
+    this.log.info(`Release v${targetVersion} completed! Release branch: ${releaseBranch}`)
   }
 
   releaseRoutine = async (options?: {
