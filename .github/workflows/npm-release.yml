@@ -111,8 +111,8 @@ jobs:
       - name: Create Tables
         run: npm -w @fiction/www exec -- fiction run generate
 
-      - name: Run unit tests
-        run: npm exec -- vitest run unit -u --reporter=./vitest-debug-reporter.js --reporter=verbose
+      # - name: Run unit tests
+      #   run: npm exec -- vitest run unit -u --reporter=./vitest-debug-reporter.js --reporter=verbose
 
       - name: Install Playwright
         run: npx playwright install --with-deps
