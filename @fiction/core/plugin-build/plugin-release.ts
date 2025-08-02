@@ -123,7 +123,7 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
 
     this.log.info(`publishing ${pkg.name}...${process.cwd()}`)
     try {
-      await this.commit('pnpm', ['publish', '-r', '--filter', pkg.name, '--access', access, '--publish-branch', 'release'], {
+      await this.commit('pnpm', ['publish', '-r', '--filter', pkg.name, '--access', access, '--publish-branch', 'dev'], {
         stdio: 'pipe',
       })
 
@@ -204,31 +204,6 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     if (!versionOnly)
       await this.ensureCleanGit(options)
 
-    // Store current branch (should be dev)
-    const { stdout: currentBranch } = await this.run('git', ['branch', '--show-current'], { stdio: 'pipe' })
-    const originalBranch = (currentBranch as string)?.trim()
-
-    if (!versionOnly)
-      await this.runTypeCheck()
-
-    if (!skipTests)
-      await this.runUnitTests()
-
-    // Switch to release branch and sync with current branch FIRST
-    this.log.info('switching to release branch...')
-    try {
-      await this.commit('git', ['checkout', 'release'])
-    }
-    catch {
-      // Create release branch if it doesn't exist
-      this.log.info('creating release branch...')
-      await this.commit('git', ['checkout', '-b', 'release'])
-    }
-
-    this.log.info(`syncing release branch with ${originalBranch}...`)
-    await this.commit('git', ['merge', originalBranch])
-
-    // NOW determine target version on release branch (after merge)
     let targetVersion: string | undefined
 
     if (patch)
@@ -270,21 +245,23 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
         message: `Releasing v${targetVersion}. Confirm?`,
       })
 
-      if (!yes) {
-        // Switch back to original branch before returning
-        await this.commit('git', ['checkout', originalBranch])
+      if (!yes)
         return
-      }
     }
 
+    if (!versionOnly)
+      await this.runTypeCheck()
+
+    if (!skipTests)
+      await this.runUnitTests()
+
     /**
-     * UPDATE PACKAGE.JSON VERSION NUMBERS ON RELEASE BRANCH
+     * UPDATE PACKAGE.JSON VERSION NUMBERS
      */
     await this.updateVersions(targetVersion)
 
     if (versionOnly) {
       this.log.info('versions updated.')
-      await this.commit('git', ['checkout', originalBranch])
       return
     }
 
@@ -294,12 +271,15 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     this.log.info('generate changelog...')
     await this.commit('npm', ['run', 'changelog'])
 
+    // this.log.info(`update lockfile... ${process.cwd()}`)
+    // await this.commit('pnpm', ['i'])
+
     /**
-     * COMMIT CHANGES TO RELEASE BRANCH
+     * COMMIT CHANGES LOCALLY
      */
     const { stdout } = await this.run('git', ['diff'], { stdio: 'pipe' })
     if (stdout) {
-      this.log.info('committing git changes to release branch...')
+      this.log.info('committing git changes...')
       await this.commit('git', ['add', '-A'])
       await this.commit('git', ['commit', '-m', `release: v${targetVersion} [skip]`])
     }
@@ -307,62 +287,25 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
       this.log.info('no changes to commit')
     }
 
-    this.log.info('pushing release branch to origin...')
+    this.log.info('pushing changes to origin...')
 
     /**
-     * TAG AND PUSH RELEASE BRANCH
+     * TAG AND PUSH TO REPO
      */
+    this.log.info(`\nChecking git remote configuration...`)
+    await this.commit('git', ['remote', '-v'])
+
     this.log.info(`\nTagging git release`)
+    await this.commit('git', ['tag', `v${targetVersion}`])
 
-    // Check if tag already exists and delete it if it does
-    try {
-      const { stdout } = await this.run('git', ['tag', '-l', `v${targetVersion}`], { stdio: 'pipe' })
-      if ((stdout as string).trim()) {
-        this.log.info(`Tag v${targetVersion} already exists, deleting and recreating...`)
-        try {
-          await this.run('git', ['tag', '-d', `v${targetVersion}`], { stdio: 'pipe' })
-        }
-        catch {
-          // Local tag deletion failed, continue
-        }
-        // Also delete remote tag if it exists
-        try {
-          await this.run('git', ['push', '--delete', 'origin', `v${targetVersion}`], { stdio: 'pipe' })
-        }
-        catch {
-          // Remote tag might not exist or deletion failed, continue
-        }
-      }
-    }
-    catch {
-      // Tag listing failed, continue
-    }
-
-    try {
-      await this.commit('git', ['tag', `v${targetVersion}`])
-    }
-    catch (error) {
-      const e = error as ExecaError
-      const errString = e.stderr as string
-      if (errString?.includes('already exists')) {
-        this.log.info(`Tag v${targetVersion} still exists after deletion attempt, forcing recreate...`)
-        await this.run('git', ['tag', '-d', `v${targetVersion}`], { stdio: 'pipe' })
-        await this.commit('git', ['tag', `v${targetVersion}`])
-      }
-      else {
-        throw error
-      }
-    }
-
-    this.log.info(`\nPushing release branch and tags`)
-    await this.commit('git', ['push', '--no-verify', 'origin', 'release'])
+    this.log.info(`\nPushing to Remote`)
     await this.commit('git', [
       'push',
       '--no-verify',
       'origin',
       `refs/tags/v${targetVersion}`,
     ])
-
+    await this.commit('git', ['push', '--no-verify'])
     /**
      * PUBLISH TO NPM
      */
@@ -373,10 +316,6 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
       await this.publishPackage(pkg, targetVersion)
 
     await this.commit('gh', ['auth', 'status'])
-
-    // Switch back to original branch (dev)
-    this.log.info(`switching back to ${originalBranch} branch...`)
-    await this.commit('git', ['checkout', originalBranch])
 
     // if (tag) {
     //   const txt = tag === true ? targetVersion : `${targetVersion} - ${tag}`
