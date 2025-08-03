@@ -1,7 +1,7 @@
 {
   "name": "@fiction/plugin-metrics",
   "type": "module",
-  "version": "6.0.39",
+  "version": "6.0.40",
   "author": "Fiction",
   "license": "MIT",
   "main": "index.ts",

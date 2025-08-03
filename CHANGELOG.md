@@ -1,3 +1,12 @@
+## [6.0.40](https://github.com/fictionco/fiction/compare/v6.0.39...v6.0.40) (2025-08-03)
+
+
+### Features
+
+* minor change -r ([a50759c](https://github.com/fictionco/fiction/commit/a50759cf3ed1e018362a21b5c94f5d01c63302d7))
+
+
+
 ## [6.0.39](https://github.com/fictionco/fiction/compare/v6.0.38...v6.0.39) (2025-08-02)
 
 
