@@ -121,4 +121,5 @@ jobs:
         run: npm exec -- fiction run release --patch --with-changes --skip-tests
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

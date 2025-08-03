@@ -261,7 +261,7 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     try {
       await this.commit('git', ['checkout', '-b', releaseBranch])
     }
-    catch (error) {
+    catch {
       // Branch might already exist, try to checkout
       this.log.info(`Branch might exist, trying to checkout...`)
       await this.commit('git', ['checkout', releaseBranch])
