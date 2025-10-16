@@ -1,3 +1,12 @@
+## [6.0.41](https://github.com/fictionco/fiction/compare/v6.0.40...v6.0.41) (2025-10-16)
+
+
+### Bug Fixes
+
+* no more ([03ea022](https://github.com/fictionco/fiction/commit/03ea022ac3e63b66ef218b08824b456340b18fff))
+
+
+
 ## [6.0.40](https://github.com/fictionco/fiction/compare/v6.0.39...v6.0.40) (2025-08-03)
 
 
